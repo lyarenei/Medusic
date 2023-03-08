@@ -70,6 +70,26 @@
 /* End PBXFrameworksBuildPhase section */
 
 /* Begin PBXGroup section */
+		9B70BDA229B93228000DB31C /* Components */ = {
+			isa = PBXGroup;
+			children = (
+				9B70BD9C29B91F42000DB31C /* AlbumTile.swift */,
+			);
+			path = Components;
+			sourceTree = "<group>";
+		};
+		9B70BDA329B93234000DB31C /* Views */ = {
+			isa = PBXGroup;
+			children = (
+				9B80473429B768000069B407 /* ContentView.swift */,
+				9B80475429B7CDA40069B407 /* SignInView.swift */,
+				9B80475729B7D4BF0069B407 /* ServerUrlView.swift */,
+				9B80476F29B89EE40069B407 /* AlbumListView.swift */,
+				9B70BD9F29B923AE000DB31C /* AlbumView.swift */,
+			);
+			path = Views;
+			sourceTree = "<group>";
+		};
 		9B80472D29B768000069B407 = {
 			isa = PBXGroup;
 			children = (
@@ -83,14 +103,10 @@
 		9B80473229B768000069B407 /* Shared */ = {
 			isa = PBXGroup;
 			children = (
+				9B70BDA329B93234000DB31C /* Views */,
+				9B70BDA229B93228000DB31C /* Components */,
 				9B80473329B768000069B407 /* JellyMusicApp.swift */,
-				9B80473429B768000069B407 /* ContentView.swift */,
 				9B80473529B768010069B407 /* Assets.xcassets */,
-				9B80475429B7CDA40069B407 /* SignInView.swift */,
-				9B80475729B7D4BF0069B407 /* ServerUrlView.swift */,
-				9B80476F29B89EE40069B407 /* AlbumListView.swift */,
-				9B70BD9C29B91F42000DB31C /* AlbumTile.swift */,
-				9B70BD9F29B923AE000DB31C /* AlbumView.swift */,
 			);
 			path = Shared;
 			sourceTree = "<group>";
