@@ -2,8 +2,11 @@ import SwiftUI
 
 struct AccountSettingsView: View {
     
-    @State var isLoggedIn = false
-    @State var isLoginPresented = false
+    @AppStorage("isLoggedIn")
+    private var isLoggedIn = false
+    
+    @State
+    var isLoginPresented = false
     
     var body: some View {
         Button {
@@ -29,6 +32,11 @@ struct AccountSettingsView: View {
                 )
             }
         )
+        .onAppear(perform: {
+            if (!isLoggedIn) {
+                isLoginPresented = true
+            }
+        })
     }
 }
 
