@@ -15,7 +15,7 @@ struct AlbumListView: View {
                 ForEach(0..<15) {_ in
                     NavigationLink(
                         isActive: $isActive,
-                        destination: {},
+                        destination: {AlbumView(albumName: "Foo", artistName: "Bar")},
                         label: {
                             AlbumTile(
                                 albumName: "Foo",

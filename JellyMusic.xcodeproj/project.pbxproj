@@ -9,6 +9,8 @@
 /* Begin PBXBuildFile section */
 		9B70BD9D29B91F42000DB31C /* AlbumTile.swift in Sources */ = {isa = PBXBuildFile; fileRef = 9B70BD9C29B91F42000DB31C /* AlbumTile.swift */; };
 		9B70BD9E29B91F42000DB31C /* AlbumTile.swift in Sources */ = {isa = PBXBuildFile; fileRef = 9B70BD9C29B91F42000DB31C /* AlbumTile.swift */; };
+		9B70BDA029B923AE000DB31C /* AlbumView.swift in Sources */ = {isa = PBXBuildFile; fileRef = 9B70BD9F29B923AE000DB31C /* AlbumView.swift */; };
+		9B70BDA129B923AE000DB31C /* AlbumView.swift in Sources */ = {isa = PBXBuildFile; fileRef = 9B70BD9F29B923AE000DB31C /* AlbumView.swift */; };
 		9B80474329B768010069B407 /* JellyMusicApp.swift in Sources */ = {isa = PBXBuildFile; fileRef = 9B80473329B768000069B407 /* JellyMusicApp.swift */; };
 		9B80474429B768010069B407 /* JellyMusicApp.swift in Sources */ = {isa = PBXBuildFile; fileRef = 9B80473329B768000069B407 /* JellyMusicApp.swift */; };
 		9B80474529B768010069B407 /* ContentView.swift in Sources */ = {isa = PBXBuildFile; fileRef = 9B80473429B768000069B407 /* ContentView.swift */; };
@@ -32,6 +34,7 @@
 
 /* Begin PBXFileReference section */
 		9B70BD9C29B91F42000DB31C /* AlbumTile.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = AlbumTile.swift; sourceTree = "<group>"; };
+		9B70BD9F29B923AE000DB31C /* AlbumView.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = AlbumView.swift; sourceTree = "<group>"; };
 		9B80473329B768000069B407 /* JellyMusicApp.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = JellyMusicApp.swift; sourceTree = "<group>"; };
 		9B80473429B768000069B407 /* ContentView.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = ContentView.swift; sourceTree = "<group>"; };
 		9B80473529B768010069B407 /* Assets.xcassets */ = {isa = PBXFileReference; lastKnownFileType = folder.assetcatalog; path = Assets.xcassets; sourceTree = "<group>"; };
@@ -87,6 +90,7 @@
 				9B80475729B7D4BF0069B407 /* ServerUrlView.swift */,
 				9B80476F29B89EE40069B407 /* AlbumListView.swift */,
 				9B70BD9C29B91F42000DB31C /* AlbumTile.swift */,
+				9B70BD9F29B923AE000DB31C /* AlbumView.swift */,
 			);
 			path = Shared;
 			sourceTree = "<group>";
@@ -225,6 +229,7 @@
 				9B80477029B89EE40069B407 /* AlbumListView.swift in Sources */,
 				9B80476629B86F460069B407 /* LibraryView.swift in Sources */,
 				9B80474529B768010069B407 /* ContentView.swift in Sources */,
+				9B70BDA029B923AE000DB31C /* AlbumView.swift in Sources */,
 				9B80475529B7CDA40069B407 /* SignInView.swift in Sources */,
 				9B80474329B768010069B407 /* JellyMusicApp.swift in Sources */,
 				9B80475E29B7D5330069B407 /* HomeView.swift in Sources */,
@@ -244,6 +249,7 @@
 				9B80477129B89EE40069B407 /* AlbumListView.swift in Sources */,
 				9B80475629B7CDA40069B407 /* SignInView.swift in Sources */,
 				9B80474429B768010069B407 /* JellyMusicApp.swift in Sources */,
+				9B70BDA129B923AE000DB31C /* AlbumView.swift in Sources */,
 				9B80475929B7D4BF0069B407 /* ServerUrlView.swift in Sources */,
 			);
 			runOnlyForDeploymentPostprocessing = 0;
