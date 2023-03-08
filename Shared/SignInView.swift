@@ -22,6 +22,7 @@ struct SignInView: View {
                     text: $username)
                     .disableAutocorrection(true)
                     .textFieldStyle(.roundedBorder)
+                    .autocapitalization(.none)
                 
                 SecureField(
                     "Password",
@@ -29,6 +30,7 @@ struct SignInView: View {
                 )
                     .disableAutocorrection(true)
                     .textFieldStyle(.roundedBorder)
+                    .autocapitalization(.none)
                 
                 Button("Log in") {
                     print("login hadling")
