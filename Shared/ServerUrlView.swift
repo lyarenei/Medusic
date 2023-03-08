@@ -21,6 +21,7 @@ struct ServerUrlView: View {
                 )
                     .disableAutocorrection(true)
                     .textFieldStyle(.roundedBorder)
+                    .keyboardType(.URL)
                     .autocapitalization(.none)
                 
                 NavigationLink("Next") {
