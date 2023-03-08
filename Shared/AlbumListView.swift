@@ -2,6 +2,9 @@ import SwiftUI
 
 struct AlbumListView: View {
     
+    @State
+    private var isActive = false
+    
     var navTitle: String
     
     var body: some View {
@@ -10,7 +13,18 @@ struct AlbumListView: View {
         ScrollView(.vertical) {
             LazyVGrid(columns: layout) {
                 ForEach(0..<15) {_ in
-                    AlbumTile(albumName: "Foo", artistName: "Bar")
+                    NavigationLink(
+                        isActive: $isActive,
+                        destination: {},
+                        label: {
+                            AlbumTile(
+                                albumName: "Foo",
+                                artistName: "Bar"
+                            )
+                            
+                        }
+                    )
+                    .buttonStyle(.plain)
                 }
             }.font(.largeTitle)
         }
