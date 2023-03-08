@@ -30,6 +30,7 @@
 		9B80477A29B8C8250069B407 /* AccountSettingsView.swift in Sources */ = {isa = PBXBuildFile; fileRef = 9B80477929B8C8250069B407 /* AccountSettingsView.swift */; };
 		9B80477E29B8CDF80069B407 /* SettingsView.swift in Sources */ = {isa = PBXBuildFile; fileRef = 9B80477D29B8CDF80069B407 /* SettingsView.swift */; };
 		9B80478029B8CE800069B407 /* AppearanceSettingsView.swift in Sources */ = {isa = PBXBuildFile; fileRef = 9B80477F29B8CE800069B407 /* AppearanceSettingsView.swift */; };
+		9BB754D629B93F3C009BB3A6 /* JellyfinAPI in Frameworks */ = {isa = PBXBuildFile; productRef = 9BB754D529B93F3C009BB3A6 /* JellyfinAPI */; };
 /* End PBXBuildFile section */
 
 /* Begin PBXFileReference section */
@@ -57,6 +58,7 @@
 			isa = PBXFrameworksBuildPhase;
 			buildActionMask = 2147483647;
 			files = (
+				9BB754D629B93F3C009BB3A6 /* JellyfinAPI in Frameworks */,
 			);
 			runOnlyForDeploymentPostprocessing = 0;
 		};
@@ -157,6 +159,9 @@
 			dependencies = (
 			);
 			name = "JellyMusic (iOS)";
+			packageProductDependencies = (
+				9BB754D529B93F3C009BB3A6 /* JellyfinAPI */,
+			);
 			productName = "JellyMusic (iOS)";
 			productReference = 9B80473A29B768010069B407 /* JellyMusic.app */;
 			productType = "com.apple.product-type.application";
@@ -205,6 +210,9 @@
 				Base,
 			);
 			mainGroup = 9B80472D29B768000069B407;
+			packageReferences = (
+				9BB754D429B93F3C009BB3A6 /* XCRemoteSwiftPackageReference "jellyfin-sdk-swift" */,
+			);
 			productRefGroup = 9B80473B29B768010069B407 /* Products */;
 			projectDirPath = "";
 			projectRoot = "";
@@ -538,6 +546,25 @@
 			defaultConfigurationName = Release;
 		};
 /* End XCConfigurationList section */
+
+/* Begin XCRemoteSwiftPackageReference section */
+		9BB754D429B93F3C009BB3A6 /* XCRemoteSwiftPackageReference "jellyfin-sdk-swift" */ = {
+			isa = XCRemoteSwiftPackageReference;
+			repositoryURL = "https://github.com/jellyfin/jellyfin-sdk-swift";
+			requirement = {
+				kind = upToNextMajorVersion;
+				minimumVersion = 0.2.2;
+			};
+		};
+/* End XCRemoteSwiftPackageReference section */
+
+/* Begin XCSwiftPackageProductDependency section */
+		9BB754D529B93F3C009BB3A6 /* JellyfinAPI */ = {
+			isa = XCSwiftPackageProductDependency;
+			package = 9BB754D429B93F3C009BB3A6 /* XCRemoteSwiftPackageReference "jellyfin-sdk-swift" */;
+			productName = JellyfinAPI;
+		};
+/* End XCSwiftPackageProductDependency section */
 	};
 	rootObject = 9B80472E29B768000069B407 /* Project object */;
 }
