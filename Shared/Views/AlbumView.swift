@@ -58,9 +58,48 @@ private struct AlbumActions: View {
     }
 }
 
+private struct SongList: View {
+
+    var songs: [Song]
+
+    var body: some View {
+        LazyVStack {
+            ForEach(1..<15) {idx in
+                SongEntry(
+                    index: idx,
+                    name: "Foobar \(idx)"
+                )
+                .padding(.leading)
+                .padding(.trailing)
+            }
+        }
+    }
+}
+
+private struct SongEntry: View {
+
+    var index: Int
+    var name: String
+
+    var body: some View {
+        HStack {
+            Text("\(index)")
+            Text(name)
+            Spacer()
+            Button {
+
+            } label: {
+                Image(systemSymbol: .arrowDownCircle)
+            }
+            .disabled(true)
+        }
+    }
+}
+
 struct AlbumView: View {
     
     var album: Album
+    var songs: [Song] = []
     
     var body: some View {
         ScrollView {
@@ -72,15 +111,10 @@ struct AlbumView: View {
                 
                 AlbumActions()
                     .padding(.bottom, 30)
-                
-                LazyVStack {
-                    ForEach(0..<15) {idx in
-                        HStack {
-                            Text("\(idx)")
-                            Text("foo")
-                        }
-                    }
-                }
+
+                SongList(
+                    songs: songs
+                )
                 .padding(.bottom, 10)
             }
         }
