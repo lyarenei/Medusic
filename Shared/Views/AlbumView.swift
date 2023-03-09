@@ -71,6 +71,7 @@ private struct SongList: View {
                 )
                 .padding(.leading)
                 .padding(.trailing)
+                .font(.title2)
             }
         }
     }
@@ -82,17 +83,44 @@ private struct SongEntry: View {
     var name: String
 
     var body: some View {
-        HStack {
+        HStack(spacing: 10) {
             Text("\(index)")
-            Text(name)
-            Spacer()
-            Button {
 
-            } label: {
-                Image(systemSymbol: .arrowDownCircle)
-            }
-            .disabled(true)
+            Text(name)
+                .lineLimit(1)
+                .frame(width: .infinity, height: 35)
+                .overlay(
+                    RoundedRectangle(cornerRadius: 10.0)
+                        .stroke(style: StrokeStyle(lineWidth: 1.0))
+                )
+
+            SongActions()
         }
+    }
+}
+
+private struct SongActions: View {
+
+    let isLiked = true
+
+    var body: some View {
+        Button {
+            // Like action
+        } label: {
+            if isLiked {
+                Image(systemSymbol: .heartFill)
+            } else {
+                Image(systemSymbol: .heart)
+            }
+        }
+        .disabled(true)
+
+        Button {
+            // Download action
+        } label: {
+            Image(systemSymbol: .arrowDownCircle)
+        }
+        .disabled(true)
     }
 }
 
