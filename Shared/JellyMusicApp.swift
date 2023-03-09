@@ -8,12 +8,27 @@ struct JellyMusicApp: App {
     private let api: API
 
     init() {
-        // TODO
-        let jellyfinClient = JellyfinClient(configuration: .init(url: URL(string: "www.google.com")!, client: "", deviceName: "", deviceID: "", version: ""))
+        let jellyfinClient = JellyfinClient(configuration: .init(
+            url: URL(string: "http://localhost:8096")!,
+            client: "JellyMusic",
+            deviceName: "iOS simulator",
+            deviceID: "some_id",
+            version: "0.0"))
+
+        Task {
+            do {
+                let resp = try await jellyfinClient.signIn(username: "aaa", password: "aaa")
+                print(resp.user?.id)
+            } catch {
+                print("failed")
+            }
+        }
+
 
         let albumService = DefaultAlbumService(client: jellyfinClient)
 
-        api = .preview // API(albumService: albumService)
+        //api = .preview
+        api = API(albumService: albumService)
 
         // Memory image never expires.
         Kingfisher.ImageCache.default.memoryStorage.config.expiration = .never
