@@ -41,6 +41,7 @@ struct ServerUrlView: View {
     }
 }
 
+#if DEBUG
 struct ServerUrlView_Previews: PreviewProvider {
     
     @State static var isLoggedIn = false
@@ -53,3 +54,4 @@ struct ServerUrlView_Previews: PreviewProvider {
         )
     }
 }
+#endif

@@ -1,12 +1,14 @@
 import SwiftUI
+import Kingfisher
 
 private struct AlbumHeading: View {
-    
+
+    var albumImageUrl: URL?
     var albumName: String
     var artistName: String
     
     var body: some View {
-        Image(systemName: "")
+        KFImage(albumImageUrl)
             .resizable()
             .frame(width: 230.0, height: 230)
             .overlay(
@@ -30,7 +32,7 @@ private struct AlbumActions: View {
             Button {
                 
             } label: {
-                Image(systemName: "play.fill")
+                Image(systemSymbol: .playFill)
                 Text("Play")
             }
             .frame(width: 120, height: 37)
@@ -42,7 +44,7 @@ private struct AlbumActions: View {
             Button {
                 
             } label: {
-                Image(systemName: "shuffle")
+                Image(systemSymbol: .shuffle)
                 Text("Shuffle")
             }
             .frame(width: 120, height: 37)
@@ -84,8 +86,10 @@ struct AlbumView: View {
     }
 }
 
+#if DEBUG
 struct AlbumView_Previews: PreviewProvider {
     static var previews: some View {
         AlbumView(albumName: "Album name", artistName: "Artist name")
     }
 }
+#endif

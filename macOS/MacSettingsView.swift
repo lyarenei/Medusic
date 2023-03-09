@@ -23,8 +23,10 @@ struct MacSettingsView: View {
     }
 }
 
+#if DEBUG
 struct MacSettingsView_Previews: PreviewProvider {
     static var previews: some View {
         MacSettingsView()
     }
 }
+#endif

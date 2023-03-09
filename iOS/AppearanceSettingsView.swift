@@ -7,8 +7,10 @@ struct AppearanceSettingsView: View {
     }
 }
 
+#if DEBUG
 struct AppearanceSettingsView_Previews: PreviewProvider {
     static var previews: some View {
         AppearanceSettingsView()
     }
 }
+#endif

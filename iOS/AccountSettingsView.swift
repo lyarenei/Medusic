@@ -40,8 +40,10 @@ struct AccountSettingsView: View {
     }
 }
 
+#if DEBUG
 struct AccountSettingsView_Previews: PreviewProvider {
     static var previews: some View {
         AccountSettingsView()
     }
 }
+#endif

@@ -7,14 +7,14 @@ struct SettingsView: View {
                 NavigationLink {
                     AccountSettingsView()
                 } label: {
-                    Image(systemName: "person.crop.circle")
+                    Image(systemSymbol: .personCropCircle)
                     Text("Account")
                 }
-                
+
                 NavigationLink {
                     AppearanceSettingsView()
                 } label: {
-                    Image(systemName: "paintbrush.pointed")
+                    Image(systemSymbol: .paintbrushPointed)
                     Text("Appearance")
                 }
             }
@@ -24,8 +24,10 @@ struct SettingsView: View {
     }
 }
 
+#if DEBUG
 struct SettingsView_Previews: PreviewProvider {
     static var previews: some View {
         SettingsView()
     }
 }
+#endif

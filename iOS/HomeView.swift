@@ -5,21 +5,21 @@ struct HomeView: View {
         TabView {
             LibraryView()
                 .tabItem {
-                    Image(systemName: "music.quarternote.3")
+                    Image(systemSymbol: .musicQuarternote3)
                     Text("Library")
                 }
                 .tag("library_tab")
-            
+
             Text("Search")
                 .tabItem {
-                    Image(systemName: "magnifyingglass")
+                    Image(systemSymbol: .magnifyingglass)
                     Text("Search")
                 }
                 .tag("search_tab")
-            
+
             SettingsView()
                 .tabItem {
-                    Image(systemName: "gear")
+                    Image(systemSymbol: .gear)
                     Text("Settings")
                 }
                 .tag("settings_tab")
@@ -27,8 +27,10 @@ struct HomeView: View {
     }
 }
 
+#if DEBUG
 struct HomeView_Previews: PreviewProvider {
     static var previews: some View {
         HomeView()
     }
 }
+#endif

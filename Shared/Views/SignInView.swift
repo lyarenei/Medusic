@@ -51,6 +51,7 @@ struct SignInView: View {
     }
 }
 
+#if DEBUG
 struct SignInView_Previews: PreviewProvider {
     
     @State static var isLoggedIn = true
@@ -63,3 +64,4 @@ struct SignInView_Previews: PreviewProvider {
         )
     }
 }
+#endif

@@ -1,13 +1,15 @@
 import SwiftUI
+import Kingfisher
 
 struct AlbumTile: View {
-    
+
+    var albumImageUrl: URL?
     var albumName: String
     var artistName: String
     
     var body: some View {
         VStack(alignment: .leading) {
-            Image(systemName: "")
+            KFImage(albumImageUrl)
                 .resizable()
                 .frame(width: 160.0, height: 160)
                 .overlay(
@@ -25,8 +27,10 @@ struct AlbumTile: View {
     }
 }
 
+#if DEBUG
 struct AlbumTile_Previews: PreviewProvider {
     static var previews: some View {
         AlbumTile(albumName: "Album name", artistName: "Artist name")
     }
 }
+#endif

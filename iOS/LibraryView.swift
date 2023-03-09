@@ -59,8 +59,10 @@ struct LibraryView: View {
     }
 }
 
+#if DEBUG
 struct LibraryNavigationView_Previews: PreviewProvider {
     static var previews: some View {
         LibraryView()
     }
 }
+#endif

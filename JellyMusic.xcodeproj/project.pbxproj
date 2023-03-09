@@ -7,6 +7,23 @@
 	objects = {
 
 /* Begin PBXBuildFile section */
+		48C1F8BC29B9E5C9003BE048 /* Kingfisher in Frameworks */ = {isa = PBXBuildFile; productRef = 48C1F8BB29B9E5C9003BE048 /* Kingfisher */; };
+		48C1F8BF29B9E6D1003BE048 /* Boutique in Frameworks */ = {isa = PBXBuildFile; productRef = 48C1F8BE29B9E6D1003BE048 /* Boutique */; };
+		48C1F8C229B9E795003BE048 /* Store+common.swift in Sources */ = {isa = PBXBuildFile; fileRef = 48C1F8C129B9E795003BE048 /* Store+common.swift */; };
+		48C1F8C329B9E795003BE048 /* Store+common.swift in Sources */ = {isa = PBXBuildFile; fileRef = 48C1F8C129B9E795003BE048 /* Store+common.swift */; };
+		48C1F8C629B9E80D003BE048 /* DTOs+Equatable.swift in Sources */ = {isa = PBXBuildFile; fileRef = 48C1F8C529B9E80D003BE048 /* DTOs+Equatable.swift */; };
+		48C1F8C729B9E80D003BE048 /* DTOs+Equatable.swift in Sources */ = {isa = PBXBuildFile; fileRef = 48C1F8C529B9E80D003BE048 /* DTOs+Equatable.swift */; };
+		48C1F8C929B9EA60003BE048 /* DTOs+Identifiable.swift in Sources */ = {isa = PBXBuildFile; fileRef = 48C1F8C829B9EA60003BE048 /* DTOs+Identifiable.swift */; };
+		48C1F8CA29B9EA60003BE048 /* DTOs+Identifiable.swift in Sources */ = {isa = PBXBuildFile; fileRef = 48C1F8C829B9EA60003BE048 /* DTOs+Identifiable.swift */; };
+		48C1F8CD29B9EE97003BE048 /* SFSafeSymbols in Frameworks */ = {isa = PBXBuildFile; productRef = 48C1F8CC29B9EE97003BE048 /* SFSafeSymbols */; };
+		48C1F8D029B9F3E4003BE048 /* DefaultAlbumService.swift in Sources */ = {isa = PBXBuildFile; fileRef = 48C1F8CF29B9F3E4003BE048 /* DefaultAlbumService.swift */; };
+		48C1F8D129B9F3E4003BE048 /* DefaultAlbumService.swift in Sources */ = {isa = PBXBuildFile; fileRef = 48C1F8CF29B9F3E4003BE048 /* DefaultAlbumService.swift */; };
+		48C1F8D729B9FDDF003BE048 /* FakeAlbumService.swift in Sources */ = {isa = PBXBuildFile; fileRef = 48C1F8D629B9FDDF003BE048 /* FakeAlbumService.swift */; };
+		48C1F8D829B9FDDF003BE048 /* FakeAlbumService.swift in Sources */ = {isa = PBXBuildFile; fileRef = 48C1F8D629B9FDDF003BE048 /* FakeAlbumService.swift */; };
+		48C1F8DA29B9FEB9003BE048 /* AlbumService.swift in Sources */ = {isa = PBXBuildFile; fileRef = 48C1F8D929B9FEB9003BE048 /* AlbumService.swift */; };
+		48C1F8DB29B9FEB9003BE048 /* AlbumService.swift in Sources */ = {isa = PBXBuildFile; fileRef = 48C1F8D929B9FEB9003BE048 /* AlbumService.swift */; };
+		48C1F8DD29B9FF91003BE048 /* API.swift in Sources */ = {isa = PBXBuildFile; fileRef = 48C1F8DC29B9FF91003BE048 /* API.swift */; };
+		48C1F8DE29B9FF91003BE048 /* API.swift in Sources */ = {isa = PBXBuildFile; fileRef = 48C1F8DC29B9FF91003BE048 /* API.swift */; };
 		9B70BD9D29B91F42000DB31C /* AlbumTile.swift in Sources */ = {isa = PBXBuildFile; fileRef = 9B70BD9C29B91F42000DB31C /* AlbumTile.swift */; };
 		9B70BD9E29B91F42000DB31C /* AlbumTile.swift in Sources */ = {isa = PBXBuildFile; fileRef = 9B70BD9C29B91F42000DB31C /* AlbumTile.swift */; };
 		9B70BDA029B923AE000DB31C /* AlbumView.swift in Sources */ = {isa = PBXBuildFile; fileRef = 9B70BD9F29B923AE000DB31C /* AlbumView.swift */; };
@@ -34,6 +51,13 @@
 /* End PBXBuildFile section */
 
 /* Begin PBXFileReference section */
+		48C1F8C129B9E795003BE048 /* Store+common.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = "Store+common.swift"; sourceTree = "<group>"; };
+		48C1F8C529B9E80D003BE048 /* DTOs+Equatable.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = "DTOs+Equatable.swift"; sourceTree = "<group>"; };
+		48C1F8C829B9EA60003BE048 /* DTOs+Identifiable.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = "DTOs+Identifiable.swift"; sourceTree = "<group>"; };
+		48C1F8CF29B9F3E4003BE048 /* DefaultAlbumService.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = DefaultAlbumService.swift; sourceTree = "<group>"; };
+		48C1F8D629B9FDDF003BE048 /* FakeAlbumService.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = FakeAlbumService.swift; sourceTree = "<group>"; };
+		48C1F8D929B9FEB9003BE048 /* AlbumService.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = AlbumService.swift; sourceTree = "<group>"; };
+		48C1F8DC29B9FF91003BE048 /* API.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = API.swift; sourceTree = "<group>"; };
 		9B70BD9C29B91F42000DB31C /* AlbumTile.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = AlbumTile.swift; sourceTree = "<group>"; };
 		9B70BD9F29B923AE000DB31C /* AlbumView.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = AlbumView.swift; sourceTree = "<group>"; };
 		9B80473329B768000069B407 /* JellyMusicApp.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = JellyMusicApp.swift; sourceTree = "<group>"; };
@@ -58,6 +82,9 @@
 			isa = PBXFrameworksBuildPhase;
 			buildActionMask = 2147483647;
 			files = (
+				48C1F8BC29B9E5C9003BE048 /* Kingfisher in Frameworks */,
+				48C1F8BF29B9E6D1003BE048 /* Boutique in Frameworks */,
+				48C1F8CD29B9EE97003BE048 /* SFSafeSymbols in Frameworks */,
 				9BB754D629B93F3C009BB3A6 /* JellyfinAPI in Frameworks */,
 			);
 			runOnlyForDeploymentPostprocessing = 0;
@@ -72,6 +99,26 @@
 /* End PBXFrameworksBuildPhase section */
 
 /* Begin PBXGroup section */
+		48C1F8C429B9E7FF003BE048 /* Store */ = {
+			isa = PBXGroup;
+			children = (
+				48C1F8C129B9E795003BE048 /* Store+common.swift */,
+				48C1F8C829B9EA60003BE048 /* DTOs+Identifiable.swift */,
+				48C1F8C529B9E80D003BE048 /* DTOs+Equatable.swift */,
+			);
+			path = Store;
+			sourceTree = "<group>";
+		};
+		48C1F8CE29B9F3DB003BE048 /* Services */ = {
+			isa = PBXGroup;
+			children = (
+				48C1F8CF29B9F3E4003BE048 /* DefaultAlbumService.swift */,
+				48C1F8D629B9FDDF003BE048 /* FakeAlbumService.swift */,
+				48C1F8D929B9FEB9003BE048 /* AlbumService.swift */,
+			);
+			path = Services;
+			sourceTree = "<group>";
+		};
 		9B70BDA229B93228000DB31C /* Components */ = {
 			isa = PBXGroup;
 			children = (
@@ -105,9 +152,12 @@
 		9B80473229B768000069B407 /* Shared */ = {
 			isa = PBXGroup;
 			children = (
+				48C1F8CE29B9F3DB003BE048 /* Services */,
+				48C1F8C429B9E7FF003BE048 /* Store */,
 				9B70BDA329B93234000DB31C /* Views */,
 				9B70BDA229B93228000DB31C /* Components */,
 				9B80473329B768000069B407 /* JellyMusicApp.swift */,
+				48C1F8DC29B9FF91003BE048 /* API.swift */,
 				9B80473529B768010069B407 /* Assets.xcassets */,
 			);
 			path = Shared;
@@ -161,6 +211,9 @@
 			name = "JellyMusic (iOS)";
 			packageProductDependencies = (
 				9BB754D529B93F3C009BB3A6 /* JellyfinAPI */,
+				48C1F8BB29B9E5C9003BE048 /* Kingfisher */,
+				48C1F8BE29B9E6D1003BE048 /* Boutique */,
+				48C1F8CC29B9EE97003BE048 /* SFSafeSymbols */,
 			);
 			productName = "JellyMusic (iOS)";
 			productReference = 9B80473A29B768010069B407 /* JellyMusic.app */;
@@ -212,6 +265,9 @@
 			mainGroup = 9B80472D29B768000069B407;
 			packageReferences = (
 				9BB754D429B93F3C009BB3A6 /* XCRemoteSwiftPackageReference "jellyfin-sdk-swift" */,
+				48C1F8BA29B9E5C9003BE048 /* XCRemoteSwiftPackageReference "Kingfisher" */,
+				48C1F8BD29B9E6D1003BE048 /* XCRemoteSwiftPackageReference "Boutique" */,
+				48C1F8CB29B9EE97003BE048 /* XCRemoteSwiftPackageReference "SFSafeSymbols" */,
 			);
 			productRefGroup = 9B80473B29B768010069B407 /* Products */;
 			projectDirPath = "";
@@ -251,14 +307,21 @@
 				9B80477A29B8C8250069B407 /* AccountSettingsView.swift in Sources */,
 				9B80478029B8CE800069B407 /* AppearanceSettingsView.swift in Sources */,
 				9B80477029B89EE40069B407 /* AlbumListView.swift in Sources */,
+				48C1F8C229B9E795003BE048 /* Store+common.swift in Sources */,
 				9B80476629B86F460069B407 /* LibraryView.swift in Sources */,
 				9B80474529B768010069B407 /* ContentView.swift in Sources */,
 				9B70BDA029B923AE000DB31C /* AlbumView.swift in Sources */,
+				48C1F8C629B9E80D003BE048 /* DTOs+Equatable.swift in Sources */,
 				9B80475529B7CDA40069B407 /* SignInView.swift in Sources */,
+				48C1F8D729B9FDDF003BE048 /* FakeAlbumService.swift in Sources */,
 				9B80474329B768010069B407 /* JellyMusicApp.swift in Sources */,
+				48C1F8D029B9F3E4003BE048 /* DefaultAlbumService.swift in Sources */,
 				9B80475E29B7D5330069B407 /* HomeView.swift in Sources */,
+				48C1F8DD29B9FF91003BE048 /* API.swift in Sources */,
+				48C1F8C929B9EA60003BE048 /* DTOs+Identifiable.swift in Sources */,
 				9B70BD9D29B91F42000DB31C /* AlbumTile.swift in Sources */,
 				9B80475829B7D4BF0069B407 /* ServerUrlView.swift in Sources */,
+				48C1F8DA29B9FEB9003BE048 /* AlbumService.swift in Sources */,
 				9B80477E29B8CDF80069B407 /* SettingsView.swift in Sources */,
 			);
 			runOnlyForDeploymentPostprocessing = 0;
@@ -270,11 +333,18 @@
 				9B70BD9E29B91F42000DB31C /* AlbumTile.swift in Sources */,
 				9B80475329B7C7E30069B407 /* MacSettingsView.swift in Sources */,
 				9B80474629B768010069B407 /* ContentView.swift in Sources */,
+				48C1F8DB29B9FEB9003BE048 /* AlbumService.swift in Sources */,
+				48C1F8DE29B9FF91003BE048 /* API.swift in Sources */,
 				9B80477129B89EE40069B407 /* AlbumListView.swift in Sources */,
 				9B80475629B7CDA40069B407 /* SignInView.swift in Sources */,
+				48C1F8C329B9E795003BE048 /* Store+common.swift in Sources */,
 				9B80474429B768010069B407 /* JellyMusicApp.swift in Sources */,
 				9B70BDA129B923AE000DB31C /* AlbumView.swift in Sources */,
+				48C1F8CA29B9EA60003BE048 /* DTOs+Identifiable.swift in Sources */,
 				9B80475929B7D4BF0069B407 /* ServerUrlView.swift in Sources */,
+				48C1F8D829B9FDDF003BE048 /* FakeAlbumService.swift in Sources */,
+				48C1F8C729B9E80D003BE048 /* DTOs+Equatable.swift in Sources */,
+				48C1F8D129B9F3E4003BE048 /* DefaultAlbumService.swift in Sources */,
 			);
 			runOnlyForDeploymentPostprocessing = 0;
 		};
@@ -554,6 +624,30 @@
 /* End XCConfigurationList section */
 
 /* Begin XCRemoteSwiftPackageReference section */
+		48C1F8BA29B9E5C9003BE048 /* XCRemoteSwiftPackageReference "Kingfisher" */ = {
+			isa = XCRemoteSwiftPackageReference;
+			repositoryURL = "https://github.com/onevcat/Kingfisher.git";
+			requirement = {
+				kind = upToNextMajorVersion;
+				minimumVersion = 7.0.0;
+			};
+		};
+		48C1F8BD29B9E6D1003BE048 /* XCRemoteSwiftPackageReference "Boutique" */ = {
+			isa = XCRemoteSwiftPackageReference;
+			repositoryURL = "https://github.com/mergesort/Boutique.git";
+			requirement = {
+				kind = upToNextMajorVersion;
+				minimumVersion = 2.0.0;
+			};
+		};
+		48C1F8CB29B9EE97003BE048 /* XCRemoteSwiftPackageReference "SFSafeSymbols" */ = {
+			isa = XCRemoteSwiftPackageReference;
+			repositoryURL = "https://github.com/SFSafeSymbols/SFSafeSymbols.git";
+			requirement = {
+				kind = upToNextMajorVersion;
+				minimumVersion = 4.1.1;
+			};
+		};
 		9BB754D429B93F3C009BB3A6 /* XCRemoteSwiftPackageReference "jellyfin-sdk-swift" */ = {
 			isa = XCRemoteSwiftPackageReference;
 			repositoryURL = "https://github.com/jellyfin/jellyfin-sdk-swift";
@@ -565,6 +659,21 @@
 /* End XCRemoteSwiftPackageReference section */
 
 /* Begin XCSwiftPackageProductDependency section */
+		48C1F8BB29B9E5C9003BE048 /* Kingfisher */ = {
+			isa = XCSwiftPackageProductDependency;
+			package = 48C1F8BA29B9E5C9003BE048 /* XCRemoteSwiftPackageReference "Kingfisher" */;
+			productName = Kingfisher;
+		};
+		48C1F8BE29B9E6D1003BE048 /* Boutique */ = {
+			isa = XCSwiftPackageProductDependency;
+			package = 48C1F8BD29B9E6D1003BE048 /* XCRemoteSwiftPackageReference "Boutique" */;
+			productName = Boutique;
+		};
+		48C1F8CC29B9EE97003BE048 /* SFSafeSymbols */ = {
+			isa = XCSwiftPackageProductDependency;
+			package = 48C1F8CB29B9EE97003BE048 /* XCRemoteSwiftPackageReference "SFSafeSymbols" */;
+			productName = SFSafeSymbols;
+		};
 		9BB754D529B93F3C009BB3A6 /* JellyfinAPI */ = {
 			isa = XCSwiftPackageProductDependency;
 			package = 9BB754D429B93F3C009BB3A6 /* XCRemoteSwiftPackageReference "jellyfin-sdk-swift" */;
