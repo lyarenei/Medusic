@@ -60,15 +60,14 @@ private struct AlbumActions: View {
 
 struct AlbumView: View {
     
-    var albumName: String
-    var artistName: String
+    var album: Album
     
     var body: some View {
         ScrollView {
             VStack {
                 AlbumHeading(
-                    albumName: albumName,
-                    artistName: artistName
+                    albumName: album.name,
+                    artistName: album.artistName
                 )
                 
                 AlbumActions()
@@ -90,8 +89,9 @@ struct AlbumView: View {
 
 #if DEBUG
 struct AlbumView_Previews: PreviewProvider {
+    static let album = Album(uuid: "", name: "Name", artistName: "Artist")
     static var previews: some View {
-        AlbumView(albumName: "Album name", artistName: "Artist name")
+        AlbumView(album: album)
     }
 }
 #endif

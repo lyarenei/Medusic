@@ -23,10 +23,7 @@ struct AlbumListView: View {
                     NavigationLink(
                         isActive: $isActive,
                         destination: {
-                            AlbumView(
-                                albumName: album.name,
-                                artistName: album.artistName
-                            )
+                            AlbumView(album: album)
                         },
                         label: {
                             AlbumTile(
