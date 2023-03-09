@@ -1,17 +1,11 @@
 import Foundation
 import JellyfinAPI
 
-public struct Album: Codable {
+public struct Album {
 
     public var uuid: String
     public var name: String
     public var artistName: String
-
-    enum CodingKeys: String, CodingKey {
-        case uuid
-        case name
-        case artistName
-    }
 
     public init(
         uuid: String,
@@ -42,33 +36,23 @@ public struct Album: Codable {
             self.artistName = ""
         }
     }
-
-    public init(from decoder: Decoder) throws {
-        let container = try decoder.container(keyedBy: CodingKeys.self)
-        self.uuid = try container.decode(String.self, forKey: .uuid)
-        self.name = try container.decode(String.self, forKey: .name)
-        self.artistName = try container.decode(String.self, forKey: .artistName)
-    }
-
-    public func encode(to encoder: Encoder) throws {
-        var container = encoder.container(keyedBy: CodingKeys.self)
-        try container.encode(uuid, forKey: .uuid)
-        try container.encode(name, forKey: .name)
-        try container.encode(artistName, forKey: .artistName)
-    }
 }
 
 
-public struct Song: Codable {
+public struct Song {
 
     public var uuid: String
     public var index: Int
     public var name: String
 
-    enum CodingKeys: String, CodingKey {
-        case uuid
-        case index
-        case name
+    public init(
+        uuid: String,
+        index: Int,
+        name: String
+    ) {
+        self.uuid = uuid
+        self.index = index
+        self.name = name
     }
 
     public init(from item: BaseItemDto) {
@@ -89,29 +73,5 @@ public struct Song: Codable {
         } else {
             self.name = ""
         }
-    }
-
-    public init(
-        uuid: String,
-        index: Int,
-        name: String
-    ) {
-        self.uuid = uuid
-        self.index = index
-        self.name = name
-    }
-
-    public init(from decoder: Decoder) throws {
-        let container = try decoder.container(keyedBy: CodingKeys.self)
-        self.uuid = try container.decode(String.self, forKey: .uuid)
-        self.index = try container.decode(Int.self, forKey: .index)
-        self.name = try container.decode(String.self, forKey: .name)
-    }
-
-    public func encode(to encoder: Encoder) throws {
-        var container = encoder.container(keyedBy: CodingKeys.self)
-        try container.encode(uuid, forKey: .uuid)
-        try container.encode(index, forKey: .index)
-        try container.encode(name, forKey: .name)
     }
 }

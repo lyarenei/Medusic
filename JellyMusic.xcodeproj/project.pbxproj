@@ -50,6 +50,8 @@
 		9BB754D629B93F3C009BB3A6 /* JellyfinAPI in Frameworks */ = {isa = PBXBuildFile; productRef = 9BB754D529B93F3C009BB3A6 /* JellyfinAPI */; };
 		9BB754DB29BA604C009BB3A6 /* DTOs.swift in Sources */ = {isa = PBXBuildFile; fileRef = 9BB754DA29BA604C009BB3A6 /* DTOs.swift */; };
 		9BB754DC29BA604C009BB3A6 /* DTOs.swift in Sources */ = {isa = PBXBuildFile; fileRef = 9BB754DA29BA604C009BB3A6 /* DTOs.swift */; };
+		9BB754DE29BA8522009BB3A6 /* DTOs+Codable.swift in Sources */ = {isa = PBXBuildFile; fileRef = 9BB754DD29BA8522009BB3A6 /* DTOs+Codable.swift */; };
+		9BB754DF29BA8522009BB3A6 /* DTOs+Codable.swift in Sources */ = {isa = PBXBuildFile; fileRef = 9BB754DD29BA8522009BB3A6 /* DTOs+Codable.swift */; };
 /* End PBXBuildFile section */
 
 /* Begin PBXFileReference section */
@@ -78,6 +80,7 @@
 		9B80477D29B8CDF80069B407 /* SettingsView.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = SettingsView.swift; sourceTree = "<group>"; };
 		9B80477F29B8CE800069B407 /* AppearanceSettingsView.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = AppearanceSettingsView.swift; sourceTree = "<group>"; };
 		9BB754DA29BA604C009BB3A6 /* DTOs.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = DTOs.swift; sourceTree = "<group>"; };
+		9BB754DD29BA8522009BB3A6 /* DTOs+Codable.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = "DTOs+Codable.swift"; sourceTree = "<group>"; };
 /* End PBXFileReference section */
 
 /* Begin PBXFrameworksBuildPhase section */
@@ -109,6 +112,7 @@
 				48C1F8C129B9E795003BE048 /* Store+common.swift */,
 				48C1F8C829B9EA60003BE048 /* DTOs+Identifiable.swift */,
 				48C1F8C529B9E80D003BE048 /* DTOs+Equatable.swift */,
+				9BB754DD29BA8522009BB3A6 /* DTOs+Codable.swift */,
 			);
 			path = Store;
 			sourceTree = "<group>";
@@ -307,6 +311,7 @@
 			isa = PBXSourcesBuildPhase;
 			buildActionMask = 2147483647;
 			files = (
+				9BB754DE29BA8522009BB3A6 /* DTOs+Codable.swift in Sources */,
 				9B80475229B7C7E30069B407 /* MacSettingsView.swift in Sources */,
 				9B80477A29B8C8250069B407 /* AccountSettingsView.swift in Sources */,
 				9B80478029B8CE800069B407 /* AppearanceSettingsView.swift in Sources */,
@@ -341,6 +346,7 @@
 				48C1F8DB29B9FEB9003BE048 /* AlbumService.swift in Sources */,
 				48C1F8DE29B9FF91003BE048 /* API.swift in Sources */,
 				9B80477129B89EE40069B407 /* AlbumListView.swift in Sources */,
+				9BB754DF29BA8522009BB3A6 /* DTOs+Codable.swift in Sources */,
 				9B80475629B7CDA40069B407 /* SignInView.swift in Sources */,
 				48C1F8C329B9E795003BE048 /* Store+common.swift in Sources */,
 				9B80474429B768010069B407 /* JellyMusicApp.swift in Sources */,
