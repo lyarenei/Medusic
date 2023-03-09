@@ -19,9 +19,11 @@ struct AlbumTile: View {
             VStack(alignment: .leading) {
                 Text(albumName)
                     .font(.subheadline)
+                    .lineLimit(1)
                 
                 Text(artistName)
                     .font(.caption)
+                    .lineLimit(1)
             }
         }
     }
