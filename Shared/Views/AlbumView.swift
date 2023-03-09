@@ -19,9 +19,11 @@ private struct AlbumHeading: View {
             Text(albumName)
                 .font(.title)
                 .bold()
+                .multilineTextAlignment(.center)
             
             Text(artistName)
                 .font(.title2)
+                .multilineTextAlignment(.center)
         }
     }
 }
