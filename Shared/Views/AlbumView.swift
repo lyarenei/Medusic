@@ -146,6 +146,16 @@ struct AlbumView: View {
                 .padding(.bottom, 10)
             }
         }
+        .toolbar(content: {
+            ToolbarItem(content: {
+                Button {
+
+                } label: {
+                    Image(systemSymbol: .arrowDownCircle)
+                }
+                .disabled(true)
+            })
+        })
     }
 }
 
