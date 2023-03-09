@@ -88,7 +88,7 @@ private struct SongEntry: View {
 
             Text(name)
                 .lineLimit(1)
-                .frame(width: .infinity, height: 35)
+                .frame(height: 35)
                 .overlay(
                     RoundedRectangle(cornerRadius: 10.0)
                         .stroke(style: StrokeStyle(lineWidth: 1.0))
