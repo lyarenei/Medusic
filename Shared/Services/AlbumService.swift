@@ -2,5 +2,5 @@ import Foundation
 import JellyfinAPI
 
 protocol AlbumService: ObservableObject {
-    func getAlbums() async throws -> [AlbumInfo]
+    func getAlbums() async throws -> [Album]
 }

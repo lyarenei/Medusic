@@ -2,13 +2,13 @@ import Foundation
 import JellyfinAPI
 
 final class FakeAlbumService: AlbumService {
-    private let albums: [AlbumInfo]
+    private let albums: [Album]
 
-    init(albums: [AlbumInfo]) {
+    init(albums: [Album]) {
         self.albums = albums
     }
 
-    func getAlbums() async throws -> [AlbumInfo] {
+    func getAlbums() async throws -> [Album] {
         albums
     }
 }

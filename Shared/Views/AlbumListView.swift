@@ -10,7 +10,7 @@ struct AlbumListView: View {
     private var isActive = false
 
     @State
-    private var albums: [AlbumInfo] = []
+    private var albums: [Album] = []
     
     var navTitle: String
     
@@ -24,14 +24,14 @@ struct AlbumListView: View {
                         isActive: $isActive,
                         destination: {
                             AlbumView(
-                                albumName: album.name ?? "unnamed",
-                                artistName: album.albumArtists?.joined(separator: ", ") ?? "nobody"
+                                albumName: album.name,
+                                artistName: album.artistName
                             )
                         },
                         label: {
                             AlbumTile(
-                                albumName: album.name ?? "unnamed",
-                                artistName: album.albumArtists?.joined(separator: ", ") ?? "nobody"
+                                albumName: album.name,
+                                artistName: album.artistName
                             )
                         }
                     )

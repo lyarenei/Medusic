@@ -6,8 +6,8 @@ extension SongInfo: Equatable {
     }
 }
 
-extension AlbumInfo: Equatable {
-    public static func == (lhs: AlbumInfo, rhs: AlbumInfo) -> Bool {
+extension Album: Equatable {
+    public static func == (lhs: Album, rhs: Album) -> Bool {
         lhs.id == rhs.id
     }
 }

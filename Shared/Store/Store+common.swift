@@ -2,8 +2,8 @@ import Foundation
 import Boutique
 import JellyfinAPI
 
-extension Store<AlbumInfo> {
-    static let albums = Store<AlbumInfo>(
+extension Store<Album> {
+    static let albums = Store<Album>(
         storage: SQLiteStorageEngine.default(appendingPath: "Albums")
     )
 }

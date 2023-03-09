@@ -48,6 +48,8 @@
 		9B80477E29B8CDF80069B407 /* SettingsView.swift in Sources */ = {isa = PBXBuildFile; fileRef = 9B80477D29B8CDF80069B407 /* SettingsView.swift */; };
 		9B80478029B8CE800069B407 /* AppearanceSettingsView.swift in Sources */ = {isa = PBXBuildFile; fileRef = 9B80477F29B8CE800069B407 /* AppearanceSettingsView.swift */; };
 		9BB754D629B93F3C009BB3A6 /* JellyfinAPI in Frameworks */ = {isa = PBXBuildFile; productRef = 9BB754D529B93F3C009BB3A6 /* JellyfinAPI */; };
+		9BB754DB29BA604C009BB3A6 /* DTOs.swift in Sources */ = {isa = PBXBuildFile; fileRef = 9BB754DA29BA604C009BB3A6 /* DTOs.swift */; };
+		9BB754DC29BA604C009BB3A6 /* DTOs.swift in Sources */ = {isa = PBXBuildFile; fileRef = 9BB754DA29BA604C009BB3A6 /* DTOs.swift */; };
 /* End PBXBuildFile section */
 
 /* Begin PBXFileReference section */
@@ -75,6 +77,7 @@
 		9B80477929B8C8250069B407 /* AccountSettingsView.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = AccountSettingsView.swift; sourceTree = "<group>"; };
 		9B80477D29B8CDF80069B407 /* SettingsView.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = SettingsView.swift; sourceTree = "<group>"; };
 		9B80477F29B8CE800069B407 /* AppearanceSettingsView.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = AppearanceSettingsView.swift; sourceTree = "<group>"; };
+		9BB754DA29BA604C009BB3A6 /* DTOs.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = DTOs.swift; sourceTree = "<group>"; };
 /* End PBXFileReference section */
 
 /* Begin PBXFrameworksBuildPhase section */
@@ -102,6 +105,7 @@
 		48C1F8C429B9E7FF003BE048 /* Store */ = {
 			isa = PBXGroup;
 			children = (
+				9BB754DA29BA604C009BB3A6 /* DTOs.swift */,
 				48C1F8C129B9E795003BE048 /* Store+common.swift */,
 				48C1F8C829B9EA60003BE048 /* DTOs+Identifiable.swift */,
 				48C1F8C529B9E80D003BE048 /* DTOs+Equatable.swift */,
@@ -309,6 +313,7 @@
 				9B80477029B89EE40069B407 /* AlbumListView.swift in Sources */,
 				48C1F8C229B9E795003BE048 /* Store+common.swift in Sources */,
 				9B80476629B86F460069B407 /* LibraryView.swift in Sources */,
+				9BB754DB29BA604C009BB3A6 /* DTOs.swift in Sources */,
 				9B80474529B768010069B407 /* ContentView.swift in Sources */,
 				9B70BDA029B923AE000DB31C /* AlbumView.swift in Sources */,
 				48C1F8C629B9E80D003BE048 /* DTOs+Equatable.swift in Sources */,
@@ -341,6 +346,7 @@
 				9B80474429B768010069B407 /* JellyMusicApp.swift in Sources */,
 				9B70BDA129B923AE000DB31C /* AlbumView.swift in Sources */,
 				48C1F8CA29B9EA60003BE048 /* DTOs+Identifiable.swift in Sources */,
+				9BB754DC29BA604C009BB3A6 /* DTOs.swift in Sources */,
 				9B80475929B7D4BF0069B407 /* ServerUrlView.swift in Sources */,
 				48C1F8D829B9FDDF003BE048 /* FakeAlbumService.swift in Sources */,
 				48C1F8C729B9E80D003BE048 /* DTOs+Equatable.swift in Sources */,

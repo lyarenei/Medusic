@@ -9,9 +9,9 @@ extension SongInfo: Identifiable {
     }
 }
 
-extension AlbumInfo: Identifiable {
+extension Album: Identifiable {
     public var id: String {
-        String(indexNumber!)
+        return self.uuid
     }
 }
 

@@ -4,7 +4,7 @@ import JellyfinAPI
 
 final class DefaultAlbumService: AlbumService {
     @Stored(in: .albums)
-    private var albums: [AlbumInfo]
+    private var albums: [Album]
 
     private let client: JellyfinClient
 
@@ -13,10 +13,18 @@ final class DefaultAlbumService: AlbumService {
     }
 
     // TODO: Add pagination.
-    func getAlbums() async throws -> [AlbumInfo] {
+    func getAlbums() async throws -> [Album] {
         do {
-            // TODO: Get [AlbumInfo] from backend.
-            let remoteAlbums: [AlbumInfo] = []
+            var remoteAlbums: [Album] = []
+            let params = JellyfinAPI.Paths.GetItemsParameters(
+                userID: "0f0edfcf31d64740bd577afe8e94b752",
+                isRecursive: true,
+                includeItemTypes: [.musicAlbum]
+            )
+
+            let req = JellyfinAPI.Paths.getItems(parameters: params)
+            let resp = try await client.send(req)
+            remoteAlbums = resp.value.items!.map{Album(from: $0)}
             try? await $albums.removeAll().insert(remoteAlbums).run()
             return remoteAlbums
         } catch {
