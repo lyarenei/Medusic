@@ -65,8 +65,8 @@ struct AlbumView: View {
         ScrollView {
             VStack {
                 AlbumHeading(
-                    albumName: "Album name",
-                    artistName: "Artist name"
+                    albumName: albumName,
+                    artistName: artistName
                 )
                 
                 AlbumActions()
