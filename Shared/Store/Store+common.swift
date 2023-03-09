@@ -14,8 +14,8 @@ extension Store<ArtistInfo> {
     )
 }
 
-extension Store<SongInfo> {
-    static let songs = Store<SongInfo>(
+extension Store<Song> {
+    static let songs = Store<Song>(
         storage: SQLiteStorageEngine.default(appendingPath: "Songs")
     )
 }

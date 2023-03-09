@@ -3,15 +3,15 @@ import JellyfinAPI
 // The ID getter crashes if `indexNumber: nil`,
 // so testing is needed to find out if the `indexNumber` can ever be `nil`.
 
-extension SongInfo: Identifiable {
+extension Song: Identifiable {
     public var id: String {
-        String(indexNumber!)
+        self.uuid
     }
 }
 
 extension Album: Identifiable {
     public var id: String {
-        return self.uuid
+        self.uuid
     }
 }
 
