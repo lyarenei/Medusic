@@ -53,7 +53,7 @@ struct AlbumListView: View {
 #if DEBUG
 struct SectionView_Previews: PreviewProvider {
     static var previews: some View {
-        AlbumListView(navTitle: "Navigation Title")
+        AlbumListView(navTitle: "Albums")
             .environment(\.api, .preview)
     }
 }
