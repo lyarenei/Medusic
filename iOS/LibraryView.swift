@@ -25,7 +25,7 @@ struct LibraryView: View {
                 .disabled(true)
                 
                 NavigationLink {
-                    AlbumListView(navTitle: "Albums")
+                    AlbumListView()
                 } label: {
                     Label(
                         "Albums",

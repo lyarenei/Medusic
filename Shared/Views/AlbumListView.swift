@@ -9,8 +9,6 @@ struct AlbumListView: View {
     @State
     private var albums: [Album] = []
     
-    var navTitle: String
-    
     var body: some View {
         let layout = [GridItem(.flexible()), GridItem(.flexible())]
         
@@ -30,7 +28,7 @@ struct AlbumListView: View {
             }
             .font(.largeTitle)
         }
-        .navigationTitle(navTitle)
+        .navigationTitle("Albums")
         .onAppear {
             Task {
                 do {
@@ -46,7 +44,7 @@ struct AlbumListView: View {
 #if DEBUG
 struct SectionView_Previews: PreviewProvider {
     static var previews: some View {
-        AlbumListView(navTitle: "Albums")
+        AlbumListView()
             .environment(\.api, .preview)
     }
 }
