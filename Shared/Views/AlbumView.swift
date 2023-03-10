@@ -1,6 +1,6 @@
 import Kingfisher
-import SwiftUI
 import SFSafeSymbols
+import SwiftUI
 
 private struct AlbumHeading: View {
     var albumImageUrl: URL?
