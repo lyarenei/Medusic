@@ -12,25 +12,27 @@ struct ArtworkComponent: View {
     private var artworkImage: Optional<UIImage> = nil
 
     var itemId: String
+    var frameWidth: CGFloat = 160
+    var frameHeight: CGFloat = 160
 
     var body: some View {
         Group {
             if let image = artworkImage {
                 Image(uiImage: image)
                     .resizable()
-                    .frame(width: 160.0, height: 160)
+                    .frame(width: frameWidth, height: frameHeight)
                     .clipShape(RoundedRectangle(cornerRadius: 5.0))
             } else {
                 if isLoading {
                     ProgressView()
-                        .frame(width: 160.0, height: 160)
+                        .frame(width: frameWidth, height: frameHeight)
                         .overlay(
                             RoundedRectangle(cornerRadius: 5.0)
                                 .stroke(style: StrokeStyle(lineWidth: 1.0))
                         )
                 } else {
                     Rectangle()
-                        .frame(width: 160.0, height: 160)
+                        .frame(width: frameWidth, height: frameHeight)
                         .overlay(
                             RoundedRectangle(cornerRadius: 5.0)
                                 .stroke(style: StrokeStyle(lineWidth: 1.0))
