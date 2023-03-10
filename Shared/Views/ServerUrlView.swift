@@ -8,32 +8,41 @@ struct ServerUrlView: View {
     
     var body: some View {
         NavigationView {
-            VStack{
+            VStack(spacing: 15) {
                 Spacer()
+
                 Text("Connect to Jellyfin server")
                     .font(.headline)
                     .bold()
-                    .padding()
-                
+
                 TextField(
                     "Jellyfin server URL",
                     text: $serverUrl
                 )
-                    .disableAutocorrection(true)
-                    .textFieldStyle(.roundedBorder)
                     .keyboardType(.URL)
+                    .disableAutocorrection(true)
                     .autocapitalization(.none)
-                
+                    .textFieldStyle(.roundedBorder)
+
                 NavigationLink("Next") {
                     SignInView(
                         isLoggedIn: $isLoggedIn,
                         isLoginPresented: $isLoginPresented
                     )
                 }
-                //.disabled(serverUrl.isEmpty)
-                .frame(minWidth: 0, maxWidth: 100)
-                .padding()
-                
+                    .disabled(serverUrl.isEmpty)
+                    .frame(minWidth: 0, maxWidth: 100)
+                    .padding()
+                    .foregroundColor(.white)
+                    .background(Color.accentColor)
+                    .cornerRadius(10)
+                    .onDisappear {
+                        UserDefaults.standard.set(
+                            serverUrl,
+                            forKey: "server_url"
+                        )
+                    }
+
                 Spacer()
             }
             .padding()
