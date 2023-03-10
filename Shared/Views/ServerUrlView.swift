@@ -21,7 +21,7 @@ struct ServerUrlView: View {
                     .bold()
 
                 TextField(
-                    "Jellyfin server URL",
+                    "Server URL",
                     text: $serverUrl
                 )
                     .keyboardType(.URL)
