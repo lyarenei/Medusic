@@ -34,7 +34,7 @@ struct AlbumListView: View {
         .onAppear {
             Task {
                 do {
-                    albums = try await api.albumService.getAlbums()
+                    albums = try await api.albumService.getAlbums(for: "0f0edfcf31d64740bd577afe8e94b752")
                 } catch {
                     print("Failed to fetch albums.")
                 }

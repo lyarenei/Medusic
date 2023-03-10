@@ -8,7 +8,7 @@ final class DummyAlbumService: AlbumService {
         self.albums = albums
     }
 
-    func getAlbums() async throws -> [Album] {
+    func getAlbums(for userId: String) async throws -> [Album] {
         albums
     }
 }

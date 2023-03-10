@@ -13,11 +13,11 @@ final class DefaultAlbumService: AlbumService {
     }
 
     // TODO: Add pagination.
-    func getAlbums() async throws -> [Album] {
+    func getAlbums(for userId: String) async throws -> [Album] {
         do {
             var remoteAlbums: [Album] = []
             let params = JellyfinAPI.Paths.GetItemsParameters(
-                userID: "0f0edfcf31d64740bd577afe8e94b752",
+                userID: userId,
                 isRecursive: true,
                 includeItemTypes: [.musicAlbum]
             )
