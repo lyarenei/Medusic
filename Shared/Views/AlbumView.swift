@@ -178,14 +178,24 @@ struct AlbumView: View {
 #if DEBUG
 struct AlbumView_Previews: PreviewProvider {
     static let album = Album(
-        uuid: "",
-        name: "Name",
-        artistName: "Artist",
+        uuid: "abc",
+        name: "Album name",
+        artistName: "Artist name",
         isDownloaded: false,
         isLiked: true
     )
+
+    static let albumLong = Album(
+        uuid: "xyz",
+        name: "Very long album name that can't possibly fit on one line in phone screen",
+        artistName: "Very long artist name that can't possibly fit on one line in phone screen",
+        isDownloaded: false,
+        isLiked: true
+    )
+    
     static var previews: some View {
         AlbumView(album: album)
+        AlbumView(album: albumLong)
     }
 }
 #endif
