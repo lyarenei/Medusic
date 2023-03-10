@@ -3,25 +3,18 @@ import Kingfisher
 
 struct AlbumTile: View {
 
-    var albumImageUrl: URL?
-    var albumName: String
-    var artistName: String
-    
+    var album: Album
+
     var body: some View {
         VStack(alignment: .leading) {
-            KFImage(albumImageUrl)
-                .resizable()
-                .frame(width: 160.0, height: 160)
-                .overlay(
-                    RoundedRectangle(cornerRadius: 10.0)
-                        .stroke(style: StrokeStyle(lineWidth: 1.0))
-                )
+            ArtworkComponent(itemId: album.id)
+
             VStack(alignment: .leading) {
-                Text(albumName)
+                Text(album.name)
                     .font(.subheadline)
                     .lineLimit(1)
                 
-                Text(artistName)
+                Text(album.artistName)
                     .font(.caption)
                     .lineLimit(1)
             }
@@ -31,8 +24,11 @@ struct AlbumTile: View {
 
 #if DEBUG
 struct AlbumTile_Previews: PreviewProvider {
+    static var album = Album(uuid: "1234", name: "Album name", artistName: "Artist name", isDownloaded: false, isLiked: true)
+
     static var previews: some View {
-        AlbumTile(albumName: "Album name", artistName: "Artist name")
+        AlbumTile(album: album)
+            .environment(\.api, .preview)
     }
 }
 #endif

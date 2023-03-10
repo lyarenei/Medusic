@@ -26,10 +26,7 @@ struct AlbumListView: View {
                             AlbumView(album: album)
                         },
                         label: {
-                            AlbumTile(
-                                albumName: album.name,
-                                artistName: album.artistName
-                            )
+                            AlbumTile(album: album)
                         }
                     )
                     .buttonStyle(.plain)
