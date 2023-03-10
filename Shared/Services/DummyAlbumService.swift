@@ -1,7 +1,7 @@
 import Foundation
 import JellyfinAPI
 
-final class FakeAlbumService: AlbumService {
+final class DummyAlbumService: AlbumService {
     private let albums: [Album]
 
     init(albums: [Album]) {

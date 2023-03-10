@@ -18,8 +18,8 @@
 		48C1F8CD29B9EE97003BE048 /* SFSafeSymbols in Frameworks */ = {isa = PBXBuildFile; productRef = 48C1F8CC29B9EE97003BE048 /* SFSafeSymbols */; };
 		48C1F8D029B9F3E4003BE048 /* DefaultAlbumService.swift in Sources */ = {isa = PBXBuildFile; fileRef = 48C1F8CF29B9F3E4003BE048 /* DefaultAlbumService.swift */; };
 		48C1F8D129B9F3E4003BE048 /* DefaultAlbumService.swift in Sources */ = {isa = PBXBuildFile; fileRef = 48C1F8CF29B9F3E4003BE048 /* DefaultAlbumService.swift */; };
-		48C1F8D729B9FDDF003BE048 /* FakeAlbumService.swift in Sources */ = {isa = PBXBuildFile; fileRef = 48C1F8D629B9FDDF003BE048 /* FakeAlbumService.swift */; };
-		48C1F8D829B9FDDF003BE048 /* FakeAlbumService.swift in Sources */ = {isa = PBXBuildFile; fileRef = 48C1F8D629B9FDDF003BE048 /* FakeAlbumService.swift */; };
+		48C1F8D729B9FDDF003BE048 /* DummyAlbumService.swift in Sources */ = {isa = PBXBuildFile; fileRef = 48C1F8D629B9FDDF003BE048 /* DummyAlbumService.swift */; };
+		48C1F8D829B9FDDF003BE048 /* DummyAlbumService.swift in Sources */ = {isa = PBXBuildFile; fileRef = 48C1F8D629B9FDDF003BE048 /* DummyAlbumService.swift */; };
 		48C1F8DA29B9FEB9003BE048 /* AlbumService.swift in Sources */ = {isa = PBXBuildFile; fileRef = 48C1F8D929B9FEB9003BE048 /* AlbumService.swift */; };
 		48C1F8DB29B9FEB9003BE048 /* AlbumService.swift in Sources */ = {isa = PBXBuildFile; fileRef = 48C1F8D929B9FEB9003BE048 /* AlbumService.swift */; };
 		48C1F8DD29B9FF91003BE048 /* API.swift in Sources */ = {isa = PBXBuildFile; fileRef = 48C1F8DC29B9FF91003BE048 /* API.swift */; };
@@ -65,7 +65,7 @@
 		48C1F8C529B9E80D003BE048 /* DTOs+Equatable.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = "DTOs+Equatable.swift"; sourceTree = "<group>"; };
 		48C1F8C829B9EA60003BE048 /* DTOs+Identifiable.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = "DTOs+Identifiable.swift"; sourceTree = "<group>"; };
 		48C1F8CF29B9F3E4003BE048 /* DefaultAlbumService.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = DefaultAlbumService.swift; sourceTree = "<group>"; };
-		48C1F8D629B9FDDF003BE048 /* FakeAlbumService.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = FakeAlbumService.swift; sourceTree = "<group>"; };
+		48C1F8D629B9FDDF003BE048 /* DummyAlbumService.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = DummyAlbumService.swift; sourceTree = "<group>"; };
 		48C1F8D929B9FEB9003BE048 /* AlbumService.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = AlbumService.swift; sourceTree = "<group>"; };
 		48C1F8DC29B9FF91003BE048 /* API.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = API.swift; sourceTree = "<group>"; };
 		9B70BD9C29B91F42000DB31C /* AlbumTile.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = AlbumTile.swift; sourceTree = "<group>"; };
@@ -130,7 +130,7 @@
 			isa = PBXGroup;
 			children = (
 				48C1F8CF29B9F3E4003BE048 /* DefaultAlbumService.swift */,
-				48C1F8D629B9FDDF003BE048 /* FakeAlbumService.swift */,
+				48C1F8D629B9FDDF003BE048 /* DummyAlbumService.swift */,
 				48C1F8D929B9FEB9003BE048 /* AlbumService.swift */,
 				9BDB098C29BB1DD9007F99E4 /* SongService.swift */,
 				9BDB098F29BB1E73007F99E4 /* DefaultSongService.swift */,
@@ -337,7 +337,7 @@
 				9B70BDA029B923AE000DB31C /* AlbumView.swift in Sources */,
 				48C1F8C629B9E80D003BE048 /* DTOs+Equatable.swift in Sources */,
 				9B80475529B7CDA40069B407 /* SignInView.swift in Sources */,
-				48C1F8D729B9FDDF003BE048 /* FakeAlbumService.swift in Sources */,
+				48C1F8D729B9FDDF003BE048 /* DummyAlbumService.swift in Sources */,
 				9B80474329B768010069B407 /* JellyMusicApp.swift in Sources */,
 				48C1F8D029B9F3E4003BE048 /* DefaultAlbumService.swift in Sources */,
 				9B80475E29B7D5330069B407 /* HomeView.swift in Sources */,
@@ -372,7 +372,7 @@
 				48C1F8CA29B9EA60003BE048 /* DTOs+Identifiable.swift in Sources */,
 				9BB754DC29BA604C009BB3A6 /* DTOs.swift in Sources */,
 				9B80475929B7D4BF0069B407 /* ServerUrlView.swift in Sources */,
-				48C1F8D829B9FDDF003BE048 /* FakeAlbumService.swift in Sources */,
+				48C1F8D829B9FDDF003BE048 /* DummyAlbumService.swift in Sources */,
 				48C1F8C729B9E80D003BE048 /* DTOs+Equatable.swift in Sources */,
 				48C1F8D129B9F3E4003BE048 /* DefaultAlbumService.swift in Sources */,
 			);

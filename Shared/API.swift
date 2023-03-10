@@ -14,7 +14,7 @@ private struct APIEnvironmentKey: EnvironmentKey {
 extension API {
     static var preview: API {
         API(
-            albumService: FakeAlbumService(
+            albumService: DummyAlbumService(
                 albums: [
                     Album(
                         uuid: "1",
