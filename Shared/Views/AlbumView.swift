@@ -65,14 +65,11 @@ private struct SongList: View {
 
     var body: some View {
         LazyVStack {
-            ForEach(1 ..< 15) { idx in
-                SongEntry(
-                    index: idx,
-                    name: "Ultra long song name which can't possibly fit on phone screen \(idx)"
-                )
-                .padding(.leading)
-                .padding(.trailing)
-                .font(.body)
+            ForEach(songs) { song in
+                SongEntry(song: song)
+                    .padding(.leading)
+                    .padding(.trailing)
+                    .font(.body)
 
                 Divider()
                     .padding(.leading, 10)
@@ -83,15 +80,14 @@ private struct SongList: View {
 }
 
 private struct SongEntry: View {
-    var index: Int
-    var name: String
+    var song: Song
 
     var body: some View {
         HStack {
-            Text("\(index)")
+            Text("\(song.index)")
                 .frame(minWidth: 30)
 
-            Text(name)
+            Text(song.name)
                 .lineLimit(1)
 
             Spacer(minLength: 10)
@@ -131,7 +127,6 @@ private struct SongActions: View {
 
 struct AlbumView: View {
     var album: Album
-    var songs: [Song] = []
 
     var body: some View {
         let downloadedIcon: SFSymbol = album.isDownloaded ? .checkmarkCircle : .arrowDownCircle
@@ -148,7 +143,7 @@ struct AlbumView: View {
                     .padding(.bottom, 30)
 
                 SongList(
-                    songs: songs
+                    songs: album.songs
                 )
                 .padding(.bottom, 10)
             }
@@ -182,7 +177,14 @@ struct AlbumView_Previews: PreviewProvider {
         name: "Album name",
         artistName: "Artist name",
         isDownloaded: false,
-        isLiked: true
+        isLiked: true,
+        songs: [
+            Song(
+                uuid: "asdf",
+                index: 1,
+                name: "Song name"
+            )
+        ]
     )
 
     static let albumLong = Album(
@@ -190,7 +192,14 @@ struct AlbumView_Previews: PreviewProvider {
         name: "Very long album name that can't possibly fit on one line in phone screen",
         artistName: "Very long artist name that can't possibly fit on one line in phone screen",
         isDownloaded: false,
-        isLiked: true
+        isLiked: true,
+        songs: [
+            Song(
+                uuid: "asdf",
+                index: 1,
+                name: "Very long song name which can't possibly fit on one line"
+            )
+        ]
     )
     
     static var previews: some View {
