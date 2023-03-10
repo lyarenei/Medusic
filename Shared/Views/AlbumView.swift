@@ -67,7 +67,7 @@ private struct SongList: View {
             ForEach(1..<15) {idx in
                 SongEntry(
                     index: idx,
-                    name: "Foobar \(idx)"
+                    name: "Ultra long song name which can't possibly fit on phone screen \(idx)"
                 )
                 .padding(.leading)
                 .padding(.trailing)
@@ -83,19 +83,18 @@ private struct SongEntry: View {
     var name: String
 
     var body: some View {
-        HStack(spacing: 10) {
+        HStack {
             Text("\(index)")
+                .frame(minWidth: 30)
 
             Text(name)
                 .lineLimit(1)
-                .frame(height: 35)
-                .overlay(
-                    RoundedRectangle(cornerRadius: 10.0)
-                        .stroke(style: StrokeStyle(lineWidth: 1.0))
-                )
+
+            Spacer(minLength: 10)
 
             SongActions()
         }
+        .frame(height: 35)
     }
 }
 
@@ -104,23 +103,26 @@ private struct SongActions: View {
     let isLiked = true
 
     var body: some View {
-        Button {
-            // Like action
-        } label: {
-            if isLiked {
-                Image(systemSymbol: .heartFill)
-            } else {
-                Image(systemSymbol: .heart)
+        Group {
+            Button {
+                // Like action
+            } label: {
+                if isLiked {
+                    Image(systemSymbol: .heartFill)
+                } else {
+                    Image(systemSymbol: .heart)
+                }
             }
-        }
-        .disabled(true)
+            .disabled(true)
 
-        Button {
-            // Download action
-        } label: {
-            Image(systemSymbol: .arrowDownCircle)
+            Button {
+                // Download action
+            } label: {
+                Image(systemSymbol: .arrowDownCircle)
+            }
+            .disabled(true)
         }
-        .disabled(true)
+        .frame(width: 25)
     }
 }
 
