@@ -3,28 +3,24 @@ import SFSafeSymbols
 import SwiftUI
 
 private struct AlbumHeading: View {
-    var albumImageUrl: URL?
-    var albumName: String
-    var artistName: String
+    var album: Album
 
     var body: some View {
-        KFImage(albumImageUrl)
-            .resizable()
-            .frame(width: 230.0, height: 230)
-            .overlay(
-                RoundedRectangle(cornerRadius: 10.0)
-                    .stroke(style: StrokeStyle(lineWidth: 1.0))
-            )
         VStack {
-            Text(albumName)
+            ArtworkComponent(itemId: album.id)
+                .frame(width: 230, height: 230)
+
+            Text(album.name)
                 .font(.title)
                 .bold()
                 .multilineTextAlignment(.center)
 
-            Text(artistName)
+            Text(album.artistName)
                 .font(.title2)
                 .multilineTextAlignment(.center)
         }
+        .padding(.leading, 20)
+        .padding(.trailing, 20)
     }
 }
 
@@ -144,10 +140,7 @@ struct AlbumView: View {
 
         ScrollView {
             VStack {
-                AlbumHeading(
-                    albumName: album.name,
-                    artistName: album.artistName
-                )
+                AlbumHeading(album: album)
 
                 AlbumActions()
                     .padding(.bottom, 30)
