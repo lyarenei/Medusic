@@ -37,6 +37,8 @@ private struct NavigationEntry<Content: View>: View {
             .buttonStyle(.plain)
             .font(.title3)
         }
+        .padding(.leading, 15)
+        .padding(.trailing, 15)
     }
 }
 
@@ -56,8 +58,6 @@ private struct LibraryNavigationItems: View {
                 text: "Playlists",
                 symbol: .musicNoteList
             )
-                .padding(.leading, 15)
-                .padding(.trailing, 15)
                 .disabled(true)
 
             NavDivider()
@@ -67,8 +67,6 @@ private struct LibraryNavigationItems: View {
                 text: "Artists",
                 symbol: .musicMic
             )
-                .padding(.leading, 15)
-                .padding(.trailing, 15)
                 .disabled(true)
 
             NavDivider()
@@ -78,8 +76,6 @@ private struct LibraryNavigationItems: View {
                 text: "Albums",
                 symbol: .squareStack
             )
-                .padding(.leading, 15)
-                .padding(.trailing, 15)
 
             NavDivider()
 
@@ -88,8 +84,6 @@ private struct LibraryNavigationItems: View {
                 text: "Songs",
                 symbol: .musicNote
             )
-                .padding(.leading, 15)
-                .padding(.trailing, 15)
                 .disabled(true)
 
             NavDivider()
@@ -99,8 +93,6 @@ private struct LibraryNavigationItems: View {
                 text: "Downloads",
                 symbol: .arrowDownApp
             )
-                .padding(.leading, 15)
-                .padding(.trailing, 15)
                 .disabled(true)
 
             NavDivider()
