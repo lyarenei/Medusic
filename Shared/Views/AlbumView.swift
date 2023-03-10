@@ -94,7 +94,7 @@ private struct SongEntry: View {
 
             SongActions()
         }
-        .frame(height: 30)
+        .frame(height: 40)
         .padding(.bottom, 5)
         .overlay(
             Rectangle()
