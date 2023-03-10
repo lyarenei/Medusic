@@ -27,6 +27,8 @@ struct AlbumListView: View {
                 }
             }
             .font(.largeTitle)
+            .padding(.leading, 10)
+            .padding(.trailing, 10)
         }
         .navigationTitle("Albums")
         .onAppear {
