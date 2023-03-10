@@ -2,7 +2,7 @@ import SwiftUI
 
 struct AccountSettingsView: View {
     
-    @AppStorage("isLoggedIn")
+    @State
     private var isLoggedIn = false
     
     @State
