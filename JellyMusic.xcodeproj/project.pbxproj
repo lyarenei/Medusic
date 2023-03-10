@@ -129,12 +129,8 @@
 		48C1F8CE29B9F3DB003BE048 /* Services */ = {
 			isa = PBXGroup;
 			children = (
-				48C1F8CF29B9F3E4003BE048 /* DefaultAlbumService.swift */,
-				48C1F8D629B9FDDF003BE048 /* DummyAlbumService.swift */,
-				48C1F8D929B9FEB9003BE048 /* AlbumService.swift */,
-				9BDB098C29BB1DD9007F99E4 /* SongService.swift */,
-				9BDB098F29BB1E73007F99E4 /* DefaultSongService.swift */,
-				9BDB099229BB1F57007F99E4 /* DummySongService.swift */,
+				9BDB099529BB2F8B007F99E4 /* AlbumService */,
+				9BDB099629BB2F9A007F99E4 /* SongService */,
 			);
 			path = Services;
 			sourceTree = "<group>";
@@ -211,6 +207,26 @@
 				9B80477F29B8CE800069B407 /* AppearanceSettingsView.swift */,
 			);
 			path = iOS;
+			sourceTree = "<group>";
+		};
+		9BDB099529BB2F8B007F99E4 /* AlbumService */ = {
+			isa = PBXGroup;
+			children = (
+				48C1F8CF29B9F3E4003BE048 /* DefaultAlbumService.swift */,
+				48C1F8D629B9FDDF003BE048 /* DummyAlbumService.swift */,
+				48C1F8D929B9FEB9003BE048 /* AlbumService.swift */,
+			);
+			path = AlbumService;
+			sourceTree = "<group>";
+		};
+		9BDB099629BB2F9A007F99E4 /* SongService */ = {
+			isa = PBXGroup;
+			children = (
+				9BDB098C29BB1DD9007F99E4 /* SongService.swift */,
+				9BDB098F29BB1E73007F99E4 /* DefaultSongService.swift */,
+				9BDB099229BB1F57007F99E4 /* DummySongService.swift */,
+			);
+			path = SongService;
 			sourceTree = "<group>";
 		};
 /* End PBXGroup section */
