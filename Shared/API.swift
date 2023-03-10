@@ -5,6 +5,7 @@ import JellyfinAPI
 struct API {
     let albumService: any AlbumService
     let songService: any SongService
+    let imageService: any ImageService
 }
 
 private struct APIEnvironmentKey: EnvironmentKey {
@@ -50,7 +51,8 @@ extension API {
                         name: "Song name 3"
                     )
                 ]
-            )
+            ),
+            imageService: DummyImageService()
         )
     }
 }

@@ -31,7 +31,8 @@ struct JellyMusicApp: App {
         //api = .preview
         api = API(
             albumService: albumService,
-            songService: songService
+            songService: songService,
+            imageService: DefaultImageService(client: jellyfinClient)
         )
 
         // Memory image never expires.

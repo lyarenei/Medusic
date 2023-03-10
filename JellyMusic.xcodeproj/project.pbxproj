@@ -58,6 +58,12 @@
 		9BDB099129BB1E73007F99E4 /* DefaultSongService.swift in Sources */ = {isa = PBXBuildFile; fileRef = 9BDB098F29BB1E73007F99E4 /* DefaultSongService.swift */; };
 		9BDB099329BB1F57007F99E4 /* DummySongService.swift in Sources */ = {isa = PBXBuildFile; fileRef = 9BDB099229BB1F57007F99E4 /* DummySongService.swift */; };
 		9BDB099429BB1F57007F99E4 /* DummySongService.swift in Sources */ = {isa = PBXBuildFile; fileRef = 9BDB099229BB1F57007F99E4 /* DummySongService.swift */; };
+		9BDB099929BB2FBF007F99E4 /* ImageService.swift in Sources */ = {isa = PBXBuildFile; fileRef = 9BDB099829BB2FBF007F99E4 /* ImageService.swift */; };
+		9BDB099A29BB2FBF007F99E4 /* ImageService.swift in Sources */ = {isa = PBXBuildFile; fileRef = 9BDB099829BB2FBF007F99E4 /* ImageService.swift */; };
+		9BDB099C29BB302C007F99E4 /* DefaultImageService.swift in Sources */ = {isa = PBXBuildFile; fileRef = 9BDB099B29BB302C007F99E4 /* DefaultImageService.swift */; };
+		9BDB099D29BB302C007F99E4 /* DefaultImageService.swift in Sources */ = {isa = PBXBuildFile; fileRef = 9BDB099B29BB302C007F99E4 /* DefaultImageService.swift */; };
+		9BDB099F29BB322A007F99E4 /* DummyImageService.swift in Sources */ = {isa = PBXBuildFile; fileRef = 9BDB099E29BB322A007F99E4 /* DummyImageService.swift */; };
+		9BDB09A029BB322A007F99E4 /* DummyImageService.swift in Sources */ = {isa = PBXBuildFile; fileRef = 9BDB099E29BB322A007F99E4 /* DummyImageService.swift */; };
 /* End PBXBuildFile section */
 
 /* Begin PBXFileReference section */
@@ -90,6 +96,9 @@
 		9BDB098C29BB1DD9007F99E4 /* SongService.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = SongService.swift; sourceTree = "<group>"; };
 		9BDB098F29BB1E73007F99E4 /* DefaultSongService.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = DefaultSongService.swift; sourceTree = "<group>"; };
 		9BDB099229BB1F57007F99E4 /* DummySongService.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = DummySongService.swift; sourceTree = "<group>"; };
+		9BDB099829BB2FBF007F99E4 /* ImageService.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = ImageService.swift; sourceTree = "<group>"; };
+		9BDB099B29BB302C007F99E4 /* DefaultImageService.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = DefaultImageService.swift; sourceTree = "<group>"; };
+		9BDB099E29BB322A007F99E4 /* DummyImageService.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = DummyImageService.swift; sourceTree = "<group>"; };
 /* End PBXFileReference section */
 
 /* Begin PBXFrameworksBuildPhase section */
@@ -129,6 +138,7 @@
 		48C1F8CE29B9F3DB003BE048 /* Services */ = {
 			isa = PBXGroup;
 			children = (
+				9BDB099729BB2FAD007F99E4 /* ImageService */,
 				9BDB099529BB2F8B007F99E4 /* AlbumService */,
 				9BDB099629BB2F9A007F99E4 /* SongService */,
 			);
@@ -227,6 +237,16 @@
 				9BDB099229BB1F57007F99E4 /* DummySongService.swift */,
 			);
 			path = SongService;
+			sourceTree = "<group>";
+		};
+		9BDB099729BB2FAD007F99E4 /* ImageService */ = {
+			isa = PBXGroup;
+			children = (
+				9BDB099829BB2FBF007F99E4 /* ImageService.swift */,
+				9BDB099B29BB302C007F99E4 /* DefaultImageService.swift */,
+				9BDB099E29BB322A007F99E4 /* DummyImageService.swift */,
+			);
+			path = ImageService;
 			sourceTree = "<group>";
 		};
 /* End PBXGroup section */
@@ -340,6 +360,7 @@
 			buildActionMask = 2147483647;
 			files = (
 				9BDB099029BB1E73007F99E4 /* DefaultSongService.swift in Sources */,
+				9BDB099C29BB302C007F99E4 /* DefaultImageService.swift in Sources */,
 				9BB754DE29BA8522009BB3A6 /* DTOs+Codable.swift in Sources */,
 				9B80475229B7C7E30069B407 /* MacSettingsView.swift in Sources */,
 				9B80477A29B8C8250069B407 /* AccountSettingsView.swift in Sources */,
@@ -356,10 +377,12 @@
 				48C1F8D729B9FDDF003BE048 /* DummyAlbumService.swift in Sources */,
 				9B80474329B768010069B407 /* JellyMusicApp.swift in Sources */,
 				48C1F8D029B9F3E4003BE048 /* DefaultAlbumService.swift in Sources */,
+				9BDB099F29BB322A007F99E4 /* DummyImageService.swift in Sources */,
 				9B80475E29B7D5330069B407 /* HomeView.swift in Sources */,
 				48C1F8DD29B9FF91003BE048 /* API.swift in Sources */,
 				48C1F8C929B9EA60003BE048 /* DTOs+Identifiable.swift in Sources */,
 				9B70BD9D29B91F42000DB31C /* AlbumTile.swift in Sources */,
+				9BDB099929BB2FBF007F99E4 /* ImageService.swift in Sources */,
 				9B80475829B7D4BF0069B407 /* ServerUrlView.swift in Sources */,
 				48C1F8DA29B9FEB9003BE048 /* AlbumService.swift in Sources */,
 				9BDB099329BB1F57007F99E4 /* DummySongService.swift in Sources */,
@@ -371,6 +394,7 @@
 			isa = PBXSourcesBuildPhase;
 			buildActionMask = 2147483647;
 			files = (
+				9BDB09A029BB322A007F99E4 /* DummyImageService.swift in Sources */,
 				9B70BD9E29B91F42000DB31C /* AlbumTile.swift in Sources */,
 				9B80475329B7C7E30069B407 /* MacSettingsView.swift in Sources */,
 				9B80474629B768010069B407 /* ContentView.swift in Sources */,
@@ -380,6 +404,7 @@
 				9BDB099129BB1E73007F99E4 /* DefaultSongService.swift in Sources */,
 				9BB754DF29BA8522009BB3A6 /* DTOs+Codable.swift in Sources */,
 				9B80475629B7CDA40069B407 /* SignInView.swift in Sources */,
+				9BDB099D29BB302C007F99E4 /* DefaultImageService.swift in Sources */,
 				9BDB098E29BB1DD9007F99E4 /* SongService.swift in Sources */,
 				48C1F8C329B9E795003BE048 /* Store+common.swift in Sources */,
 				9B80474429B768010069B407 /* JellyMusicApp.swift in Sources */,
@@ -391,6 +416,7 @@
 				48C1F8D829B9FDDF003BE048 /* DummyAlbumService.swift in Sources */,
 				48C1F8C729B9E80D003BE048 /* DTOs+Equatable.swift in Sources */,
 				48C1F8D129B9F3E4003BE048 /* DefaultAlbumService.swift in Sources */,
+				9BDB099A29BB2FBF007F99E4 /* ImageService.swift in Sources */,
 			);
 			runOnlyForDeploymentPostprocessing = 0;
 		};
