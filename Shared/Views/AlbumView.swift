@@ -158,6 +158,15 @@ struct AlbumView: View {
         .toolbar(content: {
             ToolbarItem(content: {
                 Button {
+                    // Album like button
+                } label: {
+                    Image(systemSymbol: .heart)
+                }
+                .disabled(true)
+            })
+
+            ToolbarItem(content: {
+                Button {
                     // Album download action
                 } label: {
                     Image(systemSymbol: .arrowDownCircle)
