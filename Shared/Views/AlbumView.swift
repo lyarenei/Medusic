@@ -72,7 +72,7 @@ private struct SongList: View {
                 )
                 .padding(.leading)
                 .padding(.trailing)
-                .font(.callout)
+                .font(.body)
 
                 Divider()
                     .padding(.leading, 10)
