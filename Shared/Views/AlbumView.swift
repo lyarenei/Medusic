@@ -1,5 +1,6 @@
 import Kingfisher
 import SwiftUI
+import SFSafeSymbols
 
 private struct AlbumHeading: View {
     var albumImageUrl: URL?
@@ -109,25 +110,25 @@ private struct SongEntry: View {
 }
 
 private struct SongActions: View {
+    let isDownloaded = true
     let isLiked = true
 
     var body: some View {
+        let downloadedIcon: SFSymbol = isDownloaded ? .checkmarkCircle : .arrowDownCircle
+        let likedIcon: SFSymbol = isLiked ? .heartFill : .heart
+
         Group {
             Button {
                 // Song like action
             } label: {
-                if isLiked {
-                    Image(systemSymbol: .heartFill)
-                } else {
-                    Image(systemSymbol: .heart)
-                }
+                Image(systemSymbol: likedIcon)
             }
             .disabled(true)
 
             Button {
                 // Song download action
             } label: {
-                Image(systemSymbol: .arrowDownCircle)
+                Image(systemSymbol: downloadedIcon)
             }
             .disabled(true)
         }
@@ -140,6 +141,9 @@ struct AlbumView: View {
     var songs: [Song] = []
 
     var body: some View {
+        let downloadedIcon: SFSymbol = album.isDownloaded ? .checkmarkCircle : .arrowDownCircle
+        let likedIcon: SFSymbol = album.isLiked ? .heartFill : .heart
+
         ScrollView {
             VStack {
                 AlbumHeading(
@@ -161,7 +165,7 @@ struct AlbumView: View {
                 Button {
                     // Album like button
                 } label: {
-                    Image(systemSymbol: .heart)
+                    Image(systemSymbol: likedIcon)
                 }
                 .disabled(true)
             })
@@ -170,7 +174,7 @@ struct AlbumView: View {
                 Button {
                     // Album download action
                 } label: {
-                    Image(systemSymbol: .arrowDownCircle)
+                    Image(systemSymbol: downloadedIcon)
                 }
                 .disabled(true)
             })
@@ -180,7 +184,13 @@ struct AlbumView: View {
 
 #if DEBUG
 struct AlbumView_Previews: PreviewProvider {
-    static let album = Album(uuid: "", name: "Name", artistName: "Artist")
+    static let album = Album(
+        uuid: "",
+        name: "Name",
+        artistName: "Artist",
+        isDownloaded: false,
+        isLiked: true
+    )
     static var previews: some View {
         AlbumView(album: album)
     }
