@@ -71,7 +71,7 @@ private struct SongList: View {
                 )
                 .padding(.leading)
                 .padding(.trailing)
-                .font(.title2)
+                .font(.callout)
             }
         }
     }
@@ -94,7 +94,15 @@ private struct SongEntry: View {
 
             SongActions()
         }
-        .frame(height: 35)
+        .frame(height: 30)
+        .overlay(
+            Rectangle()
+                .frame(
+                    width: nil,
+                    height: 1,
+                    alignment: .bottom
+                )
+                .foregroundColor(Color.gray), alignment: .bottom)
     }
 }
 
