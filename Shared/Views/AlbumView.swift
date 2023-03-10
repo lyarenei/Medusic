@@ -73,6 +73,10 @@ private struct SongList: View {
                 .padding(.leading)
                 .padding(.trailing)
                 .font(.callout)
+
+                Divider()
+                    .padding(.leading, 10)
+                    .padding(.trailing, 10)
             }
         }
     }
@@ -95,17 +99,6 @@ private struct SongEntry: View {
             SongActions()
         }
         .frame(height: 40)
-        .padding(.bottom, 5)
-        .overlay(
-            Rectangle()
-                .frame(
-                    width: nil,
-                    height: 1,
-                    alignment: .bottom
-                )
-                .foregroundColor(Color(.separator)),
-            alignment: .bottom
-        )
     }
 }
 
