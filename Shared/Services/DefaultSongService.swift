@@ -19,7 +19,8 @@ final class DefaultSongService: SongService {
             let params = JellyfinAPI.Paths.GetItemsParameters(
                 userID: "0f0edfcf31d64740bd577afe8e94b752",
                 isRecursive: true,
-                includeItemTypes: [.recording]
+                includeItemTypes: [.recording],
+                sortBy: ["indexNumber"]
             )
 
             let req = JellyfinAPI.Paths.getItems(parameters: params)
@@ -40,7 +41,8 @@ final class DefaultSongService: SongService {
                 userID: "0f0edfcf31d64740bd577afe8e94b752",
                 isRecursive: true,
                 parentID: albumId,
-                includeItemTypes: [.recording]
+                includeItemTypes: [.recording],
+                sortBy: ["indexNumber"]
             )
 
             let req = JellyfinAPI.Paths.getItems(parameters: params)
