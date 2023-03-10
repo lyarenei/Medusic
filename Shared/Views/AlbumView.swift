@@ -126,6 +126,16 @@ private struct SongActions: View {
 }
 
 struct AlbumView: View {
+
+    @Environment(\.api)
+    var api
+
+    @State
+    private var songs: [Song] = []
+
+    @State
+    private var isLoading = true
+
     var album: Album
 
     var body: some View {
@@ -143,9 +153,10 @@ struct AlbumView: View {
                     .padding(.bottom, 30)
 
                 SongList(
-                    songs: album.songs
+                    songs: songs
                 )
                 .padding(.bottom, 10)
+                .overlay(loadingOverlay)
             }
         }
         .toolbar(content: {
@@ -167,6 +178,29 @@ struct AlbumView: View {
                 .disabled(true)
             })
         })
+        .onAppear {
+            Task {
+                isLoading = true
+
+                // Overdramatize loading
+                sleep(2)
+
+                do {
+                    songs = try await api.songService.getSongs(for: album.id)
+                } catch {
+                    songs = []
+                }
+
+                isLoading = false
+            }
+        }
+    }
+
+    @ViewBuilder
+    private var loadingOverlay: some View {
+        if isLoading {
+            ProgressView()
+        }
     }
 }
 
