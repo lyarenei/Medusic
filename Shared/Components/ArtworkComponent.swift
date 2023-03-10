@@ -1,6 +1,8 @@
 import SwiftUI
+import Kingfisher
 
 struct ArtworkComponent: View {
+    private static let cornerRadius: CGFloat = 5
 
     @Environment(\.api)
     var api
@@ -9,60 +11,35 @@ struct ArtworkComponent: View {
     private var isLoading = true
 
     @State
-    private var artworkImage: Optional<UIImage> = nil
+    private var artworkImage: PlatformImage? = nil
 
     var itemId: String
-    var frameWidth: CGFloat = 160
-    var frameHeight: CGFloat = 160
+
+    private var dataProvider: ImageDataProvider {
+        JellyfinImageDataProvider(itemId: itemId, imageService: api.imageService)
+    }
 
     var body: some View {
-        Group {
-            if let image = artworkImage {
-                Image(uiImage: image)
-                    .resizable()
-                    .frame(width: frameWidth, height: frameHeight)
-                    .clipShape(RoundedRectangle(cornerRadius: 5.0))
-            } else {
-                if isLoading {
-                    ProgressView()
-                        .frame(width: frameWidth, height: frameHeight)
-                        .overlay(
-                            RoundedRectangle(cornerRadius: 5.0)
-                                .stroke(style: StrokeStyle(lineWidth: 1.0))
-                        )
-                } else {
-                    Rectangle()
-                        .frame(width: frameWidth, height: frameHeight)
-                        .overlay(
-                            RoundedRectangle(cornerRadius: 5.0)
-                                .stroke(style: StrokeStyle(lineWidth: 1.0))
-                        )
-                }
-            }
-        }
-        .onAppear {
-            isLoading = true
-
-            Task {
-                do {
-                    // Overdramatize
-                    sleep(1)
-
-                    if let data = try await api.imageService.getImage(for: itemId) {
-                        artworkImage = UIImage(data: data)
-                        isLoading = false
-                    }
-                } catch {
-                    isLoading = false
-                }
-            }
-        }
+        KFImage.dataProvider(dataProvider)
+            .resizable()
+            .placeholder { ProgressView() }
+            .fade(duration: 0.25)
+            .retry(maxCount: Int.max, interval: .seconds(10))
+            .clipShape(RoundedRectangle(cornerRadius: Self.cornerRadius))
+            .overlay(
+                RoundedRectangle(cornerRadius: Self.cornerRadius)
+                    .stroke(style: StrokeStyle(lineWidth: 0.5))
+                    .foregroundColor(Color(UIColor.separator.cgColor))
+            )
     }
 }
 
+#if DEBUG
 struct ArtworkComponent_Previews: PreviewProvider {
     static var previews: some View {
         ArtworkComponent(itemId: "asdf")
             .environment(\.api, .preview)
+            .previewLayout(.fixed(width: 200, height: 200))
     }
 }
+#endif

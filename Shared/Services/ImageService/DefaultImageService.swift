@@ -9,13 +9,8 @@ final class DefaultImageService: ImageService {
         self.client = client
     }
 
-    func getImage(for itemId: String) async throws -> Optional<Data> {
-        do {
-            let req = JellyfinAPI.Paths.getItemImage(itemID: itemId, imageType: "Primary")
-            let resp = try await client.send(req)
-            return try resp.value.toData()
-        } catch {
-            return nil
-        }
+    func getImage(for itemId: String) async throws -> Data {
+        let request = JellyfinAPI.Paths.getItemImage(itemID: itemId, imageType: "Primary")
+        return try await client.send(request).value
     }
 }

@@ -15,7 +15,7 @@ struct AlbumListView: View {
     var navTitle: String
     
     var body: some View {
-        let layout = [GridItem(.adaptive(minimum: 170, maximum: 170))]
+        let layout = [GridItem(.flexible()), GridItem(.flexible())]
         
         ScrollView(.vertical) {
             LazyVGrid(columns: layout) {

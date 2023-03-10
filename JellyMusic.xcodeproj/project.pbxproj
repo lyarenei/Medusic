@@ -24,6 +24,10 @@
 		48C1F8DB29B9FEB9003BE048 /* AlbumService.swift in Sources */ = {isa = PBXBuildFile; fileRef = 48C1F8D929B9FEB9003BE048 /* AlbumService.swift */; };
 		48C1F8DD29B9FF91003BE048 /* API.swift in Sources */ = {isa = PBXBuildFile; fileRef = 48C1F8DC29B9FF91003BE048 /* API.swift */; };
 		48C1F8DE29B9FF91003BE048 /* API.swift in Sources */ = {isa = PBXBuildFile; fileRef = 48C1F8DC29B9FF91003BE048 /* API.swift */; };
+		48C1F8E129BB7CB4003BE048 /* Image+crossplatform.swift in Sources */ = {isa = PBXBuildFile; fileRef = 48C1F8E029BB7CB4003BE048 /* Image+crossplatform.swift */; };
+		48C1F8E229BB7CB4003BE048 /* Image+crossplatform.swift in Sources */ = {isa = PBXBuildFile; fileRef = 48C1F8E029BB7CB4003BE048 /* Image+crossplatform.swift */; };
+		48C1F8E429BB827E003BE048 /* JellyfinImageProvider.swift in Sources */ = {isa = PBXBuildFile; fileRef = 48C1F8E329BB827E003BE048 /* JellyfinImageProvider.swift */; };
+		48C1F8E529BB827E003BE048 /* JellyfinImageProvider.swift in Sources */ = {isa = PBXBuildFile; fileRef = 48C1F8E329BB827E003BE048 /* JellyfinImageProvider.swift */; };
 		9B70BD9D29B91F42000DB31C /* AlbumTile.swift in Sources */ = {isa = PBXBuildFile; fileRef = 9B70BD9C29B91F42000DB31C /* AlbumTile.swift */; };
 		9B70BD9E29B91F42000DB31C /* AlbumTile.swift in Sources */ = {isa = PBXBuildFile; fileRef = 9B70BD9C29B91F42000DB31C /* AlbumTile.swift */; };
 		9B70BDA029B923AE000DB31C /* AlbumView.swift in Sources */ = {isa = PBXBuildFile; fileRef = 9B70BD9F29B923AE000DB31C /* AlbumView.swift */; };
@@ -76,6 +80,8 @@
 		48C1F8D629B9FDDF003BE048 /* DummyAlbumService.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = DummyAlbumService.swift; sourceTree = "<group>"; };
 		48C1F8D929B9FEB9003BE048 /* AlbumService.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = AlbumService.swift; sourceTree = "<group>"; };
 		48C1F8DC29B9FF91003BE048 /* API.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = API.swift; sourceTree = "<group>"; };
+		48C1F8E029BB7CB4003BE048 /* Image+crossplatform.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = "Image+crossplatform.swift"; sourceTree = "<group>"; };
+		48C1F8E329BB827E003BE048 /* JellyfinImageProvider.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = JellyfinImageProvider.swift; sourceTree = "<group>"; };
 		9B70BD9C29B91F42000DB31C /* AlbumTile.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = AlbumTile.swift; sourceTree = "<group>"; };
 		9B70BD9F29B923AE000DB31C /* AlbumView.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = AlbumView.swift; sourceTree = "<group>"; };
 		9B80473329B768000069B407 /* JellyMusicApp.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = JellyMusicApp.swift; sourceTree = "<group>"; };
@@ -144,8 +150,17 @@
 				9BDB099729BB2FAD007F99E4 /* ImageService */,
 				9BDB099529BB2F8B007F99E4 /* AlbumService */,
 				9BDB099629BB2F9A007F99E4 /* SongService */,
+				48C1F8E329BB827E003BE048 /* JellyfinImageProvider.swift */,
 			);
 			path = Services;
+			sourceTree = "<group>";
+		};
+		48C1F8DF29BB7CA8003BE048 /* Common */ = {
+			isa = PBXGroup;
+			children = (
+				48C1F8E029BB7CB4003BE048 /* Image+crossplatform.swift */,
+			);
+			path = Common;
 			sourceTree = "<group>";
 		};
 		9B70BDA229B93228000DB31C /* Components */ = {
@@ -160,6 +175,7 @@
 		9B70BDA329B93234000DB31C /* Views */ = {
 			isa = PBXGroup;
 			children = (
+				48C1F8DF29BB7CA8003BE048 /* Common */,
 				9B80473429B768000069B407 /* ContentView.swift */,
 				9B80475429B7CDA40069B407 /* SignInView.swift */,
 				9B80475729B7D4BF0069B407 /* ServerUrlView.swift */,
@@ -384,11 +400,13 @@
 				9BDB099F29BB322A007F99E4 /* DummyImageService.swift in Sources */,
 				9B80475E29B7D5330069B407 /* HomeView.swift in Sources */,
 				48C1F8DD29B9FF91003BE048 /* API.swift in Sources */,
+				48C1F8E129BB7CB4003BE048 /* Image+crossplatform.swift in Sources */,
 				48C1F8C929B9EA60003BE048 /* DTOs+Identifiable.swift in Sources */,
 				9B70BD9D29B91F42000DB31C /* AlbumTile.swift in Sources */,
 				9BDB099929BB2FBF007F99E4 /* ImageService.swift in Sources */,
 				9B80475829B7D4BF0069B407 /* ServerUrlView.swift in Sources */,
 				48C1F8DA29B9FEB9003BE048 /* AlbumService.swift in Sources */,
+				48C1F8E429BB827E003BE048 /* JellyfinImageProvider.swift in Sources */,
 				9BDB099329BB1F57007F99E4 /* DummySongService.swift in Sources */,
 				9B80477E29B8CDF80069B407 /* SettingsView.swift in Sources */,
 				9BDB09A529BB4816007F99E4 /* ArtworkComponent.swift in Sources */,
@@ -400,11 +418,13 @@
 			buildActionMask = 2147483647;
 			files = (
 				9BDB09A029BB322A007F99E4 /* DummyImageService.swift in Sources */,
+				48C1F8E229BB7CB4003BE048 /* Image+crossplatform.swift in Sources */,
 				9B70BD9E29B91F42000DB31C /* AlbumTile.swift in Sources */,
 				9B80475329B7C7E30069B407 /* MacSettingsView.swift in Sources */,
 				9B80474629B768010069B407 /* ContentView.swift in Sources */,
 				48C1F8DB29B9FEB9003BE048 /* AlbumService.swift in Sources */,
 				48C1F8DE29B9FF91003BE048 /* API.swift in Sources */,
+				48C1F8E529BB827E003BE048 /* JellyfinImageProvider.swift in Sources */,
 				9B80477129B89EE40069B407 /* AlbumListView.swift in Sources */,
 				9BDB099129BB1E73007F99E4 /* DefaultSongService.swift in Sources */,
 				9BB754DF29BA8522009BB3A6 /* DTOs+Codable.swift in Sources */,
