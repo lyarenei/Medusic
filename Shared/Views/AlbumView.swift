@@ -209,15 +209,15 @@ struct AlbumView_Previews: PreviewProvider {
 
     static let albumLong = Album(
         uuid: "xyz",
-        name: "Very long album name that can't possibly fit on one line in phone screen",
-        artistName: "Very long artist name that can't possibly fit on one line in phone screen",
+        name: "Very long album name that can't possibly fit on one line on phone screen either in vertical or horizontal orientation",
+        artistName: "Very long artist name that can't possibly fit on one line on phone screen either in vertical or horizontal orientation",
         isDownloaded: false,
         isLiked: true,
         songs: [
             Song(
                 uuid: "asdf",
                 index: 1,
-                name: "Very long song name which can't possibly fit on one line"
+                name: "Very long song name that can't possibly fit on one line on phone screen either in vertical or horizontal orientation"
             )
         ]
     )
