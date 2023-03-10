@@ -37,6 +37,7 @@ struct AlbumListView: View {
             }
             .font(.largeTitle)
         }
+        .navigationTitle(navTitle)
         .onAppear {
             Task {
                 do {
@@ -46,7 +47,6 @@ struct AlbumListView: View {
                 }
             }
         }
-        .navigationTitle(navTitle)
     }
 }
 
