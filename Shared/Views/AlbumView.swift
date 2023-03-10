@@ -211,14 +211,7 @@ struct AlbumView_Previews: PreviewProvider {
         name: "Album name",
         artistName: "Artist name",
         isDownloaded: false,
-        isLiked: true,
-        songs: [
-            Song(
-                uuid: "asdf",
-                index: 1,
-                name: "Song name"
-            )
-        ]
+        isLiked: true
     )
 
     static let albumLong = Album(
@@ -238,6 +231,7 @@ struct AlbumView_Previews: PreviewProvider {
     
     static var previews: some View {
         AlbumView(album: album)
+            .environment(\.api, .preview)
         AlbumView(album: albumLong)
     }
 }
