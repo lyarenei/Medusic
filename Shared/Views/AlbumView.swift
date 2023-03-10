@@ -1,12 +1,11 @@
-import SwiftUI
 import Kingfisher
+import SwiftUI
 
 private struct AlbumHeading: View {
-
     var albumImageUrl: URL?
     var albumName: String
     var artistName: String
-    
+
     var body: some View {
         KFImage(albumImageUrl)
             .resizable()
@@ -20,7 +19,7 @@ private struct AlbumHeading: View {
                 .font(.title)
                 .bold()
                 .multilineTextAlignment(.center)
-            
+
             Text(artistName)
                 .font(.title2)
                 .multilineTextAlignment(.center)
@@ -32,7 +31,7 @@ private struct AlbumActions: View {
     var body: some View {
         HStack {
             Button {
-                
+                // Album play action
             } label: {
                 Image(systemSymbol: .playFill)
                 Text("Play")
@@ -42,9 +41,10 @@ private struct AlbumActions: View {
                 RoundedRectangle(cornerRadius: 10)
                     .stroke(style: StrokeStyle(lineWidth: 1.0))
             )
-            
+            .disabled(true)
+
             Button {
-                
+                // Album shuffle play action
             } label: {
                 Image(systemSymbol: .shuffle)
                 Text("Shuffle")
@@ -54,17 +54,17 @@ private struct AlbumActions: View {
                 RoundedRectangle(cornerRadius: 10)
                     .stroke(style: StrokeStyle(lineWidth: 1.0))
             )
+            .disabled(true)
         }
     }
 }
 
 private struct SongList: View {
-
     var songs: [Song]
 
     var body: some View {
         LazyVStack {
-            ForEach(1..<15) {idx in
+            ForEach(1 ..< 15) { idx in
                 SongEntry(
                     index: idx,
                     name: "Ultra long song name which can't possibly fit on phone screen \(idx)"
@@ -78,7 +78,6 @@ private struct SongList: View {
 }
 
 private struct SongEntry: View {
-
     var index: Int
     var name: String
 
@@ -102,18 +101,19 @@ private struct SongEntry: View {
                     height: 1,
                     alignment: .bottom
                 )
-                .foregroundColor(Color.gray), alignment: .bottom)
+                .foregroundColor(Color.gray),
+            alignment: .bottom
+        )
     }
 }
 
 private struct SongActions: View {
-
     let isLiked = true
 
     var body: some View {
         Group {
             Button {
-                // Like action
+                // Song like action
             } label: {
                 if isLiked {
                     Image(systemSymbol: .heartFill)
@@ -124,7 +124,7 @@ private struct SongActions: View {
             .disabled(true)
 
             Button {
-                // Download action
+                // Song download action
             } label: {
                 Image(systemSymbol: .arrowDownCircle)
             }
@@ -135,10 +135,9 @@ private struct SongActions: View {
 }
 
 struct AlbumView: View {
-    
     var album: Album
     var songs: [Song] = []
-    
+
     var body: some View {
         ScrollView {
             VStack {
@@ -146,7 +145,7 @@ struct AlbumView: View {
                     albumName: album.name,
                     artistName: album.artistName
                 )
-                
+
                 AlbumActions()
                     .padding(.bottom, 30)
 
@@ -159,7 +158,7 @@ struct AlbumView: View {
         .toolbar(content: {
             ToolbarItem(content: {
                 Button {
-
+                    // Album download action
                 } label: {
                     Image(systemSymbol: .arrowDownCircle)
                 }
