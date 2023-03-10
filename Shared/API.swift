@@ -4,6 +4,7 @@ import JellyfinAPI
 
 struct API {
     let albumService: any AlbumService
+    let songService: any SongService
 }
 
 private struct APIEnvironmentKey: EnvironmentKey {
@@ -30,6 +31,25 @@ extension API {
                         isDownloaded: false,
                         isLiked: false
                     ),
+                ]
+            ),
+            songService: DummySongService(
+                songs: [
+                    Song(
+                        uuid: "1",
+                        index: 1,
+                        name: "Song name 1"
+                    ),
+                    Song(
+                        uuid: "2",
+                        index: 2,
+                        name: "Song name 2 but this one has very long name"
+                    ),
+                    Song(
+                        uuid: "3",
+                        index: 3,
+                        name: "Song name 3"
+                    )
                 ]
             )
         )

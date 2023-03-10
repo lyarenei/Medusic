@@ -26,9 +26,13 @@ struct JellyMusicApp: App {
 
 
         let albumService = DefaultAlbumService(client: jellyfinClient)
+        let songService = DefaultSongService(client: jellyfinClient)
 
         //api = .preview
-        api = API(albumService: albumService)
+        api = API(
+            albumService: albumService,
+            songService: songService
+        )
 
         // Memory image never expires.
         Kingfisher.ImageCache.default.memoryStorage.config.expiration = .never
