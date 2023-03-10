@@ -1,7 +1,7 @@
 import SwiftUI
 import Kingfisher
 
-struct AlbumTile: View {
+struct AlbumTileComponent: View {
 
     var album: Album
 
@@ -31,7 +31,7 @@ struct AlbumTile_Previews: PreviewProvider {
     static var album = Album(uuid: "1234", name: "Beautiful album name", artistName: "Loong Loong maaaaaaaanrgagr", isDownloaded: false, isLiked: true)
 
     static var previews: some View {
-        AlbumTile(album: album)
+        AlbumTileComponent(album: album)
             .environment(\.api, .preview)
     }
 }
