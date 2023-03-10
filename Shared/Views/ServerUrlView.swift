@@ -41,12 +41,6 @@ struct ServerUrlView: View {
                     .foregroundColor(.white)
                     .background(Color.accentColor)
                     .cornerRadius(10)
-                    .onDisappear {
-                        UserDefaults.standard.set(
-                            serverUrl,
-                            forKey: "server_url"
-                        )
-                    }
 
                 Spacer()
             }
@@ -56,6 +50,12 @@ struct ServerUrlView: View {
             serverUrl = UserDefaults.standard.string(
                 forKey: "server_url"
             ) ?? ""
+        }
+        .onDisappear {
+            UserDefaults.standard.set(
+                serverUrl,
+                forKey: "server_url"
+            )
         }
     }
 }
