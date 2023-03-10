@@ -16,8 +16,20 @@ extension API {
             albumService: FakeAlbumService(
                 albums: [
                     // TODO: Add some more preview albums.
-                    Album(uuid: "1", name: "Very nice album.", artistName: "yo mama"),
-                    Album(uuid: "2", name: "Another nice album.", artistName: "yo tata"),
+                    Album(
+                        uuid: "1",
+                        name: "Very nice album.",
+                        artistName: "yo mama",
+                        isDownloaded: false,
+                        isLiked: false
+                    ),
+                    Album(
+                        uuid: "2",
+                        name: "Another nice album.",
+                        artistName: "yo tata",
+                        isDownloaded: false,
+                        isLiked: false
+                    ),
                 ]
             )
         )

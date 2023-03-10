@@ -6,18 +6,26 @@ public struct Album {
     public var uuid: String
     public var name: String
     public var artistName: String
+    public var isDownloaded: Bool
+    public var isLiked: Bool
 
     public init(
         uuid: String,
         name: String,
-        artistName: String
+        artistName: String,
+        isDownloaded: Bool,
+        isLiked: Bool
     ) {
         self.uuid = uuid
         self.name = name
         self.artistName = artistName
+        self.isDownloaded = isDownloaded
+        self.isLiked = isLiked
     }
 
     public init(from item: BaseItemDto) {
+        self.isDownloaded = false
+
         if let albumId = item.id {
             self.uuid = albumId
         } else {
@@ -34,6 +42,12 @@ public struct Album {
             self.artistName = name
         } else {
             self.artistName = ""
+        }
+
+        if let isLiked = item.userData?.isFavorite {
+            self.isLiked = isLiked
+        } else {
+            self.isLiked = false
         }
     }
 }
