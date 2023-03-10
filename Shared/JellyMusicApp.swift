@@ -24,14 +24,10 @@ struct JellyMusicApp: App {
             }
         }
 
-
-        let albumService = DefaultAlbumService(client: jellyfinClient)
-        let songService = DefaultSongService(client: jellyfinClient)
-
         //api = .preview
         api = API(
-            albumService: albumService,
-            songService: songService,
+            albumService: DefaultAlbumService(client: jellyfinClient),
+            songService: DefaultSongService(client: jellyfinClient),
             imageService: DefaultImageService(client: jellyfinClient)
         )
 
