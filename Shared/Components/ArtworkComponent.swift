@@ -8,9 +8,6 @@ struct ArtworkComponent: View {
     var api
 
     @State
-    private var isLoading = true
-
-    @State
     private var artworkImage: PlatformImage? = nil
 
     var itemId: String
