@@ -8,19 +8,22 @@ public struct Album {
     public var artistName: String
     public var isDownloaded: Bool
     public var isLiked: Bool
+    public var songs: [Song]
 
     public init(
         uuid: String,
         name: String,
         artistName: String,
         isDownloaded: Bool,
-        isLiked: Bool
+        isLiked: Bool,
+        songs: [Song] = []
     ) {
         self.uuid = uuid
         self.name = name
         self.artistName = artistName
         self.isDownloaded = isDownloaded
         self.isLiked = isLiked
+        self.songs = songs
     }
 
     public init(from item: BaseItemDto) {
@@ -49,6 +52,8 @@ public struct Album {
         } else {
             self.isLiked = false
         }
+
+        self.songs = []
     }
 }
 

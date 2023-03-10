@@ -8,6 +8,7 @@ extension Album: Codable {
         case artistName
         case isDownloaded
         case isLiked
+        case songs
     }
 
     public init(from decoder: Decoder) throws {
@@ -17,6 +18,7 @@ extension Album: Codable {
         self.artistName = try container.decode(String.self, forKey: .artistName)
         self.isDownloaded = try container.decode(Bool.self, forKey: .isDownloaded)
         self.isLiked = try container.decode(Bool.self, forKey: .isLiked)
+        self.songs = try container.decode([Song].self, forKey: .songs)
     }
 
     public func encode(to encoder: Encoder) throws {
@@ -26,6 +28,7 @@ extension Album: Codable {
         try container.encode(artistName, forKey: .artistName)
         try container.encode(isDownloaded, forKey: .isDownloaded)
         try container.encode(isLiked, forKey: .isLiked)
+        try container.encode(songs, forKey: .songs)
     }
 }
 
