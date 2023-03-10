@@ -5,9 +5,6 @@ struct AlbumListView: View {
 
     @Environment(\.api)
     var api
-    
-    @State
-    private var isActive = false
 
     @State
     private var albums: [Album] = []
@@ -21,7 +18,6 @@ struct AlbumListView: View {
             LazyVGrid(columns: layout) {
                 ForEach(albums) { album in
                     NavigationLink(
-                        isActive: $isActive,
                         destination: {
                             AlbumView(album: album)
                         },
