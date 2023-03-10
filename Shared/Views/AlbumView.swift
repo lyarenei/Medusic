@@ -103,7 +103,7 @@ private struct SongEntry: View {
                     height: 1,
                     alignment: .bottom
                 )
-                .foregroundColor(Color.gray),
+                .foregroundColor(Color(.separator)),
             alignment: .bottom
         )
     }
