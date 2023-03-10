@@ -1,11 +1,16 @@
 import SwiftUI
 
 struct ServerUrlView: View {
-    
-    @State private var serverUrl = ""
-    @Binding var isLoggedIn: Bool
-    @Binding var isLoginPresented: Bool
-    
+
+    @State
+    private var serverUrl = ""
+
+    @Binding
+    var isLoggedIn: Bool
+
+    @Binding
+    var isLoginPresented: Bool
+
     var body: some View {
         NavigationView {
             VStack(spacing: 15) {
@@ -52,10 +57,13 @@ struct ServerUrlView: View {
 
 #if DEBUG
 struct ServerUrlView_Previews: PreviewProvider {
-    
-    @State static var isLoggedIn = false
-    @State static var isLoginPresented = false
-    
+
+    @State
+    static var isLoggedIn = false
+
+    @State
+    static var isLoginPresented = false
+
     static var previews: some View {
         ServerUrlView(
             isLoggedIn: $isLoggedIn,
