@@ -6,7 +6,7 @@ struct AccountSettingsView: View {
     private var isLoggedIn = false
     
     @State
-    var isLoginPresented = false
+    private var isLoginPresented = false
     
     var body: some View {
         Button {
