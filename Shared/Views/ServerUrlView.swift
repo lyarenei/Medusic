@@ -52,6 +52,11 @@ struct ServerUrlView: View {
             }
             .padding()
         }
+        .onAppear {
+            serverUrl = UserDefaults.standard.string(
+                forKey: "server_url"
+            ) ?? ""
+        }
     }
 }
 
