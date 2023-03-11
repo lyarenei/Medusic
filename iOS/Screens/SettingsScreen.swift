@@ -1,6 +1,6 @@
 import SwiftUI
 
-struct SettingsView: View {
+struct SettingsScreen: View {
     var body: some View {
         NavigationView {
             List {
@@ -25,9 +25,9 @@ struct SettingsView: View {
 }
 
 #if DEBUG
-struct SettingsView_Previews: PreviewProvider {
+struct SettingsScreen_Previews: PreviewProvider {
     static var previews: some View {
-        SettingsView()
+        SettingsScreen()
     }
 }
 #endif

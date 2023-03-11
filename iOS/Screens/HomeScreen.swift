@@ -17,7 +17,7 @@ struct HomeScreen: View {
                 }
                 .tag("search_tab")
 
-            SettingsView()
+            SettingsScreen()
                 .tabItem {
                     Image(systemSymbol: .gear)
                     Text("Settings")
