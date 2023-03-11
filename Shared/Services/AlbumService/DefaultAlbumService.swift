@@ -1,5 +1,5 @@
-import Foundation
 import Boutique
+import Foundation
 import JellyfinAPI
 
 final class DefaultAlbumService: AlbumService {
@@ -14,19 +14,20 @@ final class DefaultAlbumService: AlbumService {
 
     // TODO: Add pagination.
     func getAlbums(for userId: String) async throws -> [Album] {
-        do {
-            var albums: [Album] = []
-            let requestParams = JellyfinAPI.Paths.GetItemsParameters(
-                userID: userId,
-                isRecursive: true,
-                includeItemTypes: [.musicAlbum]
-            )
+        let requestParams = JellyfinAPI.Paths.GetItemsParameters(
+            userID: userId,
+            isRecursive: true,
+            includeItemTypes: [.musicAlbum]
+        )
 
-            let request = JellyfinAPI.Paths.getItems(parameters: requestParams)
+        let request = JellyfinAPI.Paths.getItems(parameters: requestParams)
+
+        do {
+            var remoteAlbums: [Album] = []
             let response = try await client.send(request)
-            albums = response.value.items!.map{Album(from: $0)}
-            try? await $albums.removeAll().insert(albums).run()
-            return albums
+            remoteAlbums = response.value.items!.map { Album(from: $0) }
+            try? await $albums.removeAll().insert(remoteAlbums).run()
+            return remoteAlbums
         } catch {
             return await albums
         }
