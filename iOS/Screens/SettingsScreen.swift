@@ -79,11 +79,11 @@ private struct AboutSever: View {
     var api
 
     @State
-    private var isConnected = false
+    private var isOnline = false
 
     var body: some View {
         VStack(spacing: 0) {
-            if isConnected {
+            if isOnline {
                 ServerInfo()
                     .font(.callout)
                     .padding(.leading, 15)
@@ -97,8 +97,7 @@ private struct AboutSever: View {
         .onAppear {
             Task {
                 do {
-                    // TODO: pinging the server as placeholder
-                    isConnected = try await api.systemService.ping()
+                    isOnline = try await api.systemService.ping()
                 } catch {
                     print("Failed to get server info: \(error)")
                 }
