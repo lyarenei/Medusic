@@ -65,7 +65,7 @@ private struct SongList: View {
                 SongEntry(song: song)
                     .padding(.leading)
                     .padding(.trailing)
-                    .font(.body)
+                    .font(.title3)
 
                 Divider()
                     .padding(.leading, 10)
