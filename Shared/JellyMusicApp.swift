@@ -12,7 +12,7 @@ struct JellyMusicApp: App {
             url: URL(string: "http://localhost:8096")!,
             client: "JellyMusic",
             deviceName: UIDevice.current.model,
-            deviceID: "some_id",
+            deviceID: UIDevice.current.identifierForVendor?.uuidString ?? "missing_id",
             version: "0.0"))
 
         Task {
