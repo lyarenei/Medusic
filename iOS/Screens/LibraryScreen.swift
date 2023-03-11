@@ -92,40 +92,31 @@ private struct LibraryNavigationItems: View {
     }
 }
 
-private struct FavoritesAlbumSection: View {
-
-    var albums: [Album]
-
-    var body: some View {
-        VStack(alignment: .leading, spacing: 20) {
-            Text("Favorite albums")
-                .font(.title)
-                .bold()
-                .padding(.leading, 5)
-
-            AlbumTileListComponent(albums: albums)
-                .padding(.leading, 10)
-                .padding(.trailing, 10)
-        }
-    }
-}
-
 struct LibraryScreen: View {
 
     @Environment(\.api)
     var api
 
     @State
-    private var albums: [Album] = []
+    private var favoriteAlbums: [Album] = []
 
     var body: some View {
         NavigationView {
             ScrollView {
-                VStack(spacing: 15) {
-                    LibraryNavigationItems()
-                        .padding(.top, 10)
+                VStack(spacing: 25) {
+                    VStack(alignment: .leading, spacing: 15) {
+                        LibraryNavigationItems()
+                            .padding(.top, 10)
 
-                    FavoritesAlbumSection(albums: albums)
+                        Text("Favorite albums")
+                            .font(.title)
+                            .bold()
+                            .padding(.leading, 5)
+                    }
+
+                    AlbumTileListComponent(albums: favoriteAlbums)
+                        .padding(.leading, 10)
+                        .padding(.trailing, 10)
                 }
                 .padding(.leading, 10)
                 .padding(.trailing, 10)
@@ -136,7 +127,7 @@ struct LibraryScreen: View {
             Task {
                 Task {
                     do {
-                        albums = try await api.albumService.getAlbums(for: "0f0edfcf31d64740bd577afe8e94b752")
+                        favoriteAlbums = try await api.albumService.getAlbums(for: "0f0edfcf31d64740bd577afe8e94b752")
                     } catch {
                         print("Failed to fetch albums.")
                     }
