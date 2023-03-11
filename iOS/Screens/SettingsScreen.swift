@@ -107,27 +107,56 @@ private struct AboutSever: View {
     }
 }
 
+private struct JellyfinSection: View {
+    var body: some View {
+        Section(
+            header: Text("Jellyfin"),
+            content: {
+                Button {
+                    // Spawn sheet with server url form
+                } label: {
+                    Image(systemSymbol: .link)
+                    Text("Server URL")
+                }
+
+                Button {
+                    // Spawn sheet with account form
+                } label: {
+                    Image(systemSymbol: .personCropCircle)
+                    Text("Account")
+                }
+            }
+        )
+    }
+}
+
+private struct GeneralSection: View {
+    var body: some View {
+        Section(
+            header: Text("General"),
+            content: {
+                NavigationLink {
+                    AppearanceSettingsView()
+                } label: {
+                    Image(systemSymbol: .paintbrushPointed)
+                    Text("Appearance")
+                }
+            }
+        )
+    }
+}
+
 struct SettingsScreen: View {
     var body: some View {
         NavigationView {
             VStack(spacing: 10) {
                 List {
-                    NavigationLink {
-                        AccountSettingsView()
-                    } label: {
-                        Image(systemSymbol: .personCropCircle)
-                        Text("Account")
-                    }
-
-                    NavigationLink {
-                        AppearanceSettingsView()
-                    } label: {
-                        Image(systemSymbol: .paintbrushPointed)
-                        Text("Appearance")
-                    }
+                    JellyfinSection()
+                    GeneralSection()
                 }
                 .navigationTitle("Settings")
                 .listStyle(.grouped)
+                .buttonStyle(.plain)
 
                 AboutSever()
             }
