@@ -37,8 +37,11 @@ private struct ServerInfo: View {
                 .padding(.bottom, 15)
 
             InfoEntry(name: "URL", value: serverUrl)
+            Divider()
             InfoEntry(name: "Name", value: serverName)
+            Divider()
             InfoEntry(name: "Version", value: serverVersion)
+            Divider()
 
             if isOnline {
                 InfoEntry(name: "Status", value: statusText)
@@ -46,6 +49,26 @@ private struct ServerInfo: View {
             } else {
                 InfoEntry(name: "Status", value: statusText)
                     .foregroundColor(.red)
+            }
+
+            Divider()
+        }
+        .onAppear {
+            Task {
+                do {
+                    let serverInfo = try await api.systemService.getServerInfo()
+
+                    // TODO: load server url from config
+                    serverUrl = "http://localhost:8096"
+
+                    // Request succeeded, server must be online
+                    isOnline = true
+
+                    serverName = serverInfo.name
+                    serverVersion = serverInfo.version
+                } catch {
+                    print("Failed to get server info: \(error)")
+                }
             }
         }
     }
@@ -59,15 +82,27 @@ private struct AboutSever: View {
     private var isConnected = false
 
     var body: some View {
-        if isConnected {
-            ServerInfo()
-                .font(.callout)
-                .padding(.leading, 15)
-                .padding(.trailing, 15)
-                .padding(.bottom, 15)
-        } else {
-            Text("Not connected to Jellyfin server")
-                .font(.subheadline)
+        VStack(spacing: 0) {
+            if isConnected {
+                ServerInfo()
+                    .font(.callout)
+                    .padding(.leading, 15)
+                    .padding(.trailing, 15)
+                    .padding(.bottom, 15)
+            } else {
+                Text("Not connected to Jellyfin server")
+                    .font(.subheadline)
+            }
+        }
+        .onAppear {
+            Task {
+                do {
+                    // TODO: pinging the server as placeholder
+                    isConnected = try await api.systemService.ping()
+                } catch {
+                    print("Failed to get server info: \(error)")
+                }
+            }
         }
     }
 }
