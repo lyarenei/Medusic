@@ -1,4 +1,5 @@
 import SwiftUI
+import Combine
 import SFSafeSymbols
 
 private struct NavigationEntry<Content: View>: View {
@@ -100,6 +101,9 @@ struct LibraryScreen: View {
     @State
     private var favoriteAlbums: [Album] = []
 
+    @State
+    private var lifetimeCancellables: Cancellables = []
+
     var body: some View {
         NavigationView {
             ScrollView {
@@ -124,15 +128,13 @@ struct LibraryScreen: View {
             .navigationTitle("Library")
         }
         .onAppear {
-            Task {
-                Task {
-                    do {
-                        favoriteAlbums = try await api.albumService.getAlbums(for: "0f0edfcf31d64740bd577afe8e94b752")
-                    } catch {
-                        print("Failed to fetch albums.")
-                    }
+            api.albumService.getAlbums(for: "0f0edfcf31d64740bd577afe8e94b752")
+                .catch { error -> Just<[Album]> in
+                    print("Failed to fetch albums:", error)
+                    return Just([])
                 }
-            }
+                .assign(to: \.favoriteAlbums, on: self)
+                .store(in: &lifetimeCancellables)
         }
     }
 }

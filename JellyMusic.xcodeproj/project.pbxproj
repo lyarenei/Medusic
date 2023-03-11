@@ -7,6 +7,8 @@
 	objects = {
 
 /* Begin PBXBuildFile section */
+		4848B22629BCBC2000EB2FAA /* Cancellables.swift in Sources */ = {isa = PBXBuildFile; fileRef = 4848B22529BCBC2000EB2FAA /* Cancellables.swift */; };
+		4848B22729BCBC2000EB2FAA /* Cancellables.swift in Sources */ = {isa = PBXBuildFile; fileRef = 4848B22529BCBC2000EB2FAA /* Cancellables.swift */; };
 		48C1F8BC29B9E5C9003BE048 /* Kingfisher in Frameworks */ = {isa = PBXBuildFile; productRef = 48C1F8BB29B9E5C9003BE048 /* Kingfisher */; };
 		48C1F8BF29B9E6D1003BE048 /* Boutique in Frameworks */ = {isa = PBXBuildFile; productRef = 48C1F8BE29B9E6D1003BE048 /* Boutique */; };
 		48C1F8C229B9E795003BE048 /* Store+common.swift in Sources */ = {isa = PBXBuildFile; fileRef = 48C1F8C129B9E795003BE048 /* Store+common.swift */; };
@@ -75,6 +77,7 @@
 /* End PBXBuildFile section */
 
 /* Begin PBXFileReference section */
+		4848B22529BCBC2000EB2FAA /* Cancellables.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = Cancellables.swift; sourceTree = "<group>"; };
 		48C1F8C129B9E795003BE048 /* Store+common.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = "Store+common.swift"; sourceTree = "<group>"; };
 		48C1F8C529B9E80D003BE048 /* DTOs+Equatable.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = "DTOs+Equatable.swift"; sourceTree = "<group>"; };
 		48C1F8C829B9EA60003BE048 /* DTOs+Identifiable.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = "DTOs+Identifiable.swift"; sourceTree = "<group>"; };
@@ -225,6 +228,7 @@
 				9B70BDA229B93228000DB31C /* Components */,
 				9B80473329B768000069B407 /* JellyMusicApp.swift */,
 				48C1F8DC29B9FF91003BE048 /* API.swift */,
+				4848B22529BCBC2000EB2FAA /* Cancellables.swift */,
 				9B80473529B768010069B407 /* Assets.xcassets */,
 			);
 			path = Shared;
@@ -422,6 +426,7 @@
 				9B80475E29B7D5330069B407 /* HomeScreen.swift in Sources */,
 				48C1F8DD29B9FF91003BE048 /* API.swift in Sources */,
 				48C1F8E129BB7CB4003BE048 /* Image+crossplatform.swift in Sources */,
+				4848B22629BCBC2000EB2FAA /* Cancellables.swift in Sources */,
 				48C1F8C929B9EA60003BE048 /* DTOs+Identifiable.swift in Sources */,
 				9B70BD9D29B91F42000DB31C /* AlbumTileComponent.swift in Sources */,
 				9BDB099929BB2FBF007F99E4 /* ImageService.swift in Sources */,
@@ -464,6 +469,7 @@
 				48C1F8D829B9FDDF003BE048 /* DummyAlbumService.swift in Sources */,
 				48C1F8C729B9E80D003BE048 /* DTOs+Equatable.swift in Sources */,
 				48C1F8D129B9F3E4003BE048 /* DefaultAlbumService.swift in Sources */,
+				4848B22729BCBC2000EB2FAA /* Cancellables.swift in Sources */,
 				9BDB099A29BB2FBF007F99E4 /* ImageService.swift in Sources */,
 			);
 			runOnlyForDeploymentPostprocessing = 0;

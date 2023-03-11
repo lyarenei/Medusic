@@ -1,4 +1,5 @@
 import SwiftUI
+import Combine
 import JellyfinAPI
 
 struct AlbumLibraryScreen: View {
@@ -8,6 +9,9 @@ struct AlbumLibraryScreen: View {
 
     @State
     private var albums: [Album] = []
+
+    @State
+    private var lifetimeCancellables: Cancellables = []
     
     var body: some View {
         ScrollView(.vertical) {
@@ -17,13 +21,13 @@ struct AlbumLibraryScreen: View {
         }
         .navigationTitle("Albums")
         .onAppear {
-            Task {
-                do {
-                    albums = try await api.albumService.getAlbums(for: "0f0edfcf31d64740bd577afe8e94b752")
-                } catch {
-                    print("Failed to fetch albums.")
+            api.albumService.getAlbums(for: "0f0edfcf31d64740bd577afe8e94b752")
+                .catch { error -> Just<[Album]> in
+                    print("Failed to fetch albums:", error)
+                    return Just([])
                 }
-            }
+                .assign(to: \.albums, on: self)
+                .store(in: &lifetimeCancellables)
         }
     }
 }
