@@ -78,29 +78,21 @@ private struct AboutSever: View {
     @Environment(\.api)
     var api
 
+    // TODO: == is server URL from config not empty
     @State
-    private var isOnline = false
+    private var isConfigured = true
 
     var body: some View {
         VStack(spacing: 0) {
-            if isOnline {
+            if isConfigured {
                 ServerInfo()
                     .font(.callout)
                     .padding(.leading, 15)
                     .padding(.trailing, 15)
                     .padding(.bottom, 15)
             } else {
-                Text("Not connected to Jellyfin server")
+                Text("Jellyfin server not configured")
                     .font(.subheadline)
-            }
-        }
-        .onAppear {
-            Task {
-                do {
-                    isOnline = try await api.systemService.ping()
-                } catch {
-                    print("Failed to get server info: \(error)")
-                }
             }
         }
     }
