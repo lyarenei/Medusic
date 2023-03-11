@@ -129,9 +129,9 @@ struct LibraryScreen: View {
         }
         .onAppear {
             api.albumService.getAlbums(for: "0f0edfcf31d64740bd577afe8e94b752")
-                .catch { error -> Just<[Album]> in
+                .catch { error -> Empty<[Album], Never> in
                     print("Failed to fetch albums:", error)
-                    return Just([])
+                    return Empty()
                 }
                 .assign(to: \.favoriteAlbums, on: self)
                 .store(in: &lifetimeCancellables)
