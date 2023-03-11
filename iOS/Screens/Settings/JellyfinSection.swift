@@ -2,23 +2,42 @@ import SwiftUI
 
 extension SettingsScreen {
     struct JellyfinSection: View {
+        // TODO: would be nice to actually save these somewhere
+
+        @State
+        var serverUrl = ""
+
+        @State
+        var username = ""
+
+        @State
+        var password = ""
+
         var body: some View {
             Section(
                 header: Text("Jellyfin"),
                 content: {
-                    Button {
-                        // Spawn sheet with server url form
-                    } label: {
-                        Image(systemSymbol: .link)
-                        Text("Server URL")
-                    }
+                    TextField(
+                        "Server URL",
+                        text: $serverUrl
+                    )
+                    .keyboardType(.URL)
+                    .disableAutocorrection(true)
+                    .autocapitalization(.none)
 
-                    Button {
-                        // Spawn sheet with account form
-                    } label: {
-                        Image(systemSymbol: .personCropCircle)
-                        Text("Account")
-                    }
+                    TextField(
+                        "Username",
+                        text: $username
+                    )
+                    .disableAutocorrection(true)
+                    .autocapitalization(.none)
+
+                    SecureField(
+                        "Password",
+                        text: $password
+                    )
+                    .disableAutocorrection(true)
+                    .autocapitalization(.none)
                 }
             )
         }
