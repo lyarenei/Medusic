@@ -13,6 +13,7 @@ struct SettingsScreen: View {
                 .listStyle(.grouped)
                 .buttonStyle(.plain)
 
+                // TODO: allow keyboard to cover this
                 AboutServer()
             }
         }

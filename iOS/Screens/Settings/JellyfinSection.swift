@@ -13,6 +13,7 @@ extension SettingsScreen {
         @State
         var password = ""
 
+        // TODO: don't forget about validations (url is url, user logs in)
         var body: some View {
             Section(
                 header: Text("Jellyfin"),
