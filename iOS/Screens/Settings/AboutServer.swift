@@ -50,9 +50,6 @@ private struct ServerInfo: View {
     private var serverName = ""
 
     @State
-    private var serverUrl = ""
-
-    @State
     private var serverVersion = ""
 
     var body: some View {
@@ -60,10 +57,6 @@ private struct ServerInfo: View {
         VStack(spacing: 5) {
             Text("Server information")
                 .padding(.bottom, 15)
-
-            InfoEntry(name: "URL", value: serverUrl)
-
-            Divider()
 
             InfoEntry(name: "Name", value: serverName)
 
@@ -87,9 +80,6 @@ private struct ServerInfo: View {
             Task {
                 do {
                     let serverInfo = try await api.systemService.getServerInfo()
-
-                    // TODO: load server url from config
-                    serverUrl = "http://localhost:8096"
 
                     // Request succeeded, server must be online
                     isOnline = true
