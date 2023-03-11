@@ -43,7 +43,7 @@ struct JellyMusicApp: App {
         WindowGroup {
             Group {
                 #if os(iOS)
-                HomeView()
+                HomeScreen()
                 #endif
 
                 #if os(macOS)

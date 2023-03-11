@@ -64,7 +64,7 @@ private struct LibraryNavigationItems: View {
             Divider()
 
             NavigationEntry(
-                destination: { AlbumListView() },
+                destination: { AlbumLibraryScreen() },
                 text: "Albums",
                 symbol: .squareStack
             )
@@ -92,7 +92,7 @@ private struct LibraryNavigationItems: View {
     }
 }
 
-struct LibraryView: View {
+struct LibraryScreen: View {
     var body: some View {
         NavigationView {
             ScrollView {
@@ -107,9 +107,9 @@ struct LibraryView: View {
 }
 
 #if DEBUG
-struct LibraryNavigationView_Previews: PreviewProvider {
+struct LibraryScreen_Previews: PreviewProvider {
     static var previews: some View {
-        LibraryView()
+        LibraryScreen()
     }
 }
 #endif

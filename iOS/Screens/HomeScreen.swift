@@ -1,9 +1,9 @@
 import SwiftUI
 
-struct HomeView: View {
+struct HomeScreen: View {
     var body: some View {
         TabView {
-            LibraryView()
+            LibraryScreen()
                 .tabItem {
                     Image(systemSymbol: .musicQuarternote3)
                     Text("Library")
@@ -28,9 +28,9 @@ struct HomeView: View {
 }
 
 #if DEBUG
-struct HomeView_Previews: PreviewProvider {
+struct HomeScreen_Previews: PreviewProvider {
     static var previews: some View {
-        HomeView()
+        HomeScreen()
     }
 }
 #endif

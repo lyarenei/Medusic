@@ -1,7 +1,7 @@
 import SwiftUI
 import JellyfinAPI
 
-struct AlbumListView: View {
+struct AlbumLibraryScreen: View {
 
     @Environment(\.api)
     var api
@@ -17,7 +17,7 @@ struct AlbumListView: View {
                 ForEach(albums) { album in
                     NavigationLink(
                         destination: {
-                            AlbumView(album: album)
+                            AlbumDetailScreen(album: album)
                         },
                         label: {
                             AlbumTileComponent(album: album)
@@ -44,9 +44,9 @@ struct AlbumListView: View {
 }
 
 #if DEBUG
-struct SectionView_Previews: PreviewProvider {
+struct AlbumLibraryScreen_Previews: PreviewProvider {
     static var previews: some View {
-        AlbumListView()
+        AlbumLibraryScreen()
             .environment(\.api, .preview)
     }
 }

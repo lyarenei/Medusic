@@ -121,7 +121,7 @@ private struct SongActions: View {
     }
 }
 
-struct AlbumView: View {
+struct AlbumDetailScreen: View {
 
     @Environment(\.api)
     var api
@@ -198,7 +198,7 @@ struct AlbumView: View {
 }
 
 #if DEBUG
-struct AlbumView_Previews: PreviewProvider {
+struct AlbumDetailScreen_Previews: PreviewProvider {
     static let album = Album(
         uuid: "abc",
         name: "Album name",
@@ -223,9 +223,9 @@ struct AlbumView_Previews: PreviewProvider {
     )
     
     static var previews: some View {
-        AlbumView(album: album)
+        AlbumDetailScreen(album: album)
             .environment(\.api, .preview)
-        AlbumView(album: albumLong)
+        AlbumDetailScreen(album: albumLong)
     }
 }
 #endif
