@@ -6,6 +6,7 @@ struct API {
     let albumService: any AlbumService
     let songService: any SongService
     let imageService: any ImageService
+    let systemService: any SystemService
 }
 
 private struct APIEnvironmentKey: EnvironmentKey {
@@ -52,7 +53,8 @@ extension API {
                     )
                 ]
             ),
-            imageService: DummyImageService()
+            imageService: DummyImageService(),
+            systemService: MockSystemService()
         )
     }
 }

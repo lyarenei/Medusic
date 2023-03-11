@@ -30,6 +30,12 @@
 		48C1F8E229BB7CB4003BE048 /* Image+crossplatform.swift in Sources */ = {isa = PBXBuildFile; fileRef = 48C1F8E029BB7CB4003BE048 /* Image+crossplatform.swift */; };
 		48C1F8E429BB827E003BE048 /* JellyfinImageProvider.swift in Sources */ = {isa = PBXBuildFile; fileRef = 48C1F8E329BB827E003BE048 /* JellyfinImageProvider.swift */; };
 		48C1F8E529BB827E003BE048 /* JellyfinImageProvider.swift in Sources */ = {isa = PBXBuildFile; fileRef = 48C1F8E329BB827E003BE048 /* JellyfinImageProvider.swift */; };
+		9B3D449C29BCF89A0054C9E0 /* SystemService.swift in Sources */ = {isa = PBXBuildFile; fileRef = 9B3D449B29BCF89A0054C9E0 /* SystemService.swift */; };
+		9B3D449D29BCF89A0054C9E0 /* SystemService.swift in Sources */ = {isa = PBXBuildFile; fileRef = 9B3D449B29BCF89A0054C9E0 /* SystemService.swift */; };
+		9B3D449F29BCF9490054C9E0 /* DefaultSystemService.swift in Sources */ = {isa = PBXBuildFile; fileRef = 9B3D449E29BCF9490054C9E0 /* DefaultSystemService.swift */; };
+		9B3D44A029BCF9490054C9E0 /* DefaultSystemService.swift in Sources */ = {isa = PBXBuildFile; fileRef = 9B3D449E29BCF9490054C9E0 /* DefaultSystemService.swift */; };
+		9B3D44A229BCFD370054C9E0 /* MockSystemService.swift in Sources */ = {isa = PBXBuildFile; fileRef = 9B3D44A129BCFD370054C9E0 /* MockSystemService.swift */; };
+		9B3D44A329BCFD370054C9E0 /* MockSystemService.swift in Sources */ = {isa = PBXBuildFile; fileRef = 9B3D44A129BCFD370054C9E0 /* MockSystemService.swift */; };
 		9B61365A29BC7002004C85EC /* AlbumTileListComponent.swift in Sources */ = {isa = PBXBuildFile; fileRef = 9B61365929BC7002004C85EC /* AlbumTileListComponent.swift */; };
 		9B61365B29BC7002004C85EC /* AlbumTileListComponent.swift in Sources */ = {isa = PBXBuildFile; fileRef = 9B61365929BC7002004C85EC /* AlbumTileListComponent.swift */; };
 		9B61365E29BCB254004C85EC /* MacHomeScreen.swift in Sources */ = {isa = PBXBuildFile; fileRef = 9B61365D29BCB254004C85EC /* MacHomeScreen.swift */; };
@@ -86,6 +92,9 @@
 		48C1F8DC29B9FF91003BE048 /* API.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = API.swift; sourceTree = "<group>"; };
 		48C1F8E029BB7CB4003BE048 /* Image+crossplatform.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = "Image+crossplatform.swift"; sourceTree = "<group>"; };
 		48C1F8E329BB827E003BE048 /* JellyfinImageProvider.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = JellyfinImageProvider.swift; sourceTree = "<group>"; };
+		9B3D449B29BCF89A0054C9E0 /* SystemService.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = SystemService.swift; sourceTree = "<group>"; };
+		9B3D449E29BCF9490054C9E0 /* DefaultSystemService.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = DefaultSystemService.swift; sourceTree = "<group>"; };
+		9B3D44A129BCFD370054C9E0 /* MockSystemService.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = MockSystemService.swift; sourceTree = "<group>"; };
 		9B61365929BC7002004C85EC /* AlbumTileListComponent.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = AlbumTileListComponent.swift; sourceTree = "<group>"; };
 		9B61365D29BCB254004C85EC /* MacHomeScreen.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = MacHomeScreen.swift; sourceTree = "<group>"; };
 		9B70BD9C29B91F42000DB31C /* AlbumTileComponent.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = AlbumTileComponent.swift; sourceTree = "<group>"; };
@@ -152,6 +161,7 @@
 		48C1F8CE29B9F3DB003BE048 /* Services */ = {
 			isa = PBXGroup;
 			children = (
+				9B3D449A29BCF8730054C9E0 /* SystemService */,
 				9BDB099729BB2FAD007F99E4 /* ImageService */,
 				9BDB099529BB2F8B007F99E4 /* AlbumService */,
 				9BDB099629BB2F9A007F99E4 /* SongService */,
@@ -166,6 +176,16 @@
 				48C1F8E029BB7CB4003BE048 /* Image+crossplatform.swift */,
 			);
 			path = Common;
+			sourceTree = "<group>";
+		};
+		9B3D449A29BCF8730054C9E0 /* SystemService */ = {
+			isa = PBXGroup;
+			children = (
+				9B3D449B29BCF89A0054C9E0 /* SystemService.swift */,
+				9B3D449E29BCF9490054C9E0 /* DefaultSystemService.swift */,
+				9B3D44A129BCFD370054C9E0 /* MockSystemService.swift */,
+			);
+			path = SystemService;
 			sourceTree = "<group>";
 		};
 		9B61365429BC6E19004C85EC /* Screens */ = {
@@ -406,6 +426,8 @@
 				9BDB099C29BB302C007F99E4 /* DefaultImageService.swift in Sources */,
 				9BB754DE29BA8522009BB3A6 /* DTOs+Codable.swift in Sources */,
 				9B80475229B7C7E30069B407 /* MacSettingsView.swift in Sources */,
+				9B3D449C29BCF89A0054C9E0 /* SystemService.swift in Sources */,
+				9B3D44A229BCFD370054C9E0 /* MockSystemService.swift in Sources */,
 				9B80477A29B8C8250069B407 /* AccountSettingsView.swift in Sources */,
 				9B61365A29BC7002004C85EC /* AlbumTileListComponent.swift in Sources */,
 				9B80478029B8CE800069B407 /* AppearanceSettingsView.swift in Sources */,
@@ -433,6 +455,7 @@
 				48C1F8E429BB827E003BE048 /* JellyfinImageProvider.swift in Sources */,
 				9BDB099329BB1F57007F99E4 /* DummySongService.swift in Sources */,
 				9B80477E29B8CDF80069B407 /* SettingsScreen.swift in Sources */,
+				9B3D449F29BCF9490054C9E0 /* DefaultSystemService.swift in Sources */,
 				9BDB09A529BB4816007F99E4 /* ArtworkComponent.swift in Sources */,
 			);
 			runOnlyForDeploymentPostprocessing = 0;
@@ -447,6 +470,7 @@
 				9B80475329B7C7E30069B407 /* MacSettingsView.swift in Sources */,
 				48C1F8DB29B9FEB9003BE048 /* AlbumService.swift in Sources */,
 				48C1F8DE29B9FF91003BE048 /* API.swift in Sources */,
+				9B3D44A329BCFD370054C9E0 /* MockSystemService.swift in Sources */,
 				48C1F8E529BB827E003BE048 /* JellyfinImageProvider.swift in Sources */,
 				9B80477129B89EE40069B407 /* AlbumLibraryScreen.swift in Sources */,
 				9BDB099129BB1E73007F99E4 /* DefaultSongService.swift in Sources */,
@@ -467,8 +491,10 @@
 				48C1F8D829B9FDDF003BE048 /* DummyAlbumService.swift in Sources */,
 				48C1F8C729B9E80D003BE048 /* DTOs+Equatable.swift in Sources */,
 				48C1F8D129B9F3E4003BE048 /* DefaultAlbumService.swift in Sources */,
+				9B3D44A029BCF9490054C9E0 /* DefaultSystemService.swift in Sources */,
 				4848B22729BCBC2000EB2FAA /* Cancellables.swift in Sources */,
 				9BDB099A29BB2FBF007F99E4 /* ImageService.swift in Sources */,
+				9B3D449D29BCF89A0054C9E0 /* SystemService.swift in Sources */,
 			);
 			runOnlyForDeploymentPostprocessing = 0;
 		};

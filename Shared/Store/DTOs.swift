@@ -1,6 +1,11 @@
 import Foundation
 import JellyfinAPI
 
+public struct JellyfinServerInfo {
+    public var name: String
+    public var version: String
+}
+
 public struct Album {
 
     public var uuid: String
