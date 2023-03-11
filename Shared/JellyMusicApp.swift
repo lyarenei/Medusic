@@ -47,7 +47,7 @@ struct JellyMusicApp: App {
                 #endif
 
                 #if os(macOS)
-                ContentView()
+                MacHomeScreen()
                 #endif
             }
             .environment(\.api, api)

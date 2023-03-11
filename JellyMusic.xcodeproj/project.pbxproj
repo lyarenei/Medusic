@@ -32,14 +32,13 @@
 		48C1F8E529BB827E003BE048 /* JellyfinImageProvider.swift in Sources */ = {isa = PBXBuildFile; fileRef = 48C1F8E329BB827E003BE048 /* JellyfinImageProvider.swift */; };
 		9B61365A29BC7002004C85EC /* AlbumTileListComponent.swift in Sources */ = {isa = PBXBuildFile; fileRef = 9B61365929BC7002004C85EC /* AlbumTileListComponent.swift */; };
 		9B61365B29BC7002004C85EC /* AlbumTileListComponent.swift in Sources */ = {isa = PBXBuildFile; fileRef = 9B61365929BC7002004C85EC /* AlbumTileListComponent.swift */; };
+		9B61365E29BCB254004C85EC /* MacHomeScreen.swift in Sources */ = {isa = PBXBuildFile; fileRef = 9B61365D29BCB254004C85EC /* MacHomeScreen.swift */; };
 		9B70BD9D29B91F42000DB31C /* AlbumTileComponent.swift in Sources */ = {isa = PBXBuildFile; fileRef = 9B70BD9C29B91F42000DB31C /* AlbumTileComponent.swift */; };
 		9B70BD9E29B91F42000DB31C /* AlbumTileComponent.swift in Sources */ = {isa = PBXBuildFile; fileRef = 9B70BD9C29B91F42000DB31C /* AlbumTileComponent.swift */; };
 		9B70BDA029B923AE000DB31C /* AlbumDetailScreen.swift in Sources */ = {isa = PBXBuildFile; fileRef = 9B70BD9F29B923AE000DB31C /* AlbumDetailScreen.swift */; };
 		9B70BDA129B923AE000DB31C /* AlbumDetailScreen.swift in Sources */ = {isa = PBXBuildFile; fileRef = 9B70BD9F29B923AE000DB31C /* AlbumDetailScreen.swift */; };
 		9B80474329B768010069B407 /* JellyMusicApp.swift in Sources */ = {isa = PBXBuildFile; fileRef = 9B80473329B768000069B407 /* JellyMusicApp.swift */; };
 		9B80474429B768010069B407 /* JellyMusicApp.swift in Sources */ = {isa = PBXBuildFile; fileRef = 9B80473329B768000069B407 /* JellyMusicApp.swift */; };
-		9B80474529B768010069B407 /* ContentView.swift in Sources */ = {isa = PBXBuildFile; fileRef = 9B80473429B768000069B407 /* ContentView.swift */; };
-		9B80474629B768010069B407 /* ContentView.swift in Sources */ = {isa = PBXBuildFile; fileRef = 9B80473429B768000069B407 /* ContentView.swift */; };
 		9B80474729B768010069B407 /* Assets.xcassets in Resources */ = {isa = PBXBuildFile; fileRef = 9B80473529B768010069B407 /* Assets.xcassets */; };
 		9B80474829B768010069B407 /* Assets.xcassets in Resources */ = {isa = PBXBuildFile; fileRef = 9B80473529B768010069B407 /* Assets.xcassets */; };
 		9B80475229B7C7E30069B407 /* MacSettingsView.swift in Sources */ = {isa = PBXBuildFile; fileRef = 9B80475129B7C7E30069B407 /* MacSettingsView.swift */; };
@@ -88,10 +87,10 @@
 		48C1F8E029BB7CB4003BE048 /* Image+crossplatform.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = "Image+crossplatform.swift"; sourceTree = "<group>"; };
 		48C1F8E329BB827E003BE048 /* JellyfinImageProvider.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = JellyfinImageProvider.swift; sourceTree = "<group>"; };
 		9B61365929BC7002004C85EC /* AlbumTileListComponent.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = AlbumTileListComponent.swift; sourceTree = "<group>"; };
+		9B61365D29BCB254004C85EC /* MacHomeScreen.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = MacHomeScreen.swift; sourceTree = "<group>"; };
 		9B70BD9C29B91F42000DB31C /* AlbumTileComponent.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = AlbumTileComponent.swift; sourceTree = "<group>"; };
 		9B70BD9F29B923AE000DB31C /* AlbumDetailScreen.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = AlbumDetailScreen.swift; sourceTree = "<group>"; };
 		9B80473329B768000069B407 /* JellyMusicApp.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = JellyMusicApp.swift; sourceTree = "<group>"; };
-		9B80473429B768000069B407 /* ContentView.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = ContentView.swift; sourceTree = "<group>"; };
 		9B80473529B768010069B407 /* Assets.xcassets */ = {isa = PBXFileReference; lastKnownFileType = folder.assetcatalog; path = Assets.xcassets; sourceTree = "<group>"; };
 		9B80473A29B768010069B407 /* JellyMusic.app */ = {isa = PBXFileReference; explicitFileType = wrapper.application; includeInIndex = 0; path = JellyMusic.app; sourceTree = BUILT_PRODUCTS_DIR; };
 		9B80474029B768010069B407 /* JellyMusic.app */ = {isa = PBXFileReference; explicitFileType = wrapper.application; includeInIndex = 0; path = JellyMusic.app; sourceTree = BUILT_PRODUCTS_DIR; };
@@ -201,7 +200,6 @@
 			isa = PBXGroup;
 			children = (
 				48C1F8DF29BB7CA8003BE048 /* Common */,
-				9B80473429B768000069B407 /* ContentView.swift */,
 				9B80475429B7CDA40069B407 /* SignInView.swift */,
 				9B80475729B7D4BF0069B407 /* ServerUrlView.swift */,
 			);
@@ -248,6 +246,7 @@
 			children = (
 				9B80475129B7C7E30069B407 /* MacSettingsView.swift */,
 				9B80474229B768010069B407 /* macOS.entitlements */,
+				9B61365D29BCB254004C85EC /* MacHomeScreen.swift */,
 			);
 			path = macOS;
 			sourceTree = "<group>";
@@ -415,7 +414,6 @@
 				9B80476629B86F460069B407 /* LibraryScreen.swift in Sources */,
 				9BB754DB29BA604C009BB3A6 /* DTOs.swift in Sources */,
 				9BDB098D29BB1DD9007F99E4 /* SongService.swift in Sources */,
-				9B80474529B768010069B407 /* ContentView.swift in Sources */,
 				9B70BDA029B923AE000DB31C /* AlbumDetailScreen.swift in Sources */,
 				48C1F8C629B9E80D003BE048 /* DTOs+Equatable.swift in Sources */,
 				9B80475529B7CDA40069B407 /* SignInView.swift in Sources */,
@@ -447,7 +445,6 @@
 				48C1F8E229BB7CB4003BE048 /* Image+crossplatform.swift in Sources */,
 				9B70BD9E29B91F42000DB31C /* AlbumTileComponent.swift in Sources */,
 				9B80475329B7C7E30069B407 /* MacSettingsView.swift in Sources */,
-				9B80474629B768010069B407 /* ContentView.swift in Sources */,
 				48C1F8DB29B9FEB9003BE048 /* AlbumService.swift in Sources */,
 				48C1F8DE29B9FF91003BE048 /* API.swift in Sources */,
 				48C1F8E529BB827E003BE048 /* JellyfinImageProvider.swift in Sources */,
@@ -459,6 +456,7 @@
 				9BDB098E29BB1DD9007F99E4 /* SongService.swift in Sources */,
 				9B61365B29BC7002004C85EC /* AlbumTileListComponent.swift in Sources */,
 				48C1F8C329B9E795003BE048 /* Store+common.swift in Sources */,
+				9B61365E29BCB254004C85EC /* MacHomeScreen.swift in Sources */,
 				9B80474429B768010069B407 /* JellyMusicApp.swift in Sources */,
 				9BDB09A629BB4816007F99E4 /* ArtworkComponent.swift in Sources */,
 				9B70BDA129B923AE000DB31C /* AlbumDetailScreen.swift in Sources */,
