@@ -22,14 +22,14 @@ extension API {
                         name: "Nice album name",
                         artistName: "Album artist",
                         isDownloaded: false,
-                        isLiked: true
+                        isFavorite: true
                     ),
                     Album(
                         uuid: "2",
                         name: "Album with very long name that one gets tired reading it",
                         artistName: "Unamusing artist",
                         isDownloaded: true,
-                        isLiked: false
+                        isFavorite: false
                     ),
                 ]
             ),

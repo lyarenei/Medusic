@@ -7,7 +7,7 @@ public struct Album {
     public var name: String
     public var artistName: String
     public var isDownloaded: Bool
-    public var isLiked: Bool
+    public var isFavorite: Bool
     public var songs: [Song]
 
     public init(
@@ -15,14 +15,14 @@ public struct Album {
         name: String,
         artistName: String,
         isDownloaded: Bool,
-        isLiked: Bool,
+        isFavorite: Bool,
         songs: [Song] = []
     ) {
         self.uuid = uuid
         self.name = name
         self.artistName = artistName
         self.isDownloaded = isDownloaded
-        self.isLiked = isLiked
+        self.isFavorite = isFavorite
         self.songs = songs
     }
 
@@ -47,10 +47,10 @@ public struct Album {
             self.artistName = ""
         }
 
-        if let isLiked = item.userData?.isFavorite {
-            self.isLiked = isLiked
+        if let isFavorite = item.userData?.isFavorite {
+            self.isFavorite = isFavorite
         } else {
-            self.isLiked = false
+            self.isFavorite = false
         }
 
         self.songs = []

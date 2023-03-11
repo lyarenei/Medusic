@@ -96,11 +96,11 @@ private struct SongEntry: View {
 
 private struct SongActions: View {
     let isDownloaded = true
-    let isLiked = true
+    let isFavorite = true
 
     var body: some View {
         let downloadedIcon: SFSymbol = isDownloaded ? .checkmarkCircle : .arrowDownCircle
-        let likedIcon: SFSymbol = isLiked ? .heartFill : .heart
+        let likedIcon: SFSymbol = isFavorite ? .heartFill : .heart
 
         Group {
             Button {
@@ -136,7 +136,7 @@ struct AlbumDetailScreen: View {
 
     var body: some View {
         let downloadedIcon: SFSymbol = album.isDownloaded ? .checkmarkCircle : .arrowDownCircle
-        let likedIcon: SFSymbol = album.isLiked ? .heartFill : .heart
+        let likedIcon: SFSymbol = album.isFavorite ? .heartFill : .heart
 
         ScrollView {
             VStack {
@@ -204,7 +204,7 @@ struct AlbumDetailScreen_Previews: PreviewProvider {
         name: "Album name",
         artistName: "Artist name",
         isDownloaded: false,
-        isLiked: true
+        isFavorite: true
     )
 
     static let albumLong = Album(
@@ -212,7 +212,7 @@ struct AlbumDetailScreen_Previews: PreviewProvider {
         name: "Very long album name that can't possibly fit on one line on phone screen either in vertical or horizontal orientation",
         artistName: "Very long artist name that can't possibly fit on one line on phone screen either in vertical or horizontal orientation",
         isDownloaded: false,
-        isLiked: true,
+        isFavorite: true,
         songs: [
             Song(
                 uuid: "asdf",
