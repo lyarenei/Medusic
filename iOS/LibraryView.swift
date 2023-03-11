@@ -42,16 +42,6 @@ private struct NavigationEntry<Content: View>: View {
     }
 }
 
-private struct NavDivider: View {
-    var body: some View {
-        Divider()
-            // TODO: Remove this, the padding should be contained in the list items
-            // TODO: so their tap area isn't miniscule.
-            .padding(.leading, 10)
-            .padding(.trailing, 10)
-    }
-}
-
 private struct LibraryNavigationItems: View {
     var body: some View {
         VStack(alignment: .leading) {
@@ -62,7 +52,7 @@ private struct LibraryNavigationItems: View {
             )
             .disabled(true)
 
-            NavDivider()
+            Divider()
 
             NavigationEntry(
                 destination: {},
@@ -71,7 +61,7 @@ private struct LibraryNavigationItems: View {
             )
             .disabled(true)
 
-            NavDivider()
+            Divider()
 
             NavigationEntry(
                 destination: { AlbumListView() },
@@ -79,7 +69,7 @@ private struct LibraryNavigationItems: View {
                 symbol: .squareStack
             )
 
-            NavDivider()
+            Divider()
 
             NavigationEntry(
                 destination: {},
@@ -88,7 +78,7 @@ private struct LibraryNavigationItems: View {
             )
             .disabled(true)
 
-            NavDivider()
+            Divider()
 
             NavigationEntry(
                 destination: {},
@@ -97,7 +87,7 @@ private struct LibraryNavigationItems: View {
             )
             .disabled(true)
 
-            NavDivider()
+            Divider()
         }
     }
 }
@@ -108,6 +98,8 @@ struct LibraryView: View {
             ScrollView {
                 LibraryNavigationItems()
                     .padding(.top, 10)
+                    .padding(.leading, 10)
+                    .padding(.trailing, 10)
             }
             .navigationTitle("Library")
         }
