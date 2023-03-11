@@ -8,12 +8,12 @@ final class DummySongService: SongService {
         self.songs = songs
     }
 
-    func getSongs() async throws -> [Song] {
+    func getSongs(with userId: String) async throws -> [Song] {
         return self.songs
     }
 
     // TODO: song needs parent ID field
-    func getSongs(for albumId: String) async throws -> [Song] {
+    func getSongs(with userId: String, for albumId: String) async throws -> [Song] {
         return self.songs
     }
 }

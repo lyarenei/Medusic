@@ -12,20 +12,35 @@ final class DefaultSongService: SongService {
         self.client = client
     }
 
-    // TODO: Add pagination.
-    func getSongs() async throws -> [Song] {
-        do {
-            var remoteSongs: [Song] = []
-            let params = JellyfinAPI.Paths.GetItemsParameters(
-                userID: "0f0edfcf31d64740bd577afe8e94b752",
-                isRecursive: true,
-                includeItemTypes: [.recording],
-                sortBy: ["indexNumber"]
-            )
+    private func fetchSongs(
+        with userId: String,
+        for albumId: Optional<String>,
+        sortBy: [String]
+    ) async throws -> [Song] {
+        var requestParameters = JellyfinAPI.Paths.GetItemsParameters(
+            userID: userId,
+            isRecursive: true,
+            includeItemTypes: [.recording],
+            sortBy: sortBy
+        )
 
-            let req = JellyfinAPI.Paths.getItems(parameters: params)
-            let resp = try await client.send(req)
-            remoteSongs = resp.value.items!.map{Song(from: $0)}
+        if let id = albumId {
+            requestParameters.parentID = id
+        }
+
+        let request = JellyfinAPI.Paths.getItems(parameters: requestParameters)
+        let response = try await client.send(request)
+        return response.value.items!.map{Song(from: $0)}
+    }
+
+    // TODO: Add pagination.
+    func getSongs(with userId: String) async throws -> [Song] {
+        do {
+            let remoteSongs = try await self.fetchSongs(
+                with: userId,
+                for: nil,
+                sortBy: ["parentId", "indexNumber"]
+            )
             try? await $songs.removeAll().insert(remoteSongs).run()
             return remoteSongs
         } catch {
@@ -34,20 +49,13 @@ final class DefaultSongService: SongService {
     }
 
     // TODO: Add pagination.
-    func getSongs(for albumId: String) async throws -> [Song] {
+    func getSongs(with userId: String, for albumId: String) async throws -> [Song] {
         do {
-            var remoteSongs: [Song] = []
-            let params = JellyfinAPI.Paths.GetItemsParameters(
-                userID: "0f0edfcf31d64740bd577afe8e94b752",
-                isRecursive: true,
-                parentID: albumId,
-                includeItemTypes: [.recording],
+            let remoteSongs = try await self.fetchSongs(
+                with: userId,
+                for: albumId,
                 sortBy: ["indexNumber"]
             )
-
-            let req = JellyfinAPI.Paths.getItems(parameters: params)
-            let resp = try await client.send(req)
-            remoteSongs = resp.value.items!.map{Song(from: $0)}
             try? await $songs.removeAll().insert(remoteSongs).run()
             return remoteSongs
         } catch {

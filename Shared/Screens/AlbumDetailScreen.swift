@@ -179,7 +179,10 @@ struct AlbumDetailScreen: View {
                 sleep(2)
 
                 do {
-                    songs = try await api.songService.getSongs(for: album.id)
+                    songs = try await api.songService.getSongs(
+                        with: "0f0edfcf31d64740bd577afe8e94b752",
+                        for: album.id
+                    )
                 } catch {
                     songs = []
                 }
