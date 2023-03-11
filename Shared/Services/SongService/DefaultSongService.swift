@@ -1,5 +1,5 @@
-import Foundation
 import Boutique
+import Foundation
 import JellyfinAPI
 
 final class DefaultSongService: SongService {
@@ -14,7 +14,7 @@ final class DefaultSongService: SongService {
 
     private func fetchSongs(
         with userId: String,
-        for albumId: Optional<String>,
+        for albumId: String?,
         sortBy: [String]
     ) async throws -> [Song] {
         var requestParameters = JellyfinAPI.Paths.GetItemsParameters(
@@ -30,7 +30,7 @@ final class DefaultSongService: SongService {
 
         let request = JellyfinAPI.Paths.getItems(parameters: requestParameters)
         let response = try await client.send(request)
-        return response.value.items!.map{Song(from: $0)}
+        return response.value.items!.map { Song(from: $0) }
     }
 
     // TODO: Add pagination.
