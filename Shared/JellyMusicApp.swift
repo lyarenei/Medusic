@@ -11,7 +11,7 @@ struct JellyMusicApp: App {
         let jellyfinClient = JellyfinClient(configuration: .init(
             url: URL(string: "http://localhost:8096")!,
             client: "JellyMusic",
-            deviceName: "iOS simulator",
+            deviceName: UIDevice.current.model,
             deviceID: "some_id",
             version: "0.0"))
 
