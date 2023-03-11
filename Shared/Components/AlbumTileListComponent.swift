@@ -26,6 +26,7 @@ struct AlbumTileListComponent: View {
     }
 }
 
+#if DEBUG
 struct AlbumTileListComponent_Previews: PreviewProvider {
     static var albums: [Album] = [
         Album(
@@ -50,3 +51,4 @@ struct AlbumTileListComponent_Previews: PreviewProvider {
         AlbumTileListComponent(albums: [])
     }
 }
+#endif
