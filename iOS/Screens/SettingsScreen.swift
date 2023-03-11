@@ -37,10 +37,15 @@ private struct ServerInfo: View {
                 .padding(.bottom, 15)
 
             InfoEntry(name: "URL", value: serverUrl)
+
             Divider()
+
             InfoEntry(name: "Name", value: serverName)
+
             Divider()
+
             InfoEntry(name: "Version", value: serverVersion)
+
             Divider()
 
             if isOnline {
