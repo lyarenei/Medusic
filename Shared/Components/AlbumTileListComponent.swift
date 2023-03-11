@@ -7,14 +7,20 @@ struct AlbumTileListComponent: View {
     var body: some View {
         let layout = [GridItem(.flexible()), GridItem(.flexible())]
 
-        LazyVGrid(columns: layout) {
-            ForEach(albums) { album in
-                NavigationLink {
-                    AlbumDetailScreen(album: album)
-                } label: {
-                    AlbumTileComponent(album: album)
+        if albums.isEmpty {
+            Text("No albums")
+                .font(.title3)
+                .foregroundColor(Color(UIColor.secondaryLabel))
+        } else {
+            LazyVGrid(columns: layout) {
+                ForEach(albums) { album in
+                    NavigationLink {
+                        AlbumDetailScreen(album: album)
+                    } label: {
+                        AlbumTileComponent(album: album)
+                    }
+                    .buttonStyle(.plain)
                 }
-                .buttonStyle(.plain)
             }
         }
     }
@@ -40,5 +46,7 @@ struct AlbumTileListComponent_Previews: PreviewProvider {
 
     static var previews: some View {
         AlbumTileListComponent(albums: albums)
+
+        AlbumTileListComponent(albums: [])
     }
 }
