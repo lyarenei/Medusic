@@ -10,25 +10,10 @@ struct AlbumLibraryScreen: View {
     private var albums: [Album] = []
     
     var body: some View {
-        let layout = [GridItem(.flexible()), GridItem(.flexible())]
-        
         ScrollView(.vertical) {
-            LazyVGrid(columns: layout) {
-                ForEach(albums) { album in
-                    NavigationLink(
-                        destination: {
-                            AlbumDetailScreen(album: album)
-                        },
-                        label: {
-                            AlbumTileComponent(album: album)
-                        }
-                    )
-                    .buttonStyle(.plain)
-                }
-            }
-            .font(.largeTitle)
-            .padding(.leading, 10)
-            .padding(.trailing, 10)
+            AlbumTileListComponent(albums: albums)
+                .padding(.leading, 10)
+                .padding(.trailing, 10)
         }
         .navigationTitle("Albums")
         .onAppear {

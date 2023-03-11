@@ -1,20 +1,44 @@
-//
-//  AlbumTileListComponent.swift
-//  JellyMusic
-//
-//  Created by Lyarenei Aaryin on 11.03.2023.
-//
-
 import SwiftUI
 
 struct AlbumTileListComponent: View {
+
+    var albums: [Album]
+
     var body: some View {
-        Text(/*@START_MENU_TOKEN@*/"Hello, World!"/*@END_MENU_TOKEN@*/)
+        let layout = [GridItem(.flexible()), GridItem(.flexible())]
+
+        LazyVGrid(columns: layout) {
+            ForEach(albums) { album in
+                NavigationLink {
+                    AlbumDetailScreen(album: album)
+                } label: {
+                    AlbumTileComponent(album: album)
+                }
+                .buttonStyle(.plain)
+            }
+        }
     }
 }
 
 struct AlbumTileListComponent_Previews: PreviewProvider {
+    static var albums: [Album] = [
+        Album(
+            uuid: "1",
+            name: "Nice album name",
+            artistName: "Album artist",
+            isDownloaded: false,
+            isLiked: true
+        ),
+        Album(
+            uuid: "2",
+            name: "Album with very long name that one gets tired reading it",
+            artistName: "Unamusing artist",
+            isDownloaded: true,
+            isLiked: false
+        ),
+    ]
+
     static var previews: some View {
-        AlbumTileListComponent()
+        AlbumTileListComponent(albums: albums)
     }
 }
