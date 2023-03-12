@@ -28,8 +28,6 @@ struct JellyMusicApp: App {
         // Limit disk cache size to 1 GB.
         Kingfisher.ImageCache.default.diskStorage.config.sizeLimit = 1000 * 1024 * 1024
 
-        api = .preview
-
         if PREVIEW {
             api = .preview
             return
