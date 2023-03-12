@@ -130,7 +130,7 @@ struct AlbumDetailScreen: View {
                 .disabled(true)
             })
         })
-        .backport.task {
+        .backport.task(priority: .background) {
             isLoading = true
 
             do {

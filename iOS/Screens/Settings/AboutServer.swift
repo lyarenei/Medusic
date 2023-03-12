@@ -77,7 +77,7 @@ private struct ServerInfo: View {
 
             Divider()
         }
-        .backport.task {
+        .backport.task(priority: .background) {
             do {
                 let serverInfo = try await api.systemService.getServerInfo()
 
