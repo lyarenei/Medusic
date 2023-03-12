@@ -41,9 +41,28 @@ struct InputWithLabelComponent: View {
 
 struct InputWithLabelComponent_Previews: PreviewProvider {
     @State
-    static var input = ""
+    static var input1 = "some value"
+
+    @State
+    static var input2 = "some longer value"
 
     static var previews: some View {
-        InputWithLabelComponent(inputText: $input)
+        VStack{
+            InputWithLabelComponent(
+                labelText: "Example",
+                labelSymbol: .return,
+                inputText: $input1
+            )
+            .padding(.leading)
+            .padding(.trailing)
+
+            InputWithLabelComponent(
+                labelText: "Example take 2",
+                labelSymbol: .info,
+                inputText: $input2
+            )
+            .padding(.leading)
+            .padding(.trailing)
+        }
     }
 }
