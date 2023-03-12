@@ -18,7 +18,8 @@ struct SongsLibraryScreen: View {
                         song: song,
                         showAlbumOrder: false,
                         showArtwork: true,
-                        showActions: true
+                        showActions: true,
+                        showAlbumName: true
                     )
                     .font(.title3)
                     .padding(.leading)
