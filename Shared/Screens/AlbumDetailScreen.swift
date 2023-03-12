@@ -62,62 +62,21 @@ private struct SongList: View {
     var body: some View {
         LazyVStack {
             ForEach(songs) { song in
-                SongEntry(song: song)
-                    .padding(.leading)
-                    .padding(.trailing)
-                    .font(.title3)
+                SongEntryComponent(
+                    song: song,
+                    showAlbumOrder: true,
+                    showArtwork: false,
+                    showActions: true
+                )
+                .padding(.leading)
+                .padding(.trailing)
+                .font(.title3)
 
                 Divider()
                     .padding(.leading, 10)
                     .padding(.trailing, 10)
             }
         }
-    }
-}
-
-private struct SongEntry: View {
-    var song: Song
-
-    var body: some View {
-        HStack {
-            Text("\(song.index)")
-                .frame(minWidth: 30)
-
-            Text(song.name)
-                .lineLimit(1)
-
-            Spacer(minLength: 10)
-
-            SongActions()
-        }
-        .frame(height: 40)
-    }
-}
-
-private struct SongActions: View {
-    let isDownloaded = true
-    let isFavorite = true
-
-    var body: some View {
-        let downloadedIcon: SFSymbol = isDownloaded ? .checkmarkCircle : .arrowDownCircle
-        let likedIcon: SFSymbol = isFavorite ? .heartFill : .heart
-
-        Group {
-            Button {
-                // Song like action
-            } label: {
-                Image(systemSymbol: likedIcon)
-            }
-            .disabled(true)
-
-            Button {
-                // Song download action
-            } label: {
-                Image(systemSymbol: downloadedIcon)
-            }
-            .disabled(true)
-        }
-        .frame(width: 25)
     }
 }
 
@@ -176,7 +135,7 @@ struct AlbumDetailScreen: View {
                 isLoading = true
 
                 // Overdramatize loading
-                sleep(2)
+//                sleep(2)
 
                 do {
                     songs = try await api.songService.getSongs(
