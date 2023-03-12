@@ -10,6 +10,8 @@ struct SongsLibraryScreen: View {
     var body: some View {
         ScrollView(.vertical) {
             LazyVStack {
+                // TODO: play/shuffle actions
+
                 ForEach(songs) { song in
                     SongEntryComponent(
                         song: song,
