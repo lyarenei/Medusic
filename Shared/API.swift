@@ -36,21 +36,32 @@ extension API {
             ),
             songService: DummySongService(
                 songs: [
+                    // Songs for album 1
                     Song(
                         uuid: "1",
                         index: 1,
-                        name: "Song name 1"
+                        name: "Song name 1",
+                        parentId: "1"
                     ),
                     Song(
                         uuid: "2",
                         index: 2,
-                        name: "Song name 2 but this one has very long name"
+                        name: "Song name 2 but this one has very long name",
+                        parentId: "1"
                     ),
+                    // Songs for album 2
                     Song(
                         uuid: "3",
-                        index: 3,
-                        name: "Song name 3"
-                    )
+                        index: 1,
+                        name: "Song name 3",
+                        parentId: "2"
+                    ),
+                    Song(
+                        uuid: "4",
+                        index: 2,
+                        name: "Song name 4 but this one has very long name",
+                        parentId: "2"
+                    ),
                 ]
             ),
             imageService: DummyImageService(),

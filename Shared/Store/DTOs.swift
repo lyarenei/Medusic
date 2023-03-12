@@ -68,15 +68,18 @@ public struct Song {
     public var uuid: String
     public var index: Int
     public var name: String
+    public var parentId: String
 
     public init(
         uuid: String,
         index: Int,
-        name: String
+        name: String,
+        parentId: String
     ) {
         self.uuid = uuid
         self.index = index
         self.name = name
+        self.parentId = parentId
     }
 
     public init(from item: BaseItemDto) {
@@ -96,6 +99,12 @@ public struct Song {
             self.name = songName
         } else {
             self.name = ""
+        }
+
+        if let parentId = item.parentID {
+            self.parentId = parentId
+        } else {
+            self.parentId = ""
         }
     }
 }

@@ -37,6 +37,7 @@ extension Song: Codable {
         case uuid
         case index
         case name
+        case parentId
     }
 
     public init(from decoder: Decoder) throws {
@@ -44,6 +45,7 @@ extension Song: Codable {
         self.uuid = try container.decode(String.self, forKey: .uuid)
         self.index = try container.decode(Int.self, forKey: .index)
         self.name = try container.decode(String.self, forKey: .name)
+        self.parentId = try container.decode(String.self, forKey: .parentId)
     }
 
     public func encode(to encoder: Encoder) throws {
@@ -51,5 +53,6 @@ extension Song: Codable {
         try container.encode(uuid, forKey: .uuid)
         try container.encode(index, forKey: .index)
         try container.encode(name, forKey: .name)
+        try container.encode(parentId, forKey: .parentId)
     }
 }

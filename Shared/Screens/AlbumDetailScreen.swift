@@ -179,7 +179,8 @@ struct AlbumDetailScreen_Previews: PreviewProvider {
             Song(
                 uuid: "asdf",
                 index: 1,
-                name: "Very long song name that can't possibly fit on one line on phone screen either in vertical or horizontal orientation"
+                name: "Very long song name that can't possibly fit on one line on phone screen either in vertical or horizontal orientation",
+                parentId: "xyz"
             )
         ]
     )
