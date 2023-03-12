@@ -3,14 +3,13 @@ import SwiftUI
 // TODO: Implement validators (url is not garbage, user can log in)
 extension SettingsScreen {
     struct JellyfinSection: View {
-        // TODO: would be nice to actually save these somewhere
-
-        @State
+        @AppStorage(SettingsKeys.serverUrl)
         var serverUrl = ""
 
-        @State
+        @AppStorage(SettingsKeys.username)
         var username = ""
 
+        // TODO: figure out how to securely store this
         @State
         var password = ""
 
