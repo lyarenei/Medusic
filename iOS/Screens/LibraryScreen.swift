@@ -73,11 +73,10 @@ private struct LibraryNavigationItems: View {
             Divider()
 
             NavigationEntry(
-                destination: {},
+                destination: { SongsLibraryScreen() },
                 text: "Songs",
                 symbol: .musicNote
             )
-            .disabled(true)
 
             Divider()
 

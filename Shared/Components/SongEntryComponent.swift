@@ -43,8 +43,8 @@ struct SongEntryComponent: View {
             }
 
             if showArtwork {
-                // ArtworkComponent(itemId: song.albumId)
-                Image(systemSymbol: .photo)
+                 ArtworkComponent(itemId: song.parentId)
+                    .frame(maxWidth: 40)
             }
 
             Text(song.name)
