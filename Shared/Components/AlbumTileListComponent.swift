@@ -33,15 +33,13 @@ struct AlbumTileListComponent_Previews: PreviewProvider {
             uuid: "1",
             name: "Nice album name",
             artistName: "Album artist",
-            isDownloaded: false,
             isFavorite: true
         ),
         Album(
             uuid: "2",
             name: "Album with very long name that one gets tired reading it",
             artistName: "Unamusing artist",
-            isDownloaded: true,
-            isFavorite: false
+            isDownloaded: true
         ),
     ]
 

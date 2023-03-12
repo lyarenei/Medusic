@@ -22,15 +22,13 @@ extension API {
                         uuid: "1",
                         name: "Nice album name",
                         artistName: "Album artist",
-                        isDownloaded: false,
                         isFavorite: true
                     ),
                     Album(
                         uuid: "2",
                         name: "Album with very long name that one gets tired reading it",
                         artistName: "Unamusing artist",
-                        isDownloaded: true,
-                        isFavorite: false
+                        isDownloaded: true
                     ),
                 ]
             ),
@@ -42,16 +40,14 @@ extension API {
                         index: 1,
                         name: "Song name 1",
                         parentId: "1",
-                        isDownloaded: true,
-                        isFavorite: false
+                        isDownloaded: true
                     ),
                     Song(
                         uuid: "2",
                         index: 2,
                         name: "Song name 2 but this one has very long name",
                         parentId: "1",
-                        isDownloaded: true,
-                        isFavorite: false
+                        isDownloaded: true
                     ),
                     // Songs for album 2
                     Song(
@@ -59,16 +55,14 @@ extension API {
                         index: 1,
                         name: "Song name 3",
                         parentId: "2",
-                        isDownloaded: true,
-                        isFavorite: false
+                        isDownloaded: true
                     ),
                     Song(
                         uuid: "4",
                         index: 2,
                         name: "Song name 4 but this one has very long name",
                         parentId: "2",
-                        isDownloaded: true,
-                        isFavorite: false
+                        isDownloaded: true
                     ),
                 ]
             ),

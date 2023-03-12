@@ -161,7 +161,6 @@ struct AlbumDetailScreen_Previews: PreviewProvider {
         uuid: "abc",
         name: "Album name",
         artistName: "Artist name",
-        isDownloaded: false,
         isFavorite: true
     )
 
@@ -169,16 +168,13 @@ struct AlbumDetailScreen_Previews: PreviewProvider {
         uuid: "xyz",
         name: "Very long album name that can't possibly fit on one line on phone screen either in vertical or horizontal orientation",
         artistName: "Very long artist name that can't possibly fit on one line on phone screen either in vertical or horizontal orientation",
-        isDownloaded: false,
         isFavorite: true,
         songs: [
             Song(
                 uuid: "asdf",
                 index: 1,
                 name: "Very long song name that can't possibly fit on one line on phone screen either in vertical or horizontal orientation",
-                parentId: "xyz",
-                isDownloaded: false,
-                isFavorite: false
+                parentId: "xyz"
             )
         ]
     )

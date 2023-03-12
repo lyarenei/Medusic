@@ -28,7 +28,12 @@ struct AlbumTileComponent: View {
 
 #if DEBUG
 struct AlbumTile_Previews: PreviewProvider {
-    static var album = Album(uuid: "1234", name: "Beautiful album name", artistName: "Loong Loong maaaaaaaanrgagr", isDownloaded: false, isFavorite: true)
+    static var album = Album(
+        uuid: "1234",
+        name: "Beautiful album name",
+        artistName: "Loong Loong maaaaaaaanrgagr",
+        isFavorite: true
+    )
 
     static var previews: some View {
         AlbumTileComponent(album: album)
