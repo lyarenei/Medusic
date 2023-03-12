@@ -39,6 +39,7 @@ struct InputWithLabelComponent: View {
     }
 }
 
+#if DEBUG
 struct InputWithLabelComponent_Previews: PreviewProvider {
     @State
     static var input1 = "some value"
@@ -66,3 +67,4 @@ struct InputWithLabelComponent_Previews: PreviewProvider {
         }
     }
 }
+#endif
