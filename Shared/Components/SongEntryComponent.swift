@@ -43,7 +43,9 @@ struct SongEntryComponent: View {
             }
 
             if showArtwork {
-                 ArtworkComponent(itemId: song.parentId)
+                // TODO: Enable when able to do concurrent requests
+                // ArtworkComponent(itemId: song.parentId)
+                Image(systemSymbol: .photo)
                     .frame(maxWidth: 40)
             }
 
