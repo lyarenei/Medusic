@@ -20,39 +20,31 @@ extension SettingsScreen {
             Section(
                 header: Text("Jellyfin"),
                 content: {
-                    // TODO: smells like a component
-                    Button {
-                        presentUrlEdit.toggle()
-                    } label: {
-                        HStack {
-                            Image(systemSymbol: .link)
-                            Text("URL")
-                            Spacer(minLength: 20)
-                            Text(serverUrl)
-                                .lineLimit(1)
-                        }
-                    }
-                    .sheet(isPresented: $presentUrlEdit) {
-                        // TODO: figure out how to present edit dialog
-                        TextField(
-                            "Server URL",
-                            text: $serverUrl
-                        )
-                        .keyboardType(.URL)
-                        .disableAutocorrection(true)
-                        .autocapitalization(.none)
-                    }
+                    InputWithLabelComponent(
+                        labelText: "URL",
+                        labelSymbol: .link,
+                        inputText: $serverUrl,
+                        placeholderText: "Server URL"
+                    )
+                    .keyboardType(.URL)
+                    .disableAutocorrection(true)
+                    .autocapitalization(.none)
 
-                    TextField(
-                        "Username",
-                        text: $username
+                    InputWithLabelComponent(
+                        labelText: "Username",
+                        labelSymbol: .personCropCircle,
+                        inputText: $username,
+                        placeholderText: "Account username"
                     )
                     .disableAutocorrection(true)
                     .autocapitalization(.none)
 
-                    SecureField(
-                        "Password",
-                        text: $password
+                    InputWithLabelComponent(
+                        labelText: "Password",
+                        labelSymbol: .key,
+                        inputText: $password,
+                        placeholderText: "Account password",
+                        isSecure: true
                     )
                     .disableAutocorrection(true)
                     .autocapitalization(.none)
