@@ -29,6 +29,7 @@ struct JellyMusicApp: App {
         Kingfisher.ImageCache.default.diskStorage.config.sizeLimit = 1000 * 1024 * 1024
 
         if PREVIEW {
+            // NOTE: This will not persist any changes
             api = .preview
             return
         }
