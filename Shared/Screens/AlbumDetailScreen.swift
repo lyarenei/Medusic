@@ -111,6 +111,7 @@ struct AlbumDetailScreen: View {
                 .overlay(loadingOverlay)
             }
         }
+        .navigationBarTitleDisplayMode(.inline)
         .toolbar(content: {
             ToolbarItem(content: {
                 Button {
