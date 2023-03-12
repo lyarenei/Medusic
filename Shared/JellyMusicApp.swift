@@ -8,8 +8,22 @@ struct JellyMusicApp: App {
     private let api: API
 
     init() {
+        @AppStorage(SettingsKeys.serverUrl)
+        var serverUrl = ""
+
+        @AppStorage(SettingsKeys.username)
+        var username = ""
+
+        @AppStorage(SettingsKeys.userId)
+        var userId = ""
+
+        var connectUrl = URL(string: "http://localhost:8096")!
+        if let validServerUrl = URL(string: serverUrl) {
+            connectUrl = validServerUrl
+        }
+
         let jellyfinClient = JellyfinClient(configuration: .init(
-            url: URL(string: "http://localhost:8096")!,
+            url: connectUrl,
             client: "JellyMusic",
             deviceName: UIDevice.current.model,
             deviceID: UIDevice.current.identifierForVendor?.uuidString ?? "missing_id",
@@ -17,10 +31,12 @@ struct JellyMusicApp: App {
 
         Task {
             do {
-                let resp = try await jellyfinClient.signIn(username: "aaa", password: "aaa")
-                print(resp.user?.id)
+                let resp = try await jellyfinClient.signIn(username: username , password: "aaa")
+                if let uid = resp.user?.id {
+                    userId = uid
+                }
             } catch {
-                print("failed")
+                print("Could not log in to Jellyfin server: \(error)")
             }
         }
 
