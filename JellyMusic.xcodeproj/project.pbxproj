@@ -47,6 +47,7 @@
 		9B3D44BE29BDFEE70054C9E0 /* SongEntryComponent.swift in Sources */ = {isa = PBXBuildFile; fileRef = 9B3D44BC29BDFEE70054C9E0 /* SongEntryComponent.swift */; };
 		9B3D44C029BE09620054C9E0 /* SongsLibraryScreen.swift in Sources */ = {isa = PBXBuildFile; fileRef = 9B3D44BF29BE09620054C9E0 /* SongsLibraryScreen.swift */; };
 		9B3D44C129BE09620054C9E0 /* SongsLibraryScreen.swift in Sources */ = {isa = PBXBuildFile; fileRef = 9B3D44BF29BE09620054C9E0 /* SongsLibraryScreen.swift */; };
+		9B3D44C429BE33850054C9E0 /* SwiftUIBackports in Frameworks */ = {isa = PBXBuildFile; productRef = 9B3D44C329BE33850054C9E0 /* SwiftUIBackports */; };
 		9B61365A29BC7002004C85EC /* AlbumTileListComponent.swift in Sources */ = {isa = PBXBuildFile; fileRef = 9B61365929BC7002004C85EC /* AlbumTileListComponent.swift */; };
 		9B61365B29BC7002004C85EC /* AlbumTileListComponent.swift in Sources */ = {isa = PBXBuildFile; fileRef = 9B61365929BC7002004C85EC /* AlbumTileListComponent.swift */; };
 		9B61365E29BCB254004C85EC /* MacHomeScreen.swift in Sources */ = {isa = PBXBuildFile; fileRef = 9B61365D29BCB254004C85EC /* MacHomeScreen.swift */; };
@@ -139,6 +140,7 @@
 			isa = PBXFrameworksBuildPhase;
 			buildActionMask = 2147483647;
 			files = (
+				9B3D44C429BE33850054C9E0 /* SwiftUIBackports in Frameworks */,
 				48C1F8BC29B9E5C9003BE048 /* Kingfisher in Frameworks */,
 				48C1F8BF29B9E6D1003BE048 /* Boutique in Frameworks */,
 				48C1F8CD29B9EE97003BE048 /* SFSafeSymbols in Frameworks */,
@@ -355,6 +357,7 @@
 				48C1F8BB29B9E5C9003BE048 /* Kingfisher */,
 				48C1F8BE29B9E6D1003BE048 /* Boutique */,
 				48C1F8CC29B9EE97003BE048 /* SFSafeSymbols */,
+				9B3D44C329BE33850054C9E0 /* SwiftUIBackports */,
 			);
 			productName = "JellyMusic (iOS)";
 			productReference = 9B80473A29B768010069B407 /* JellyMusic.app */;
@@ -409,6 +412,7 @@
 				48C1F8BA29B9E5C9003BE048 /* XCRemoteSwiftPackageReference "Kingfisher" */,
 				48C1F8BD29B9E6D1003BE048 /* XCRemoteSwiftPackageReference "Boutique" */,
 				48C1F8CB29B9EE97003BE048 /* XCRemoteSwiftPackageReference "SFSafeSymbols" */,
+				9B3D44C229BE33850054C9E0 /* XCRemoteSwiftPackageReference "SwiftUIBackports" */,
 			);
 			productRefGroup = 9B80473B29B768010069B407 /* Products */;
 			projectDirPath = "";
@@ -830,6 +834,14 @@
 				minimumVersion = 4.1.1;
 			};
 		};
+		9B3D44C229BE33850054C9E0 /* XCRemoteSwiftPackageReference "SwiftUIBackports" */ = {
+			isa = XCRemoteSwiftPackageReference;
+			repositoryURL = "https://github.com/shaps80/SwiftUIBackports";
+			requirement = {
+				kind = upToNextMajorVersion;
+				minimumVersion = 1.0.0;
+			};
+		};
 		9BB754D429B93F3C009BB3A6 /* XCRemoteSwiftPackageReference "jellyfin-sdk-swift" */ = {
 			isa = XCRemoteSwiftPackageReference;
 			repositoryURL = "https://github.com/jellyfin/jellyfin-sdk-swift";
@@ -855,6 +867,11 @@
 			isa = XCSwiftPackageProductDependency;
 			package = 48C1F8CB29B9EE97003BE048 /* XCRemoteSwiftPackageReference "SFSafeSymbols" */;
 			productName = SFSafeSymbols;
+		};
+		9B3D44C329BE33850054C9E0 /* SwiftUIBackports */ = {
+			isa = XCSwiftPackageProductDependency;
+			package = 9B3D44C229BE33850054C9E0 /* XCRemoteSwiftPackageReference "SwiftUIBackports" */;
+			productName = SwiftUIBackports;
 		};
 		9BB754D529B93F3C009BB3A6 /* JellyfinAPI */ = {
 			isa = XCSwiftPackageProductDependency;

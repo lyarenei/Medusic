@@ -1,6 +1,7 @@
 import Kingfisher
 import SFSafeSymbols
 import SwiftUI
+import SwiftUIBackports
 
 private struct AlbumHeading: View {
     var album: Album
@@ -81,7 +82,6 @@ private struct SongList: View {
 }
 
 struct AlbumDetailScreen: View {
-
     @Environment(\.api)
     var api
 
@@ -130,24 +130,19 @@ struct AlbumDetailScreen: View {
                 .disabled(true)
             })
         })
-        .onAppear {
-            Task {
-                isLoading = true
+        .backport.task {
+            isLoading = true
 
-                // Overdramatize loading
-//                sleep(2)
-
-                do {
-                    songs = try await api.songService.getSongs(
-                        with: "0f0edfcf31d64740bd577afe8e94b752",
-                        for: album.id
-                    )
-                } catch {
-                    songs = []
-                }
-
-                isLoading = false
+            do {
+                songs = try await api.songService.getSongs(
+                    with: "0f0edfcf31d64740bd577afe8e94b752",
+                    for: album.id
+                )
+            } catch {
+                songs = []
             }
+
+            isLoading = false
         }
     }
 
@@ -184,7 +179,7 @@ struct AlbumDetailScreen_Previews: PreviewProvider {
             )
         ]
     )
-    
+
     static var previews: some View {
         AlbumDetailScreen(album: album)
             .environment(\.api, .preview)
