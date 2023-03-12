@@ -32,37 +32,38 @@ struct JellyMusicApp: App {
 
         if PREVIEW {
             api = .preview
-        } else {
-            var connectUrl = URL(string: "http://localhost:8096")!
-            if let validServerUrl = URL(string: serverUrl) {
-                connectUrl = validServerUrl
-            }
-
-            let jellyfinClient = JellyfinClient(configuration: .init(
-                url: connectUrl,
-                client: "JellyMusic",
-                deviceName: UIDevice.current.model,
-                deviceID: UIDevice.current.identifierForVendor?.uuidString ?? "missing_id",
-                version: "0.0"))
-
-            Task {
-                do {
-                    let resp = try await jellyfinClient.signIn(username: username , password: "aaa")
-                    if let uid = resp.user?.id {
-                        userId = uid
-                    }
-                } catch {
-                    print("Could not log in to Jellyfin server: \(error)")
-                }
-            }
-
-            api = API(
-                albumService: DefaultAlbumService(client: jellyfinClient),
-                songService: DefaultSongService(client: jellyfinClient),
-                imageService: DefaultImageService(client: jellyfinClient),
-                systemService: DefaultSystemService(client: jellyfinClient)
-            )
+            return
         }
+
+        var connectUrl = URL(string: "http://localhost:8096")!
+        if let validServerUrl = URL(string: serverUrl) {
+            connectUrl = validServerUrl
+        }
+
+        let jellyfinClient = JellyfinClient(configuration: .init(
+            url: connectUrl,
+            client: "JellyMusic",
+            deviceName: UIDevice.current.model,
+            deviceID: UIDevice.current.identifierForVendor?.uuidString ?? "missing_id",
+            version: "0.0"))
+
+        Task {
+            do {
+                let resp = try await jellyfinClient.signIn(username: username , password: "aaa")
+                if let uid = resp.user?.id {
+                    userId = uid
+                }
+            } catch {
+                print("Could not log in to Jellyfin server: \(error)")
+            }
+        }
+
+        api = API(
+            albumService: DefaultAlbumService(client: jellyfinClient),
+            songService: DefaultSongService(client: jellyfinClient),
+            imageService: DefaultImageService(client: jellyfinClient),
+            systemService: DefaultSystemService(client: jellyfinClient)
+        )
     }
 
     var body: some Scene {
