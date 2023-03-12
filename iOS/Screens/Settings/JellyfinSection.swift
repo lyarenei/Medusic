@@ -1,5 +1,6 @@
 import SwiftUI
 
+// TODO: Implement validators (url is not garbage, user can log in)
 extension SettingsScreen {
     struct JellyfinSection: View {
         // TODO: would be nice to actually save these somewhere
@@ -13,7 +14,6 @@ extension SettingsScreen {
         @State
         var password = ""
 
-        // TODO: don't forget about validations (url is url, user logs in)
         var body: some View {
             Section(
                 header: Text("Jellyfin"),
