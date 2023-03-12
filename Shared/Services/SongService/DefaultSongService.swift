@@ -39,7 +39,7 @@ final class DefaultSongService: SongService {
             let remoteSongs = try await self.fetchSongs(
                 with: userId,
                 for: nil,
-                sortBy: ["parentId", "indexNumber"]
+                sortBy: ["Album", "indexNumber"]
             )
             try? await $songs.removeAll().insert(remoteSongs).run()
             return remoteSongs
