@@ -13,17 +13,35 @@ extension SettingsScreen {
         @State
         var password = ""
 
+        @State
+        private var presentUrlEdit = false
+
         var body: some View {
             Section(
                 header: Text("Jellyfin"),
                 content: {
-                    TextField(
-                        "Server URL",
-                        text: $serverUrl
-                    )
-                    .keyboardType(.URL)
-                    .disableAutocorrection(true)
-                    .autocapitalization(.none)
+                    // TODO: smells like a component
+                    Button {
+                        presentUrlEdit.toggle()
+                    } label: {
+                        HStack {
+                            Image(systemSymbol: .link)
+                            Text("URL")
+                            Spacer(minLength: 20)
+                            Text(serverUrl)
+                                .lineLimit(1)
+                        }
+                    }
+                    .sheet(isPresented: $presentUrlEdit) {
+                        // TODO: figure out how to present edit dialog
+                        TextField(
+                            "Server URL",
+                            text: $serverUrl
+                        )
+                        .keyboardType(.URL)
+                        .disableAutocorrection(true)
+                        .autocapitalization(.none)
+                    }
 
                     TextField(
                         "Username",
