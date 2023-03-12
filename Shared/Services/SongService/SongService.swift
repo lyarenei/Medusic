@@ -4,4 +4,5 @@ import Foundation
 protocol SongService: ObservableObject {
     func getSongs(with userId: String) async throws -> [Song]
     func getSongs(with userId: String, for albumId: String) async throws -> [Song]
+    func toggleFavorite(songId: String) async throws -> Bool
 }

@@ -69,20 +69,28 @@ public struct Song {
     public var index: Int
     public var name: String
     public var parentId: String
+    public var isDownloaded: Bool
+    public var isFavorite: Bool
 
     public init(
         uuid: String,
         index: Int,
         name: String,
-        parentId: String
+        parentId: String,
+        isDownloaded: Bool,
+        isFavorite: Bool
     ) {
         self.uuid = uuid
         self.index = index
         self.name = name
         self.parentId = parentId
+        self.isDownloaded = isDownloaded
+        self.isFavorite = isFavorite
     }
 
     public init(from item: BaseItemDto) {
+        self.isDownloaded = false
+
         if let songId = item.id {
             self.uuid = songId
         } else {
@@ -105,6 +113,12 @@ public struct Song {
             self.parentId = parentId
         } else {
             self.parentId = ""
+        }
+
+        if let isFavorite = item.userData?.isFavorite {
+            self.isFavorite = isFavorite
+        } else {
+            self.isFavorite = false
         }
     }
 }
