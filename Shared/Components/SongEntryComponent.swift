@@ -29,11 +29,18 @@ private struct SongActions: View {
 }
 
 struct SongEntryComponent: View {
+    @Environment(\.api)
+    var api
+
     var song: Song
 
     var showAlbumOrder = false
     var showArtwork = true
     var showActions = true
+    var showAlbumName = false
+
+    @State
+    private var albumName = ""
 
     var body: some View {
         HStack {
@@ -49,8 +56,27 @@ struct SongEntryComponent: View {
                     .frame(maxWidth: 40)
             }
 
-            Text(song.name)
-                .lineLimit(1)
+            VStack(alignment: .leading, spacing: 0) {
+                Text(song.name)
+                    .lineLimit(1)
+
+                if showAlbumName {
+                    // TODO: change to albumName
+                    Text(song.name)
+                        .lineLimit(1)
+                        .font(.footnote)
+                }
+            }
+            .backport.task {
+                do {
+                    if showAlbumName {
+                        // TODO: implement when fetching/caching is sorted out
+                        // albumName = try await api.albumService.getAlbum(by: song.parentId).name
+                    }
+                } catch {
+                    print("Error when detting album info: \(error)")
+                }
+            }
 
             if showActions {
                 Spacer(minLength: 10)
