@@ -7,13 +7,13 @@ private struct SongActions: View {
 
     var body: some View {
         let downloadedIcon: SFSymbol = isDownloaded ? .checkmarkCircle : .arrowDownCircle
-        let likedIcon: SFSymbol = isFavorite ? .heartFill : .heart
+        let isFavoriteIcon: SFSymbol = isFavorite ? .heartFill : .heart
 
         Group {
             Button {
                 // Song like action
             } label: {
-                Image(systemSymbol: likedIcon)
+                Image(systemSymbol: isFavoriteIcon)
             }
             .disabled(true)
 
