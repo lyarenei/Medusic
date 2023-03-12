@@ -16,7 +16,7 @@ struct InputWithLabelComponent: View {
             HStack(spacing: 5) {
                 if let symbol = labelSymbol {
                     Image(systemSymbol: symbol)
-                        .frame(minWidth: 30)
+                        .frame(minWidth: 25)
                 }
 
                 if let text = labelText {
