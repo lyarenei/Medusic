@@ -1,4 +1,5 @@
 import SwiftUI
+import SwiftUIBackports
 
 extension SettingsScreen {
     struct AboutServer: View {
@@ -76,19 +77,17 @@ private struct ServerInfo: View {
 
             Divider()
         }
-        .onAppear {
-            Task {
-                do {
-                    let serverInfo = try await api.systemService.getServerInfo()
+        .backport.task {
+            do {
+                let serverInfo = try await api.systemService.getServerInfo()
 
-                    // Request succeeded, server must be online
-                    isOnline = true
+                // Request succeeded, server must be online
+                isOnline = true
 
-                    serverName = serverInfo.name
-                    serverVersion = serverInfo.version
-                } catch {
-                    print("Failed to get server info: \(error)")
-                }
+                serverName = serverInfo.name
+                serverVersion = serverInfo.version
+            } catch {
+                print("Failed to get server info: \(error)")
             }
         }
     }

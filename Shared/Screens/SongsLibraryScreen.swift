@@ -1,4 +1,5 @@
 import SwiftUI
+import SwiftUIBackports
 
 struct SongsLibraryScreen: View {
     @Environment(\.api)
@@ -31,13 +32,11 @@ struct SongsLibraryScreen: View {
             }
         }
         .navigationTitle("Songs")
-        .onAppear {
-            Task {
-                do {
-                    songs = try await api.songService.getSongs(with: "0f0edfcf31d64740bd577afe8e94b752")
-                } catch {
-                    print("Failed to fetch songs: \(error)")
-                }
+        .backport.task {
+            do {
+                songs = try await api.songService.getSongs(with: "0f0edfcf31d64740bd577afe8e94b752")
+            } catch {
+                print("Failed to fetch songs: \(error)")
             }
         }
     }
