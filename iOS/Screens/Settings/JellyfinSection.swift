@@ -14,9 +14,6 @@ extension SettingsScreen {
         @State
         var password = ""
 
-        @State
-        private var presentUrlEdit = false
-
         var body: some View {
             Section(
                 header: Text("Jellyfin"),
