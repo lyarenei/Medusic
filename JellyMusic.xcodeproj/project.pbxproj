@@ -74,6 +74,7 @@
 		9BB754DC29BA604C009BB3A6 /* DTOs.swift in Sources */ = {isa = PBXBuildFile; fileRef = 9BB754DA29BA604C009BB3A6 /* DTOs.swift */; };
 		9BB754DE29BA8522009BB3A6 /* DTOs+Codable.swift in Sources */ = {isa = PBXBuildFile; fileRef = 9BB754DD29BA8522009BB3A6 /* DTOs+Codable.swift */; };
 		9BB754DF29BA8522009BB3A6 /* DTOs+Codable.swift in Sources */ = {isa = PBXBuildFile; fileRef = 9BB754DD29BA8522009BB3A6 /* DTOs+Codable.swift */; };
+		9BB75E7C29BF98A1008CD65A /* Defaults in Frameworks */ = {isa = PBXBuildFile; productRef = 9BB75E7B29BF98A1008CD65A /* Defaults */; };
 		9BDB098D29BB1DD9007F99E4 /* SongService.swift in Sources */ = {isa = PBXBuildFile; fileRef = 9BDB098C29BB1DD9007F99E4 /* SongService.swift */; };
 		9BDB098E29BB1DD9007F99E4 /* SongService.swift in Sources */ = {isa = PBXBuildFile; fileRef = 9BDB098C29BB1DD9007F99E4 /* SongService.swift */; };
 		9BDB099029BB1E73007F99E4 /* DefaultSongService.swift in Sources */ = {isa = PBXBuildFile; fileRef = 9BDB098F29BB1E73007F99E4 /* DefaultSongService.swift */; };
@@ -143,6 +144,7 @@
 			isa = PBXFrameworksBuildPhase;
 			buildActionMask = 2147483647;
 			files = (
+				9BB75E7C29BF98A1008CD65A /* Defaults in Frameworks */,
 				9B3D44C429BE33850054C9E0 /* SwiftUIBackports in Frameworks */,
 				48C1F8BC29B9E5C9003BE048 /* Kingfisher in Frameworks */,
 				48C1F8BF29B9E6D1003BE048 /* Boutique in Frameworks */,
@@ -362,6 +364,7 @@
 				48C1F8BE29B9E6D1003BE048 /* Boutique */,
 				48C1F8CC29B9EE97003BE048 /* SFSafeSymbols */,
 				9B3D44C329BE33850054C9E0 /* SwiftUIBackports */,
+				9BB75E7B29BF98A1008CD65A /* Defaults */,
 			);
 			productName = "JellyMusic (iOS)";
 			productReference = 9B80473A29B768010069B407 /* JellyMusic.app */;
@@ -417,6 +420,7 @@
 				48C1F8BD29B9E6D1003BE048 /* XCRemoteSwiftPackageReference "Boutique" */,
 				48C1F8CB29B9EE97003BE048 /* XCRemoteSwiftPackageReference "SFSafeSymbols" */,
 				9B3D44C229BE33850054C9E0 /* XCRemoteSwiftPackageReference "SwiftUIBackports" */,
+				9BB75E7A29BF98A1008CD65A /* XCRemoteSwiftPackageReference "Defaults" */,
 			);
 			productRefGroup = 9B80473B29B768010069B407 /* Products */;
 			projectDirPath = "";
@@ -856,6 +860,14 @@
 				minimumVersion = 0.2.2;
 			};
 		};
+		9BB75E7A29BF98A1008CD65A /* XCRemoteSwiftPackageReference "Defaults" */ = {
+			isa = XCRemoteSwiftPackageReference;
+			repositoryURL = "https://github.com/sindresorhus/Defaults";
+			requirement = {
+				branch = main;
+				kind = branch;
+			};
+		};
 /* End XCRemoteSwiftPackageReference section */
 
 /* Begin XCSwiftPackageProductDependency section */
@@ -883,6 +895,11 @@
 			isa = XCSwiftPackageProductDependency;
 			package = 9BB754D429B93F3C009BB3A6 /* XCRemoteSwiftPackageReference "jellyfin-sdk-swift" */;
 			productName = JellyfinAPI;
+		};
+		9BB75E7B29BF98A1008CD65A /* Defaults */ = {
+			isa = XCSwiftPackageProductDependency;
+			package = 9BB75E7A29BF98A1008CD65A /* XCRemoteSwiftPackageReference "Defaults" */;
+			productName = Defaults;
 		};
 /* End XCSwiftPackageProductDependency section */
 	};
