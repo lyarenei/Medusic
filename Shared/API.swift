@@ -1,6 +1,37 @@
 import Foundation
 import SwiftUI
 import JellyfinAPI
+import Defaults
+
+final class ApiClient {
+    private(set) var services: API = .preview
+
+    /// Use preview mode of the client with mocked data. Does not persist any changes.
+    public func usePreviewMode() {
+        services = .preview
+    }
+
+    public func useDefaultMode() {
+        var connectUrl = URL(string: "http://localhost:8096")!
+        if let validServerUrl = URL(string: Defaults[.serverUrl]) {
+            connectUrl = validServerUrl
+        }
+
+        let jellyfinClient = JellyfinClient(configuration: .init(
+            url: connectUrl,
+            client: "JellyMusic",
+            deviceName: UIDevice.current.model,
+            deviceID: UIDevice.current.identifierForVendor?.uuidString ?? "missing_id",
+            version: "0.0"))
+
+        services = API(
+            albumService: DefaultAlbumService(client: jellyfinClient),
+            songService: DefaultSongService(client: jellyfinClient),
+            imageService: DefaultImageService(client: jellyfinClient),
+            systemService: DefaultSystemService(client: jellyfinClient)
+        )
+    }
+}
 
 struct API {
     let albumService: any AlbumService
@@ -10,7 +41,7 @@ struct API {
 }
 
 private struct APIEnvironmentKey: EnvironmentKey {
-    static let defaultValue: API = .preview
+    static let defaultValue: ApiClient = ApiClient()
 }
 
 extension API {
@@ -73,7 +104,7 @@ extension API {
 }
 
 extension EnvironmentValues {
-    var api: API {
+    var api: ApiClient {
         get { self[APIEnvironmentKey.self] }
         set { self[APIEnvironmentKey.self] = newValue }
     }

@@ -37,7 +37,7 @@ struct AlbumTile_Previews: PreviewProvider {
 
     static var previews: some View {
         AlbumTileComponent(album: album)
-            .environment(\.api, .preview)
+            .environment(\.api, .init())
     }
 }
 #endif

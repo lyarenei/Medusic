@@ -21,7 +21,7 @@ struct AlbumLibraryScreen: View {
         }
         .navigationTitle("Albums")
         .onAppear {
-            api.albumService.getAlbums(for: "0f0edfcf31d64740bd577afe8e94b752")
+            api.services.albumService.getAlbums(for: "0f0edfcf31d64740bd577afe8e94b752")
                 .catch { error -> Empty<[Album], Never> in
                     print("Failed to fetch albums:", error)
                     return Empty()
@@ -36,7 +36,7 @@ struct AlbumLibraryScreen: View {
 struct AlbumLibraryScreen_Previews: PreviewProvider {
     static var previews: some View {
         AlbumLibraryScreen()
-            .environment(\.api, .preview)
+            .environment(\.api, .init())
     }
 }
 #endif

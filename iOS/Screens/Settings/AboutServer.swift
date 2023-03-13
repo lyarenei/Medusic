@@ -79,7 +79,7 @@ private struct ServerInfo: View {
         }
         .backport.task(priority: .background) {
             do {
-                let serverInfo = try await api.systemService.getServerInfo()
+                let serverInfo = try await api.services.systemService.getServerInfo()
 
                 // Request succeeded, server must be online
                 isOnline = true
@@ -97,7 +97,7 @@ private struct ServerInfo: View {
 struct AboutServer_Previews: PreviewProvider {
     static var previews: some View {
         SettingsScreen()
-            .environment(\.api, .preview)
+            .environment(\.api, .init())
     }
 }
 #endif

@@ -56,7 +56,7 @@ extension SettingsScreen {
 struct JellyfinSection_Previews: PreviewProvider {
     static var previews: some View {
         SettingsScreen()
-            .environment(\.api, .preview)
+            .environment(\.api, .init())
     }
 }
 #endif

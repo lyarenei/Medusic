@@ -13,7 +13,7 @@ struct ArtworkComponent: View {
     var itemId: String
 
     private var dataProvider: ImageDataProvider {
-        JellyfinImageDataProvider(itemId: itemId, imageService: api.imageService)
+        JellyfinImageDataProvider(itemId: itemId, imageService: api.services.imageService)
     }
 
     var body: some View {
@@ -39,7 +39,7 @@ struct ArtworkComponent: View {
 struct ArtworkComponent_Previews: PreviewProvider {
     static var previews: some View {
         ArtworkComponent(itemId: "asdf")
-            .environment(\.api, .preview)
+            .environment(\.api, .init())
             .previewLayout(.fixed(width: 200, height: 200))
     }
 }

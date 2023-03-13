@@ -6,20 +6,9 @@ import Defaults
 
 @main
 struct JellyMusicApp: App {
-    private var api: API
-
-    private let PREVIEW = true
+    private var api: ApiClient
 
     init() {
-        @Default(.serverUrl)
-        var serverUrl: String
-
-        @Default(.username)
-        var username: String
-
-        @Default(.userId)
-        var userId: String
-
         // Memory image never expires.
         Kingfisher.ImageCache.default.memoryStorage.config.expiration = .never
 
@@ -29,41 +18,7 @@ struct JellyMusicApp: App {
         // Limit disk cache size to 1 GB.
         Kingfisher.ImageCache.default.diskStorage.config.sizeLimit = 1000 * 1024 * 1024
 
-        if PREVIEW {
-            // NOTE: This will not persist any changes
-            api = .preview
-            return
-        }
-
-        var connectUrl = URL(string: "http://localhost:8096")!
-        if let validServerUrl = URL(string: serverUrl) {
-            connectUrl = validServerUrl
-        }
-
-        let jellyfinClient = JellyfinClient(configuration: .init(
-            url: connectUrl,
-            client: "JellyMusic",
-            deviceName: UIDevice.current.model,
-            deviceID: UIDevice.current.identifierForVendor?.uuidString ?? "missing_id",
-            version: "0.0"))
-
-        Task {
-            do {
-                let resp = try await jellyfinClient.signIn(username: username , password: "aaa")
-                if let uid = resp.user?.id {
-                    userId = uid
-                }
-            } catch {
-                print("Could not log in to Jellyfin server: \(error)")
-            }
-        }
-
-        api = API(
-            albumService: DefaultAlbumService(client: jellyfinClient),
-            songService: DefaultSongService(client: jellyfinClient),
-            imageService: DefaultImageService(client: jellyfinClient),
-            systemService: DefaultSystemService(client: jellyfinClient)
-        )
+        api = ApiClient()
     }
 
     var body: some Scene {
