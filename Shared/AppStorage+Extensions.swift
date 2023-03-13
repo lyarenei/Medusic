@@ -1,21 +1,14 @@
+import Defaults
 import SwiftUI
 
-extension AppStorage {
-    public init(wrappedValue: Value, _ key: SettingsKeys) where Value == Bool {
-        self.init(wrappedValue: wrappedValue, key.rawValue)
-    }
+extension Defaults.Keys {
+    // MARK: - Jellyfin settings
 
-    public init(wrappedValue: Value, _ key: SettingsKeys) where Value == String {
-        self.init(wrappedValue: wrappedValue, key.rawValue)
-    }
+    static let serverUrl = Key<String>("serverUrl", default: "")
+    static let username = Key<String>("username", default: "")
+    static let userId = Key<String>("userId", default: "")
 
-    public init(wrappedValue: Value, _ key: SettingsKeys) where Value == Int {
-        self.init(wrappedValue: wrappedValue, key.rawValue)
-    }
-}
+    // MARK: - App settings
 
-public enum SettingsKeys: String {
-    case serverUrl = "serverUrl"
-    case username = "username"
-    case userId = "userId"
+    static let offlineMode = Key<Bool>("offlineMode", default: false)
 }

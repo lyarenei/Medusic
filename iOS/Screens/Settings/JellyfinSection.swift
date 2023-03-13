@@ -1,13 +1,14 @@
+import Defaults
 import SwiftUI
 
 // TODO: Implement validators (url is not garbage, user can log in)
 extension SettingsScreen {
     struct JellyfinSection: View {
-        @AppStorage(SettingsKeys.serverUrl)
-        var serverUrl = ""
+        @Default(.serverUrl)
+        var serverUrl: String
 
-        @AppStorage(SettingsKeys.username)
-        var username = ""
+        @Default(.username)
+        var username: String
 
         // TODO: figure out how to securely store this
         @State

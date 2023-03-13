@@ -2,6 +2,7 @@ import SwiftUI
 import SFSafeSymbols
 import Kingfisher
 import JellyfinAPI
+import Defaults
 
 @main
 struct JellyMusicApp: App {
@@ -10,14 +11,14 @@ struct JellyMusicApp: App {
     private let PREVIEW = true
 
     init() {
-        @AppStorage(SettingsKeys.serverUrl)
-        var serverUrl = ""
+        @Default(.serverUrl)
+        var serverUrl: String
 
-        @AppStorage(SettingsKeys.username)
-        var username = ""
+        @Default(.username)
+        var username: String
 
-        @AppStorage(SettingsKeys.userId)
-        var userId = ""
+        @Default(.userId)
+        var userId: String
 
         // Memory image never expires.
         Kingfisher.ImageCache.default.memoryStorage.config.expiration = .never
