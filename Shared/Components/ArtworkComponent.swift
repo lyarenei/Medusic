@@ -17,17 +17,21 @@ struct ArtworkComponent: View {
     }
 
     var body: some View {
-        KFImage.dataProvider(dataProvider)
-            .resizable()
-            .placeholder { ProgressView() }
-            .fade(duration: 0.25)
-            .retry(maxCount: Int.max, interval: .seconds(10))
-            .clipShape(RoundedRectangle(cornerRadius: Self.cornerRadius))
-            .overlay(
-                RoundedRectangle(cornerRadius: Self.cornerRadius)
-                    .stroke(style: StrokeStyle(lineWidth: 0.5))
-                    .foregroundColor(Color(UIColor.separator.cgColor))
-            )
+        GeometryReader { proxy in
+            KFImage.dataProvider(dataProvider)
+                .downsampling(size: CGSize(width: proxy.size.width * UIScreen.main.scale, height: proxy.size.height * UIScreen.main.scale))
+                .cacheOriginalImage()
+                .resizable()
+                .placeholder { ProgressView() }
+                .fade(duration: 0.25)
+                .retry(maxCount: Int.max, interval: .seconds(10))
+                .clipShape(RoundedRectangle(cornerRadius: Self.cornerRadius))
+                .overlay(
+                    RoundedRectangle(cornerRadius: Self.cornerRadius)
+                        .stroke(style: StrokeStyle(lineWidth: 0.5))
+                        .foregroundColor(Color(UIColor.separator.cgColor))
+                )
+        }
     }
 }
 
