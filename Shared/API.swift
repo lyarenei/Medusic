@@ -1,7 +1,7 @@
-import Foundation
-import SwiftUI
-import JellyfinAPI
 import Defaults
+import Foundation
+import JellyfinAPI
+import SwiftUI
 
 final class ApiClient {
     private(set) var services: API = .preview
@@ -22,7 +22,8 @@ final class ApiClient {
             client: "JellyMusic",
             deviceName: UIDevice.current.model,
             deviceID: UIDevice.current.identifierForVendor?.uuidString ?? "missing_id",
-            version: "0.0"))
+            version: "0.0"
+        ))
 
         services = API(
             albumService: DefaultAlbumService(client: jellyfinClient),
@@ -41,7 +42,7 @@ struct API {
 }
 
 private struct APIEnvironmentKey: EnvironmentKey {
-    static let defaultValue: ApiClient = ApiClient()
+    static let defaultValue: ApiClient = .init()
 }
 
 extension API {
