@@ -17,7 +17,7 @@ struct JellyfinImageDataProvider: ImageDataProvider {
     func data(handler: @escaping (Result<Data, Error>) -> Void) {
         Task {
             do {
-                handler(.success(try await imageService.getImage(for: itemId)))
+                try handler(.success(await imageService.getImage(for: itemId)))
             } catch {
                 handler(.failure(error))
             }

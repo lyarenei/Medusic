@@ -183,7 +183,6 @@
 				9BDB099729BB2FAD007F99E4 /* ImageService */,
 				9BDB099529BB2F8B007F99E4 /* AlbumService */,
 				9BDB099629BB2F9A007F99E4 /* SongService */,
-				48C1F8E329BB827E003BE048 /* JellyfinImageProvider.swift */,
 			);
 			path = Services;
 			sourceTree = "<group>";
@@ -270,8 +269,8 @@
 		9B80473229B768000069B407 /* Shared */ = {
 			isa = PBXGroup;
 			children = (
+				9BB75E8029BFA5B0008CD65A /* Jellyfin */,
 				9B61365429BC6E19004C85EC /* Screens */,
-				48C1F8CE29B9F3DB003BE048 /* Services */,
 				48C1F8C429B9E7FF003BE048 /* Store */,
 				9B70BDA329B93234000DB31C /* Views */,
 				9B70BDA229B93228000DB31C /* Components */,
@@ -310,6 +309,15 @@
 				9B80477F29B8CE800069B407 /* AppearanceSettingsView.swift */,
 			);
 			path = iOS;
+			sourceTree = "<group>";
+		};
+		9BB75E8029BFA5B0008CD65A /* Jellyfin */ = {
+			isa = PBXGroup;
+			children = (
+				48C1F8CE29B9F3DB003BE048 /* Services */,
+				48C1F8E329BB827E003BE048 /* JellyfinImageProvider.swift */,
+			);
+			path = Jellyfin;
 			sourceTree = "<group>";
 		};
 		9BDB099529BB2F8B007F99E4 /* AlbumService */ = {
