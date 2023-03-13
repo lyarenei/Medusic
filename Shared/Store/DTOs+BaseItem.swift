@@ -55,7 +55,7 @@ public extension Song {
             self.name = ""
         }
 
-        if let parentId = item.parentID {
+        if let parentId = item.albumID {
             self.parentId = parentId
         } else {
             self.parentId = ""
