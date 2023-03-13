@@ -6,6 +6,14 @@ import SwiftUI
 final class ApiClient {
     private(set) var services: API = .preview
 
+    init() {}
+
+    init(previewEnabled: Bool = true) {
+        if !previewEnabled {
+            useDefaultMode()
+        }
+    }
+
     /// Use preview mode of the client with mocked data. Does not persist any changes.
     public func usePreviewMode() {
         services = .preview
@@ -31,6 +39,12 @@ final class ApiClient {
             imageService: DefaultImageService(client: jellyfinClient),
             systemService: DefaultSystemService(client: jellyfinClient)
         )
+    }
+
+    public func performAuth() throws {
+        Task(priority: .background) {
+            try await services.systemService.logIn(username: Defaults[.username], password: "aaa")
+        }
     }
 }
 

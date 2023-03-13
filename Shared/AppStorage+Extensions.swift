@@ -11,4 +11,5 @@ extension Defaults.Keys {
     // MARK: - App settings
 
     static let offlineMode = Key<Bool>("offlineMode", default: false)
+    static let previewMode = Key<Bool>("previewMode", default: false)
 }

@@ -18,7 +18,8 @@ struct JellyMusicApp: App {
         // Limit disk cache size to 1 GB.
         Kingfisher.ImageCache.default.diskStorage.config.sizeLimit = 1000 * 1024 * 1024
 
-        api = ApiClient()
+        // TODO: if starting in default mode, auth is needed, but where - needs to display error in future
+        api = ApiClient(previewEnabled: Defaults[.previewMode])
     }
 
     var body: some Scene {

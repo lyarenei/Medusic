@@ -1,3 +1,4 @@
+import Defaults
 import SwiftUI
 
 extension SettingsScreen {
@@ -12,9 +13,41 @@ extension SettingsScreen {
                         Image(systemSymbol: .paintbrushPointed)
                         Text("Appearance")
                     }
+
+                    PreviewModeToggle()
                 }
             )
         }
+    }
+}
+
+private struct PreviewModeToggle: View {
+    @Environment(\.api)
+    var api
+
+    @Default(.previewMode)
+    var previewEnabled: Bool
+
+    var body: some View {
+        Toggle(isOn: $previewEnabled) {
+            HStack(spacing: 7) {
+                Image(systemSymbol: .eyes)
+                Text("Preview mode")
+            }
+        }
+        .onChange(of: previewEnabled, perform: { newValue in
+            if newValue {
+                api.usePreviewMode()
+                return
+            }
+
+            do {
+                api.useDefaultMode()
+                try api.performAuth()
+            } catch {
+                print("Failed to switch to default mode: \(error)")
+            }
+        })
     }
 }
 
