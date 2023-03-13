@@ -4,7 +4,6 @@ import JellyfinAPI
 import Combine
 
 final class DefaultAlbumService: AlbumService {
-    @MainActor
     @Stored(in: .albums)
     private var albums: [Album]
 
@@ -16,9 +15,7 @@ final class DefaultAlbumService: AlbumService {
 
     // TODO: Add pagination.
     func getAlbums(for userId: String) -> AnyPublisher<[Album], AlbumFetchError> {
-        let cacheSubject = PassthroughSubject<[Album], AlbumFetchError>()
-
-        let remotePublisher = Future { [weak self] completion in
+        let remotePublisher = Future<[Album], AlbumFetchError> { [weak self] completion in
             guard let self else { return completion(.failure(AlbumFetchError.invalid)) }
             Task {
                 do {
@@ -38,17 +35,23 @@ final class DefaultAlbumService: AlbumService {
                 }
             }
         }
-        .handleEvents(receiveOutput: { albums in
+        .handleEvents(receiveOutput: { [weak self] albums in
+            guard let self else { return }
             Task {
                 try? await self.$albums.removeAll().insert(albums).run()
             }
         })
         .eraseToAnyPublisher()
 
-        let cachePublisher = cacheSubject
-            // If the cache is later than remote data, don't send it at all.
-            .prefix(untilOutputFrom: remotePublisher)
-            .eraseToAnyPublisher()
+        let cachePublisher = Future<[Album], AlbumFetchError> { [weak self] completion in
+            guard let self else { return completion(.failure(AlbumFetchError.invalid)) }
+            Task {
+                completion(.success(await self.albums))
+            }
+        }
+        // If the cache is later than remote data, don't send it at all.
+        .prefix(untilOutputFrom: remotePublisher)
+        .eraseToAnyPublisher()
 
         return Publishers.Merge(cachePublisher, remotePublisher).eraseToAnyPublisher()
     }
