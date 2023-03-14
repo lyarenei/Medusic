@@ -1,4 +1,6 @@
+import Boutique
 import Defaults
+import Kingfisher
 import SwiftUI
 
 extension SettingsScreen {
@@ -8,6 +10,7 @@ extension SettingsScreen {
                 header: Text("General"),
                 content: {
                     PreviewModeToggle()
+                    PurgeCaches()
                 }
             )
         }
@@ -41,6 +44,40 @@ private struct PreviewModeToggle: View {
                 print("Failed to switch to default mode: \(error)")
             }
         })
+    }
+}
+
+private struct PurgeCaches: View {
+    @Stored(in: .albums)
+    private var albums: [Album]
+
+    @Stored(in: .songs)
+    private var songs: [Song]
+
+    var body: some View {
+        Button {
+            // TODO: add confirm alert and success/fail alert
+            self.onSubmit()
+        } label: {
+            Image(systemSymbol: .trash)
+            Text("Purge all caches")
+        }
+        .buttonStyle(.plain)
+        .foregroundColor(.red)
+    }
+
+    private func onSubmit() {
+        Kingfisher.ImageCache.default.clearMemoryCache()
+        Kingfisher.ImageCache.default.clearDiskCache()
+
+        Task {
+            do {
+                try await self.$albums.removeAll()
+                try await self.$songs.removeAll()
+            } catch {
+                print("Purging caches failed: \(error)")
+            }
+        }
     }
 }
 
