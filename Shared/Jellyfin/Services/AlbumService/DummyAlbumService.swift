@@ -14,4 +14,11 @@ final class DummyAlbumService: AlbumService {
             .setFailureType(to: AlbumFetchError.self)
             .eraseToAnyPublisher()
     }
+
+    func getAlbum(by albumId: String) -> AnyPublisher<Album, AlbumFetchError> {
+        // We are working with hardcoded values here, ! is fine
+        Just(albums.first { $0.uuid == albumId }!)
+            .setFailureType(to: AlbumFetchError.self)
+            .eraseToAnyPublisher()
+    }
 }
