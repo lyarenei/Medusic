@@ -20,6 +20,13 @@ struct JellyMusicApp: App {
 
         // TODO: if starting in default mode, auth is needed, but where - needs to display error in future
         api = ApiClient(previewEnabled: Defaults[.previewMode])
+        if !Defaults[.previewMode] {
+            do {
+                try api.performAuth()
+            } catch {
+                print("Failed to perform JF auth: \(error)")
+            }
+        }
     }
 
     var body: some Scene {
