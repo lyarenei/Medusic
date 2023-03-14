@@ -14,10 +14,10 @@ extension SettingsScreen {
                     NavigationLink {
                         // TODO: advanced settings view
                     } label: {
-                        HStack(spacing: 7) {
-                            Image(systemSymbol: .wrenchAndScrewdriver)
-                            Text("Advanced")
-                        }
+                        ListOptionComponent(
+                            symbol: .wrenchAndScrewdriver,
+                            text: "Advanced"
+                        )
                     }
                     .disabled(true)
 
@@ -37,10 +37,10 @@ private struct PreviewModeToggle: View {
 
     var body: some View {
         Toggle(isOn: $previewEnabled) {
-            HStack(spacing: 7) {
-                Image(systemSymbol: .eyes)
-                Text("Preview mode")
-            }
+            ListOptionComponent(
+                symbol: .eyes,
+                text: "Preview mode"
+            )
         }
         .onChange(of: previewEnabled, perform: { newValue in
             if newValue {
@@ -70,8 +70,10 @@ private struct PurgeCaches: View {
             // TODO: add confirm alert and success/fail alert
             self.onSubmit()
         } label: {
-            Image(systemSymbol: .trash)
-            Text("Purge all caches")
+            ListOptionComponent(
+                symbol: .trash,
+                text: "Purge all caches"
+            )
         }
         .buttonStyle(.plain)
         .foregroundColor(.red)
