@@ -1,8 +1,8 @@
-import SwiftUI
-import SFSafeSymbols
-import Kingfisher
-import JellyfinAPI
 import Defaults
+import JellyfinAPI
+import Kingfisher
+import SFSafeSymbols
+import SwiftUI
 
 @main
 struct JellyMusicApp: App {
