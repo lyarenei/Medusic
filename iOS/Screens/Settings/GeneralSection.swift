@@ -7,13 +7,6 @@ extension SettingsScreen {
             Section(
                 header: Text("General"),
                 content: {
-                    NavigationLink {
-                        AppearanceSettingsView()
-                    } label: {
-                        Image(systemSymbol: .paintbrushPointed)
-                        Text("Appearance")
-                    }
-
                     PreviewModeToggle()
                 }
             )
