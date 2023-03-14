@@ -1,7 +1,7 @@
 import SwiftUI
 import SFSafeSymbols
 
-struct InputWithLabelComponent: View {
+struct InlineInputComponent: View {
     var labelText: String?
     var labelSymbol: SFSymbol?
 
@@ -40,7 +40,7 @@ struct InputWithLabelComponent: View {
 }
 
 #if DEBUG
-struct InputWithLabelComponent_Previews: PreviewProvider {
+struct InlineInputComponent_Previews: PreviewProvider {
     @State
     static var input1 = "some value"
 
@@ -49,7 +49,7 @@ struct InputWithLabelComponent_Previews: PreviewProvider {
 
     static var previews: some View {
         VStack{
-            InputWithLabelComponent(
+            InlineInputComponent(
                 labelText: "Example",
                 labelSymbol: .return,
                 inputText: $input1
@@ -57,7 +57,7 @@ struct InputWithLabelComponent_Previews: PreviewProvider {
             .padding(.leading)
             .padding(.trailing)
 
-            InputWithLabelComponent(
+            InlineInputComponent(
                 labelText: "Example take 2",
                 labelSymbol: .info,
                 inputText: $input2

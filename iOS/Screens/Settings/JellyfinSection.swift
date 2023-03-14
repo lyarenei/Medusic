@@ -18,7 +18,7 @@ extension SettingsScreen {
             Section(
                 header: Text("Jellyfin"),
                 content: {
-                    InputWithLabelComponent(
+                    InlineInputComponent(
                         labelText: "URL",
                         labelSymbol: .link,
                         inputText: $serverUrl,
@@ -28,7 +28,7 @@ extension SettingsScreen {
                     .disableAutocorrection(true)
                     .autocapitalization(.none)
 
-                    InputWithLabelComponent(
+                    InlineInputComponent(
                         labelText: "Username",
                         labelSymbol: .personCropCircle,
                         inputText: $username,
@@ -37,7 +37,7 @@ extension SettingsScreen {
                     .disableAutocorrection(true)
                     .autocapitalization(.none)
 
-                    InputWithLabelComponent(
+                    InlineInputComponent(
                         labelText: "Password",
                         labelSymbol: .key,
                         inputText: $password,
