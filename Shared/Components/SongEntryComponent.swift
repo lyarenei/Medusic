@@ -1,3 +1,4 @@
+import Combine
 import SFSafeSymbols
 import SwiftUI
 
@@ -40,7 +41,10 @@ struct SongEntryComponent: View {
     var showAlbumName = false
 
     @State
-    private var albumName = ""
+    private var album = Album.empty()
+
+    @State
+    private var lifetimeCancellables: Cancellables = []
 
     var body: some View {
         HStack {
@@ -59,21 +63,20 @@ struct SongEntryComponent: View {
                     .lineLimit(1)
 
                 if showAlbumName {
-                    // TODO: change to albumName
-                    Text(song.name)
+                    Text(album.name)
                         .lineLimit(1)
                         .font(.footnote)
                 }
             }
             .backport.task {
-                do {
-                    if showAlbumName {
-                        // TODO: implement when fetching/caching is sorted out
-                        // albumName = try await api.albumService.getAlbum(by: song.parentId).name
+                guard showAlbumName else { return }
+                api.services.albumService.getAlbum(by: song.parentId)
+                    .catch { error -> Empty<Album, Never> in
+                        print("Failed to fetch album:", error)
+                        return Empty()
                     }
-                } catch {
-                    print("Error when detting album info: \(error)")
-                }
+                    .assign(to: \.album, on: self)
+                    .store(in: &lifetimeCancellables)
             }
 
             if showActions {

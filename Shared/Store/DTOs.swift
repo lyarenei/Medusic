@@ -15,6 +15,10 @@ public struct Album {
 
     // TODO: remove this and pull songs from api by their parent id
     public var songs: [Song] = []
+
+    static func empty() -> Album {
+        return Album(uuid: "", name: "", artistName: "")
+    }
 }
 
 public struct Song {
