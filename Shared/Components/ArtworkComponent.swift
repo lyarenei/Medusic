@@ -12,14 +12,18 @@ struct ArtworkComponent: View {
 
     var itemId: String
 
-    private var dataProvider: ImageDataProvider {
-        JellyfinImageDataProvider(itemId: itemId, imageService: api.services.imageService)
-    }
-
     var body: some View {
         GeometryReader { proxy in
+            let dataProvider = JellyfinImageDataProvider(
+                itemId: itemId,
+                imageService: api.services.imageService,
+                imageSize: CGSize(
+                    width: proxy.size.width * UIScreen.main.scale,
+                    height: proxy.size.height * UIScreen.main.scale
+                )
+            )
+
             KFImage.dataProvider(dataProvider)
-                .downsampling(size: CGSize(width: proxy.size.width * UIScreen.main.scale, height: proxy.size.height * UIScreen.main.scale))
                 .cacheOriginalImage()
                 .resizable()
                 .placeholder { ProgressView() }
