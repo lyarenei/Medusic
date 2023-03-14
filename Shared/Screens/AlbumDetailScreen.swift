@@ -135,10 +135,7 @@ struct AlbumDetailScreen: View {
             isLoading = true
 
             do {
-                songs = try await api.services.songService.getSongs(
-                    with: "0f0edfcf31d64740bd577afe8e94b752",
-                    for: album.id
-                )
+                songs = try await api.services.songService.getSongs(for: album.id)
             } catch {
                 songs = []
             }

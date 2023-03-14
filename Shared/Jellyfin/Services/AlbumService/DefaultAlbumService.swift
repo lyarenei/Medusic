@@ -63,7 +63,7 @@ final class DefaultAlbumService: AlbumService {
     }
 
     // TODO: Add pagination.
-    func getAlbums(for userId: String) -> AnyPublisher<[Album], AlbumFetchError> {
+    func getAlbums() -> AnyPublisher<[Album], AlbumFetchError> {
         let remotePublisher = self.fetchAll()
         .handleEvents(receiveOutput: { [weak self] albums in
             guard let self else { return }

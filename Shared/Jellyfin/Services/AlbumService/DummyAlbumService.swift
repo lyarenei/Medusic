@@ -9,7 +9,7 @@ final class DummyAlbumService: AlbumService {
         self.albums = albums
     }
 
-    func getAlbums(for userId: String) -> AnyPublisher<[Album], AlbumFetchError> {
+    func getAlbums() -> AnyPublisher<[Album], AlbumFetchError> {
         Just(albums)
             .setFailureType(to: AlbumFetchError.self)
             .eraseToAnyPublisher()

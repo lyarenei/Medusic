@@ -21,7 +21,7 @@ struct AlbumLibraryScreen: View {
         }
         .navigationTitle("Albums")
         .onAppear {
-            api.services.albumService.getAlbums(for: "0f0edfcf31d64740bd577afe8e94b752")
+            api.services.albumService.getAlbums()
                 .catch { error -> Empty<[Album], Never> in
                     print("Failed to fetch albums:", error)
                     return Empty()

@@ -35,7 +35,7 @@ struct SongsLibraryScreen: View {
         .navigationTitle("Songs")
         .backport.task(priority: .background) {
             do {
-                songs = try await api.services.songService.getSongs(with: "0f0edfcf31d64740bd577afe8e94b752")
+                songs = try await api.services.songService.getSongs()
             } catch {
                 print("Failed to fetch songs: \(error)")
             }

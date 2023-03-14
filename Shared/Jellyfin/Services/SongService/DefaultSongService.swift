@@ -14,13 +14,10 @@ final class DefaultSongService: SongService {
         self.client = client
     }
 
-    private func fetchSongs(
-        with userId: String,
-        for albumId: String?,
-        sortBy: [String]
+    private func fetchSongs(for albumId: String?, sortBy: [String]
     ) async throws -> [Song] {
         var requestParameters = JellyfinAPI.Paths.GetItemsParameters(
-            userID: userId,
+            userID: self.userId,
             isRecursive: true,
             includeItemTypes: [.audio],
             sortBy: sortBy
@@ -36,10 +33,9 @@ final class DefaultSongService: SongService {
     }
 
     // TODO: Add pagination.
-    func getSongs(with userId: String) async throws -> [Song] {
+    func getSongs() async throws -> [Song] {
         do {
             let remoteSongs = try await self.fetchSongs(
-                with: userId,
                 for: nil,
                 sortBy: ["Album", "indexNumber"]
             )
@@ -51,10 +47,9 @@ final class DefaultSongService: SongService {
     }
 
     // TODO: Add pagination.
-    func getSongs(with userId: String, for albumId: String) async throws -> [Song] {
+    func getSongs(for albumId: String) async throws -> [Song] {
         do {
             let remoteSongs = try await self.fetchSongs(
-                with: userId,
                 for: albumId,
                 sortBy: ["indexNumber"]
             )

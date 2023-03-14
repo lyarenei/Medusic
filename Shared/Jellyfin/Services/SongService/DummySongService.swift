@@ -8,11 +8,11 @@ final class DummySongService: SongService {
         self.songs = songs
     }
 
-    func getSongs(with userId: String) async throws -> [Song] {
+    func getSongs() async throws -> [Song] {
         return self.songs
     }
 
-    func getSongs(with userId: String, for albumId: String) async throws -> [Song] {
+    func getSongs(for albumId: String) async throws -> [Song] {
         return self.songs.filter { $0.parentId == albumId }
     }
 
