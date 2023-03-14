@@ -74,6 +74,8 @@
 		9BB754DE29BA8522009BB3A6 /* DTOs+Codable.swift in Sources */ = {isa = PBXBuildFile; fileRef = 9BB754DD29BA8522009BB3A6 /* DTOs+Codable.swift */; };
 		9BB754DF29BA8522009BB3A6 /* DTOs+Codable.swift in Sources */ = {isa = PBXBuildFile; fileRef = 9BB754DD29BA8522009BB3A6 /* DTOs+Codable.swift */; };
 		9BB75E7C29BF98A1008CD65A /* Defaults in Frameworks */ = {isa = PBXBuildFile; productRef = 9BB75E7B29BF98A1008CD65A /* Defaults */; };
+		9BB75E8229C12187008CD65A /* ListOptionComponent.swift in Sources */ = {isa = PBXBuildFile; fileRef = 9BB75E8129C12187008CD65A /* ListOptionComponent.swift */; };
+		9BB75E8329C12187008CD65A /* ListOptionComponent.swift in Sources */ = {isa = PBXBuildFile; fileRef = 9BB75E8129C12187008CD65A /* ListOptionComponent.swift */; };
 		9BDB098D29BB1DD9007F99E4 /* SongService.swift in Sources */ = {isa = PBXBuildFile; fileRef = 9BDB098C29BB1DD9007F99E4 /* SongService.swift */; };
 		9BDB098E29BB1DD9007F99E4 /* SongService.swift in Sources */ = {isa = PBXBuildFile; fileRef = 9BDB098C29BB1DD9007F99E4 /* SongService.swift */; };
 		9BDB099029BB1E73007F99E4 /* DefaultSongService.swift in Sources */ = {isa = PBXBuildFile; fileRef = 9BDB098F29BB1E73007F99E4 /* DefaultSongService.swift */; };
@@ -128,6 +130,7 @@
 		9B80477D29B8CDF80069B407 /* SettingsScreen.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = SettingsScreen.swift; sourceTree = "<group>"; };
 		9BB754DA29BA604C009BB3A6 /* DTOs.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = DTOs.swift; sourceTree = "<group>"; };
 		9BB754DD29BA8522009BB3A6 /* DTOs+Codable.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = "DTOs+Codable.swift"; sourceTree = "<group>"; };
+		9BB75E8129C12187008CD65A /* ListOptionComponent.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = ListOptionComponent.swift; sourceTree = "<group>"; };
 		9BDB098C29BB1DD9007F99E4 /* SongService.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = SongService.swift; sourceTree = "<group>"; };
 		9BDB098F29BB1E73007F99E4 /* DefaultSongService.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = DefaultSongService.swift; sourceTree = "<group>"; };
 		9BDB099229BB1F57007F99E4 /* DummySongService.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = DummySongService.swift; sourceTree = "<group>"; };
@@ -242,6 +245,7 @@
 				9B61365929BC7002004C85EC /* AlbumTileListComponent.swift */,
 				9B3D44B929BDF2550054C9E0 /* InlineInputComponent.swift */,
 				9B3D44BC29BDFEE70054C9E0 /* SongEntryComponent.swift */,
+				9BB75E8129C12187008CD65A /* ListOptionComponent.swift */,
 			);
 			path = Components;
 			sourceTree = "<group>";
@@ -489,6 +493,7 @@
 				48C1F8C929B9EA60003BE048 /* DTOs+Identifiable.swift in Sources */,
 				9B3D44A929BD2C010054C9E0 /* JellyfinSection.swift in Sources */,
 				9B70BD9D29B91F42000DB31C /* AlbumTileComponent.swift in Sources */,
+				9BB75E8229C12187008CD65A /* ListOptionComponent.swift in Sources */,
 				9BDB099929BB2FBF007F99E4 /* ImageService.swift in Sources */,
 				48C1F8DA29B9FEB9003BE048 /* AlbumService.swift in Sources */,
 				48C1F8E429BB827E003BE048 /* JellyfinImageProvider.swift in Sources */,
@@ -530,6 +535,7 @@
 				9B70BDA129B923AE000DB31C /* AlbumDetailScreen.swift in Sources */,
 				9BDB099429BB1F57007F99E4 /* DummySongService.swift in Sources */,
 				48C1F8CA29B9EA60003BE048 /* DTOs+Identifiable.swift in Sources */,
+				9BB75E8329C12187008CD65A /* ListOptionComponent.swift in Sources */,
 				9BB754DC29BA604C009BB3A6 /* DTOs.swift in Sources */,
 				9B3D44C129BE09620054C9E0 /* SongsLibraryScreen.swift in Sources */,
 				9B3D44B129BDB98F0054C9E0 /* AppStorage+Extensions.swift in Sources */,

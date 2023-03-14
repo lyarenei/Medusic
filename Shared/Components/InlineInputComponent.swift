@@ -13,16 +13,10 @@ struct InlineInputComponent: View {
 
     var body: some View {
         HStack(spacing: 0) {
-            HStack(spacing: 5) {
-                if let symbol = labelSymbol {
-                    Image(systemSymbol: symbol)
-                        .frame(minWidth: 25)
-                }
-
-                if let text = labelText {
-                    Text(text)
-                }
-            }
+            ListOptionComponent(
+                symbol: labelSymbol,
+                text: labelText
+            )
 
             Spacer(minLength: 20)
 
