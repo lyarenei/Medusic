@@ -10,6 +10,17 @@ extension SettingsScreen {
                 header: Text("General"),
                 content: {
                     PreviewModeToggle()
+
+                    NavigationLink {
+                        // TODO: advanced settings view
+                    } label: {
+                        HStack(spacing: 7) {
+                            Image(systemSymbol: .wrenchAndScrewdriver)
+                            Text("Advanced")
+                        }
+                    }
+                    .disabled(true)
+
                     PurgeCaches()
                 }
             )
