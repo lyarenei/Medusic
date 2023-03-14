@@ -9,18 +9,19 @@ final class DefaultAlbumService: AlbumService {
 
     private let client: JellyfinClient
 
+    private let userId = "0f0edfcf31d64740bd577afe8e94b752"
+
     init(client: JellyfinClient) {
         self.client = client
     }
 
-    // TODO: Add pagination.
-    func getAlbums(for userId: String) -> AnyPublisher<[Album], AlbumFetchError> {
-        let remotePublisher = Future<[Album], AlbumFetchError> { [weak self] completion in
+    private func fetchAll() -> Future<[Album], AlbumFetchError> {
+        return Future<[Album], AlbumFetchError> { [weak self] completion in
             guard let self else { return completion(.failure(AlbumFetchError.invalid)) }
             Task {
                 do {
                     let requestParams = JellyfinAPI.Paths.GetItemsParameters(
-                        userID: userId,
+                        userID: self.userId,
                         isRecursive: true,
                         includeItemTypes: [.musicAlbum]
                     )
@@ -35,6 +36,11 @@ final class DefaultAlbumService: AlbumService {
                 }
             }
         }
+    }
+
+    // TODO: Add pagination.
+    func getAlbums(for userId: String) -> AnyPublisher<[Album], AlbumFetchError> {
+        let remotePublisher = self.fetchAll()
         .handleEvents(receiveOutput: { [weak self] albums in
             guard let self else { return }
             Task {
