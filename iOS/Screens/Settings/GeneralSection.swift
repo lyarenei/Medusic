@@ -65,10 +65,12 @@ private struct PurgeCaches: View {
     @Stored(in: .songs)
     private var songs: [Song]
 
+    @State
+    private var showPurgeCacheConfirm = false
+
     var body: some View {
         Button {
-            // TODO: add confirm alert and success/fail alert
-            self.onSubmit()
+            showPurgeCacheConfirm = true
         } label: {
             ListOptionComponent(
                 symbol: .trash,
@@ -77,9 +79,23 @@ private struct PurgeCaches: View {
         }
         .buttonStyle(.plain)
         .foregroundColor(.red)
+        .alert(isPresented: $showPurgeCacheConfirm, content: {
+            Alert(
+                title: Text("Purge all caches"),
+                message: Text("This will remove all metadata, images and downloads"),
+                primaryButton: .destructive(
+                    Text("Purge"),
+                    action: { self.purgeCaches() }
+                ),
+                secondaryButton: .default(
+                    Text("Cancel"),
+                    action: { showPurgeCacheConfirm = false }
+                )
+            )
+        })
     }
 
-    private func onSubmit() {
+    private func purgeCaches() {
         Kingfisher.ImageCache.default.clearMemoryCache()
         Kingfisher.ImageCache.default.clearDiskCache()
 
