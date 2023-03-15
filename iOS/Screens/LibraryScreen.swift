@@ -118,8 +118,6 @@ struct LibraryScreen: View {
                     }
 
                     AlbumTileListComponent(albums: favoriteAlbums)
-                        .padding(.leading, 10)
-                        .padding(.trailing, 10)
                 }
                 .padding(.leading, 10)
                 .padding(.trailing, 10)
