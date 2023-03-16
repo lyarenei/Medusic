@@ -10,7 +10,7 @@ private struct SongActions: View {
     var isFavorite = false
 
     var body: some View {
-        Group {
+        HStack(spacing: 10) {
             FavoriteButton(isFavorite: $isFavorite)
                 .disabled(true)
 
