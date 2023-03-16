@@ -29,4 +29,14 @@ extension Array where Element == Song {
             return false
         })
     }
+
+    /// Get only songs which belong to Album specified by its ID.
+    /// These songs are sorted by their order in that album.
+    func getByAlbum(id albumId: String) -> [Song] {
+        let filteredSongs = self.filter({(song) -> Bool in
+            song.parentId == albumId
+        })
+
+        return filteredSongs.sortByAlbum()
+    }
 }
