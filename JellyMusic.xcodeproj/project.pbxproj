@@ -76,6 +76,10 @@
 		9BB75E7C29BF98A1008CD65A /* Defaults in Frameworks */ = {isa = PBXBuildFile; productRef = 9BB75E7B29BF98A1008CD65A /* Defaults */; };
 		9BB75E8229C12187008CD65A /* ListOptionComponent.swift in Sources */ = {isa = PBXBuildFile; fileRef = 9BB75E8129C12187008CD65A /* ListOptionComponent.swift */; };
 		9BB75E8329C12187008CD65A /* ListOptionComponent.swift in Sources */ = {isa = PBXBuildFile; fileRef = 9BB75E8129C12187008CD65A /* ListOptionComponent.swift */; };
+		9BB75E9B29C38610008CD65A /* DownloadedIcon.swift in Sources */ = {isa = PBXBuildFile; fileRef = 9BB75E9A29C38610008CD65A /* DownloadedIcon.swift */; };
+		9BB75E9C29C38610008CD65A /* DownloadedIcon.swift in Sources */ = {isa = PBXBuildFile; fileRef = 9BB75E9A29C38610008CD65A /* DownloadedIcon.swift */; };
+		9BB75E9F29C3883E008CD65A /* FavoriteIcon.swift in Sources */ = {isa = PBXBuildFile; fileRef = 9BB75E9E29C3883E008CD65A /* FavoriteIcon.swift */; };
+		9BB75EA029C3883E008CD65A /* FavoriteIcon.swift in Sources */ = {isa = PBXBuildFile; fileRef = 9BB75E9E29C3883E008CD65A /* FavoriteIcon.swift */; };
 		9BDB098D29BB1DD9007F99E4 /* SongService.swift in Sources */ = {isa = PBXBuildFile; fileRef = 9BDB098C29BB1DD9007F99E4 /* SongService.swift */; };
 		9BDB098E29BB1DD9007F99E4 /* SongService.swift in Sources */ = {isa = PBXBuildFile; fileRef = 9BDB098C29BB1DD9007F99E4 /* SongService.swift */; };
 		9BDB099029BB1E73007F99E4 /* DefaultSongService.swift in Sources */ = {isa = PBXBuildFile; fileRef = 9BDB098F29BB1E73007F99E4 /* DefaultSongService.swift */; };
@@ -131,6 +135,8 @@
 		9BB754DA29BA604C009BB3A6 /* DTOs.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = DTOs.swift; sourceTree = "<group>"; };
 		9BB754DD29BA8522009BB3A6 /* DTOs+Codable.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = "DTOs+Codable.swift"; sourceTree = "<group>"; };
 		9BB75E8129C12187008CD65A /* ListOptionComponent.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = ListOptionComponent.swift; sourceTree = "<group>"; };
+		9BB75E9A29C38610008CD65A /* DownloadedIcon.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = DownloadedIcon.swift; sourceTree = "<group>"; };
+		9BB75E9E29C3883E008CD65A /* FavoriteIcon.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = FavoriteIcon.swift; sourceTree = "<group>"; };
 		9BDB098C29BB1DD9007F99E4 /* SongService.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = SongService.swift; sourceTree = "<group>"; };
 		9BDB098F29BB1E73007F99E4 /* DefaultSongService.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = DefaultSongService.swift; sourceTree = "<group>"; };
 		9BDB099229BB1F57007F99E4 /* DummySongService.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = DummySongService.swift; sourceTree = "<group>"; };
@@ -240,6 +246,7 @@
 		9B70BDA229B93228000DB31C /* Components */ = {
 			isa = PBXGroup;
 			children = (
+				9BB75E9D29C3874F008CD65A /* Icons */,
 				9B70BD9C29B91F42000DB31C /* AlbumTileComponent.swift */,
 				9BDB09A429BB4816007F99E4 /* ArtworkComponent.swift */,
 				9B61365929BC7002004C85EC /* AlbumTileListComponent.swift */,
@@ -319,6 +326,15 @@
 				48C1F8E329BB827E003BE048 /* JellyfinImageProvider.swift */,
 			);
 			path = Jellyfin;
+			sourceTree = "<group>";
+		};
+		9BB75E9D29C3874F008CD65A /* Icons */ = {
+			isa = PBXGroup;
+			children = (
+				9BB75E9A29C38610008CD65A /* DownloadedIcon.swift */,
+				9BB75E9E29C3883E008CD65A /* FavoriteIcon.swift */,
+			);
+			path = Icons;
 			sourceTree = "<group>";
 		};
 		9BDB099529BB2F8B007F99E4 /* AlbumService */ = {
@@ -475,6 +491,7 @@
 				9B3D44C029BE09620054C9E0 /* SongsLibraryScreen.swift in Sources */,
 				9B80477029B89EE40069B407 /* AlbumLibraryScreen.swift in Sources */,
 				48C1F8C229B9E795003BE048 /* Store+common.swift in Sources */,
+				9BB75E9B29C38610008CD65A /* DownloadedIcon.swift in Sources */,
 				9B80476629B86F460069B407 /* LibraryScreen.swift in Sources */,
 				9BB754DB29BA604C009BB3A6 /* DTOs.swift in Sources */,
 				9BDB098D29BB1DD9007F99E4 /* SongService.swift in Sources */,
@@ -498,6 +515,7 @@
 				48C1F8DA29B9FEB9003BE048 /* AlbumService.swift in Sources */,
 				48C1F8E429BB827E003BE048 /* JellyfinImageProvider.swift in Sources */,
 				9BDB099329BB1F57007F99E4 /* DummySongService.swift in Sources */,
+				9BB75E9F29C3883E008CD65A /* FavoriteIcon.swift in Sources */,
 				9B80477E29B8CDF80069B407 /* SettingsScreen.swift in Sources */,
 				9B3D449F29BCF9490054C9E0 /* DefaultSystemService.swift in Sources */,
 				9B3D44BA29BDF2550054C9E0 /* InlineInputComponent.swift in Sources */,
@@ -525,9 +543,11 @@
 				9BB754DF29BA8522009BB3A6 /* DTOs+Codable.swift in Sources */,
 				9BDB099D29BB302C007F99E4 /* DefaultImageService.swift in Sources */,
 				9BDB098E29BB1DD9007F99E4 /* SongService.swift in Sources */,
+				9BB75E9C29C38610008CD65A /* DownloadedIcon.swift in Sources */,
 				9B61365B29BC7002004C85EC /* AlbumTileListComponent.swift in Sources */,
 				48C1F8C329B9E795003BE048 /* Store+common.swift in Sources */,
 				9B3D44BE29BDFEE70054C9E0 /* SongEntryComponent.swift in Sources */,
+				9BB75EA029C3883E008CD65A /* FavoriteIcon.swift in Sources */,
 				9B61365E29BCB254004C85EC /* MacHomeScreen.swift in Sources */,
 				9B3D44C729BE5E560054C9E0 /* DTOs+BaseItem.swift in Sources */,
 				9B80474429B768010069B407 /* JellyMusicApp.swift in Sources */,

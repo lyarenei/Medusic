@@ -3,25 +3,25 @@ import SFSafeSymbols
 import SwiftUI
 
 private struct SongActions: View {
-    let isDownloaded = true
-    let isFavorite = true
+    @State
+    var isDownloaded = false
+
+    @State
+    var isFavorite = false
 
     var body: some View {
-        let downloadedIcon: SFSymbol = isDownloaded ? .checkmarkCircle : .arrowDownCircle
-        let isFavoriteIcon: SFSymbol = isFavorite ? .heartFill : .heart
-
         Group {
             Button {
                 // Song like action
             } label: {
-                Image(systemSymbol: isFavoriteIcon)
+                FavoriteIcon(isFavorite: $isFavorite)
             }
             .disabled(true)
 
             Button {
                 // Song download action
             } label: {
-                Image(systemSymbol: downloadedIcon)
+                DownloadedIcon(isDownloaded: $isDownloaded)
             }
             .disabled(true)
         }
