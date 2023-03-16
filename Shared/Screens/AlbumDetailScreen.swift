@@ -91,12 +91,15 @@ struct AlbumDetailScreen: View {
     @State
     private var isLoading = true
 
+    @State
+    var isDownloaded: Bool = false
+
+    @State
+    var isFavorite: Bool = false
+
     var album: Album
 
     var body: some View {
-        let downloadedIcon: SFSymbol = album.isDownloaded ? .checkmarkCircle : .arrowDownCircle
-        let likedIcon: SFSymbol = album.isFavorite ? .heartFill : .heart
-
         ScrollView {
             VStack {
                 AlbumHeading(album: album)
@@ -114,33 +117,25 @@ struct AlbumDetailScreen: View {
         .navigationBarTitleDisplayMode(.inline)
         .toolbar(content: {
             ToolbarItem(content: {
-                Button {
-                    // Album like button
-                } label: {
-                    Image(systemSymbol: likedIcon)
-                }
-                .disabled(true)
+                FavoriteButton(isFavorite: $isFavorite)
+                    .disabled(true)
             })
 
             ToolbarItem(content: {
-                Button {
-                    // Album download action
-                } label: {
-                    Image(systemSymbol: downloadedIcon)
-                }
-                .disabled(true)
+                DownloadButton(isDownloaded: $isDownloaded)
+                    .disabled(true)
             })
         })
         .backport.task(priority: .background) {
             isLoading = true
+            defer { isLoading = false }
 
             do {
                 songs = try await api.services.songService.getSongs(for: album.id)
             } catch {
+                print("Failed to fetch songs for album", error)
                 songs = []
             }
-
-            isLoading = false
         }
     }
 
@@ -178,7 +173,6 @@ struct AlbumDetailScreen_Previews: PreviewProvider {
 
     static var previews: some View {
         AlbumDetailScreen(album: album)
-            .environment(\.api, .init())
         AlbumDetailScreen(album: albumLong)
     }
 }
