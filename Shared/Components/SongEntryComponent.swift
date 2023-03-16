@@ -74,6 +74,7 @@ struct SongEntryComponent: View {
             if showActions {
                 Spacer(minLength: 10)
                 SongActions()
+                    .font(.title2)
             }
         }
         .frame(height: 40)
