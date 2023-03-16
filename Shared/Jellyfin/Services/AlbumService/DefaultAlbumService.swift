@@ -47,7 +47,7 @@ final class DefaultAlbumService: AlbumService {
             guard let self else { return completion(.failure(AlbumFetchError.invalid)) }
             Task {
                 do {
-                    var requestParams = self.requestParams(itemIds: [albumId])
+                    let requestParams = self.requestParams(itemIds: [albumId])
                     let request = JellyfinAPI.Paths.getItems(parameters: requestParams)
                     let response = try await self.client.send(request)
                     guard let items = response.value.items else { throw AlbumFetchError.itemNotFound }
