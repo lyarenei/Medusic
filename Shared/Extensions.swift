@@ -3,7 +3,6 @@ import SwiftUI
 
 extension Defaults.Keys {
     // Jellyfin settings
-
     static let serverUrl = Key<String>("serverUrl", default: "")
     static let username = Key<String>("username", default: "")
     static let userId = Key<String>("userId", default: "")
@@ -17,7 +16,7 @@ extension Array where Element == Song {
     /// Sorts songs by album ID, then by their order.
     /// This results in songs being grouped by their albums, and in correct order in that album.
     func sortByAlbum() -> [Song] {
-        return self.sorted(by: {(lhs, rhs) -> Bool in
+        return self.sorted(by: { lhs, rhs -> Bool in
             // Sort by album ID, then by index
             if lhs.parentId < rhs.parentId { return true }
             if lhs.parentId > rhs.parentId { return false }
@@ -32,9 +31,9 @@ extension Array where Element == Song {
     /// Get only songs which belong to Album specified by its ID.
     /// These songs are sorted by their order in that album.
     func getByAlbum(id albumId: String) -> [Song] {
-        let filteredSongs = self.filter({(song) -> Bool in
+        let filteredSongs = self.filter { song -> Bool in
             song.parentId == albumId
-        })
+        }
 
         return filteredSongs.sortByAlbum()
     }
