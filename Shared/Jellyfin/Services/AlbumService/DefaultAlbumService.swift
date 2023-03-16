@@ -1,7 +1,7 @@
 import Boutique
+import Combine
 import Foundation
 import JellyfinAPI
-import Combine
 
 final class DefaultAlbumService: AlbumService {
     @Stored(in: .albums)
@@ -65,13 +65,13 @@ final class DefaultAlbumService: AlbumService {
     // TODO: Add pagination.
     func getAlbums() -> AnyPublisher<[Album], AlbumFetchError> {
         let remotePublisher = self.fetchAll()
-        .handleEvents(receiveOutput: { [weak self] albums in
-            guard let self else { return }
-            Task {
-                try? await self.$albums.removeAll().insert(albums).run()
-            }
-        })
-        .eraseToAnyPublisher()
+            .handleEvents(receiveOutput: { [weak self] albums in
+                guard let self else { return }
+                Task {
+                    try? await self.$albums.removeAll().insert(albums).run()
+                }
+            })
+            .eraseToAnyPublisher()
 
         let cachePublisher = Future<[Album], AlbumFetchError> { [weak self] completion in
             guard let self else { return completion(.failure(AlbumFetchError.invalid)) }
@@ -88,19 +88,19 @@ final class DefaultAlbumService: AlbumService {
 
     func getAlbum(by albumId: String) -> AnyPublisher<Album, AlbumFetchError> {
         let remotePublisher = self.fetchOne(by: albumId)
-        .handleEvents(receiveOutput: { [weak self] album in
-            guard let self else { return }
-            Task {
-                try? await self.$albums.remove(album).insert(album).run()
-            }
-        })
-        .eraseToAnyPublisher()
+            .handleEvents(receiveOutput: { [weak self] album in
+                guard let self else { return }
+                Task {
+                    try? await self.$albums.remove(album).insert(album).run()
+                }
+            })
+            .eraseToAnyPublisher()
 
         let cachePublisher = Future<Album, AlbumFetchError> { [weak self] completion in
             guard let self else { return completion(.failure(AlbumFetchError.invalid)) }
             Task {
                 if let album = await self.albums.first(where: { $0.uuid == albumId }) {
-                     return completion(.success(album))
+                    return completion(.success(album))
                 }
 
                 return completion(.failure(AlbumFetchError.itemsNotFound))
