@@ -46,4 +46,11 @@ extension Array where Element == Song {
 
         return filteredSongs.sortByAlbum()
     }
+
+    /// Get song by specified song ID.
+    func getById(_ songId: String) -> Song? {
+        return self.first(where: { song -> Bool in
+            song.uuid == songId
+        })
+    }
 }
