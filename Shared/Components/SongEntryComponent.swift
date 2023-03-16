@@ -11,19 +11,11 @@ private struct SongActions: View {
 
     var body: some View {
         Group {
-            Button {
-                // Song like action
-            } label: {
-                FavoriteIcon(isFavorite: $isFavorite)
-            }
-            .disabled(true)
+            FavoriteButton(isFavorite: $isFavorite)
+                .disabled(true)
 
-            Button {
-                // Song download action
-            } label: {
-                DownloadedIcon(isDownloaded: $isDownloaded)
-            }
-            .disabled(true)
+            DownloadButton(isDownloaded: $isDownloaded)
+                .disabled(true)
         }
         .frame(minWidth: 25)
     }
