@@ -15,17 +15,21 @@ final class DefaultAlbumService: AlbumService {
         self.client = client
     }
 
+    private func requestParams(itemIds: [String]? = nil) -> JellyfinAPI.Paths.GetItemsParameters {
+        return JellyfinAPI.Paths.GetItemsParameters(
+            userID: self.userId,
+            isRecursive: true,
+            includeItemTypes: [.musicAlbum],
+            ids: itemIds
+        )
+    }
+
     private func fetchAll() -> Future<[Album], AlbumFetchError> {
         return Future<[Album], AlbumFetchError> { [weak self] completion in
             guard let self else { return completion(.failure(AlbumFetchError.invalid)) }
             Task {
                 do {
-                    let requestParams = JellyfinAPI.Paths.GetItemsParameters(
-                        userID: self.userId,
-                        isRecursive: true,
-                        includeItemTypes: [.musicAlbum]
-                    )
-                    let request = JellyfinAPI.Paths.getItems(parameters: requestParams)
+                    let request = JellyfinAPI.Paths.getItems(parameters: self.requestParams())
                     let response = try await self.client.send(request)
                     guard let items = response.value.items else { throw AlbumFetchError.itemsNotFound }
                     completion(.success(items.map(Album.init(from:))))
@@ -43,12 +47,7 @@ final class DefaultAlbumService: AlbumService {
             guard let self else { return completion(.failure(AlbumFetchError.invalid)) }
             Task {
                 do {
-                    let requestParams = JellyfinAPI.Paths.GetItemsParameters(
-                        userID: self.userId,
-                        isRecursive: true,
-                        includeItemTypes: [.musicAlbum],
-                        ids: [albumId]
-                    )
+                    var requestParams = self.requestParams(itemIds: [albumId])
                     let request = JellyfinAPI.Paths.getItems(parameters: requestParams)
                     let response = try await self.client.send(request)
                     guard let items = response.value.items else { throw AlbumFetchError.itemNotFound }
