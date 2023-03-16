@@ -98,7 +98,7 @@ final class DefaultAlbumService: AlbumService {
         let cachePublisher = Future<Album, AlbumFetchError> { [weak self] completion in
             guard let self else { return completion(.failure(AlbumFetchError.invalid)) }
             Task {
-                if let album = await self.albums.first(where: { $0.uuid == albumId }) {
+                if let album = await self.albums.getById(albumId) {
                     return completion(.success(album))
                 }
 

@@ -12,6 +12,15 @@ extension Defaults.Keys {
     static let previewMode = Key<Bool>("previewMode", default: false)
 }
 
+extension Array where Element == Album {
+    /// Get album by specified album ID.
+    func getById(_ albumId: String) -> Album? {
+        return self.first(where: { album -> Bool in
+            album.uuid == albumId
+        })
+    }
+}
+
 extension Array where Element == Song {
     /// Sorts songs by album ID, then by their order.
     /// This results in songs being grouped by their albums, and in correct order in that album.
