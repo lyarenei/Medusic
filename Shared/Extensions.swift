@@ -13,3 +13,20 @@ extension Defaults.Keys {
     static let offlineMode = Key<Bool>("offlineMode", default: false)
     static let previewMode = Key<Bool>("previewMode", default: false)
 }
+
+extension Array where Element == Song {
+    /// Sorts songs by album ID, then by their order.
+    /// This results in songs being grouped by their albums, and in correct order in that album.
+    func sortByAlbum() -> [Song] {
+        return self.sorted(by: {(lhs, rhs) -> Bool in
+            // Sort by album ID, then by index
+            if lhs.parentId < rhs.parentId { return true }
+            if lhs.parentId > rhs.parentId { return false }
+            if lhs.parentId == rhs.parentId {
+                return lhs.index < rhs.index
+            }
+
+            return false
+        })
+    }
+}
