@@ -51,7 +51,7 @@ final class DefaultAlbumService: AlbumService {
                     )
                     let request = JellyfinAPI.Paths.getItems(parameters: requestParams)
                     let response = try await self.client.send(request)
-                    guard let items = response.value.items else { throw AlbumFetchError.itemsNotFound }
+                    guard let items = response.value.items else { throw AlbumFetchError.itemNotFound }
                     completion(.success(Album(from: items[0])))
                 } catch let error as AlbumFetchError {
                     completion(.failure(error))
@@ -103,7 +103,7 @@ final class DefaultAlbumService: AlbumService {
                     return completion(.success(album))
                 }
 
-                return completion(.failure(AlbumFetchError.itemsNotFound))
+                return completion(.failure(AlbumFetchError.itemNotFound))
             }
         }
         // If the cache is later than remote data, don't send it at all.
