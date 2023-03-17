@@ -1,11 +1,6 @@
-import Boutique
-import Foundation
 import JellyfinAPI
 
 final class DefaultSongService: SongService {
-    @Stored(in: .songs)
-    private var songs: [Song]
-
     private let client: JellyfinClient
 
     private var userId = "0f0edfcf31d64740bd577afe8e94b752"
@@ -36,30 +31,22 @@ final class DefaultSongService: SongService {
 
     // TODO: Add pagination.
     func getSongs() async throws -> [Song] {
-        do {
-            let remoteSongs = try await self.fetchSongs(
-                for: nil,
-                sortBy: ["Album", "indexNumber"]
-            )
-            try? await $songs.removeAll().insert(remoteSongs).run()
-            return remoteSongs
-        } catch {
-            return await songs
-        }
+        let remoteSongs = try await self.fetchSongs(
+            for: nil,
+            sortBy: ["Album", "indexNumber"]
+        )
+
+        return remoteSongs
     }
 
     // TODO: Add pagination.
     func getSongs(for albumId: String) async throws -> [Song] {
-        do {
-            let remoteSongs = try await self.fetchSongs(
-                for: albumId,
-                sortBy: ["indexNumber"]
-            )
-            try? await $songs.removeAll().insert(remoteSongs).run()
-            return remoteSongs
-        } catch {
-            return await songs
-        }
+        let remoteSongs = try await self.fetchSongs(
+            for: albumId,
+            sortBy: ["indexNumber"]
+        )
+
+        return remoteSongs
     }
 
     func toggleFavorite(songId: String) async throws -> Bool {
