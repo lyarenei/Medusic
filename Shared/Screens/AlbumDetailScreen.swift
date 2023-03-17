@@ -1,3 +1,4 @@
+import Defaults
 import Kingfisher
 import SFSafeSymbols
 import SwiftUI
@@ -85,8 +86,11 @@ struct AlbumDetailScreen: View {
     @Environment(\.api)
     var api
 
+    @StateObject
+    var songsController = SongsController(store: .songs)
+
     @State
-    private var songs: [Song] = []
+    private var songs: [Song]?
 
     @State
     private var isLoading = true
@@ -107,9 +111,12 @@ struct AlbumDetailScreen: View {
                 AlbumActions()
                     .padding(.bottom, 30)
 
-                SongList(songs: songs)
-                    .padding(.bottom, 10)
-                    .overlay(loadingOverlay)
+                if let albumSongs = songs {
+                    SongList(songs: albumSongs)
+                        .padding(.bottom, 10)
+                } else {
+                    ProgressView()
+                }
             }
         }
         .navigationBarTitleDisplayMode(.inline)
@@ -124,23 +131,22 @@ struct AlbumDetailScreen: View {
                     .disabled(true)
             })
         })
-        .backport.task(priority: .background) {
-            isLoading = true
-            defer { isLoading = false }
-
-            do {
-                songs = try await api.services.songService.getSongs(for: album.id)
-            } catch {
-                print("Failed to fetch songs for album", error)
-                songs = []
-            }
-        }
+        .onAppear { Task { await self.setSongs(albumId: album.uuid)}}
+        .backport.refreshable { await self.refresh(albumId: album.uuid) }
     }
 
-    @ViewBuilder
-    private var loadingOverlay: some View {
-        if isLoading {
-            ProgressView()
+    private func setSongs(albumId: String) async {
+        self.songs = await songsController.getSongs(ofAlbum: albumId)
+    }
+
+    private func refresh(albumId: String) async {
+        defer { Task { await self.setSongs(albumId: albumId) }}
+        self.songs = nil
+        do {
+            // TODO only pull data for songs of this album
+            try await songsController.refresh()
+        } catch {
+            print("Failed to refresh the songs", error)
         }
     }
 }
