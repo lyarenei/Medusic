@@ -221,14 +221,6 @@
 			path = SystemService;
 			sourceTree = "<group>";
 		};
-		9B3D44A529BD2A7E0054C9E0 /* Settings */ = {
-			isa = PBXGroup;
-			children = (
-				9B80477D29B8CDF80069B407 /* SettingsScreen.swift */,
-			);
-			path = Settings;
-			sourceTree = "<group>";
-		};
 		9B61365429BC6E19004C85EC /* Screens */ = {
 			isa = PBXGroup;
 			children = (
@@ -242,9 +234,9 @@
 		9B61365529BC6F18004C85EC /* Screens */ = {
 			isa = PBXGroup;
 			children = (
-				9B3D44A529BD2A7E0054C9E0 /* Settings */,
 				9B80475D29B7D5330069B407 /* HomeScreen.swift */,
 				9B80476529B86F460069B407 /* LibraryScreen.swift */,
+				9B80477D29B8CDF80069B407 /* SettingsScreen.swift */,
 			);
 			path = Screens;
 			sourceTree = "<group>";
