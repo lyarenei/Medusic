@@ -24,8 +24,8 @@
 		48C1F8D829B9FDDF003BE048 /* DummyAlbumService.swift in Sources */ = {isa = PBXBuildFile; fileRef = 48C1F8D629B9FDDF003BE048 /* DummyAlbumService.swift */; };
 		48C1F8DA29B9FEB9003BE048 /* AlbumService.swift in Sources */ = {isa = PBXBuildFile; fileRef = 48C1F8D929B9FEB9003BE048 /* AlbumService.swift */; };
 		48C1F8DB29B9FEB9003BE048 /* AlbumService.swift in Sources */ = {isa = PBXBuildFile; fileRef = 48C1F8D929B9FEB9003BE048 /* AlbumService.swift */; };
-		48C1F8DD29B9FF91003BE048 /* API.swift in Sources */ = {isa = PBXBuildFile; fileRef = 48C1F8DC29B9FF91003BE048 /* API.swift */; };
-		48C1F8DE29B9FF91003BE048 /* API.swift in Sources */ = {isa = PBXBuildFile; fileRef = 48C1F8DC29B9FF91003BE048 /* API.swift */; };
+		48C1F8DD29B9FF91003BE048 /* ApiClient.swift in Sources */ = {isa = PBXBuildFile; fileRef = 48C1F8DC29B9FF91003BE048 /* ApiClient.swift */; };
+		48C1F8DE29B9FF91003BE048 /* ApiClient.swift in Sources */ = {isa = PBXBuildFile; fileRef = 48C1F8DC29B9FF91003BE048 /* ApiClient.swift */; };
 		48C1F8E129BB7CB4003BE048 /* Image+crossplatform.swift in Sources */ = {isa = PBXBuildFile; fileRef = 48C1F8E029BB7CB4003BE048 /* Image+crossplatform.swift */; };
 		48C1F8E229BB7CB4003BE048 /* Image+crossplatform.swift in Sources */ = {isa = PBXBuildFile; fileRef = 48C1F8E029BB7CB4003BE048 /* Image+crossplatform.swift */; };
 		48C1F8E429BB827E003BE048 /* JellyfinImageProvider.swift in Sources */ = {isa = PBXBuildFile; fileRef = 48C1F8E329BB827E003BE048 /* JellyfinImageProvider.swift */; };
@@ -112,7 +112,7 @@
 		48C1F8CF29B9F3E4003BE048 /* DefaultAlbumService.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = DefaultAlbumService.swift; sourceTree = "<group>"; };
 		48C1F8D629B9FDDF003BE048 /* DummyAlbumService.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = DummyAlbumService.swift; sourceTree = "<group>"; };
 		48C1F8D929B9FEB9003BE048 /* AlbumService.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = AlbumService.swift; sourceTree = "<group>"; };
-		48C1F8DC29B9FF91003BE048 /* API.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = API.swift; sourceTree = "<group>"; };
+		48C1F8DC29B9FF91003BE048 /* ApiClient.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = ApiClient.swift; sourceTree = "<group>"; };
 		48C1F8E029BB7CB4003BE048 /* Image+crossplatform.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = "Image+crossplatform.swift"; sourceTree = "<group>"; };
 		48C1F8E329BB827E003BE048 /* JellyfinImageProvider.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = JellyfinImageProvider.swift; sourceTree = "<group>"; };
 		9B3D449B29BCF89A0054C9E0 /* SystemService.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = SystemService.swift; sourceTree = "<group>"; };
@@ -297,7 +297,6 @@
 				9B70BDA329B93234000DB31C /* Views */,
 				9B70BDA229B93228000DB31C /* Components */,
 				9B80473329B768000069B407 /* JellyMusicApp.swift */,
-				48C1F8DC29B9FF91003BE048 /* API.swift */,
 				4848B22529BCBC2000EB2FAA /* Cancellables.swift */,
 				9B80473529B768010069B407 /* Assets.xcassets */,
 				9B3D44AF29BDB98F0054C9E0 /* Extensions.swift */,
@@ -338,6 +337,7 @@
 			isa = PBXGroup;
 			children = (
 				48C1F8CE29B9F3DB003BE048 /* Services */,
+				48C1F8DC29B9FF91003BE048 /* ApiClient.swift */,
 				48C1F8E329BB827E003BE048 /* JellyfinImageProvider.swift */,
 			);
 			path = Jellyfin;
@@ -531,7 +531,7 @@
 				9BB75EAA29C39FFF008CD65A /* SongsController.swift in Sources */,
 				9BDB099F29BB322A007F99E4 /* DummyImageService.swift in Sources */,
 				9B80475E29B7D5330069B407 /* HomeScreen.swift in Sources */,
-				48C1F8DD29B9FF91003BE048 /* API.swift in Sources */,
+				48C1F8DD29B9FF91003BE048 /* ApiClient.swift in Sources */,
 				9B3D44A729BD2ADE0054C9E0 /* GeneralSection.swift in Sources */,
 				48C1F8E129BB7CB4003BE048 /* Image+crossplatform.swift in Sources */,
 				4848B22629BCBC2000EB2FAA /* Cancellables.swift in Sources */,
@@ -564,7 +564,7 @@
 				9B70BD9E29B91F42000DB31C /* AlbumTileComponent.swift in Sources */,
 				9B80475329B7C7E30069B407 /* MacSettingsView.swift in Sources */,
 				48C1F8DB29B9FEB9003BE048 /* AlbumService.swift in Sources */,
-				48C1F8DE29B9FF91003BE048 /* API.swift in Sources */,
+				48C1F8DE29B9FF91003BE048 /* ApiClient.swift in Sources */,
 				9B3D44A329BCFD370054C9E0 /* MockSystemService.swift in Sources */,
 				48C1F8E529BB827E003BE048 /* JellyfinImageProvider.swift in Sources */,
 				9B80477129B89EE40069B407 /* AlbumLibraryScreen.swift in Sources */,
