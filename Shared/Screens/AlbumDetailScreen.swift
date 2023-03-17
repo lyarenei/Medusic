@@ -163,15 +163,7 @@ struct AlbumDetailScreen_Previews: PreviewProvider {
         uuid: "xyz",
         name: "Very long album name that can't possibly fit on one line on phone screen either in vertical or horizontal orientation",
         artistName: "Very long artist name that can't possibly fit on one line on phone screen either in vertical or horizontal orientation",
-        isFavorite: true,
-        songs: [
-            Song(
-                uuid: "asdf",
-                index: 1,
-                name: "Very long song name that can't possibly fit on one line on phone screen either in vertical or horizontal orientation",
-                parentId: "xyz"
-            )
-        ]
+        isFavorite: true
     )
 
     static var previews: some View {

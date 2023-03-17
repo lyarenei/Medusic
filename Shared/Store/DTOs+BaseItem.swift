@@ -1,4 +1,3 @@
-import Foundation
 import JellyfinAPI
 
 public extension Album {
@@ -8,9 +7,6 @@ public extension Album {
         self.artistName = item.albumArtist ?? ""
         self.isFavorite = item.userData?.isFavorite ?? false
         self.isDownloaded = false
-
-        // TODO: to be removed
-        self.songs = []
     }
 }
 

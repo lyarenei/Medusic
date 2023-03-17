@@ -1,4 +1,3 @@
-import Foundation
 import JellyfinAPI
 
 public struct JellyfinServerInfo {
@@ -12,9 +11,6 @@ public struct Album {
     public var artistName: String
     public var isDownloaded: Bool = false
     public var isFavorite: Bool = false
-
-    // TODO: remove this and pull songs from api by their parent id
-    public var songs: [Song] = []
 
     static func empty() -> Album {
         return Album(uuid: "", name: "", artistName: "")

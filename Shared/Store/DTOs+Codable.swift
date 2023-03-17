@@ -1,6 +1,5 @@
 import Foundation
 
-
 extension Album: Codable {
     enum CodingKeys: String, CodingKey {
         case uuid
@@ -8,7 +7,6 @@ extension Album: Codable {
         case artistName
         case isDownloaded
         case isFavorite
-        case songs
     }
 
     public init(from decoder: Decoder) throws {
@@ -18,7 +16,6 @@ extension Album: Codable {
         self.artistName = try container.decode(String.self, forKey: .artistName)
         self.isDownloaded = try container.decode(Bool.self, forKey: .isDownloaded)
         self.isFavorite = try container.decode(Bool.self, forKey: .isFavorite)
-        self.songs = try container.decode([Song].self, forKey: .songs)
     }
 
     public func encode(to encoder: Encoder) throws {
@@ -28,7 +25,6 @@ extension Album: Codable {
         try container.encode(artistName, forKey: .artistName)
         try container.encode(isDownloaded, forKey: .isDownloaded)
         try container.encode(isFavorite, forKey: .isFavorite)
-        try container.encode(songs, forKey: .songs)
     }
 }
 
