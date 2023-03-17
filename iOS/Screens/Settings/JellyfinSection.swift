@@ -18,6 +18,12 @@ extension SettingsScreen {
         @State
         private var password = ""
 
+        @State
+        private var serverStatus: String = "unknown"
+
+        @State
+        private var statusColor: Color = Color(UIColor.separator)
+
         var body: some View {
             Section(
                 header: Text("Jellyfin"),
@@ -65,6 +71,15 @@ extension SettingsScreen {
                     .autocapitalization(.none)
                 }
             )
+
+            Section(content: {
+                InlineValueComponent(
+                    labelText: "Server status",
+                    labelSymbol: .linkIcloud,
+                    value: $serverStatus
+                )
+                .foregroundColor(self.statusColor)
+            })
         }
 
         func validateUrl(_ url: String) -> Bool {
@@ -73,6 +88,25 @@ extension SettingsScreen {
             }
 
             return false
+        }
+
+        func pingServer() {
+            // TODO: if no config
+            if true {
+                self.serverStatus = "unknown"
+                self.statusColor = .init(UIColor.separator)
+                return
+            }
+
+            // TODO: if server ping
+            if true {
+                // TODO: consider showing online + logged in status
+                self.serverStatus = "online"
+                self.statusColor = .green
+            } else {
+                self.serverStatus = "offline"
+                self.statusColor = .red
+            }
         }
     }
 }

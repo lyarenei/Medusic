@@ -12,9 +12,6 @@ struct SettingsScreen: View {
                 .navigationTitle("Settings")
                 .listStyle(.grouped)
                 .buttonStyle(.plain)
-
-                // TODO: allow keyboard to cover this
-                AboutServer()
             }
         }
     }
