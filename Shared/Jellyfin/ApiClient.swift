@@ -4,7 +4,7 @@ import JellyfinAPI
 import SwiftUI
 
 final class ApiClient {
-    private(set) var services: API = .preview
+    private(set) var services: ApiServices = .preview
 
     init() {
         Defaults[.previewMode] ? usePreviewMode() : useDefaultMode()
@@ -33,7 +33,7 @@ final class ApiClient {
             version: "0.0"
         ))
 
-        services = API(
+        services = ApiServices(
             albumService: DefaultAlbumService(client: jellyfinClient),
             songService: DefaultSongService(client: jellyfinClient),
             imageService: DefaultImageService(client: jellyfinClient),
@@ -48,7 +48,7 @@ final class ApiClient {
     }
 }
 
-struct API {
+struct ApiServices {
     let albumService: any AlbumService
     let songService: any SongService
     let imageService: any ImageService
@@ -59,9 +59,9 @@ private struct APIEnvironmentKey: EnvironmentKey {
     static let defaultValue: ApiClient = .init()
 }
 
-extension API {
-    static var preview: API {
-        API(
+extension ApiServices {
+    static var preview: ApiServices {
+        ApiServices(
             albumService: DummyAlbumService(
                 albums: [
                     Album(
