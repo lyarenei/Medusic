@@ -6,12 +6,12 @@ import SwiftUI
 final class ApiClient {
     private(set) var services: API = .preview
 
-    init() {}
+    init() {
+        Defaults[.previewMode] ? usePreviewMode() : useDefaultMode()
+    }
 
     init(previewEnabled: Bool = true) {
-        if !previewEnabled {
-            useDefaultMode()
-        }
+        previewEnabled ? usePreviewMode() : useDefaultMode()
     }
 
     /// Use preview mode of the client with mocked data. Does not persist any changes.
