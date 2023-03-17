@@ -73,7 +73,6 @@
 		9BB754DC29BA604C009BB3A6 /* DTOs.swift in Sources */ = {isa = PBXBuildFile; fileRef = 9BB754DA29BA604C009BB3A6 /* DTOs.swift */; };
 		9BB754DE29BA8522009BB3A6 /* DTOs+Codable.swift in Sources */ = {isa = PBXBuildFile; fileRef = 9BB754DD29BA8522009BB3A6 /* DTOs+Codable.swift */; };
 		9BB754DF29BA8522009BB3A6 /* DTOs+Codable.swift in Sources */ = {isa = PBXBuildFile; fileRef = 9BB754DD29BA8522009BB3A6 /* DTOs+Codable.swift */; };
-		9BB75E7C29BF98A1008CD65A /* Defaults in Frameworks */ = {isa = PBXBuildFile; productRef = 9BB75E7B29BF98A1008CD65A /* Defaults */; };
 		9BB75E8229C12187008CD65A /* ListOptionComponent.swift in Sources */ = {isa = PBXBuildFile; fileRef = 9BB75E8129C12187008CD65A /* ListOptionComponent.swift */; };
 		9BB75E8329C12187008CD65A /* ListOptionComponent.swift in Sources */ = {isa = PBXBuildFile; fileRef = 9BB75E8129C12187008CD65A /* ListOptionComponent.swift */; };
 		9BB75E9B29C38610008CD65A /* DownloadedIcon.swift in Sources */ = {isa = PBXBuildFile; fileRef = 9BB75E9A29C38610008CD65A /* DownloadedIcon.swift */; };
@@ -86,6 +85,9 @@
 		9BB75EA729C389D9008CD65A /* DownloadButton.swift in Sources */ = {isa = PBXBuildFile; fileRef = 9BB75EA529C389D9008CD65A /* DownloadButton.swift */; };
 		9BB75EAA29C39FFF008CD65A /* SongsController.swift in Sources */ = {isa = PBXBuildFile; fileRef = 9BB75EA929C39FFF008CD65A /* SongsController.swift */; };
 		9BB75EAB29C39FFF008CD65A /* SongsController.swift in Sources */ = {isa = PBXBuildFile; fileRef = 9BB75EA929C39FFF008CD65A /* SongsController.swift */; };
+		9BB75EB029C4C5E1008CD65A /* Settings.swift in Sources */ = {isa = PBXBuildFile; fileRef = 9BB75EAF29C4C5E1008CD65A /* Settings.swift */; };
+		9BB75EB129C4C5E1008CD65A /* Settings.swift in Sources */ = {isa = PBXBuildFile; fileRef = 9BB75EAF29C4C5E1008CD65A /* Settings.swift */; };
+		9BB75EB429C4E640008CD65A /* Defaults in Frameworks */ = {isa = PBXBuildFile; productRef = 9BB75EB329C4E640008CD65A /* Defaults */; };
 		9BDB098D29BB1DD9007F99E4 /* SongService.swift in Sources */ = {isa = PBXBuildFile; fileRef = 9BDB098C29BB1DD9007F99E4 /* SongService.swift */; };
 		9BDB098E29BB1DD9007F99E4 /* SongService.swift in Sources */ = {isa = PBXBuildFile; fileRef = 9BDB098C29BB1DD9007F99E4 /* SongService.swift */; };
 		9BDB099029BB1E73007F99E4 /* DefaultSongService.swift in Sources */ = {isa = PBXBuildFile; fileRef = 9BDB098F29BB1E73007F99E4 /* DefaultSongService.swift */; };
@@ -146,6 +148,7 @@
 		9BB75EA229C3894A008CD65A /* FavoriteButton.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = FavoriteButton.swift; sourceTree = "<group>"; };
 		9BB75EA529C389D9008CD65A /* DownloadButton.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = DownloadButton.swift; sourceTree = "<group>"; };
 		9BB75EA929C39FFF008CD65A /* SongsController.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = SongsController.swift; sourceTree = "<group>"; };
+		9BB75EAF29C4C5E1008CD65A /* Settings.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = Settings.swift; sourceTree = "<group>"; };
 		9BDB098C29BB1DD9007F99E4 /* SongService.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = SongService.swift; sourceTree = "<group>"; };
 		9BDB098F29BB1E73007F99E4 /* DefaultSongService.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = DefaultSongService.swift; sourceTree = "<group>"; };
 		9BDB099229BB1F57007F99E4 /* DummySongService.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = DummySongService.swift; sourceTree = "<group>"; };
@@ -160,7 +163,7 @@
 			isa = PBXFrameworksBuildPhase;
 			buildActionMask = 2147483647;
 			files = (
-				9BB75E7C29BF98A1008CD65A /* Defaults in Frameworks */,
+				9BB75EB429C4E640008CD65A /* Defaults in Frameworks */,
 				9B3D44C429BE33850054C9E0 /* SwiftUIBackports in Frameworks */,
 				48C1F8BC29B9E5C9003BE048 /* Kingfisher in Frameworks */,
 				48C1F8BF29B9E6D1003BE048 /* Boutique in Frameworks */,
@@ -299,6 +302,7 @@
 				9B80473529B768010069B407 /* Assets.xcassets */,
 				9B3D44AF29BDB98F0054C9E0 /* Extensions.swift */,
 				9BB75EA929C39FFF008CD65A /* SongsController.swift */,
+				9BB75EAF29C4C5E1008CD65A /* Settings.swift */,
 			);
 			path = Shared;
 			sourceTree = "<group>";
@@ -409,7 +413,7 @@
 				48C1F8BE29B9E6D1003BE048 /* Boutique */,
 				48C1F8CC29B9EE97003BE048 /* SFSafeSymbols */,
 				9B3D44C329BE33850054C9E0 /* SwiftUIBackports */,
-				9BB75E7B29BF98A1008CD65A /* Defaults */,
+				9BB75EB329C4E640008CD65A /* Defaults */,
 			);
 			productName = "JellyMusic (iOS)";
 			productReference = 9B80473A29B768010069B407 /* JellyMusic.app */;
@@ -465,7 +469,7 @@
 				48C1F8BD29B9E6D1003BE048 /* XCRemoteSwiftPackageReference "Boutique" */,
 				48C1F8CB29B9EE97003BE048 /* XCRemoteSwiftPackageReference "SFSafeSymbols" */,
 				9B3D44C229BE33850054C9E0 /* XCRemoteSwiftPackageReference "SwiftUIBackports" */,
-				9BB75E7A29BF98A1008CD65A /* XCRemoteSwiftPackageReference "Defaults" */,
+				9BB75EB229C4E640008CD65A /* XCRemoteSwiftPackageReference "Defaults" */,
 			);
 			productRefGroup = 9B80473B29B768010069B407 /* Products */;
 			projectDirPath = "";
@@ -509,6 +513,7 @@
 				9B3D449C29BCF89A0054C9E0 /* SystemService.swift in Sources */,
 				9B3D44A229BCFD370054C9E0 /* MockSystemService.swift in Sources */,
 				9B61365A29BC7002004C85EC /* AlbumTileListComponent.swift in Sources */,
+				9BB75EB029C4C5E1008CD65A /* Settings.swift in Sources */,
 				9B3D44C029BE09620054C9E0 /* SongsLibraryScreen.swift in Sources */,
 				9B80477029B89EE40069B407 /* AlbumLibraryScreen.swift in Sources */,
 				48C1F8C229B9E795003BE048 /* Store+common.swift in Sources */,
@@ -572,6 +577,7 @@
 				48C1F8C329B9E795003BE048 /* Store+common.swift in Sources */,
 				9B3D44BE29BDFEE70054C9E0 /* SongEntryComponent.swift in Sources */,
 				9BB75EA029C3883E008CD65A /* FavoriteIcon.swift in Sources */,
+				9BB75EB129C4C5E1008CD65A /* Settings.swift in Sources */,
 				9B61365E29BCB254004C85EC /* MacHomeScreen.swift in Sources */,
 				9B3D44C729BE5E560054C9E0 /* DTOs+BaseItem.swift in Sources */,
 				9B80474429B768010069B407 /* JellyMusicApp.swift in Sources */,
@@ -916,7 +922,7 @@
 				minimumVersion = 0.2.2;
 			};
 		};
-		9BB75E7A29BF98A1008CD65A /* XCRemoteSwiftPackageReference "Defaults" */ = {
+		9BB75EB229C4E640008CD65A /* XCRemoteSwiftPackageReference "Defaults" */ = {
 			isa = XCRemoteSwiftPackageReference;
 			repositoryURL = "https://github.com/sindresorhus/Defaults";
 			requirement = {
@@ -952,9 +958,9 @@
 			package = 9BB754D429B93F3C009BB3A6 /* XCRemoteSwiftPackageReference "jellyfin-sdk-swift" */;
 			productName = JellyfinAPI;
 		};
-		9BB75E7B29BF98A1008CD65A /* Defaults */ = {
+		9BB75EB329C4E640008CD65A /* Defaults */ = {
 			isa = XCSwiftPackageProductDependency;
-			package = 9BB75E7A29BF98A1008CD65A /* XCRemoteSwiftPackageReference "Defaults" */;
+			package = 9BB75EB229C4E640008CD65A /* XCRemoteSwiftPackageReference "Defaults" */;
 			productName = Defaults;
 		};
 /* End XCSwiftPackageProductDependency section */
