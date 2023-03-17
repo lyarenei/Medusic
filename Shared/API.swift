@@ -76,6 +76,12 @@ extension API {
                         artistName: "Unamusing artist",
                         isDownloaded: true
                     ),
+                    Album(
+                        uuid: "3",
+                        name: "Very long album name that can't possibly fit on one line on phone screen either in vertical or horizontal orientation",
+                        artistName: "Very long artist name that can't possibly fit on one line on phone screen either in vertical or horizontal orientation",
+                        isFavorite: true
+                    )
                 ]
             ),
             songService: DummySongService(
@@ -110,6 +116,12 @@ extension API {
                         parentId: "2",
                         isDownloaded: true
                     ),
+                    Song(
+                        uuid: "5",
+                        index: 1,
+                        name: "Very long song name that can't possibly fit on one line on phone screen either in vertical or horizontal orientation",
+                        parentId: "3"
+                    )
                 ]
             ),
             imageService: DummyImageService(),
