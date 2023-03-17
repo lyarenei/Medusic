@@ -1,5 +1,3 @@
-import SwiftUI
-
 extension Array where Element == Album {
     /// Get album by specified album ID.
     func getById(_ albumId: String) -> Album? {

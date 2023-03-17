@@ -1,4 +1,3 @@
-import Defaults
 import Kingfisher
 import SFSafeSymbols
 import SwiftUI
