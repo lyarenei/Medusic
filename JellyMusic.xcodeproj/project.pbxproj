@@ -87,6 +87,8 @@
 		9BB75EB429C4E640008CD65A /* Defaults in Frameworks */ = {isa = PBXBuildFile; productRef = 9BB75EB329C4E640008CD65A /* Defaults */; };
 		9BB75EB629C4F751008CD65A /* InlineValueComponent.swift in Sources */ = {isa = PBXBuildFile; fileRef = 9BB75EB529C4F751008CD65A /* InlineValueComponent.swift */; };
 		9BB75EB729C4F751008CD65A /* InlineValueComponent.swift in Sources */ = {isa = PBXBuildFile; fileRef = 9BB75EB529C4F751008CD65A /* InlineValueComponent.swift */; };
+		9BB75EB929C509C6008CD65A /* ServerStatusController.swift in Sources */ = {isa = PBXBuildFile; fileRef = 9BB75EB829C509C6008CD65A /* ServerStatusController.swift */; };
+		9BB75EBA29C509C6008CD65A /* ServerStatusController.swift in Sources */ = {isa = PBXBuildFile; fileRef = 9BB75EB829C509C6008CD65A /* ServerStatusController.swift */; };
 		9BDB098D29BB1DD9007F99E4 /* SongService.swift in Sources */ = {isa = PBXBuildFile; fileRef = 9BDB098C29BB1DD9007F99E4 /* SongService.swift */; };
 		9BDB098E29BB1DD9007F99E4 /* SongService.swift in Sources */ = {isa = PBXBuildFile; fileRef = 9BDB098C29BB1DD9007F99E4 /* SongService.swift */; };
 		9BDB099029BB1E73007F99E4 /* DefaultSongService.swift in Sources */ = {isa = PBXBuildFile; fileRef = 9BDB098F29BB1E73007F99E4 /* DefaultSongService.swift */; };
@@ -146,6 +148,7 @@
 		9BB75EA929C39FFF008CD65A /* SongsController.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = SongsController.swift; sourceTree = "<group>"; };
 		9BB75EAF29C4C5E1008CD65A /* Settings.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = Settings.swift; sourceTree = "<group>"; };
 		9BB75EB529C4F751008CD65A /* InlineValueComponent.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = InlineValueComponent.swift; sourceTree = "<group>"; };
+		9BB75EB829C509C6008CD65A /* ServerStatusController.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = ServerStatusController.swift; sourceTree = "<group>"; };
 		9BDB098C29BB1DD9007F99E4 /* SongService.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = SongService.swift; sourceTree = "<group>"; };
 		9BDB098F29BB1E73007F99E4 /* DefaultSongService.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = DefaultSongService.swift; sourceTree = "<group>"; };
 		9BDB099229BB1F57007F99E4 /* DummySongService.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = DummySongService.swift; sourceTree = "<group>"; };
@@ -289,6 +292,7 @@
 				9B3D44AF29BDB98F0054C9E0 /* Extensions.swift */,
 				9BB75EA929C39FFF008CD65A /* SongsController.swift */,
 				9BB75EAF29C4C5E1008CD65A /* Settings.swift */,
+				9BB75EB829C509C6008CD65A /* ServerStatusController.swift */,
 			);
 			path = Shared;
 			sourceTree = "<group>";
@@ -526,6 +530,7 @@
 				9B70BD9D29B91F42000DB31C /* AlbumTileComponent.swift in Sources */,
 				9BB75E8229C12187008CD65A /* ListOptionComponent.swift in Sources */,
 				9BDB099929BB2FBF007F99E4 /* ImageService.swift in Sources */,
+				9BB75EB929C509C6008CD65A /* ServerStatusController.swift in Sources */,
 				48C1F8DA29B9FEB9003BE048 /* AlbumService.swift in Sources */,
 				48C1F8E429BB827E003BE048 /* JellyfinImageProvider.swift in Sources */,
 				9BDB099329BB1F57007F99E4 /* DummySongService.swift in Sources */,
@@ -545,6 +550,7 @@
 			files = (
 				9BDB09A029BB322A007F99E4 /* DummyImageService.swift in Sources */,
 				9BB75EA429C3894A008CD65A /* FavoriteButton.swift in Sources */,
+				9BB75EBA29C509C6008CD65A /* ServerStatusController.swift in Sources */,
 				48C1F8E229BB7CB4003BE048 /* Image+crossplatform.swift in Sources */,
 				9B70BD9E29B91F42000DB31C /* AlbumTileComponent.swift in Sources */,
 				9B80475329B7C7E30069B407 /* MacSettingsView.swift in Sources */,

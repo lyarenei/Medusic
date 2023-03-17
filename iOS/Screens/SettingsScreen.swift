@@ -110,38 +110,17 @@ private struct JellyfinSection: View {
 }
 
 private struct ServerStatus: View {
-    @State
-    private var serverStatus: String = "unknown"
-
-    @State
-    private var statusColor: Color = Color(UIColor.separator)
+    @StateObject
+    private var controller = ServerStatusController()
 
     var body: some View {
         InlineValueComponent(
             labelText: "Server status",
             labelSymbol: .linkIcloud,
-            value: $serverStatus
+            value: $controller.serverStatus
         )
-        .foregroundColor(self.statusColor)
-    }
-
-    func pingServer() {
-        // TODO: if no config
-        if true {
-            self.serverStatus = "unknown"
-            self.statusColor = .init(UIColor.separator)
-            return
-        }
-
-        // TODO: if server ping
-        if true {
-            // TODO: consider showing online + logged in status
-            self.serverStatus = "online"
-            self.statusColor = .green
-        } else {
-            self.serverStatus = "offline"
-            self.statusColor = .red
-        }
+        .foregroundColor(controller.statusColor)
+        .onAppear { Task { await self.controller.setStatus() }}
     }
 }
 
@@ -251,4 +230,3 @@ private struct PurgeCaches: View {
         }
     }
 }
-
