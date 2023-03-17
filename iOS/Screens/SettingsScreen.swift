@@ -34,6 +34,9 @@ struct SettingsScreen_Previews: PreviewProvider {
 // TODO: Implement validators (url is not garbage, user can log in)
 // TODO: Implement controller and move all logic there
 private struct JellyfinSection: View {
+    @StateObject
+    private var controller = JellyfinSettingsController()
+
     @Default(.serverUrl)
     private var serverUrl: String
 
@@ -96,7 +99,8 @@ private struct JellyfinSection: View {
         )
 
         Section(content: {
-            ServerStatus()
+            ServerStatus(controller: self.controller.serverStatusController)
+                .onAppear { Task { await self.controller.setServerStatus() }}
         })
     }
 
@@ -110,8 +114,12 @@ private struct JellyfinSection: View {
 }
 
 private struct ServerStatus: View {
-    @StateObject
-    private var controller = ServerStatusController()
+    @ObservedObject
+    private var controller: ServerStatusController
+
+    init(controller: ServerStatusController) {
+        self.controller = controller
+    }
 
     var body: some View {
         InlineValueComponent(
@@ -120,7 +128,6 @@ private struct ServerStatus: View {
             value: $controller.serverStatus
         )
         .foregroundColor(controller.statusColor)
-        .onAppear { Task { await self.controller.setStatus() }}
     }
 }
 

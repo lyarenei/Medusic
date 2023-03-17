@@ -1,4 +1,3 @@
-import Defaults
 import Foundation
 import SwiftUI
 
@@ -7,35 +6,12 @@ final class ServerStatusController: ObservableObject {
     var serverStatus: String = "unknown"
 
     @Published
-    var statusColor: Color = Color(UIColor.separator)
+    var statusColor: Color = .init(UIColor.separator)
 
-    private let api: ApiClient
-
-    init() {
-        self.api = ApiClient()
-    }
-
-    private func isConfigured() -> Bool {
-        return Defaults[.serverUrl] != "" && Defaults[.username] != ""
-    }
-
-    private func pingServer() async throws -> Bool {
-        try await api.services.systemService.ping()
-    }
-
-    private func isLoggedIn() -> Bool {
-        // TODO: Always true - it is persisted
-        return Defaults[.userId] != ""
-    }
-
-    func setStatus() async {
-        guard self.isConfigured() else { return self.setUnknown() }
-        do {
-            return try await self.pingServer() ? setOnline() : setOffline()
-        } catch {
-            print("Failed to get server status", error)
-            self.setUnknown()
-        }
+    func setStatus(isConfigured: Bool, isOnline: Bool?, isLoggedIn: Bool) async {
+        guard isConfigured else { return setUnknown() }
+        guard let online = isOnline else { return setUnknown() }
+        return online ? setOnline(isLoggedIn: isLoggedIn) : setOffline()
     }
 
     private func setUnknown() {
@@ -45,8 +21,8 @@ final class ServerStatusController: ObservableObject {
         }
     }
 
-    private func setOnline() {
-        let text = self.isLoggedIn() ? "online (logged in)" : "(online)"
+    private func setOnline(isLoggedIn: Bool) {
+        let text = isLoggedIn ? "online (logged in)" : "(online)"
         DispatchQueue.main.async {
             self.serverStatus = text
             self.statusColor = .green
