@@ -6,17 +6,17 @@ extension SettingsScreen {
     // TODO: Implement controller and move all logic there
     struct JellyfinSection: View {
         @Default(.serverUrl)
-        var serverUrl: String
+        private var serverUrl: String
 
         @State
-        var serverUrlEdit: String = ""
+        private var serverUrlEdit: String = ""
 
         @Default(.username)
-        var username: String
+        private var username: String
 
         // TODO: figure out how to securely store this
         @State
-        var password = ""
+        private var password = ""
 
         var body: some View {
             Section(
