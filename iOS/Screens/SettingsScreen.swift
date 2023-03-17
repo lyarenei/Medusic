@@ -47,12 +47,6 @@ private struct JellyfinSection: View {
     @State
     private var password = ""
 
-    @State
-    private var serverStatus: String = "unknown"
-
-    @State
-    private var statusColor: Color = Color(UIColor.separator)
-
     var body: some View {
         Section(
             header: Text("Jellyfin"),
@@ -102,12 +96,7 @@ private struct JellyfinSection: View {
         )
 
         Section(content: {
-            InlineValueComponent(
-                labelText: "Server status",
-                labelSymbol: .linkIcloud,
-                value: $serverStatus
-            )
-            .foregroundColor(self.statusColor)
+            ServerStatus()
         })
     }
 
@@ -117,6 +106,23 @@ private struct JellyfinSection: View {
         }
 
         return false
+    }
+}
+
+private struct ServerStatus: View {
+    @State
+    private var serverStatus: String = "unknown"
+
+    @State
+    private var statusColor: Color = Color(UIColor.separator)
+
+    var body: some View {
+        InlineValueComponent(
+            labelText: "Server status",
+            labelSymbol: .linkIcloud,
+            value: $serverStatus
+        )
+        .foregroundColor(self.statusColor)
     }
 
     func pingServer() {
