@@ -37,7 +37,6 @@
 		9B3D44A229BCFD370054C9E0 /* MockSystemService.swift in Sources */ = {isa = PBXBuildFile; fileRef = 9B3D44A129BCFD370054C9E0 /* MockSystemService.swift */; };
 		9B3D44A329BCFD370054C9E0 /* MockSystemService.swift in Sources */ = {isa = PBXBuildFile; fileRef = 9B3D44A129BCFD370054C9E0 /* MockSystemService.swift */; };
 		9B3D44A729BD2ADE0054C9E0 /* GeneralSection.swift in Sources */ = {isa = PBXBuildFile; fileRef = 9B3D44A629BD2ADE0054C9E0 /* GeneralSection.swift */; };
-		9B3D44A929BD2C010054C9E0 /* JellyfinSection.swift in Sources */ = {isa = PBXBuildFile; fileRef = 9B3D44A829BD2C010054C9E0 /* JellyfinSection.swift */; };
 		9B3D44B029BDB98F0054C9E0 /* Extensions.swift in Sources */ = {isa = PBXBuildFile; fileRef = 9B3D44AF29BDB98F0054C9E0 /* Extensions.swift */; };
 		9B3D44B129BDB98F0054C9E0 /* Extensions.swift in Sources */ = {isa = PBXBuildFile; fileRef = 9B3D44AF29BDB98F0054C9E0 /* Extensions.swift */; };
 		9B3D44BA29BDF2550054C9E0 /* InlineInputComponent.swift in Sources */ = {isa = PBXBuildFile; fileRef = 9B3D44B929BDF2550054C9E0 /* InlineInputComponent.swift */; };
@@ -120,7 +119,6 @@
 		9B3D449E29BCF9490054C9E0 /* DefaultSystemService.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = DefaultSystemService.swift; sourceTree = "<group>"; };
 		9B3D44A129BCFD370054C9E0 /* MockSystemService.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = MockSystemService.swift; sourceTree = "<group>"; };
 		9B3D44A629BD2ADE0054C9E0 /* GeneralSection.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = GeneralSection.swift; sourceTree = "<group>"; };
-		9B3D44A829BD2C010054C9E0 /* JellyfinSection.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = JellyfinSection.swift; sourceTree = "<group>"; };
 		9B3D44AF29BDB98F0054C9E0 /* Extensions.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = Extensions.swift; sourceTree = "<group>"; };
 		9B3D44B929BDF2550054C9E0 /* InlineInputComponent.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = InlineInputComponent.swift; sourceTree = "<group>"; };
 		9B3D44BC29BDFEE70054C9E0 /* SongEntryComponent.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = SongEntryComponent.swift; sourceTree = "<group>"; };
@@ -230,7 +228,6 @@
 			children = (
 				9B3D44A629BD2ADE0054C9E0 /* GeneralSection.swift */,
 				9B80477D29B8CDF80069B407 /* SettingsScreen.swift */,
-				9B3D44A829BD2C010054C9E0 /* JellyfinSection.swift */,
 			);
 			path = Settings;
 			sourceTree = "<group>";
@@ -538,7 +535,6 @@
 				48C1F8E129BB7CB4003BE048 /* Image+crossplatform.swift in Sources */,
 				4848B22629BCBC2000EB2FAA /* Cancellables.swift in Sources */,
 				48C1F8C929B9EA60003BE048 /* DTOs+Identifiable.swift in Sources */,
-				9B3D44A929BD2C010054C9E0 /* JellyfinSection.swift in Sources */,
 				9B70BD9D29B91F42000DB31C /* AlbumTileComponent.swift in Sources */,
 				9BB75E8229C12187008CD65A /* ListOptionComponent.swift in Sources */,
 				9BDB099929BB2FBF007F99E4 /* ImageService.swift in Sources */,
