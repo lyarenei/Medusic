@@ -107,11 +107,9 @@ struct AlbumDetailScreen: View {
                 AlbumActions()
                     .padding(.bottom, 30)
 
-                SongList(
-                    songs: songs
-                )
-                .padding(.bottom, 10)
-                .overlay(loadingOverlay)
+                SongList(songs: songs)
+                    .padding(.bottom, 10)
+                    .overlay(loadingOverlay)
             }
         }
         .navigationBarTitleDisplayMode(.inline)
