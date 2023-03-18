@@ -27,6 +27,17 @@ struct JellyMusicApp: App {
                 print("Failed to perform JF auth: \(error)")
             }
         }
+
+        let songsController = SongsController(store: .songs)
+
+        // TODO: refresh all data stores on start - also would be good to show error to user
+        Task {
+            do {
+                try await songsController.refresh()
+            } catch {
+                print("Failed to refresh data", error)
+            }
+        }
     }
 
     var body: some Scene {
