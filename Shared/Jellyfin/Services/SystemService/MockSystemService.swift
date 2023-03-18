@@ -9,7 +9,7 @@ final class MockSystemService: SystemService {
         return true
     }
 
-    func logIn(username: String, password: String) async throws -> Bool {
-        return true
+    func logIn(username: String, password: String) async throws -> String {
+        return "logged_in"
     }
 }

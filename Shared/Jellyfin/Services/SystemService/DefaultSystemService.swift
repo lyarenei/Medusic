@@ -1,4 +1,3 @@
-import Defaults
 import Foundation
 import JellyfinAPI
 
@@ -29,14 +28,12 @@ final class DefaultSystemService: SystemService {
         throw SystemServiceError.invalid
     }
 
-    func logIn(username: String, password: String) async throws -> Bool {
-        Defaults[.userId] = ""
+    func logIn(username: String, password: String) async throws -> String {
         let response = try await client.signIn(username: username , password: "aaa")
         if let uid = response.user?.id {
-            Defaults[.userId] = uid
-            return true
+            return uid
         }
 
-        return false
+        return ""
     }
 }

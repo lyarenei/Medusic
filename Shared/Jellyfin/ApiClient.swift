@@ -42,10 +42,18 @@ final class ApiClient {
     }
 
     public func performAuth() async throws -> Bool {
-        return try await services.systemService.logIn(
+        Defaults[.userId] = ""
+        let userId = try await services.systemService.logIn(
             username: Defaults[.username],
             password: "aaa"
         )
+
+        if !userId.isEmpty {
+            Defaults[.userId] = userId
+            return true
+        }
+
+        return false
     }
 }
 
