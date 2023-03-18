@@ -1,9 +1,7 @@
-import SwiftUI
-import Combine
 import SFSafeSymbols
+import SwiftUI
 
 private struct NavigationEntry<Content: View>: View {
-
     var destination: Content
     var text: String
     var symbol: SFSymbol
@@ -93,15 +91,11 @@ private struct LibraryNavigationItems: View {
 }
 
 struct LibraryScreen: View {
-
-    @Environment(\.api)
-    var api
-
-    @State
-    private var favoriteAlbums: [Album] = []
+    @StateObject
+    var albumRepo = AlbumRepository(store: .albums)
 
     @State
-    private var lifetimeCancellables: Cancellables = []
+    private var favoriteAlbums: [Album]?
 
     var body: some View {
         NavigationView {
@@ -117,22 +111,20 @@ struct LibraryScreen: View {
                             .padding(.leading, 5)
                     }
 
-                    AlbumTileListComponent(albums: favoriteAlbums)
+                    if let albums = favoriteAlbums {
+                        AlbumTileListComponent(albums: albums)
+                    } else {
+                        ProgressView()
+                    }
                 }
                 .padding(.leading, 10)
                 .padding(.trailing, 10)
             }
             .navigationTitle("Library")
         }
-        .onAppear {
-            api.services.albumService.getAlbums()
-                .catch { error -> Empty<[Album], Never> in
-                    print("Failed to fetch albums:", error)
-                    return Empty()
-                }
-                .assign(to: \.favoriteAlbums, on: self)
-                .store(in: &lifetimeCancellables)
-        }
+        .onAppear { Task {
+            self.favoriteAlbums = await self.albumRepo.getFavorite()
+        }}
     }
 }
 
