@@ -91,6 +91,7 @@
 		9BB75EBA29C509C6008CD65A /* ServerStatusController.swift in Sources */ = {isa = PBXBuildFile; fileRef = 9BB75EB829C509C6008CD65A /* ServerStatusController.swift */; };
 		9BB75EBC29C513E7008CD65A /* JellyfinSettingsController.swift in Sources */ = {isa = PBXBuildFile; fileRef = 9BB75EBB29C513E7008CD65A /* JellyfinSettingsController.swift */; };
 		9BB75EBD29C513E7008CD65A /* JellyfinSettingsController.swift in Sources */ = {isa = PBXBuildFile; fileRef = 9BB75EBB29C513E7008CD65A /* JellyfinSettingsController.swift */; };
+		9BB75EC329C5B1B8008CD65A /* DebouncedOnChange in Frameworks */ = {isa = PBXBuildFile; productRef = 9BB75EC229C5B1B8008CD65A /* DebouncedOnChange */; };
 		9BDB098D29BB1DD9007F99E4 /* SongService.swift in Sources */ = {isa = PBXBuildFile; fileRef = 9BDB098C29BB1DD9007F99E4 /* SongService.swift */; };
 		9BDB098E29BB1DD9007F99E4 /* SongService.swift in Sources */ = {isa = PBXBuildFile; fileRef = 9BDB098C29BB1DD9007F99E4 /* SongService.swift */; };
 		9BDB099029BB1E73007F99E4 /* DefaultSongService.swift in Sources */ = {isa = PBXBuildFile; fileRef = 9BDB098F29BB1E73007F99E4 /* DefaultSongService.swift */; };
@@ -167,6 +168,7 @@
 			buildActionMask = 2147483647;
 			files = (
 				9BB75EB429C4E640008CD65A /* Defaults in Frameworks */,
+				9BB75EC329C5B1B8008CD65A /* DebouncedOnChange in Frameworks */,
 				9B3D44C429BE33850054C9E0 /* SwiftUIBackports in Frameworks */,
 				48C1F8BC29B9E5C9003BE048 /* Kingfisher in Frameworks */,
 				48C1F8BF29B9E6D1003BE048 /* Boutique in Frameworks */,
@@ -409,6 +411,7 @@
 				48C1F8CC29B9EE97003BE048 /* SFSafeSymbols */,
 				9B3D44C329BE33850054C9E0 /* SwiftUIBackports */,
 				9BB75EB329C4E640008CD65A /* Defaults */,
+				9BB75EC229C5B1B8008CD65A /* DebouncedOnChange */,
 			);
 			productName = "JellyMusic (iOS)";
 			productReference = 9B80473A29B768010069B407 /* JellyMusic.app */;
@@ -465,6 +468,7 @@
 				48C1F8CB29B9EE97003BE048 /* XCRemoteSwiftPackageReference "SFSafeSymbols" */,
 				9B3D44C229BE33850054C9E0 /* XCRemoteSwiftPackageReference "SwiftUIBackports" */,
 				9BB75EB229C4E640008CD65A /* XCRemoteSwiftPackageReference "Defaults" */,
+				9BB75EC129C5B1B8008CD65A /* XCRemoteSwiftPackageReference "DebouncedOnChange" */,
 			);
 			productRefGroup = 9B80473B29B768010069B407 /* Products */;
 			projectDirPath = "";
@@ -928,6 +932,14 @@
 				kind = branch;
 			};
 		};
+		9BB75EC129C5B1B8008CD65A /* XCRemoteSwiftPackageReference "DebouncedOnChange" */ = {
+			isa = XCRemoteSwiftPackageReference;
+			repositoryURL = "https://github.com/Tunous/DebouncedOnChange.git";
+			requirement = {
+				kind = upToNextMajorVersion;
+				minimumVersion = 1.0.0;
+			};
+		};
 /* End XCRemoteSwiftPackageReference section */
 
 /* Begin XCSwiftPackageProductDependency section */
@@ -960,6 +972,11 @@
 			isa = XCSwiftPackageProductDependency;
 			package = 9BB75EB229C4E640008CD65A /* XCRemoteSwiftPackageReference "Defaults" */;
 			productName = Defaults;
+		};
+		9BB75EC229C5B1B8008CD65A /* DebouncedOnChange */ = {
+			isa = XCSwiftPackageProductDependency;
+			package = 9BB75EC129C5B1B8008CD65A /* XCRemoteSwiftPackageReference "DebouncedOnChange" */;
+			productName = DebouncedOnChange;
 		};
 /* End XCSwiftPackageProductDependency section */
 	};

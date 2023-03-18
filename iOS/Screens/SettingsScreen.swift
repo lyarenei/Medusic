@@ -1,4 +1,5 @@
 import Boutique
+import DebouncedOnChange
 import Defaults
 import Kingfisher
 import SFSafeSymbols
@@ -63,10 +64,10 @@ private struct JellyfinSection: View {
                 .keyboardType(.URL)
                 .disableAutocorrection(true)
                 .autocapitalization(.none)
-                .onChange(of: serverUrlEdit) { newValue in
-                    // TODO: delay to avoid spam
+                .onChange(of: serverUrlEdit, debounceTime: 1) { newValue in
                     if self.validateUrl(newValue) {
                         serverUrl = newValue
+                        Task { await self.controller.setServerStatus(urlChanged: true) }
                     } else {
                         // TODO: show in UI
                         print("Server URL is not valid")

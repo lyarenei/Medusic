@@ -25,7 +25,8 @@ final class JellyfinSettingsController: ObservableObject {
         return Defaults[.userId] != ""
     }
 
-    func setServerStatus() async {
+    func setServerStatus(urlChanged: Bool = false) async {
+        if urlChanged { api.useDefaultMode() }
         return await self.serverStatusController.setStatus(
             isConfigured: self.isConfigured(),
             isOnline: try? await self.pingServer(),

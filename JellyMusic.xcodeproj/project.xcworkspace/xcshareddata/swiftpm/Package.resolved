@@ -19,6 +19,15 @@
       }
     },
     {
+      "identity" : "debouncedonchange",
+      "kind" : "remoteSourceControl",
+      "location" : "https://github.com/Tunous/DebouncedOnChange.git",
+      "state" : {
+        "revision" : "5670ea13e8ad33e9cc3197f6d13ce492dc0e46ab",
+        "version" : "1.0.2"
+      }
+    },
+    {
       "identity" : "defaults",
       "kind" : "remoteSourceControl",
       "location" : "https://github.com/sindresorhus/Defaults",
