@@ -125,6 +125,7 @@ struct AlbumDetailScreen: View {
             })
         })
         .onAppear { Task { await self.setSongs(albumId: album.uuid) }}
+        .onAppear { self.isFavorite = album.isFavorite }
         .backport.refreshable { await self.refresh(albumId: album.uuid) }
     }
 
