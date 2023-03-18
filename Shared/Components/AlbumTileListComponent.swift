@@ -1,19 +1,17 @@
 import SwiftUI
 
 struct AlbumTileListComponent: View {
-
-    var albums: [Album]
+    var albums: [Album]?
 
     var body: some View {
         let layout = [GridItem(.flexible()), GridItem(.flexible())]
-
-        if albums.isEmpty {
+        if let gotAlbums = albums, gotAlbums.isEmpty {
             Text("No albums")
                 .font(.title3)
                 .foregroundColor(Color(UIColor.secondaryLabel))
-        } else {
+        } else if let gotAlbums = albums {
             LazyVGrid(columns: layout) {
-                ForEach(albums) { album in
+                ForEach(gotAlbums) { album in
                     NavigationLink {
                         AlbumDetailScreen(album: album)
                     } label: {
@@ -22,6 +20,8 @@ struct AlbumTileListComponent: View {
                     .buttonStyle(.plain)
                 }
             }
+        } else {
+            ProgressView()
         }
     }
 }
@@ -45,8 +45,8 @@ struct AlbumTileListComponent_Previews: PreviewProvider {
 
     static var previews: some View {
         AlbumTileListComponent(albums: albums)
-
         AlbumTileListComponent(albums: [])
+        AlbumTileListComponent(albums: nil)
     }
 }
 #endif

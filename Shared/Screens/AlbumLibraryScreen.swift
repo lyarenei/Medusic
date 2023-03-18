@@ -10,13 +10,9 @@ struct AlbumLibraryScreen: View {
 
     var body: some View {
         ScrollView(.vertical) {
-            if let allAlbums = albums {
-                AlbumTileListComponent(albums: allAlbums)
-                    .padding(.leading, 10)
-                    .padding(.trailing, 10)
-            } else {
-                ProgressView()
-            }
+            AlbumTileListComponent(albums: albums)
+                .padding(.leading, 10)
+                .padding(.trailing, 10)
         }
         .navigationTitle("Albums")
         .onAppear { Task { self.albums = await self.albumRepo.getAlbums() }}

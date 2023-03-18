@@ -111,11 +111,7 @@ struct LibraryScreen: View {
                             .padding(.leading, 5)
                     }
 
-                    if let albums = favoriteAlbums {
-                        AlbumTileListComponent(albums: albums)
-                    } else {
-                        ProgressView()
-                    }
+                    AlbumTileListComponent(albums: favoriteAlbums)
                 }
                 .padding(.leading, 10)
                 .padding(.trailing, 10)
