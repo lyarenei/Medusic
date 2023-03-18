@@ -124,7 +124,7 @@ struct AlbumDetailScreen: View {
                     .disabled(true)
             })
         })
-        .onAppear { Task { await self.setSongs(albumId: album.uuid)}}
+        .onAppear { Task { await self.setSongs(albumId: album.uuid) }}
         .backport.refreshable { await self.refresh(albumId: album.uuid) }
     }
 
@@ -136,7 +136,7 @@ struct AlbumDetailScreen: View {
         defer { Task { await self.setSongs(albumId: albumId) }}
         self.songs = nil
         do {
-            // TODO only pull data for songs of this album
+            // TODO: only pull data for songs of this album
             try await songsController.refresh()
         } catch {
             print("Failed to refresh the songs", error)
