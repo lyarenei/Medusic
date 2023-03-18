@@ -56,6 +56,7 @@ final class JellyfinSettingsController: ObservableObject {
 
     func saveUrl(_ newUrl: String) async {
         Defaults[.serverUrl] = newUrl
+        self.api.useDefaultMode()
         await self.setServerStatus(urlChanged: true)
     }
 
