@@ -1,34 +1,25 @@
-import SwiftUI
-import Combine
 import JellyfinAPI
+import SwiftUI
 
 struct AlbumLibraryScreen: View {
-
-    @Environment(\.api)
-    var api
-
-    @State
-    private var albums: [Album] = []
+    @StateObject
+    private var albumRepo = AlbumRepository(store: .albums)
 
     @State
-    private var lifetimeCancellables: Cancellables = []
-    
+    private var albums: [Album]?
+
     var body: some View {
         ScrollView(.vertical) {
-            AlbumTileListComponent(albums: albums)
-                .padding(.leading, 10)
-                .padding(.trailing, 10)
+            if let allAlbums = albums {
+                AlbumTileListComponent(albums: allAlbums)
+                    .padding(.leading, 10)
+                    .padding(.trailing, 10)
+            } else {
+                ProgressView()
+            }
         }
         .navigationTitle("Albums")
-        .onAppear {
-            api.services.albumService.getAlbums()
-                .catch { error -> Empty<[Album], Never> in
-                    print("Failed to fetch albums:", error)
-                    return Empty()
-                }
-                .assign(to: \.albums, on: self)
-                .store(in: &lifetimeCancellables)
-        }
+        .onAppear { Task { self.albums = await self.albumRepo.getAlbums() }}
     }
 }
 
