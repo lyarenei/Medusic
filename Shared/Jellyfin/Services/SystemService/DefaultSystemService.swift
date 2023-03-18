@@ -29,7 +29,7 @@ final class DefaultSystemService: SystemService {
     }
 
     func logIn(username: String, password: String) async throws -> String {
-        let response = try await client.signIn(username: username , password: "aaa")
+        let response = try await client.signIn(username: username , password: password)
         if let uid = response.user?.id {
             return uid
         }
