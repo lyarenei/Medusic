@@ -40,7 +40,7 @@ struct JellyMusicApp: App {
                     print("Login failed", error)
                 }
 
-                let songsController = SongsController(store: .songs)
+                let songsController = SongsRepository(store: .songs)
 
                 // TODO: refresh all data stores on start - also would be good to show error to user
                 do {

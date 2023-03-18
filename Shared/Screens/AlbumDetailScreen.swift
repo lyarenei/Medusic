@@ -83,7 +83,7 @@ private struct SongList: View {
 
 struct AlbumDetailScreen: View {
     @StateObject
-    var songsController = SongsController(store: .songs)
+    var songsController = SongsRepository(store: .songs)
 
     @State
     private var songs: [Song]?

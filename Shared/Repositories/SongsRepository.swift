@@ -1,7 +1,7 @@
 import Boutique
 import Foundation
 
-final class SongsController: ObservableObject {
+final class SongsRepository: ObservableObject {
     @Stored
     var songs: [Song]
 
