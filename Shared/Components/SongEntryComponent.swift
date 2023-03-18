@@ -1,4 +1,3 @@
-import Combine
 import SFSafeSymbols
 import SwiftUI
 
@@ -25,8 +24,8 @@ private struct SongActions: View {
 }
 
 struct SongEntryComponent: View {
-    @Environment(\.api)
-    var api
+    @StateObject
+    private var albumRepo = AlbumRepository(store: .albums)
 
     var song: Song
 
@@ -36,10 +35,7 @@ struct SongEntryComponent: View {
     var showAlbumName = false
 
     @State
-    private var album = Album.empty()
-
-    @State
-    private var lifetimeCancellables: Cancellables = []
+    private var album: Album?
 
     var body: some View {
         HStack {
@@ -57,21 +53,15 @@ struct SongEntryComponent: View {
                 Text(song.name)
                     .lineLimit(1)
 
-                if showAlbumName {
-                    Text(album.name)
+                if let albumName = album?.name, showAlbumName {
+                    Text(albumName)
                         .lineLimit(1)
                         .font(.footnote)
                 }
             }
             .backport.task {
                 guard showAlbumName else { return }
-                api.services.albumService.getAlbum(by: song.parentId)
-                    .catch { error -> Empty<Album, Never> in
-                        print("Failed to fetch album:", error)
-                        return Empty()
-                    }
-                    .assign(to: \.album, on: self)
-                    .store(in: &lifetimeCancellables)
+                self.album = await albumRepo.getAlbum(by: song.parentId)
             }
 
             if showActions {
