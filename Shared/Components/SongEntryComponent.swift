@@ -4,10 +4,12 @@ import SwiftUI
 
 private struct SongActions: View {
     @State
-    var isDownloaded = false
+    private var isDownloaded = false
 
     @State
-    var isFavorite = false
+    private var isFavorite = false
+
+    var song: Song
 
     var body: some View {
         HStack(spacing: 10) {
@@ -18,6 +20,7 @@ private struct SongActions: View {
                 .disabled(true)
         }
         .frame(minWidth: 25)
+        .onAppear { self.isFavorite = self.song.isFavorite }
     }
 }
 
@@ -73,7 +76,7 @@ struct SongEntryComponent: View {
 
             if showActions {
                 Spacer(minLength: 10)
-                SongActions()
+                SongActions(song: song)
                     .font(.title2)
             }
         }
