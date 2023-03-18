@@ -32,18 +32,12 @@ struct JellyMusicApp: App {
             }
             .environment(\.api, api)
             .onAppear { Task(priority: .medium) {
-                // TODO: to be removed once every fetch will do auth itself
-                do {
-                    let isOk = try await api.performAuth()
-                    guard isOk else { print("Login failed"); return }
-                } catch {
-                    print("Login failed", error)
-                }
-
+                let albumRepo = AlbumRepository(store: .albums)
                 let songsController = SongsRepository(store: .songs)
 
-                // TODO: refresh all data stores on start - also would be good to show error to user
+                // TODO: would be good to show error to user
                 do {
+                    try await albumRepo.refresh()
                     try await songsController.refresh()
                 } catch {
                     print("Failed to refresh data", error)
