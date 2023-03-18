@@ -39,7 +39,7 @@ final class JellyfinSettingsController: ObservableObject {
 
     func setServerStatus(urlChanged: Bool = false, credentialsChanged: Bool = false) async {
         if urlChanged { self.api.useDefaultMode() }
-        if credentialsChanged { try? self.api.performAuth() }
+        if credentialsChanged { let _ = try? await self.api.performAuth() }
         return await self.serverStatusController.setStatus(
             isConfigured: self.isConfigured(),
             isOnline: try? await self.pingServer(),

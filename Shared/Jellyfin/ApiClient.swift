@@ -41,10 +41,11 @@ final class ApiClient {
         )
     }
 
-    public func performAuth() throws {
-        Task(priority: .background) {
-            try await services.systemService.logIn(username: Defaults[.username], password: "aaa")
-        }
+    public func performAuth() async throws -> Bool {
+        return try await services.systemService.logIn(
+            username: Defaults[.username],
+            password: "aaa"
+        )
     }
 }
 

@@ -154,11 +154,13 @@ private struct PreviewModeToggle: View {
                 return
             }
 
-            do {
-                api.useDefaultMode()
-                try api.performAuth()
-            } catch {
-                print("Failed to switch to default mode: \(error)")
+            Task {
+                do {
+                    api.useDefaultMode()
+                    let _ = try await api.performAuth()
+                } catch {
+                    print("Failed to switch to default mode: \(error)")
+                }
             }
         })
     }
