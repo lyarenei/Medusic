@@ -2,8 +2,8 @@ import SwiftUI
 import SwiftUIBackports
 
 struct SongsLibraryScreen: View {
-    @Environment(\.api)
-    var api
+    @StateObject
+    private var songRepo = SongRepository(store: .songs)
 
     @State
     private var songs: [Song] = []
@@ -34,11 +34,7 @@ struct SongsLibraryScreen: View {
         }
         .navigationTitle("Songs")
         .backport.task(priority: .background) {
-            do {
-                songs = try await api.services.songService.getSongs()
-            } catch {
-                print("Failed to fetch songs: \(error)")
-            }
+            self.songs = await self.songRepo.getSongs().sortByAlbum()
         }
     }
 }
