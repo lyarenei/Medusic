@@ -1,5 +1,6 @@
 import Boutique
 import Combine
+import Defaults
 import Foundation
 import JellyfinAPI
 
@@ -9,15 +10,13 @@ final class DefaultAlbumService: AlbumService {
 
     private let client: JellyfinClient
 
-    private let userId = "0f0edfcf31d64740bd577afe8e94b752"
-
     init(client: JellyfinClient) {
         self.client = client
     }
 
     private func requestParams(itemIds: [String]? = nil) -> JellyfinAPI.Paths.GetItemsParameters {
         return JellyfinAPI.Paths.GetItemsParameters(
-            userID: self.userId,
+            userID: Defaults[.userId],
             isRecursive: true,
             includeItemTypes: [.musicAlbum],
             ids: itemIds
