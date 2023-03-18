@@ -49,7 +49,7 @@ private struct JellyfinSection: View {
                 .keyboardType(.URL)
                 .disableAutocorrection(true)
                 .autocapitalization(.none)
-                .onChange(of: controller.serverUrlEdit, debounceTime: 1) { newValue in
+                .onChange(of: controller.serverUrlEdit, debounceTime: 1.5) { newValue in
                     if self.controller.validateUrl(newValue) {
                         Task { await controller.saveUrl(newValue) }
                     } else {
@@ -67,6 +67,9 @@ private struct JellyfinSection: View {
                 )
                 .disableAutocorrection(true)
                 .autocapitalization(.none)
+                .onChange(of: controller.usernameEdit, debounceTime: 0.5) { newValue in
+                    Task { await controller.saveUsername(newValue) }
+                }
 
                 InlineInputComponent(
                     labelText: "Password",
@@ -77,6 +80,9 @@ private struct JellyfinSection: View {
                 )
                 .disableAutocorrection(true)
                 .autocapitalization(.none)
+                .onChange(of: controller.passwordEdit, debounceTime: 0.5) { newValue in
+                    Task { try? await controller.savePassword(newValue) }
+                }
             }
         )
         .onAppear {
