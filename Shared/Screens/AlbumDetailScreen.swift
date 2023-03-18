@@ -83,16 +83,16 @@ private struct SongList: View {
 
 struct AlbumDetailScreen: View {
     @StateObject
-    var songsController = SongsRepository(store: .songs)
+    private var songsController = SongsRepository(store: .songs)
 
     @State
     private var songs: [Song]?
 
     @State
-    var isDownloaded: Bool = false
+    private var isDownloaded: Bool = false
 
     @State
-    var isFavorite: Bool = false
+    private var isFavorite: Bool = false
 
     var album: Album
 
