@@ -33,12 +33,12 @@ struct JellyMusicApp: App {
             .environment(\.api, api)
             .onAppear { Task(priority: .medium) {
                 let albumRepo = AlbumRepository(store: .albums)
-                let songsController = SongsRepository(store: .songs)
+                let songRepo = SongRepository(store: .songs)
 
                 // TODO: would be good to show error to user
                 do {
                     try await albumRepo.refresh()
-                    try await songsController.refresh()
+                    try await songRepo.refresh()
                 } catch {
                     print("Failed to refresh data", error)
                 }

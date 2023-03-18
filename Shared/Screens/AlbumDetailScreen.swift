@@ -83,7 +83,7 @@ private struct SongList: View {
 
 struct AlbumDetailScreen: View {
     @StateObject
-    private var songsController = SongsRepository(store: .songs)
+    private var songRepo = SongRepository(store: .songs)
 
     @State
     private var songs: [Song]?
@@ -130,7 +130,7 @@ struct AlbumDetailScreen: View {
     }
 
     private func setSongs(albumId: String) async {
-        self.songs = await songsController.getSongs(ofAlbum: albumId)
+        self.songs = await songRepo.getSongs(ofAlbum: albumId)
     }
 
     private func refresh(albumId: String) async {
@@ -138,7 +138,7 @@ struct AlbumDetailScreen: View {
         self.songs = nil
         do {
             // TODO: only pull data for songs of this album
-            try await songsController.refresh()
+            try await songRepo.refresh()
         } catch {
             print("Failed to refresh the songs", error)
         }
