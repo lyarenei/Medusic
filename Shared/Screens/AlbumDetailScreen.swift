@@ -92,9 +92,6 @@ struct AlbumDetailScreen: View {
     private var songs: [Song]?
 
     @State
-    private var isLoading = true
-
-    @State
     var isDownloaded: Bool = false
 
     @State
