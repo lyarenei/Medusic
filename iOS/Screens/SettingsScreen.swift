@@ -32,24 +32,9 @@ struct SettingsScreen_Previews: PreviewProvider {
 
 // MARK: - JellyfinSection view
 
-// TODO: Implement validators (url is not garbage, user can log in)
-// TODO: Implement controller and move all logic there
 private struct JellyfinSection: View {
     @StateObject
     private var controller = JellyfinSettingsController()
-
-    @Default(.serverUrl)
-    private var serverUrl: String
-
-    @State
-    private var serverUrlEdit: String = ""
-
-    @Default(.username)
-    private var username: String
-
-    // TODO: figure out how to securely store this
-    @State
-    private var password = ""
 
     var body: some View {
         Section(
@@ -58,30 +43,26 @@ private struct JellyfinSection: View {
                 InlineInputComponent(
                     labelText: "URL",
                     labelSymbol: .link,
-                    inputText: $serverUrlEdit,
+                    inputText: $controller.serverUrlEdit,
                     placeholderText: "Server URL"
                 )
                 .keyboardType(.URL)
                 .disableAutocorrection(true)
                 .autocapitalization(.none)
-                .onChange(of: serverUrlEdit, debounceTime: 1) { newValue in
-                    if self.validateUrl(newValue) {
-                        serverUrl = newValue
-                        Task { await self.controller.setServerStatus(urlChanged: true) }
+                .onChange(of: controller.serverUrlEdit, debounceTime: 1) { newValue in
+                    if self.controller.validateUrl(newValue) {
+                        Task { await controller.saveUrl(newValue) }
                     } else {
                         // TODO: show in UI
                         print("Server URL is not valid")
                     }
                 }
-                .onAppear {
-                    // TODO:
-                    serverUrlEdit = serverUrl
-                }
 
+                // TODO: add credentials validation
                 InlineInputComponent(
                     labelText: "Username",
                     labelSymbol: .personCropCircle,
-                    inputText: $username,
+                    inputText: $controller.usernameEdit,
                     placeholderText: "Account username"
                 )
                 .disableAutocorrection(true)
@@ -90,7 +71,7 @@ private struct JellyfinSection: View {
                 InlineInputComponent(
                     labelText: "Password",
                     labelSymbol: .key,
-                    inputText: $password,
+                    inputText: $controller.passwordEdit,
                     placeholderText: "Account password",
                     isSecure: true
                 )
@@ -98,19 +79,15 @@ private struct JellyfinSection: View {
                 .autocapitalization(.none)
             }
         )
+        .onAppear {
+            self.controller.restoreUrl()
+            self.controller.restoreUsername()
+        }
 
         Section(content: {
             ServerStatus(controller: self.controller.serverStatusController)
                 .onAppear { Task { await self.controller.setServerStatus() }}
         })
-    }
-
-    func validateUrl(_ url: String) -> Bool {
-        if let url = URL(string: url) {
-            return UIApplication.shared.canOpenURL(url)
-        }
-
-        return false
     }
 }
 
