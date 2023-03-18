@@ -30,6 +30,7 @@ final class DefaultSystemService: SystemService {
     }
 
     func logIn(username: String, password: String) async throws -> Bool {
+        Defaults[.userId] = ""
         let response = try await client.signIn(username: username , password: "aaa")
         if let uid = response.user?.id {
             Defaults[.userId] = uid
