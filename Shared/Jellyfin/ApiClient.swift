@@ -1,6 +1,7 @@
 import Defaults
 import Foundation
 import JellyfinAPI
+import SimpleKeychain
 import SwiftUI
 
 final class ApiClient {
@@ -43,9 +44,15 @@ final class ApiClient {
 
     public func performAuth() async throws -> Bool {
         Defaults[.userId] = ""
+        let keychain = SimpleKeychain()
+        let password = try? keychain.string(forKey: "password")
+        guard let userPass = password else {
+            throw ApiClientError.noPassword
+        }
+
         let userId = try await services.systemService.logIn(
             username: Defaults[.username],
-            password: "aaa"
+            password: userPass
         )
 
         if !userId.isEmpty {
@@ -144,4 +151,8 @@ extension EnvironmentValues {
         get { self[APIEnvironmentKey.self] }
         set { self[APIEnvironmentKey.self] = newValue }
     }
+}
+
+enum ApiClientError: Error {
+    case noPassword
 }

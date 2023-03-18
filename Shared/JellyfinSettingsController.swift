@@ -1,14 +1,11 @@
 import Defaults
 import Foundation
+import SimpleKeychain
 import SwiftUI
 
 final class JellyfinSettingsController: ObservableObject {
     @ObservedObject
     var serverStatusController = ServerStatusController()
-
-    // TODO: figure out how to securely store this
-    @State
-    private var password = ""
 
     @Published
     var serverUrlEdit: String = ""
@@ -20,6 +17,8 @@ final class JellyfinSettingsController: ObservableObject {
     var passwordEdit: String = ""
 
     private let api: ApiClient
+
+    private let keychain = SimpleKeychain()
 
     init() {
         self.api = ApiClient()
@@ -71,5 +70,10 @@ final class JellyfinSettingsController: ObservableObject {
 
     func restoreUsername() {
         self.usernameEdit = Defaults[.username]
+    }
+
+    func savePassword(_ newPassword: String) async throws {
+        try self.keychain.set(newPassword, forKey: "password")
+        await self.setServerStatus(credentialsChanged: true)
     }
 }
