@@ -14,6 +14,7 @@ final class SongsController: ObservableObject {
 
     /// Refresh the store data with data from service.
     func refresh() async throws {
+        let _ = try await self.api.performAuth()
         let remoteSongs = try await self.api.services.songService.getSongs()
         try await self.$songs.removeAll().insert(remoteSongs).run()
     }
