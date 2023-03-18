@@ -82,9 +82,6 @@ private struct SongList: View {
 }
 
 struct AlbumDetailScreen: View {
-    @Environment(\.api)
-    var api
-
     @StateObject
     var songsController = SongsController(store: .songs)
 
