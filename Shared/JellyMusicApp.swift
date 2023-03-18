@@ -6,7 +6,7 @@ import SwiftUI
 
 @main
 struct JellyMusicApp: App {
-    private var api: ApiClient
+    private var api = ApiClient()
 
     init() {
         // Memory image never expires.
@@ -19,7 +19,6 @@ struct JellyMusicApp: App {
         Kingfisher.ImageCache.default.diskStorage.config.sizeLimit = 1000 * 1024 * 1024
 
         // TODO: if starting in default mode, auth is needed, but where - needs to display error in future
-        api = ApiClient(previewEnabled: Defaults[.previewMode])
 
         let songsController = SongsController(store: .songs)
 
