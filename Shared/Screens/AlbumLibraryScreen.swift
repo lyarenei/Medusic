@@ -1,3 +1,4 @@
+import Defaults
 import JellyfinAPI
 import SwiftUI
 import SwiftUIBackports
@@ -9,11 +10,21 @@ struct AlbumLibraryScreen: View {
     @State
     private var albums: [Album]?
 
+    @Default(.albumDisplayMode)
+    private var albumDisplayMode: AlbumDisplayMode
+
     var body: some View {
-        ScrollView(.vertical) {
-            AlbumTileList(albums: albums)
-                .padding(.leading, 10)
-                .padding(.trailing, 10)
+        ZStack {
+            switch albumDisplayMode {
+            case .asList:
+                AlbumList(albums: albums)
+            default:
+                ScrollView(.vertical) {
+                    AlbumTileList(albums: albums)
+                        .padding(.leading, 10)
+                        .padding(.trailing, 10)
+                }
+            }
         }
         .navigationTitle("Albums")
         .onAppear { Task { await self.setAlbums() }}

@@ -158,7 +158,7 @@ private struct AppearanceSettings: View {
     var body: some View {
         NavigationView {
             List {
-
+                AlbumDisplayOption()
             }
             .listStyle(.grouped)
         }
@@ -167,7 +167,29 @@ private struct AppearanceSettings: View {
     }
 }
 
+enum AlbumDisplayMode: String, Defaults.Serializable {
+    case asList
+    case asTiles
+}
+
+private struct AlbumDisplayOption: View {
+    @State
+    private var selectedOption: AlbumDisplayMode = .asTiles
+
+    var body: some View {
+        Picker("Album display mode", selection: $selectedOption) {
+            Text("Default").tag(AlbumDisplayMode.asTiles)
+            Text("List").tag(AlbumDisplayMode.asList)
+            Text("Tiles").tag(AlbumDisplayMode.asTiles)
+        }
+        .onChange(of: selectedOption) { newValue in
+            Defaults[.albumDisplayMode] = newValue
+        }
+    }
+}
+
 // MARK: - Advanced settings
+
 private struct AdvancedSettings: View {
     var body: some View {
         NavigationView {
@@ -271,7 +293,7 @@ private struct PreviewMode: View {
             Task {
                 do {
                     api.useDefaultMode()
-                    let _ = try await api.performAuth()
+                    _ = try await api.performAuth()
                 } catch {
                     print("Failed to switch to default mode: \(error)")
                 }
