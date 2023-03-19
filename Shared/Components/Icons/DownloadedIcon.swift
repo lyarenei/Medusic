@@ -6,7 +6,7 @@ struct DownloadedIcon: View {
     var isDownloaded: Bool
 
     var body: some View {
-        let downloadedIcon: SFSymbol = isDownloaded ? .checkmarkCircle : .icloudAndArrowDown
+        let downloadedIcon: SFSymbol = isDownloaded ? .trash : .icloudAndArrowDown
         Image(systemSymbol: downloadedIcon)
     }
 }
