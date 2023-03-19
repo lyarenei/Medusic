@@ -25,7 +25,7 @@ extension Array where Element == Song {
 
     /// Get only songs which belong to Album specified by its ID.
     /// These songs are sorted by their order in that album.
-    func getByAlbum(id albumId: String) -> [Song] {
+    func filterByAlbum(id albumId: String) -> [Song] {
         let filteredSongs = self.filter { song -> Bool in
             song.parentId == albumId
         }

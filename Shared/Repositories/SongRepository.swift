@@ -17,7 +17,7 @@ final class SongRepository: ObservableObject {
         let _ = try await self.api.performAuth()
         if let album = albumId {
             let remoteSongs = try await self.api.services.songService.getSongs(for: album)
-            let localSongs = await self.$songs.items.getByAlbum(id: album)
+            let localSongs = await self.$songs.items.filterByAlbum(id: album)
             try await self.$songs.remove(localSongs).insert(remoteSongs).run()
         } else {
             let remoteSongs = try await self.api.services.songService.getSongs()
@@ -29,7 +29,7 @@ final class SongRepository: ObservableObject {
     /// If an album ID is specified, return only the songs for that specified Album.
     func getSongs(ofAlbum albumId: String? = nil) async -> [Song] {
         if let albumId = albumId {
-            return await self.$songs.items.getByAlbum(id: albumId)
+            return await self.$songs.items.filterByAlbum(id: albumId)
         }
 
         return await self.$songs.items
