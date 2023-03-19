@@ -58,25 +58,33 @@ private struct AlbumActions: View {
 }
 
 private struct SongList: View {
-    var songs: [Song]
+    var songs: [Song]?
 
     var body: some View {
-        LazyVStack {
-            ForEach(songs) { song in
-                SongEntryComponent(
-                    song: song,
-                    showAlbumOrder: true,
-                    showArtwork: false,
-                    showActions: true
-                )
-                .padding(.leading)
-                .padding(.trailing)
+        if let allSongs = songs, allSongs.isEmpty {
+            Text("No songs available")
                 .font(.title3)
+                .foregroundColor(Color(UIColor.secondaryLabel))
+        } else if let allSongs = songs {
+            LazyVStack {
+                ForEach(allSongs) { song in
+                    SongEntryComponent(
+                        song: song,
+                        showAlbumOrder: true,
+                        showArtwork: false,
+                        showActions: true
+                    )
+                    .padding(.leading)
+                    .padding(.trailing)
+                    .font(.title3)
 
-                Divider()
-                    .padding(.leading, 10)
-                    .padding(.trailing, 10)
+                    Divider()
+                        .padding(.leading, 10)
+                        .padding(.trailing, 10)
+                }
             }
+        } else {
+            ProgressView()
         }
     }
 }
@@ -104,12 +112,8 @@ struct AlbumDetailScreen: View {
                 AlbumActions()
                     .padding(.bottom, 30)
 
-                if let albumSongs = songs {
-                    SongList(songs: albumSongs)
-                        .padding(.bottom, 10)
-                } else {
-                    ProgressView()
-                }
+                SongList(songs: songs)
+                    .padding(.bottom, 10)
             }
         }
         .navigationBarTitleDisplayMode(.inline)
