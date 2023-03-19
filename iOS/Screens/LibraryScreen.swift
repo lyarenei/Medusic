@@ -110,13 +110,14 @@ struct LibraryScreen: View {
                             .bold()
                             .padding(.leading, 5)
                     }
-
-                    AlbumList(albums: favoriteAlbums)
                 }
                 .padding(.leading, 10)
                 .padding(.trailing, 10)
             }
             .navigationTitle("Library")
+
+            // TODO: fix broken rendering
+            AlbumList(albums: favoriteAlbums)
         }
         .onAppear { Task {
             self.favoriteAlbums = await self.albumRepo.getFavorite()
