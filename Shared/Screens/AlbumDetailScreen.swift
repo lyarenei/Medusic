@@ -86,6 +86,8 @@ struct AlbumDetailScreen_Previews: PreviewProvider {
 }
 #endif
 
+// MARK: - Album heading component
+
 private struct AlbumHeading: View {
     var album: Album
 
@@ -107,6 +109,8 @@ private struct AlbumHeading: View {
         .padding(.trailing, 20)
     }
 }
+
+// MARK: - Album actions component
 
 private struct AlbumActions: View {
     var body: some View {
@@ -139,6 +143,8 @@ private struct AlbumActions: View {
         }
     }
 }
+
+// MARK: - Song list component
 
 private struct SongList: View {
     var songs: [Song]?
