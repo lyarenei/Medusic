@@ -43,7 +43,6 @@ struct SongsLibraryScreen: View {
 struct SongsLibraryScreen_Previews: PreviewProvider {
     static var previews: some View {
         SongsLibraryScreen()
-            .environment(\.api, .init())
     }
 }
 #endif

@@ -38,7 +38,6 @@ struct AlbumLibraryScreen: View {
 struct AlbumLibraryScreen_Previews: PreviewProvider {
     static var previews: some View {
         AlbumLibraryScreen()
-            .environment(\.api, .init())
     }
 }
 #endif
