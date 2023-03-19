@@ -10,21 +10,10 @@ struct AlbumLibraryScreen: View {
     @State
     private var albums: [Album]?
 
-    @Default(.albumDisplayMode)
-    private var albumDisplayMode: AlbumDisplayMode
-
     var body: some View {
         ZStack {
-            switch albumDisplayMode {
-            case .asList:
-                AlbumList(albums: albums)
-            default:
-                ScrollView(.vertical) {
-                    AlbumTileList(albums: albums)
-                        .padding(.leading, 10)
-                        .padding(.trailing, 10)
-                }
-            }
+            AlbumList(albums: albums)
+                .listStyle(.plain)
         }
         .navigationTitle("Albums")
         .onAppear { Task { await self.setAlbums() }}

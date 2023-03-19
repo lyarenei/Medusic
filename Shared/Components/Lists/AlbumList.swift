@@ -1,6 +1,10 @@
+import Defaults
 import SwiftUI
 
 struct AlbumList: View {
+    @Default(.albumDisplayMode)
+    var albumDisplayMode: AlbumDisplayMode
+
     var albums: [Album]?
 
     var body: some View {
@@ -9,13 +13,46 @@ struct AlbumList: View {
                 .font(.title3)
                 .foregroundColor(Color(UIColor.secondaryLabel))
         } else if let gotAlbums = albums {
-            ListOfAlbums(albums: gotAlbums)
-                .listStyle(.plain)
+            switch albumDisplayMode {
+            case .asList:
+                    ListOfAlbums(albums: gotAlbums)
+            default:
+                ScrollView(.vertical) {
+                    AlbumTileList(albums: albums)
+                        .padding(.leading, 10)
+                        .padding(.trailing, 10)
+                }
+            }
         } else {
             ProgressView()
         }
     }
 }
+
+#if DEBUG
+struct AlbumList_Previews: PreviewProvider {
+    static var albums: [Album] = [
+        Album(
+            uuid: "1",
+            name: "Nice album name",
+            artistName: "Album artist",
+            isFavorite: true
+        ),
+        Album(
+            uuid: "2",
+            name: "Album with very long name that one gets tired reading it",
+            artistName: "Unamusing artist",
+            isDownloaded: true
+        ),
+    ]
+
+    static var previews: some View {
+        AlbumList(albums: nil)
+        AlbumList(albums: [])
+        AlbumList(albums: albums)
+    }
+}
+#endif
 
 private struct ListOfAlbums: View {
     var albums: [Album]
@@ -46,25 +83,28 @@ private struct ListOfAlbums: View {
     }
 }
 
-#if DEBUG
-struct AlbumList_Previews: PreviewProvider {
-    static var albums: [Album] = [
-        Album(
-            uuid: "1",
-            name: "Nice album name",
-            artistName: "Album artist",
-            isFavorite: true
-        ),
-        Album(
-            uuid: "2",
-            name: "Album with very long name that one gets tired reading it",
-            artistName: "Unamusing artist",
-            isDownloaded: true
-        ),
-    ]
+private struct AlbumTileList: View {
+    var albums: [Album]?
 
-    static var previews: some View {
-        AlbumList(albums: albums)
+    var body: some View {
+        let layout = [GridItem(.flexible()), GridItem(.flexible())]
+        if let gotAlbums = albums, gotAlbums.isEmpty {
+            Text("No albums")
+                .font(.title3)
+                .foregroundColor(Color(UIColor.secondaryLabel))
+        } else if let gotAlbums = albums {
+            LazyVGrid(columns: layout) {
+                ForEach(gotAlbums) { album in
+                    NavigationLink {
+                        AlbumDetailScreen(album: album)
+                    } label: {
+                        AlbumTileComponent(album: album)
+                    }
+                    .buttonStyle(.plain)
+                }
+            }
+        } else {
+            ProgressView()
+        }
     }
 }
-#endif
