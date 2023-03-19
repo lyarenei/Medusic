@@ -55,8 +55,7 @@ struct AlbumDetailScreen: View {
         defer { Task { await self.setSongs(albumId: albumId) }}
         self.songs = nil
         do {
-            // TODO: only pull data for songs of this album
-            try await songRepo.refresh()
+            try await songRepo.refresh(for: albumId)
         } catch {
             print("Failed to refresh the songs", error)
         }

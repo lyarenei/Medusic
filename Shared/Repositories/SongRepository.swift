@@ -13,10 +13,16 @@ final class SongRepository: ObservableObject {
     }
 
     /// Refresh the store data with data from service.
-    func refresh() async throws {
+    func refresh(for albumId: String? = nil) async throws {
         let _ = try await self.api.performAuth()
-        let remoteSongs = try await self.api.services.songService.getSongs()
-        try await self.$songs.removeAll().insert(remoteSongs).run()
+        if let album = albumId {
+            let remoteSongs = try await self.api.services.songService.getSongs(for: album)
+            let localSongs = await self.$songs.items.getByAlbum(id: album)
+            try await self.$songs.remove(localSongs).insert(remoteSongs).run()
+        } else {
+            let remoteSongs = try await self.api.services.songService.getSongs()
+            try await self.$songs.removeAll().insert(remoteSongs).run()
+        }
     }
 
     /// Get all songs.
