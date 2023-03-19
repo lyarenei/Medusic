@@ -12,7 +12,7 @@ private struct SongActions: View {
 
     var body: some View {
         HStack(spacing: 10) {
-            FavoriteButton(isFavorite: $isFavorite)
+            FavoriteButton(isFavorite: isFavorite)
                 .disabled(true)
 
             DownloadButton(isDownloaded: $isDownloaded)

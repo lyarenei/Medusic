@@ -33,7 +33,7 @@ struct AlbumDetailScreen: View {
         .navigationBarTitleDisplayMode(.inline)
         .toolbar(content: {
             ToolbarItem(content: {
-                FavoriteButton(isFavorite: $isFavorite)
+                FavoriteButton(isFavorite: isFavorite)
                     .disabled(true)
             })
 
