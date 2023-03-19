@@ -1,6 +1,6 @@
 import SwiftUI
 
-struct AlbumTileListComponent: View {
+struct AlbumTileList: View {
     var albums: [Album]?
 
     var body: some View {
@@ -27,7 +27,7 @@ struct AlbumTileListComponent: View {
 }
 
 #if DEBUG
-struct AlbumTileListComponent_Previews: PreviewProvider {
+struct AlbumTileList_Previews: PreviewProvider {
     static var albums: [Album] = [
         Album(
             uuid: "1",
@@ -44,9 +44,9 @@ struct AlbumTileListComponent_Previews: PreviewProvider {
     ]
 
     static var previews: some View {
-        AlbumTileListComponent(albums: albums)
-        AlbumTileListComponent(albums: [])
-        AlbumTileListComponent(albums: nil)
+        AlbumTileList(albums: albums)
+        AlbumTileList(albums: [])
+        AlbumTileList(albums: nil)
     }
 }
 #endif

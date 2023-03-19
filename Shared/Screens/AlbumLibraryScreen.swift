@@ -11,7 +11,7 @@ struct AlbumLibraryScreen: View {
 
     var body: some View {
         ScrollView(.vertical) {
-            AlbumTileListComponent(albums: albums)
+            AlbumTileList(albums: albums)
                 .padding(.leading, 10)
                 .padding(.trailing, 10)
         }

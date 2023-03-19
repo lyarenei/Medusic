@@ -111,7 +111,7 @@ struct LibraryScreen: View {
                             .padding(.leading, 5)
                     }
 
-                    AlbumTileListComponent(albums: favoriteAlbums)
+                    AlbumTileList(albums: favoriteAlbums)
                 }
                 .padding(.leading, 10)
                 .padding(.trailing, 10)
