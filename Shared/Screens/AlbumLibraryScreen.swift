@@ -36,8 +36,23 @@ struct AlbumLibraryScreen: View {
 
 #if DEBUG
 struct AlbumLibraryScreen_Previews: PreviewProvider {
+    static var albums: [Album] = [
+        Album(
+            uuid: "1",
+            name: "Nice album name",
+            artistName: "Album artist",
+            isFavorite: true
+        ),
+        Album(
+            uuid: "2",
+            name: "Album with very long name that one gets tired reading it",
+            artistName: "Unamusing artist",
+            isDownloaded: true
+        ),
+    ]
+
     static var previews: some View {
-        AlbumLibraryScreen()
+        AlbumLibraryScreen(albums: albums)
     }
 }
 #endif
