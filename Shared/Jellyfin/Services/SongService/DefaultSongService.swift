@@ -1,10 +1,8 @@
+import Defaults
 import JellyfinAPI
 
 final class DefaultSongService: SongService {
     private let client: JellyfinClient
-
-    // TODO: Remove and use from defaults
-    private var userId = "0f0edfcf31d64740bd577afe8e94b752"
 
     init(client: JellyfinClient) {
         self.client = client
@@ -15,7 +13,7 @@ final class DefaultSongService: SongService {
         sortBy: [String]? = nil
     ) async throws -> [Song] {
         var requestParameters = JellyfinAPI.Paths.GetItemsParameters(
-            userID: self.userId,
+            userID: Defaults[.userId],
             isRecursive: true,
             includeItemTypes: [.audio],
             sortBy: sortBy
@@ -51,7 +49,11 @@ final class DefaultSongService: SongService {
     }
 
     func toggleFavorite(songId: String) async throws -> Bool {
-        let request = JellyfinAPI.Paths.markFavoriteItem(userID: userId, itemID: songId)
+        let request = JellyfinAPI.Paths.markFavoriteItem(
+            userID: Defaults[.userId],
+            itemID: songId
+        )
+
         let response = try await client.send(request)
         if let code = response.statusCode {
             return code <= 400
