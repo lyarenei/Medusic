@@ -121,53 +121,63 @@ private struct GeneralSection: View {
         Section(
             header: Text("General"),
             content: {
-                PreviewModeToggle()
+                NavigationLink {
+                    AppearanceSettings()
+                } label: {
+                    ListOptionComponent(
+                        symbol: .paintbrushPointed,
+                        text: "Appearance"
+                    )
+                }
 
                 NavigationLink {
-                    // TODO: advanced settings view
+                    AdvancedSettings()
                 } label: {
                     ListOptionComponent(
                         symbol: .wrenchAndScrewdriver,
                         text: "Advanced"
                     )
                 }
-                .disabled(true)
 
-                PurgeCaches()
+                NavigationLink {
+                    DeveloperSettings()
+                } label: {
+                    ListOptionComponent(
+                        symbol: .hammer,
+                        text: "Developer"
+                    )
+                }
             }
         )
     }
 }
 
-private struct PreviewModeToggle: View {
-    @Environment(\.api)
-    var api
+// MARK: - Appearance settings
 
-    @Default(.previewMode)
-    var previewEnabled: Bool
-
+private struct AppearanceSettings: View {
     var body: some View {
-        Toggle(isOn: $previewEnabled) {
-            ListOptionComponent(
-                symbol: .eyes,
-                text: "Preview mode"
-            )
-        }
-        .onChange(of: previewEnabled, perform: { newValue in
-            if newValue {
-                api.usePreviewMode()
-                return
-            }
+        NavigationView {
+            List {
 
-            Task {
-                do {
-                    api.useDefaultMode()
-                    let _ = try await api.performAuth()
-                } catch {
-                    print("Failed to switch to default mode: \(error)")
-                }
             }
-        })
+            .listStyle(.grouped)
+        }
+        .navigationTitle("Appearance")
+        .navigationBarTitleDisplayMode(.inline)
+    }
+}
+
+// MARK: - Advanced settings
+private struct AdvancedSettings: View {
+    var body: some View {
+        NavigationView {
+            List {
+                PurgeCaches()
+            }
+            .listStyle(.grouped)
+        }
+        .navigationTitle("Advanced")
+        .navigationBarTitleDisplayMode(.inline)
     }
 }
 
@@ -220,5 +230,52 @@ private struct PurgeCaches: View {
                 print("Purging caches failed: \(error)")
             }
         }
+    }
+}
+
+// MARK: - Developer settings
+
+private struct DeveloperSettings: View {
+    var body: some View {
+        NavigationView {
+            List {
+                PreviewMode()
+            }
+            .listStyle(.grouped)
+        }
+        .navigationBarTitleDisplayMode(.inline)
+        .navigationTitle("Developer")
+    }
+}
+
+private struct PreviewMode: View {
+    @Environment(\.api)
+    var api
+
+    @Default(.previewMode)
+    var previewEnabled: Bool
+
+    var body: some View {
+        Toggle(isOn: $previewEnabled) {
+            ListOptionComponent(
+                symbol: .eyes,
+                text: "Preview mode"
+            )
+        }
+        .onChange(of: previewEnabled, perform: { newValue in
+            if newValue {
+                api.usePreviewMode()
+                return
+            }
+
+            Task {
+                do {
+                    api.useDefaultMode()
+                    let _ = try await api.performAuth()
+                } catch {
+                    print("Failed to switch to default mode: \(error)")
+                }
+            }
+        })
     }
 }
