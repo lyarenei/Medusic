@@ -63,7 +63,7 @@ struct AlbumLibraryScreen_Previews: PreviewProvider {
     ]
 
     static var previews: some View {
-        AlbumLibraryScreen(albums: albums)
+        AlbumLibraryScreen()
     }
 }
 #endif
