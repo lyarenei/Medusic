@@ -1,6 +1,51 @@
 import SFSafeSymbols
 import SwiftUI
 
+struct LibraryScreen: View {
+    @StateObject
+    var albumRepo = AlbumRepository(store: .albums)
+
+    @State
+    private var favoriteAlbums: [Album]?
+
+    var body: some View {
+        NavigationView {
+            ScrollView {
+                VStack(spacing: 25) {
+                    VStack(alignment: .leading, spacing: 15) {
+                        LibraryNavigationItems()
+                            .padding(.top, 10)
+
+                        Text("Favorite albums")
+                            .font(.title)
+                            .bold()
+                            .padding(.leading, 5)
+                    }
+                }
+                .padding(.leading, 10)
+                .padding(.trailing, 10)
+            }
+            .navigationTitle("Library")
+
+            // TODO: fix broken rendering
+            AlbumList(albums: favoriteAlbums)
+        }
+        .onAppear { Task {
+            self.favoriteAlbums = await self.albumRepo.getFavorite()
+        }}
+    }
+}
+
+#if DEBUG
+struct LibraryScreen_Previews: PreviewProvider {
+    static var previews: some View {
+        LibraryScreen()
+    }
+}
+#endif
+
+// MARK: - Navigation entry
+
 private struct NavigationEntry<Content: View>: View {
     var destination: Content
     var text: String
@@ -40,6 +85,8 @@ private struct NavigationEntry<Content: View>: View {
         .padding(.trailing, 15)
     }
 }
+
+// MARK: - Navigation items
 
 private struct LibraryNavigationItems: View {
     var body: some View {
@@ -89,46 +136,3 @@ private struct LibraryNavigationItems: View {
         }
     }
 }
-
-struct LibraryScreen: View {
-    @StateObject
-    var albumRepo = AlbumRepository(store: .albums)
-
-    @State
-    private var favoriteAlbums: [Album]?
-
-    var body: some View {
-        NavigationView {
-            ScrollView {
-                VStack(spacing: 25) {
-                    VStack(alignment: .leading, spacing: 15) {
-                        LibraryNavigationItems()
-                            .padding(.top, 10)
-
-                        Text("Favorite albums")
-                            .font(.title)
-                            .bold()
-                            .padding(.leading, 5)
-                    }
-                }
-                .padding(.leading, 10)
-                .padding(.trailing, 10)
-            }
-            .navigationTitle("Library")
-
-            // TODO: fix broken rendering
-            AlbumList(albums: favoriteAlbums)
-        }
-        .onAppear { Task {
-            self.favoriteAlbums = await self.albumRepo.getFavorite()
-        }}
-    }
-}
-
-#if DEBUG
-struct LibraryScreen_Previews: PreviewProvider {
-    static var previews: some View {
-        LibraryScreen()
-    }
-}
-#endif
