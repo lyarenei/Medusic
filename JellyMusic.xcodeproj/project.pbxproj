@@ -52,6 +52,8 @@
 		9B70BD9E29B91F42000DB31C /* AlbumTileComponent.swift in Sources */ = {isa = PBXBuildFile; fileRef = 9B70BD9C29B91F42000DB31C /* AlbumTileComponent.swift */; };
 		9B70BDA029B923AE000DB31C /* AlbumDetailScreen.swift in Sources */ = {isa = PBXBuildFile; fileRef = 9B70BD9F29B923AE000DB31C /* AlbumDetailScreen.swift */; };
 		9B70BDA129B923AE000DB31C /* AlbumDetailScreen.swift in Sources */ = {isa = PBXBuildFile; fileRef = 9B70BD9F29B923AE000DB31C /* AlbumDetailScreen.swift */; };
+		9B73ECF729C8EFCD007F74DB /* LNPopupUI-Static in Frameworks */ = {isa = PBXBuildFile; productRef = 9B73ECF629C8EFCD007F74DB /* LNPopupUI-Static */; };
+		9B73ECF929C8F085007F74DB /* MusicPlayerScreen.swift in Sources */ = {isa = PBXBuildFile; fileRef = 9B73ECF829C8F085007F74DB /* MusicPlayerScreen.swift */; };
 		9B80474329B768010069B407 /* JellyMusicApp.swift in Sources */ = {isa = PBXBuildFile; fileRef = 9B80473329B768000069B407 /* JellyMusicApp.swift */; };
 		9B80474429B768010069B407 /* JellyMusicApp.swift in Sources */ = {isa = PBXBuildFile; fileRef = 9B80473329B768000069B407 /* JellyMusicApp.swift */; };
 		9B80474729B768010069B407 /* Assets.xcassets in Resources */ = {isa = PBXBuildFile; fileRef = 9B80473529B768010069B407 /* Assets.xcassets */; };
@@ -133,6 +135,7 @@
 		9B61365D29BCB254004C85EC /* MacHomeScreen.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = MacHomeScreen.swift; sourceTree = "<group>"; };
 		9B70BD9C29B91F42000DB31C /* AlbumTileComponent.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = AlbumTileComponent.swift; sourceTree = "<group>"; };
 		9B70BD9F29B923AE000DB31C /* AlbumDetailScreen.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = AlbumDetailScreen.swift; sourceTree = "<group>"; };
+		9B73ECF829C8F085007F74DB /* MusicPlayerScreen.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = MusicPlayerScreen.swift; sourceTree = "<group>"; };
 		9B80473329B768000069B407 /* JellyMusicApp.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = JellyMusicApp.swift; sourceTree = "<group>"; };
 		9B80473529B768010069B407 /* Assets.xcassets */ = {isa = PBXFileReference; lastKnownFileType = folder.assetcatalog; path = Assets.xcassets; sourceTree = "<group>"; };
 		9B80473A29B768010069B407 /* JellyMusic.app */ = {isa = PBXFileReference; explicitFileType = wrapper.application; includeInIndex = 0; path = JellyMusic.app; sourceTree = BUILT_PRODUCTS_DIR; };
@@ -173,6 +176,7 @@
 			files = (
 				9BB75EB429C4E640008CD65A /* Defaults in Frameworks */,
 				9BB75EC329C5B1B8008CD65A /* DebouncedOnChange in Frameworks */,
+				9B73ECF729C8EFCD007F74DB /* LNPopupUI-Static in Frameworks */,
 				9B3D44C429BE33850054C9E0 /* SwiftUIBackports in Frameworks */,
 				48C1F8BC29B9E5C9003BE048 /* Kingfisher in Frameworks */,
 				9BB75ECB29C63AE6008CD65A /* SimpleKeychain in Frameworks */,
@@ -250,6 +254,7 @@
 				9B80475D29B7D5330069B407 /* HomeScreen.swift */,
 				9B80476529B86F460069B407 /* LibraryScreen.swift */,
 				9B80477D29B8CDF80069B407 /* SettingsScreen.swift */,
+				9B73ECF829C8F085007F74DB /* MusicPlayerScreen.swift */,
 			);
 			path = Screens;
 			sourceTree = "<group>";
@@ -435,6 +440,7 @@
 				9BB75EB329C4E640008CD65A /* Defaults */,
 				9BB75EC229C5B1B8008CD65A /* DebouncedOnChange */,
 				9BB75ECA29C63AE6008CD65A /* SimpleKeychain */,
+				9B73ECF629C8EFCD007F74DB /* LNPopupUI-Static */,
 			);
 			productName = "JellyMusic (iOS)";
 			productReference = 9B80473A29B768010069B407 /* JellyMusic.app */;
@@ -493,6 +499,7 @@
 				9BB75EB229C4E640008CD65A /* XCRemoteSwiftPackageReference "Defaults" */,
 				9BB75EC129C5B1B8008CD65A /* XCRemoteSwiftPackageReference "DebouncedOnChange" */,
 				9BB75EC929C63AE6008CD65A /* XCRemoteSwiftPackageReference "SimpleKeychain" */,
+				9B73ECF529C8EFCD007F74DB /* XCRemoteSwiftPackageReference "LNPopupUI" */,
 			);
 			productRefGroup = 9B80473B29B768010069B407 /* Products */;
 			projectDirPath = "";
@@ -528,6 +535,7 @@
 			isa = PBXSourcesBuildPhase;
 			buildActionMask = 2147483647;
 			files = (
+				9B73ECF929C8F085007F74DB /* MusicPlayerScreen.swift in Sources */,
 				9BDB099029BB1E73007F99E4 /* DefaultSongService.swift in Sources */,
 				9BDB099C29BB302C007F99E4 /* DefaultImageService.swift in Sources */,
 				9BB75EA329C3894A008CD65A /* FavoriteButton.swift in Sources */,
@@ -942,6 +950,14 @@
 				minimumVersion = 1.0.0;
 			};
 		};
+		9B73ECF529C8EFCD007F74DB /* XCRemoteSwiftPackageReference "LNPopupUI" */ = {
+			isa = XCRemoteSwiftPackageReference;
+			repositoryURL = "https://github.com/LeoNatan/LNPopupUI";
+			requirement = {
+				kind = upToNextMajorVersion;
+				minimumVersion = 1.0.0;
+			};
+		};
 		9BB754D429B93F3C009BB3A6 /* XCRemoteSwiftPackageReference "jellyfin-sdk-swift" */ = {
 			isa = XCRemoteSwiftPackageReference;
 			repositoryURL = "https://github.com/jellyfin/jellyfin-sdk-swift";
@@ -996,6 +1012,11 @@
 			isa = XCSwiftPackageProductDependency;
 			package = 9B3D44C229BE33850054C9E0 /* XCRemoteSwiftPackageReference "SwiftUIBackports" */;
 			productName = SwiftUIBackports;
+		};
+		9B73ECF629C8EFCD007F74DB /* LNPopupUI-Static */ = {
+			isa = XCSwiftPackageProductDependency;
+			package = 9B73ECF529C8EFCD007F74DB /* XCRemoteSwiftPackageReference "LNPopupUI" */;
+			productName = "LNPopupUI-Static";
 		};
 		9BB754D529B93F3C009BB3A6 /* JellyfinAPI */ = {
 			isa = XCSwiftPackageProductDependency;

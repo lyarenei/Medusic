@@ -1,6 +1,13 @@
+import LNPopupUI
 import SwiftUI
 
 struct HomeScreen: View {
+    @State
+    private var isPlayerPresented = false
+
+    @State
+    private var isPlayerOpen = false
+
     var body: some View {
         TabView {
             LibraryScreen()
@@ -23,6 +30,9 @@ struct HomeScreen: View {
                     Text("Settings")
                 }
                 .tag("settings_tab")
+        }
+        .popup(isBarPresented: $isPlayerPresented, isPopupOpen: $isPlayerOpen) {
+            MusicPlayerScreen()
         }
     }
 }
