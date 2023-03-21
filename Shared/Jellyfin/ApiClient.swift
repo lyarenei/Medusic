@@ -38,7 +38,8 @@ final class ApiClient {
             albumService: DefaultAlbumService(client: jellyfinClient),
             songService: DefaultSongService(client: jellyfinClient),
             imageService: DefaultImageService(client: jellyfinClient),
-            systemService: DefaultSystemService(client: jellyfinClient)
+            systemService: DefaultSystemService(client: jellyfinClient),
+            mediaService: DefaultMediaService(client: jellyfinClient)
         )
     }
 
@@ -69,6 +70,7 @@ struct ApiServices {
     let songService: any SongService
     let imageService: any ImageService
     let systemService: any SystemService
+    let mediaService: any MediaService
 }
 
 private struct APIEnvironmentKey: EnvironmentKey {
@@ -141,7 +143,8 @@ extension ApiServices {
                 ]
             ),
             imageService: DummyImageService(),
-            systemService: MockSystemService()
+            systemService: MockSystemService(),
+            mediaService: MockMediaService()
         )
     }
 }
