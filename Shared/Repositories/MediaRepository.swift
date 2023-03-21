@@ -12,6 +12,7 @@ final class MediaRepository: ObservableObject {
         self.api = ApiClient()
     }
 
+    // TODO: this needs some sort of queuing if one wants to download multiple albums
     /// Downloads the item from Jellyfin server and saves it into the store.
     func fetchItem(by itemId: String) async throws {
         let _ = try await self.api.performAuth()
