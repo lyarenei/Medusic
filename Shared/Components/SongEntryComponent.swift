@@ -3,9 +3,6 @@ import SwiftUI
 
 private struct SongActions: View {
     @State
-    private var isDownloaded = false
-
-    @State
     private var isFavorite = false
 
     var song: Song
@@ -15,8 +12,7 @@ private struct SongActions: View {
             FavoriteButton(isFavorite: isFavorite)
                 .disabled(true)
 
-            DownloadButton(isDownloaded: $isDownloaded)
-                .disabled(true)
+            DownloadButton(item: song)
         }
         .frame(minWidth: 25)
         .onAppear { self.isFavorite = self.song.isFavorite }

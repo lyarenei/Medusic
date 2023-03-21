@@ -33,4 +33,18 @@ final class AlbumRepository: ObservableObject {
     func getFavorite() async -> [Album] {
         return await self.$albums.items.filter { $0.isFavorite }
     }
+
+    func setDownloaded(itemId: String, _ isDownloaded: Bool = true) async throws {
+        if var item = await self.getAlbum(by: itemId) {
+            item.isDownloaded = isDownloaded
+            try await self.$albums.remove(item).insert(item).run()
+            return
+        }
+
+        throw AlbumRepositoryError.notFound
+    }
+}
+
+enum AlbumRepositoryError: Error {
+    case notFound
 }

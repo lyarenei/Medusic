@@ -7,6 +7,9 @@ import SwiftUI
 @main
 struct JellyMusicApp: App {
     private var api = ApiClient()
+    private var albumRepo = AlbumRepository(store: .albums)
+    private var songRepo = SongRepository(store: .songs)
+    private var mediaRepo = MediaRepository(store: .downloadedMedia)
 
     init() {
         // Memory image never expires.
@@ -31,6 +34,9 @@ struct JellyMusicApp: App {
                 #endif
             }
             .environment(\.api, api)
+            .environment(\.albumRepo, albumRepo)
+            .environment(\.songRepo, songRepo)
+            .environment(\.mediaRepo, mediaRepo)
             .onAppear { Task(priority: .medium) {
                 let albumRepo = AlbumRepository(store: .albums)
                 let songRepo = SongRepository(store: .songs)

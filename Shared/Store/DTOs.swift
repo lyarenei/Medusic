@@ -1,12 +1,20 @@
 import Foundation
 import JellyfinAPI
 
+protocol Unique {
+    var uuid: String { get }
+}
+
+protocol Downloadable {
+    var isDownloaded: Bool { get set }
+}
+
 public struct JellyfinServerInfo {
     public var name: String
     public var version: String
 }
 
-public struct Album {
+public struct Album: Unique, Downloadable {
     public var uuid: String
     public var name: String
     public var artistName: String
@@ -18,7 +26,7 @@ public struct Album {
     }
 }
 
-public struct Song {
+public struct Song: Unique, Downloadable {
     public var uuid: String
     public var index: Int
     public var name: String

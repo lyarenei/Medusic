@@ -38,7 +38,7 @@ struct AlbumDetailScreen: View {
             })
 
             ToolbarItem(content: {
-                DownloadButton(isDownloaded: $isDownloaded)
+                DownloadButton(item: album)
                     .disabled(true)
             })
         })
