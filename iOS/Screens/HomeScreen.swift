@@ -30,6 +30,8 @@ struct HomeScreen: View {
                     Text("Settings")
                 }
                 .tag("settings_tab")
+                .onAppear { isPlayerPresented = false }
+                .onDisappear { isPlayerPresented = true }
         }
         .popup(isBarPresented: $isPlayerPresented, isPopupOpen: $isPlayerOpen) {
             MusicPlayerScreen()
