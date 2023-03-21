@@ -210,6 +210,9 @@ private struct PurgeCaches: View {
     @Stored(in: .songs)
     private var songs: [Song]
 
+    @Stored(in: .downloadedMedia)
+    private var downloaded: [DownloadedMedia]
+
     @State
     private var showPurgeCacheConfirm = false
 
@@ -248,6 +251,7 @@ private struct PurgeCaches: View {
             do {
                 try await self.$albums.removeAll()
                 try await self.$songs.removeAll()
+                try await self.$downloaded.removeAll()
             } catch {
                 print("Purging caches failed: \(error)")
             }

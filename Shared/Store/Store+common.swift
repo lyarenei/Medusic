@@ -19,3 +19,9 @@ extension Store<Song> {
         storage: SQLiteStorageEngine.default(appendingPath: "Songs")
     )
 }
+
+extension Store<DownloadedMedia> {
+    static let downloadedMedia = Store<DownloadedMedia>(
+        storage: DiskStorageEngine.init(directory: .caches(appendingPath: "DownloadedMedia"))
+    )
+}

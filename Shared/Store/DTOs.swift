@@ -1,3 +1,4 @@
+import Foundation
 import JellyfinAPI
 
 public struct JellyfinServerInfo {
@@ -24,4 +25,9 @@ public struct Song {
     public var parentId: String
     public var isDownloaded: Bool = false
     public var isFavorite: Bool = false
+}
+
+public struct DownloadedMedia {
+    public var uuid: String
+    public var data: Data
 }

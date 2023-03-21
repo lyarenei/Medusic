@@ -12,6 +12,12 @@ extension Album: Equatable {
     }
 }
 
+extension DownloadedMedia: Equatable {
+    public static func == (lhs: DownloadedMedia, rhs: DownloadedMedia) -> Bool {
+        lhs.id == rhs.id
+    }
+}
+
 extension ArtistInfo: Equatable {
     public static func == (lhs: ArtistInfo, rhs: ArtistInfo) -> Bool {
         lhs.id == rhs.id

@@ -8,8 +8,10 @@ final class DefaultMediaService: MediaService {
         self.client = client
     }
 
-    func download(item id: String) async throws -> Data {
-        throw MediaServiceError.invalid
+    func downloadItem(id: String) async throws -> DownloadedMedia {
+        let request = JellyfinAPI.Paths.getDownload(itemID: id)
+        let response = try await client.send(request)
+        return DownloadedMedia(uuid: id, data: response.value)
     }
 
     func stream(item id: String, bitrate: Int32?) async throws -> Data {

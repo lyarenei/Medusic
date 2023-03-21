@@ -1,7 +1,7 @@
 import Foundation
 
 final class MockMediaService: MediaService {
-    func download(item id: String) async throws -> Data {
+    func downloadItem(id: String) async throws -> DownloadedMedia {
         throw MediaServiceError.invalid
     }
 
