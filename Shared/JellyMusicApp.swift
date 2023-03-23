@@ -33,6 +33,7 @@ struct JellyMusicApp: App {
             .environment(\.api, api)
             .onAppear { Task(priority: .medium) {
                 // TODO: would be good to show error to user
+                // NOTE: This overwrites local-only metadata (such as isDownloaded)
                 do {
                     try await AlbumRepository.shared.refresh()
                     try await SongRepository.shared.refresh()
