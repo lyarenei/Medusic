@@ -1,28 +1,7 @@
 import SFSafeSymbols
 import SwiftUI
 
-private struct SongActions: View {
-    @State
-    private var isFavorite = false
-
-    var song: Song
-
-    var body: some View {
-        HStack(spacing: 10) {
-            FavoriteButton(isFavorite: isFavorite)
-                .disabled(true)
-
-            DownloadButton(item: song)
-        }
-        .frame(minWidth: 25)
-        .onAppear { self.isFavorite = self.song.isFavorite }
-    }
-}
-
 struct SongEntryComponent: View {
-    @StateObject
-    private var albumRepo = AlbumRepository(store: .albums)
-
     var song: Song
 
     var showAlbumOrder = false
@@ -57,7 +36,7 @@ struct SongEntryComponent: View {
             }
             .backport.task {
                 guard showAlbumName else { return }
-                self.album = await albumRepo.getAlbum(by: song.parentId)
+                self.album = await AlbumRepository.shared.getAlbum(by: song.parentId)
             }
 
             if showActions {
@@ -72,16 +51,9 @@ struct SongEntryComponent: View {
 
 #if DEBUG
 struct SongEntryComponent_Previews: PreviewProvider {
-    static var song = Song(
-        uuid: "asdf",
-        index: 1,
-        name: "Very long song name that can't possibly fit on one line on phone screen either in vertical or horizontal orientation",
-        parentId: "someId"
-    )
-
     static var previews: some View {
         LazyVStack {
-            SongEntryComponent(song: song)
+            SongEntryComponent(song: PreviewData.songs[0])
                 .padding(.leading)
                 .padding(.trailing)
                 .font(.title3)
@@ -89,3 +61,23 @@ struct SongEntryComponent_Previews: PreviewProvider {
     }
 }
 #endif
+
+// MARK: - Song actions
+
+private struct SongActions: View {
+    @State
+    private var isFavorite = false
+
+    var song: Song
+
+    var body: some View {
+        HStack(spacing: 10) {
+            FavoriteButton(isFavorite: isFavorite)
+                .disabled(true)
+
+            DownloadButton(for: song.uuid)
+        }
+        .frame(minWidth: 25)
+        .onAppear { self.isFavorite = self.song.isFavorite }
+    }
+}

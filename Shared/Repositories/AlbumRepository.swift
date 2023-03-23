@@ -2,6 +2,8 @@ import Boutique
 import Foundation
 
 final class AlbumRepository: ObservableObject {
+    static let shared = AlbumRepository(store: .albums)
+
     @Stored
     private var albums: [Album]
 

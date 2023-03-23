@@ -2,6 +2,8 @@ import Boutique
 import Foundation
 
 final class MediaRepository: ObservableObject {
+    static let shared = MediaRepository(store: .downloadedMedia)
+
     @Stored
     private var downloaded: [DownloadedMedia]
 

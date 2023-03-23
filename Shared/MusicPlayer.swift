@@ -15,6 +15,8 @@ extension EnvironmentValues {
 }
 
 class MusicPlayer: NSObject, AVAudioPlayerDelegate, ObservableObject {
+    static let shared = MusicPlayer()
+
     @Environment(\.albumRepo)
     private var albumRepo: AlbumRepository
 

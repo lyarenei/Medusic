@@ -5,54 +5,34 @@ import SwiftUIBackports
 
 struct AlbumLibraryScreen: View {
     @StateObject
-    private var albumRepo = AlbumRepository(store: .albums)
+    private var controller: AlbumLibraryController
 
-    @State
-    private var albums: [Album]?
+    init () {
+        self._controller = StateObject(wrappedValue: AlbumLibraryController())
+    }
+
+    init(_ controller: AlbumLibraryController) {
+        self._controller = StateObject(wrappedValue: controller)
+    }
 
     var body: some View {
         ZStack {
-            AlbumList(albums: albums)
+            AlbumList(albums: controller.albums)
                 .listStyle(.plain)
         }
         .navigationTitle("Albums")
-        .onAppear { Task { await self.setAlbums() }}
-        .backport.refreshable { await self.doRefresh() }
-    }
-
-    private func setAlbums() async {
-        self.albums = await self.albumRepo.getAlbums()
-    }
-
-    private func doRefresh() async {
-        do {
-            try await self.albumRepo.refresh()
-            await self.setAlbums()
-        } catch {
-            print("Refreshing albums failed", error)
-        }
+        .onAppear { self.controller.setAlbums() }
+        .backport.refreshable { await self.controller.doRefresh() }
     }
 }
 
 #if DEBUG
 struct AlbumLibraryScreen_Previews: PreviewProvider {
-    static var albums: [Album] = [
-        Album(
-            uuid: "1",
-            name: "Nice album name",
-            artistName: "Album artist",
-            isFavorite: true
-        ),
-        Album(
-            uuid: "2",
-            name: "Album with very long name that one gets tired reading it",
-            artistName: "Unamusing artist",
-            isDownloaded: true
-        ),
-    ]
-
     static var previews: some View {
-        AlbumLibraryScreen()
+        AlbumLibraryScreen(AlbumLibraryController(
+            albumRepo: AlbumRepository(store: .previewStore(items: PreviewData.albums, cacheIdentifier: \.uuid)),
+            songRepo: SongRepository(store: .previewStore(items: PreviewData.songs, cacheIdentifier: \.uuid))
+        ))
     }
 }
 #endif

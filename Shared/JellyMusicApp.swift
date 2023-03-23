@@ -7,9 +7,6 @@ import SwiftUI
 @main
 struct JellyMusicApp: App {
     private var api = ApiClient()
-    private var albumRepo = AlbumRepository(store: .albums)
-    private var songRepo = SongRepository(store: .songs)
-    private var mediaRepo = MediaRepository(store: .downloadedMedia)
 
     init() {
         // Memory image never expires.
@@ -34,19 +31,13 @@ struct JellyMusicApp: App {
                 #endif
             }
             .environment(\.api, api)
-            .environment(\.albumRepo, albumRepo)
-            .environment(\.songRepo, songRepo)
-            .environment(\.mediaRepo, mediaRepo)
             .onAppear { Task(priority: .medium) {
-                let albumRepo = AlbumRepository(store: .albums)
-                let songRepo = SongRepository(store: .songs)
-
                 // TODO: would be good to show error to user
                 do {
-                    try await albumRepo.refresh()
-                    try await songRepo.refresh()
+                    try await AlbumRepository.shared.refresh()
+                    try await SongRepository.shared.refresh()
                 } catch {
-                    print("Failed to refresh data", error)
+                    print("Failed to refresh data: \(error)")
                 }
             }}
         }

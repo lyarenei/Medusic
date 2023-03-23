@@ -3,17 +3,22 @@ import SwiftUI
 
 struct LibraryScreen: View {
     @StateObject
-    var albumRepo = AlbumRepository(store: .albums)
+    private var controller: LibraryController
 
-    @State
-    private var favoriteAlbums: [Album]?
+    init () {
+        self._controller = StateObject(wrappedValue: LibraryController())
+    }
+
+    init(_ controller: LibraryController) {
+        self._controller = StateObject(wrappedValue: controller)
+    }
 
     var body: some View {
         NavigationView {
             ScrollView {
                 VStack(spacing: 25) {
                     VStack(alignment: .leading, spacing: 15) {
-                        LibraryNavigationItems()
+                        LibraryNavigationItems(controller)
                             .padding(.top, 10)
 
                         Text("Favorite albums")
@@ -25,21 +30,23 @@ struct LibraryScreen: View {
                 .padding(.leading, 10)
                 .padding(.trailing, 10)
             }
+            .listStyle(.plain)
             .navigationTitle("Library")
 
             // TODO: fix broken rendering
-            AlbumList(albums: favoriteAlbums)
+            AlbumList(albums: controller.favoriteAlbums)
         }
-        .onAppear { Task {
-            self.favoriteAlbums = await self.albumRepo.getFavorite()
-        }}
+        .onAppear { self.controller.setFavoriteAlbums() }
     }
 }
 
 #if DEBUG
 struct LibraryScreen_Previews: PreviewProvider {
     static var previews: some View {
-        LibraryScreen()
+        LibraryScreen(LibraryController(
+            albumRepo: AlbumRepository(store: .previewStore(items: PreviewData.albums, cacheIdentifier: \.uuid)),
+            songRepo: SongRepository(store: .previewStore(items: PreviewData.songs, cacheIdentifier: \.uuid))
+        ))
     }
 }
 #endif
@@ -52,8 +59,7 @@ private struct NavigationEntry<Content: View>: View {
     var symbol: SFSymbol
 
     init(
-        @ViewBuilder
-        destination: () -> Content,
+        @ViewBuilder destination: () -> Content,
         text: String,
         symbol: SFSymbol
     ) {
@@ -89,10 +95,17 @@ private struct NavigationEntry<Content: View>: View {
 // MARK: - Navigation items
 
 private struct LibraryNavigationItems: View {
+    @StateObject
+    private var controller: LibraryController
+
+    init(_ controller: LibraryController) {
+        self._controller = StateObject(wrappedValue: controller)
+    }
+
     var body: some View {
         VStack(alignment: .leading) {
             NavigationEntry(
-                destination: {},
+                destination: { },
                 text: "Playlists",
                 symbol: .musicNoteList
             )
@@ -101,7 +114,7 @@ private struct LibraryNavigationItems: View {
             Divider()
 
             NavigationEntry(
-                destination: {},
+                destination: { },
                 text: "Artists",
                 symbol: .musicMic
             )
@@ -126,7 +139,7 @@ private struct LibraryNavigationItems: View {
             Divider()
 
             NavigationEntry(
-                destination: {},
+                destination: { },
                 text: "Downloads",
                 symbol: .arrowDownApp
             )

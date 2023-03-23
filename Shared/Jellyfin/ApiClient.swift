@@ -73,80 +73,20 @@ struct ApiServices {
     let mediaService: any MediaService
 }
 
-private struct APIEnvironmentKey: EnvironmentKey {
-    static let defaultValue: ApiClient = .init()
-}
-
 extension ApiServices {
     static var preview: ApiServices {
         ApiServices(
-            albumService: DummyAlbumService(
-                albums: [
-                    Album(
-                        uuid: "1",
-                        name: "Nice album name",
-                        artistName: "Album artist",
-                        isFavorite: true
-                    ),
-                    Album(
-                        uuid: "2",
-                        name: "Album with very long name that one gets tired reading it",
-                        artistName: "Unamusing artist",
-                        isDownloaded: true
-                    ),
-                    Album(
-                        uuid: "3",
-                        name: "Very long album name that can't possibly fit on one line on phone screen either in vertical or horizontal orientation",
-                        artistName: "Very long artist name that can't possibly fit on one line on phone screen either in vertical or horizontal orientation",
-                        isFavorite: true
-                    )
-                ]
-            ),
-            songService: DummySongService(
-                songs: [
-                    // Songs for album 1
-                    Song(
-                        uuid: "1",
-                        index: 1,
-                        name: "Song name 1",
-                        parentId: "1",
-                        isDownloaded: true
-                    ),
-                    Song(
-                        uuid: "2",
-                        index: 2,
-                        name: "Song name 2 but this one has very long name",
-                        parentId: "1",
-                        isDownloaded: true
-                    ),
-                    // Songs for album 2
-                    Song(
-                        uuid: "3",
-                        index: 1,
-                        name: "Song name 3",
-                        parentId: "2",
-                        isDownloaded: true
-                    ),
-                    Song(
-                        uuid: "4",
-                        index: 2,
-                        name: "Song name 4 but this one has very long name",
-                        parentId: "2",
-                        isDownloaded: true
-                    ),
-                    Song(
-                        uuid: "5",
-                        index: 1,
-                        name: "Very long song name that can't possibly fit on one line on phone screen either in vertical or horizontal orientation",
-                        parentId: "3"
-                    )
-                ]
-            ),
+            albumService: DummyAlbumService(albums: PreviewData.albums),
+            songService: DummySongService(songs: PreviewData.songs),
             imageService: DummyImageService(),
             systemService: MockSystemService(),
             mediaService: MockMediaService()
         )
     }
+}
+
+private struct APIEnvironmentKey: EnvironmentKey {
+    static let defaultValue: ApiClient = .init()
 }
 
 extension EnvironmentValues {
@@ -158,4 +98,66 @@ extension EnvironmentValues {
 
 enum ApiClientError: Error {
     case noPassword
+}
+
+struct PreviewData {
+    public static let albums = [
+        Album(
+            uuid: "1",
+            name: "Nice album name",
+            artistName: "Album artist",
+            isFavorite: true
+        ),
+        Album(
+            uuid: "2",
+            name: "Album with very long name that one gets tired reading it",
+            artistName: "Unamusing artist",
+            isDownloaded: true
+        ),
+        Album(
+            uuid: "3",
+            name: "Very long album name that can't possibly fit on one line on phone screen either in vertical or horizontal orientation",
+            artistName: "Very long artist name that can't possibly fit on one line on phone screen either in vertical or horizontal orientation",
+            isFavorite: true
+        )
+    ]
+
+    public static let songs = [
+        // Songs for album 1
+        Song(
+            uuid: "1",
+            index: 1,
+            name: "Song name 1",
+            parentId: "1",
+            isDownloaded: true
+        ),
+        Song(
+            uuid: "2",
+            index: 2,
+            name: "Song name 2 but this one has very long name",
+            parentId: "1",
+            isDownloaded: true
+        ),
+        // Songs for album 2
+        Song(
+            uuid: "3",
+            index: 1,
+            name: "Song name 3",
+            parentId: "2",
+            isDownloaded: true
+        ),
+        Song(
+            uuid: "4",
+            index: 2,
+            name: "Song name 4 but this one has very long name",
+            parentId: "2",
+            isDownloaded: true
+        ),
+        Song(
+            uuid: "5",
+            index: 1,
+            name: "Very long song name that can't possibly fit on one line on phone screen either in vertical or horizontal orientation",
+            parentId: "3"
+        )
+    ]
 }

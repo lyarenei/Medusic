@@ -3,7 +3,7 @@ import SwiftUI
 
 struct AlbumList: View {
     @Default(.albumDisplayMode)
-    var albumDisplayMode: AlbumDisplayMode
+    private var albumDisplayMode: AlbumDisplayMode
 
     var albums: [Album]?
 
@@ -61,7 +61,7 @@ private struct ListOfAlbums: View {
         // Note: list is not lazy on macOS < 13: https://stackoverflow.com/q/72070486
         List(albums) { album in
             NavigationLink {
-                AlbumDetailScreen(album: album)
+                AlbumDetailScreen(for: album.uuid)
             } label: {
                 HStack(spacing: 25) {
                     ArtworkComponent(itemId: album.id)
@@ -96,7 +96,7 @@ private struct AlbumTileList: View {
             LazyVGrid(columns: layout) {
                 ForEach(gotAlbums) { album in
                     NavigationLink {
-                        AlbumDetailScreen(album: album)
+                        AlbumDetailScreen(for: album.uuid)
                     } label: {
                         AlbumTileComponent(album: album)
                     }

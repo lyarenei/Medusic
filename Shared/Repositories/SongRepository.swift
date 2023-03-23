@@ -2,6 +2,8 @@ import Boutique
 import Foundation
 
 final class SongRepository: ObservableObject {
+    static let shared = SongRepository(store: .songs)
+
     @Stored
     var songs: [Song]
 

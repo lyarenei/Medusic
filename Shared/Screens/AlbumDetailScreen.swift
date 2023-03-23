@@ -5,82 +5,66 @@ import SwiftUIBackports
 
 struct AlbumDetailScreen: View {
     @StateObject
-    private var songRepo = SongRepository(store: .songs)
+    private var controller: AlbumDetailController
 
-    @State
-    private var songs: [Song]?
+    init (for itemId: String) {
+        self._controller = StateObject(wrappedValue: AlbumDetailController(albumId: itemId))
+    }
 
-    @State
-    private var isDownloaded: Bool = false
-
-    @State
-    private var isFavorite: Bool = false
-
-    var album: Album
+    init(_ controller: AlbumDetailController) {
+        self._controller = StateObject(wrappedValue: controller)
+    }
 
     var body: some View {
-        ScrollView {
-            VStack {
-                AlbumHeading(album: album)
+        Group {
+            if let album = controller.album {
+                ScrollView {
+                    VStack {
+                        AlbumHeading(album: album)
 
-                AlbumActions()
-                    .padding(.bottom, 30)
+                        AlbumActions()
+                            .padding(.bottom, 30)
 
-                SongList(songs: songs)
-                    .padding(.bottom, 10)
+                        SongList(songs: controller.songs)
+                            .padding(.bottom, 10)
+                    }
+                }
+                .navigationBarTitleDisplayMode(.inline)
+                .toolbar(content: {
+                    ToolbarItem(content: {
+                        FavoriteButton(isFavorite: controller.isFavorite)
+                            .disabled(true)
+                    })
+
+                    ToolbarItem(content: {
+                        DownloadButton(for: album.uuid)
+                            .disabled(true)
+                    })
+                })
+//                .onAppear { self.isFavorite = album.isFavorite }
+            } else {
+                Text("Failed to load album data")
             }
         }
-        .navigationBarTitleDisplayMode(.inline)
-        .toolbar(content: {
-            ToolbarItem(content: {
-                FavoriteButton(isFavorite: isFavorite)
-                    .disabled(true)
-            })
-
-            ToolbarItem(content: {
-                DownloadButton(item: album)
-                    .disabled(true)
-            })
-        })
-        .onAppear { Task { await self.setSongs(albumId: album.uuid) }}
-        .onAppear { self.isFavorite = album.isFavorite }
-        .backport.refreshable { await self.refresh(albumId: album.uuid) }
-    }
-
-    private func setSongs(albumId: String) async {
-        self.songs = await songRepo.getSongs(ofAlbum: albumId)
-    }
-
-    private func refresh(albumId: String) async {
-        defer { Task { await self.setSongs(albumId: albumId) }}
-        self.songs = nil
-        do {
-            try await songRepo.refresh(for: albumId)
-        } catch {
-            print("Failed to refresh the songs", error)
-        }
+        .onAppear { self.controller.setAlbum() }
+        .onAppear { self.controller.setSongs() }
+        .backport.refreshable { await self.controller.refresh() }
     }
 }
 
 #if DEBUG
 struct AlbumDetailScreen_Previews: PreviewProvider {
-    static let album = Album(
-        uuid: "abc",
-        name: "Album name",
-        artistName: "Artist name",
-        isFavorite: true
-    )
-
-    static let albumLong = Album(
-        uuid: "xyz",
-        name: "Very long album name that can't possibly fit on one line on phone screen either in vertical or horizontal orientation",
-        artistName: "Very long artist name that can't possibly fit on one line on phone screen either in vertical or horizontal orientation",
-        isFavorite: true
-    )
-
     static var previews: some View {
-        AlbumDetailScreen(album: album)
-        AlbumDetailScreen(album: albumLong)
+        AlbumDetailScreen(AlbumDetailController(
+            albumId: "1",
+            albumRepo: AlbumRepository(store: .previewStore(items: PreviewData.albums, cacheIdentifier: \.uuid)),
+            songRepo: SongRepository(store: .previewStore(items: PreviewData.songs, cacheIdentifier: \.uuid))
+        ))
+        AlbumDetailScreen(AlbumDetailController(
+            albumId: "2",
+            albumRepo: AlbumRepository(store: .previewStore(items: PreviewData.albums, cacheIdentifier: \.uuid)),
+            songRepo: SongRepository(store: .previewStore(items: PreviewData.songs, cacheIdentifier: \.uuid))
+        ))
     }
 }
 #endif

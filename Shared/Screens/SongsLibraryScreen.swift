@@ -3,17 +3,22 @@ import SwiftUIBackports
 
 struct SongsLibraryScreen: View {
     @StateObject
-    private var songRepo = SongRepository(store: .songs)
+    private var controller: SongLibraryController
 
-    @State
-    private var songs: [Song] = []
+    init () {
+        self._controller = StateObject(wrappedValue: SongLibraryController())
+    }
+
+    init(_ controller: SongLibraryController) {
+        self._controller = StateObject(wrappedValue: controller)
+    }
 
     var body: some View {
         ScrollView(.vertical) {
             LazyVStack {
                 // TODO: play/shuffle actions
 
-                ForEach(songs) { song in
+                ForEach(controller.songs) { song in
                     SongEntryComponent(
                         song: song,
                         showAlbumOrder: false,
@@ -33,16 +38,17 @@ struct SongsLibraryScreen: View {
             }
         }
         .navigationTitle("Songs")
-        .backport.task(priority: .background) {
-            self.songs = await self.songRepo.getSongs().sortByAlbum()
-        }
+        .onAppear { controller.setSongs() }
     }
 }
 
 #if DEBUG
 struct SongsLibraryScreen_Previews: PreviewProvider {
     static var previews: some View {
-        SongsLibraryScreen()
+        SongsLibraryScreen(SongLibraryController(
+            albumRepo: AlbumRepository(store: .previewStore(items: PreviewData.albums, cacheIdentifier: \.uuid)),
+            songRepo: SongRepository(store: .previewStore(items: PreviewData.songs, cacheIdentifier: \.uuid))
+        ))
     }
 }
 #endif
