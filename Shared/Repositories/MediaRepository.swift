@@ -25,6 +25,7 @@ final class MediaRepository: ObservableObject {
         return await self.$downloaded.items.first { $0.uuid == itemId }
     }
 
+    /// Remove item from store.
     func removeItem(id: String) async throws {
         if let item = await self.getItem(by: id) {
             return try await self.$downloaded.remove(item)
