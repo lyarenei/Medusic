@@ -4,11 +4,15 @@ struct DownloadButton: View {
     @StateObject
     private var controller: DownloadButtonController
 
+    private var showText: Bool
+
     init(
         for itemId: String,
+        showText: Bool = false,
         albumRepo: AlbumRepository = AlbumRepository.shared,
         songRepo: SongRepository = SongRepository.shared
     ) {
+        self.showText = showText
         self._controller = StateObject(
             wrappedValue: DownloadButtonController(
                 itemId: itemId,
@@ -25,6 +29,7 @@ struct DownloadButton: View {
             if controller.inProgress {
                 ProgressView()
             } else {
+                if showText { Text(controller.buttonText) }
                 DownloadedIcon(isDownloaded: $controller.isDownloaded)
             }
         }
@@ -51,6 +56,9 @@ private final class DownloadButtonController: ObservableObject {
     @Published
     var isDownloaded: Bool = false
 
+    @Published
+    var buttonText: String = "Download"
+
     let itemId: String
     var albumRepo: AlbumRepository
     var songRepo: SongRepository
@@ -71,7 +79,10 @@ private final class DownloadButtonController: ObservableObject {
 
     func setDownloaded() async {
         if let item = await self.songRepo.getSong(by: self.itemId) {
-            DispatchQueue.main.async { self.isDownloaded = item.isDownloaded }
+            DispatchQueue.main.async {
+                self.isDownloaded = item.isDownloaded
+                self.buttonText = item.isDownloaded ? "Remove" : "Download"
+            }
         }
     }
 
