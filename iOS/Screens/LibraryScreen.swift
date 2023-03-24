@@ -16,25 +16,19 @@ struct LibraryScreen: View {
     var body: some View {
         NavigationView {
             ScrollView {
-                VStack(spacing: 25) {
-                    VStack(alignment: .leading, spacing: 15) {
-                        LibraryNavigationItems(controller)
-                            .padding(.top, 10)
+                VStack(alignment: .leading, spacing: 20) {
+                    LibraryNavigationItems(controller)
+                        .padding([.top, .leading, .trailing], 10)
 
-                        Text("Favorite albums")
-                            .font(.title)
-                            .bold()
-                            .padding(.leading, 5)
-                    }
+                    Text("Favorite albums")
+                        .font(.title)
+                        .bold()
+                        .padding(.leading, 15)
+
+                    AlbumList(albums: controller.favoriteAlbums)
                 }
-                .padding(.leading, 10)
-                .padding(.trailing, 10)
             }
-            .listStyle(.plain)
             .navigationTitle("Library")
-
-            // TODO: fix broken rendering
-            AlbumList(albums: controller.favoriteAlbums)
         }
         .onAppear { self.controller.setFavoriteAlbums() }
     }
