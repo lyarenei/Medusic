@@ -36,7 +36,7 @@ struct JellyMusicApp: App {
                 // NOTE: This overwrites local-only metadata (such as isDownloaded)
                 do {
                     try await AlbumRepository.shared.refresh()
-                    try await SongRepository.shared.refresh()
+//                    try await SongRepository.shared.refresh()
                 } catch {
                     print("Failed to refresh data: \(error)")
                 }
