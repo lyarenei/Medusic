@@ -43,6 +43,7 @@ struct AlbumDetailScreen: View {
         }
         .onAppear { self.controller.setAlbum() }
         .onAppear { self.controller.setSongs() }
+        .fixNavTitleTransition()
         .backport.refreshable { await self.controller.refresh() }
     }
 }
@@ -156,3 +157,8 @@ private struct SongList: View {
     }
 }
 
+extension View {
+    func fixNavTitleTransition() -> some View {
+        self.padding(.top, -0.3)
+    }
+}
