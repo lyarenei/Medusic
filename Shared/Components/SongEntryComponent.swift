@@ -6,7 +6,7 @@ struct SongEntryComponent: View {
 
     var showAlbumOrder = false
     var showArtwork = true
-    var showActions = true
+    var showAction = true
     var showAlbumName = false
 
     @State
@@ -39,10 +39,11 @@ struct SongEntryComponent: View {
                 self.album = await AlbumRepository.shared.getAlbum(by: song.parentId)
             }
 
-            if showActions {
+            if showAction {
                 Spacer(minLength: 10)
-                SongActions(song: song)
+                PrimaryActionButton(for: song.uuid)
                     .font(.title2)
+                    .frame(width: 30)
             }
         }
         .frame(height: 40)

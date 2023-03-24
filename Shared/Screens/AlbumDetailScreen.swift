@@ -32,12 +32,7 @@ struct AlbumDetailScreen: View {
                 .navigationBarTitleDisplayMode(.inline)
                 .toolbar(content: {
                     ToolbarItem(content: {
-                        FavoriteButton(isFavorite: controller.isFavorite)
-                            .disabled(true)
-                    })
-
-                    ToolbarItem(content: {
-                        DownloadButton(for: album.uuid)
+                        PrimaryActionButton(for: album.uuid)
                             .disabled(true)
                     })
                 })
@@ -144,7 +139,7 @@ private struct SongList: View {
                         song: song,
                         showAlbumOrder: true,
                         showArtwork: false,
-                        showActions: true
+                        showAction: true
                     )
                     .padding(.leading)
                     .padding(.trailing)

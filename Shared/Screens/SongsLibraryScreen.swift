@@ -23,7 +23,7 @@ struct SongsLibraryScreen: View {
                         song: song,
                         showAlbumOrder: false,
                         showArtwork: true,
-                        showActions: true,
+                        showAction: true,
                         showAlbumName: true
                     )
                     .font(.title3)
