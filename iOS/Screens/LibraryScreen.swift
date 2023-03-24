@@ -25,6 +25,10 @@ struct LibraryScreen: View {
                         .bold()
                         .padding(.leading, 15)
 
+                    // TODO: disable list style here or find a solution
+                    // Using list instead of scrollview would be possible,
+                    // but there would remain trailing separator and customization
+                    // is only available on iOS 15+
                     AlbumList(albums: controller.favoriteAlbums)
                 }
             }
