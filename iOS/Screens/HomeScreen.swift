@@ -2,6 +2,9 @@ import LNPopupUI
 import SwiftUI
 
 struct HomeScreen: View {
+    @ObservedObject
+    private var player: MusicPlayer = MusicPlayer.shared
+
     @State
     private var isPlayerPresented = false
 
@@ -30,6 +33,9 @@ struct HomeScreen: View {
                     Text("Settings")
                 }
                 .tag("settings_tab")
+        }
+        .onChange(of: player.currentSong) { curSong in
+            isPlayerPresented = curSong != nil
         }
         .popup(isBarPresented: $isPlayerPresented, isPopupOpen: $isPlayerOpen) {
             MusicPlayerScreen()
