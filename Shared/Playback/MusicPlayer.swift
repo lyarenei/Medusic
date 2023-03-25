@@ -32,7 +32,8 @@ class MusicPlayer: ObservableObject {
 
     private var cancellables: Cancellables = []
 
-    init() {
+    init(preview: Bool = false) {
+        guard !preview else { return }
         cancellables = [
             audioPlayer.$currentItemId.sink { [weak self] curItemId in
                 if let itemId = curItemId {
