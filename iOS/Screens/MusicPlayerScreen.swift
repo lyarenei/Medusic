@@ -2,106 +2,107 @@ import SFSafeSymbols
 import SwiftUI
 
 struct MusicPlayerScreen: View {
-    @StateObject
-    private var songRepo = SongRepository(store: .songs)
+    @ObservedObject
+    private var player: MusicPlayer
 
-    @State
-    private var currentSong: Song = Song(uuid: "asdf", index: 1, name: "Song name", parentId: "asdf")
-
-    @State
-    private var sliderValue = 0.35
+    init(player: MusicPlayer = .shared) {
+        self._player = ObservedObject(wrappedValue: player)
+    }
 
     var body: some View {
-        ZStack {
-            VStack(spacing: 15) {
-                ArtworkPlaceholder()
+        if let song = player.currentSong {
+            Group {
+                VStack(spacing: 15) {
+                    ArtworkComponent(itemId: song.uuid)
+                        .frame(width: 270, height: 270)
 
-                SongWithActions(
-                    songName: currentSong.name,
-                    artistName: "Artist name"
-                )
+                    SongWithActions(song: song)
 
-                PlaybackBar()
+                    SeekBar()
+                        .disabled(true)
+                        .foregroundColor(.init(UIColor.secondaryLabel))
 
-                PlaybackControl()
-                    .font(.largeTitle)
+                    PlaybackControl()
+                        .font(.largeTitle)
+                        .buttonStyle(.plain)
+                        .padding([.leading, .trailing], 50)
+
+                    VolumeBar()
+                        .font(.footnote)
+                        .padding(.bottom, 20)
+                        .disabled(true)
+                        .foregroundColor(.init(UIColor.secondaryLabel))
+
+                    BottomPlaceholder()
+                        .padding([.leading, .trailing], 50)
+                        .font(.title3)
+                        .foregroundColor(.init(UIColor.secondaryLabel))
+                }
+                .padding([.top, .leading, .trailing], 30)
+            }
+            .popupTitle(song.name)
+            .popupImage(Image(systemSymbol: .square))
+            .popupBarMarqueeScrollEnabled(true)
+            .popupBarItems({
+                HStack(spacing: 20) {
+                    Button(action: {
+                        player.isPlaying ? player.pause() : player.resume()
+                    }) {
+                        if player.isPlaying {
+                            Image(systemSymbol: .pauseFill)
+                        } else {
+                            Image(systemSymbol: .playFill)
+                        }
+                    }
                     .buttonStyle(.plain)
-                    .padding([.leading, .trailing], 50)
 
-
-                VolumeBar()
-                    .font(.footnote)
-                    .padding(.bottom, 20)
-
-                BottomPlaceholder()
-                    .padding([.leading, .trailing], 50)
-                    .font(.title3)
-            }
-            .padding([.top, .leading, .trailing], 30)
+                    Button { Task(priority: .userInitiated) {
+                        do {
+                            try await player.skipForward()
+                        } catch {
+                            print("Skip to next track failed: \(error)")
+                        }
+                    }} label: {
+                        Image(systemSymbol: .forwardFill)
+                    }
+                    .buttonStyle(.plain)
+                    .padding(.trailing, 10)
+                }
+            })
+        } else {
+            EmptyView()
         }
-        .popupTitle("Song name")
-        .popupImage(Image(systemSymbol: .square))
-        .popupBarMarqueeScrollEnabled(true)
-        .popupBarItems({
-            HStack(spacing:20) {
-                Button(action: {
-
-                }) {
-                    Image(systemSymbol: .playFill)
-                }
-                .buttonStyle(.plain)
-
-                Button(action: {
-
-                }) {
-                    Image(systemSymbol: .forwardFill)
-                }
-                .buttonStyle(.plain)
-                .padding(.trailing, 10)
-            }
-        })
     }
 }
 
 #if DEBUG
 struct MusicPlayerScreen_Previews: PreviewProvider {
+    static var player = {
+        var mp = MusicPlayer(preview: true)
+        mp.currentSong = PreviewData.songs[0]
+        return mp
+    }
+
     static var previews: some View {
-        MusicPlayerScreen()
+        MusicPlayerScreen(player: player())
     }
 }
 #endif
 
-// MARK: - Artwork placeholder
-
-private struct ArtworkPlaceholder: View {
-    var body: some View {
-        // TODO: collides with closing chevron
-        Text("img")
-            .frame(width: 270, height: 270)
-            .overlay(
-                RoundedRectangle(cornerRadius: 10)
-                    .stroke(style: StrokeStyle(lineWidth: 1.0))
-            )
-    }
-}
-
 // MARK: - Song with actions
-private struct SongWithActions: View {
-    @State
-    var songName: String
 
-    @State
-    var artistName: String
+private struct SongWithActions: View {
+    var song: Song
 
     var body: some View {
         HStack {
             VStack(alignment: .leading, spacing: 3) {
-                Text(songName)
+                Text(song.name)
                     .bold()
                     .lineLimit(1)
                     .font(.title2)
 
-                Text(artistName)
+                Text("song.artistName")
                     .lineLimit(1)
                     .font(.body)
             }
@@ -114,13 +115,14 @@ private struct SongWithActions: View {
                 Image(systemSymbol: .ellipsisCircle)
             }
             .font(.title2)
+            .disabled(true)
         }
     }
 }
 
 // MARK: - Playback bar
 
-private struct PlaybackBar: View {
+private struct SeekBar: View {
     @State
     private var progressPercent: Double = 65
 
@@ -153,6 +155,9 @@ private struct PlaybackBar: View {
 // MARK: - Playback control
 
 private struct PlaybackControl: View {
+    @ObservedObject
+    private var player: MusicPlayer = .shared
+
     var body: some View {
         HStack {
             Button {
@@ -161,24 +166,34 @@ private struct PlaybackControl: View {
                 Image(systemSymbol: .backwardFill)
             }
             .font(.title2)
+            .disabled(true)
 
             Spacer()
 
             Button {
-                // Play/pause
+                player.isPlaying ? player.pause() : player.resume()
             } label: {
-                Image(systemSymbol: .playFill)
+                if self.player.isPlaying {
+                    Image(systemSymbol: .pauseFill)
+                } else {
+                    Image(systemSymbol: .playFill)
+                }
             }
 
             Spacer()
 
-            Button {
-                // Next song
-            } label: {
+            Button { Task(priority: .userInitiated) {
+                do {
+                    try await player.skipForward()
+                } catch {
+                    print("Skip to next track failed: \(error)")
+                }
+            }} label: {
                 Image(systemSymbol: .forwardFill)
             }
             .font(.title2)
         }
+        .frame(height: 40)
     }
 }
 
@@ -194,7 +209,7 @@ private struct VolumeBar: View {
 
             Slider(
                 value: $volumePercent,
-                in: 0...1
+                in: 0 ... 1
             )
 
             Image(systemSymbol: .speakerWave3Fill)
