@@ -285,6 +285,7 @@
 		9B54962229CD740D00FB4191 /* Playback */ = {
 			isa = PBXGroup;
 			children = (
+				9B36DAC129CB90CF008C4FE7 /* MusicPlayer.swift */,
 				9B54962329CD742D00FB4191 /* AudioPlayer.swift */,
 			);
 			path = Playback;
@@ -373,7 +374,6 @@
 				9BB75EAF29C4C5E1008CD65A /* Settings.swift */,
 				9BB75EB829C509C6008CD65A /* ServerStatusController.swift */,
 				9BB75EBB29C513E7008CD65A /* JellyfinSettingsController.swift */,
-				9B36DAC129CB90CF008C4FE7 /* MusicPlayer.swift */,
 				9B3C7BE829D0702600884597 /* Logger.swift */,
 			);
 			path = Shared;
