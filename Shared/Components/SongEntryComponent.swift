@@ -47,6 +47,7 @@ struct SongEntryComponent: View {
             }
         }
         .frame(height: 40)
+        .contextMenu { ContextOptions(item: song) }
     }
 }
 
@@ -63,22 +64,26 @@ struct SongEntryComponent_Previews: PreviewProvider {
 }
 #endif
 
-// MARK: - Song actions
-
-private struct SongActions: View {
-    @State
-    private var isFavorite = false
-
-    var song: Song
+private struct ContextOptions: View  {
+    let item: Song
 
     var body: some View {
-        HStack(spacing: 10) {
-            FavoriteButton(isFavorite: isFavorite)
-                .disabled(true)
+        DownloadButton(for: item.uuid, showText: true)
 
-            DownloadButton(for: song.uuid)
+        FavoriteButton(isFavorite: false)
+
+        Button {
+
+        } label: {
+            Image(systemSymbol: .textInsert)
+            Text("Play next")
         }
-        .frame(minWidth: 25)
-        .onAppear { self.isFavorite = self.song.isFavorite }
+
+        Button {
+            
+        } label: {
+            Image(systemSymbol: .textAppend)
+            Text("Play last")
+        }
     }
 }
