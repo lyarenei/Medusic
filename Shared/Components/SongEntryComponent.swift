@@ -14,40 +14,44 @@ struct SongEntryComponent: View {
 
     var body: some View {
         HStack {
-            if showAlbumOrder {
-                Text("\(song.index)")
-                    .frame(minWidth: 30)
-            }
-
-            if showArtwork {
-                ArtworkComponent(itemId: song.uuid)
-                    .frame(maxWidth: 40)
-            }
-
-            VStack(alignment: .leading, spacing: 0) {
-                Text(song.name)
-                    .lineLimit(1)
-
-                if let albumName = album?.name, showAlbumName {
-                    Text(albumName)
-                        .lineLimit(1)
-                        .font(.footnote)
+            HStack {
+                if showAlbumOrder {
+                    Text("\(song.index)")
+                        .frame(minWidth: 30)
                 }
+
+                if showArtwork {
+                    ArtworkComponent(itemId: song.uuid)
+                        .frame(maxWidth: 40)
+                }
+
+                VStack(alignment: .leading, spacing: 0) {
+                    Text(song.name)
+                        .lineLimit(1)
+
+                    if let albumName = album?.name, showAlbumName {
+                        Text(albumName)
+                            .lineLimit(1)
+                            .font(.footnote)
+                    }
+                }
+                .backport.task {
+                    guard showAlbumName else { return }
+                    self.album = await AlbumRepository.shared.getAlbum(by: song.parentId)
+                }
+
+                if showAction { Spacer(minLength: 10) }
             }
-            .backport.task {
-                guard showAlbumName else { return }
-                self.album = await AlbumRepository.shared.getAlbum(by: song.parentId)
-            }
+            .frame(height: 40)
+            .contentShape(Rectangle())
+            .contextMenu { ContextOptions(item: song) }
 
             if showAction {
-                Spacer(minLength: 10)
                 PrimaryActionButton(for: song.uuid)
                     .font(.title2)
                     .frame(width: 30)
             }
         }
-        .frame(height: 40)
-        .contextMenu { ContextOptions(item: song) }
     }
 }
 
@@ -59,7 +63,13 @@ struct SongEntryComponent_Previews: PreviewProvider {
                 .padding(.leading)
                 .padding(.trailing)
                 .font(.title3)
+                .overlay(
+                    RoundedRectangle(cornerRadius: 10)
+                        .stroke(style: StrokeStyle(lineWidth: 1.0))
+                )
+                .frame(height: 40)
         }
+        .padding()
     }
 }
 #endif
