@@ -34,31 +34,8 @@ class MusicPlayer: ObservableObject {
 
     init(preview: Bool = false) {
         guard !preview else { return }
-        cancellables = [
-            audioPlayer.$currentItemId.sink { [weak self] curItemId in
-                if let itemId = curItemId {
-                    DispatchQueue.main.async { Task(priority: .background) {
-                        self?.currentSong = await self?.songRepo.getSong(by: itemId)
-                    }}
-                } else {
-                    DispatchQueue.main.async { Task(priority: .background) {
-                        self?.currentSong = nil
-                    }}
-                }
-            },
-            audioPlayer.$playerState.sink { [weak self] curState in
-                switch curState {
-                case .playing:
-                    DispatchQueue.main.async { Task(priority: .background) {
-                        self?.isPlaying = true
-                    }}
-                default:
-                    DispatchQueue.main.async { Task(priority: .background) {
-                        self?.isPlaying = false
-                    }}
-                }
-            },
-        ]
+        subscribeToPlayerState()
+        subscribeToCurrentItem()
     }
 
     // MARK: - Playback controls
@@ -105,5 +82,38 @@ class MusicPlayer: ObservableObject {
         }
 
         audioPlayer.append(itemIds: itemIds)
+    }
+
+    // MARK: - Subscribers
+
+    private func subscribeToCurrentItem() {
+        audioPlayer.$currentItemId.sink { [weak self] curItemId in
+            if let itemId = curItemId {
+                DispatchQueue.main.async { Task(priority: .background) {
+                    self?.currentSong = await self?.songRepo.getSong(by: itemId)
+                }}
+            } else {
+                DispatchQueue.main.async { Task(priority: .background) {
+                    self?.currentSong = nil
+                }}
+            }
+        }
+        .store(in: &cancellables)
+    }
+
+    private func subscribeToPlayerState() {
+        audioPlayer.$playerState.sink { [weak self] curState in
+            switch curState {
+            case .playing:
+                DispatchQueue.main.async { Task(priority: .background) {
+                    self?.isPlaying = true
+                }}
+            default:
+                DispatchQueue.main.async { Task(priority: .background) {
+                    self?.isPlaying = false
+                }}
+            }
+        }
+        .store(in: &cancellables)
     }
 }
