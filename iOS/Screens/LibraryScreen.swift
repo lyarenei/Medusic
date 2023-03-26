@@ -29,6 +29,7 @@ struct LibraryScreen: View {
             .padding([.top, .leading, .trailing], 10)
             .onAppear { self.controller.setFavoriteAlbums() }
         }
+        .navigationViewStyle(.stack)
     }
 }
 
