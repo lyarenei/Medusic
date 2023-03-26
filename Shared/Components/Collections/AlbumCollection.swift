@@ -1,5 +1,6 @@
 import Defaults
 import OSLog
+import SFSafeSymbols
 import SwiftUI
 
 struct AlbumCollection: View {
@@ -57,38 +58,48 @@ private struct AlbumList: View {
                 .padding(.bottom, 5)
 
             ForEach(albums) { album in
-                HStack(spacing: 0) {
-                    NavigationLink {
-                        AlbumDetailScreen(for: album.uuid)
-                    } label: {
-                        HStack(spacing: 17) {
-                            ArtworkComponent(itemId: album.id)
-                                .frame(width: 60, height: 60)
-
-                            VStack(alignment: .leading, spacing: 3) {
-                                Text(album.name)
-                                    .font(.title2)
-                                    .lineLimit(1)
-
-                                Text(album.artistName)
-                                    .lineLimit(1)
-                                    .font(.body)
-                                    .foregroundColor(.gray)
-                            }
-                        }
-                    }
-                    .padding(.vertical, 3)
-
-                    Spacer()
-
-                    Image(systemSymbol: .chevronRight)
-                        .foregroundColor(.init(UIColor.separator))
-                        .padding(.trailing, 10)
+                NavigationLink {
+                    AlbumDetailScreen(for: album.uuid)
+                } label: {
+                    AlbumListItem(album: album)
+                        .padding(.vertical, 3)
+                        .contentShape(Rectangle())
                 }
+                .padding(.vertical, -7)
 
                 Divider()
                     .padding(.leading, 77)
             }
+        }
+    }
+}
+
+private struct AlbumListItem: View {
+    let album: Album
+
+    var body: some View {
+        HStack(spacing: 0) {
+            HStack(spacing: 17) {
+                ArtworkComponent(itemId: album.id)
+                    .frame(width: 60, height: 60)
+
+                VStack(alignment: .leading, spacing: 3) {
+                    Text(album.name)
+                        .font(.title2)
+                        .lineLimit(1)
+
+                    Text(album.artistName)
+                        .lineLimit(1)
+                        .font(.body)
+                        .foregroundColor(.gray)
+                }
+            }
+
+            Spacer()
+
+            Image(systemSymbol: .chevronRight)
+                .foregroundColor(.init(UIColor.separator))
+                .padding(.trailing, 10)
         }
     }
 }
