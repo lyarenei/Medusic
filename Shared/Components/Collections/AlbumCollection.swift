@@ -54,29 +54,37 @@ private struct AlbumList: View {
     var body: some View {
         LazyVStack(alignment: .leading) {
             Divider()
+                .padding(.bottom, 5)
 
             ForEach(albums) { album in
-                NavigationLink {
-                    AlbumDetailScreen(for: album.uuid)
-                } label: {
-                    HStack(spacing: 17) {
-                        ArtworkComponent(itemId: album.id)
-                            .frame(width: 60, height: 60)
+                HStack(spacing: 0) {
+                    NavigationLink {
+                        AlbumDetailScreen(for: album.uuid)
+                    } label: {
+                        HStack(spacing: 17) {
+                            ArtworkComponent(itemId: album.id)
+                                .frame(width: 60, height: 60)
 
-                        VStack(alignment: .leading, spacing: 3) {
-                            Text(album.name)
-                                .bold()
-                                .font(.title2)
-                                .lineLimit(1)
+                            VStack(alignment: .leading, spacing: 3) {
+                                Text(album.name)
+                                    .font(.title2)
+                                    .lineLimit(1)
 
-                            Text(album.artistName)
-                                .lineLimit(1)
-                                .font(.title3)
-                                .foregroundColor(Color(UIColor.secondaryLabel))
+                                Text(album.artistName)
+                                    .lineLimit(1)
+                                    .font(.body)
+                                    .foregroundColor(.gray)
+                            }
                         }
                     }
+                    .padding(.vertical, 3)
+
+                    Spacer()
+
+                    Image(systemSymbol: .chevronRight)
+                        .foregroundColor(.init(UIColor.separator))
+                        .padding(.trailing, 10)
                 }
-                .padding(.vertical, 5)
 
                 Divider()
                     .padding(.leading, 77)
