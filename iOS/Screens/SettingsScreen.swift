@@ -8,15 +8,13 @@ import SwiftUI
 struct SettingsScreen: View {
     var body: some View {
         NavigationView {
-            VStack(spacing: 10) {
-                List {
-                    JellyfinSection()
-                    GeneralSection()
-                }
-                .navigationTitle("Settings")
-                .listStyle(.grouped)
-                .buttonStyle(.plain)
+            List {
+                JellyfinSection()
+                GeneralSection()
             }
+            .navigationTitle("Settings")
+            .listStyle(.grouped)
+            .buttonStyle(.plain)
         }
     }
 }
@@ -139,6 +137,7 @@ private struct GeneralSection: View {
                     )
                 }
 
+                #if DEBUG
                 NavigationLink {
                     DeveloperSettings()
                 } label: {
@@ -147,6 +146,7 @@ private struct GeneralSection: View {
                         text: "Developer"
                     )
                 }
+                #endif
             }
         )
     }
@@ -156,12 +156,10 @@ private struct GeneralSection: View {
 
 private struct AppearanceSettings: View {
     var body: some View {
-        NavigationView {
-            List {
-                AlbumDisplayOption()
-            }
-            .listStyle(.grouped)
+        List {
+            AlbumDisplayOption()
         }
+        .listStyle(.grouped)
         .navigationTitle("Appearance")
         .navigationBarTitleDisplayMode(.inline)
     }
@@ -189,12 +187,10 @@ private struct AlbumDisplayOption: View {
 
 private struct AdvancedSettings: View {
     var body: some View {
-        NavigationView {
-            List {
-                PurgeCaches()
-            }
-            .listStyle(.grouped)
+        List {
+            PurgeCaches()
         }
+        .listStyle(.grouped)
         .navigationTitle("Advanced")
         .navigationBarTitleDisplayMode(.inline)
     }
@@ -256,16 +252,15 @@ private struct PurgeCaches: View {
     }
 }
 
+#if DEBUG
 // MARK: - Developer settings
 
 private struct DeveloperSettings: View {
     var body: some View {
-        NavigationView {
-            List {
-                PreviewMode()
-            }
-            .listStyle(.grouped)
+        List {
+            PreviewMode()
         }
+        .listStyle(.grouped)
         .navigationBarTitleDisplayMode(.inline)
         .navigationTitle("Developer")
     }
@@ -302,3 +297,4 @@ private struct PreviewMode: View {
         })
     }
 }
+#endif
