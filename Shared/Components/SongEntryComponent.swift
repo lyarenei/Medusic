@@ -78,6 +78,13 @@ private struct ContextOptions: View  {
     let item: Song
 
     var body: some View {
+        Button {
+
+        } label: {
+            Image(systemSymbol: .playFill)
+            Text("Play")
+        }
+
         DownloadButton(for: item.uuid, showText: true)
 
         FavoriteButton(isFavorite: false)
