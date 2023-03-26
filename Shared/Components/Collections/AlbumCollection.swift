@@ -53,7 +53,7 @@ private struct AlbumList: View {
     var albums: [Album]
 
     var body: some View {
-        LazyVStack(alignment: .leading) {
+        LazyVStack(alignment: .leading, spacing: 3) {
             Divider()
                 .padding(.bottom, 5)
 
@@ -65,7 +65,6 @@ private struct AlbumList: View {
                         .padding(.vertical, 3)
                         .contentShape(Rectangle())
                 }
-                .padding(.vertical, -7)
 
                 Divider()
                     .padding(.leading, 77)
