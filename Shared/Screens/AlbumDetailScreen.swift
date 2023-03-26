@@ -26,8 +26,14 @@ struct AlbumDetailScreen: View {
                         AlbumActions()
                             .padding(.bottom, 30)
 
-                        SongList(songs: controller.songs)
-                            .padding(.bottom, 10)
+                        SongCollection(
+                            songs: controller.songs,
+                            showAlbumOrder: true,
+                            showArtwork: false,
+                            showAction: true,
+                            showArtistName: false
+                        )
+                        .padding(.horizontal)
                     }
                     .padding(.top, 15)
                 }

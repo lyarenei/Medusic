@@ -60,6 +60,8 @@
 		9B3D44C429BE33850054C9E0 /* SwiftUIBackports in Frameworks */ = {isa = PBXBuildFile; productRef = 9B3D44C329BE33850054C9E0 /* SwiftUIBackports */; };
 		9B3D44C629BE5E560054C9E0 /* DTOs+BaseItem.swift in Sources */ = {isa = PBXBuildFile; fileRef = 9B3D44C529BE5E560054C9E0 /* DTOs+BaseItem.swift */; };
 		9B3D44C729BE5E560054C9E0 /* DTOs+BaseItem.swift in Sources */ = {isa = PBXBuildFile; fileRef = 9B3D44C529BE5E560054C9E0 /* DTOs+BaseItem.swift */; };
+		9B52AF7729D0B106002E21B9 /* SongCollection.swift in Sources */ = {isa = PBXBuildFile; fileRef = 9B52AF7629D0B106002E21B9 /* SongCollection.swift */; };
+		9B52AF7829D0B106002E21B9 /* SongCollection.swift in Sources */ = {isa = PBXBuildFile; fileRef = 9B52AF7629D0B106002E21B9 /* SongCollection.swift */; };
 		9B61365E29BCB254004C85EC /* MacHomeScreen.swift in Sources */ = {isa = PBXBuildFile; fileRef = 9B61365D29BCB254004C85EC /* MacHomeScreen.swift */; };
 		9B70BD9D29B91F42000DB31C /* AlbumTileComponent.swift in Sources */ = {isa = PBXBuildFile; fileRef = 9B70BD9C29B91F42000DB31C /* AlbumTileComponent.swift */; };
 		9B70BD9E29B91F42000DB31C /* AlbumTileComponent.swift in Sources */ = {isa = PBXBuildFile; fileRef = 9B70BD9C29B91F42000DB31C /* AlbumTileComponent.swift */; };
@@ -163,6 +165,7 @@
 		9B3D44BC29BDFEE70054C9E0 /* SongEntryComponent.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = SongEntryComponent.swift; sourceTree = "<group>"; };
 		9B3D44BF29BE09620054C9E0 /* SongsLibraryScreen.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = SongsLibraryScreen.swift; sourceTree = "<group>"; };
 		9B3D44C529BE5E560054C9E0 /* DTOs+BaseItem.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = "DTOs+BaseItem.swift"; sourceTree = "<group>"; };
+		9B52AF7629D0B106002E21B9 /* SongCollection.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = SongCollection.swift; sourceTree = "<group>"; };
 		9B61365D29BCB254004C85EC /* MacHomeScreen.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = MacHomeScreen.swift; sourceTree = "<group>"; };
 		9B70BD9C29B91F42000DB31C /* AlbumTileComponent.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = AlbumTileComponent.swift; sourceTree = "<group>"; };
 		9B70BD9F29B923AE000DB31C /* AlbumDetailScreen.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = AlbumDetailScreen.swift; sourceTree = "<group>"; };
@@ -484,6 +487,7 @@
 			isa = PBXGroup;
 			children = (
 				9BEFA1C529C72A65004A07FB /* AlbumCollection.swift */,
+				9B52AF7629D0B106002E21B9 /* SongCollection.swift */,
 			);
 			path = Collections;
 			sourceTree = "<group>";
@@ -618,6 +622,7 @@
 				9B36DACC29CCD94C008C4FE7 /* AlbumDetailController.swift in Sources */,
 				9B80475229B7C7E30069B407 /* MacSettingsView.swift in Sources */,
 				9B36DAC729CCAF14008C4FE7 /* LibraryController.swift in Sources */,
+				9B52AF7729D0B106002E21B9 /* SongCollection.swift in Sources */,
 				9B3D449C29BCF89A0054C9E0 /* SystemService.swift in Sources */,
 				9B73ED0529C9F36F007F74DB /* MediaRepository.swift in Sources */,
 				9B3D44A229BCFD370054C9E0 /* MockSystemService.swift in Sources */,
@@ -706,6 +711,7 @@
 				9B61365E29BCB254004C85EC /* MacHomeScreen.swift in Sources */,
 				9B73ED0329C9ECD0007F74DB /* DefaultMediaService.swift in Sources */,
 				9B3D44C729BE5E560054C9E0 /* DTOs+BaseItem.swift in Sources */,
+				9B52AF7829D0B106002E21B9 /* SongCollection.swift in Sources */,
 				9B80474429B768010069B407 /* JellyMusicApp.swift in Sources */,
 				9BEFA1C729C72A65004A07FB /* AlbumCollection.swift in Sources */,
 				9BB75EAB29C39FFF008CD65A /* SongRepository.swift in Sources */,
