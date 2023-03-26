@@ -5,11 +5,7 @@ struct LibraryScreen: View {
     @StateObject
     private var controller: LibraryController
 
-    init () {
-        self._controller = StateObject(wrappedValue: LibraryController())
-    }
-
-    init(_ controller: LibraryController) {
+    init(_ controller: LibraryController = .init()) {
         self._controller = StateObject(wrappedValue: controller)
     }
 
