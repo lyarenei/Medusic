@@ -16,7 +16,7 @@ struct LibraryScreen: View {
                     LibraryNavigationItems(controller)
 
                     Text("Favorite albums")
-                        .font(.title)
+                        .font(.title3)
                         .bold()
                         .padding(.top, 25)
                         .padding(.bottom, -1)
@@ -26,7 +26,7 @@ struct LibraryScreen: View {
                     .buttonStyle(.plain)
             }
             .navigationTitle("Library")
-            .padding([.top, .leading, .trailing], 10)
+            .padding([.leading, .trailing], 15)
             .onAppear { self.controller.setFavoriteAlbums() }
         }
         .navigationViewStyle(.stack)
@@ -80,23 +80,23 @@ private struct NavigationEntry<Content: View>: View {
         NavigationLink(destination: destination) {
             HStack {
                 Image(systemSymbol: symbol)
-                    .foregroundColor(Color.accentColor)
+                    .foregroundColor(.accentColor)
                     .frame(minWidth: 25)
 
                 Text(text)
 
-                Spacer(minLength: 10)
+                Spacer()
 
                 Image(systemSymbol: .chevronRight)
                     .font(.footnote)
-                    .foregroundColor(Color(UIColor.secondaryLabel))
+                    .foregroundColor(.init(UIColor.separator))
+                    .padding(.trailing, 10)
             }
-            .frame(height: 40)
             .buttonStyle(.plain)
-            .font(.title3)
+            .font(.title2)
         }
-        .padding(.leading, 10)
-        .padding(.trailing, 15)
+        .contentShape(Rectangle())
+        .frame(height: 40)
     }
 }
 
@@ -111,7 +111,7 @@ private struct LibraryNavigationItems: View {
     }
 
     var body: some View {
-        VStack(alignment: .leading) {
+        VStack(alignment: .leading, spacing: 5) {
             NavigationEntry(
                 destination: { },
                 text: "Playlists",
@@ -143,15 +143,6 @@ private struct LibraryNavigationItems: View {
                 text: "Songs",
                 symbol: .musicNote
             )
-
-            Divider()
-
-            NavigationEntry(
-                destination: { },
-                text: "Downloads",
-                symbol: .arrowDownApp
-            )
-            .disabled(true)
 
             Divider()
         }
