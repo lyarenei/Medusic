@@ -173,17 +173,13 @@ enum AlbumDisplayMode: String, Defaults.Serializable {
 }
 
 private struct AlbumDisplayOption: View {
-    @State
-    private var selectedOption: AlbumDisplayMode = .asTiles
+    @Default(.albumDisplayMode)
+    var selectedOption: AlbumDisplayMode
 
     var body: some View {
         Picker("Album display mode", selection: $selectedOption) {
-            Text("Default").tag(AlbumDisplayMode.asTiles)
             Text("List").tag(AlbumDisplayMode.asList)
-            Text("Tiles").tag(AlbumDisplayMode.asTiles)
-        }
-        .onChange(of: selectedOption) { newValue in
-            Defaults[.albumDisplayMode] = newValue
+            Text("Tiles (default)").tag(AlbumDisplayMode.asTiles)
         }
     }
 }
