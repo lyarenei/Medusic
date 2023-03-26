@@ -23,10 +23,6 @@ struct LibraryScreen: View {
                         .padding(.top, 25)
                         .padding(.bottom, -1)
 
-                    Divider()
-                        .padding(.leading, 15)
-                        .padding(.trailing, 10)
-
                     AlbumCollection(
                         albums: controller.favoriteAlbums
                     )

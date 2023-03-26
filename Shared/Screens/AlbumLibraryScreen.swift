@@ -12,9 +12,6 @@ struct AlbumLibraryScreen: View {
 
     var body: some View {
         ScrollView {
-            Divider()
-                .padding([.leading, .trailing], 10)
-
             AlbumCollection(albums: controller.albums)
                 .padding(.leading, 10)
                 .padding(.trailing, 10)

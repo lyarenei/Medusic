@@ -55,6 +55,8 @@ private struct AlbumList: View {
 
     var body: some View {
         LazyVStack(alignment: .leading) {
+            Divider()
+
             ForEach(albums) { album in
                 NavigationLink {
                     AlbumDetailScreen(for: album.uuid)
