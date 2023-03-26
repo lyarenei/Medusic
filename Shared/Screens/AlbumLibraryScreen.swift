@@ -7,11 +7,7 @@ struct AlbumLibraryScreen: View {
     @StateObject
     private var controller: AlbumLibraryController
 
-    init () {
-        self._controller = StateObject(wrappedValue: AlbumLibraryController())
-    }
-
-    init(_ controller: AlbumLibraryController) {
+    init(_ controller: AlbumLibraryController = .init()) {
         self._controller = StateObject(wrappedValue: controller)
     }
 
