@@ -21,6 +21,7 @@ struct AlbumDetailScreen: View {
                 ScrollView {
                     VStack {
                         AlbumHeading(album: album)
+                            .padding(.bottom, 10)
 
                         AlbumActions()
                             .padding(.bottom, 30)
@@ -28,6 +29,7 @@ struct AlbumDetailScreen: View {
                         SongList(songs: controller.songs)
                             .padding(.bottom, 10)
                     }
+                    .padding(.top, 15)
                 }
                 .navigationBarTitleDisplayMode(.inline)
                 .toolbar(content: {
@@ -71,18 +73,20 @@ private struct AlbumHeading: View {
     var album: Album
 
     var body: some View {
-        VStack {
+        VStack(spacing: 20) {
             ArtworkComponent(itemId: album.id)
-                .frame(width: 230, height: 230)
+                .frame(width: 270, height: 270)
 
-            Text(album.name)
-                .font(.title)
-                .bold()
-                .multilineTextAlignment(.center)
+            VStack(spacing: 5) {
+                Text(album.name)
+                    .font(.title3)
+                    .bold()
+                    .multilineTextAlignment(.center)
 
-            Text(album.artistName)
-                .font(.title2)
-                .multilineTextAlignment(.center)
+                Text(album.artistName)
+                    .font(.body)
+                    .multilineTextAlignment(.center)
+            }
         }
         .padding(.leading, 20)
         .padding(.trailing, 20)
