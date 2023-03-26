@@ -86,14 +86,14 @@ private struct ContextOptions: View  {
 
         } label: {
             Image(systemSymbol: .textInsert)
-            Text("Play next")
+            Text("Play Next")
         }
 
         Button {
             
         } label: {
             Image(systemSymbol: .textAppend)
-            Text("Play last")
+            Text("Play Last")
         }
     }
 }
