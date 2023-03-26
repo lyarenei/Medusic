@@ -16,8 +16,10 @@ struct InProgressComponent: View {
     }
 }
 
+#if DEBUG
 struct InProgressComponent_Previews: PreviewProvider {
     static var previews: some View {
         InProgressComponent()
     }
 }
+#endif
