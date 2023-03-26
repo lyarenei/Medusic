@@ -177,10 +177,11 @@ private struct AlbumDisplayOption: View {
     var selectedOption: AlbumDisplayMode
 
     var body: some View {
-        Picker("Album display mode", selection: $selectedOption) {
+        Picker("Show albums as", selection: $selectedOption) {
             Text("List").tag(AlbumDisplayMode.asList)
             Text("Tiles (default)").tag(AlbumDisplayMode.asTiles)
         }
+        .pickerStyle(.menu)
     }
 }
 
