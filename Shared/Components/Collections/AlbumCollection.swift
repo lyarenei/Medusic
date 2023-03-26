@@ -18,21 +18,19 @@ struct AlbumCollection: View {
     }
 
     var body: some View {
-        VStack(alignment: .center, spacing: 0) {
-            if let gotAlbums = albums, gotAlbums.isEmpty {
-                Text("No albums available")
-                    .font(.title3)
-                    .foregroundColor(.gray)
-            } else if let gotAlbums = albums {
-                switch overrideDisplayMode ?? displayMode {
-                    case .asList:
-                        AlbumList(albums: gotAlbums)
-                    default:
-                        AlbumTileList(albums: gotAlbums)
-                }
-            } else {
-                InProgressComponent("Refreshing albums ...")
+        if let gotAlbums = albums, gotAlbums.isEmpty {
+            Text("No albums available")
+                .font(.title3)
+                .foregroundColor(.gray)
+        } else if let gotAlbums = albums {
+            switch overrideDisplayMode ?? displayMode {
+                case .asList:
+                    AlbumList(albums: gotAlbums)
+                default:
+                    AlbumTileList(albums: gotAlbums)
             }
+        } else {
+            InProgressComponent("Refreshing albums ...")
         }
     }
 }

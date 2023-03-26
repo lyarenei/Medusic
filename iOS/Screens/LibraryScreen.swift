@@ -14,25 +14,20 @@ struct LibraryScreen: View {
             ScrollView {
                 VStack(alignment: .leading) {
                     LibraryNavigationItems(controller)
-                        .padding([.top, .leading, .trailing], 10)
 
                     Text("Favorite albums")
                         .font(.title)
                         .bold()
-                        .padding(.leading, 15)
                         .padding(.top, 25)
                         .padding(.bottom, -1)
-
-                    AlbumCollection(
-                        albums: controller.favoriteAlbums
-                    )
-                    .padding(.leading, 10)
-                    .padding(.trailing, 10)
-                    .buttonStyle(.plain)
                 }
-                .onAppear { self.controller.setFavoriteAlbums() }
+
+                AlbumCollection(albums: controller.favoriteAlbums)
+                    .buttonStyle(.plain)
             }
             .navigationTitle("Library")
+            .padding([.top, .leading, .trailing], 10)
+            .onAppear { self.controller.setFavoriteAlbums() }
         }
     }
 }
@@ -41,8 +36,23 @@ struct LibraryScreen: View {
 struct LibraryScreen_Previews: PreviewProvider {
     static var previews: some View {
         LibraryScreen(LibraryController(
-            albumRepo: AlbumRepository(store: .previewStore(items: PreviewData.albums, cacheIdentifier: \.uuid)),
-            songRepo: SongRepository(store: .previewStore(items: PreviewData.songs, cacheIdentifier: \.uuid))
+            albumRepo: AlbumRepository(
+                store: .previewStore(
+                    items: PreviewData.albums,
+                    cacheIdentifier: \.uuid
+                )
+            ),
+            songRepo: SongRepository(
+                store: .previewStore(
+                    items: PreviewData.songs,
+                    cacheIdentifier: \.uuid
+                )
+            )
+        ))
+
+        LibraryScreen(LibraryController(
+            albumRepo: AlbumRepository(store: .previewStore(items: [], cacheIdentifier: \.uuid)),
+            songRepo: SongRepository(store: .previewStore(items: [], cacheIdentifier: \.uuid))
         ))
     }
 }
