@@ -41,6 +41,8 @@
 		9B36DAD129CCE232008C4FE7 /* AlbumLibraryController.swift in Sources */ = {isa = PBXBuildFile; fileRef = 9B36DAC829CCC229008C4FE7 /* AlbumLibraryController.swift */; };
 		9B3C7BE629D04F5800884597 /* InProgressComponent.swift in Sources */ = {isa = PBXBuildFile; fileRef = 9B3C7BE529D04F5800884597 /* InProgressComponent.swift */; };
 		9B3C7BE729D04F5800884597 /* InProgressComponent.swift in Sources */ = {isa = PBXBuildFile; fileRef = 9B3C7BE529D04F5800884597 /* InProgressComponent.swift */; };
+		9B3C7BE929D0702600884597 /* Logger.swift in Sources */ = {isa = PBXBuildFile; fileRef = 9B3C7BE829D0702600884597 /* Logger.swift */; };
+		9B3C7BEA29D0702600884597 /* Logger.swift in Sources */ = {isa = PBXBuildFile; fileRef = 9B3C7BE829D0702600884597 /* Logger.swift */; };
 		9B3D449C29BCF89A0054C9E0 /* SystemService.swift in Sources */ = {isa = PBXBuildFile; fileRef = 9B3D449B29BCF89A0054C9E0 /* SystemService.swift */; };
 		9B3D449D29BCF89A0054C9E0 /* SystemService.swift in Sources */ = {isa = PBXBuildFile; fileRef = 9B3D449B29BCF89A0054C9E0 /* SystemService.swift */; };
 		9B3D449F29BCF9490054C9E0 /* DefaultSystemService.swift in Sources */ = {isa = PBXBuildFile; fileRef = 9B3D449E29BCF9490054C9E0 /* DefaultSystemService.swift */; };
@@ -152,6 +154,7 @@
 		9B36DACB29CCD94C008C4FE7 /* AlbumDetailController.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = AlbumDetailController.swift; sourceTree = "<group>"; };
 		9B36DACE29CCE134008C4FE7 /* SongLibraryController.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = SongLibraryController.swift; sourceTree = "<group>"; };
 		9B3C7BE529D04F5800884597 /* InProgressComponent.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = InProgressComponent.swift; sourceTree = "<group>"; };
+		9B3C7BE829D0702600884597 /* Logger.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = Logger.swift; sourceTree = "<group>"; };
 		9B3D449B29BCF89A0054C9E0 /* SystemService.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = SystemService.swift; sourceTree = "<group>"; };
 		9B3D449E29BCF9490054C9E0 /* DefaultSystemService.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = DefaultSystemService.swift; sourceTree = "<group>"; };
 		9B3D44A129BCFD370054C9E0 /* MockSystemService.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = MockSystemService.swift; sourceTree = "<group>"; };
@@ -375,6 +378,7 @@
 				9BB75EB829C509C6008CD65A /* ServerStatusController.swift */,
 				9BB75EBB29C513E7008CD65A /* JellyfinSettingsController.swift */,
 				9B36DAC129CB90CF008C4FE7 /* MusicPlayer.swift */,
+				9B3C7BE829D0702600884597 /* Logger.swift */,
 			);
 			path = Shared;
 			sourceTree = "<group>";
@@ -659,6 +663,7 @@
 				9B80477E29B8CDF80069B407 /* SettingsScreen.swift in Sources */,
 				9B3D449F29BCF9490054C9E0 /* DefaultSystemService.swift in Sources */,
 				9B73ECFC29C9ECA8007F74DB /* MediaService.swift in Sources */,
+				9B3C7BE929D0702600884597 /* Logger.swift in Sources */,
 				9B3D44BA29BDF2550054C9E0 /* InlineInputComponent.swift in Sources */,
 				9B3D44B029BDB98F0054C9E0 /* Extensions.swift in Sources */,
 				9BDB09A529BB4816007F99E4 /* ArtworkComponent.swift in Sources */,
@@ -709,6 +714,7 @@
 				9BDB099429BB1F57007F99E4 /* DummySongService.swift in Sources */,
 				48C1F8CA29B9EA60003BE048 /* DTOs+Identifiable.swift in Sources */,
 				9BB75E8329C12187008CD65A /* ListOptionComponent.swift in Sources */,
+				9B3C7BEA29D0702600884597 /* Logger.swift in Sources */,
 				9BB754DC29BA604C009BB3A6 /* DTOs.swift in Sources */,
 				9B36DACD29CCD94C008C4FE7 /* AlbumDetailController.swift in Sources */,
 				9BB75EA729C389D9008CD65A /* DownloadButton.swift in Sources */,
