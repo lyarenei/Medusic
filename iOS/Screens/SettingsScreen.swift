@@ -16,6 +16,7 @@ struct SettingsScreen: View {
             .listStyle(.grouped)
             .buttonStyle(.plain)
         }
+        .navigationViewStyle(.stack)
     }
 }
 
