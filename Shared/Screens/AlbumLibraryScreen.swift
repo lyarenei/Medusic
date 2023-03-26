@@ -1,4 +1,3 @@
-import Defaults
 import JellyfinAPI
 import SwiftUI
 import SwiftUIBackports
@@ -12,9 +11,14 @@ struct AlbumLibraryScreen: View {
     }
 
     var body: some View {
-        ZStack {
-            AlbumList(albums: controller.albums)
-                .listStyle(.plain)
+        ScrollView {
+            Divider()
+                .padding([.leading, .trailing], 10)
+
+            AlbumCollection(albums: controller.albums)
+                .padding(.leading, 10)
+                .padding(.trailing, 10)
+                .buttonStyle(.plain)
         }
         .navigationTitle("Albums")
         .onAppear { self.controller.setAlbums() }

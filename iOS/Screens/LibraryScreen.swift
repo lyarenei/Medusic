@@ -3,7 +3,7 @@ import SwiftUI
 
 struct LibraryScreen: View {
     @StateObject
-    private var controller: LibraryController
+    private var controller: LibraryController = .init()
 
     init(_ controller: LibraryController = .init()) {
         self._controller = StateObject(wrappedValue: controller)
@@ -12,7 +12,7 @@ struct LibraryScreen: View {
     var body: some View {
         NavigationView {
             ScrollView {
-                VStack(alignment: .leading, spacing: 20) {
+                VStack(alignment: .leading) {
                     LibraryNavigationItems(controller)
                         .padding([.top, .leading, .trailing], 10)
 
@@ -20,17 +20,24 @@ struct LibraryScreen: View {
                         .font(.title)
                         .bold()
                         .padding(.leading, 15)
+                        .padding(.top, 25)
+                        .padding(.bottom, -1)
 
-                    // TODO: disable list style here or find a solution
-                    // Using list instead of scrollview would be possible,
-                    // but there would remain trailing separator and customization
-                    // is only available on iOS 15+
-                    AlbumList(albums: controller.favoriteAlbums)
+                    Divider()
+                        .padding(.leading, 15)
+                        .padding(.trailing, 10)
+
+                    AlbumCollection(
+                        albums: controller.favoriteAlbums
+                    )
+                    .padding(.leading, 10)
+                    .padding(.trailing, 10)
+                    .buttonStyle(.plain)
                 }
+                .onAppear { self.controller.setFavoriteAlbums() }
             }
             .navigationTitle("Library")
         }
-        .onAppear { self.controller.setFavoriteAlbums() }
     }
 }
 

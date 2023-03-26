@@ -5,8 +5,8 @@ final class LibraryController: ObservableObject {
     @Published
     var favoriteAlbums: [Album]?
 
-    var albumRepo: AlbumRepository
-    var songRepo: SongRepository
+    private var albumRepo: AlbumRepository
+    private var songRepo: SongRepository
 
     init(
         albumRepo: AlbumRepository = AlbumRepository.shared,
@@ -17,6 +17,7 @@ final class LibraryController: ObservableObject {
     }
 
     func setFavoriteAlbums() { DispatchQueue.main.async {
+        self.favoriteAlbums = nil
         Task(priority: .background) {
             self.favoriteAlbums = await self.albumRepo.getFavorite()
         }
