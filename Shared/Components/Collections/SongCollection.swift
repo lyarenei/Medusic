@@ -74,7 +74,7 @@ private struct SongList: View {
     let showArtistName: Bool
 
     var body: some View {
-        let dividerPadding = showAlbumOrder ? 37.0 : 47.0
+        let dividerPadding = showAlbumOrder ? 37.0 : 57.0
         LazyVStack(alignment: .leading) {
             Divider()
 
@@ -111,19 +111,21 @@ private struct SEC: View {
                 HStack(spacing: 17) {
                     if showAlbumOrder {
                         Text("\(song.index)")
+                            .font(.title3)
                             .frame(minWidth: 20)
                     }
 
                     if showArtwork {
                         ArtworkComponent(itemId: song.uuid)
-                            .frame(width: 30, height: 30)
+                            .frame(width: 40, height: 40)
                     }
 
                     VStack(alignment: .leading, spacing: 2) {
                         Text(song.name)
-                            .font(.body)
+                            .font(.title3)
                             .lineLimit(1)
 
+                        // TODO: automatic - if artist differs from album artist
                         if showArtistName {
                             Text(artist)
                                 .lineLimit(1)
@@ -132,7 +134,7 @@ private struct SEC: View {
                         }
                     }
                 }
-                .padding(.vertical, 3)
+                .padding(.vertical, 4)
 
                 Spacer()
             }
@@ -145,7 +147,7 @@ private struct SEC: View {
                     .padding(.trailing, 5)
             }
         }
-        .frame(height: 30)
+        .frame(height: 45)
         .backport.task {
             guard showArtistName else { return }
             // TODO: fetch artist by song ID
