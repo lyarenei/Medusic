@@ -19,8 +19,6 @@ final class LibraryController: ObservableObject {
     }
 
     func setFavoriteAlbums() { DispatchQueue.main.async {
-        self.favoriteAlbums = nil
-        self.log.debug("Erased favorite albums")
         Task(priority: .background) {
             self.favoriteAlbums = await self.albumRepo.getFavorite()
             self.log.debug("Set favorite albums")
