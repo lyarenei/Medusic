@@ -44,7 +44,6 @@ struct AlbumDetailScreen: View {
                             .disabled(true)
                     })
                 })
-//                .onAppear { self.isFavorite = album.isFavorite }
             } else {
                 Text("Failed to load album data")
             }
