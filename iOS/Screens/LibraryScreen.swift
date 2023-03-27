@@ -25,6 +25,7 @@ struct LibraryScreen: View {
                 AlbumCollection(albums: controller.favoriteAlbums)
                     .buttonStyle(.plain)
             }
+            .fixFlickering()
             .navigationTitle("Library")
             .padding([.leading, .trailing], 15)
             .onAppear { self.controller.setFavoriteAlbums() }

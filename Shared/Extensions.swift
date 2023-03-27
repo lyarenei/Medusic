@@ -1,3 +1,5 @@
+import SwiftUI
+
 extension Array where Element == Album {
     /// Get album by specified album ID.
     func getById(_ albumId: String) -> Album? {
@@ -38,5 +40,22 @@ extension Array where Element == Song {
         return self.first(where: { song -> Bool in
             song.uuid == songId
         })
+    }
+}
+
+extension ScrollView {
+    private typealias PaddedContent = ModifiedContent<Content, _PaddingLayout>
+
+    /// Fixes flickering on navigation view when scrolling up with not enough content to need scrolling.
+    /// Theoretically might be cause of some issues on newer iOS versions.
+    ///
+    /// From: https://stackoverflow.com/a/67270977
+    func fixFlickering() -> some View {
+        GeometryReader { geo in
+            ScrollView<PaddedContent>(axes, showsIndicators: showsIndicators) {
+                content.padding(geo.safeAreaInsets) as! PaddedContent
+            }
+            .edgesIgnoringSafeArea(.all)
+        }
     }
 }
