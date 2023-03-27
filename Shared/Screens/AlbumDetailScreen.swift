@@ -37,7 +37,6 @@ struct AlbumDetailScreen: View {
                     }
                     .padding(.top, 15)
                 }
-                .navigationBarTitleDisplayMode(.inline)
                 .toolbar(content: {
                     ToolbarItem(content: {
                         PrimaryActionButton(for: album.uuid)
@@ -48,9 +47,9 @@ struct AlbumDetailScreen: View {
                 Text("Failed to load album data")
             }
         }
+        .navigationBarTitleDisplayMode(.inline)
         .onAppear { self.controller.setAlbum() }
         .onAppear { self.controller.setSongs() }
-        .fixNavTitleTransition()
         .backport.refreshable { await self.controller.refresh() }
     }
 }
@@ -163,11 +162,5 @@ private struct SongList: View {
         } else {
             ProgressView()
         }
-    }
-}
-
-extension View {
-    func fixNavTitleTransition() -> some View {
-        self.padding(.top, -0.3)
     }
 }
