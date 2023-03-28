@@ -1,5 +1,6 @@
 import Foundation
 import JellyfinAPI
+import OSLog
 
 final class DefaultMediaService: MediaService {
     private let client: JellyfinClient
@@ -16,5 +17,47 @@ final class DefaultMediaService: MediaService {
 
     func stream(item id: String, bitrate: Int32?) async throws -> Data {
         throw MediaServiceError.invalid
+    }
+
+    func new_downloadItem(id: String, destination: URL) async throws {
+        let request = JellyfinAPI.Paths.getAudioStream(itemID: id)
+        let delegate = DownloadDelegate(destinationURL: destination)
+        let resp = try await client.download(for: request, delegate: delegate)
+        Logger.jellyfin.debug("Download started: \(resp.statusCode.debugDescription), destination: \(resp.location.absoluteString)")
+    }
+}
+
+class DownloadDelegate: NSObject, URLSessionDownloadDelegate {
+    let destinationURL: URL
+
+    init(destinationURL: URL) {
+        self.destinationURL = destinationURL
+        super.init()
+    }
+
+    func urlSession(_: URLSession, downloadTask _: URLSessionDownloadTask, didFinishDownloadingTo location: URL) {
+        do {
+            // If a file already exists at the destination URL, remove it.
+            if FileManager.default.fileExists(atPath: destinationURL.path) {
+                try FileManager.default.removeItem(at: destinationURL)
+            }
+
+            // Move the downloaded file from the temporary location to the destination URL.
+            try FileManager.default.moveItem(at: location, to: destinationURL)
+            Logger.jellyfin.debug("Download completed: file saved at: \(self.destinationURL.absoluteString)")
+        } catch {
+            Logger.jellyfin.debug("Error when processing download: \(error.localizedDescription)")
+            do {
+                try FileManager.default.removeItem(at: destinationURL)
+            } catch {
+                Logger.jellyfin.debug("Failed to remove : \(error.localizedDescription)")
+            }
+        }
+    }
+
+    func urlSession(_: URLSession, task _: URLSessionTask, didCompleteWithError error: Error?) {
+        if let error = error {
+            Logger.jellyfin.debug("Download error: \(error.localizedDescription)")
+        }
     }
 }

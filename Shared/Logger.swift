@@ -4,4 +4,6 @@ extension Logger {
     private static var subsystem = Bundle.main.bundleIdentifier!
 
     static let library = Logger(subsystem: subsystem, category: "library")
+    static let jellyfin = Logger(subsystem: subsystem, category: "jellyfin")
+    static let downloader = Logger(subsystem: subsystem, category: "downloader")
 }
