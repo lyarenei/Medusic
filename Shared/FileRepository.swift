@@ -43,6 +43,7 @@ class FileRepository {
             Task(priority: .background) {
                 defer { self.downloadSemaphore.signal() }
                 let outputFileURL = self.cacheDirectory.appendingPathComponent(itemId)
+                Logger.repository.debug("Starting download for item \(itemId), current queue size size: \(self.downloadQueue.count)")
                 do {
                     try await self.apiClient.services.mediaService.new_downloadItem(id: itemId, destination: outputFileURL)
                 } catch {
@@ -81,7 +82,7 @@ class FileRepository {
                 let fileAttributes = try fileURL.resourceValues(forKeys: [.fileSizeKey])
                 totalSize += UInt64(fileAttributes.fileSize ?? 0)
             } catch {
-                print("Error calculating file size: \(error.localizedDescription)")
+                Logger.repository.debug("Failed to calculate file size: \(error.localizedDescription)")
             }
         }
 
@@ -90,12 +91,16 @@ class FileRepository {
 
     func removeFile(itemId: String) throws {
         let fileURL = cacheDirectory.appendingPathComponent(itemId)
+        Logger.repository.debug("Removig file for item \(itemId)")
         try FileManager.default.removeItem(at: fileURL)
+        Logger.repository.debug("File for item \(itemId) has been removed")
     }
 
     func removeAllFiles() throws {
+        Logger.repository.debug("Will remove all files in file repository")
         let fileURLs = try FileManager.default.contentsOfDirectory(at: cacheDirectory, includingPropertiesForKeys: nil, options: [])
         for fileURL in fileURLs {
+            Logger.repository.debug("Removing file \(fileURL.debugDescription)")
             try FileManager.default.removeItem(at: fileURL)
         }
     }
@@ -108,6 +113,7 @@ class FileRepository {
 
         DispatchQueue.global(qos: .background).async {
             // Wait for all active downloads to finish before updating the pool size
+            Logger.repository.debug("Waiting for all active downloads to complete before changing pool size")
             for _ in 0 ..< self.poolSize {
                 self.downloadSemaphore.wait()
             }
@@ -122,6 +128,7 @@ class FileRepository {
     }
 
     func setCacheSizeLimit(_ sizeInMB: Int) {
+        Logger.repository.debug("Setting cache limit to \(sizeInMB) MB")
         cacheSizeLimit = sizeInMB * 1024 * 1024
     }
 
