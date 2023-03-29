@@ -23,7 +23,7 @@ class FileRepository {
         self.cacheSizeLimit = cacheSizeLimitInMB * 1024 * 1024
 
         let cacheURL = FileManager.default.urls(for: .cachesDirectory, in: .userDomainMask).first!
-        self.cacheDirectory = cacheURL.appendingPathComponent("JellyMusicDownloads", isDirectory: true)
+        self.cacheDirectory = cacheURL.appendingPathComponent("JellyMusic/Downloads", isDirectory: true)
 
         do {
             try FileManager.default.createDirectory(at: cacheDirectory, withIntermediateDirectories: true, attributes: nil)
