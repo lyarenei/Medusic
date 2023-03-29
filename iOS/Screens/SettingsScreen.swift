@@ -246,6 +246,7 @@ private struct PurgeCaches: View {
                 try await self.$albums.removeAll()
                 try await self.$songs.removeAll()
                 try await self.$downloaded.removeAll()
+                try FileRepository.shared.removeAllFiles()
             } catch {
                 print("Purging caches failed: \(error)")
             }
