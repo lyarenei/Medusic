@@ -23,7 +23,7 @@ final class DefaultMediaService: MediaService {
         let request = JellyfinAPI.Paths.getAudioStream(itemID: id)
         let delegate = DownloadDelegate(destinationURL: destination)
         let resp = try await client.download(for: request, delegate: delegate)
-        Logger.jellyfin.debug("Download started: \(resp.statusCode.debugDescription), destination: \(resp.location.absoluteString)")
+        Logger.jellyfin.debug("Download started for item \(id): \(resp.data)")
     }
 }
 
@@ -44,13 +44,13 @@ class DownloadDelegate: NSObject, URLSessionDownloadDelegate {
 
             // Move the downloaded file from the temporary location to the destination URL.
             try FileManager.default.moveItem(at: location, to: destinationURL)
-            Logger.jellyfin.debug("Download completed: file saved at: \(self.destinationURL.absoluteString)")
+            Logger.jellyfin.debug("Download completed")
         } catch {
-            Logger.jellyfin.debug("Error when processing download: \(error.localizedDescription)")
+            Logger.jellyfin.debug("Error when processing downloaded file: \(error.localizedDescription)")
             do {
                 try FileManager.default.removeItem(at: destinationURL)
             } catch {
-                Logger.jellyfin.debug("Failed to remove : \(error.localizedDescription)")
+                Logger.jellyfin.debug("Failed to remove file: \(error.localizedDescription)")
             }
         }
     }
