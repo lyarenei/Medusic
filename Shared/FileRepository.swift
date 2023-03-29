@@ -1,15 +1,18 @@
+import Combine
 import Foundation
 import OSLog
 
 class FileRepository {
     public static let shared = FileRepository()
 
+    @Published
+    var downloadQueue: [String]
+
     private let cacheDirectory: URL
     private var cacheSizeLimit: Int
 
     private var poolSize: Int
     private var downloadSemaphore: DispatchSemaphore
-    private var downloadQueue: [String]
 
     private var apiClient: ApiClient
 

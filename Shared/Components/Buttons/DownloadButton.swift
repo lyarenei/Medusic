@@ -1,3 +1,4 @@
+import Combine
 import OSLog
 import SwiftUI
 
@@ -25,7 +26,13 @@ struct DownloadButton: View {
 
     var body: some View {
         Button {
-            Task(priority: .background) { await self.controller.onClick() }
+            Task(priority: .background) {
+                do {
+                    try await self.controller.onClick()
+                } catch {
+                    Logger.library.debug("Task for download button failed: \(error.localizedDescription)")
+                }
+            }
         } label: {
             if controller.inProgress {
                 ProgressView()
@@ -34,7 +41,7 @@ struct DownloadButton: View {
                 DownloadedIcon(isDownloaded: $controller.isDownloaded)
             }
         }
-        .onAppear { Task(priority: .background) { await controller.setDownloaded() }}
+        .onAppear { Task(priority: .background) { controller.setDownloaded() }}
     }
 }
 
@@ -60,9 +67,10 @@ private final class DownloadButtonController: ObservableObject {
     @Published
     var buttonText: String = "Download"
 
-    let itemId: String
-    var albumRepo: AlbumRepository
-    var songRepo: SongRepository
+    private let itemId: String
+    private var albumRepo: AlbumRepository
+    private var songRepo: SongRepository
+    private var cancellables: Cancellables = []
 
     init(
         itemId: String,
@@ -72,18 +80,32 @@ private final class DownloadButtonController: ObservableObject {
         self.itemId = itemId
         self.albumRepo = albumRepo
         self.songRepo = songRepo
-    }
 
-    func onClick() async {
-        await self.isDownloaded ? removeItem() : downloadItem()
-    }
-
-    func setDownloaded() async {
-        if let item = await self.songRepo.getSong(by: self.itemId) {
-            DispatchQueue.main.async {
-                self.isDownloaded = item.isDownloaded
-                self.buttonText = item.isDownloaded ? "Remove" : "Download"
+        FileRepository.shared.$downloadQueue.sink { queue in
+            let inQueue = queue.contains(where: { $0 == self.itemId })
+            if inQueue {
+                if !self.inProgress {
+                    self.setInProgress(true)
+                }
+            } else {
+                if self.inProgress {
+                    self.setInProgress(false)
+                    self.setDownloaded()
+                }
             }
+        }
+        .store(in: &self.cancellables)
+    }
+
+    func onClick() async throws {
+        await self.isDownloaded ? try removeItem() : downloadItem()
+    }
+
+    func setDownloaded() {
+        let fileExists = FileRepository.shared.fileURL(for: self.itemId) != nil
+        DispatchQueue.main.async {
+            self.isDownloaded = fileExists
+            self.buttonText = fileExists ? "Remove" : "Download"
         }
     }
 
@@ -91,46 +113,21 @@ private final class DownloadButtonController: ObservableObject {
         DispatchQueue.main.async { self.inProgress = inProgress }
     }
 
-    private func downloadItem() async {
-        self.setInProgress(true)
-        do {
-            try await self.doDownloadItem()
-            await self.updateStatus(isDownloaded: true)
-        } catch {
-            print("Download failed", error)
-        }
-        self.setInProgress(false)
-    }
-
-    private func removeItem() async {
-        self.setInProgress(true)
-        do {
-            try await self.doRemoveItem()
-            await self.updateStatus(isDownloaded: false)
-        } catch {
-            print("Remove item failed", error)
-        }
-        self.setInProgress(false)
-    }
-
-    private func doRemoveItem() async throws {
-        // TODO: support for albums (bulk remove)
-        try FileRepository.shared.removeFile(itemId: itemId)
-    }
-
-    private func doDownloadItem() {
+    private func downloadItem() {
         // TODO: support for albums (bulk download)
-        // TODO: well, this obviously returns immediately, so no in progress spinner
         FileRepository.shared.enqueueToDownload(itemId: itemId)
     }
 
-    private func updateStatus(isDownloaded: Bool) async {
-        // TODO: support for albums (check all items)
-        do {
-            try await self.songRepo.setDownloaded(itemId: self.itemId, isDownloaded)
-            await self.setDownloaded()
-        } catch {
-            Logger.library.debug("Failed to update downloaded status: \(error.localizedDescription)")
-        }
+    private func removeItem() async throws {
+        // TODO: support for albums (bulk remove)
+        try FileRepository.shared.removeFile(itemId: itemId)
+        try await self.updateDownloaded()
+    }
+
+    private func updateDownloaded() async throws {
+        let fileExists = FileRepository.shared.fileURL(for: itemId) != nil
+        guard await self.songRepo.getSong(by: self.itemId) != nil else { return }
+        try await self.songRepo.setDownloaded(itemId: self.itemId, fileExists)
+        self.setDownloaded()
     }
 }
