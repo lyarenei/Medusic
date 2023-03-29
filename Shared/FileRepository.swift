@@ -32,6 +32,7 @@ class FileRepository {
         }
 
         self.apiClient = ApiClient()
+        self.initPool()
     }
 
     @discardableResult
@@ -114,9 +115,7 @@ class FileRepository {
             self.downloadSemaphore = DispatchSemaphore(value: newPoolSize)
 
             // Signal the semaphore for the new pool size
-            for _ in 0 ..< self.poolSize {
-                self.downloadSemaphore.signal()
-            }
+            self.initPool()
         }
     }
 
@@ -128,6 +127,15 @@ class FileRepository {
         let currentSize = downloadedFilesSize()
         if currentSize > cacheSizeLimit {
             throw DownloadManagerError.cacheSizeLimitExceeded
+        }
+    }
+
+    // MARK: - Internal
+
+    private func initPool() {
+        Logger.repository.debug("Setting pool size to \(self.poolSize)")
+        for _ in 0 ..< self.poolSize {
+            self.downloadSemaphore.signal()
         }
     }
 
