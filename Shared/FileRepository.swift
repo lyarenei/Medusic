@@ -39,8 +39,8 @@ class FileRepository {
         downloadQueue.append(itemId)
         DispatchQueue.global(qos: .background).async {
             self.downloadSemaphore.wait()
-            defer { self.downloadSemaphore.signal() }
             Task(priority: .background) {
+                defer { self.downloadSemaphore.signal() }
                 let outputFileURL = self.cacheDirectory.appendingPathComponent(itemId)
                 do {
                     try await self.apiClient.services.mediaService.new_downloadItem(id: itemId, destination: outputFileURL)
