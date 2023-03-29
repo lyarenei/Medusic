@@ -142,8 +142,8 @@ private struct SEC: View {
 
             if showAction {
                 PrimaryActionButton(for: song.uuid)
-                    .font(.body)
-                    .frame(width: 30)
+                    .font(.title3)
+                    .frame(width: 27, height: 27)
                     .padding(.trailing, 5)
             }
         }

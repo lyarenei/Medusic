@@ -8,6 +8,8 @@ struct DownloadedIcon: View {
     var body: some View {
         let downloadedIcon: SFSymbol = isDownloaded ? .trash : .icloudAndArrowDown
         Image(systemSymbol: downloadedIcon)
+            .resizable()
+            .scaledToFit()
     }
 }
 

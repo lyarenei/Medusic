@@ -25,20 +25,28 @@ struct DownloadButton: View {
     }
 
     var body: some View {
-        Button {
-            Task(priority: .background) {
-                do {
-                    try await self.controller.onClick()
-                } catch {
-                    Logger.library.debug("Task for download button failed: \(error.localizedDescription)")
+        GeometryReader { reader in
+            Button {
+                Task(priority: .background) {
+                    do {
+                        try await self.controller.onClick()
+                    } catch {
+                        Logger.library.debug("Task for download button failed: \(error.localizedDescription)")
+                    }
                 }
-            }
-        } label: {
-            if controller.inProgress {
-                ProgressView()
-            } else {
-                if showText { Text(controller.buttonText) }
-                DownloadedIcon(isDownloaded: $controller.isDownloaded)
+            } label: {
+                if controller.inProgress {
+                    ProgressView()
+                        .frame(
+                            width: reader.size.width,
+                            height: reader.size.height,
+                            alignment: .center
+                        )
+                        .scaledToFit()
+                } else {
+                    if showText { Text(controller.buttonText) }
+                    DownloadedIcon(isDownloaded: $controller.isDownloaded)
+                }
             }
         }
         .onAppear { Task(priority: .background) { controller.setDownloaded() }}
