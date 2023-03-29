@@ -28,7 +28,7 @@ class FileRepository {
         do {
             try FileManager.default.createDirectory(at: cacheDirectory, withIntermediateDirectories: true, attributes: nil)
         } catch {
-            Logger.downloader.debug("Failed to create directory for downloads: \(error.localizedDescription)")
+            Logger.repository.debug("Failed to create directory for downloads: \(error.localizedDescription)")
         }
 
         self.apiClient = ApiClient()
@@ -45,7 +45,7 @@ class FileRepository {
                 do {
                     try await self.apiClient.services.mediaService.new_downloadItem(id: itemId, destination: outputFileURL)
                 } catch {
-                    Logger.downloader.debug("Item download failed: \(error.localizedDescription)")
+                    Logger.repository.debug("Item download failed: \(error.localizedDescription)")
                 }
             }
         }
@@ -99,7 +99,7 @@ class FileRepository {
 
     func setPoolSize(_ newPoolSize: Int) throws {
         guard newPoolSize > 0 else {
-            Logger.downloader.debug("Invalid pool size \(newPoolSize): cannot be less than 0")
+            Logger.repository.debug("Invalid pool size \(newPoolSize): cannot be less than 0")
             throw DownloadManagerError.invalidPoolSize
         }
 

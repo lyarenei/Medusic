@@ -5,5 +5,5 @@ extension Logger {
 
     static let library = Logger(subsystem: subsystem, category: "library")
     static let jellyfin = Logger(subsystem: subsystem, category: "jellyfin")
-    static let downloader = Logger(subsystem: subsystem, category: "downloader")
+    static let repository = Logger(subsystem: subsystem, category: "repository")
 }
