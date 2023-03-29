@@ -1,3 +1,4 @@
+import OSLog
 import SwiftUI
 
 struct DownloadButton: View {
@@ -114,12 +115,13 @@ private final class DownloadButtonController: ObservableObject {
 
     private func doRemoveItem() async throws {
         // TODO: support for albums (bulk remove)
-        try await MediaRepository.shared.removeItem(id: self.itemId)
+        try FileRepository.shared.removeFile(itemId: itemId)
     }
 
-    private func doDownloadItem() async throws {
+    private func doDownloadItem() {
         // TODO: support for albums (bulk download)
-        try await MediaRepository.shared.fetchItem(by: self.itemId)
+        // TODO: well, this obviously returns immediately, so no in progress spinner
+        FileRepository.shared.enqueueToDownload(itemId: itemId)
     }
 
     private func updateStatus(isDownloaded: Bool) async {
@@ -128,7 +130,7 @@ private final class DownloadButtonController: ObservableObject {
             try await self.songRepo.setDownloaded(itemId: self.itemId, isDownloaded)
             await self.setDownloaded()
         } catch {
-            print("Failed to update downloaded status: \(error)")
+            Logger.library.debug("Failed to update downloaded status: \(error.localizedDescription)")
         }
     }
 }
