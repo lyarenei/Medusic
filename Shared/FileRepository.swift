@@ -48,6 +48,8 @@ class FileRepository {
                 } catch {
                     Logger.repository.debug("Item download failed: \(error.localizedDescription)")
                 }
+
+                self.dequeue(item: itemId)
             }
         }
 
@@ -142,6 +144,13 @@ class FileRepository {
     private func enqueue(item id: String) {
         downloadQueue.append(id)
         Logger.repository.debug("Added item \(id) to queue")
+        Logger.repository.debug("Current queue size: \(self.downloadQueue.count)")
+    }
+
+    private func dequeue(item id: String) {
+        guard let idx = self.downloadQueue.firstIndex(of: id) else { return }
+        self.downloadQueue.remove(at: idx)
+        Logger.repository.debug("Item \(id) has been removed from queue")
         Logger.repository.debug("Current queue size: \(self.downloadQueue.count)")
     }
 
