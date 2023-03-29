@@ -37,7 +37,7 @@ class FileRepository {
 
     @discardableResult
     func enqueueToDownload(itemId: String) -> URL {
-        downloadQueue.append(itemId)
+        enqueue(item: itemId)
         DispatchQueue.global(qos: .background).async {
             self.downloadSemaphore.wait()
             Task(priority: .background) {
@@ -137,6 +137,12 @@ class FileRepository {
         for _ in 0 ..< self.poolSize {
             self.downloadSemaphore.signal()
         }
+    }
+
+    private func enqueue(item id: String) {
+        downloadQueue.append(id)
+        Logger.repository.debug("Added item \(id) to queue")
+        Logger.repository.debug("Current queue size: \(self.downloadQueue.count)")
     }
 
     enum DownloadManagerError: Error {
