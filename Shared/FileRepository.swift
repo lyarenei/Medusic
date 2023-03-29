@@ -43,7 +43,8 @@ class FileRepository {
             Task(priority: .background) {
                 defer { self.downloadSemaphore.signal() }
                 let outputFileURL = self.cacheDirectory.appendingPathComponent(itemId)
-                Logger.repository.debug("Starting download for item \(itemId), current queue size size: \(self.downloadQueue.count)")
+                Logger.repository.debug("Starting download for item \(itemId)")
+                Logger.repository.debug("Current queue size size: \(self.downloadQueue.count)")
                 do {
                     try await self.apiClient.services.mediaService.new_downloadItem(id: itemId, destination: outputFileURL)
                 } catch {
