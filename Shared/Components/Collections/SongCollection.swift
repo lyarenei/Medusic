@@ -160,17 +160,21 @@ private struct SEC: View {
 }
 
 private struct ContextOptions: View  {
-    let item: Song
+    let song: Song
 
     var body: some View {
-        Button {
-
-        } label: {
+        Button { Task(priority: .userInitiated) {
+            do {
+                try await MusicPlayer.shared.playNow(itemId: song.uuid)
+            } catch {
+                print("Failed to play song \(song.uuid)")
+            }
+        }} label: {
             Image(systemSymbol: .playFill)
             Text("Play")
         }
 
-        DownloadButton(for: item.uuid, showText: true)
+        DownloadButton(for: song.uuid, showText: true)
 
         FavoriteButton(
             for: .song(item),
@@ -179,14 +183,14 @@ private struct ContextOptions: View  {
         )
 
         Button {
-
+            MusicPlayer.shared.enqueue(itemId: song.uuid, at: 0)
         } label: {
             Image(systemSymbol: .textInsert)
             Text("Play Next")
         }
 
         Button {
-
+            MusicPlayer.shared.enqueue(itemId: song.uuid)
         } label: {
             Image(systemSymbol: .textAppend)
             Text("Play Last")
