@@ -204,10 +204,4 @@ class AudioPlayer: ObservableObject {
             throw PlayerError.tempFileError
         }
     }
-
-    private func writeToTemporaryFile(data: Data) throws -> URL {
-        let temporaryURL = URL(fileURLWithPath: NSTemporaryDirectory()).appendingPathComponent(UUID().uuidString)
-        try data.write(to: temporaryURL, options: .atomic)
-        return temporaryURL
-    }
 }
