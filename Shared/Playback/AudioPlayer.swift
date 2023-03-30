@@ -1,6 +1,7 @@
 import AVFoundation
 import Combine
 import Foundation
+import OSLog
 
 enum PlayerState: String {
     case inactive, playing, paused
@@ -63,20 +64,20 @@ class AudioPlayer: ObservableObject {
             )
             try session.setActive(true)
         } catch {
-            print("Failed to initialize audio engine: \(error)")
+            Logger.player.debug("Failed to initialize audio engine: \(error)")
         }
     }
 
     func play() async throws {
         switch playerState {
         case .inactive, .paused:
-            print("player is inactive or paused")
+            Logger.player.debug("Player is inactive or paused")
             if queue.isEmpty { throw PlayerError.emptyQueue }
             if playerState == .inactive {
-                print("player is inactive")
+                Logger.player.debug("Player is inactive")
                 currentItemId = queue.removeFirst()
+                Logger.player.debug("Fetching audio data for next item in queue \(self.currentItemId ?? "no-id")")
                 audioFile = try await getItemAudioFile(by: currentItemId!)
-                print("fetched audio data for playback for next item in queue \(currentItemId!)")
             }
 
             scheduleAudio()
@@ -84,7 +85,7 @@ class AudioPlayer: ObservableObject {
             try? audioEngine.start()
             playerNode.play()
             playerState = .playing
-            print("player is playing")
+            Logger.player.debug("Player is playing")
         default:
             scheduleAudio()
         }
@@ -92,30 +93,30 @@ class AudioPlayer: ObservableObject {
 
     func pause() {
         if playerState == .playing {
-            print("player is playing")
+            Logger.player.debug("Player is playing")
             playerNode.pause()
             playerState = .paused
         }
-        print("player is paused")
+        Logger.player.debug("Player is paused")
     }
 
     func resume() {
         if playerState == .paused {
-            print("player is paused")
+            Logger.player.debug("Player is paused")
             playerNode.play()
             playerState = .playing
         }
-        print("player is playing")
+        Logger.player.debug("Player is playing")
     }
 
     func stop() {
         if playerState != .inactive {
-            print("player is playing or paused")
+            Logger.player.debug("Player is playing or paused")
             playerNode.stop()
             playerNode.reset()
             playerState = .inactive
         }
-        print("player is inactive")
+        Logger.player.debug("Player is inactive")
     }
 
     func skipToNext() async throws {
@@ -125,10 +126,9 @@ class AudioPlayer: ObservableObject {
     }
 
     func insertItem(_ itemID: String, at index: Int) {
-        print("current queue: \(queue)")
-        print("appending item: \(itemID)")
+        Logger.player.debug("Adding item to queue: \(itemID)")
         queue.insert(itemID, at: index)
-        print("current queue now: \(queue)")
+        Logger.player.debug("Current queue: \(self.queue)")
     }
 
     func insertItems(_ itemIds: [String], at index: Int) {
@@ -142,10 +142,9 @@ class AudioPlayer: ObservableObject {
     }
 
     func append(itemId: String) {
-        print("current queue: \(queue)")
-        print("appending item: \(itemId)")
+        Logger.player.debug("Adding item to queue: \(itemId)")
         queue.append(itemId)
-        print("current queue now: \(queue)")
+        Logger.player.debug("Current queue: \(self.queue)")
     }
 
     func append(itemIds: [String]) {
@@ -153,20 +152,19 @@ class AudioPlayer: ObservableObject {
     }
 
     private func playNextItem() async throws {
-        print("current queue: \(queue)")
         if queue.isEmpty {
             throw PlayerError.emptyQueue
         } else {
             currentItemId = queue.removeFirst()
-            print("current queue after removed: \(queue)")
+            Logger.player.debug("Next item will be played: \(self.currentItemId ?? "no-id")")
+            Logger.player.debug("Current queue: \(self.queue)")
             audioFile = try await getItemAudioFile(by: currentItemId!)
-            print("got data for item: \(currentItemId)")
             Task(priority: .userInitiated) { try await self.play() }
         }
     }
 
     private func scheduleAudio() {
-        print("scheduling audio file to play")
+        Logger.player.debug("Scheduling audio file to play")
         // Xcode suggestion is for iOS 15
         playerNode.scheduleFile(audioFile!, at: nil) {
             Task(priority: .background) { try await self.playNextItem() }
@@ -195,17 +193,14 @@ class AudioPlayer: ObservableObject {
     }
 
     private func getItemAudioFile(by itemID: String) async throws -> AVAudioFile? {
-        guard let audioData = await self.mediaRepo.getItem(by: itemID) else {
+        guard let url = FileRepository.shared.fileURL(for: itemID) else {
             throw PlayerError.noData(itemId: itemID)
         }
 
         do {
-            let temporaryURL = try writeToTemporaryFile(data: audioData.data)
-            let audioFile = try AVAudioFile(forReading: temporaryURL)
-            try FileManager.default.removeItem(at: temporaryURL)
-            return audioFile
+            return try AVAudioFile(forReading: url)
         } catch {
-            print("Failed create temporary file for playback: \(error)")
+            Logger.player.debug("Failed to create file for playback: \(error)")
             throw PlayerError.tempFileError
         }
     }
