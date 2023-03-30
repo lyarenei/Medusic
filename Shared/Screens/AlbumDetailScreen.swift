@@ -130,37 +130,3 @@ private struct AlbumActions: View {
         }
     }
 }
-
-// MARK: - Song list component
-
-private struct SongList: View {
-    var songs: [Song]?
-
-    var body: some View {
-        if let allSongs = songs, allSongs.isEmpty {
-            Text("No songs available")
-                .font(.title3)
-                .foregroundColor(Color(UIColor.secondaryLabel))
-        } else if let allSongs = songs {
-            LazyVStack {
-                ForEach(allSongs) { song in
-                    SongEntryComponent(
-                        song: song,
-                        showAlbumOrder: true,
-                        showArtwork: false,
-                        showAction: true
-                    )
-                    .padding(.leading)
-                    .padding(.trailing)
-                    .font(.title3)
-
-                    Divider()
-                        .padding(.leading, 10)
-                        .padding(.trailing, 10)
-                }
-            }
-        } else {
-            ProgressView()
-        }
-    }
-}
