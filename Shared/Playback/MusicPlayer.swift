@@ -13,9 +13,6 @@ class MusicPlayer: ObservableObject {
     private var songRepo: SongRepository = .shared
 
     @ObservedObject
-    private var mediaRepo: MediaRepository = .shared
-
-    @ObservedObject
     private var audioPlayer: AudioPlayer = .init()
 
     @Published

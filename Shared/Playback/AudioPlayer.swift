@@ -24,10 +24,8 @@ class AudioPlayer: ObservableObject {
     private let audioEngine = AVAudioEngine()
     private var playerNode = AVAudioPlayerNode()
     private var audioFile: AVAudioFile?
-    private let mediaRepo: MediaRepository
 
-    init(mediaRepo: MediaRepository = .shared) {
-        self.mediaRepo = mediaRepo
+    init() {
         audioEngineSetup()
 
         // Set interruption handler
