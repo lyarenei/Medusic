@@ -15,10 +15,6 @@ public struct Album: Unique {
     public var name: String
     public var artistName: String
     public var isFavorite: Bool = false
-
-    static func empty() -> Album {
-        return Album(uuid: "", name: "", artistName: "")
-    }
 }
 
 public struct Song: Unique {
