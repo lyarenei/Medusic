@@ -15,27 +15,14 @@ struct SongsLibraryScreen: View {
 
     var body: some View {
         ScrollView(.vertical) {
-            LazyVStack {
-                // TODO: play/shuffle actions
-
-                ForEach(controller.songs) { song in
-                    SongEntryComponent(
-                        song: song,
-                        showAlbumOrder: false,
-                        showArtwork: true,
-                        showAction: true,
-                        showAlbumName: true
-                    )
-                    .font(.title3)
-                    .padding(.leading)
-                    .padding(.trailing)
-                    .frame(height: 50)
-
-                    Divider()
-                        .padding(.leading, 10)
-                        .padding(.trailing, 10)
-                }
-            }
+            SongCollection(
+                songs: controller.songs,
+                showAlbumOrder: false,
+                showArtwork: true,
+                showAction: true,
+                showArtistName: true
+            )
+            .padding(.horizontal)
         }
         .navigationTitle("Songs")
         .onAppear { controller.setSongs() }
