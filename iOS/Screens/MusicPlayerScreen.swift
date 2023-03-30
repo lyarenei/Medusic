@@ -123,30 +123,33 @@ private struct SongWithActions: View {
 // MARK: - Playback bar
 
 private struct SeekBar: View {
-    @State
-    private var progressPercent: Double = 65
+    @ObservedObject private var player: MusicPlayer = .shared
 
-    @State
-    private var currentTime: Int32 = 65
+    @State private var progress: TimeInterval = 0
+    @State private var currentTime: TimeInterval = 0
+    @State private var remainingTime: TimeInterval = 1
 
-    @State
-    private var remainingTime: Int32 = 35
+    private var fallbackValue: TimeInterval = 1
 
     var body: some View {
         VStack(spacing: 0) {
             Slider(
-                value: $progressPercent,
-                in: 0...100
+                value: $progress,
+                in: 0...(player.currentSong?.runtime ?? fallbackValue)
             )
+            .onChange(of: progress, perform: { newValue in
+                currentTime = progress
+                remainingTime = player.currentSong?.runtime ?? fallbackValue - progress
+            })
 
             HStack {
-                Text("\(currentTime)")
-                    .font(.subheadline)
+                Text(currentTime.timeString)
+                    .font(.caption)
 
                 Spacer()
 
-                Text("\(remainingTime)")
-                    .font(.subheadline)
+                Text(remainingTime.timeString)
+                    .font(.caption)
             }
         }
     }
