@@ -20,7 +20,6 @@ struct MusicPlayerScreen: View {
 
                     SeekBar()
                         .disabled(true)
-                        .foregroundColor(.init(UIColor.secondaryLabel))
 
                     PlaybackControl()
                         .font(.largeTitle)
