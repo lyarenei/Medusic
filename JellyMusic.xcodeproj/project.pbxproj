@@ -382,7 +382,6 @@
 				9BB75EBB29C513E7008CD65A /* JellyfinSettingsController.swift */,
 				9B36DAC129CB90CF008C4FE7 /* MusicPlayer.swift */,
 				9B3C7BE829D0702600884597 /* Logger.swift */,
-				9B52AF9329D339B1002E21B9 /* FileRepository.swift */,
 			);
 			path = Shared;
 			sourceTree = "<group>";
@@ -449,6 +448,7 @@
 			children = (
 				9BB75EA929C39FFF008CD65A /* SongRepository.swift */,
 				9BB75ECC29C64D50008CD65A /* AlbumRepository.swift */,
+				9B52AF9329D339B1002E21B9 /* FileRepository.swift */,
 			);
 			path = Repositories;
 			sourceTree = "<group>";
