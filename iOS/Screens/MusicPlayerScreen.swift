@@ -24,7 +24,7 @@ struct MusicPlayerScreen: View {
                     PlaybackControl()
                         .font(.largeTitle)
                         .buttonStyle(.plain)
-                        .padding([.leading, .trailing], 50)
+                        .padding(.horizontal, 50)
 
                     VolumeBar()
                         .font(.footnote)
@@ -37,7 +37,7 @@ struct MusicPlayerScreen: View {
                         .font(.title3)
                         .foregroundColor(.init(UIColor.secondaryLabel))
                 }
-                .padding([.top, .leading, .trailing], 30)
+                .padding([.top, .horizontal], 30)
             }
             .popupTitle(song.name)
             .popupImage(Image(systemSymbol: .square))
