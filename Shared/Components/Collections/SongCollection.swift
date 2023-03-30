@@ -86,6 +86,8 @@ private struct SongList: View {
                     showArtistName: self.showArtistName,
                     showAction: self.showAction
                 )
+                .contentShape(Rectangle())
+                .contextMenu { ContextOptions(item: song) }
 
                 Divider()
                     .padding(.leading, dividerPadding)
@@ -152,6 +154,37 @@ private struct SEC: View {
             guard showArtistName else { return }
             // TODO: fetch artist by song ID
             self.artist = "song.artist"
+        }
+    }
+}
+
+private struct ContextOptions: View  {
+    let item: Song
+
+    var body: some View {
+        Button {
+
+        } label: {
+            Image(systemSymbol: .playFill)
+            Text("Play")
+        }
+
+        DownloadButton(for: item.uuid, showText: true)
+
+        FavoriteButton(isFavorite: false)
+
+        Button {
+
+        } label: {
+            Image(systemSymbol: .textInsert)
+            Text("Play Next")
+        }
+
+        Button {
+
+        } label: {
+            Image(systemSymbol: .textAppend)
+            Text("Play Last")
         }
     }
 }
