@@ -23,12 +23,6 @@ extension Store<Song> {
     )
 }
 
-extension Store<DownloadedMedia> {
-    static let downloadedMedia = Store<DownloadedMedia>(
-        storage: DiskStorageEngine(directory: .caches(appendingPath: "DownloadedMedia"))
-    )
-}
-
 // MARK: - Environment
 
 private struct AlbumRepoEnvironmentKey: EnvironmentKey {
@@ -37,10 +31,6 @@ private struct AlbumRepoEnvironmentKey: EnvironmentKey {
 
 private struct SongRepoEnvironmentKey: EnvironmentKey {
     static let defaultValue: SongRepository = .init(store: .songs)
-}
-
-private struct DownloadedMediaRepoEnvironmentKey: EnvironmentKey {
-    static let defaultValue: MediaRepository = .init(store: .downloadedMedia)
 }
 
 extension EnvironmentValues {
@@ -52,10 +42,5 @@ extension EnvironmentValues {
     var songRepo: SongRepository {
         get { self[SongRepoEnvironmentKey.self] }
         set { self[SongRepoEnvironmentKey.self] = newValue }
-    }
-
-    var mediaRepo: MediaRepository {
-        get { self[DownloadedMediaRepoEnvironmentKey.self] }
-        set { self[DownloadedMediaRepoEnvironmentKey.self] = newValue }
     }
 }

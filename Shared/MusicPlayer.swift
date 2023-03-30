@@ -23,9 +23,6 @@ class MusicPlayer: NSObject, AVAudioPlayerDelegate, ObservableObject {
     @Environment(\.songRepo)
     private var songRepo: SongRepository
 
-    @Environment(\.mediaRepo)
-    private var mediaRepo: MediaRepository
-
     @Published
 //    var currentSong: Song? = nil
     var currentSong: Song? = Song(uuid: "1", index: 1, name: "Random song name", parentId: "1")
@@ -157,33 +154,7 @@ class MusicPlayer: NSObject, AVAudioPlayerDelegate, ObservableObject {
     private func loadAndPlay(trackID: String) async {
         await onTrackStart?()
 
-        if let audioData = await self.mediaRepo.getItem(by: trackID) {
-            do {
-                let temporaryURL = try writeToTemporaryFile(data: audioData.data)
-                let audioFile = try AVAudioFile(forReading: temporaryURL)
-                try FileManager.default.removeItem(at: temporaryURL)
-
-                // Xcode complains about alternative function - this is iOS 15 stuff, so ignore
-                audioPlayerNode.scheduleFile(audioFile, at: nil) { Task {
-                        self.playbackHistory.append(audioFile.url.absoluteString)
-                        await self.loadAndPlayNextTrack()
-                }}
-
-                await onBeforeNextTrack?()
-
-                let sampleRate = audioFile.processingFormat.sampleRate
-                DispatchQueue.main.async {
-                    self.currentTrackDuration = Double(audioFile.length) / sampleRate
-                }
-
-                currentlyPlayingFile = audioFile
-                startUpdatingPlaybackPosition()
-            } catch {
-                print("Failed create temporary file for playback: \(error)")
-            }
-        } else {
-            print("Failed to load track data")
-        }
+        // TODO: implement
     }
 
     private func writeToTemporaryFile(data: Data) throws -> URL {
