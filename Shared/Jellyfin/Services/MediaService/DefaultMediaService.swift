@@ -22,8 +22,8 @@ final class DefaultMediaService: MediaService {
     func new_downloadItem(id: String, destination: URL) async throws {
         let request = JellyfinAPI.Paths.getAudioStream(itemID: id)
         let delegate = DownloadDelegate(destinationURL: destination)
-        let resp = try await client.download(for: request, delegate: delegate)
-        Logger.jellyfin.debug("Download started for item \(id): \(resp.data)")
+        Logger.jellyfin.debug("Starting download for item \(id)")
+        let _ = try await client.download(for: request, delegate: delegate)
     }
 }
 
