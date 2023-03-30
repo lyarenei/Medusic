@@ -19,6 +19,7 @@ public struct Song {
     public var name: String
     public var parentId: String
     public var isFavorite: Bool = false
+    public var runtime: TimeInterval
 }
 
 public struct DownloadedMedia {
