@@ -5,20 +5,15 @@ protocol Unique {
     var uuid: String { get }
 }
 
-protocol Downloadable {
-    var isDownloaded: Bool { get set }
-}
-
 public struct JellyfinServerInfo {
     public var name: String
     public var version: String
 }
 
-public struct Album: Unique, Downloadable {
+public struct Album: Unique {
     public var uuid: String
     public var name: String
     public var artistName: String
-    public var isDownloaded: Bool = false
     public var isFavorite: Bool = false
 
     static func empty() -> Album {

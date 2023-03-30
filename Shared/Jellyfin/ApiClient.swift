@@ -111,8 +111,7 @@ struct PreviewData {
         Album(
             uuid: "2",
             name: "Album with very long name that one gets tired reading it",
-            artistName: "Unamusing artist",
-            isDownloaded: true
+            artistName: "Unamusing artist"
         ),
         Album(
             uuid: "3",

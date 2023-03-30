@@ -6,7 +6,6 @@ public extension Album {
         self.name = item.name ?? ""
         self.artistName = item.albumArtist ?? ""
         self.isFavorite = item.userData?.isFavorite ?? false
-        self.isDownloaded = false
     }
 }
 

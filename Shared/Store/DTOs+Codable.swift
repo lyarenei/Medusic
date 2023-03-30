@@ -5,7 +5,6 @@ extension Album: Codable {
         case uuid
         case name
         case artistName
-        case isDownloaded
         case isFavorite
     }
 
@@ -14,7 +13,6 @@ extension Album: Codable {
         self.uuid = try container.decode(String.self, forKey: .uuid)
         self.name = try container.decode(String.self, forKey: .name)
         self.artistName = try container.decode(String.self, forKey: .artistName)
-        self.isDownloaded = try container.decode(Bool.self, forKey: .isDownloaded)
         self.isFavorite = try container.decode(Bool.self, forKey: .isFavorite)
     }
 
@@ -23,7 +21,6 @@ extension Album: Codable {
         try container.encode(uuid, forKey: .uuid)
         try container.encode(name, forKey: .name)
         try container.encode(artistName, forKey: .artistName)
-        try container.encode(isDownloaded, forKey: .isDownloaded)
         try container.encode(isFavorite, forKey: .isFavorite)
     }
 }
