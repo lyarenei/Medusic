@@ -86,6 +86,13 @@ private struct SongList: View {
                     showArtistName: self.showArtistName,
                     showAction: self.showAction
                 )
+                .onTapGesture { Task(priority: .userInitiated) {
+                    do {
+                        try await MusicPlayer.shared.playNow(itemId: song.uuid)
+                    } catch {
+                        print("Failed to play item \(song.uuid)")
+                    }
+                }}
                 .contentShape(Rectangle())
                 .contextMenu { ContextOptions(item: song) }
                 .padding(.horizontal)
