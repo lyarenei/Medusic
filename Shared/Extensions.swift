@@ -59,3 +59,10 @@ extension ScrollView {
         }
     }
 }
+
+extension Int64 {
+    var timeInterval: TimeInterval {
+        let ticksPerSecond: Int64 = 10_000_000
+        return Double(self / ticksPerSecond)
+    }
+}
