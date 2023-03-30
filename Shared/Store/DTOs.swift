@@ -26,12 +26,11 @@ public struct Album: Unique, Downloadable {
     }
 }
 
-public struct Song: Unique, Downloadable {
+public struct Song: Unique {
     public var uuid: String
     public var index: Int
     public var name: String
     public var parentId: String
-    public var isDownloaded: Bool = false
     public var isFavorite: Bool = false
 }
 

@@ -129,13 +129,6 @@ private final class DownloadButtonController: ObservableObject {
     private func removeItem() async throws {
         // TODO: support for albums (bulk remove)
         try FileRepository.shared.removeFile(itemId: itemId)
-        try await self.updateDownloaded()
-    }
-
-    private func updateDownloaded() async throws {
-        let fileExists = FileRepository.shared.fileURL(for: itemId) != nil
-        guard await self.songRepo.getSong(by: self.itemId) != nil else { return }
-        try await self.songRepo.setDownloaded(itemId: self.itemId, fileExists)
-        self.setDownloaded()
+        setDownloaded()
     }
 }

@@ -43,16 +43,6 @@ final class SongRepository: ObservableObject {
             $0.uuid == songId
         }
     }
-
-    func setDownloaded(itemId: String, _ isDownloaded: Bool = true) async throws {
-        if var item = await self.getSong(by: itemId) {
-            item.isDownloaded = isDownloaded
-            try await self.$songs.remove(item).insert(item).run()
-            return
-        }
-
-        throw SongRepositoryError.notFound
-    }
 }
 
 enum SongRepositoryError: Error {

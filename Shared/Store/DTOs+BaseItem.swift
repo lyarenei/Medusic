@@ -17,6 +17,5 @@ public extension Song {
         self.name = item.name ?? ""
         self.parentId = item.albumID ?? item.parentID ?? ""
         self.isFavorite = item.userData?.isFavorite ?? false
-        self.isDownloaded = false
     }
 }
