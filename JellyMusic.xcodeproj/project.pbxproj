@@ -9,6 +9,7 @@
 /* Begin PBXBuildFile section */
 		4848B22629BCBC2000EB2FAA /* Cancellables.swift in Sources */ = {isa = PBXBuildFile; fileRef = 4848B22529BCBC2000EB2FAA /* Cancellables.swift */; };
 		4848B22729BCBC2000EB2FAA /* Cancellables.swift in Sources */ = {isa = PBXBuildFile; fileRef = 4848B22529BCBC2000EB2FAA /* Cancellables.swift */; };
+		488EBAC329D739BF004A3071 /* SwiftUIX in Frameworks */ = {isa = PBXBuildFile; productRef = 488EBAC229D739BF004A3071 /* SwiftUIX */; };
 		48C1F8BC29B9E5C9003BE048 /* Kingfisher in Frameworks */ = {isa = PBXBuildFile; productRef = 48C1F8BB29B9E5C9003BE048 /* Kingfisher */; };
 		48C1F8BF29B9E6D1003BE048 /* Boutique in Frameworks */ = {isa = PBXBuildFile; productRef = 48C1F8BE29B9E6D1003BE048 /* Boutique */; };
 		48C1F8C229B9E795003BE048 /* Store+common.swift in Sources */ = {isa = PBXBuildFile; fileRef = 48C1F8C129B9E795003BE048 /* Store+common.swift */; };
@@ -213,6 +214,7 @@
 				9BB75EB429C4E640008CD65A /* Defaults in Frameworks */,
 				9BB75EC329C5B1B8008CD65A /* DebouncedOnChange in Frameworks */,
 				9B73ECF729C8EFCD007F74DB /* LNPopupUI-Static in Frameworks */,
+				488EBAC329D739BF004A3071 /* SwiftUIX in Frameworks */,
 				9B3D44C429BE33850054C9E0 /* SwiftUIBackports in Frameworks */,
 				48C1F8BC29B9E5C9003BE048 /* Kingfisher in Frameworks */,
 				9BB75ECB29C63AE6008CD65A /* SimpleKeychain in Frameworks */,
@@ -514,6 +516,7 @@
 				9BB75EC229C5B1B8008CD65A /* DebouncedOnChange */,
 				9BB75ECA29C63AE6008CD65A /* SimpleKeychain */,
 				9B73ECF629C8EFCD007F74DB /* LNPopupUI-Static */,
+				488EBAC229D739BF004A3071 /* SwiftUIX */,
 			);
 			productName = "JellyMusic (iOS)";
 			productReference = 9B80473A29B768010069B407 /* JellyMusic.app */;
@@ -573,6 +576,7 @@
 				9BB75EC129C5B1B8008CD65A /* XCRemoteSwiftPackageReference "DebouncedOnChange" */,
 				9BB75EC929C63AE6008CD65A /* XCRemoteSwiftPackageReference "SimpleKeychain" */,
 				9B73ECF529C8EFCD007F74DB /* XCRemoteSwiftPackageReference "LNPopupUI" */,
+				488EBAC129D739BF004A3071 /* XCRemoteSwiftPackageReference "SwiftUIX" */,
 			);
 			productRefGroup = 9B80473B29B768010069B407 /* Products */;
 			projectDirPath = "";
@@ -874,7 +878,7 @@
 				INFOPLIST_KEY_UILaunchScreen_Generation = YES;
 				INFOPLIST_KEY_UISupportedInterfaceOrientations = UIInterfaceOrientationPortrait;
 				INFOPLIST_KEY_UISupportedInterfaceOrientations_iPad = "UIInterfaceOrientationLandscapeLeft UIInterfaceOrientationLandscapeRight UIInterfaceOrientationPortrait UIInterfaceOrientationPortraitUpsideDown";
-				IPHONEOS_DEPLOYMENT_TARGET = 14.3;
+				IPHONEOS_DEPLOYMENT_TARGET = 14.0;
 				LD_RUNPATH_SEARCH_PATHS = (
 					"$(inherited)",
 					"@executable_path/Frameworks",
@@ -907,7 +911,7 @@
 				INFOPLIST_KEY_UILaunchScreen_Generation = YES;
 				INFOPLIST_KEY_UISupportedInterfaceOrientations = UIInterfaceOrientationPortrait;
 				INFOPLIST_KEY_UISupportedInterfaceOrientations_iPad = "UIInterfaceOrientationLandscapeLeft UIInterfaceOrientationLandscapeRight UIInterfaceOrientationPortrait UIInterfaceOrientationPortraitUpsideDown";
-				IPHONEOS_DEPLOYMENT_TARGET = 14.3;
+				IPHONEOS_DEPLOYMENT_TARGET = 14.0;
 				LD_RUNPATH_SEARCH_PATHS = (
 					"$(inherited)",
 					"@executable_path/Frameworks",
@@ -1016,6 +1020,14 @@
 /* End XCConfigurationList section */
 
 /* Begin XCRemoteSwiftPackageReference section */
+		488EBAC129D739BF004A3071 /* XCRemoteSwiftPackageReference "SwiftUIX" */ = {
+			isa = XCRemoteSwiftPackageReference;
+			repositoryURL = "https://github.com/SwiftUIX/SwiftUIX";
+			requirement = {
+				kind = upToNextMajorVersion;
+				minimumVersion = 0.1.4;
+			};
+		};
 		48C1F8BA29B9E5C9003BE048 /* XCRemoteSwiftPackageReference "Kingfisher" */ = {
 			isa = XCRemoteSwiftPackageReference;
 			repositoryURL = "https://github.com/onevcat/Kingfisher.git";
@@ -1091,6 +1103,11 @@
 /* End XCRemoteSwiftPackageReference section */
 
 /* Begin XCSwiftPackageProductDependency section */
+		488EBAC229D739BF004A3071 /* SwiftUIX */ = {
+			isa = XCSwiftPackageProductDependency;
+			package = 488EBAC129D739BF004A3071 /* XCRemoteSwiftPackageReference "SwiftUIX" */;
+			productName = SwiftUIX;
+		};
 		48C1F8BB29B9E5C9003BE048 /* Kingfisher */ = {
 			isa = XCSwiftPackageProductDependency;
 			package = 48C1F8BA29B9E5C9003BE048 /* XCRemoteSwiftPackageReference "Kingfisher" */;

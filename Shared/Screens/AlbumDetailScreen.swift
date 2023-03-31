@@ -2,10 +2,14 @@ import Kingfisher
 import SFSafeSymbols
 import SwiftUI
 import SwiftUIBackports
+import SwiftUIX
 
 struct AlbumDetailScreen: View {
     @StateObject
     private var controller: AlbumDetailController
+
+    @State
+    private var isRefreshing = false
 
     init (for itemId: String) {
         self._controller = StateObject(wrappedValue: AlbumDetailController(albumId: itemId))
@@ -18,39 +22,60 @@ struct AlbumDetailScreen: View {
     var body: some View {
         Group {
             if let album = controller.album {
-                ScrollView {
-                    VStack {
-                        AlbumHeading(album: album)
-                            .padding(.bottom, 10)
-
-                        AlbumActions()
-                            .padding(.bottom, 30)
-
-                        SongCollection(
-                            songs: controller.songs,
-                            showAlbumOrder: true,
-                            showArtwork: false,
-                            showAction: true,
-                            showArtistName: false
-                        )
-                        .padding(.horizontal)
+                if #available(iOS 15.0, *) {
+                    ScrollView {
+                        content(for: album)
                     }
-                    .padding(.top, 15)
+                    .refreshable {
+                        await controller.refresh()
+                    }
+                } else {
+                    CocoaScrollView {
+                        content(for: album)
+                            .frame(maxWidth: .infinity)
+                    }
+                    .onRefresh {
+                        Task {
+                            await controller.refresh()
+                            isRefreshing = false
+                        }
+                    }
+                    .isRefreshing(isRefreshing)
                 }
-                .toolbar(content: {
-                    ToolbarItem(content: {
-                        PrimaryActionButton(for: album.uuid)
-                            .disabled(true)
-                    })
-                })
             } else {
                 Text("Failed to load album data")
             }
         }
         .navigationBarTitleDisplayMode(.inline)
-        .onAppear { self.controller.setAlbum() }
-        .onAppear { self.controller.setSongs() }
-        .backport.refreshable { await self.controller.refresh() }
+        .toolbar {
+            ToolbarItem {
+                if let album = controller.album {
+                    PrimaryActionButton(for: album.uuid)
+                        .disabled(true)
+                }
+            }
+        }
+        .onAppear { controller.onAppear() }
+    }
+
+    @ViewBuilder
+    private func content(for album: Album) -> some View {
+        VStack {
+            AlbumHeading(album: album)
+                .padding(.bottom, 10)
+
+            AlbumActions()
+                .padding(.bottom, 30)
+
+            SongCollection(
+                songs: controller.songs,
+                showAlbumOrder: true,
+                showArtwork: false,
+                showAction: true,
+                showArtistName: false
+            )
+        }
+        .padding(.top, 15)
     }
 }
 
