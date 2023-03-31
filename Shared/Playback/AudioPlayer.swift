@@ -64,26 +64,12 @@ class AudioPlayer: ObservableObject {
     }
 
     func play() async throws {
-        switch playerState {
-        case .inactive, .paused:
-            Logger.player.debug("Player is inactive or paused")
-            if queue.isEmpty { throw PlayerError.emptyQueue }
-            if playerState == .inactive {
-                Logger.player.debug("Player is inactive")
-                currentItemId = queue.removeFirst()
-                Logger.player.debug("Fetching audio data for next item in queue \(self.currentItemId ?? "no-id")")
-                audioFile = try await getItemAudioFile(by: currentItemId!)
-            }
-
-            scheduleAudio()
-
-            try? audioEngine.start()
-            playerNode.play()
-            playerState = .playing
-            Logger.player.debug("Player is playing")
-        default:
-            scheduleAudio()
+        if currentItemId == nil {
+            try await prepareNextItem()
         }
+
+        scheduleAudio()
+        resume()
     }
 
     func pause() {
@@ -142,19 +128,20 @@ class AudioPlayer: ObservableObject {
         queue.append(contentsOf: itemIds)
     }
 
-    private func playNextItem() async throws {
-        if queue.isEmpty {
+    private func prepareNextItem() async throws {
+        guard queue.isNotEmpty else {
             stop()
             throw PlayerError.emptyQueue
-        } else {
-            currentItemId = queue.removeFirst()
-            Logger.player.debug("Next item will be played: \(self.currentItemId ?? "no-id")")
-            audioFile = try await getItemAudioFile(by: currentItemId!)
-            Task(priority: .userInitiated) {
-                scheduleAudio()
-                try await play()
-            }
         }
+
+        currentItemId = queue.removeFirst()
+        Logger.player.debug("Next item will be played: \(self.currentItemId ?? "no-id")")
+        audioFile = try await getItemAudioFile(by: currentItemId!)
+    }
+
+    private func playNextItem() async throws {
+        try await prepareNextItem()
+        try await play()
     }
 
     private func scheduleAudio() {
