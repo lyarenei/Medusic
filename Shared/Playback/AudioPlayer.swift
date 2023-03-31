@@ -110,6 +110,7 @@ class AudioPlayer: ObservableObject {
     }
 
     func skipToNext() async throws {
+        Logger.player.debug("Requested skip to next item")
         playerNode.stop()
         playerNode.reset()
         try await playNextItem()
