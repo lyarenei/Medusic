@@ -54,9 +54,9 @@ class MusicPlayer: ObservableObject {
     }
 
     func playNow(itemId: String) async throws {
-        self.stop()
+        stop()
         audioPlayer.insertItem(itemId, at: 0)
-        try await self.play()
+        try await play()
     }
 
     func skipForward() async throws {
