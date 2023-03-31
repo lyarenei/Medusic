@@ -118,7 +118,6 @@ class AudioPlayer: ObservableObject {
     func insertItem(_ itemID: String, at index: Int) {
         Logger.player.debug("Adding item to queue: \(itemID)")
         queue.insert(itemID, at: index)
-        Logger.player.debug("Current queue: \(self.queue)")
     }
 
     func insertItems(_ itemIds: [String], at index: Int) {
@@ -134,7 +133,6 @@ class AudioPlayer: ObservableObject {
     func append(itemId: String) {
         Logger.player.debug("Adding item to queue: \(itemId)")
         queue.append(itemId)
-        Logger.player.debug("Current queue: \(self.queue)")
     }
 
     func append(itemIds: [String]) {
@@ -148,7 +146,6 @@ class AudioPlayer: ObservableObject {
         } else {
             currentItemId = queue.removeFirst()
             Logger.player.debug("Next item will be played: \(self.currentItemId ?? "no-id")")
-            Logger.player.debug("Current queue: \(self.queue)")
             audioFile = try await getItemAudioFile(by: currentItemId!)
             Task(priority: .userInitiated) {
                 scheduleAudio()
