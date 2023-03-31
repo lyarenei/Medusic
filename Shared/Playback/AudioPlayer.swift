@@ -61,6 +61,7 @@ class AudioPlayer: ObservableObject {
                 ]
             )
             try session.setActive(true)
+            Logger.player.debug("Audio engine has been initialized")
         } catch {
             Logger.player.debug("Failed to initialize audio engine: \(error.localizedDescription)")
         }
