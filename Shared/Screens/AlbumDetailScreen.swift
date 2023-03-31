@@ -64,7 +64,7 @@ struct AlbumDetailScreen: View {
             AlbumHeading(album: album)
                 .padding(.bottom, 10)
 
-            AlbumActions()
+            AlbumActions(controller: controller)
                 .padding(.bottom, 30)
 
             SongCollection(

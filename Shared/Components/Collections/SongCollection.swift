@@ -94,7 +94,7 @@ private struct SongList: View {
                     }
                 }}
                 .contentShape(Rectangle())
-                .contextMenu { ContextOptions(item: song) }
+                .contextMenu { ContextOptions(song: song) }
                 .padding(.horizontal)
 
                 Divider()
