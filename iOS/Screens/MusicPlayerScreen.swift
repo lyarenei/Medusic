@@ -33,9 +33,10 @@ struct MusicPlayerScreen: View {
                         .foregroundColor(.init(UIColor.secondaryLabel))
 
                     BottomPlaceholder()
-                        .padding([.leading, .trailing], 50)
+                        .padding(.horizontal, 50)
                         .font(.title3)
                         .foregroundColor(.init(UIColor.secondaryLabel))
+                        .frame(height: 40)
                 }
                 .padding([.top, .horizontal], 30)
             }
@@ -220,11 +221,13 @@ private struct VolumeBar: View {
 }
 
 private struct BottomPlaceholder: View {
+    @State var airplayPresented: Bool = false
+
     var body: some View {
         HStack {
             Image(systemSymbol: .quoteBubble)
             Spacer()
-            Image(systemSymbol: .airplayaudio)
+            AirPlayComponent()
             Spacer()
             Image(systemSymbol: .listBullet)
         }

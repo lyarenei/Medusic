@@ -54,9 +54,6 @@ class AudioPlayer: ObservableObject {
                 .playback,
                 mode: .default,
                 options: [
-                    .allowAirPlay,
-                    .allowBluetooth,
-                    .allowBluetoothA2DP,
                     .mixWithOthers,
                 ]
             )
