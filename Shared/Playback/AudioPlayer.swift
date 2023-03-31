@@ -87,34 +87,29 @@ class AudioPlayer: ObservableObject {
     }
 
     func pause() {
-        if playerState == .playing {
-            playerNode.pause()
-            playerState = .paused
-        }
+        playerNode.pause()
+        audioEngine.pause()
+        playerState = .paused
         Logger.player.debug("Player is paused")
     }
 
     func resume() {
-        if playerState == .paused {
-            playerNode.play()
-            playerState = .playing
-        }
+        try? audioEngine.start()
+        playerNode.play()
+        playerState = .playing
         Logger.player.debug("Player is playing")
     }
 
     func stop() {
-        if playerState != .inactive {
-            playerNode.stop()
-            playerNode.reset()
-            playerState = .inactive
-        }
+        playerNode.stop()
+        playerNode.reset()
+        audioEngine.stop()
+        playerState = .inactive
         queue.removeAll()
         Logger.player.debug("Player is inactive")
     }
 
     func skipToNext() async throws {
-        if queue.isEmpty { throw PlayerError.emptyQueue }
-        playerNode.stop()
         try await playNextItem()
     }
 
