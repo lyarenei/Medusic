@@ -66,6 +66,10 @@ class FileRepository {
         return FileManager.default.fileExists(atPath: fileURL.path) ? fileURL : nil
     }
 
+    func fileExists(for itemID: String) -> Bool {
+        return fileURL(for: itemID) != nil
+    }
+
     func numberOfDownloadedFiles() -> Int {
         let enumerator = FileManager.default.enumerator(at: cacheDirectory, includingPropertiesForKeys: nil)
         return enumerator?.allObjects.count ?? 0

@@ -51,4 +51,19 @@ final class AlbumDetailController: ObservableObject {
             print("Failed to refresh the songs", error)
         }
     }
+
+    func onPlayButton() {
+        guard let songs = songs, songs.isNotEmpty else { return }
+        for song in songs {
+            MusicPlayer.shared.enqueue(itemId: song.uuid)
+        }
+
+        Task(priority: .userInitiated) {
+            do {
+                try await MusicPlayer.shared.play()
+            } catch {
+                print("Failed to play anything")
+            }
+        }
+    }
 }
