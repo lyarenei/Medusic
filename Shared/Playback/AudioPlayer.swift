@@ -32,7 +32,8 @@ class AudioPlayer: ObservableObject {
         NotificationCenter.default.addObserver(
             self,
             selector: #selector(handleInterruption),
-            name: AVAudioSession.interruptionNotification, object: nil
+            name: AVAudioSession.interruptionNotification,
+            object: nil
         )
     }
 
@@ -53,9 +54,7 @@ class AudioPlayer: ObservableObject {
             try session.setCategory(
                 .playback,
                 mode: .default,
-                options: [
-                    .mixWithOthers,
-                ]
+                options: [.mixWithOthers]
             )
             try session.setActive(true)
             Logger.player.debug("Audio engine has been initialized")
