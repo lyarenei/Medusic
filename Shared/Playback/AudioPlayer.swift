@@ -110,6 +110,8 @@ class AudioPlayer: ObservableObject {
     }
 
     func skipToNext() async throws {
+        playerNode.stop()
+        playerNode.reset()
         try await playNextItem()
     }
 
@@ -148,7 +150,10 @@ class AudioPlayer: ObservableObject {
             Logger.player.debug("Next item will be played: \(self.currentItemId ?? "no-id")")
             Logger.player.debug("Current queue: \(self.queue)")
             audioFile = try await getItemAudioFile(by: currentItemId!)
-            Task(priority: .userInitiated) { try await self.play() }
+            Task(priority: .userInitiated) {
+                scheduleAudio()
+                try await play()
+            }
         }
     }
 
