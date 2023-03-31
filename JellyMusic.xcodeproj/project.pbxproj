@@ -66,6 +66,7 @@
 		9B54962429CD742D00FB4191 /* AudioPlayer.swift in Sources */ = {isa = PBXBuildFile; fileRef = 9B54962329CD742D00FB4191 /* AudioPlayer.swift */; };
 		9B54962529CD742D00FB4191 /* AudioPlayer.swift in Sources */ = {isa = PBXBuildFile; fileRef = 9B54962329CD742D00FB4191 /* AudioPlayer.swift */; };
 		9B61365E29BCB254004C85EC /* MacHomeScreen.swift in Sources */ = {isa = PBXBuildFile; fileRef = 9B61365D29BCB254004C85EC /* MacHomeScreen.swift */; };
+		9B6C17CD29D6BE700061866A /* AirPlayComponent.swift in Sources */ = {isa = PBXBuildFile; fileRef = 9B6C17CC29D6BE700061866A /* AirPlayComponent.swift */; };
 		9B70BD9D29B91F42000DB31C /* AlbumTileComponent.swift in Sources */ = {isa = PBXBuildFile; fileRef = 9B70BD9C29B91F42000DB31C /* AlbumTileComponent.swift */; };
 		9B70BD9E29B91F42000DB31C /* AlbumTileComponent.swift in Sources */ = {isa = PBXBuildFile; fileRef = 9B70BD9C29B91F42000DB31C /* AlbumTileComponent.swift */; };
 		9B70BDA029B923AE000DB31C /* AlbumDetailScreen.swift in Sources */ = {isa = PBXBuildFile; fileRef = 9B70BD9F29B923AE000DB31C /* AlbumDetailScreen.swift */; };
@@ -169,6 +170,7 @@
 		9B52AF9329D339B1002E21B9 /* FileRepository.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = FileRepository.swift; sourceTree = "<group>"; };
 		9B54962329CD742D00FB4191 /* AudioPlayer.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = AudioPlayer.swift; sourceTree = "<group>"; };
 		9B61365D29BCB254004C85EC /* MacHomeScreen.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = MacHomeScreen.swift; sourceTree = "<group>"; };
+		9B6C17CC29D6BE700061866A /* AirPlayComponent.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = AirPlayComponent.swift; sourceTree = "<group>"; };
 		9B70BD9C29B91F42000DB31C /* AlbumTileComponent.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = AlbumTileComponent.swift; sourceTree = "<group>"; };
 		9B70BD9F29B923AE000DB31C /* AlbumDetailScreen.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = AlbumDetailScreen.swift; sourceTree = "<group>"; };
 		9B73ECF829C8F085007F74DB /* MusicPlayerScreen.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = MusicPlayerScreen.swift; sourceTree = "<group>"; };
@@ -328,6 +330,14 @@
 			path = Screens;
 			sourceTree = "<group>";
 		};
+		9B6C17CE29D6CB720061866A /* Components */ = {
+			isa = PBXGroup;
+			children = (
+				9B6C17CC29D6BE700061866A /* AirPlayComponent.swift */,
+			);
+			path = Components;
+			sourceTree = "<group>";
+		};
 		9B70BDA229B93228000DB31C /* Components */ = {
 			isa = PBXGroup;
 			children = (
@@ -418,6 +428,7 @@
 		9B80475C29B7D5140069B407 /* iOS */ = {
 			isa = PBXGroup;
 			children = (
+				9B6C17CE29D6CB720061866A /* Components */,
 				9B36DAC529CCAF01008C4FE7 /* Controllers */,
 				9B61365529BC6F18004C85EC /* Screens */,
 			);
@@ -650,6 +661,7 @@
 				9B36DAC229CB90CF008C4FE7 /* MusicPlayer.swift in Sources */,
 				9B54962429CD742D00FB4191 /* AudioPlayer.swift in Sources */,
 				48C1F8D729B9FDDF003BE048 /* DummyAlbumService.swift in Sources */,
+				9B6C17CD29D6BE700061866A /* AirPlayComponent.swift in Sources */,
 				9B3D44C629BE5E560054C9E0 /* DTOs+BaseItem.swift in Sources */,
 				9BB75EBC29C513E7008CD65A /* JellyfinSettingsController.swift in Sources */,
 				9B36DACF29CCE134008C4FE7 /* SongLibraryController.swift in Sources */,
