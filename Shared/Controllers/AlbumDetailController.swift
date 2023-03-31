@@ -1,5 +1,6 @@
 import Foundation
 
+@MainActor
 final class AlbumDetailController: ObservableObject {
     @Published
     var album: Album?
@@ -27,23 +28,25 @@ final class AlbumDetailController: ObservableObject {
         self.songRepo = songRepo
     }
 
-    func setAlbum() { DispatchQueue.main.async {
-        Task(priority: .background) {
-            self.album = await self.albumRepo.getAlbum(by: self.albumId)
-        }}
+    func onAppear() {
+        Task {
+            await setAlbum()
+            await setSongs()
+        }
     }
 
-    func setSongs() { DispatchQueue.main.async {
-        Task(priority: .background) {
-            self.songs = await self.songRepo.getSongs(ofAlbum: self.albumId)
-        }}
+    private func setAlbum() async {
+        album = await albumRepo.getAlbum(by: albumId)
+    }
+
+    private func setSongs() async {
+        songs = await songRepo.getSongs(ofAlbum: albumId)
     }
 
     func refresh() async {
-        DispatchQueue.main.async { self.songs = nil }
         do {
-            try await self.songRepo.refresh(for: self.albumId)
-            self.setSongs()
+            try await songRepo.refresh(for: albumId)
+            await setSongs()
         } catch {
             print("Failed to refresh the songs", error)
         }

@@ -22,7 +22,6 @@ struct SongsLibraryScreen: View {
                 showAction: true,
                 showArtistName: true
             )
-            .padding(.horizontal)
         }
         .navigationTitle("Songs")
         .onAppear { controller.setSongs() }

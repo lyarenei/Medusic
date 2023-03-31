@@ -88,6 +88,7 @@ private struct SongList: View {
                 )
                 .contentShape(Rectangle())
                 .contextMenu { ContextOptions(item: song) }
+                .padding(.horizontal)
 
                 Divider()
                     .padding(.leading, dividerPadding)
