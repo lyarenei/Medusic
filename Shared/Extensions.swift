@@ -43,6 +43,12 @@ extension Array where Element == Song {
     }
 }
 
+extension Array {
+    /// Convenience indicator for checking if the collection is not empty.
+    @inlinable
+    public var isNotEmpty: Bool { get { !self.isEmpty } }
+}
+
 extension ScrollView {
     private typealias PaddedContent = ModifiedContent<Content, _PaddingLayout>
 

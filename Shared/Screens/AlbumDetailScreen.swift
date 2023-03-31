@@ -89,10 +89,12 @@ private struct AlbumHeading: View {
 // MARK: - Album actions component
 
 private struct AlbumActions: View {
+    @ObservedObject var controller: AlbumDetailController
+
     var body: some View {
         HStack {
             Button {
-                // Album play action
+                controller.onPlayButton()
             } label: {
                 Image(systemSymbol: .playFill)
                 Text("Play")
@@ -102,7 +104,6 @@ private struct AlbumActions: View {
                 RoundedRectangle(cornerRadius: 10)
                     .stroke(style: StrokeStyle(lineWidth: 1.0))
             )
-            .disabled(true)
 
             Button {
                 // Album shuffle play action
