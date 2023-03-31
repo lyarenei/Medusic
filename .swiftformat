@@ -1,0 +1,128 @@
+--swiftversion 5.7
+
+# format options
+
+--elseposition same-line # elseOnSameLine
+--guardelse next-line # elseOnSameLine
+--emptybraces no-space # emptyBraces
+--extensionacl on-declarations # extensionAccessControl
+--patternlet inline # hoistPatternLet
+# --xcodeindentation enabled
+--self init-only # redundantSelf
+--hexliteralcase uppercase
+--redundanttype inferred # redundantType
+# --importgrouping testable-bottom # sortedImports
+--trimwhitespace always # trailingSpace
+--commas always # trailingCommas
+--maxwidth 140 # wrap
+--wrapternary before-operators # wrap
+--wraparguments before-first # wrapArguments
+--wrapparameters before-first # wrapArguments
+--wrapcollections before-first # wrapArguments
+--closingparen balanced # wrapArguments
+--wrapreturntype preserve # wrapArguments
+--wrapconditions after-first # wrapArguments
+--wraptypealiases before-first # wrapArguments
+--funcattributes prev-line # wrapAttributes
+--typeattributes prev-line # wrapAttributes
+--indent 4 # indent
+--ifdef no-indent # indent
+--indentcase false # indent
+--indentstrings true # indent
+--allman false
+--header strip
+--ranges no-space
+
+# Enabled format rules:
+
+# --rules acronyms
+# --rules andOperator
+--rules anyObjectProtocol
+--rules assertionFailures
+--rules blankLineAfterImports
+# --rules blankLinesAroundMark
+--rules blankLinesAtEndOfScope
+# --rules blankLinesAtStartOfScope
+--rules blankLinesBetweenImports
+--rules blankLinesBetweenScopes
+--rules blockComments
+--rules braces
+--rules conditionalAssignment
+--rules consecutiveBlankLines
+--rules consecutiveSpaces
+# --rules docComments
+--rules duplicateImports
+--rules elseOnSameLine
+--rules emptyBraces
+--rules enumNamespaces
+--rules extensionAccessControl
+--rules fileHeader
+--rules genericExtensions
+# This one isn't written well and causes compilation errors.
+# --rules hoistAwait
+--rules hoistPatternLet
+--rules hoistTry
+--rules indent
+--rules initCoderUnavailable
+--rules isEmpty
+--rules leadingDelimiters
+--rules linebreakAtEndOfFile
+--rules linebreaks
+# --rules markTypes
+--rules modifierOrder
+--rules numberFormatting
+# --rules opaqueGenericParameters
+# --rules organizeDeclarations
+--rules preferKeyPath
+--rules redundantBackticks
+--rules redundantBreak
+--rules redundantClosure
+--rules redundantExtensionACL
+--rules redundantFileprivate
+--rules redundantGet
+--rules redundantInit
+--rules redundantLet
+--rules redundantLetError
+--rules redundantNilInit
+--rules redundantObjc
+--rules redundantOptionalBinding
+--rules redundantParens
+--rules redundantPattern
+# --rules redundantRawValues
+--rules redundantReturn
+--rules redundantSelf
+--rules redundantType
+--rules redundantVoidReturnType
+--rules semicolons
+# --rules sortDeclarations
+# --rules sortedImports
+# --rules sortedSwitchCases
+--rules spaceAroundBraces
+--rules spaceAroundBrackets
+--rules spaceAroundComments
+--rules spaceAroundGenerics
+--rules spaceAroundOperators
+--rules spaceAroundParens
+--rules spaceInsideBraces
+--rules spaceInsideBrackets
+--rules spaceInsideComments
+--rules spaceInsideGenerics
+--rules spaceInsideParens
+--rules strongOutlets
+--rules strongifiedSelf
+--rules todos
+--rules trailingClosures
+--rules trailingCommas
+--rules trailingSpace
+--rules typeSugar
+# --rules unusedArguments
+--rules void
+# --rules wrap
+--rules wrapArguments
+--rules wrapAttributes
+# --rules wrapConditionalBodies
+--rules wrapEnumCases
+# --rules wrapMultilineStatementBraces
+--rules wrapSingleLineComments
+# --rules wrapSwitchCases
+--rules yodaConditions
