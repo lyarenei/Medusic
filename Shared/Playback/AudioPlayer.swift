@@ -106,6 +106,8 @@ class AudioPlayer: ObservableObject {
         audioEngine.stop()
         playerState = .inactive
         queue.removeAll()
+        currentItemId = nil
+        audioFile = nil
         Logger.player.debug("Player is inactive")
     }
 
