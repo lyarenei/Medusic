@@ -109,6 +109,7 @@ class AudioPlayer: ObservableObject {
             playerNode.reset()
             playerState = .inactive
         }
+        queue.removeAll()
         Logger.player.debug("Player is inactive")
     }
 
