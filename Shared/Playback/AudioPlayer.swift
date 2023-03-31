@@ -161,8 +161,7 @@ class AudioPlayer: ObservableObject {
     }
 
     /// Handles interruption from a call or Siri
-    @objc
-    private func handleInterruption(notification: Notification) {
+    @objc private func handleInterruption(notification: Notification) {
         guard let userInfo = notification.userInfo,
               let typeValue = userInfo[AVAudioSessionInterruptionTypeKey] as? UInt,
               let type = AVAudioSession.InterruptionType(rawValue: typeValue) else { return }
@@ -173,9 +172,7 @@ class AudioPlayer: ObservableObject {
         case .ended:
             guard let optionsValue = userInfo[AVAudioSessionInterruptionOptionKey] as? UInt else { return }
             let options = AVAudioSession.InterruptionOptions(rawValue: optionsValue)
-            if options.contains(.shouldResume) {
-                resume()
-            }
+            if options.contains(.shouldResume) { resume() }
         default:
             break
         }
