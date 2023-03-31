@@ -89,7 +89,6 @@ class AudioPlayer: ObservableObject {
 
     func pause() {
         if playerState == .playing {
-            Logger.player.debug("Player is playing")
             playerNode.pause()
             playerState = .paused
         }
@@ -98,7 +97,6 @@ class AudioPlayer: ObservableObject {
 
     func resume() {
         if playerState == .paused {
-            Logger.player.debug("Player is paused")
             playerNode.play()
             playerState = .playing
         }
@@ -107,7 +105,6 @@ class AudioPlayer: ObservableObject {
 
     func stop() {
         if playerState != .inactive {
-            Logger.player.debug("Player is playing or paused")
             playerNode.stop()
             playerNode.reset()
             playerState = .inactive
