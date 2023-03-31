@@ -146,6 +146,7 @@ class AudioPlayer: ObservableObject {
 
     private func playNextItem() async throws {
         if queue.isEmpty {
+            stop()
             throw PlayerError.emptyQueue
         } else {
             currentItemId = queue.removeFirst()
