@@ -1,0 +1,168 @@
+# Rule identifiers to exclude from running
+disabled_rules:
+  - trailing_comma
+
+opt_in_rules:
+# Lint
+  - discarded_notification_center_observer # When registering for a notification using a block, the opaque observer that is returned should be stored so it can be removed later (in deinit for example).
+  - overridden_super_call # call super from viewDidAppear and similar methods
+  - private_action # don't access IBActions from other files
+  - private_outlet # don't access outlets from other files. IBOutlets have to be hidden for external calls. Use methods like `func setup(properties...)`
+  - yoda_condition # `x != nil` instead of `nil != x`
+  - identical_operands # Comparing two identical operands is likely a mistake.
+  - prohibited_super_call # Some methods should not call super (UIView.loadView, NSView.updateLayer, NSFileProviderExtension.providePlaceholder)
+  - unowned_variable_capture # Prefer capturing references as weak to avoid potential crashes.
+
+# Style
+  - closure_spacing  # closure should have single space inside each brace
+  - operator_usage_whitespace # one space around binary operators
+  - collection_alignment # All elements in a collection literal should be vertically aligned
+  - literal_expression_end_indentation # Array and dictionary literal end should have the same indentation as the line that started it.
+  - multiline_function_chains # Chained function calls should be either on the same line, or one per line.
+  - multiline_literal_brackets # Multiline literals should have their surrounding brackets in a new line.
+  - closure_end_indentation # Closure end should have the same indentation as the line that started it.
+  - multiline_arguments # Arguments should be either on the same line, or one per line. (Func usage)
+  - multiline_parameters # Functions and methods parameters should be either on the same line, or one per line. (Func declaration)
+  - vertical_parameter_alignment_on_call # Function parameters should be aligned vertically if they’re in multiple lines in a method call.
+  - multiline_arguments_brackets # Multiline arguments should have their surrounding brackets in a new line.
+  - multiline_parameters_brackets # Multiline parameters should have their surrounding brackets in a new line.
+  - prefer_self_type_over_type_of_self # Prefer Self over type(of: self) when accessing properties or calling methods.
+  - unneeded_parentheses_in_closure_argument # Parentheses are not needed when declaring closure arguments.
+  - trailing_closure
+
+# Performance
+  - contains_over_first_not_nil # `use contains` instead of `filter { }.first`
+  - sorted_first_last # prefer min/max over sorted { }.first
+  - first_where # Prefer using .first(where:) over .filter { }.first in collections.
+  - last_where # Prefer using .last(where:) over .filter { }.last in collections.
+  - empty_count # Prefer checking isEmpty over comparing count to zero. Could be disabled for custom classes or api Decodable structs
+  - empty_string # Prefer checking isEmpty over comparing string to an empty string literal.
+  - contains_over_filter_is_empty # Prefer contains over using filter(where:).isEmpty
+  - contains_over_filter_count # Prefer contains over comparing filter(where:).count to 0.
+  - empty_collection_literal # Prefer checking isEmpty over comparing collection to an empty array or dictionary literal.
+  - flatmap_over_map_reduce # Prefer flatMap over map followed by reduce([], +).
+
+# Idiomatic
+  - discouraged_optional_boolean # don't use optional booleans, use enums or @DefaultFalse (custom propertyWrapper) instead
+  - explicit_init # don't call Type.init() explicitly
+  - joined_default_parameter # use `joined()` instead of `joined(separator: "")`
+  - redundant_nil_coalescing # don't use `?? nil`
+  - fatal_error_message # A fatalError call should have a message.
+  - force_unwrapping # `variable!` Force unwrapping should be avoided.
+  - redundant_type_annotation # Variables should not have redundant type annotation
+  - anonymous_argument_in_multiline_closure # Use named arguments in multiline closures
+  - discouraged_none_name # Discourages name cases/static members none, which can conflict with Optional<T>.none.
+  - discouraged_assert # Prefer assertionFailure() and/or preconditionFailure() over assert(false)
+  - file_name_no_space # File name should not contain any whitespace.
+  - prefer_zero_over_explicit_init # Prefer .zero over explicit init with zero parameters (e.g. CGPoint(x: 0, y: 0))
+  - static_operator # Operators should be declared as static functions, not free functions.
+  - prohibited_interface_builder
+  - self_binding
+  - unused_declaration
+  - switch_case_on_newline
+  - override_in_extension
+#  - no_extension_access_modifier
+  - toggle_bool
+  - implicit_return
+  - fallthrough
+
+# Metrics
+  - enum_case_associated_values_count # Number of associated values in an enum case should be low. Create new struct for parameters if needed
+  - closure_body_length # Closure bodies should not span too many lines.
+
+# Could be modified by old projects (or disabled):
+  - modifier_order # Modifier order should be consistent.
+  - implicitly_unwrapped_optional # Don't use implicitly unwrapped outside outlets (use guard, if statements).
+  # Array init violations has false positive cases with Result type
+  - array_init # Prefer using Array(seq) over seq.map { $0 } to convert a sequence into an Array.
+
+# Configuration
+custom_rules:
+  array_constructor:
+    name: "Array/Dictionary initializer"
+    regex: '(?m-s)(let|var) .+ = (\[.+\]\(\))'
+    capture_group: 2
+    message: "Use explicit type annotation when initializing empty arrays and dictionaries. Use `let array: [Int] = []` instead of `let array = [Int]()`"
+    severity: warning
+  invalid_mark_format:
+    name: "Invalid MARK Format"
+    regex: '(?m-s)(\/\/[\s]*?MARK(?!(\:[\s]{1}\-[\s]{1}){1}))'
+    message: "Use format: `MARK: - Your Info`. Quick fix: Find&Replace `MARK: ` to `MARK: - `, then `MARK: - - ` to `MARK: - `"
+    severity: warning
+
+enum_case_associated_values_count:
+  warning: 3
+  error: 4
+
+# Create new struct instead
+large_tuple:
+  warning: 2
+  error: 3
+
+force_cast: error # NSNumber() as! Int
+force_try: error # try! a()
+
+function_body_length:
+    warning: 60
+
+legacy_hashing: error # Prefer using the hash(into:) function instead of overriding hashValue
+
+private_outlet:
+  allow_private_set: true
+
+identifier_name:
+  excluded:
+    - id
+    - x
+    - y
+    - z
+  min_length:
+    error: 2
+    warning: 3
+
+indentation: 4
+
+# https://github.com/realm/SwiftLint/blob/86b6392aa22bb4b91a8f033d4dd11c8e4ab87b8f/Source/SwiftLintFramework/Rules/Style/ModifierOrderRule.swift
+# https://github.com/realm/SwiftLint/blob/master/Source/SwiftLintFramework/Extensions/SwiftDeclarationAttributeKind%2BSwiftlint.swift
+modifier_order:
+  preferred_modifier_order:
+    - acl # private, fileprivate, internal, public, open
+    - override
+    - setterACL # private(set), fileprivate(set), internal(set), public(set), open(set)
+    - dynamic
+    - mutators # mutating, nonmutating
+    - lazy
+    - final
+    - required
+    - convenience
+    - typeMethods
+    - owned # weak
+
+line_length:
+  warning: 140
+  ignores_urls: true
+  ignores_function_declarations: false
+  ignores_comments: true
+#  ignores_comments: false
+
+file_length:
+  warning: 500
+  error: 1000
+  ignore_comment_only_lines: true
+
+closure_body_length: 20
+
+function_parameter_count: 5  # don't pass too many parameters to methods, use objects/structs instead
+type_body_length: 300  # don't use long types, use extensions if needed
+
+nesting:
+  type_level:
+    warning: 3
+  function_level:
+    warning: 3
+
+cyclomatic_complexity:
+  ignores_case_statements: true
+
+vertical_whitespace:
+  max_empty_lines: 1
