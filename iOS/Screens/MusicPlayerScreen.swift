@@ -173,7 +173,9 @@ private struct PlaybackControl: View {
             Spacer()
 
             Button {
-                player.isPlaying ? player.pause() : player.resume()
+                Task {
+                    await player.isPlaying ? player.pause() : player.resume()
+                }
             } label: {
                 if self.player.isPlaying {
                     Image(systemSymbol: .pauseFill)

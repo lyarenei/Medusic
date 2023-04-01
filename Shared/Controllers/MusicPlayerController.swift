@@ -11,12 +11,18 @@ final class MusicPlayerController: ObservableObject {
     var playIcon: SFSymbol = .playFill
 
     func onPlayPauseButton() {
-        if player.isPlaying {
-            player.pause()
-            playIcon = .pauseFill
-        } else {
-            player.resume()
-            playIcon = .playFill
+        Task {
+            let nextIcon: SFSymbol
+            if player.isPlaying {
+                await player.pause()
+                nextIcon = .pauseFill
+            } else {
+                await player.resume()
+                nextIcon = .playFill
+            }
+            await MainActor.run {
+                playIcon = nextIcon
+            }
         }
     }
 
