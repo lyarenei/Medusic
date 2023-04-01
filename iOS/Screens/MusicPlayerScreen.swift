@@ -2,11 +2,18 @@ import SFSafeSymbols
 import SwiftUI
 
 struct MusicPlayerScreen: View {
+    @StateObject
+    private var controller: MusicPlayerController
+
     @ObservedObject
     private var player: MusicPlayer
 
-    init(player: MusicPlayer = .shared) {
-        self._player = ObservedObject(wrappedValue: player)
+    init(
+        controller: MusicPlayerController,
+        player: MusicPlayer = .shared
+    ) {
+        _controller = StateObject(wrappedValue: controller)
+        _player = ObservedObject(wrappedValue: player)
     }
 
     var body: some View {
@@ -45,24 +52,16 @@ struct MusicPlayerScreen: View {
             .popupBarMarqueeScrollEnabled(true)
             .popupBarItems({
                 HStack(spacing: 20) {
-                    Button(action: {
-                        player.isPlaying ? player.pause() : player.resume()
-                    }) {
-                        if player.isPlaying {
-                            Image(systemSymbol: .pauseFill)
-                        } else {
-                            Image(systemSymbol: .playFill)
-                        }
+                    Button {
+                        controller.onPlayPauseButton()
+                    } label: {
+                        Image(systemSymbol: controller.playIcon)
                     }
                     .buttonStyle(.plain)
 
-                    Button { Task(priority: .userInitiated) {
-                        do {
-                            try await player.skipForward()
-                        } catch {
-                            print("Skip to next track failed: \(error)")
-                        }
-                    }} label: {
+                    Button {
+                        controller.onSkipForward()
+                    } label: {
                         Image(systemSymbol: .forwardFill)
                     }
                     .buttonStyle(.plain)
@@ -78,13 +77,13 @@ struct MusicPlayerScreen: View {
 #if DEBUG
 struct MusicPlayerScreen_Previews: PreviewProvider {
     static var player = {
-        var mp = MusicPlayer(preview: true)
+        var mp = MusicPlayer()
         mp.currentSong = PreviewData.songs[0]
         return mp
     }
 
     static var previews: some View {
-        MusicPlayerScreen(player: player())
+        MusicPlayerScreen(controller: MusicPlayerController(), player: player())
     }
 }
 #endif

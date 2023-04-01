@@ -38,7 +38,7 @@ struct HomeScreen: View {
             isPlayerPresented = curSong != nil
         }
         .popup(isBarPresented: $isPlayerPresented, isPopupOpen: $isPlayerOpen) {
-            MusicPlayerScreen()
+            MusicPlayerScreen(controller: MusicPlayerController())
         }
     }
 }

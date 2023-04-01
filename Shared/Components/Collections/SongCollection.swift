@@ -166,6 +166,7 @@ private struct SEC: View {
     }
 }
 
+// TODO: extract to standalone buttons like download/favorite
 private struct ContextOptions: View  {
     let song: Song
 
@@ -190,14 +191,26 @@ private struct ContextOptions: View  {
         )
 
         Button {
-            MusicPlayer.shared.enqueue(itemId: song.uuid, at: 0)
+            Task(priority: .userInitiated) {
+                do {
+                    try await MusicPlayer.shared.enqueue(itemId: song.uuid, at: 0)
+                } catch {
+                    print("Failed to enqueue: \(song.uuid)")
+                }
+            }
         } label: {
             Image(systemSymbol: .textInsert)
             Text("Play Next")
         }
 
         Button {
-            MusicPlayer.shared.enqueue(itemId: song.uuid)
+            Task(priority: .userInitiated) {
+                do {
+                    try await MusicPlayer.shared.enqueue(itemId: song.uuid)
+                } catch {
+                    print("Failed to enqueue: \(song.uuid)")
+                }
+            }
         } label: {
             Image(systemSymbol: .textAppend)
             Text("Play Last")
