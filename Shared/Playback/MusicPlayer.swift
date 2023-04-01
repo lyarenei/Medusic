@@ -1,13 +1,11 @@
 import AVFoundation
 import Combine
 import Foundation
+import OSLog
 import SwiftUI
 
 class MusicPlayer: ObservableObject {
     public static let shared = MusicPlayer()
-
-    @ObservedObject
-    private var albumRepo: AlbumRepository = .shared
 
     @ObservedObject
     private var songRepo: SongRepository = .shared
@@ -19,10 +17,10 @@ class MusicPlayer: ObservableObject {
     var currentSong: Song? = nil
 
     @Published
-    var playbackQueue: [String] = []
+    var playbackQueue: [Song] = []
 
     @Published
-    var playbackHistory: [String] = []
+    var playbackHistory: [Song] = []
 
     @Published
     var isPlaying: Bool = false
@@ -51,11 +49,12 @@ class MusicPlayer: ObservableObject {
 
     func stop() {
         audioPlayer.stop()
+        playbackQueue.removeAll()
     }
 
     func playNow(itemId: String) async throws {
         stop()
-        audioPlayer.insertItem(itemId, at: 0)
+        try await enqueue(itemId: itemId)
         try await play()
     }
 
@@ -65,34 +64,39 @@ class MusicPlayer: ObservableObject {
 
     // MARK: - Queuing controls
 
-    func enqueue(itemId: String, at: Int? = nil) {
-        if let idx = at {
-            return audioPlayer.insertItem(itemId, at: idx)
+    func enqueue(itemId: String, at: Int? = nil) async throws {
+        guard let song = await songRepo.getSong(by: itemId) else {
+            Logger.player.debug("Could not find song for ID: \(itemId)")
+            return
         }
 
-        audioPlayer.append(itemId: itemId)
-    }
+        DispatchQueue.main.async {
+            if let at = at {
+                self.audioPlayer.insertItem(itemId, at: at)
+                self.playbackQueue.insert(song, at: at)
+            }
 
-    func enqueue(itemIds: [String], at: Int? = nil) {
-        if let idx = at {
-            return audioPlayer.insertItems(itemIds, at: idx)
+            self.audioPlayer.append(itemId: itemId)
+            self.playbackQueue.append(song)
         }
-
-        audioPlayer.append(itemIds: itemIds)
     }
 
     // MARK: - Subscribers
 
     private func subscribeToCurrentItem() {
-        audioPlayer.$currentItemId.sink { [weak self] curItemId in
-            if let itemId = curItemId {
-                DispatchQueue.main.async { Task(priority: .background) {
-                    self?.currentSong = await self?.songRepo.getSong(by: itemId)
-                }}
-            } else {
-                DispatchQueue.main.async { Task(priority: .background) {
-                    self?.currentSong = nil
-                }}
+        audioPlayer.$currentItemId.sink { [weak self] nextItemId in
+            guard let self = self else { return }
+            DispatchQueue.main.async {
+                if let currentSong = self.currentSong {
+                    self.playbackHistory.insert(currentSong, at: 0)
+                    self.currentSong = nil
+                }
+
+                guard self.playbackQueue.isNotEmpty else {
+                    print("Playback queue is empty")
+                    return
+                }
+                self.currentSong = self.playbackQueue.removeFirst()
             }
         }
         .store(in: &cancellables)
@@ -100,15 +104,14 @@ class MusicPlayer: ObservableObject {
 
     private func subscribeToPlayerState() {
         audioPlayer.$playerState.sink { [weak self] curState in
-            switch curState {
-            case .playing:
-                DispatchQueue.main.async { Task(priority: .background) {
-                    self?.isPlaying = true
-                }}
-            default:
-                DispatchQueue.main.async { Task(priority: .background) {
-                    self?.isPlaying = false
-                }}
+            guard let self = self else { return }
+            DispatchQueue.main.async {
+                switch curState {
+                case .playing:
+                    self.isPlaying = true
+                default:
+                    self.isPlaying = false
+                }
             }
         }
         .store(in: &cancellables)

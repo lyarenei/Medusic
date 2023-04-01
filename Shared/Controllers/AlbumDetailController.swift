@@ -55,12 +55,11 @@ final class AlbumDetailController: ObservableObject {
     func onPlayButton() {
         guard let songs = songs, songs.isNotEmpty else { return }
         MusicPlayer.shared.stop()
-        for song in songs {
-            MusicPlayer.shared.enqueue(itemId: song.uuid)
-        }
-
         Task(priority: .userInitiated) {
             do {
+                for song in songs {
+                    try await MusicPlayer.shared.enqueue(itemId: song.uuid)
+                }
                 try await MusicPlayer.shared.play()
             } catch {
                 print("Failed to play album")
