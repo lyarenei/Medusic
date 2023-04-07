@@ -43,6 +43,11 @@ final class MusicPlayer: ObservableObject, MusicPlayerDelegate {
         return playbackQueue.first
     }
 
+    private func setCurrentlyPlaying(newSong: Song?) {
+        self.currentSong = newSong
+        Logger.player.debug("Song set as currently playing: \(newSong?.uuid ?? "nil")")
+    }
+
     // MARK: - Playback controls
 
     func play(song: Song? = nil) async throws {
@@ -133,9 +138,9 @@ final class MusicPlayer: ObservableObject, MusicPlayerDelegate {
         }
 
         guard playbackQueue.isNotEmpty else { return nil }
-        currentSong = playbackQueue.removeFirst()
-        Logger.player.debug("Song set as currently playing: \(self.currentSong?.uuid ?? "no_song")")
-        return currentSong
+        let newCurrentSong = playbackQueue.removeFirst()
+        setCurrentlyPlaying(newSong: newCurrentSong)
+        return newCurrentSong
     }
 
     // MARK: - Subscribers
