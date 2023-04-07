@@ -165,17 +165,21 @@ final class MusicPlayer: ObservableObject, MusicPlayerDelegate {
     private func subscribeToCurrentTime() {
         audioPlayer.$currentTime.sink { [weak self] curTime in
             guard let self = self else { return }
+            guard let currentSong = self.currentSong else { return }
             let roundedCurTime = curTime.rounded(.toNearestOrAwayFromZero)
-            if let currentSong = self.currentSong {
-                if roundedCurTime > currentSong.runtime {
-                    self.stop()
-                    self.advanceInQueue()
-                    return
-                }
 
-                if roundedCurTime == currentSong.runtime {
-                    self.advanceInQueue()
-                }
+            if roundedCurTime > currentSong.runtime && self.getNextSong() == nil {
+                Logger.player.debug("No next song, stopping player")
+                self.stop()
+                self.advanceInQueue()
+                return
+            }
+
+            // If we are >= current song time and there is next song, we advance.
+            if roundedCurTime > currentSong.runtime {
+                Logger.player.debug("Advancing in queue")
+                self.advanceInQueue()
+                return
             }
 
             Task(priority: .background) {
