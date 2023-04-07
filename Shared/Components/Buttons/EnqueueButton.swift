@@ -1,18 +1,22 @@
 import SFSafeSymbols
 import SwiftUI
 
+enum EnqueuePosition {
+    case last, next
+}
+
 struct EnqueueButton: View {
     @ObservedObject
     var player: MusicPlayer
 
     let text: String?
     let itemId: String
-    let mode: EnqueueMode
+    let mode: EnqueuePosition
 
     init(
         _ text: String? = nil,
         for itemId: String,
-        mode: EnqueueMode = .playLast,
+        mode: EnqueuePosition = .last,
         player: MusicPlayer = .shared
     ) {
         self.text = text
@@ -26,10 +30,10 @@ struct EnqueueButton: View {
             action()
         } label: {
             switch mode {
-            case .playNext:
-                Image(systemSymbol: .textInsert)
-            case .playLast:
+            case .last:
                 Image(systemSymbol: .textAppend)
+            case .next:
+                Image(systemSymbol: .textInsert)
             }
 
             if let text = text {
@@ -40,17 +44,8 @@ struct EnqueueButton: View {
 
     func action() {
         Task(priority: .userInitiated) {
-            switch mode {
-            case .playNext:
-                await player.enqueue(itemId: itemId, at: 0)
-            case .playLast:
-                await player.enqueue(itemId: itemId)
-            }
+            await player.enqueue(itemId: itemId, position: mode)
         }
-    }
-
-    enum EnqueueMode {
-        case playNext, playLast
     }
 }
 

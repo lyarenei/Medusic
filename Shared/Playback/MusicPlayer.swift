@@ -87,41 +87,43 @@ final class MusicPlayer: ObservableObject, MusicPlayerDelegate {
     func skipBackward() async throws {
         guard playbackHistory.isNotEmpty else { return }
         let nextSong = playbackHistory.removeFirst()
-        await enqueue(song: nextSong, at: 0)
+        await enqueue(song: nextSong, position: .next)
         try await skipForward()
     }
 
     // MARK: - Queuing controls
 
-    func enqueue(song: Song, at index: Int? = nil) async {
+    func enqueue(song: Song, position: EnqueuePosition) async {
         Logger.player.debug("Song added to queue: \(song.uuid)")
         await MainActor.run {
-            if let index = index {
-                self.playbackQueue.insert(song, at: index)
-            } else {
+            switch position {
+            case .last:
                 self.playbackQueue.append(song)
+            case .next:
+                self.playbackQueue.insert(song, at: 0)
             }
         }
     }
 
-    func enqueue(songs: [Song], at index: Int? = nil) async {
+    func enqueue(songs: [Song], position: EnqueuePosition) async {
         Logger.player.debug("Songs added to queue: \(songs.debugDescription)")
         await MainActor.run {
-            if let index = index {
-                self.playbackQueue.insert(contentsOf: songs, at: index)
-            } else {
+            switch position {
+            case .last:
                 self.playbackQueue.append(contentsOf: songs)
+            case .next:
+                self.playbackQueue.insert(contentsOf: songs, at: 0)
             }
         }
     }
 
-    func enqueue(itemId: String, at index: Int? = nil) async {
+    func enqueue(itemId: String, position: EnqueuePosition) async {
         guard let song = await SongRepository.shared.getSong(by: itemId) else {
             Logger.player.debug("Could not find song for ID: \(itemId)")
             return
         }
 
-        await enqueue(song: song, at: index)
+        await enqueue(song: song, position: position)
     }
 
     @discardableResult

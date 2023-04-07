@@ -180,7 +180,7 @@ private struct ContextOptions: View  {
             textFalse: "Favorite"
         )
 
-        EnqueueButton("Play Next", for: song.uuid, mode: .playNext)
+        EnqueueButton("Play Next", for: song.uuid, mode: .next)
         EnqueueButton("Play Last", for: song.uuid)
     }
 }
