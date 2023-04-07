@@ -103,14 +103,17 @@ final class AudioPlayer: ObservableObject {
         try await play(song: song)
     }
 
+    func resetTimeForNextSong() {
+        self.trackStartTime = self.currentTime
+        self.currentTime = 0
+    }
+
     private func scheduleNext(song: Song) async throws {
         Logger.player.debug("Next song will be played: \(song.uuid)")
         let audioFile = try await getItemAudioFile(by: song.uuid)
         playerNode.scheduleFile(audioFile, at: nil) {
             Task(priority: .background) {
                 if let nextSong = await self.delegate?.getNextSong() {
-                    self.trackStartTime = self.currentTime
-                    self.currentTime = 0
                     try await self.play(song: nextSong)
                 }
             }

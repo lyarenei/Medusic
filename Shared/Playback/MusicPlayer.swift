@@ -167,7 +167,6 @@ final class MusicPlayer: ObservableObject, MusicPlayerDelegate {
             guard let self = self else { return }
             guard let currentSong = self.currentSong else { return }
             let roundedCurTime = curTime.rounded(.toNearestOrAwayFromZero)
-
             if roundedCurTime > currentSong.runtime && self.getNextSong() == nil {
                 Logger.player.debug("No next song, stopping player")
                 self.stop()
@@ -175,10 +174,10 @@ final class MusicPlayer: ObservableObject, MusicPlayerDelegate {
                 return
             }
 
-            // If we are >= current song time and there is next song, we advance.
             if roundedCurTime > currentSong.runtime {
                 Logger.player.debug("Advancing in queue")
                 self.advanceInQueue()
+                self.audioPlayer.resetTimeForNextSong()
                 return
             }
 
