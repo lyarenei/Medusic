@@ -109,7 +109,6 @@ final class AudioPlayer: ObservableObject {
         playerNode.scheduleFile(audioFile, at: nil) {
             Task(priority: .background) {
                 if let nextSong = await self.delegate?.getNextSong() {
-                    self.stopPlaybackTimer()
                     self.trackStartTime = self.currentTime
                     self.currentTime = 0
                     try await self.play(song: nextSong)
