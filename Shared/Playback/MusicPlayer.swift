@@ -47,12 +47,11 @@ final class MusicPlayer: ObservableObject, MusicPlayerDelegate {
 
     func play(song: Song? = nil) async throws {
         if let song = song {
-            stop()
-            try await audioPlayer.play(song: song)
-            currentSong = song
-        } else {
-            try await skipForward()
+            if isPlaying { stop() }
+            await enqueue(song: song, position: .next)
         }
+
+        try await skipForward()
     }
 
     func pause() {
