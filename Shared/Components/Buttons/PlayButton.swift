@@ -32,7 +32,9 @@ struct PlayButton: View {
     func action() {
         Task(priority: .userInitiated) {
             do {
-                try await player.playNow(itemId: itemId)
+                if let song = await SongRepository.shared.getSong(by: itemId) {
+                    try await player.play(song: song)
+                }
             } catch {
                 print("Failed to start playback")
                 player.stop()

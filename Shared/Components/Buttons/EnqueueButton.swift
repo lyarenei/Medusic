@@ -40,15 +40,11 @@ struct EnqueueButton: View {
 
     func action() {
         Task(priority: .userInitiated) {
-            do {
-                switch mode {
-                case .playNext:
-                    try await player.enqueue(itemId, at: 0)
-                case .playLast:
-                    try await player.enqueue(itemId)
-                }
-            } catch {
-                print("Failed to enqueue \(itemId)")
+            switch mode {
+            case .playNext:
+                await player.enqueue(itemId: itemId, at: 0)
+            case .playLast:
+                await player.enqueue(itemId: itemId)
             }
         }
     }

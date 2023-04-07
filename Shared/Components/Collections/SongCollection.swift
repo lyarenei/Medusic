@@ -88,9 +88,9 @@ private struct SongList: View {
                 )
                 .onTapGesture { Task(priority: .userInitiated) {
                     do {
-                        try await MusicPlayer.shared.playNow(itemId: song.uuid)
+                        try await MusicPlayer.shared.play(song: song)
                     } catch {
-                        print("Failed to play item \(song.uuid)")
+                        print("Failed to play song \(song.uuid)")
                         MusicPlayer.shared.stop()
                     }
                 }}
