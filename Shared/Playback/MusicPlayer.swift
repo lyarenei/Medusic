@@ -161,19 +161,21 @@ final class MusicPlayer: ObservableObject, MusicPlayerDelegate {
     private func subscribeToCurrentTime() {
         audioPlayer.$currentTime.sink { [weak self] curTime in
             guard let self = self else { return }
+            let roundedCurTime = curTime.rounded(.toNearestOrAwayFromZero)
             if let currentSong = self.currentSong {
-                if curTime > currentSong.runtime {
+                if roundedCurTime > currentSong.runtime {
                     self.stop()
                     self.advanceInQueue()
                     return
                 }
 
-                if curTime == currentSong.runtime {
+                if roundedCurTime == currentSong.runtime {
                     self.advanceInQueue()
                 }
             }
+
             Task(priority: .background) {
-                await MainActor.run { self.currentTime = curTime.rounded(.toNearestOrAwayFromZero) }
+                await MainActor.run { self.currentTime = roundedCurTime }
             }
         }
         .store(in: &cancellables)
