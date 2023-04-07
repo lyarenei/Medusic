@@ -89,8 +89,7 @@ final class AudioPlayer: ObservableObject {
         audioEngine.stop()
         playerState = .inactive
         stopPlaybackTimer()
-        currentTime = 0
-        trackStartTime = 0
+        resetTime()
         Logger.player.debug("Player is inactive")
     }
 
@@ -98,14 +97,18 @@ final class AudioPlayer: ObservableObject {
         Logger.player.debug("Requested skip to next song: \(song.uuid)")
         playerNode.stop()
         playerNode.reset()
-        currentTime = 0
-        trackStartTime = 0
+        resetTime()
         try await play(song: song)
     }
 
     func resetTimeForNextSong() {
         self.trackStartTime = self.currentTime
         self.currentTime = 0
+    }
+
+    private func resetTime() {
+        currentTime = 0
+        trackStartTime = 0
     }
 
     private func scheduleNext(song: Song) async throws {
