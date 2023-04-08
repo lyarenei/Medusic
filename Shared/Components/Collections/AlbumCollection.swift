@@ -59,7 +59,7 @@ private struct AlbumList: View {
 
             ForEach(albums) { album in
                 NavigationLink {
-                    AlbumDetailScreen(for: album.uuid)
+                    AlbumDetailScreen(for: album)
                 } label: {
                     AlbumListItem(album: album)
                         .padding(.vertical, 3)
@@ -111,7 +111,7 @@ private struct AlbumTileList: View {
         LazyVGrid(columns: layout) {
             ForEach(albums) { album in
                 NavigationLink {
-                    AlbumDetailScreen(for: album.uuid)
+                    AlbumDetailScreen(for: album)
                 } label: {
                     AlbumTileComponent(album: album)
                 }

@@ -1,97 +1,62 @@
-import Kingfisher
 import SFSafeSymbols
 import SwiftUI
-import SwiftUIBackports
-import SwiftUIX
 
 struct AlbumDetailScreen: View {
-    @StateObject
-    private var controller: AlbumDetailController
+    @ObservedObject
+    var albumRepo: AlbumRepository
 
-    @State
-    private var isRefreshing = false
+    @ObservedObject
+    var songRepo: SongRepository
 
-    init (for itemId: String) {
-        self._controller = StateObject(wrappedValue: AlbumDetailController(albumId: itemId))
-    }
+    let album: Album
 
-    init(_ controller: AlbumDetailController) {
-        self._controller = StateObject(wrappedValue: controller)
+    init(
+        for album: Album,
+        albumRepo: AlbumRepository = .shared,
+        songRepo: SongRepository = .shared
+    ) {
+        self.album = album
+        _albumRepo = ObservedObject(wrappedValue: albumRepo)
+        _songRepo = ObservedObject(wrappedValue: songRepo)
     }
 
     var body: some View {
-        Group {
-            if let album = controller.album {
-                if #available(iOS 15.0, *) {
-                    ScrollView {
-                        content(for: album)
-                    }
-                    .refreshable {
-                        await controller.refresh()
-                    }
-                } else {
-                    CocoaScrollView {
-                        content(for: album)
-                            .frame(maxWidth: .infinity)
-                    }
-                    .onRefresh {
-                        Task {
-                            await controller.refresh()
-                            isRefreshing = false
-                        }
-                    }
-                    .isRefreshing(isRefreshing)
-                }
-            } else {
-                Text("Failed to load album data")
+        ScrollView {
+            VStack {
+                AlbumHeading(album: album)
+                    .padding(.bottom, 10)
+
+                AlbumActions()
+                    .padding(.bottom, 30)
+
+                SongCollection(
+                    songs: songRepo.songs.filterByAlbum(id: album.uuid),
+                    showAlbumOrder: true,
+                    showArtwork: false,
+                    showAction: true,
+                    showArtistName: false
+                )
             }
+            .padding(.top, 15)
         }
         .navigationBarTitleDisplayMode(.inline)
         .toolbar {
             ToolbarItem {
-                if let album = controller.album {
-                    PrimaryActionButton(for: album.uuid)
-                        .disabled(true)
-                }
+                PrimaryActionButton(for: album.uuid)
+                    .disabled(true)
             }
         }
-        .onAppear { controller.onAppear() }
-    }
-
-    @ViewBuilder
-    private func content(for album: Album) -> some View {
-        VStack {
-            AlbumHeading(album: album)
-                .padding(.bottom, 10)
-
-            AlbumActions()
-                .padding(.bottom, 30)
-
-            SongCollection(
-                songs: controller.songs,
-                showAlbumOrder: true,
-                showArtwork: false,
-                showAction: true,
-                showArtistName: false
-            )
-        }
-        .padding(.top, 15)
     }
 }
 
 #if DEBUG
 struct AlbumDetailScreen_Previews: PreviewProvider {
     static var previews: some View {
-        AlbumDetailScreen(AlbumDetailController(
-            albumId: "1",
-            albumRepo: AlbumRepository(store: .previewStore(items: PreviewData.albums, cacheIdentifier: \.uuid)),
-            songRepo: SongRepository(store: .previewStore(items: PreviewData.songs, cacheIdentifier: \.uuid))
-        ))
-        AlbumDetailScreen(AlbumDetailController(
-            albumId: "2",
-            albumRepo: AlbumRepository(store: .previewStore(items: PreviewData.albums, cacheIdentifier: \.uuid)),
-            songRepo: SongRepository(store: .previewStore(items: PreviewData.songs, cacheIdentifier: \.uuid))
-        ))
+        AlbumDetailScreen(
+            for: PreviewData.albums.first!,
+            albumRepo: .init(store: .previewStore(items: PreviewData.albums, cacheIdentifier: \.uuid)),
+            songRepo: .init(store: .previewStore(items: PreviewData.songs, cacheIdentifier: \.uuid))
+        )
     }
 }
 #endif

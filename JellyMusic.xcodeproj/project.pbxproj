@@ -34,8 +34,6 @@
 		9B36DAC229CB90CF008C4FE7 /* MusicPlayer.swift in Sources */ = {isa = PBXBuildFile; fileRef = 9B36DAC129CB90CF008C4FE7 /* MusicPlayer.swift */; };
 		9B36DAC329CB90CF008C4FE7 /* MusicPlayer.swift in Sources */ = {isa = PBXBuildFile; fileRef = 9B36DAC129CB90CF008C4FE7 /* MusicPlayer.swift */; };
 		9B36DAC729CCAF14008C4FE7 /* LibraryController.swift in Sources */ = {isa = PBXBuildFile; fileRef = 9B36DAC629CCAF14008C4FE7 /* LibraryController.swift */; };
-		9B36DACC29CCD94C008C4FE7 /* AlbumDetailController.swift in Sources */ = {isa = PBXBuildFile; fileRef = 9B36DACB29CCD94C008C4FE7 /* AlbumDetailController.swift */; };
-		9B36DACD29CCD94C008C4FE7 /* AlbumDetailController.swift in Sources */ = {isa = PBXBuildFile; fileRef = 9B36DACB29CCD94C008C4FE7 /* AlbumDetailController.swift */; };
 		9B3C7BE629D04F5800884597 /* InProgressComponent.swift in Sources */ = {isa = PBXBuildFile; fileRef = 9B3C7BE529D04F5800884597 /* InProgressComponent.swift */; };
 		9B3C7BE729D04F5800884597 /* InProgressComponent.swift in Sources */ = {isa = PBXBuildFile; fileRef = 9B3C7BE529D04F5800884597 /* InProgressComponent.swift */; };
 		9B3C7BE929D0702600884597 /* Logger.swift in Sources */ = {isa = PBXBuildFile; fileRef = 9B3C7BE829D0702600884597 /* Logger.swift */; };
@@ -147,7 +145,6 @@
 		9B36DAC129CB90CF008C4FE7 /* MusicPlayer.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = MusicPlayer.swift; sourceTree = "<group>"; };
 		9B36DAC429CB941C008C4FE7 /* JellyMusic--iOS--Info.plist */ = {isa = PBXFileReference; lastKnownFileType = text.plist.xml; path = "JellyMusic--iOS--Info.plist"; sourceTree = "<group>"; };
 		9B36DAC629CCAF14008C4FE7 /* LibraryController.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = LibraryController.swift; sourceTree = "<group>"; };
-		9B36DACB29CCD94C008C4FE7 /* AlbumDetailController.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = AlbumDetailController.swift; sourceTree = "<group>"; };
 		9B3C7BE529D04F5800884597 /* InProgressComponent.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = InProgressComponent.swift; sourceTree = "<group>"; };
 		9B3C7BE829D0702600884597 /* Logger.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = Logger.swift; sourceTree = "<group>"; };
 		9B3D449B29BCF89A0054C9E0 /* SystemService.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = SystemService.swift; sourceTree = "<group>"; };
@@ -269,14 +266,6 @@
 			path = Controllers;
 			sourceTree = "<group>";
 		};
-		9B36DACA29CCD939008C4FE7 /* Controllers */ = {
-			isa = PBXGroup;
-			children = (
-				9B36DACB29CCD94C008C4FE7 /* AlbumDetailController.swift */,
-			);
-			path = Controllers;
-			sourceTree = "<group>";
-		};
 		9B3D449A29BCF8730054C9E0 /* SystemService */ = {
 			isa = PBXGroup;
 			children = (
@@ -356,7 +345,6 @@
 		9B80473229B768000069B407 /* Shared */ = {
 			isa = PBXGroup;
 			children = (
-				9B36DACA29CCD939008C4FE7 /* Controllers */,
 				9BB75EC429C5FF39008CD65A /* Repositories */,
 				9BB75E8029BFA5B0008CD65A /* Jellyfin */,
 				9B61365429BC6E19004C85EC /* Screens */,
@@ -611,7 +599,6 @@
 				9BB75EA329C3894A008CD65A /* FavoriteButton.swift in Sources */,
 				9BB754DE29BA8522009BB3A6 /* DTOs+Codable.swift in Sources */,
 				9B73ED0229C9ECD0007F74DB /* DefaultMediaService.swift in Sources */,
-				9B36DACC29CCD94C008C4FE7 /* AlbumDetailController.swift in Sources */,
 				9B80475229B7C7E30069B407 /* MacSettingsView.swift in Sources */,
 				9B36DAC729CCAF14008C4FE7 /* LibraryController.swift in Sources */,
 				9B52AF7729D0B106002E21B9 /* SongCollection.swift in Sources */,
@@ -709,7 +696,6 @@
 				9BB75E8329C12187008CD65A /* ListOptionComponent.swift in Sources */,
 				9B3C7BEA29D0702600884597 /* Logger.swift in Sources */,
 				9BB754DC29BA604C009BB3A6 /* DTOs.swift in Sources */,
-				9B36DACD29CCD94C008C4FE7 /* AlbumDetailController.swift in Sources */,
 				9BB75EA729C389D9008CD65A /* DownloadButton.swift in Sources */,
 				9B3D44C129BE09620054C9E0 /* SongsLibraryScreen.swift in Sources */,
 				9B36DAC329CB90CF008C4FE7 /* MusicPlayer.swift in Sources */,
