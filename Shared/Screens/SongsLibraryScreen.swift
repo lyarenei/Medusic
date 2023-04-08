@@ -1,22 +1,17 @@
 import SwiftUI
-import SwiftUIBackports
 
 struct SongsLibraryScreen: View {
-    @StateObject
-    private var controller: SongLibraryController
+    @ObservedObject
+    var songRepo: SongRepository
 
-    init () {
-        self._controller = StateObject(wrappedValue: SongLibraryController())
-    }
-
-    init(_ controller: SongLibraryController) {
-        self._controller = StateObject(wrappedValue: controller)
+    init(songRepo: SongRepository = .shared) {
+        _songRepo = ObservedObject(wrappedValue: songRepo)
     }
 
     var body: some View {
         ScrollView(.vertical) {
             SongCollection(
-                songs: controller.songs,
+                songs: songRepo.songs,
                 showAlbumOrder: false,
                 showArtwork: true,
                 showAction: true,
@@ -24,17 +19,14 @@ struct SongsLibraryScreen: View {
             )
         }
         .navigationTitle("Songs")
-        .onAppear { controller.setSongs() }
+        .navigationBarTitleDisplayMode(.large)
     }
 }
 
 #if DEBUG
 struct SongsLibraryScreen_Previews: PreviewProvider {
     static var previews: some View {
-        SongsLibraryScreen(SongLibraryController(
-            albumRepo: AlbumRepository(store: .previewStore(items: PreviewData.albums, cacheIdentifier: \.uuid)),
-            songRepo: SongRepository(store: .previewStore(items: PreviewData.songs, cacheIdentifier: \.uuid))
-        ))
+        SongsLibraryScreen(songRepo: SongRepository(store: .previewStore(items: PreviewData.songs, cacheIdentifier: \.uuid)))
     }
 }
 #endif

@@ -16,18 +16,5 @@ final class SongLibraryController: ObservableObject {
         self.songRepo = songRepo
     }
 
-    func setSongs() { DispatchQueue.main.async {
-        Task(priority: .background) {
-            self.songs = await self.songRepo.getSongs().sortByAlbum()
-        }
-    }}
-
-    func doRefresh() async {
-        do {
-            try await self.songRepo.refresh()
-            self.setSongs()
-        } catch {
-            print("Refreshing songs failed", error)
-        }
-    }
+    
 }
