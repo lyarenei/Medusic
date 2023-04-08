@@ -5,16 +5,19 @@ struct FavoriteButton: View {
     var isFavorite: Bool = false
 
     private let albumRepo: AlbumRepository
+    private let songRepo: SongRepository
     let item: Item
 
     init(
         item: Item,
         isFavorite: Bool,
         albumRepo: AlbumRepository = .shared,
+        songRepo: SongRepository = .shared
     ) {
         self.item = item
         self.isFavorite = isFavorite
         self.albumRepo = albumRepo
+        self.songRepo = songRepo
     }
 
     var body: some View {
@@ -31,6 +34,8 @@ struct FavoriteButton: View {
                 switch item {
                 case .album(let id):
                     try await albumRepo.setFavorite(albumId: id, isFavorite: isFavorite)
+                case .song(let id):
+                    try await songRepo.setFavorite(songId: id, isFavorite: isFavorite)
                 }
 
                 await MainActor.run { isFavorite.toggle() }
@@ -42,6 +47,7 @@ struct FavoriteButton: View {
 
     enum Item {
         case album(id: String)
+        case song(id: String)
     }
 }
 
@@ -51,7 +57,8 @@ struct FavoriteButton_Previews: PreviewProvider {
         FavoriteButton(
             item: .album(id: PreviewData.albums.first!.uuid),
             isFavorite: false,
-            albumRepo: .init(store: .previewStore(items: PreviewData.albums, cacheIdentifier: \.uuid))
+            albumRepo: .init(store: .previewStore(items: PreviewData.albums, cacheIdentifier: \.uuid)),
+            songRepo: .init(store: .previewStore(items: PreviewData.songs, cacheIdentifier: \.uuid))
         )
     }
 }

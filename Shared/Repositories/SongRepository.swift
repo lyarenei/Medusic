@@ -43,6 +43,17 @@ final class SongRepository: ObservableObject {
             $0.uuid == songId
         }
     }
+
+    /// Set/reset specified song favorite flag.
+    func setFavorite(songId: String, isFavorite: Bool) async throws {
+        if var song = await getSong(by: songId) {
+            // TODO: API call
+            song.isFavorite = isFavorite
+            try await $songs.insert(song)
+        } else {
+            throw SongRepositoryError.notFound
+        }
+    }
 }
 
 enum SongRepositoryError: Error {
