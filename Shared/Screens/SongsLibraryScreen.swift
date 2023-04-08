@@ -20,6 +20,9 @@ struct SongsLibraryScreen: View {
         }
         .navigationTitle("Songs")
         .navigationBarTitleDisplayMode(.large)
+        .toolbar {
+            ToolbarItem { RefreshButton(mode: .allSongs) }
+        }
     }
 }
 
