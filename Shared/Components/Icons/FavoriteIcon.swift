@@ -7,6 +7,8 @@ struct FavoriteIcon: View {
     var body: some View {
         let favoriteIcon: SFSymbol = isFavorite ? .heartFill : .heart
         Image(systemSymbol: favoriteIcon)
+            .resizable()
+            .scaledToFit()
     }
 }
 
