@@ -144,7 +144,7 @@ private struct SEC: View {
             .contentShape(Rectangle())
 
             if showAction {
-                PrimaryActionButton(for: song.uuid)
+                PrimaryActionButton(for: .song(song))
                     .font(.title3)
                     .frame(width: 27, height: 27)
                     .padding(.trailing, 5)

@@ -9,13 +9,11 @@ struct FavoriteButton: View {
     let item: Item
 
     init(
-        item: Item,
-        isFavorite: Bool,
+        for item: Item,
         albumRepo: AlbumRepository = .shared,
         songRepo: SongRepository = .shared
     ) {
         self.item = item
-        self.isFavorite = isFavorite
         self.albumRepo = albumRepo
         self.songRepo = songRepo
     }
@@ -32,10 +30,10 @@ struct FavoriteButton: View {
         Task(priority: .userInitiated) {
             do {
                 switch item {
-                case .album(let id):
-                    try await albumRepo.setFavorite(albumId: id, isFavorite: isFavorite)
-                case .song(let id):
-                    try await songRepo.setFavorite(songId: id, isFavorite: isFavorite)
+                case .album(let album):
+                    try await albumRepo.setFavorite(albumId: album.uuid, isFavorite: isFavorite)
+                case .song(let song):
+                    try await songRepo.setFavorite(songId: song.uuid, isFavorite: isFavorite)
                 }
 
                 await MainActor.run { isFavorite.toggle() }
@@ -44,19 +42,13 @@ struct FavoriteButton: View {
             }
         }
     }
-
-    enum Item {
-        case album(id: String)
-        case song(id: String)
-    }
 }
 
 #if DEBUG
 struct FavoriteButton_Previews: PreviewProvider {
     static var previews: some View {
         FavoriteButton(
-            item: .album(id: PreviewData.albums.first!.uuid),
-            isFavorite: false,
+            for: .album(PreviewData.albums.first!),
             albumRepo: .init(store: .previewStore(items: PreviewData.albums, cacheIdentifier: \.uuid)),
             songRepo: .init(store: .previewStore(items: PreviewData.songs, cacheIdentifier: \.uuid))
         )

@@ -42,7 +42,7 @@ struct AlbumDetailScreen: View {
         .navigationBarTitleDisplayMode(.inline)
         .toolbar {
             ToolbarItem {
-                PrimaryActionButton(for: album.uuid)
+                PrimaryActionButton(for: .album(album))
                     .disabled(true)
             }
         }
