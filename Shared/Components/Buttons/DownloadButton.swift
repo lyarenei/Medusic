@@ -45,7 +45,7 @@ struct DownloadButton: View {
                         .scaledToFit()
                 } else {
                     if showText { Text(controller.buttonText) }
-                    DownloadedIcon(isDownloaded: $controller.isDownloaded)
+                    DownloadIcon(isDownloaded: $controller.isDownloaded)
                 }
             }
         }
