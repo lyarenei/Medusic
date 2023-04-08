@@ -42,8 +42,7 @@ struct AlbumDetailScreen: View {
         .navigationBarTitleDisplayMode(.inline)
         .toolbar {
             ToolbarItem {
-                PrimaryActionButton(for: .album(album))
-                    .disabled(true)
+                RefreshButton(mode: .album(id: album.uuid))
             }
         }
     }
