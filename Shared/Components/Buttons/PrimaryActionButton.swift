@@ -15,10 +15,8 @@ struct PrimaryActionButton: View {
         switch primaryAction {
             case .download:
                 DownloadButton(for: itemId)
-            case .favorite:
-                FavoriteButton(isFavorite: false)
-            default:
-                Image(systemSymbol: .faceDashed)
+//            case .favorite:
+//                FavoriteButton(item: .album(id: itemId), isFavorite: false)
         }
     }
 }
@@ -33,5 +31,5 @@ struct PrimaryActionButton_Previews: PreviewProvider {
 
 enum PrimaryAction: String, Defaults.Serializable {
     case download
-    case favorite
+//    case favorite
 }

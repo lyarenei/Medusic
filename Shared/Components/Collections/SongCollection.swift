@@ -172,7 +172,7 @@ private struct ContextOptions: View  {
 
         DownloadButton(for: item.uuid, showText: true)
 
-        FavoriteButton(isFavorite: false)
+//        FavoriteButton(isFavorite: false)
 
         Button {
 

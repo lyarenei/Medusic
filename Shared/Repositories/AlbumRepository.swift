@@ -35,6 +35,17 @@ final class AlbumRepository: ObservableObject {
     func getFavorite() async -> [Album] {
         return await self.$albums.items.filter { $0.isFavorite }
     }
+
+    /// Set/reset specified album favorite flag.
+    func setFavorite(albumId: String, isFavorite: Bool) async throws {
+        if var album = await getAlbum(by: albumId) {
+            // TODO: API call
+            album.isFavorite = isFavorite
+            try await $albums.insert(album)
+        } else {
+            throw AlbumRepositoryError.notFound
+        }
+    }
 }
 
 enum AlbumRepositoryError: Error {
