@@ -7,13 +7,19 @@ struct FavoriteButton: View {
     private let albumRepo: AlbumRepository
     private let songRepo: SongRepository
     let item: Item
+    let textTrue: String?
+    let textFalse: String?
 
     init(
         for item: Item,
+        textTrue: String? = nil,
+        textFalse: String? = nil,
         albumRepo: AlbumRepository = .shared,
         songRepo: SongRepository = .shared
     ) {
         self.item = item
+        self.textTrue = textTrue
+        self.textFalse = textFalse
         self.albumRepo = albumRepo
         self.songRepo = songRepo
     }
@@ -23,6 +29,14 @@ struct FavoriteButton: View {
             action()
         } label: {
             FavoriteIcon(isFavorite: isFavorite)
+            isFavorite ? buttonText(textTrue) : buttonText(textFalse)
+        }
+    }
+
+    @ViewBuilder
+    func buttonText(_ text: String?) -> some View {
+        if let text = text {
+            Text(text)
         }
     }
 
