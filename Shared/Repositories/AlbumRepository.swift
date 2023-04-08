@@ -5,7 +5,7 @@ final class AlbumRepository: ObservableObject {
     static let shared = AlbumRepository(store: .albums)
 
     @Stored
-    private var albums: [Album]
+    var albums: [Album]
 
     private var api: ApiClient
 

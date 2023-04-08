@@ -34,12 +34,10 @@
 		9B36DAC229CB90CF008C4FE7 /* MusicPlayer.swift in Sources */ = {isa = PBXBuildFile; fileRef = 9B36DAC129CB90CF008C4FE7 /* MusicPlayer.swift */; };
 		9B36DAC329CB90CF008C4FE7 /* MusicPlayer.swift in Sources */ = {isa = PBXBuildFile; fileRef = 9B36DAC129CB90CF008C4FE7 /* MusicPlayer.swift */; };
 		9B36DAC729CCAF14008C4FE7 /* LibraryController.swift in Sources */ = {isa = PBXBuildFile; fileRef = 9B36DAC629CCAF14008C4FE7 /* LibraryController.swift */; };
-		9B36DAC929CCC229008C4FE7 /* AlbumLibraryController.swift in Sources */ = {isa = PBXBuildFile; fileRef = 9B36DAC829CCC229008C4FE7 /* AlbumLibraryController.swift */; };
 		9B36DACC29CCD94C008C4FE7 /* AlbumDetailController.swift in Sources */ = {isa = PBXBuildFile; fileRef = 9B36DACB29CCD94C008C4FE7 /* AlbumDetailController.swift */; };
 		9B36DACD29CCD94C008C4FE7 /* AlbumDetailController.swift in Sources */ = {isa = PBXBuildFile; fileRef = 9B36DACB29CCD94C008C4FE7 /* AlbumDetailController.swift */; };
 		9B36DACF29CCE134008C4FE7 /* SongLibraryController.swift in Sources */ = {isa = PBXBuildFile; fileRef = 9B36DACE29CCE134008C4FE7 /* SongLibraryController.swift */; };
 		9B36DAD029CCE134008C4FE7 /* SongLibraryController.swift in Sources */ = {isa = PBXBuildFile; fileRef = 9B36DACE29CCE134008C4FE7 /* SongLibraryController.swift */; };
-		9B36DAD129CCE232008C4FE7 /* AlbumLibraryController.swift in Sources */ = {isa = PBXBuildFile; fileRef = 9B36DAC829CCC229008C4FE7 /* AlbumLibraryController.swift */; };
 		9B3C7BE629D04F5800884597 /* InProgressComponent.swift in Sources */ = {isa = PBXBuildFile; fileRef = 9B3C7BE529D04F5800884597 /* InProgressComponent.swift */; };
 		9B3C7BE729D04F5800884597 /* InProgressComponent.swift in Sources */ = {isa = PBXBuildFile; fileRef = 9B3C7BE529D04F5800884597 /* InProgressComponent.swift */; };
 		9B3C7BE929D0702600884597 /* Logger.swift in Sources */ = {isa = PBXBuildFile; fileRef = 9B3C7BE829D0702600884597 /* Logger.swift */; };
@@ -151,7 +149,6 @@
 		9B36DAC129CB90CF008C4FE7 /* MusicPlayer.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = MusicPlayer.swift; sourceTree = "<group>"; };
 		9B36DAC429CB941C008C4FE7 /* JellyMusic--iOS--Info.plist */ = {isa = PBXFileReference; lastKnownFileType = text.plist.xml; path = "JellyMusic--iOS--Info.plist"; sourceTree = "<group>"; };
 		9B36DAC629CCAF14008C4FE7 /* LibraryController.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = LibraryController.swift; sourceTree = "<group>"; };
-		9B36DAC829CCC229008C4FE7 /* AlbumLibraryController.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = AlbumLibraryController.swift; sourceTree = "<group>"; };
 		9B36DACB29CCD94C008C4FE7 /* AlbumDetailController.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = AlbumDetailController.swift; sourceTree = "<group>"; };
 		9B36DACE29CCE134008C4FE7 /* SongLibraryController.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = SongLibraryController.swift; sourceTree = "<group>"; };
 		9B3C7BE529D04F5800884597 /* InProgressComponent.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = InProgressComponent.swift; sourceTree = "<group>"; };
@@ -279,7 +276,6 @@
 			isa = PBXGroup;
 			children = (
 				9B36DACB29CCD94C008C4FE7 /* AlbumDetailController.swift */,
-				9B36DAC829CCC229008C4FE7 /* AlbumLibraryController.swift */,
 				9B36DACE29CCE134008C4FE7 /* SongLibraryController.swift */,
 			);
 			path = Controllers;
@@ -650,7 +646,6 @@
 				9BDB099F29BB322A007F99E4 /* DummyImageService.swift in Sources */,
 				9B80475E29B7D5330069B407 /* HomeScreen.swift in Sources */,
 				9B52AF9429D339B1002E21B9 /* FileRepository.swift in Sources */,
-				9B36DAC929CCC229008C4FE7 /* AlbumLibraryController.swift in Sources */,
 				48C1F8DD29B9FF91003BE048 /* ApiClient.swift in Sources */,
 				48C1F8E129BB7CB4003BE048 /* Image+crossplatform.swift in Sources */,
 				4848B22629BCBC2000EB2FAA /* Cancellables.swift in Sources */,
@@ -734,7 +729,6 @@
 				4848B22729BCBC2000EB2FAA /* Cancellables.swift in Sources */,
 				9BDB099A29BB2FBF007F99E4 /* ImageService.swift in Sources */,
 				9B3D449D29BCF89A0054C9E0 /* SystemService.swift in Sources */,
-				9B36DAD129CCE232008C4FE7 /* AlbumLibraryController.swift in Sources */,
 			);
 			runOnlyForDeploymentPostprocessing = 0;
 		};

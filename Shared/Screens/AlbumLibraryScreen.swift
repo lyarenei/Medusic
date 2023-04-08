@@ -1,35 +1,42 @@
 import JellyfinAPI
+import OSLog
 import SwiftUI
 import SwiftUIBackports
 
 struct AlbumLibraryScreen: View {
-    @StateObject
-    private var controller: AlbumLibraryController
+    @ObservedObject
+    var albumRepo: AlbumRepository
 
-    init(_ controller: AlbumLibraryController = .init()) {
-        self._controller = StateObject(wrappedValue: controller)
+    init(albumRepo: AlbumRepository = .shared) {
+        _albumRepo = ObservedObject(wrappedValue: albumRepo)
     }
 
     var body: some View {
         ScrollView {
-            AlbumCollection(albums: controller.albums)
+            AlbumCollection(albums: albumRepo.albums)
                 .padding(.leading, 10)
                 .padding(.trailing, 10)
                 .buttonStyle(.plain)
         }
         .navigationTitle("Albums")
-        .onAppear { self.controller.setAlbums() }
-        .backport.refreshable { await self.controller.doRefresh() }
+        .navigationBarTitleDisplayMode(.large)
+        .backport.refreshable { await self.doRefresh() }
+    }
+
+    func doRefresh() async {
+        Logger.library.debug("Requested album refresh from album library")
+        do {
+            try await self.albumRepo.refresh()
+        } catch {
+            Logger.library.info("Album refresh failed: \(error.localizedDescription)")
+        }
     }
 }
 
 #if DEBUG
 struct AlbumLibraryScreen_Previews: PreviewProvider {
     static var previews: some View {
-        AlbumLibraryScreen(AlbumLibraryController(
-            albumRepo: AlbumRepository(store: .previewStore(items: PreviewData.albums, cacheIdentifier: \.uuid)),
-            songRepo: SongRepository(store: .previewStore(items: PreviewData.songs, cacheIdentifier: \.uuid))
-        ))
+        AlbumLibraryScreen(albumRepo: .init(store: .previewStore(items: PreviewData.albums, cacheIdentifier: \.uuid)))
     }
 }
 #endif
