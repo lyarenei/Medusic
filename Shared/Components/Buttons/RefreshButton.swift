@@ -6,16 +6,13 @@ struct RefreshButton: View {
     var inProgress: Bool = false
 
     let text: String?
-    let itemId: String?
     let mode: ButtonMode
 
     init(
         _ text: String? = nil,
-        for itemId: String? = nil,
         mode: ButtonMode
     ) {
         self.text = text
-        self.itemId = itemId
         self.mode = mode
     }
 
@@ -40,6 +37,9 @@ struct RefreshButton: View {
             defer { setInProgress(false) }
             do {
                 switch mode {
+                case .album(let id):
+                    try await AlbumRepository.shared.refresh(albumId: id)
+                    try await SongRepository.shared.refresh(for: id)
                 case .allAlbums:
                     try await AlbumRepository.shared.refresh()
                 case .allSongs:
@@ -60,6 +60,7 @@ struct RefreshButton: View {
     }
 
     enum ButtonMode {
+        case album(id: String)
         case allAlbums
         case allSongs
     }
