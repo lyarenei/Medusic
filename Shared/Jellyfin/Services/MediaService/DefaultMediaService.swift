@@ -15,13 +15,13 @@ final class DefaultMediaService: MediaService {
 
     func new_downloadItem(id: String, destination: URL) async throws {
         let request = JellyfinAPI.Paths.getAudioStream(itemID: id)
-        let delegate = DownloadDelegate(destinationURL: destination)
+        let delegate = MediaDownloadDelegate(destinationURL: destination)
         let resp = try await client.download(for: request, delegate: delegate)
         Logger.jellyfin.debug("Download started for item \(id): \(resp.data)")
     }
 }
 
-class DownloadDelegate: NSObject, URLSessionDownloadDelegate {
+class MediaDownloadDelegate: NSObject, URLSessionDownloadDelegate {
     let destinationURL: URL
 
     init(destinationURL: URL) {
