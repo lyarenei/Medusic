@@ -44,6 +44,9 @@ struct RefreshButton: View {
                     try await AlbumRepository.shared.refresh()
                 case .allSongs:
                     try await SongRepository.shared.refresh()
+                case .all:
+                    try await AlbumRepository.shared.refresh()
+                    try await SongRepository.shared.refresh()
                 }
             } catch {
                 print("Refresh failed")
@@ -63,6 +66,7 @@ struct RefreshButton: View {
         case album(id: String)
         case allAlbums
         case allSongs
+        case all
     }
 }
 
