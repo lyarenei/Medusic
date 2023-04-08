@@ -5,7 +5,7 @@ struct FavoriteIcon: View {
     var isFavorite: Bool
 
     var body: some View {
-        let favoriteIcon: SFSymbol = isFavorite ? .heartFill : .heart
+        let favoriteIcon: SFSymbol = isFavorite ? .heartSlashFill : .heart
         Image(systemSymbol: favoriteIcon)
             .resizable()
             .scaledToFit()
