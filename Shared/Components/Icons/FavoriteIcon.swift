@@ -9,6 +9,7 @@ struct FavoriteIcon: View {
         Image(systemSymbol: favoriteIcon)
             .resizable()
             .scaledToFit()
+            .foregroundColor(.red)
     }
 }
 
