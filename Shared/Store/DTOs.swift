@@ -1,23 +1,19 @@
 import Foundation
 import JellyfinAPI
 
-protocol Unique {
-    var uuid: String { get }
-}
-
 public struct JellyfinServerInfo {
     public var name: String
     public var version: String
 }
 
-public struct Album: Unique {
+public struct Album {
     public var uuid: String
     public var name: String
     public var artistName: String
     public var isFavorite: Bool = false
 }
 
-public struct Song: Unique {
+public struct Song {
     public var uuid: String
     public var index: Int
     public var name: String
