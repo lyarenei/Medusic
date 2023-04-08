@@ -24,7 +24,7 @@ final class AlbumRepository: ObservableObject {
     func refresh(albumId: String) async throws {
         let _ = try await self.api.performAuth()
         let remoteAlbum = try await self.api.services.albumService.simple_getAlbum(by: albumId)
-        try await self.$albums.remove(remoteAlbum).insert(remoteAlbum).run()
+        try await $albums.insert(remoteAlbum)
     }
 
     /// Get all albums.
