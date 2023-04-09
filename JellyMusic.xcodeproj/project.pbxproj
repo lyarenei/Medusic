@@ -609,7 +609,7 @@
 			);
 			runOnlyForDeploymentPostprocessing = 0;
 			shellPath = /bin/sh;
-			shellScript = "PATH=/opt/homebrew/bin:$PATH\nif which swiftlint >/dev/null; then\n    swiftlint --no-cache --config ./.swiftlint.yml\nelse\n    echo \"SwiftLint is not installed\"\nfi\n";
+			shellScript = "PATH=/opt/homebrew/bin:$PATH\nif which swiftlint >/dev/null; then\n    swiftlint lint --config ./.swiftlint.yml\nelse\n    echo \"SwiftLint is not installed\"\nfi\n";
 		};
 		9B32F12629E2D86700CF8A69 /* ShellScript */ = {
 			isa = PBXShellScriptBuildPhase;
@@ -626,7 +626,7 @@
 			);
 			runOnlyForDeploymentPostprocessing = 0;
 			shellPath = /bin/sh;
-			shellScript = "PATH=/opt/homebrew/bin:$PATH\nif which swiftlint >/dev/null; then\n    swiftlint --no-cache --config ./.swiftlint.yml\nelse\n    echo \"SwiftLint is not installed\"\nfi\n";
+			shellScript = "PATH=/opt/homebrew/bin:$PATH\nif which swiftlint >/dev/null; then\n    swiftlint lint --config ./.swiftlint.yml\nelse\n    echo \"SwiftLint is not installed\"\nfi\n";
 		};
 /* End PBXShellScriptBuildPhase section */
 
