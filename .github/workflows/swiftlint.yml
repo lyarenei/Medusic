@@ -1,0 +1,22 @@
+name: SwiftLint
+
+on:
+  pull_request:
+    paths:
+      - ".github/workflows/swiftlint.yml"
+      - ".swiftlint.yml"
+      - "**/*.swift"
+
+jobs:
+  SwiftLint:
+    runs-on: ubuntu-latest
+    container:
+      image: ghcr.io/realm/swiftlint:latest
+
+    steps:
+      - uses: actions/checkout@v1
+        with:
+          fetch-depth: 1
+
+      - name: SwiftLint
+        run: swiftlint --reporter github-actions-logging --config ./.swiftlint.yml
