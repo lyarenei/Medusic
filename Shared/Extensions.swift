@@ -53,6 +53,7 @@ extension ScrollView {
     func fixFlickering() -> some View {
         GeometryReader { geo in
             ScrollView<PaddedContent>(axes, showsIndicators: showsIndicators) {
+                // swiftlint:disable:next force_cast
                 content.padding(geo.safeAreaInsets) as! PaddedContent
             }
             .edgesIgnoringSafeArea(.all)

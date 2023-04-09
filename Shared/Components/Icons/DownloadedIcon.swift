@@ -16,14 +16,14 @@ struct DownloadedIcon: View {
 #if DEBUG
 struct DownloadedIcon_Previews: PreviewProvider {
     @State
-    static var isDownloaded_yes = true
+    static var isDownloadedYes = true
 
     @State
-    static var isDownloaded_no = false
+    static var isDownloadedNo = false
 
     static var previews: some View {
-        DownloadedIcon(isDownloaded: $isDownloaded_yes)
-        DownloadedIcon(isDownloaded: $isDownloaded_no)
+        DownloadedIcon(isDownloaded: $isDownloadedYes)
+        DownloadedIcon(isDownloaded: $isDownloadedNo)
     }
 }
 #endif
