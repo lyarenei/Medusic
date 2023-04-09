@@ -27,7 +27,11 @@ struct LibraryScreen: View {
             }
             .fixFlickering()
             .navigationTitle("Library")
-            .padding([.leading, .trailing], 15)
+            .padding(.horizontal, 15)
+            .navigationBarTitleDisplayMode(.large)
+            .toolbar {
+                ToolbarItem { RefreshButton(mode: .all) }
+            }
             .onAppear { self.controller.setFavoriteAlbums() }
         }
         .navigationViewStyle(.stack)

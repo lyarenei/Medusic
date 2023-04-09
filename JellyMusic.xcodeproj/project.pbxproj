@@ -31,6 +31,8 @@
 		48C1F8E229BB7CB4003BE048 /* Image+crossplatform.swift in Sources */ = {isa = PBXBuildFile; fileRef = 48C1F8E029BB7CB4003BE048 /* Image+crossplatform.swift */; };
 		48C1F8E429BB827E003BE048 /* JellyfinImageProvider.swift in Sources */ = {isa = PBXBuildFile; fileRef = 48C1F8E329BB827E003BE048 /* JellyfinImageProvider.swift */; };
 		48C1F8E529BB827E003BE048 /* JellyfinImageProvider.swift in Sources */ = {isa = PBXBuildFile; fileRef = 48C1F8E329BB827E003BE048 /* JellyfinImageProvider.swift */; };
+		9B1EF3AF29E151F400C2A33B /* RefreshButton.swift in Sources */ = {isa = PBXBuildFile; fileRef = 9B1EF3AE29E151F400C2A33B /* RefreshButton.swift */; };
+		9B1EF3B029E151F400C2A33B /* RefreshButton.swift in Sources */ = {isa = PBXBuildFile; fileRef = 9B1EF3AE29E151F400C2A33B /* RefreshButton.swift */; };
 		9B36DAC229CB90CF008C4FE7 /* MusicPlayer.swift in Sources */ = {isa = PBXBuildFile; fileRef = 9B36DAC129CB90CF008C4FE7 /* MusicPlayer.swift */; };
 		9B36DAC329CB90CF008C4FE7 /* MusicPlayer.swift in Sources */ = {isa = PBXBuildFile; fileRef = 9B36DAC129CB90CF008C4FE7 /* MusicPlayer.swift */; };
 		9B36DAC729CCAF14008C4FE7 /* LibraryController.swift in Sources */ = {isa = PBXBuildFile; fileRef = 9B36DAC629CCAF14008C4FE7 /* LibraryController.swift */; };
@@ -142,6 +144,7 @@
 		48C1F8DC29B9FF91003BE048 /* ApiClient.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = ApiClient.swift; sourceTree = "<group>"; };
 		48C1F8E029BB7CB4003BE048 /* Image+crossplatform.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = "Image+crossplatform.swift"; sourceTree = "<group>"; };
 		48C1F8E329BB827E003BE048 /* JellyfinImageProvider.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = JellyfinImageProvider.swift; sourceTree = "<group>"; };
+		9B1EF3AE29E151F400C2A33B /* RefreshButton.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = RefreshButton.swift; sourceTree = "<group>"; };
 		9B36DAC129CB90CF008C4FE7 /* MusicPlayer.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = MusicPlayer.swift; sourceTree = "<group>"; };
 		9B36DAC429CB941C008C4FE7 /* JellyMusic--iOS--Info.plist */ = {isa = PBXFileReference; lastKnownFileType = text.plist.xml; path = "JellyMusic--iOS--Info.plist"; sourceTree = "<group>"; };
 		9B36DAC629CCAF14008C4FE7 /* LibraryController.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = LibraryController.swift; sourceTree = "<group>"; };
@@ -417,6 +420,7 @@
 				9BB75EA229C3894A008CD65A /* FavoriteButton.swift */,
 				9BB75EA529C389D9008CD65A /* DownloadButton.swift */,
 				9BF7AF8B29CDF1C8004E0DA7 /* PrimaryActionButton.swift */,
+				9B1EF3AE29E151F400C2A33B /* RefreshButton.swift */,
 			);
 			path = Buttons;
 			sourceTree = "<group>";
@@ -595,6 +599,7 @@
 				9B3C7BE629D04F5800884597 /* InProgressComponent.swift in Sources */,
 				9B73ECF929C8F085007F74DB /* MusicPlayerScreen.swift in Sources */,
 				9BDB099029BB1E73007F99E4 /* DefaultSongService.swift in Sources */,
+				9B1EF3AF29E151F400C2A33B /* RefreshButton.swift in Sources */,
 				9BDB099C29BB302C007F99E4 /* DefaultImageService.swift in Sources */,
 				9BB75EA329C3894A008CD65A /* FavoriteButton.swift in Sources */,
 				9BB754DE29BA8522009BB3A6 /* DTOs+Codable.swift in Sources */,
@@ -675,6 +680,7 @@
 				9BF7AF8D29CDF1C8004E0DA7 /* PrimaryActionButton.swift in Sources */,
 				9BB75E9C29C38610008CD65A /* DownloadedIcon.swift in Sources */,
 				9BB75EBD29C513E7008CD65A /* JellyfinSettingsController.swift in Sources */,
+				9B1EF3B029E151F400C2A33B /* RefreshButton.swift in Sources */,
 				9B52AF9529D339B1002E21B9 /* FileRepository.swift in Sources */,
 				9B73ECFD29C9ECA8007F74DB /* MediaService.swift in Sources */,
 				9BB75EB729C4F751008CD65A /* InlineValueComponent.swift in Sources */,

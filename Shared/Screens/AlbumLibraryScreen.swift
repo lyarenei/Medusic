@@ -1,7 +1,6 @@
 import JellyfinAPI
 import OSLog
 import SwiftUI
-import SwiftUIBackports
 
 struct AlbumLibraryScreen: View {
     @ObservedObject
@@ -20,15 +19,8 @@ struct AlbumLibraryScreen: View {
         }
         .navigationTitle("Albums")
         .navigationBarTitleDisplayMode(.large)
-        .backport.refreshable { await self.doRefresh() }
-    }
-
-    func doRefresh() async {
-        Logger.library.debug("Requested album refresh from album library")
-        do {
-            try await self.albumRepo.refresh()
-        } catch {
-            Logger.library.info("Album refresh failed: \(error.localizedDescription)")
+        .toolbar {
+            ToolbarItem { RefreshButton(mode: .allAlbums) }
         }
     }
 }
