@@ -17,11 +17,4 @@ final class LibraryController: ObservableObject {
         self.albumRepo = albumRepo
         self.songRepo = songRepo
     }
-
-    func setFavoriteAlbums() { DispatchQueue.main.async {
-        Task(priority: .background) {
-            self.favoriteAlbums = await self.albumRepo.getFavorite()
-            self.log.debug("Set favorite albums")
-        }
-    }}
 }

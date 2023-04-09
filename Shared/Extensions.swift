@@ -3,9 +3,18 @@ import SwiftUI
 extension Array where Element == Album {
     /// Get album by specified album ID.
     func getById(_ albumId: String) -> Album? {
-        return self.first(where: { album -> Bool in
+        first { album -> Bool in
             album.uuid == albumId
-        })
+        }
+    }
+
+    var favorite: [Album] {
+        filter(\.isFavorite)
+    }
+
+    // TODO: only temporary for consistency, until user can configure sort options
+    var consistent: [Album] {
+        sorted { lhs, rhs -> Bool in lhs.uuid < rhs.uuid }
     }
 }
 
@@ -13,7 +22,7 @@ extension Array where Element == Song {
     /// Sorts songs by album ID, then by their order.
     /// This results in songs being grouped by their albums, and in correct order in that album.
     func sortByAlbum() -> [Song] {
-        return self.sorted(by: { lhs, rhs -> Bool in
+        sorted { lhs, rhs -> Bool in
             // Sort by album ID, then by index
             if lhs.parentId < rhs.parentId { return true }
             if lhs.parentId > rhs.parentId { return false }
@@ -22,13 +31,13 @@ extension Array where Element == Song {
             }
 
             return false
-        })
+        }
     }
 
     /// Get only songs which belong to Album specified by its ID.
     /// These songs are sorted by their order in that album.
     func filterByAlbum(id albumId: String) -> [Song] {
-        let filteredSongs = self.filter { song -> Bool in
+        let filteredSongs = filter { song -> Bool in
             song.parentId == albumId
         }
 
@@ -37,9 +46,9 @@ extension Array where Element == Song {
 
     /// Get song by specified song ID.
     func getById(_ songId: String) -> Song? {
-        return self.first(where: { song -> Bool in
+        first { song -> Bool in
             song.uuid == songId
-        })
+        }
     }
 }
 
