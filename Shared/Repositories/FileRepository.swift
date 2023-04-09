@@ -35,7 +35,7 @@ class FileRepository {
         }
 
         self.apiClient = ApiClient()
-        self.initPool()
+        initPool()
     }
 
     @discardableResult
@@ -58,7 +58,7 @@ class FileRepository {
             }
         }
 
-        return self.cacheDirectory.appendingPathComponent(itemId)
+        return cacheDirectory.appendingPathComponent(itemId)
     }
 
     func fileURL(for itemId: String) -> URL? {
@@ -118,7 +118,7 @@ class FileRepository {
         DispatchQueue.global(qos: .background).async {
             // Wait for all active downloads to finish before updating the pool size
             Logger.repository.debug("Waiting for all active downloads to complete before changing pool size")
-            for _ in 0 ..< self.poolSize {
+            for _ in 0..<self.poolSize {
                 self.downloadSemaphore.wait()
             }
 
@@ -147,8 +147,8 @@ class FileRepository {
 
     private func initPool() {
         Logger.repository.debug("Setting pool size to \(self.poolSize)")
-        for _ in 0 ..< self.poolSize {
-            self.downloadSemaphore.signal()
+        for _ in 0..<poolSize {
+            downloadSemaphore.signal()
         }
     }
 
@@ -159,8 +159,8 @@ class FileRepository {
     }
 
     private func dequeue(item id: String) {
-        guard let idx = self.downloadQueue.firstIndex(of: id) else { return }
-        self.downloadQueue.remove(at: idx)
+        guard let idx = downloadQueue.firstIndex(of: id) else { return }
+        downloadQueue.remove(at: idx)
         Logger.repository.debug("Item \(id) has been removed from queue")
         Logger.repository.debug("Current queue size: \(self.downloadQueue.count)")
     }
