@@ -175,7 +175,7 @@ private struct ContextOptions: View  {
         DownloadButton(for: song.uuid, showText: true)
 
         FavoriteButton(
-            for: .song(item),
+            for: .song(song),
             textTrue: "Unfavorite",
             textFalse: "Favorite"
         )

@@ -19,7 +19,7 @@ struct PlayPreviousButton: View {
         Button {
             action()
         } label: {
-            Image(systemName: .backwardFill)
+            Image(systemSymbol: .backwardFill)
             if let text = text {
                 Text(text)
             }
