@@ -10,14 +10,13 @@ on:
 jobs:
   SwiftLint:
     runs-on: ubuntu-latest
+    container:
+      image: ghcr.io/realm/swiftlint:latest
+
     steps:
-      name: Fetch base ref
-        run: |
-          git fetch --prune --no-tags --depth=1 origin +refs/heads/${{ github.base_ref }}:refs/heads/${{ github.base_ref }}
-      name: GitHub Action for SwiftLint (Only files changed in the PR)
-        uses: mayk-it/action-swiftlint@3.2.2
+      - uses: actions/checkout@v1
         with:
-            args: --config ./.swiftlint.yml
-        env:
-          DIFF_BASE: ${{ github.base_ref }}
-          DIFF_HEAD: HEAD
+          fetch-depth: 1
+
+      - name: SwiftLint
+        run: swiftlint --reporter github-actions-logging --config ./.swiftlint.yml
