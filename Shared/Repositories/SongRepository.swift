@@ -12,8 +12,6 @@ final class SongRepository: ObservableObject {
     init(store: Store<Song>) {
         self._songs = Stored(in: store)
         self.api = ApiClient()
-
-        print("foo")
     }
 
     /// Refresh the store data with data from service.
