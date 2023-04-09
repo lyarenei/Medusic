@@ -19,4 +19,7 @@ jobs:
           fetch-depth: 1
 
       - name: SwiftLint
-        run: swiftlint --reporter github-actions-logging --config ./.swiftlint.yml
+        run: >
+          swiftlint 
+          --reporter github-actions-logging 
+          --config ./.swiftlint.yml
