@@ -1,0 +1,28 @@
+name: SwiftFormat
+
+on:
+  pull_request:
+    paths:
+      - ".github/workflows/swiftformat.yml"
+      - ".swiftformat"
+      - "**/*.swift"
+
+jobs:
+  SwiftFormat:
+    runs-on: ubuntu-latest
+    container:
+      image: ghcr.io/nicklockwood/swiftformat:latest
+
+    steps:
+      - uses: actions/checkout@v1
+        with:
+          fetch-depth: 1
+
+      - name: Run SwiftFormat
+        run: >
+          swiftformat 
+          --lint 
+          --lenient 
+          --reporter github-actions-log 
+          --config ./.swiftformat 
+          .

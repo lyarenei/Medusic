@@ -470,6 +470,7 @@
 			isa = PBXNativeTarget;
 			buildConfigurationList = 9B80474B29B768010069B407 /* Build configuration list for PBXNativeTarget "JellyMusic (iOS)" */;
 			buildPhases = (
+				9B1438DA29E33CA6004056B0 /* ShellScript */,
 				9B32F12529E2D73300CF8A69 /* ShellScript */,
 				9B80473629B768010069B407 /* Sources */,
 				9B80473729B768010069B407 /* Frameworks */,
@@ -500,6 +501,7 @@
 			isa = PBXNativeTarget;
 			buildConfigurationList = 9B80474E29B768010069B407 /* Build configuration list for PBXNativeTarget "JellyMusic (macOS)" */;
 			buildPhases = (
+				9B1438DB29E33F29004056B0 /* ShellScript */,
 				9B32F12629E2D86700CF8A69 /* ShellScript */,
 				9B80473C29B768010069B407 /* Sources */,
 				9B80473D29B768010069B407 /* Frameworks */,
@@ -583,6 +585,40 @@
 /* End PBXResourcesBuildPhase section */
 
 /* Begin PBXShellScriptBuildPhase section */
+		9B1438DA29E33CA6004056B0 /* ShellScript */ = {
+			isa = PBXShellScriptBuildPhase;
+			buildActionMask = 2147483647;
+			files = (
+			);
+			inputFileListPaths = (
+			);
+			inputPaths = (
+			);
+			outputFileListPaths = (
+			);
+			outputPaths = (
+			);
+			runOnlyForDeploymentPostprocessing = 0;
+			shellPath = /bin/sh;
+			shellScript = "PATH=/opt/homebrew/bin:$PATH\nif which swiftformat >/dev/null; then\n    swiftformat --lint --lenient --config ./.swiftformat .\nelse\n    echo \"SwiftFormat is not installed\"\nfi\n";
+		};
+		9B1438DB29E33F29004056B0 /* ShellScript */ = {
+			isa = PBXShellScriptBuildPhase;
+			buildActionMask = 2147483647;
+			files = (
+			);
+			inputFileListPaths = (
+			);
+			inputPaths = (
+			);
+			outputFileListPaths = (
+			);
+			outputPaths = (
+			);
+			runOnlyForDeploymentPostprocessing = 0;
+			shellPath = /bin/sh;
+			shellScript = "PATH=/opt/homebrew/bin:$PATH\nif which swiftformat >/dev/null; then\n    swiftformat --lint --lenient --config ./.swiftformat .\nelse\n    echo \"SwiftFormat is not installed\"\nfi\n";
+		};
 		9B32F12529E2D73300CF8A69 /* ShellScript */ = {
 			isa = PBXShellScriptBuildPhase;
 			buildActionMask = 2147483647;
