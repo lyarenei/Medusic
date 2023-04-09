@@ -9,7 +9,7 @@ extension Array where Element == Album {
     }
 
     var favorite: [Album] {
-        self.filter { $0.isFavorite }
+        filter(\.isFavorite)
     }
 
     // TODO: only temporary for consistency, until user can configure sort options
