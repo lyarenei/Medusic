@@ -7,6 +7,10 @@ extension Array where Element == Album {
             album.uuid == albumId
         })
     }
+
+    var favorite: [Album] {
+        self.filter { $0.isFavorite }
+    }
 }
 
 extension Array where Element == Song {
