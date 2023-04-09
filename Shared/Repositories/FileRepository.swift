@@ -25,7 +25,7 @@ class FileRepository {
         self.downloadQueue = []
         self.cacheSizeLimit = cacheSizeLimitInMB * 1024 * 1024
 
-        let cacheURL = FileManager.default.urls(for: .cachesDirectory, in: .userDomainMask).first!
+        let cacheURL = FileManager.default.urls(for: .applicationSupportDirectory, in: .userDomainMask).first!
         self.cacheDirectory = cacheURL.appendingPathComponent("JellyMusic/Downloads", isDirectory: true)
 
         do {
