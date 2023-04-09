@@ -11,6 +11,11 @@ extension Array where Element == Album {
     var favorite: [Album] {
         self.filter { $0.isFavorite }
     }
+
+    // TODO: only temporary for consistency, until user can configure sort options
+    var consistent: [Album] {
+        self.sorted { lhs, rhs -> Bool in lhs.uuid < rhs.uuid }
+    }
 }
 
 extension Array where Element == Song {

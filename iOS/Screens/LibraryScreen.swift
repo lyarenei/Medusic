@@ -29,7 +29,7 @@ struct LibraryScreen: View {
                         .padding(.bottom, -1)
                 }
 
-                AlbumCollection(albums: albumRepo.albums.favorite)
+                AlbumCollection(albums: albumRepo.albums.favorite.consistent)
                     .buttonStyle(.plain)
             }
             .fixFlickering()
