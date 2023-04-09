@@ -30,9 +30,7 @@ struct LibraryScreen: View {
             .padding(.horizontal, 15)
             .navigationBarTitleDisplayMode(.large)
             .toolbar {
-                ToolbarItem {
-                    RefreshButton(mode: .all)
-                }
+                ToolbarItem { RefreshButton(mode: .all) }
             }
             .onAppear { self.controller.setFavoriteAlbums() }
         }
