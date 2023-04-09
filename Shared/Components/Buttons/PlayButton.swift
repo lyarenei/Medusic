@@ -6,16 +6,19 @@ struct PlayButton: View {
     var player: MusicPlayer
 
     let text: String?
-    let itemId: String
+    let item: Item
+    let songRepo: SongRepository
 
     init(
-        _ text: String? = nil,
-        for itemId: String,
-        player: MusicPlayer = .shared
+        text: String? = nil,
+        item: Item,
+        player: MusicPlayer = .shared,
+        songRepo: SongRepository = .shared
     ) {
         self.text = text
-        self.itemId = itemId
+        self.item = item
         _player = ObservedObject(wrappedValue: player)
+        self.songRepo = songRepo
     }
 
     var body: some View {
@@ -32,7 +35,10 @@ struct PlayButton: View {
     func action() {
         Task(priority: .userInitiated) {
             do {
-                if let song = await SongRepository.shared.getSong(by: itemId) {
+                switch item {
+                case .album(let album):
+                    try await playAlbum(album)
+                case .song(let song):
                     try await player.play(song: song)
                 }
             } catch {
@@ -40,6 +46,12 @@ struct PlayButton: View {
                 player.stop()
             }
         }
+    }
+
+    func playAlbum(_ album: Album) async throws {
+        let songs = await songRepo.getSongs(ofAlbum: album.uuid)
+        await player.enqueue(songs: songs, position: .next)
+        try await player.play()
     }
 }
 
@@ -50,7 +62,7 @@ struct PlayPauseButton: View {
     let text: String?
 
     init(
-        _ text: String? = nil,
+        text: String? = nil,
         player: MusicPlayer = .shared
     ) {
         self.text = text
@@ -72,7 +84,11 @@ struct PlayPauseButton: View {
 #if DEBUG
 struct PlayButton_Previews: PreviewProvider {
     static var previews: some View {
-        PlayButton(for: PreviewData.songs.first!.uuid, player: .init(preview: true))
+        PlayButton(
+            item: .song(PreviewData.songs.first!),
+            player: .init(preview: true),
+            songRepo: .init(store: .previewStore(items: PreviewData.songs, cacheIdentifier: \.uuid))
+        )
         PlayPauseButton(player: .init(preview: true))
             .previewDisplayName("Play/Pause button")
     }

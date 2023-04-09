@@ -171,7 +171,7 @@ private struct ContextOptions: View  {
     let song: Song
 
     var body: some View {
-        PlayButton("Play", for: song.uuid)
+        PlayButton(text: "Play", item: .song(song))
         DownloadButton(for: song.uuid, showText: true)
 
         FavoriteButton(

@@ -93,7 +93,7 @@ private struct AlbumActions: View {
 
     var body: some View {
         HStack {
-            PlayButton("Play", for: album.uuid)
+            PlayButton(text: "Play", item: .album(album))
                 .frame(width: 120, height: 37)
                 .overlay(
                     RoundedRectangle(cornerRadius: 10)
