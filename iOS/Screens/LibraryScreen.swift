@@ -2,17 +2,10 @@ import SFSafeSymbols
 import SwiftUI
 
 struct LibraryScreen: View {
-    @StateObject
-    private var controller: LibraryController = .init()
-
     @ObservedObject
     var albumRepo: AlbumRepository
 
-    init(
-        _ controller: LibraryController = .init(),
-        albumRepo: AlbumRepository = .shared
-    ) {
-        self._controller = StateObject(wrappedValue: controller)
+    init(albumRepo: AlbumRepository = .shared) {
         _albumRepo = ObservedObject(wrappedValue: albumRepo)
     }
 
@@ -20,7 +13,7 @@ struct LibraryScreen: View {
         NavigationView {
             ScrollView {
                 VStack(alignment: .leading) {
-                    LibraryNavigationItems(controller)
+                    LibraryNavigationItems()
 
                     Text("Favorite albums")
                         .font(.title3)
@@ -47,25 +40,10 @@ struct LibraryScreen: View {
 #if DEBUG
 struct LibraryScreen_Previews: PreviewProvider {
     static var previews: some View {
-        LibraryScreen(LibraryController(
-            albumRepo: AlbumRepository(
-                store: .previewStore(
-                    items: PreviewData.albums,
-                    cacheIdentifier: \.uuid
-                )
-            ),
-            songRepo: SongRepository(
-                store: .previewStore(
-                    items: PreviewData.songs,
-                    cacheIdentifier: \.uuid
-                )
-            )
-        ))
+        LibraryScreen(albumRepo: .init(store: .previewStore(items: PreviewData.albums, cacheIdentifier: \.uuid)))
 
-        LibraryScreen(LibraryController(
-            albumRepo: AlbumRepository(store: .previewStore(items: [], cacheIdentifier: \.uuid)),
-            songRepo: SongRepository(store: .previewStore(items: [], cacheIdentifier: \.uuid))
-        ))
+        LibraryScreen(albumRepo: .init(store: .previewStore(items: [], cacheIdentifier: \.uuid)))
+            .previewDisplayName("Empty library")
     }
 }
 #endif
@@ -114,13 +92,6 @@ private struct NavigationEntry<Content: View>: View {
 // MARK: - Navigation items
 
 private struct LibraryNavigationItems: View {
-    @StateObject
-    private var controller: LibraryController
-
-    init(_ controller: LibraryController) {
-        self._controller = StateObject(wrappedValue: controller)
-    }
-
     var body: some View {
         VStack(alignment: .leading, spacing: 5) {
             NavigationEntry(
