@@ -5,16 +5,8 @@ struct RefreshButton: View {
     @State
     var inProgress: Bool = false
 
-    let text: String?
+    let text: String? = nil
     let mode: ButtonMode
-
-    init(
-        _ text: String? = nil,
-        mode: ButtonMode
-    ) {
-        self.text = text
-        self.mode = mode
-    }
 
     var body: some View {
         if inProgress {
