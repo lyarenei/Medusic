@@ -5,8 +5,15 @@ struct LibraryScreen: View {
     @StateObject
     private var controller: LibraryController = .init()
 
-    init(_ controller: LibraryController = .init()) {
+    @ObservedObject
+    var albumRepo: AlbumRepository
+
+    init(
+        _ controller: LibraryController = .init(),
+        albumRepo: AlbumRepository = .shared
+    ) {
         self._controller = StateObject(wrappedValue: controller)
+        _albumRepo = ObservedObject(wrappedValue: albumRepo)
     }
 
     var body: some View {
@@ -22,7 +29,7 @@ struct LibraryScreen: View {
                         .padding(.bottom, -1)
                 }
 
-                AlbumCollection(albums: controller.favoriteAlbums)
+                AlbumCollection(albums: albumRepo.albums.favorite)
                     .buttonStyle(.plain)
             }
             .fixFlickering()
@@ -32,7 +39,6 @@ struct LibraryScreen: View {
             .toolbar {
                 ToolbarItem { RefreshButton(mode: .all) }
             }
-            .onAppear { self.controller.setFavoriteAlbums() }
         }
         .navigationViewStyle(.stack)
     }
