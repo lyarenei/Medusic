@@ -8,7 +8,7 @@ struct PlayNextButton: View {
     let text: String?
 
     init(
-        _ text: String? = nil,
+        text: String? = nil,
         player: MusicPlayer = .shared
     ) {
         self.text = text
