@@ -123,12 +123,12 @@ private final class DownloadButtonController: ObservableObject {
 
     private func downloadItem() {
         // TODO: support for albums (bulk download)
-        FileRepository.shared.enqueueToDownload(itemId: itemId)
+        FileRepository.shared.enqueueToDownload(songId: itemId)
     }
 
     private func removeItem() async throws {
         // TODO: support for albums (bulk remove)
-        try FileRepository.shared.removeFile(itemId: itemId)
+        try FileRepository.shared.removeFile(songId: itemId)
         setDownloaded()
     }
 }
