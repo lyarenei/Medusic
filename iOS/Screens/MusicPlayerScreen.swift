@@ -6,7 +6,7 @@ struct MusicPlayerScreen: View {
     private var songRepo = SongRepository(store: .songs)
 
     @State
-    private var currentSong: Song = Song(uuid: "asdf", index: 1, name: "Song name", parentId: "asdf")
+    private var currentSong: Song = Song(uuid: "asdf", index: 1, name: "Song name", parentId: "asdf", isFavorite: false)
 
     @State
     private var sliderValue = 0.35

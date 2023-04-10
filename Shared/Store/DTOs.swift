@@ -10,7 +10,7 @@ public struct Album {
     public var uuid: String
     public var name: String
     public var artistName: String
-    public var isFavorite: Bool = false
+    public var isFavorite: Bool
 }
 
 public struct Song {
@@ -18,7 +18,7 @@ public struct Song {
     public var index: Int
     public var name: String
     public var parentId: String
-    public var isFavorite: Bool = false
+    public var isFavorite: Bool
 }
 
 public struct DownloadedMedia {
