@@ -1,6 +1,6 @@
 import JellyfinAPI
 
-public extension Album {
+extension Album {
     init(from item: BaseItemDto) {
         self.uuid = item.id ?? ""
         self.name = item.name ?? ""
@@ -9,7 +9,7 @@ public extension Album {
     }
 }
 
-public extension Song {
+extension Song {
     init(from item: BaseItemDto) {
         self.uuid = item.id ?? ""
         self.index = Int(item.indexNumber ?? 0)
