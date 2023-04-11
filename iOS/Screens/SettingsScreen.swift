@@ -50,7 +50,7 @@ struct SettingsScreen: View {
     @ViewBuilder
     func appearance() -> some View {
         NavigationLink {
-            AppearanceSettings()
+            AppearanceSettingsScreen()
         } label: {
             ListOptionComponent(
                 symbol: .paintbrushPointed,
@@ -91,37 +91,6 @@ struct SettingsScreen_Previews: PreviewProvider {
     }
 }
 #endif
-
-// MARK: - Appearance settings
-
-private struct AppearanceSettings: View {
-    var body: some View {
-        List {
-            AlbumDisplayOption()
-        }
-        .listStyle(.grouped)
-        .navigationTitle("Appearance")
-        .navigationBarTitleDisplayMode(.inline)
-    }
-}
-
-enum AlbumDisplayMode: String, Defaults.Serializable {
-    case asList
-    case asTiles
-}
-
-private struct AlbumDisplayOption: View {
-    @Default(.albumDisplayMode)
-    var selectedOption: AlbumDisplayMode
-
-    var body: some View {
-        Picker("Show albums as", selection: $selectedOption) {
-            Text("List").tag(AlbumDisplayMode.asList)
-            Text("Tiles (default)").tag(AlbumDisplayMode.asTiles)
-        }
-        .pickerStyle(.menu)
-    }
-}
 
 // MARK: - Advanced settings
 

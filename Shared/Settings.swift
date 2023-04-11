@@ -14,3 +14,8 @@ extension Defaults.Keys {
     static let offlineMode = Key<Bool>("offlineMode", default: false)
     static let previewMode = Key<Bool>("previewMode", default: false)
 }
+
+enum AlbumDisplayMode: String, Defaults.Serializable {
+    case asList
+    case asTiles
+}
