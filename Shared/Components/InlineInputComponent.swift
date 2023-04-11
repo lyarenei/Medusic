@@ -20,15 +20,18 @@ struct InlineInputComponent: View {
 
             Spacer(minLength: 20)
 
-            VStack(spacing: 0) {
-                if isSecure {
-                    SecureField(placeholderText, text: $inputText)
-                } else {
-                    TextField(placeholderText, text: $inputText)
-                }
-            }
-            .lineLimit(1)
-            .multilineTextAlignment(.trailing)
+            inputField()
+                .lineLimit(1)
+                .multilineTextAlignment(.trailing)
+        }
+    }
+
+    @ViewBuilder
+    func inputField() -> some View {
+        if isSecure {
+            SecureField(placeholderText, text: $inputText)
+        } else {
+            TextField(placeholderText, text: $inputText)
         }
     }
 }
