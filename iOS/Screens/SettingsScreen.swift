@@ -1,16 +1,12 @@
-import Boutique
-import DebouncedOnChange
 import Defaults
-import Kingfisher
-import SFSafeSymbols
 import SwiftUI
 
 struct SettingsScreen: View {
     var body: some View {
         NavigationView {
             List {
-                JellyfinSection()
-                GeneralSection()
+                jellyfinSection()
+                generalSection()
             }
             .navigationTitle("Settings")
             .listStyle(.grouped)
@@ -18,6 +14,72 @@ struct SettingsScreen: View {
         }
         .navigationViewStyle(.stack)
     }
+
+    @ViewBuilder
+    func jellyfinSection() -> some View {
+        Section {
+            ServerUrlComponent()
+            ServerCredentialsComponent()
+        } header: {
+            Text("Jellyfin")
+        }
+
+        Section {
+            ServerStatusComponent()
+        }
+    }
+
+    @ViewBuilder
+    func generalSection() -> some View {
+        Section {
+            appearance()
+            advanced()
+
+            #if DEBUG
+            developer()
+            #endif
+        } header: {
+            Text("General")
+        }
+    }
+
+    @ViewBuilder
+    func appearance() -> some View {
+        NavigationLink {
+            AppearanceSettingsScreen()
+        } label: {
+            ListOptionComponent(
+                symbol: .paintbrushPointed,
+                text: "Appearance"
+            )
+        }
+    }
+
+    @ViewBuilder
+    func advanced() -> some View {
+        NavigationLink {
+            AdvancedSettingsScreen()
+        } label: {
+            ListOptionComponent(
+                symbol: .wrenchAndScrewdriver,
+                text: "Advanced"
+            )
+        }
+    }
+
+    #if DEBUG
+    @ViewBuilder
+    func developer() -> some View {
+        NavigationLink {
+            DeveloperSettings()
+        } label: {
+            ListOptionComponent(
+                symbol: .hammer,
+                text: "Developer"
+            )
+        }
+    }
+    #endif
 }
 
 #if DEBUG
@@ -27,228 +89,6 @@ struct SettingsScreen_Previews: PreviewProvider {
     }
 }
 #endif
-
-// MARK: - JellyfinSection view
-
-private struct JellyfinSection: View {
-    @StateObject
-    private var controller = JellyfinSettingsController()
-
-    var body: some View {
-        Section(
-            header: Text("Jellyfin"),
-            content: {
-                InlineInputComponent(
-                    labelText: "URL",
-                    labelSymbol: .link,
-                    inputText: $controller.serverUrlEdit,
-                    placeholderText: "Server URL"
-                )
-                .keyboardType(.URL)
-                .disableAutocorrection(true)
-                .autocapitalization(.none)
-                .onChange(of: controller.serverUrlEdit, debounceTime: 1.5) { newValue in
-                    if self.controller.validateUrl(newValue) {
-                        Task { await controller.saveUrl(newValue) }
-                    } else {
-                        // TODO: show in UI
-                        print("Server URL is not valid")
-                    }
-                }
-
-                // TODO: add credentials validation
-                InlineInputComponent(
-                    labelText: "Username",
-                    labelSymbol: .personCropCircle,
-                    inputText: $controller.usernameEdit,
-                    placeholderText: "Account username"
-                )
-                .disableAutocorrection(true)
-                .autocapitalization(.none)
-                .onChange(of: controller.usernameEdit, debounceTime: 0.5) { newValue in
-                    Task { await controller.saveUsername(newValue) }
-                }
-
-                InlineInputComponent(
-                    labelText: "Password",
-                    labelSymbol: .key,
-                    inputText: $controller.passwordEdit,
-                    placeholderText: "Account password",
-                    isSecure: true
-                )
-                .disableAutocorrection(true)
-                .autocapitalization(.none)
-                .onChange(of: controller.passwordEdit, debounceTime: 0.5) { newValue in
-                    Task { try? await controller.savePassword(newValue) }
-                }
-            }
-        )
-        .onAppear {
-            self.controller.restoreUrl()
-            self.controller.restoreUsername()
-        }
-
-        Section(content: {
-            ServerStatus(controller: self.controller.serverStatusController)
-                .onAppear { Task { await self.controller.setServerStatus() }}
-        })
-    }
-}
-
-private struct ServerStatus: View {
-    @ObservedObject
-    private var controller: ServerStatusController
-
-    init(controller: ServerStatusController) {
-        self.controller = controller
-    }
-
-    var body: some View {
-        InlineValueComponent(
-            labelText: "Server status",
-            labelSymbol: .linkIcloud,
-            value: $controller.serverStatus
-        )
-        .foregroundColor(controller.statusColor)
-    }
-}
-
-// MARK: - GeneralSection view
-
-private struct GeneralSection: View {
-    var body: some View {
-        Section(
-            header: Text("General"),
-            content: {
-                NavigationLink {
-                    AppearanceSettings()
-                } label: {
-                    ListOptionComponent(
-                        symbol: .paintbrushPointed,
-                        text: "Appearance"
-                    )
-                }
-
-                NavigationLink {
-                    AdvancedSettings()
-                } label: {
-                    ListOptionComponent(
-                        symbol: .wrenchAndScrewdriver,
-                        text: "Advanced"
-                    )
-                }
-
-                #if DEBUG
-                NavigationLink {
-                    DeveloperSettings()
-                } label: {
-                    ListOptionComponent(
-                        symbol: .hammer,
-                        text: "Developer"
-                    )
-                }
-                #endif
-            }
-        )
-    }
-}
-
-// MARK: - Appearance settings
-
-private struct AppearanceSettings: View {
-    var body: some View {
-        List {
-            AlbumDisplayOption()
-        }
-        .listStyle(.grouped)
-        .navigationTitle("Appearance")
-        .navigationBarTitleDisplayMode(.inline)
-    }
-}
-
-enum AlbumDisplayMode: String, Defaults.Serializable {
-    case asList
-    case asTiles
-}
-
-private struct AlbumDisplayOption: View {
-    @Default(.albumDisplayMode)
-    var selectedOption: AlbumDisplayMode
-
-    var body: some View {
-        Picker("Show albums as", selection: $selectedOption) {
-            Text("List").tag(AlbumDisplayMode.asList)
-            Text("Tiles (default)").tag(AlbumDisplayMode.asTiles)
-        }
-        .pickerStyle(.menu)
-    }
-}
-
-// MARK: - Advanced settings
-
-private struct AdvancedSettings: View {
-    var body: some View {
-        List {
-            PurgeCaches()
-        }
-        .listStyle(.grouped)
-        .navigationTitle("Advanced")
-        .navigationBarTitleDisplayMode(.inline)
-    }
-}
-
-private struct PurgeCaches: View {
-    @Stored(in: .albums)
-    private var albums: [Album]
-
-    @Stored(in: .songs)
-    private var songs: [Song]
-
-    @State
-    private var showPurgeCacheConfirm = false
-
-    var body: some View {
-        Button {
-            showPurgeCacheConfirm = true
-        } label: {
-            ListOptionComponent(
-                symbol: .trash,
-                text: "Purge all caches"
-            )
-        }
-        .buttonStyle(.plain)
-        .foregroundColor(.red)
-        .alert(isPresented: $showPurgeCacheConfirm, content: {
-            Alert(
-                title: Text("Purge all caches"),
-                message: Text("This will remove all metadata, images and downloads"),
-                primaryButton: .destructive(
-                    Text("Purge"),
-                    action: { self.purgeCaches() }
-                ),
-                secondaryButton: .default(
-                    Text("Cancel"),
-                    action: { showPurgeCacheConfirm = false }
-                )
-            )
-        })
-    }
-
-    private func purgeCaches() {
-        Kingfisher.ImageCache.default.clearMemoryCache()
-        Kingfisher.ImageCache.default.clearDiskCache()
-
-        Task {
-            do {
-                try await self.$albums.removeAll()
-                try await self.$songs.removeAll()
-                try FileRepository.shared.removeAllFiles()
-            } catch {
-                print("Purging caches failed: \(error)")
-            }
-        }
-    }
-}
 
 #if DEBUG
 // MARK: - Developer settings
@@ -272,6 +112,7 @@ private struct PreviewMode: View {
     var previewEnabled: Bool
 
     var body: some View {
+        // swiftlint:disable:next trailing_closure
         Toggle(isOn: $previewEnabled) {
             ListOptionComponent(
                 symbol: .eyes,
