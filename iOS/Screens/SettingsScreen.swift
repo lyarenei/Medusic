@@ -54,24 +54,6 @@ private struct JellyfinSection: View {
     }
 }
 
-private struct ServerStatus: View {
-    @ObservedObject
-    private var controller: ServerStatusController
-
-    init(controller: ServerStatusController) {
-        self.controller = controller
-    }
-
-    var body: some View {
-        InlineValueComponent(
-            labelText: "Server status",
-            labelSymbol: .linkIcloud,
-            value: $controller.serverStatus
-        )
-        .foregroundColor(controller.statusColor)
-    }
-}
-
 // MARK: - GeneralSection view
 
 private struct GeneralSection: View {
