@@ -3,6 +3,11 @@ import OSLog
 import SFSafeSymbols
 import SwiftUI
 
+enum AlbumDisplayMode: String, Defaults.Serializable {
+    case asList
+    case asTiles
+}
+
 struct AlbumCollection: View {
     @Default(.albumDisplayMode)
     var displayMode: AlbumDisplayMode
