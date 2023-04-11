@@ -39,32 +39,7 @@ private struct JellyfinSection: View {
             header: Text("Jellyfin"),
             content: {
                 ServerUrlComponent()
-
-                // TODO: add credentials validation
-                InlineInputComponent(
-                    labelText: "Username",
-                    labelSymbol: .personCropCircle,
-                    inputText: $controller.usernameEdit,
-                    placeholderText: "Account username"
-                )
-                .disableAutocorrection(true)
-                .autocapitalization(.none)
-                .onChange(of: controller.usernameEdit, debounceTime: 0.5) { newValue in
-                    Task { await controller.saveUsername(newValue) }
-                }
-
-                InlineInputComponent(
-                    labelText: "Password",
-                    labelSymbol: .key,
-                    inputText: $controller.passwordEdit,
-                    placeholderText: "Account password",
-                    isSecure: true
-                )
-                .disableAutocorrection(true)
-                .autocapitalization(.none)
-                .onChange(of: controller.passwordEdit, debounceTime: 0.5) { newValue in
-                    Task { try? await controller.savePassword(newValue) }
-                }
+                ServerCredentialsComponent()
             }
         )
         .onAppear {
