@@ -16,5 +16,14 @@ extension Song {
         self.name = item.name ?? ""
         self.parentId = item.albumID ?? item.parentID ?? ""
         self.isFavorite = item.userData?.isFavorite ?? false
+        self.size = {
+            guard let sources = item.mediaSources else { return 0 }
+            var sum: UInt64 = 0
+            for source in sources {
+                sum += UInt64(source.size ?? 0)
+            }
+
+            return sum
+        }()
     }
 }

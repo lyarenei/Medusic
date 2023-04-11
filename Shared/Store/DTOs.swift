@@ -19,6 +19,7 @@ public struct Song {
     public var name: String
     public var parentId: String
     public var isFavorite: Bool
+    public var size: UInt64 = 0
 }
 
 public struct DownloadedMedia {
