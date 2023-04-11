@@ -62,7 +62,7 @@ struct SettingsScreen: View {
     @ViewBuilder
     func advanced() -> some View {
         NavigationLink {
-            AdvancedSettings()
+            AdvancedSettingsScreen()
         } label: {
             ListOptionComponent(
                 symbol: .wrenchAndScrewdriver,
@@ -91,72 +91,6 @@ struct SettingsScreen_Previews: PreviewProvider {
     }
 }
 #endif
-
-// MARK: - Advanced settings
-
-private struct AdvancedSettings: View {
-    var body: some View {
-        List {
-            PurgeCaches()
-        }
-        .listStyle(.grouped)
-        .navigationTitle("Advanced")
-        .navigationBarTitleDisplayMode(.inline)
-    }
-}
-
-private struct PurgeCaches: View {
-    @Stored(in: .albums)
-    private var albums: [Album]
-
-    @Stored(in: .songs)
-    private var songs: [Song]
-
-    @State
-    private var showPurgeCacheConfirm = false
-
-    var body: some View {
-        Button {
-            showPurgeCacheConfirm = true
-        } label: {
-            ListOptionComponent(
-                symbol: .trash,
-                text: "Purge all caches"
-            )
-        }
-        .buttonStyle(.plain)
-        .foregroundColor(.red)
-        .alert(isPresented: $showPurgeCacheConfirm, content: {
-            Alert(
-                title: Text("Purge all caches"),
-                message: Text("This will remove all metadata, images and downloads"),
-                primaryButton: .destructive(
-                    Text("Purge"),
-                    action: { self.purgeCaches() }
-                ),
-                secondaryButton: .default(
-                    Text("Cancel"),
-                    action: { showPurgeCacheConfirm = false }
-                )
-            )
-        })
-    }
-
-    private func purgeCaches() {
-        Kingfisher.ImageCache.default.clearMemoryCache()
-        Kingfisher.ImageCache.default.clearDiskCache()
-
-        Task {
-            do {
-                try await self.$albums.removeAll()
-                try await self.$songs.removeAll()
-                try FileRepository.shared.removeAllFiles()
-            } catch {
-                print("Purging caches failed: \(error)")
-            }
-        }
-    }
-}
 
 #if DEBUG
 // MARK: - Developer settings
