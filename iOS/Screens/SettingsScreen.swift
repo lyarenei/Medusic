@@ -114,6 +114,7 @@ private struct PreviewMode: View {
     var previewEnabled: Bool
 
     var body: some View {
+        // swiftlint:disable:next trailing_closure
         Toggle(isOn: $previewEnabled) {
             ListOptionComponent(
                 symbol: .eyes,
