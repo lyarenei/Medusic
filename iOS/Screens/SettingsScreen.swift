@@ -71,6 +71,7 @@ struct SettingsScreen: View {
         }
     }
 
+    #if DEBUG
     @ViewBuilder
     func developer() -> some View {
         NavigationLink {
@@ -82,6 +83,7 @@ struct SettingsScreen: View {
             )
         }
     }
+    #endif
 }
 
 #if DEBUG
