@@ -1,3 +1,4 @@
+import Defaults
 import Combine
 import Foundation
 import OSLog
@@ -8,7 +9,7 @@ final class FileRepository: ObservableObject {
     typealias Completion = () -> Void
 
     var cacheDirectory: URL
-    var cacheSizeLimit: Int
+    var cacheSizeLimit: UInt64
     var currentCacheSize: UInt64
 
     @Published
@@ -16,8 +17,8 @@ final class FileRepository: ObservableObject {
     var isDownloading: Bool
     let apiClient: ApiClient
 
-    init(cacheSizeLimitInMB: Int = 1000) {
-        self.cacheSizeLimit = cacheSizeLimitInMB * 1024 * 1024
+    init() {
+        self.cacheSizeLimit = Defaults[.maxCacheSize] * 1024 * 1024
         self.downloadQueue = []
         self.isDownloading = false
         self.apiClient = ApiClient()
@@ -151,7 +152,7 @@ final class FileRepository: ObservableObject {
         }
     }
 
-    func setCacheSizeLimit(_ sizeInMB: Int) {
+    func setCacheSizeLimit(_ sizeInMB: UInt64) {
         Logger.repository.debug("Setting cache limit to \(sizeInMB) MB")
         cacheSizeLimit = sizeInMB * 1024 * 1024
     }

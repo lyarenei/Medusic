@@ -13,4 +13,5 @@ extension Defaults.Keys {
     // App settings
     static let offlineMode = Key<Bool>("offlineMode", default: false)
     static let previewMode = Key<Bool>("previewMode", default: false)
+    static let maxCacheSize = Key<UInt64>("maxCacheSize", default: 1000)
 }

@@ -1,10 +1,12 @@
 import Boutique
+import Defaults
 import Kingfisher
 import SwiftUI
 
 struct AdvancedSettingsScreen: View {
     var body: some View {
         List {
+            MaxCacheSize()
             PurgeCaches()
         }
         .listStyle(.grouped)
@@ -20,6 +22,39 @@ struct AdvancedSettingsScreen_Previews: PreviewProvider {
     }
 }
 #endif
+
+private struct MaxCacheSize: View {
+    @Default(.maxCacheSize)
+    var maxCacheSize
+
+    @ObservedObject
+    var fileRepo: FileRepository
+
+    init(fileRepo: FileRepository = .shared) {
+        _fileRepo = ObservedObject(wrappedValue: fileRepo)
+    }
+
+    var body: some View {
+        InlineNumberInputComponent(
+            labelText: "Max cache size (MB)",
+            labelSymbol: .internaldrive,
+            inputNumber: $maxCacheSize,
+            formatter: getFormatter()
+        )
+        .onChange(of: maxCacheSize, debounceTime: 5) { newValue in
+            fileRepo.setCacheSizeLimit(newValue)
+        }
+    }
+
+    func getFormatter() -> NumberFormatter {
+        let fmt = NumberFormatter()
+        fmt.numberStyle = .none
+        fmt.minimum = 50
+        fmt.allowsFloats = false
+        fmt.isLenient = false
+        return fmt
+    }
+}
 
 private struct PurgeCaches: View {
     @Stored(in: .albums)
