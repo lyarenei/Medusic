@@ -11,7 +11,7 @@ final class FileRepository: ObservableObject {
     var cacheSizeLimit: Int
 
     @Published
-    var downloadQueue: [String]
+    var downloadQueue: [Song]
     var isDownloading: Bool
     let apiClient: ApiClient
 
@@ -40,14 +40,14 @@ final class FileRepository: ObservableObject {
     }
 
     /// Enqueue song for download.
-    func enqueueToDownload(songId: String, startDownload: Bool = true) {
-        enqueue(songId)
+    func enqueueToDownload(song: Song, startDownload: Bool = true) {
+        enqueue(song)
         if startDownload { startDownloading() }
     }
 
     /// Enqueue multiple songs for download.
-    func enqueueToDownload(songIds: [String], startDownload: Bool = true) {
-        for id in songIds { enqueue(id) }
+    func enqueueToDownload(songs: [Song], startDownload: Bool = true) {
+        for song in songs { enqueue(song) }
         if startDownload { startDownloading() }
     }
 
@@ -69,15 +69,15 @@ final class FileRepository: ObservableObject {
         }
     }
 
-    private func downloadSong(_ songId: String, completion: Completion?) {
+    private func downloadSong(_ song: Song, completion: Completion?) {
         Task(priority: .background) {
-            let outputFileURL = cacheDirectory.appendingPathComponent(songId)
-            Logger.repository.debug("Starting download for item \(songId)")
+            let outputFileURL = cacheDirectory.appendingPathComponent(song.uuid)
+            Logger.repository.debug("Starting download for song \(song.uuid)")
             Logger.repository.debug("Current queue size size: \(self.downloadQueue.count)")
             do {
-                try await apiClient.services.mediaService.new_downloadItem(id: songId, destination: outputFileURL)
+                try await apiClient.services.mediaService.new_downloadItem(id: song.uuid, destination: outputFileURL)
             } catch {
-                Logger.repository.debug("Item download failed: \(error.localizedDescription)")
+                Logger.repository.debug("Song download failed: \(error.localizedDescription)")
             }
 
             completion?()
@@ -121,11 +121,11 @@ final class FileRepository: ObservableObject {
         return totalSize
     }
 
-    func removeFile(songId: String) throws {
-        let fileURL = cacheDirectory.appendingPathComponent(songId)
-        Logger.repository.debug("Removig file for item \(songId)")
+    func removeFile(for song: Song) throws {
+        let fileURL = cacheDirectory.appendingPathComponent(song.uuid)
+        Logger.repository.debug("Removig file for song \(song.uuid)")
         try FileManager.default.removeItem(at: fileURL)
-        Logger.repository.debug("File for item \(songId) has been removed")
+        Logger.repository.debug("File for song \(song.uuid) has been removed")
     }
 
     func removeAllFiles() throws {
@@ -151,16 +151,16 @@ final class FileRepository: ObservableObject {
 
     // MARK: - Internal
 
-    private func enqueue(_ songId: String) {
-        downloadQueue.append(songId)
-        Logger.repository.debug("Added item \(songId) to queue")
+    private func enqueue(_ song: Song) {
+        downloadQueue.append(song)
+        Logger.repository.debug("Added song \(song.uuid) to download queue")
         Logger.repository.debug("Current queue size: \(self.downloadQueue.count)")
     }
 
-    private func dequeue(_ songId: String) {
-        guard let idx = downloadQueue.firstIndex(of: songId) else { return }
+    private func dequeue(_ song: Song) {
+        guard let idx = downloadQueue.firstIndex(of: song) else { return }
         downloadQueue.remove(at: idx)
-        Logger.repository.debug("Item \(songId) has been removed from queue")
+        Logger.repository.debug("Song \(song.uuid) has been removed from download queue")
         Logger.repository.debug("Current queue size: \(self.downloadQueue.count)")
     }
 
