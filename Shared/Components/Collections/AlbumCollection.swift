@@ -30,10 +30,10 @@ struct AlbumCollection: View {
                 .foregroundColor(.gray)
         } else if let gotAlbums = albums {
             switch overrideDisplayMode ?? displayMode {
-                case .asList:
-                    AlbumList(albums: gotAlbums)
-                default:
-                    AlbumTileList(albums: gotAlbums)
+            case .asList:
+                AlbumList(albums: gotAlbums)
+            default:
+                AlbumTileList(albums: gotAlbums)
             }
         } else {
             InProgressComponent("Refreshing albums ...")
