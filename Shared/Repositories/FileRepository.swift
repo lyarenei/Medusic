@@ -9,6 +9,7 @@ final class FileRepository: ObservableObject {
 
     var cacheDirectory: URL
     var cacheSizeLimit: Int
+    var currentCacheSize: UInt64
 
     @Published
     var downloadQueue: [Song]
@@ -37,6 +38,13 @@ final class FileRepository: ObservableObject {
         } catch {
             fatalError("Could not set up app cache: \(error.localizedDescription)")
         }
+
+        self.currentCacheSize = 0
+        do {
+            self.currentCacheSize = try downloadedFilesSize()
+        } catch {
+            Logger.repository.error("Could not read current cache size, defaulting to 0")
+        }
     }
 
     /// Enqueue song for download.
@@ -62,6 +70,7 @@ final class FileRepository: ObservableObject {
         if let nextSong = downloadQueue.first {
             downloadSong(nextSong) {
                 self.dequeue(nextSong)
+                self.currentCacheSize += nextSong.size
                 self.downloadNextSong()
             }
         } else {
@@ -70,6 +79,11 @@ final class FileRepository: ObservableObject {
     }
 
     private func downloadSong(_ song: Song, completion: Completion?) {
+        guard currentCacheSize + song.size <= cacheSizeLimit else {
+            Logger.repository.info("Download for song \(song.uuid) cancelled: cache size limit reached")
+            return
+        }
+
         Task(priority: .background) {
             let outputFileURL = cacheDirectory.appendingPathComponent(song.uuid)
             Logger.repository.debug("Starting download for song \(song.uuid)")
