@@ -9,14 +9,78 @@ struct SettingsScreen: View {
     var body: some View {
         NavigationView {
             List {
-                JellyfinSection()
-                GeneralSection()
+                jellyfinSection()
+                generalSection()
             }
             .navigationTitle("Settings")
             .listStyle(.grouped)
             .buttonStyle(.plain)
         }
         .navigationViewStyle(.stack)
+    }
+
+    @ViewBuilder
+    func jellyfinSection() -> some View {
+        Section {
+            ServerUrlComponent()
+            ServerCredentialsComponent()
+        } header: {
+            Text("Jellyfin")
+        }
+
+        Section {
+            ServerStatusComponent()
+        }
+    }
+
+    @ViewBuilder
+    func generalSection() -> some View {
+        Section {
+            appearance()
+            advanced()
+
+            #if DEBUG
+            developer()
+            #endif
+        } header: {
+            Text("General")
+        }
+    }
+
+    @ViewBuilder
+    func appearance() -> some View {
+        NavigationLink {
+            AppearanceSettings()
+        } label: {
+            ListOptionComponent(
+                symbol: .paintbrushPointed,
+                text: "Appearance"
+            )
+        }
+    }
+
+    @ViewBuilder
+    func advanced() -> some View {
+        NavigationLink {
+            AdvancedSettings()
+        } label: {
+            ListOptionComponent(
+                symbol: .wrenchAndScrewdriver,
+                text: "Advanced"
+            )
+        }
+    }
+
+    @ViewBuilder
+    func developer() -> some View {
+        NavigationLink {
+            DeveloperSettings()
+        } label: {
+            ListOptionComponent(
+                symbol: .hammer,
+                text: "Developer"
+            )
+        }
     }
 }
 
@@ -27,72 +91,6 @@ struct SettingsScreen_Previews: PreviewProvider {
     }
 }
 #endif
-
-// MARK: - JellyfinSection view
-
-private struct JellyfinSection: View {
-    @StateObject
-    private var controller = JellyfinSettingsController()
-
-    var body: some View {
-        Section(
-            header: Text("Jellyfin"),
-            content: {
-                ServerUrlComponent()
-                ServerCredentialsComponent()
-            }
-        )
-        .onAppear {
-            self.controller.restoreUrl()
-            self.controller.restoreUsername()
-        }
-
-        Section(content: {
-            ServerStatus(controller: self.controller.serverStatusController)
-                .onAppear { Task { await self.controller.setServerStatus() }}
-        })
-    }
-}
-
-// MARK: - GeneralSection view
-
-private struct GeneralSection: View {
-    var body: some View {
-        Section(
-            header: Text("General"),
-            content: {
-                NavigationLink {
-                    AppearanceSettings()
-                } label: {
-                    ListOptionComponent(
-                        symbol: .paintbrushPointed,
-                        text: "Appearance"
-                    )
-                }
-
-                NavigationLink {
-                    AdvancedSettings()
-                } label: {
-                    ListOptionComponent(
-                        symbol: .wrenchAndScrewdriver,
-                        text: "Advanced"
-                    )
-                }
-
-                #if DEBUG
-                NavigationLink {
-                    DeveloperSettings()
-                } label: {
-                    ListOptionComponent(
-                        symbol: .hammer,
-                        text: "Developer"
-                    )
-                }
-                #endif
-            }
-        )
-    }
-}
 
 // MARK: - Appearance settings
 
