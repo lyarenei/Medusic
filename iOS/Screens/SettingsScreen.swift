@@ -38,23 +38,7 @@ private struct JellyfinSection: View {
         Section(
             header: Text("Jellyfin"),
             content: {
-                InlineInputComponent(
-                    labelText: "URL",
-                    labelSymbol: .link,
-                    inputText: $controller.serverUrlEdit,
-                    placeholderText: "Server URL"
-                )
-                .keyboardType(.URL)
-                .disableAutocorrection(true)
-                .autocapitalization(.none)
-                .onChange(of: controller.serverUrlEdit, debounceTime: 1.5) { newValue in
-                    if self.controller.validateUrl(newValue) {
-                        Task { await controller.saveUrl(newValue) }
-                    } else {
-                        // TODO: show in UI
-                        print("Server URL is not valid")
-                    }
-                }
+                ServerUrlComponent()
 
                 // TODO: add credentials validation
                 InlineInputComponent(
