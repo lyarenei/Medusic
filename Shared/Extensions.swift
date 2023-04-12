@@ -52,20 +52,17 @@ extension Array where Element == Song {
     }
 }
 
-// swiftformat:disable:redundantSelf
 extension Array {
     /// Convenience indicator for checking if the collection is not empty.
     @inlinable
-    public var isNotEmpty: Bool { !self.isEmpty }
+    public var isNotEmpty: Bool { !isEmpty }
 }
 
 extension String {
     /// Convenience indicator for checking if the string is not empty.
     @inlinable
-    public var isNotEmpty: Bool { !self.isEmpty }
+    public var isNotEmpty: Bool { !isEmpty }
 }
-
-// swiftformat:enable:redundantSelf
 
 extension ScrollView {
     private typealias PaddedContent = ModifiedContent<Content, _PaddingLayout>
