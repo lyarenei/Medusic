@@ -3,7 +3,7 @@ public struct JellyfinServerInfo {
     public var version: String
 }
 
-protocol JellyfinItem {
+protocol JellyfinItem: Identifiable, Codable, Equatable {
     var uuid: String { get }
     var name: String { get }
     var isFavorite: Bool { get }
