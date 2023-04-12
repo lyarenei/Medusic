@@ -21,8 +21,3 @@ public struct Song {
     public var isFavorite: Bool
     public var size: UInt64 = 0
 }
-
-public struct DownloadedMedia {
-    public var uuid: String
-    public var data: Data
-}
