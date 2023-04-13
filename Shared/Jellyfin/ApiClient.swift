@@ -111,14 +111,15 @@ struct PreviewData {
         Album(
             uuid: "2",
             name: "Album with very long name that one gets tired reading it",
-            artistName: "Unamusing artist"
+            artistName: "Unamusing artist",
+            isFavorite: false
         ),
         Album(
             uuid: "3",
             name: "Very long album name that can't possibly fit on one line on phone screen either in vertical or horizontal orientation",
             artistName: "Very long artist name that can't possibly fit on one line on phone screen either in vertical or horizontal orientation",
             isFavorite: true
-        )
+        ),
     ]
 
     public static let songs = [
@@ -128,6 +129,7 @@ struct PreviewData {
             index: 1,
             name: "Song name 1",
             parentId: "1",
+            isFavorite: false,
             runtime: 123
         ),
         Song(
@@ -135,6 +137,7 @@ struct PreviewData {
             index: 2,
             name: "Song name 2 but this one has very long name",
             parentId: "1",
+            isFavorite: false,
             runtime: 123
         ),
         // Songs for album 2
@@ -143,6 +146,7 @@ struct PreviewData {
             index: 1,
             name: "Song name 3",
             parentId: "2",
+            isFavorite: false,
             runtime: 123
         ),
         Song(
@@ -150,6 +154,7 @@ struct PreviewData {
             index: 2,
             name: "Song name 4 but this one has very long name",
             parentId: "2",
+            isFavorite: false,
             runtime: 123
         ),
         Song(
@@ -157,7 +162,8 @@ struct PreviewData {
             index: 1,
             name: "Very long song name that can't possibly fit on one line on phone screen either in vertical or horizontal orientation",
             parentId: "3",
+            isFavorite: false,
             runtime: 123
-        )
+        ),
     ]
 }

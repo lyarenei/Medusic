@@ -55,22 +55,3 @@ extension Song: Codable {
         try container.encode(runtime, forKey: .runtime)
     }
 }
-
-extension DownloadedMedia: Codable {
-    enum CodingKeys: String, CodingKey {
-        case uuid
-        case data
-    }
-
-    public init(from decoder: Decoder) throws {
-        let container = try decoder.container(keyedBy: CodingKeys.self)
-        self.uuid = try container.decode(String.self, forKey: .uuid)
-        self.data = try container.decode(Data.self, forKey: .data)
-    }
-
-    public func encode(to encoder: Encoder) throws {
-        var container = encoder.container(keyedBy: CodingKeys.self)
-        try container.encode(uuid, forKey: .uuid)
-        try container.encode(data, forKey: .data)
-    }
-}

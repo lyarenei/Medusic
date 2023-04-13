@@ -41,7 +41,11 @@ struct AlbumDetailScreen: View {
         }
         .navigationBarTitleDisplayMode(.inline)
         .toolbar {
-            ToolbarItem {
+            ToolbarItem(placement: .navigationBarTrailing) {
+                DownloadButton(item: album)
+            }
+
+            ToolbarItem(placement: .navigationBarTrailing) {
                 RefreshButton(mode: .album(id: album.uuid))
             }
         }

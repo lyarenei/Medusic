@@ -9,25 +9,19 @@ final class DefaultMediaService: MediaService {
         self.client = client
     }
 
-    func downloadItem(id: String) async throws -> DownloadedMedia {
-        let request = JellyfinAPI.Paths.getDownload(itemID: id)
-        let response = try await client.send(request)
-        return DownloadedMedia(uuid: id, data: response.value)
-    }
-
     func stream(item id: String, bitrate: Int32?) async throws -> Data {
         throw MediaServiceError.invalid
     }
 
     func new_downloadItem(id: String, destination: URL) async throws {
         let request = JellyfinAPI.Paths.getAudioStream(itemID: id)
-        let delegate = DownloadDelegate(destinationURL: destination)
+        let delegate = MediaDownloadDelegate(destinationURL: destination)
         Logger.jellyfin.debug("Starting download for item \(id)")
         let _ = try await client.download(for: request, delegate: delegate)
     }
 }
 
-class DownloadDelegate: NSObject, URLSessionDownloadDelegate {
+class MediaDownloadDelegate: NSObject, URLSessionDownloadDelegate {
     let destinationURL: URL
 
     init(destinationURL: URL) {

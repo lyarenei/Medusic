@@ -1,68 +1,126 @@
-import Combine
-import Foundation
+import Boutique
+import Defaults
 import OSLog
 
-class FileRepository {
+final class FileRepository: ObservableObject {
     public static let shared = FileRepository()
 
-    @Published
-    var downloadQueue: [String]
+    typealias Completion = () -> Void
 
-    private let cacheDirectory: URL
-    private var cacheSizeLimit: Int
+    @Stored
+    var downloadedSongs: [Song]
 
-    private var poolSize: Int
-    private var downloadSemaphore: DispatchSemaphore
+    @Stored
+    var downloadQueue: [Song]
 
-    private var apiClient: ApiClient
+    var cacheDirectory: URL
+    var cacheSizeLimit: UInt64
+    var currentCacheSize: UInt64
+
+    let apiClient: ApiClient
+    var downloadTask: Task<Void, Never>?
 
     init(
-        poolSize: Int = 3,
-        cacheSizeLimitInMB: Int = 1000
+        downloadedSongsStore: Store<Song> = .downloadedSongs,
+        downloadQueueStore: Store<Song> = .downloadQueue
     ) {
-        self.poolSize = poolSize
-        self.downloadSemaphore = DispatchSemaphore(value: poolSize)
-        self.downloadQueue = []
-        self.cacheSizeLimit = cacheSizeLimitInMB * 1024 * 1024
-
-        let cacheURL = FileManager.default.urls(for: .cachesDirectory, in: .userDomainMask).first!
-        self.cacheDirectory = cacheURL.appendingPathComponent("JellyMusic/Downloads", isDirectory: true)
-
+        _downloadedSongs = Stored(in: downloadedSongsStore)
+        _downloadQueue = Stored(in: downloadQueueStore)
+        self.cacheSizeLimit = Defaults[.maxCacheSize] * 1024 * 1024
+        self.apiClient = ApiClient()
         do {
-            try FileManager.default.createDirectory(at: cacheDirectory, withIntermediateDirectories: true, attributes: nil)
+            let cacheUrl = try FileManager.default.url(
+                for: .applicationSupportDirectory,
+                in: .userDomainMask,
+                appropriateFor: nil,
+                create: true
+            )
+
+            self.cacheDirectory = cacheUrl.appendingPathComponent("JellyMusic/Downloads", isDirectory: true)
+            try FileManager.default.createDirectory(
+                at: cacheDirectory,
+                withIntermediateDirectories: true,
+                attributes: [.protectionKey: "none"]
+            )
         } catch {
-            Logger.repository.debug("Failed to create directory for downloads: \(error.localizedDescription)")
+            fatalError("Could not set up app cache: \(error.localizedDescription)")
         }
 
-        self.apiClient = ApiClient()
-        self.initPool()
+        self.currentCacheSize = 0
+        do {
+            self.currentCacheSize = try downloadedFilesSize()
+        } catch {
+            Logger.repository.error("Could not read current cache size, defaulting to 0")
+        }
+
+        startDownloading()
     }
 
-    @discardableResult
-    func enqueueToDownload(itemId: String) -> URL {
-        enqueue(item: itemId)
-        DispatchQueue.global(qos: .background).async {
-            self.downloadSemaphore.wait()
-            Task(priority: .background) {
-                defer { self.downloadSemaphore.signal() }
-                let outputFileURL = self.cacheDirectory.appendingPathComponent(itemId)
-                Logger.repository.debug("Starting download for item \(itemId)")
-                Logger.repository.debug("Current queue size size: \(self.downloadQueue.count)")
-                do {
-                    try await self.apiClient.services.mediaService.new_downloadItem(id: itemId, destination: outputFileURL)
-                } catch {
-                    Logger.repository.debug("Item download failed: \(error.localizedDescription)")
-                }
+    /// Enqueue song for download.
+    func enqueueToDownload(song: Song, startDownload: Bool = true) async throws {
+        try await enqueue(song)
+        if startDownload {
+            startDownloading()
+        }
+    }
 
-                self.dequeue(item: itemId)
+    /// Enqueue multiple songs for download.
+    func enqueueToDownload(songs: [Song], startDownload: Bool = true) async throws {
+        for song in songs {
+            try await enqueue(song)
+        }
+
+        if startDownload {
+            startDownloading()
+        }
+    }
+
+    /// Start downloading songs in queue.
+    func startDownloading() {
+        guard downloadTask == nil else { return }
+        downloadTask = Task {
+            do {
+                try await downloadNextSong()
+            } catch {
+                Logger.repository.debug("Download failed: \(error.localizedDescription)")
             }
         }
-
-        return self.cacheDirectory.appendingPathComponent(itemId)
     }
 
-    func fileURL(for itemId: String) -> URL? {
-        let fileURL = cacheDirectory.appendingPathComponent(itemId)
+    private func downloadNextSong() async throws {
+        if let nextSong = await $downloadQueue.items.sortByAlbum().first {
+            do {
+                try await downloadSong(nextSong)
+            } catch {
+                Logger.repository.debug("Song download failed: \(error.localizedDescription)")
+                try await downloadNextSong()
+                return
+            }
+
+            try await dequeue(nextSong)
+            try await $downloadedSongs.insert(nextSong)
+            currentCacheSize += nextSong.size
+            try await downloadNextSong()
+        } else {
+            downloadTask?.cancel()
+            downloadTask = nil
+        }
+    }
+
+    private func downloadSong(_ song: Song) async throws {
+        guard currentCacheSize + song.size <= cacheSizeLimit else {
+            Logger.repository.info("Download for song \(song.uuid) cancelled: cache size limit reached")
+            return
+        }
+
+        let outputFileURL = cacheDirectory.appendingPathComponent(song.uuid)
+        Logger.repository.debug("Starting download for song \(song.uuid)")
+        await reportCurrentDownloadQueue()
+        try await apiClient.services.mediaService.new_downloadItem(id: song.uuid, destination: outputFileURL)
+    }
+
+    func fileURL(for songId: String) -> URL? {
+        let fileURL = cacheDirectory.appendingPathComponent(songId)
         return FileManager.default.fileExists(atPath: fileURL.path) ? fileURL : nil
     }
 
@@ -75,33 +133,44 @@ class FileRepository {
         return enumerator?.allObjects.count ?? 0
     }
 
-    func downloadedFilesSizeInMB() -> Double {
-        let totalSizeInBytes = downloadedFilesSize()
-        let totalSizeInMB = Double(totalSizeInBytes) / 1024.0 / 1024.0
-        return totalSizeInMB
+    func downloadedFilesSizeInMB() throws -> Double {
+        let totalSizeInBytes = try downloadedFilesSize()
+        return Double(totalSizeInBytes) / 1024.0 / 1024.0
     }
 
-    private func downloadedFilesSize() -> UInt64 {
+    private func downloadedFilesSize() throws -> UInt64 {
         var totalSize: UInt64 = 0
+        let enumerator = FileManager.default.enumerator(
+            at: cacheDirectory,
+            includingPropertiesForKeys: [.fileSizeKey],
+            options: []
+        )
 
-        let enumerator = FileManager.default.enumerator(at: cacheDirectory, includingPropertiesForKeys: [.fileSizeKey], options: [])
         while let fileURL = enumerator?.nextObject() as? URL {
             do {
                 let fileAttributes = try fileURL.resourceValues(forKeys: [.fileSizeKey])
                 totalSize += UInt64(fileAttributes.fileSize ?? 0)
             } catch {
                 Logger.repository.debug("Failed to calculate file size: \(error.localizedDescription)")
+                throw error
             }
         }
 
         return totalSize
     }
 
-    func removeFile(itemId: String) throws {
-        let fileURL = cacheDirectory.appendingPathComponent(itemId)
-        Logger.repository.debug("Removig file for item \(itemId)")
+    func removeFile(for song: Song) async throws {
+        let fileURL = cacheDirectory.appendingPathComponent(song.uuid)
+        Logger.repository.debug("Removing file for song \(song.uuid)")
         try FileManager.default.removeItem(at: fileURL)
-        Logger.repository.debug("File for item \(itemId) has been removed")
+        try await $downloadedSongs.remove(song)
+        Logger.repository.debug("File for song \(song.uuid) has been removed")
+    }
+
+    func removeFiles(for songs: [Song]) async throws {
+        for song in songs {
+            try await removeFile(for: song)
+        }
     }
 
     func removeAllFiles() throws {
@@ -113,64 +182,39 @@ class FileRepository {
         }
     }
 
-    func setPoolSize(_ newPoolSize: Int) throws {
-        guard newPoolSize > 0 else {
-            Logger.repository.debug("Invalid pool size \(newPoolSize): cannot be less than 0")
-            throw DownloadManagerError.invalidPoolSize
-        }
-
-        DispatchQueue.global(qos: .background).async {
-            // Wait for all active downloads to finish before updating the pool size
-            Logger.repository.debug("Waiting for all active downloads to complete before changing pool size")
-            for _ in 0 ..< self.poolSize {
-                self.downloadSemaphore.wait()
-            }
-
-            // Update the pool size and semaphore
-            self.poolSize = newPoolSize
-            self.downloadSemaphore = DispatchSemaphore(value: newPoolSize)
-
-            // Signal the semaphore for the new pool size
-            self.initPool()
-        }
-    }
-
-    func setCacheSizeLimit(_ sizeInMB: Int) {
+    func setCacheSizeLimit(_ sizeInMB: UInt64) {
         Logger.repository.debug("Setting cache limit to \(sizeInMB) MB")
         cacheSizeLimit = sizeInMB * 1024 * 1024
     }
 
     func checkCacheSizeLimit() throws {
-        let currentSize = downloadedFilesSize()
+        let currentSize = try downloadedFilesSize()
         if currentSize > cacheSizeLimit {
-            throw DownloadManagerError.cacheSizeLimitExceeded
+            throw FileRepositoryError.cacheSizeLimitExceeded
         }
     }
 
     // MARK: - Internal
 
-    private func initPool() {
-        Logger.repository.debug("Setting pool size to \(self.poolSize)")
-        for _ in 0 ..< self.poolSize {
-            self.downloadSemaphore.signal()
-        }
+    private func enqueue(_ song: Song) async throws {
+        try await $downloadQueue.insert(song)
+        Logger.repository.debug("Added song \(song.uuid) to download queue")
+        await reportCurrentDownloadQueue()
     }
 
-    private func enqueue(item id: String) {
-        downloadQueue.append(id)
-        Logger.repository.debug("Added item \(id) to queue")
-        Logger.repository.debug("Current queue size: \(self.downloadQueue.count)")
+    private func dequeue(_ song: Song) async throws {
+        try await $downloadQueue.remove(song)
+        Logger.repository.debug("Song \(song.uuid) has been removed from download queue")
+        await reportCurrentDownloadQueue()
     }
 
-    private func dequeue(item id: String) {
-        guard let idx = self.downloadQueue.firstIndex(of: id) else { return }
-        self.downloadQueue.remove(at: idx)
-        Logger.repository.debug("Item \(id) has been removed from queue")
-        Logger.repository.debug("Current queue size: \(self.downloadQueue.count)")
+    private func reportCurrentDownloadQueue() async {
+        let queueSize = await $downloadQueue.items.count
+        Logger.repository.debug("Current queue size: \(queueSize)")
     }
 
-    enum DownloadManagerError: Error {
+    enum FileRepositoryError: Error {
+        case cacheDirectoryIsNil
         case cacheSizeLimitExceeded
-        case invalidPoolSize
     }
 }

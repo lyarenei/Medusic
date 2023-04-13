@@ -9,6 +9,7 @@
 --patternlet inline # hoistPatternLet
 # --xcodeindentation enabled
 --self init-only # redundantSelf
+--selfrequired debug,error,info,warning
 --hexliteralcase uppercase
 --redundanttype inferred # redundantType
 # --importgrouping testable-bottom # sortedImports

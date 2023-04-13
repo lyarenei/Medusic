@@ -2,18 +2,18 @@ import SFSafeSymbols
 import SwiftUI
 
 struct LibraryScreen: View {
-    @StateObject
-    private var controller: LibraryController = .init()
+    @ObservedObject
+    var albumRepo: AlbumRepository
 
-    init(_ controller: LibraryController = .init()) {
-        self._controller = StateObject(wrappedValue: controller)
+    init(albumRepo: AlbumRepository = .shared) {
+        _albumRepo = ObservedObject(wrappedValue: albumRepo)
     }
 
     var body: some View {
         NavigationView {
             ScrollView {
                 VStack(alignment: .leading) {
-                    LibraryNavigationItems(controller)
+                    LibraryNavigationItems()
 
                     Text("Favorite albums")
                         .font(.title3)
@@ -22,7 +22,7 @@ struct LibraryScreen: View {
                         .padding(.bottom, -1)
                 }
 
-                AlbumCollection(albums: controller.favoriteAlbums)
+                AlbumCollection(albums: albumRepo.albums.favorite.consistent)
                     .buttonStyle(.plain)
             }
             .fixFlickering()
@@ -32,7 +32,6 @@ struct LibraryScreen: View {
             .toolbar {
                 ToolbarItem { RefreshButton(mode: .all) }
             }
-            .onAppear { self.controller.setFavoriteAlbums() }
         }
         .navigationViewStyle(.stack)
     }
@@ -41,25 +40,10 @@ struct LibraryScreen: View {
 #if DEBUG
 struct LibraryScreen_Previews: PreviewProvider {
     static var previews: some View {
-        LibraryScreen(LibraryController(
-            albumRepo: AlbumRepository(
-                store: .previewStore(
-                    items: PreviewData.albums,
-                    cacheIdentifier: \.uuid
-                )
-            ),
-            songRepo: SongRepository(
-                store: .previewStore(
-                    items: PreviewData.songs,
-                    cacheIdentifier: \.uuid
-                )
-            )
-        ))
+        LibraryScreen(albumRepo: .init(store: .previewStore(items: PreviewData.albums, cacheIdentifier: \.uuid)))
 
-        LibraryScreen(LibraryController(
-            albumRepo: AlbumRepository(store: .previewStore(items: [], cacheIdentifier: \.uuid)),
-            songRepo: SongRepository(store: .previewStore(items: [], cacheIdentifier: \.uuid))
-        ))
+        LibraryScreen(albumRepo: .init(store: .previewStore(items: [], cacheIdentifier: \.uuid)))
+            .previewDisplayName("Empty library")
     }
 }
 #endif
@@ -108,13 +92,6 @@ private struct NavigationEntry<Content: View>: View {
 // MARK: - Navigation items
 
 private struct LibraryNavigationItems: View {
-    @StateObject
-    private var controller: LibraryController
-
-    init(_ controller: LibraryController) {
-        self._controller = StateObject(wrappedValue: controller)
-    }
-
     var body: some View {
         VStack(alignment: .leading, spacing: 5) {
             NavigationEntry(

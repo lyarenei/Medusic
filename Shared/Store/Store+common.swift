@@ -21,6 +21,12 @@ extension Store<Song> {
     static let songs = Store<Song>(
         storage: SQLiteStorageEngine.default(appendingPath: "Songs")
     )
+    static let downloadedSongs = Store<Song>(
+        storage: SQLiteStorageEngine.default(appendingPath: "DownloadedSongs")
+    )
+    static let downloadQueue = Store<Song>(
+        storage: SQLiteStorageEngine.default(appendingPath: "DownloadQueue")
+    )
 }
 
 // MARK: - Environment

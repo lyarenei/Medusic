@@ -3,6 +3,11 @@ import OSLog
 import SFSafeSymbols
 import SwiftUI
 
+enum AlbumDisplayMode: String, Defaults.Serializable {
+    case asList
+    case asTiles
+}
+
 struct AlbumCollection: View {
     @Default(.albumDisplayMode)
     var displayMode: AlbumDisplayMode
@@ -25,10 +30,10 @@ struct AlbumCollection: View {
                 .foregroundColor(.gray)
         } else if let gotAlbums = albums {
             switch overrideDisplayMode ?? displayMode {
-                case .asList:
-                    AlbumList(albums: gotAlbums)
-                default:
-                    AlbumTileList(albums: gotAlbums)
+            case .asList:
+                AlbumList(albums: gotAlbums)
+            default:
+                AlbumTileList(albums: gotAlbums)
             }
         } else {
             InProgressComponent("Refreshing albums ...")

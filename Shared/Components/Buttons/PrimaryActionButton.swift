@@ -13,10 +13,10 @@ struct PrimaryActionButton: View {
 
     var body: some View {
         switch primaryAction {
-            case .download:
-                downloadButton(for: item)
-            case .favorite:
-                FavoriteButton(for: item)
+        case .download:
+            downloadButton(for: item)
+        case .favorite:
+            FavoriteButton(for: item)
         }
     }
 
@@ -25,9 +25,9 @@ struct PrimaryActionButton: View {
     func downloadButton(for item: Item) -> some View {
         switch item {
         case .album(let album):
-            DownloadButton(for: album.uuid)
+            DownloadButton(item: album)
         case .song(let song):
-            DownloadButton(for: song.uuid)
+            DownloadButton(item: song)
         }
     }
 }
