@@ -15,12 +15,6 @@ extension Album: Identifiable {
     }
 }
 
-extension DownloadedMedia: Identifiable {
-    public var id: String {
-        self.uuid
-    }
-}
-
 extension ArtistInfo: Identifiable {
     public var id: String {
         String(indexNumber!)

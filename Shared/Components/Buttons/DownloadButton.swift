@@ -89,6 +89,7 @@ private final class DownloadButtonController: ObservableObject {
         self.albumRepo = albumRepo
         self.songRepo = songRepo
 
+        /*
         FileRepository.shared.$downloadQueue.sink { queue in
             let inQueue = queue.contains(where: { $0 == self.itemId })
             if inQueue {
@@ -103,6 +104,7 @@ private final class DownloadButtonController: ObservableObject {
             }
         }
         .store(in: &self.cancellables)
+         */
     }
 
     func onClick() async throws {
@@ -123,12 +125,12 @@ private final class DownloadButtonController: ObservableObject {
 
     private func downloadItem() {
         // TODO: support for albums (bulk download)
-        FileRepository.shared.enqueueToDownload(itemId: itemId)
+        // FileRepository.shared.enqueueToDownload(song: itemId)
     }
 
     private func removeItem() async throws {
         // TODO: support for albums (bulk remove)
-        try FileRepository.shared.removeFile(itemId: itemId)
+        // try FileRepository.shared.removeFile(song: itemId)
         setDownloaded()
     }
 }

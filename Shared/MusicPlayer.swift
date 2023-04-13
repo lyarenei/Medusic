@@ -25,7 +25,7 @@ class MusicPlayer: NSObject, AVAudioPlayerDelegate, ObservableObject {
 
     @Published
 //    var currentSong: Song? = nil
-    var currentSong: Song? = Song(uuid: "1", index: 1, name: "Random song name", parentId: "1")
+    var currentSong: Song? = Song(uuid: "1", index: 1, name: "Random song name", parentId: "1", isFavorite: false)
     private var currentlyPlayingFile: AVAudioFile?
     private var currentIndex = 0
 

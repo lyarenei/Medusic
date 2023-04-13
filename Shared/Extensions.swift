@@ -55,13 +55,13 @@ extension Array where Element == Song {
 extension Array {
     /// Convenience indicator for checking if the collection is not empty.
     @inlinable
-    public var isNotEmpty: Bool { get { !self.isEmpty } }
+    public var isNotEmpty: Bool { !isEmpty }
 }
 
 extension String {
     /// Convenience indicator for checking if the string is not empty.
     @inlinable
-    public var isNotEmpty: Bool { get { !self.isEmpty } }
+    public var isNotEmpty: Bool { !isEmpty }
 }
 
 extension ScrollView {
