@@ -3,134 +3,158 @@ import OSLog
 import SwiftUI
 
 struct DownloadButton: View {
-    @StateObject
-    private var controller: DownloadButtonController
+    @State
+    var isDownloaded = false
 
-    private var showText: Bool
+    @State
+    var inProgress = false
+
+    var item: any JellyfinItem
+    var textDownload: String?
+    var textRemove: String?
+
+    var songRepo: SongRepository
+
+    @ObservedObject
+    var fileRepo: FileRepository
 
     init(
-        for itemId: String,
-        showText: Bool = false,
-        albumRepo: AlbumRepository = AlbumRepository.shared,
-        songRepo: SongRepository = SongRepository.shared
+        item: any JellyfinItem,
+        textDownload: String? = nil,
+        textRemove: String? = nil,
+        songRepo: SongRepository = .shared,
+        fileRepo: FileRepository = .shared
     ) {
-        self.showText = showText
-        self._controller = StateObject(
-            wrappedValue: DownloadButtonController(
-                itemId: itemId,
-                albumRepo: albumRepo,
-                songRepo: songRepo
-            )
-        )
+        self.item = item
+        self.textDownload = textDownload
+        self.textRemove = textRemove
+        self.songRepo = songRepo
+        self._fileRepo = ObservedObject(wrappedValue: fileRepo)
     }
 
     var body: some View {
-        GeometryReader { reader in
-            Button {
-                Task(priority: .background) {
-                    do {
-                        try await self.controller.onClick()
-                    } catch {
-                        Logger.library.debug("Task for download button failed: \(error.localizedDescription)")
-                    }
+        GeometryReader { readerProxy in
+            button(proxy: readerProxy)
+                .onAppear { handleOnAppear() }
+                .onChange(of: fileRepo.downloadedSongs) { downloaded in
+                    handleIsDownloaded(downloaded)
                 }
-            } label: {
-                if controller.inProgress {
-                    ProgressView()
-                        .frame(
-                            width: reader.size.width,
-                            height: reader.size.height,
-                            alignment: .center
-                        )
-                        .scaledToFit()
-                } else {
-                    if showText { Text(controller.buttonText) }
-                    DownloadedIcon(isDownloaded: $controller.isDownloaded)
+                .onChange(of: fileRepo.downloadQueue) { dlq in
+                    handleInProgress(dlq)
                 }
+        }
+    }
+
+    @ViewBuilder
+    func button(proxy: GeometryProxy) -> some View {
+        Button {
+            action()
+        } label: {
+            if inProgress {
+                ProgressView()
+                    .frame(
+                        width: proxy.size.width,
+                        height: proxy.size.height,
+                        alignment: .center
+                    )
+                    .scaledToFit()
+            } else {
+                DownloadIcon(isDownloaded: $isDownloaded)
+                buttonText()
             }
         }
-        .onAppear { Task(priority: .background) { controller.setDownloaded() }}
+    }
+
+    @ViewBuilder
+    func buttonText() -> some View {
+        if let textRemove, let textDownload {
+            Text(isDownloaded ? textRemove : textDownload)
+        }
+    }
+
+    func handleOnAppear() {
+        switch item {
+        case let item as Song:
+            isDownloaded = fileRepo.downloadedSongs.contains { $0 == item }
+            inProgress = fileRepo.downloadQueue.contains { $0 == item }
+        default:
+            isDownloaded = false
+            inProgress = false
+        }
+    }
+
+    func handleIsDownloaded(_ songs: [Song]) {
+        switch item {
+        case let item as Song:
+            isDownloaded = songs.contains { $0 == item }
+        default:
+            inProgress = false
+        }
+    }
+
+    func handleInProgress(_ songs: [Song]) {
+        switch item {
+        case let item as Album:
+            inProgress = songs.contains { $0.parentId == item.uuid }
+        case let item as Song:
+            inProgress = songs.contains { $0 == item }
+        default:
+            inProgress = false
+        }
+    }
+
+    func action() {
+        Task {
+            do {
+                if isDownloaded {
+                    try await removeAction()
+                } else {
+                    try await downloadAction()
+                }
+            } catch {
+                print("Button action failed for item: \(item) - \(error.localizedDescription)")
+            }
+        }
+    }
+
+    func downloadAction() async throws {
+        switch item {
+        case let item as Album:
+            let songs = await songRepo.getSongs(ofAlbum: item.uuid)
+            try await fileRepo.enqueueToDownload(songs: songs)
+        case let item as Song:
+            try await fileRepo.enqueueToDownload(song: item)
+        default:
+            print("Unhandled item type: \(item)")
+            return
+        }
+    }
+
+    func removeAction() async throws {
+        switch item {
+        case let item as Album:
+            let songs = await songRepo.getSongs(ofAlbum: item.uuid)
+            try await fileRepo.removeFiles(for: songs)
+        case let item as Song:
+            try await fileRepo.removeFile(for: item)
+        default:
+            print("Unhandled item type: \(item)")
+            return
+        }
     }
 }
 
 #if DEBUG
+// swiftlint:disable all
 struct DownloadButton_Previews: PreviewProvider {
     static var previews: some View {
         DownloadButton(
-            for: "1",
-            albumRepo: AlbumRepository(store: .previewStore(items: PreviewData.albums, cacheIdentifier: \.uuid)),
-            songRepo: SongRepository(store: .previewStore(items: PreviewData.songs, cacheIdentifier: \.uuid))
+            item: PreviewData.albums.first!,
+            textDownload: "Download",
+            textRemove: "Remove",
+            songRepo: .init(store: .previewStore(items: PreviewData.songs, cacheIdentifier: \.uuid))
         )
     }
 }
+// swiftlint:enable all
 #endif
-
-private final class DownloadButtonController: ObservableObject {
-    @Published
-    var inProgress: Bool = false
-
-    @Published
-    var isDownloaded: Bool = false
-
-    @Published
-    var buttonText: String = "Download"
-
-    private let itemId: String
-    private var albumRepo: AlbumRepository
-    private var songRepo: SongRepository
-    private var cancellables: Cancellables = []
-
-    init(
-        itemId: String,
-        albumRepo: AlbumRepository,
-        songRepo: SongRepository
-    ) {
-        self.itemId = itemId
-        self.albumRepo = albumRepo
-        self.songRepo = songRepo
-
-        /*
-        FileRepository.shared.$downloadQueue.sink { queue in
-            let inQueue = queue.contains(where: { $0 == self.itemId })
-            if inQueue {
-                if !self.inProgress {
-                    self.setInProgress(true)
-                }
-            } else {
-                if self.inProgress {
-                    self.setInProgress(false)
-                    self.setDownloaded()
-                }
-            }
-        }
-        .store(in: &self.cancellables)
-         */
-    }
-
-    func onClick() async throws {
-        await self.isDownloaded ? try removeItem() : downloadItem()
-    }
-
-    func setDownloaded() {
-        let fileExists = FileRepository.shared.fileURL(for: self.itemId) != nil
-        DispatchQueue.main.async {
-            self.isDownloaded = fileExists
-            self.buttonText = fileExists ? "Remove" : "Download"
-        }
-    }
-
-    private func setInProgress(_ inProgress: Bool) {
-        DispatchQueue.main.async { self.inProgress = inProgress }
-    }
-
-    private func downloadItem() {
-        // TODO: support for albums (bulk download)
-        // FileRepository.shared.enqueueToDownload(song: itemId)
-    }
-
-    private func removeItem() async throws {
-        // TODO: support for albums (bulk remove)
-        // try FileRepository.shared.removeFile(song: itemId)
-        setDownloaded()
-    }
-}

@@ -1,23 +1,26 @@
-import Foundation
-import JellyfinAPI
-
 public struct JellyfinServerInfo {
     public var name: String
     public var version: String
 }
 
-public struct Album {
-    public var uuid: String
-    public var name: String
-    public var artistName: String
-    public var isFavorite: Bool
+protocol JellyfinItem: Identifiable, Codable, Equatable {
+    var uuid: String { get }
+    var name: String { get }
+    var isFavorite: Bool { get }
 }
 
-public struct Song {
-    public var uuid: String
-    public var index: Int
-    public var name: String
-    public var parentId: String
-    public var isFavorite: Bool
-    public var size: UInt64 = 0
+struct Album: JellyfinItem {
+    var uuid: String
+    var name: String
+    var artistName: String
+    var isFavorite: Bool
+}
+
+struct Song: JellyfinItem {
+    var uuid: String
+    var index: Int
+    var name: String
+    var parentId: String
+    var isFavorite: Bool
+    var size: UInt64 = 0
 }

@@ -1,7 +1,7 @@
 import SFSafeSymbols
 import SwiftUI
 
-struct DownloadedIcon: View {
+struct DownloadIcon: View {
     @Binding
     var isDownloaded: Bool
 
@@ -22,8 +22,8 @@ struct DownloadedIcon_Previews: PreviewProvider {
     static var isDownloadedNo = false
 
     static var previews: some View {
-        DownloadedIcon(isDownloaded: $isDownloadedYes)
-        DownloadedIcon(isDownloaded: $isDownloadedNo)
+        DownloadIcon(isDownloaded: $isDownloadedYes)
+        DownloadIcon(isDownloaded: $isDownloadedNo)
     }
 }
 #endif
