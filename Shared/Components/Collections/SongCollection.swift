@@ -170,7 +170,11 @@ private struct ContextOptions: View  {
             Text("Play")
         }
 
-        DownloadButton(item: item)
+        DownloadButton(
+            item: item,
+            textDownload: "Download",
+            textRemove: "Remove"
+        )
 
         FavoriteButton(
             for: .song(item),
