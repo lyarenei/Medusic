@@ -61,6 +61,7 @@ struct FavoriteButton: View {
 }
 
 #if DEBUG
+// swiftlint:disable all
 struct FavoriteButton_Previews: PreviewProvider {
     static var previews: some View {
         FavoriteButton(
@@ -70,4 +71,5 @@ struct FavoriteButton_Previews: PreviewProvider {
         )
     }
 }
+// swiftlint:enable all
 #endif

@@ -18,11 +18,13 @@ struct PrimaryActionButton: View {
 }
 
 #if DEBUG
+// swiftlint:disable all
 struct PrimaryActionButton_Previews: PreviewProvider {
     static var previews: some View {
         PrimaryActionButton(item: PreviewData.songs.first!)
     }
 }
+// swiftlint:enable all
 #endif
 
 enum PrimaryAction: String, Defaults.Serializable {
