@@ -55,9 +55,7 @@ struct LibraryScreen: View {
         Text("Favorite albums")
             .font(.title)
             .bold()
-            .padding(.leading)
             .padding(.top, 30)
-            .hideListRowSeparator()
     }
 }
 
