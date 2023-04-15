@@ -22,6 +22,7 @@ struct LibraryScreen: View {
                 navLink(for: "Songs", to: SongsLibraryScreen(), icon: .musicNote)
 
                 favoritesTitle()
+                favoritesContent(albumRepo.albums.favorite.consistent)
             }
             .navigationTitle("Library")
             .navigationBarTitleDisplayMode(.large)
@@ -56,6 +57,18 @@ struct LibraryScreen: View {
             .font(.title)
             .bold()
             .padding(.top, 30)
+    }
+
+    @ViewBuilder
+    func favoritesContent(_ albums: [Album]) -> some View {
+        ForEach(albums) { album in
+            NavigationLink {
+                AlbumDetailScreen(for: album)
+            } label: {
+                AlbumListRowComponent(album: album)
+            }
+            .padding(.vertical, 7)
+        }
     }
 }
 
