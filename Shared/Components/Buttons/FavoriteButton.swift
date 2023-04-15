@@ -49,7 +49,8 @@ struct FavoriteButton: View {
                 case let song as Song:
                     try await songRepo.setFavorite(songId: song.uuid, isFavorite: isFavorite)
                 default:
-                    print("Unhandled type")
+                    print("Unhandled item type: \(item)")
+                    return
                 }
 
                 await MainActor.run { isFavorite.toggle() }
