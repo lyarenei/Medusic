@@ -178,8 +178,8 @@ private struct ContextOptions: View  {
 
         FavoriteButton(
             item: item,
-            textTrue: "Unfavorite",
-            textFalse: "Favorite"
+            textFavorite: "Favorite",
+            textUnfavorite: "Unfavorite"
         )
 
         Button {

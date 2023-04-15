@@ -7,19 +7,19 @@ struct FavoriteButton: View {
     let albumRepo: AlbumRepository
     let songRepo: SongRepository
     let item: any JellyfinItem
-    let textTrue: String?
-    let textFalse: String?
+    let textFavorite: String?
+    let textUnfavorite: String?
 
     init(
         item: any JellyfinItem,
-        textTrue: String? = nil,
-        textFalse: String? = nil,
+        textFavorite: String? = nil,
+        textUnfavorite: String? = nil,
         albumRepo: AlbumRepository = .shared,
         songRepo: SongRepository = .shared
     ) {
         self.item = item
-        self.textTrue = textTrue
-        self.textFalse = textFalse
+        self.textFavorite = textFavorite
+        self.textUnfavorite = textUnfavorite
         self.albumRepo = albumRepo
         self.songRepo = songRepo
     }
@@ -29,7 +29,7 @@ struct FavoriteButton: View {
             action()
         } label: {
             FavoriteIcon(isFavorite: isFavorite)
-            buttonText(isFavorite ? textTrue : textFalse)
+            buttonText(isFavorite ? textUnfavorite : textFavorite)
         }
     }
 
