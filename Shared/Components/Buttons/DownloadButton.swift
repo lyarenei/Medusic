@@ -60,15 +60,15 @@ struct DownloadButton: View {
                     .scaledToFit()
             } else {
                 DownloadIcon(isDownloaded: $isDownloaded)
-                buttonText()
+                buttonText(isDownloaded ? textRemove : textDownload)
             }
         }
     }
 
     @ViewBuilder
-    func buttonText() -> some View {
-        if let textRemove, let textDownload {
-            Text(isDownloaded ? textRemove : textDownload)
+    func buttonText(_ text: String?) -> some View {
+        if let text {
+            Text(text)
         }
     }
 
