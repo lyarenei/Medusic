@@ -5,8 +5,7 @@ struct DownloadIcon: View {
     var isDownloaded: Bool
 
     var body: some View {
-        let downloadedIcon: SFSymbol = isDownloaded ? .trash : .icloudAndArrowDown
-        Image(systemSymbol: downloadedIcon)
+        Image(systemSymbol: isDownloaded ? .trash : .icloudAndArrowDown)
             .resizable()
             .scaledToFit()
     }
