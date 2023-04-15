@@ -144,7 +144,7 @@ private struct SEC: View {
             .contentShape(Rectangle())
 
             if showAction {
-                PrimaryActionButton(for: .song(song))
+                PrimaryActionButton(item: song)
                     .font(.title3)
                     .frame(width: 27, height: 27)
                     .padding(.trailing, 5)
@@ -177,7 +177,7 @@ private struct ContextOptions: View  {
         )
 
         FavoriteButton(
-            for: .song(item),
+            item: item,
             textTrue: "Unfavorite",
             textFalse: "Favorite"
         )
