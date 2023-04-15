@@ -51,18 +51,23 @@ struct DownloadButton: View {
             action()
         } label: {
             if inProgress {
-                ProgressView()
-                    .frame(
-                        width: proxy.size.width,
-                        height: proxy.size.height,
-                        alignment: .center
-                    )
-                    .scaledToFit()
+                progressIndicator(proxy)
             } else {
                 DownloadIcon(isDownloaded: $isDownloaded)
                 buttonText(isDownloaded ? textRemove : textDownload)
             }
         }
+    }
+
+    @ViewBuilder
+    func progressIndicator(_ proxy: GeometryProxy) -> some View {
+        ProgressView()
+            .frame(
+                width: proxy.size.width,
+                height: proxy.size.height,
+                alignment: .center
+            )
+            .scaledToFit()
     }
 
     @ViewBuilder
