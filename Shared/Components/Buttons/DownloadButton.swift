@@ -53,7 +53,7 @@ struct DownloadButton: View {
             if inProgress {
                 progressIndicator(proxy)
             } else {
-                DownloadIcon(isDownloaded: $isDownloaded)
+                DownloadIcon(isDownloaded: isDownloaded)
                 buttonText(isDownloaded ? textRemove : textDownload)
             }
         }
