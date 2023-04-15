@@ -26,8 +26,3 @@ struct PrimaryActionButton_Previews: PreviewProvider {
 }
 // swiftlint:enable all
 #endif
-
-enum PrimaryAction: String, Defaults.Serializable {
-    case download
-    case favorite
-}
