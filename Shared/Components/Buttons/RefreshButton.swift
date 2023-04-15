@@ -25,7 +25,7 @@ struct RefreshButton: View {
 
     func action() {
         inProgress = true
-        Task(priority: .userInitiated) {
+        Task {
             defer { setInProgress(false) }
             do {
                 switch mode {
