@@ -3,7 +3,7 @@ import SwiftUI
 
 struct RefreshButton: View {
     @State
-    var inProgress: Bool = false
+    var inProgress = false
 
     let text: String? = nil
     let mode: ButtonMode
@@ -16,7 +16,7 @@ struct RefreshButton: View {
                 action()
             } label: {
                 Image(systemSymbol: .arrowClockwise)
-                if let text = text {
+                if let text {
                     Text(text)
                 }
             }
@@ -25,7 +25,7 @@ struct RefreshButton: View {
 
     func action() {
         inProgress = true
-        Task(priority: .userInitiated) {
+        Task {
             defer { setInProgress(false) }
             do {
                 switch mode {
@@ -47,10 +47,8 @@ struct RefreshButton: View {
     }
 
     func setInProgress(_ isInProgress: Bool) {
-        Task(priority: .background) {
-            await MainActor.run {
-                self.inProgress = isInProgress
-            }
+        Task {
+            await MainActor.run { inProgress = isInProgress }
         }
     }
 

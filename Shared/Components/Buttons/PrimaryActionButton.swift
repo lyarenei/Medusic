@@ -5,47 +5,24 @@ struct PrimaryActionButton: View {
     @Default(.primaryAction)
     private var primaryAction: PrimaryAction
 
-    let item: Item
-
-    init(for item: Item) {
-        self.item = item
-    }
+    let item: any JellyfinItem
 
     var body: some View {
         switch primaryAction {
         case .download:
-            downloadButton(for: item)
+            DownloadButton(item: item)
         case .favorite:
-            FavoriteButton(for: item)
-        }
-    }
-
-    // TODO: temporary until download button is refactored
-    @ViewBuilder
-    func downloadButton(for item: Item) -> some View {
-        switch item {
-        case .album(let album):
-            DownloadButton(item: album)
-        case .song(let song):
-            DownloadButton(item: song)
+            FavoriteButton(item: item)
         }
     }
 }
 
 #if DEBUG
+// swiftlint:disable all
 struct PrimaryActionButton_Previews: PreviewProvider {
     static var previews: some View {
-        PrimaryActionButton(for: .song(PreviewData.songs.first!))
+        PrimaryActionButton(item: PreviewData.songs.first!)
     }
 }
+// swiftlint:enable all
 #endif
-
-enum PrimaryAction: String, Defaults.Serializable {
-    case download
-    case favorite
-}
-
-enum Item {
-    case album(_ album: Album)
-    case song(_ song: Song)
-}

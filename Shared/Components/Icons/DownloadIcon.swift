@@ -2,12 +2,10 @@ import SFSafeSymbols
 import SwiftUI
 
 struct DownloadIcon: View {
-    @Binding
     var isDownloaded: Bool
 
     var body: some View {
-        let downloadedIcon: SFSymbol = isDownloaded ? .trash : .icloudAndArrowDown
-        Image(systemSymbol: downloadedIcon)
+        Image(systemSymbol: isDownloaded ? .trash : .icloudAndArrowDown)
             .resizable()
             .scaledToFit()
     }
@@ -15,15 +13,9 @@ struct DownloadIcon: View {
 
 #if DEBUG
 struct DownloadedIcon_Previews: PreviewProvider {
-    @State
-    static var isDownloadedYes = true
-
-    @State
-    static var isDownloadedNo = false
-
     static var previews: some View {
-        DownloadIcon(isDownloaded: $isDownloadedYes)
-        DownloadIcon(isDownloaded: $isDownloadedNo)
+        DownloadIcon(isDownloaded: true)
+        DownloadIcon(isDownloaded: false)
     }
 }
 #endif

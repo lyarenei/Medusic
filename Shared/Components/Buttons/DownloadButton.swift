@@ -51,24 +51,29 @@ struct DownloadButton: View {
             action()
         } label: {
             if inProgress {
-                ProgressView()
-                    .frame(
-                        width: proxy.size.width,
-                        height: proxy.size.height,
-                        alignment: .center
-                    )
-                    .scaledToFit()
+                progressIndicator(proxy)
             } else {
-                DownloadIcon(isDownloaded: $isDownloaded)
-                buttonText()
+                DownloadIcon(isDownloaded: isDownloaded)
+                buttonText(isDownloaded ? textRemove : textDownload)
             }
         }
     }
 
     @ViewBuilder
-    func buttonText() -> some View {
-        if let textRemove, let textDownload {
-            Text(isDownloaded ? textRemove : textDownload)
+    func progressIndicator(_ proxy: GeometryProxy) -> some View {
+        ProgressView()
+            .frame(
+                width: proxy.size.width,
+                height: proxy.size.height,
+                alignment: .center
+            )
+            .scaledToFit()
+    }
+
+    @ViewBuilder
+    func buttonText(_ text: String?) -> some View {
+        if let text {
+            Text(text)
         }
     }
 
