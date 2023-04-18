@@ -1,7 +1,7 @@
 import Foundation
 
 final class MockMediaService: MediaService {
-    func stream(item id: String, bitrate: Int32?) async throws -> Data {
+    func getStreamUrl(item id: String, bitrate: Int32?) async throws -> URL? {
         throw MediaServiceError.invalid
     }
 
