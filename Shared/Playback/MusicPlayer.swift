@@ -4,7 +4,7 @@ import Foundation
 import OSLog
 import SwiftUI
 
-protocol MusicPlayerDelegate {
+protocol MusicPlayerDelegate: AnyObject {
     func getNextSong() async -> Song?
 }
 
@@ -12,11 +12,11 @@ protocol MusicPlayerDelegate {
 final class MusicPlayer: ObservableObject, MusicPlayerDelegate {
     public static let shared = MusicPlayer()
 
-    @ObservedObject
-    private var audioPlayer: AudioPlayer = .init()
+    var player: AVQueuePlayer = .init()
+    var api: ApiClient = .init()
 
     @Published
-    var currentSong: Song? = nil
+    var currentSong: Song?
 
     @Published
     var playbackQueue: [Song] = []
@@ -25,7 +25,7 @@ final class MusicPlayer: ObservableObject, MusicPlayerDelegate {
     var playbackHistory: [Song] = []
 
     @Published
-    var isPlaying: Bool = false
+    var isPlaying = false
 
     @Published
     var currentTime: TimeInterval = 0
@@ -34,65 +34,52 @@ final class MusicPlayer: ObservableObject, MusicPlayerDelegate {
 
     init(preview: Bool = false) {
         guard !preview else { return }
-        audioPlayer.delegate = self
-        subscribeToPlayerState()
-        subscribeToCurrentTime()
+//        subscribeToPlayerState()
+//        subscribeToCurrentTime()
     }
 
     func getNextSong() -> Song? {
-        return playbackQueue.first
+        playbackQueue.first
     }
 
     private func setCurrentlyPlaying(newSong: Song?) {
-        self.currentSong = newSong
+        currentSong = newSong
         Logger.player.debug("Song set as currently playing: \(newSong?.uuid ?? "nil")")
     }
 
     // MARK: - Playback controls
 
-    func play(song: Song? = nil) async throws {
-        if let song = song {
-            if isPlaying { stop() }
-            await enqueue(song: song, position: .next)
+    func play(song: Song? = nil) async {
+        if let song {
+            clearQueue(stopPlayback: true)
+            await enqueue(song: song, position: .last)
+            setCurrentlyPlaying(newSong: song)
         }
 
-        try await skipForward()
+        player.play()
     }
 
     func pause() {
-        audioPlayer.pause()
+        player.pause()
     }
 
     func resume() {
-        switch audioPlayer.playerState {
-        case .inactive:
-            guard let currentSong = currentSong else { return }
-            Task(priority: .userInitiated) {
-                try await audioPlayer.play(song: currentSong)
-            }
-        case .paused:
-            audioPlayer.resume()
-        case .playing:
-            return
-        }
+        player.play()
     }
 
     func stop() {
-        audioPlayer.stop()
-        playbackQueue.removeAll()
+        clearQueue()
     }
 
-    func skipForward() async throws {
-        if let nextSong = advanceInQueue() {
-            try await audioPlayer.skipToNext(song: nextSong)
-        }
+    func skipForward() {
+        advanceInQueue()
     }
 
     func skipBackward() async throws {
         guard playbackHistory.isNotEmpty else { return }
         let nextSong = playbackHistory.removeFirst()
         await enqueue(song: nextSong, position: .next)
-        try await skipForward()
+        skipForward()
     }
 
     // MARK: - Queuing controls
@@ -106,6 +93,8 @@ final class MusicPlayer: ObservableObject, MusicPlayerDelegate {
             case .next:
                 self.playbackQueue.insert(song, at: 0)
             }
+
+            self.enqueueToPlayer(song, position: position)
         }
     }
 
@@ -121,6 +110,7 @@ final class MusicPlayer: ObservableObject, MusicPlayerDelegate {
         }
     }
 
+    // TODO: Remove when possible
     func enqueue(itemId: String, position: EnqueuePosition) async {
         guard let song = await SongRepository.shared.getSong(by: itemId) else {
             Logger.player.debug("Could not find song for ID: \(itemId)")
@@ -132,7 +122,7 @@ final class MusicPlayer: ObservableObject, MusicPlayerDelegate {
 
     @discardableResult
     private func advanceInQueue() -> Song? {
-        if let currentSong = currentSong {
+        if let currentSong {
             Logger.player.debug("Added song to playback history: \(currentSong.uuid)")
             playbackHistory.insert(currentSong, at: 0)
         }
@@ -140,11 +130,43 @@ final class MusicPlayer: ObservableObject, MusicPlayerDelegate {
         guard playbackQueue.isNotEmpty else { return nil }
         let newCurrentSong = playbackQueue.removeFirst()
         setCurrentlyPlaying(newSong: newCurrentSong)
+        player.advanceToNextItem()
         return newCurrentSong
     }
 
-    // MARK: - Subscribers
+    /// Clear playback queue. Optionally stop playback of current song.
+    private func clearQueue(stopPlayback: Bool = false) {
+        playbackQueue.removeAll()
+        if stopPlayback {
+            player.removeAllItems()
+        } else {
+            player.clearNextItems()
+        }
+    }
 
+    /// Enqueue a song to internal player. The song is placed at the end of its queue.
+    private func enqueueToPlayer(_ song: Song, position: EnqueuePosition) {
+        // TODO: local file check
+        guard let url = api.services.mediaService.getStreamUrl(item: song.uuid, bitrate: nil) else {
+            Logger.player.debug("Could not retrieve an URL for song \(song.uuid), skipping")
+            return
+        }
+
+        let item = AVPlayerItem(url: url)
+        switch position {
+        case .last:
+            player.append(item: item)
+        case .next:
+            player.prepend(item: item)
+        }
+    }
+
+    private func enqueueToPlayer(_ songs: [Song], position: EnqueuePosition) {
+        // TODO: implement
+    }
+
+    // MARK: - Subscribers
+/*
     private func subscribeToPlayerState() {
         audioPlayer.$playerState.sink { [weak self] curState in
             guard let self = self else { return }
@@ -187,4 +209,5 @@ final class MusicPlayer: ObservableObject, MusicPlayerDelegate {
         }
         .store(in: &cancellables)
     }
+ */
 }

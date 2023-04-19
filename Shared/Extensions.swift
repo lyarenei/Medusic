@@ -1,3 +1,4 @@
+import AVFoundation
 import SwiftUI
 
 extension Array where Element == Album {
@@ -94,5 +95,42 @@ extension TimeInterval {
         let minutes = Int(self) / 60
         let seconds = Int(self) % 60
         return String(format: "%01d:%02d", minutes, seconds)
+    }
+}
+
+extension AVQueuePlayer {
+    func clearNextItems() {
+        guard currentItem != nil else { return }
+        for item in items() {
+            if item == currentItem { continue }
+            remove(item)
+        }
+    }
+
+    func append(item: AVPlayerItem) {
+        insert(item, after: nil)
+    }
+
+    func append(items: [AVPlayerItem]) {
+        for item in items {
+            insert(item, after: nil)
+        }
+    }
+
+    func prepend(item: AVPlayerItem) {
+        insert(item, after: currentItem)
+    }
+
+    func prepend(items: [AVPlayerItem]) {
+        let currentItems = self.items()
+        clearNextItems()
+
+        for item in items {
+            insert(item, after: nil)
+        }
+
+        for avItem in currentItems {
+            insert(avItem, after: nil)
+        }
     }
 }
