@@ -41,6 +41,7 @@ struct MusicPlayerScreen: View {
 }
 
 #if DEBUG
+// swiftlint:disable all
 struct MusicPlayerScreen_Previews: PreviewProvider {
     static var player = {
         var mp = MusicPlayer(preview: true)
@@ -52,6 +53,7 @@ struct MusicPlayerScreen_Previews: PreviewProvider {
         MusicPlayerScreen(player: player())
     }
 }
+// swiftlint:enable all
 #endif
 
 // MARK: - Song with actions
