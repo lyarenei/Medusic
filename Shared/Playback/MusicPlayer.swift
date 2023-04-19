@@ -34,7 +34,6 @@ final class MusicPlayer: ObservableObject, MusicPlayerDelegate {
 
     init(preview: Bool = false) {
         guard !preview else { return }
-//        subscribeToPlayerState()
 //        subscribeToCurrentTime()
     }
 
@@ -57,18 +56,22 @@ final class MusicPlayer: ObservableObject, MusicPlayerDelegate {
         }
 
         player.play()
+        setIsPlaying(isPlaying: true)
     }
 
     func pause() {
         player.pause()
+        setIsPlaying(isPlaying: false)
     }
 
     func resume() {
         player.play()
+        setIsPlaying(isPlaying: true)
     }
 
     func stop() {
         clearQueue()
+        setIsPlaying(isPlaying: false)
     }
 
     func skipForward() {
@@ -165,25 +168,12 @@ final class MusicPlayer: ObservableObject, MusicPlayerDelegate {
         // TODO: implement
     }
 
-    // MARK: - Subscribers
-/*
-    private func subscribeToPlayerState() {
-        audioPlayer.$playerState.sink { [weak self] curState in
-            guard let self = self else { return }
-            Task(priority: .background) {
-                await MainActor.run {
-                    switch curState {
-                    case .playing:
-                        self.isPlaying = true
-                    default:
-                        self.isPlaying = false
-                    }
-                }
-            }
-        }
-        .store(in: &cancellables)
+    private func setIsPlaying(isPlaying: Bool) {
+        Task { await MainActor.run { self.isPlaying = isPlaying } }
     }
 
+    // MARK: - Subscribers
+/*
     private func subscribeToCurrentTime() {
         audioPlayer.$currentTime.sink { [weak self] curTime in
             guard let self = self else { return }
