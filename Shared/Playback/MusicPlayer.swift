@@ -34,7 +34,11 @@ final class MusicPlayer: ObservableObject, MusicPlayerDelegate {
 
     init(preview: Bool = false) {
         guard !preview else { return }
-//        subscribeToCurrentTime()
+
+        let timeInterval = CMTime(seconds: 0.2, preferredTimescale: .max)
+        player.addPeriodicTimeObserver(forInterval: timeInterval, queue: .main) { curTime in
+            self.setCurrentTime(curTime.seconds)
+        }
     }
 
     func getNextSong() -> Song? {
@@ -172,32 +176,21 @@ final class MusicPlayer: ObservableObject, MusicPlayerDelegate {
         Task { await MainActor.run { self.isPlaying = isPlaying } }
     }
 
-    // MARK: - Subscribers
-/*
-    private func subscribeToCurrentTime() {
-        audioPlayer.$currentTime.sink { [weak self] curTime in
-            guard let self = self else { return }
-            guard let currentSong = self.currentSong else { return }
-            let roundedCurTime = curTime.rounded(.toNearestOrAwayFromZero)
-            if roundedCurTime > currentSong.runtime && self.getNextSong() == nil {
-                Logger.player.debug("No next song, stopping player")
-                self.stop()
-                self.advanceInQueue()
-                return
-            }
-
-            if roundedCurTime > currentSong.runtime {
-                Logger.player.debug("Advancing in queue")
-                self.advanceInQueue()
-                self.audioPlayer.resetTimeForNextSong()
-                return
-            }
-
-            Task(priority: .background) {
-                await MainActor.run { self.currentTime = roundedCurTime }
-            }
+    private func setCurrentTime(_ curTime: TimeInterval) {
+        guard let currentSong else { return }
+        let roundedCurTime = curTime.rounded(.toNearestOrAwayFromZero)
+        if roundedCurTime > currentSong.runtime && getNextSong() == nil {
+            Logger.player.debug("No next song, stopping player")
+            advanceInQueue()
+            return
         }
-        .store(in: &cancellables)
+
+        if roundedCurTime > currentSong.runtime {
+            Logger.player.debug("Advancing in queue")
+            advanceInQueue()
+            return
+        }
+
+        currentTime = roundedCurTime
     }
- */
 }
