@@ -26,7 +26,7 @@ struct PlayButton: View {
             action()
         } label: {
             Image(systemSymbol: .playFill)
-            if let text = text {
+            if let text {
                 Text(text)
             }
         }
@@ -34,27 +34,21 @@ struct PlayButton: View {
 
     func action() {
         Task {
-            do {
-                switch item {
-                case let album as Album:
-                    try await playAlbum(album)
-                case let song as Song:
-                    try await player.play(song: song)
-                default:
-                    print("Unhandled item type: \(item)")
-                    // TODO: throw?
-                }
-            } catch {
-                print("Failed to start playback")
-                player.stop()
+            switch item {
+            case let album as Album:
+                await playAlbum(album)
+            case let song as Song:
+                await player.play(song: song)
+            default:
+                print("Unhandled item type: \(item)")
             }
         }
     }
 
-    func playAlbum(_ album: Album) async throws {
+    func playAlbum(_ album: Album) async {
         let songs = await songRepo.getSongs(ofAlbum: album.uuid)
         await player.enqueue(songs: songs, position: .next)
-        try await player.play()
+        await player.play()
     }
 }
 
@@ -77,7 +71,7 @@ struct PlayPauseButton: View {
             player.isPlaying ? player.pause() : player.resume()
         } label: {
             Image(systemSymbol: player.isPlaying ? .pauseFill : .playFill)
-            if let text = text {
+            if let text {
                 Text(text)
             }
         }
@@ -85,6 +79,7 @@ struct PlayPauseButton: View {
 }
 
 #if DEBUG
+// swiftlint disable:all
 struct PlayButton_Previews: PreviewProvider {
     static var previews: some View {
         PlayButton(
@@ -96,4 +91,5 @@ struct PlayButton_Previews: PreviewProvider {
             .previewDisplayName("Play/Pause button")
     }
 }
+// swiftlint enable:all
 #endif

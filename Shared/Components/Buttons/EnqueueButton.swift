@@ -2,7 +2,8 @@ import SFSafeSymbols
 import SwiftUI
 
 enum EnqueuePosition {
-    case last, next
+    case last
+    case next
 }
 
 struct EnqueueButton: View {
@@ -39,7 +40,7 @@ struct EnqueueButton: View {
                 Image(systemSymbol: .textInsert)
             }
 
-            if let text = text {
+            if let text {
                 Text(text)
             }
         }
@@ -61,6 +62,7 @@ struct EnqueueButton: View {
 }
 
 #if DEBUG
+// swiftlint:disable all
 struct EnqueueButton_Previews: PreviewProvider {
     static var previews: some View {
         EnqueueButton(
@@ -70,4 +72,5 @@ struct EnqueueButton_Previews: PreviewProvider {
         )
     }
 }
+// swiftlint:enable all
 #endif
