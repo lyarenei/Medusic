@@ -15,3 +15,8 @@ extension Defaults.Keys {
     static let previewMode = Key<Bool>("previewMode", default: false)
     static let maxCacheSize = Key<UInt64>("maxCacheSize", default: 1000)
 }
+
+enum PrimaryAction: String, Defaults.Serializable {
+    case download
+    case favorite
+}
