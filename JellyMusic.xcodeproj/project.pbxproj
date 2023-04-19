@@ -73,8 +73,6 @@
 		9B52AF7829D0B106002E21B9 /* SongCollection.swift in Sources */ = {isa = PBXBuildFile; fileRef = 9B52AF7629D0B106002E21B9 /* SongCollection.swift */; };
 		9B52AF9429D339B1002E21B9 /* FileRepository.swift in Sources */ = {isa = PBXBuildFile; fileRef = 9B52AF9329D339B1002E21B9 /* FileRepository.swift */; };
 		9B52AF9529D339B1002E21B9 /* FileRepository.swift in Sources */ = {isa = PBXBuildFile; fileRef = 9B52AF9329D339B1002E21B9 /* FileRepository.swift */; };
-		9B54962429CD742D00FB4191 /* AudioPlayer.swift in Sources */ = {isa = PBXBuildFile; fileRef = 9B54962329CD742D00FB4191 /* AudioPlayer.swift */; };
-		9B54962529CD742D00FB4191 /* AudioPlayer.swift in Sources */ = {isa = PBXBuildFile; fileRef = 9B54962329CD742D00FB4191 /* AudioPlayer.swift */; };
 		9B61365E29BCB254004C85EC /* MacHomeScreen.swift in Sources */ = {isa = PBXBuildFile; fileRef = 9B61365D29BCB254004C85EC /* MacHomeScreen.swift */; };
 		9B6C17CD29D6BE700061866A /* AirPlayComponent.swift in Sources */ = {isa = PBXBuildFile; fileRef = 9B6C17CC29D6BE700061866A /* AirPlayComponent.swift */; };
 		9B6FB7AF29E5AA160013AA65 /* ServerUrlComponent.swift in Sources */ = {isa = PBXBuildFile; fileRef = 9B6FB7AE29E5AA160013AA65 /* ServerUrlComponent.swift */; };
@@ -182,7 +180,6 @@
 		9B46249729E5CDD000A2259A /* AdvancedSettingsScreen.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = AdvancedSettingsScreen.swift; sourceTree = "<group>"; };
 		9B52AF7629D0B106002E21B9 /* SongCollection.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = SongCollection.swift; sourceTree = "<group>"; };
 		9B52AF9329D339B1002E21B9 /* FileRepository.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = FileRepository.swift; sourceTree = "<group>"; };
-		9B54962329CD742D00FB4191 /* AudioPlayer.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = AudioPlayer.swift; sourceTree = "<group>"; };
 		9B61365D29BCB254004C85EC /* MacHomeScreen.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = MacHomeScreen.swift; sourceTree = "<group>"; };
 		9B6C17CC29D6BE700061866A /* AirPlayComponent.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = AirPlayComponent.swift; sourceTree = "<group>"; };
 		9B6FB7AE29E5AA160013AA65 /* ServerUrlComponent.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = ServerUrlComponent.swift; sourceTree = "<group>"; };
@@ -299,7 +296,6 @@
 			isa = PBXGroup;
 			children = (
 				9B21623229E88D12008D3F73 /* MusicPlayer.swift */,
-				9B54962329CD742D00FB4191 /* AudioPlayer.swift */,
 			);
 			path = Playback;
 			sourceTree = "<group>";
@@ -737,7 +733,6 @@
 				9B1EF3A029DCA16200C2A33B /* PlayNextButton.swift in Sources */,
 				9B70BDA029B923AE000DB31C /* AlbumDetailScreen.swift in Sources */,
 				48C1F8C629B9E80D003BE048 /* DTOs+Equatable.swift in Sources */,
-				9B54962429CD742D00FB4191 /* AudioPlayer.swift in Sources */,
 				48C1F8D729B9FDDF003BE048 /* DummyAlbumService.swift in Sources */,
 				9B6C17CD29D6BE700061866A /* AirPlayComponent.swift in Sources */,
 				9B1EF3A629DCA78800C2A33B /* EnqueueButton.swift in Sources */,
@@ -814,7 +809,6 @@
 				9BB75EB129C4C5E1008CD65A /* Settings.swift in Sources */,
 				9B61365E29BCB254004C85EC /* MacHomeScreen.swift in Sources */,
 				9B73ED0329C9ECD0007F74DB /* DefaultMediaService.swift in Sources */,
-				9B54962529CD742D00FB4191 /* AudioPlayer.swift in Sources */,
 				9B3D44C729BE5E560054C9E0 /* DTOs+BaseItem.swift in Sources */,
 				9B6FB7B029E5AA160013AA65 /* ServerUrlComponent.swift in Sources */,
 				9B52AF7829D0B106002E21B9 /* SongCollection.swift in Sources */,

@@ -4,12 +4,8 @@ import Foundation
 import OSLog
 import SwiftUI
 
-protocol MusicPlayerDelegate: AnyObject {
-    func getNextSong() async -> Song?
-}
-
 @MainActor
-final class MusicPlayer: ObservableObject, MusicPlayerDelegate {
+final class MusicPlayer: ObservableObject {
     public static let shared = MusicPlayer()
 
     var player: AVQueuePlayer = .init()
@@ -76,6 +72,7 @@ final class MusicPlayer: ObservableObject, MusicPlayerDelegate {
     func stop() {
         clearQueue()
         setIsPlaying(isPlaying: false)
+        setCurrentlyPlaying(newSong: nil)
     }
 
     func skipForward() {
@@ -134,7 +131,11 @@ final class MusicPlayer: ObservableObject, MusicPlayerDelegate {
             playbackHistory.insert(currentSong, at: 0)
         }
 
-        guard playbackQueue.isNotEmpty else { return nil }
+        guard playbackQueue.isNotEmpty else {
+            stop()
+            return nil
+        }
+
         let newCurrentSong = playbackQueue.removeFirst()
         setCurrentlyPlaying(newSong: newCurrentSong)
         player.advanceToNextItem()
