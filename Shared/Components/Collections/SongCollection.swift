@@ -171,7 +171,7 @@ private struct ContextOptions: View  {
     let song: Song
 
     var body: some View {
-        PlayButton(text: "Play", item: .song(song))
+        PlayButton(text: "Play", item: song)
         DownloadButton(
             item: song,
             textDownload: "Download",
@@ -184,7 +184,7 @@ private struct ContextOptions: View  {
             textUnfavorite: "Unfavorite"
         )
 
-        EnqueueButton(text: "Play Next", item: .song(song), position: .next)
-        EnqueueButton(text: "Play Last", item: .song(song), position: .last)
+        EnqueueButton(text: "Play Next", item: song, position: .next)
+        EnqueueButton(text: "Play Last", item: song, position: .last)
     }
 }

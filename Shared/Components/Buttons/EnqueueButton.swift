@@ -10,13 +10,13 @@ struct EnqueueButton: View {
     var player: MusicPlayer
 
     let text: String?
-    let item: Item
+    let item: any JellyfinItem
     let position: EnqueuePosition
     let songRepo: SongRepository
 
     init(
         text: String? = nil,
-        item: Item,
+        item: any JellyfinItem,
         position: EnqueuePosition = .last,
         player: MusicPlayer = .shared,
         songRepo: SongRepository = .shared
@@ -46,13 +46,15 @@ struct EnqueueButton: View {
     }
 
     func action() {
-        Task(priority: .userInitiated) {
+        Task {
             switch item {
-            case .album(let album):
+            case let album as Album:
                 let songs = await songRepo.getSongs(ofAlbum: album.uuid)
                 await player.enqueue(songs: songs, position: position)
-            case .song(let song):
+            case let song as Song:
                 await player.enqueue(itemId: song.uuid, position: position)
+            default:
+                print("Unhandled item type: \(item)")
             }
         }
     }
@@ -62,7 +64,7 @@ struct EnqueueButton: View {
 struct EnqueueButton_Previews: PreviewProvider {
     static var previews: some View {
         EnqueueButton(
-            item: .song(PreviewData.songs.first!),
+            item: PreviewData.songs.first!,
             player: .init(preview: true),
             songRepo: .init(store: .previewStore(items: PreviewData.songs, cacheIdentifier: \.uuid))
         )

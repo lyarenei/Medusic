@@ -6,12 +6,12 @@ struct PlayButton: View {
     var player: MusicPlayer
 
     let text: String?
-    let item: Item
+    let item: any JellyfinItem
     let songRepo: SongRepository
 
     init(
         text: String? = nil,
-        item: Item,
+        item: any JellyfinItem,
         player: MusicPlayer = .shared,
         songRepo: SongRepository = .shared
     ) {
@@ -33,13 +33,16 @@ struct PlayButton: View {
     }
 
     func action() {
-        Task(priority: .userInitiated) {
+        Task {
             do {
                 switch item {
-                case .album(let album):
+                case let album as Album:
                     try await playAlbum(album)
-                case .song(let song):
+                case let song as Song:
                     try await player.play(song: song)
+                default:
+                    print("Unhandled item type: \(item)")
+                    // TODO: throw?
                 }
             } catch {
                 print("Failed to start playback")
@@ -85,7 +88,7 @@ struct PlayPauseButton: View {
 struct PlayButton_Previews: PreviewProvider {
     static var previews: some View {
         PlayButton(
-            item: .song(PreviewData.songs.first!),
+            item: PreviewData.songs.first!,
             player: .init(preview: true),
             songRepo: .init(store: .previewStore(items: PreviewData.songs, cacheIdentifier: \.uuid))
         )
