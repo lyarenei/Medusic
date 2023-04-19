@@ -111,6 +111,8 @@ final class MusicPlayer: ObservableObject {
             case .next:
                 self.playbackQueue.insert(contentsOf: songs, at: 0)
             }
+
+            self.enqueueToPlayer(songs, position: position)
         }
     }
 
