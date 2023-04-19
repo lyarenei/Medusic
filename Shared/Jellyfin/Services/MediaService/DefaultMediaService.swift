@@ -22,7 +22,7 @@ final class DefaultMediaService: MediaService {
         let request = JellyfinAPI.Paths.getAudioStream(itemID: id)
         let delegate = MediaDownloadDelegate(destinationURL: destination)
         Logger.jellyfin.debug("Starting download for item \(id)")
-        let _ = try await client.download(for: request, delegate: delegate)
+        _ = try await client.download(for: request, delegate: delegate)
     }
 }
 
@@ -55,7 +55,7 @@ class MediaDownloadDelegate: NSObject, URLSessionDownloadDelegate {
     }
 
     func urlSession(_: URLSession, task _: URLSessionTask, didCompleteWithError error: Error?) {
-        if let error = error {
+        if let error {
             Logger.jellyfin.debug("Download error: \(error.localizedDescription)")
         }
     }
