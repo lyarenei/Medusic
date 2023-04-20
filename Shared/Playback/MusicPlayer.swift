@@ -10,6 +10,7 @@ final class MusicPlayer: ObservableObject {
 
     var player: AVQueuePlayer = .init()
     var api: ApiClient = .init()
+    var songRepo: SongRepository
 
     @Published
     var currentSong: Song?
@@ -27,13 +28,29 @@ final class MusicPlayer: ObservableObject {
     var currentTime: TimeInterval = 0
 
     private var cancellables: Cancellables = []
+    private var currentItemObserver: NSKeyValueObservation?
 
-    init(preview: Bool = false) {
+    init(
+        preview: Bool = false,
+        songRepo: SongRepository = .shared
+    ) {
+        self.songRepo = songRepo
         guard !preview else { return }
 
         let timeInterval = CMTime(seconds: 0.2, preferredTimescale: .max)
         player.addPeriodicTimeObserver(forInterval: timeInterval, queue: .main) { curTime in
             self.setCurrentTime(curTime.seconds)
+        }
+
+        self.currentItemObserver = player.observe(\.currentItem, options: [.new, .old]) { _, item in
+            Task {
+                if let songId = await self.player.currentItem?.songId {
+                    let song = await self.songRepo.getSong(by: songId)
+                    await self.setCurrentlyPlaying(newSong: song)
+                } else {
+                    await self.setCurrentlyPlaying(newSong: nil)
+                }
+            }
         }
     }
 
