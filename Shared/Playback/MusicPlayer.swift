@@ -127,7 +127,16 @@ final class MusicPlayer: ObservableObject {
     }
 
     private func enqueueToPlayer(_ songs: [Song], position: EnqueuePosition) {
-        // TODO: implement
+        switch position {
+        case .last:
+            for song in songs {
+                enqueueToPlayer(song, position: .last)
+            }
+        case .next:
+            for song in songs.reversed() {
+                enqueueToPlayer(song, position: .next)
+            }
+        }
     }
 
     private func setCurrentlyPlaying(newSong: Song?) {
