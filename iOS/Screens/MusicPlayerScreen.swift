@@ -150,7 +150,7 @@ private struct PlaybackControl: View {
                 .font(.title2)
                 .frame(width: 50, height: 50)
                 .contentShape(Rectangle())
-                .disabled(player.playbackHistory.isEmpty)
+                .disabled(true)
 
             Spacer()
 
@@ -164,7 +164,7 @@ private struct PlaybackControl: View {
                 .font(.title2)
                 .frame(width: 50, height: 50)
                 .contentShape(Rectangle())
-                .disabled(player.playbackQueue.isEmpty)
+                .disabled(false)
         }
         .frame(height: 40)
     }

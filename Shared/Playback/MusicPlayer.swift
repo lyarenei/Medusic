@@ -1,5 +1,4 @@
 import AVFoundation
-import Combine
 import Foundation
 import OSLog
 import SwiftUI
@@ -16,18 +15,11 @@ final class MusicPlayer: ObservableObject {
     var currentSong: Song?
 
     @Published
-    var playbackQueue: [Song] = []
-
-    @Published
-    var playbackHistory: [Song] = []
-
-    @Published
     var isPlaying = false
 
     @Published
     var currentTime: TimeInterval = 0
 
-    private var cancellables: Cancellables = []
     private var currentItemObserver: NSKeyValueObservation?
 
     init(
@@ -42,7 +34,7 @@ final class MusicPlayer: ObservableObject {
             self.setCurrentTime(curTime.seconds)
         }
 
-        self.currentItemObserver = player.observe(\.currentItem, options: [.new, .old]) { _, item in
+        self.currentItemObserver = player.observe(\.currentItem, options: [.new, .old]) { _, _ in
             Task {
                 if let songId = await self.player.currentItem?.songId {
                     let song = await self.songRepo.getSong(by: songId)
@@ -52,15 +44,6 @@ final class MusicPlayer: ObservableObject {
                 }
             }
         }
-    }
-
-    func getNextSong() -> Song? {
-        playbackQueue.first
-    }
-
-    private func setCurrentlyPlaying(newSong: Song?) {
-        currentSong = newSong
-        Logger.player.debug("Song set as currently playing: \(newSong?.uuid ?? "nil")")
     }
 
     // MARK: - Playback controls
@@ -93,44 +76,23 @@ final class MusicPlayer: ObservableObject {
     }
 
     func skipForward() {
-        advanceInQueue()
+        player.advanceToNextItem()
     }
 
-    func skipBackward() async throws {
-        guard playbackHistory.isNotEmpty else { return }
-        let nextSong = playbackHistory.removeFirst()
-        await enqueue(song: nextSong, position: .next)
-        skipForward()
+    func skipBackward() {
+        // TODO: implement
     }
 
     // MARK: - Queuing controls
 
     func enqueue(song: Song, position: EnqueuePosition) async {
+        enqueueToPlayer(song, position: position)
         Logger.player.debug("Song added to queue: \(song.uuid)")
-        await MainActor.run {
-            switch position {
-            case .last:
-                self.playbackQueue.append(song)
-            case .next:
-                self.playbackQueue.insert(song, at: 0)
-            }
-
-            self.enqueueToPlayer(song, position: position)
-        }
     }
 
     func enqueue(songs: [Song], position: EnqueuePosition) async {
+        enqueueToPlayer(songs, position: position)
         Logger.player.debug("Songs added to queue: \(songs.debugDescription)")
-        await MainActor.run {
-            switch position {
-            case .last:
-                self.playbackQueue.append(contentsOf: songs)
-            case .next:
-                self.playbackQueue.insert(contentsOf: songs, at: 0)
-            }
-
-            self.enqueueToPlayer(songs, position: position)
-        }
     }
 
     // TODO: Remove when possible
@@ -143,27 +105,8 @@ final class MusicPlayer: ObservableObject {
         await enqueue(song: song, position: position)
     }
 
-    @discardableResult
-    private func advanceInQueue() -> Song? {
-        if let currentSong {
-            Logger.player.debug("Added song to playback history: \(currentSong.uuid)")
-            playbackHistory.insert(currentSong, at: 0)
-        }
-
-        guard playbackQueue.isNotEmpty else {
-            stop()
-            return nil
-        }
-
-        let newCurrentSong = playbackQueue.removeFirst()
-        setCurrentlyPlaying(newSong: newCurrentSong)
-        player.advanceToNextItem()
-        return newCurrentSong
-    }
-
     /// Clear playback queue. Optionally stop playback of current song.
     private func clearQueue(stopPlayback: Bool = false) {
-        playbackQueue.removeAll()
         if stopPlayback {
             player.removeAllItems()
         } else {
@@ -192,25 +135,18 @@ final class MusicPlayer: ObservableObject {
         // TODO: implement
     }
 
+    private func setCurrentlyPlaying(newSong: Song?) {
+        currentSong = newSong
+        Logger.player.debug("Song set as currently playing: \(newSong?.uuid ?? "nil")")
+    }
+
     private func setIsPlaying(isPlaying: Bool) {
-        Task { await MainActor.run { self.isPlaying = isPlaying } }
+        self.isPlaying = isPlaying
+        Logger.player.debug("Player is playing: \(isPlaying)")
     }
 
     private func setCurrentTime(_ curTime: TimeInterval) {
-        guard let currentSong else { return }
-        let roundedCurTime = curTime.rounded(.toNearestOrAwayFromZero)
-        if roundedCurTime > currentSong.runtime && getNextSong() == nil {
-            Logger.player.debug("No next song, stopping player")
-            advanceInQueue()
-            return
-        }
-
-        if roundedCurTime > currentSong.runtime {
-            Logger.player.debug("Advancing in queue")
-            advanceInQueue()
-            return
-        }
-
-        currentTime = roundedCurTime
+        currentTime = curTime.rounded(.toNearestOrAwayFromZero)
+        Logger.player.debug("Current time: \(self.currentTime) (\(curTime))")
     }
 }
