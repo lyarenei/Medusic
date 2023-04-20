@@ -14,10 +14,12 @@ struct MusicPlayerScreen: View {
             ArtworkComponent(itemId: player.currentSong?.uuid ?? "")
                 .frame(width: 270, height: 270)
 
-            SongWithActions(song: $player.currentSong)
+            SongWithActions(song: player.currentSong)
 
-            SeekBar(song: $player.currentSong, currentTime: $player.currentTime)
-                .disabled(true)
+            SeekBar(
+                runtime: player.currentSong?.runtime ?? 0,
+                currentTime: $player.currentTime
+            )
 
             PlaybackControl()
                 .font(.largeTitle)
@@ -59,11 +61,7 @@ struct MusicPlayerScreen_Previews: PreviewProvider {
 // MARK: - Song with actions
 
 private struct SongWithActions: View {
-    @Binding
     var song: Song?
-
-    @State
-    var isPopoverPresented: Bool = false
 
     var body: some View {
         HStack {
@@ -94,8 +92,7 @@ private struct SongWithActions: View {
 // MARK: - Playback bar
 
 private struct SeekBar: View {
-    @Binding
-    var song: Song?
+    var runtime: TimeInterval
 
     @Binding
     var currentTime: TimeInterval
@@ -104,26 +101,26 @@ private struct SeekBar: View {
     private var remainingTime: TimeInterval
 
     init(
-        song: Binding<Song?>,
+        runtime: TimeInterval,
         currentTime: Binding<TimeInterval>
     ) {
-        _song = song
-        _currentTime = currentTime
-        remainingTime = song.wrappedValue?.runtime ?? 0
+        self.runtime = runtime
+        self._currentTime = currentTime
+        self.remainingTime = runtime
     }
 
     var body: some View {
         VStack(spacing: 0) {
             ProgressView(
                 value: currentTime,
-                total: song?.runtime ?? 0
+                total: runtime
             )
             .progressViewStyle(.linear)
             .padding(.bottom, 10)
             .padding(.top, 15)
-            .onChange(of: currentTime, perform: { newValue in
-                remainingTime = (song?.runtime ?? 0) - newValue
-            })
+            .onChange(of: currentTime) { newValue in
+                remainingTime = runtime - newValue
+            }
 
             HStack {
                 Text(currentTime.timeString)
@@ -174,7 +171,7 @@ private struct PlaybackControl: View {
 
 private struct VolumeBar: View {
     @State
-    private var volumePercent: Double = 0.35
+    private var volumePercent = 0.35
 
     var body: some View {
         HStack {
@@ -182,7 +179,7 @@ private struct VolumeBar: View {
 
             Slider(
                 value: $volumePercent,
-                in: 0 ... 1
+                in: 0...1
             )
 
             Image(systemSymbol: .speakerWave3Fill)
@@ -191,7 +188,8 @@ private struct VolumeBar: View {
 }
 
 private struct BottomPlaceholder: View {
-    @State var airplayPresented: Bool = false
+    @State
+    var airplayPresented = false
 
     var body: some View {
         HStack {
