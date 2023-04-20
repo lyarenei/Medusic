@@ -10,6 +10,7 @@ final class MusicPlayer: ObservableObject {
     var player: AVQueuePlayer = .init()
     var api: ApiClient = .init()
     var songRepo: SongRepository
+    var fileRepo: FileRepository
 
     @Published
     var currentSong: Song?
@@ -24,9 +25,11 @@ final class MusicPlayer: ObservableObject {
 
     init(
         preview: Bool = false,
-        songRepo: SongRepository = .shared
+        songRepo: SongRepository = .shared,
+        fileRepo: FileRepository = .shared
     ) {
         self.songRepo = songRepo
+        self.fileRepo = fileRepo
         guard !preview else { return }
 
         let timeInterval = CMTime(seconds: 0.2, preferredTimescale: .max)
@@ -106,13 +109,15 @@ final class MusicPlayer: ObservableObject {
 
     /// Enqueue a song to internal player. The song is placed at the end of its queue.
     private func enqueueToPlayer(_ song: Song, position: EnqueuePosition) {
-        // TODO: local file check
-        guard let url = api.services.mediaService.getStreamUrl(item: song.uuid, bitrate: nil) else {
+        let fileUrl = fileRepo.fileURL(for: song.uuid)
+        let remoteUrl = api.services.mediaService.getStreamUrl(item: song.uuid, bitrate: nil)
+
+        guard let remoteUrl else {
             Logger.player.debug("Could not retrieve an URL for song \(song.uuid), skipping")
             return
         }
 
-        let item = AVPlayerItem(url: url)
+        let item = AVPlayerItem(url: fileUrl ?? remoteUrl)
         switch position {
         case .last:
             player.append(item: item)
