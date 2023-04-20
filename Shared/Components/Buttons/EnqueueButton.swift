@@ -53,7 +53,7 @@ struct EnqueueButton: View {
                 let songs = await songRepo.getSongs(ofAlbum: album.uuid)
                 await player.enqueue(songs: songs, position: position)
             case let song as Song:
-                await player.enqueue(itemId: song.uuid, position: position)
+                await player.enqueue(song: song, position: position)
             default:
                 print("Unhandled item type: \(item)")
             }

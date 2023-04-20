@@ -95,16 +95,6 @@ final class MusicPlayer: ObservableObject {
         Logger.player.debug("Songs added to queue: \(songs.debugDescription)")
     }
 
-    // TODO: Remove when possible
-    func enqueue(itemId: String, position: EnqueuePosition) async {
-        guard let song = await SongRepository.shared.getSong(by: itemId) else {
-            Logger.player.debug("Could not find song for ID: \(itemId)")
-            return
-        }
-
-        await enqueue(song: song, position: position)
-    }
-
     /// Clear playback queue. Optionally stop playback of current song.
     private func clearQueue(stopPlayback: Bool = false) {
         if stopPlayback {
