@@ -33,9 +33,9 @@ struct AlbumDetailScreen: View {
                     songs: songRepo.songs.filterByAlbum(id: album.uuid),
                     showAlbumOrder: true,
                     showArtwork: false,
-                    showAction: true,
                     showArtistName: false
                 )
+                .padding(.horizontal)
             }
             .padding(.top, 15)
         }

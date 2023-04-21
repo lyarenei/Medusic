@@ -9,14 +9,22 @@ struct SongsLibraryScreen: View {
     }
 
     var body: some View {
-        ScrollView(.vertical) {
-            SongCollection(
-                songs: songRepo.songs,
-                showAlbumOrder: false,
-                showArtwork: true,
-                showAction: true,
-                showArtistName: true
-            )
+        Group {
+            if songRepo.songs.isEmpty {
+                Text("No songs available")
+                    .font(.title3)
+                    .foregroundColor(.gray)
+            } else {
+                List {
+                    SongCollection(
+                        songs: songRepo.songs.sortByAlbum(),
+                        showAlbumOrder: false,
+                        showArtwork: true,
+                        showArtistName: true
+                    )
+                }
+                .listStyle(.plain)
+            }
         }
         .navigationTitle("Songs")
         .navigationBarTitleDisplayMode(.large)
@@ -29,7 +37,11 @@ struct SongsLibraryScreen: View {
 #if DEBUG
 struct SongsLibraryScreen_Previews: PreviewProvider {
     static var previews: some View {
-        SongsLibraryScreen(songRepo: SongRepository(store: .previewStore(items: PreviewData.songs, cacheIdentifier: \.uuid)))
+        SongsLibraryScreen(
+            songRepo: SongRepository(
+                store: .previewStore(items: PreviewData.songs, cacheIdentifier: \.uuid)
+            )
+        )
     }
 }
 #endif
