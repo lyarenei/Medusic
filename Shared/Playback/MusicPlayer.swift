@@ -94,7 +94,8 @@ final class MusicPlayer: ObservableObject {
 
     func enqueue(songs: [Song], position: EnqueuePosition) async {
         enqueueToPlayer(songs, position: position)
-        Logger.player.debug("Songs added to queue: \(songs.debugDescription)")
+        // swiftformat:disable:next preferKeyPath
+        Logger.player.debug("Songs added to queue: \(songs.map { $0.uuid })")
     }
 
     /// Clear playback queue. Optionally stop playback of current song.
