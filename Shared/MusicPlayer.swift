@@ -21,6 +21,7 @@ final class MusicPlayer: ObservableObject {
     @Published
     var currentTime: TimeInterval = 0
 
+    private var currentTimeObserver: Any?
     private var currentItemObserver: NSKeyValueObservation?
 
     init(
@@ -33,7 +34,7 @@ final class MusicPlayer: ObservableObject {
         guard !preview else { return }
 
         let timeInterval = CMTime(seconds: 0.2, preferredTimescale: .max)
-        player.addPeriodicTimeObserver(forInterval: timeInterval, queue: .main) { curTime in
+        self.currentTimeObserver = player.addPeriodicTimeObserver(forInterval: timeInterval, queue: .main) { curTime in
             self.setCurrentTime(curTime.seconds)
         }
 
@@ -49,6 +50,18 @@ final class MusicPlayer: ObservableObject {
         }
 
         audioSessionSetup()
+    }
+
+    deinit {
+        if let currentTimeObserver {
+            player.removeTimeObserver(currentTimeObserver)
+        }
+
+        NotificationCenter.default.removeObserver(
+            self,
+            name: AVAudioSession.interruptionNotification,
+            object: AVAudioSession.sharedInstance()
+        )
     }
 
     private func audioSessionSetup() {
