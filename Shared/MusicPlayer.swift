@@ -47,6 +47,24 @@ final class MusicPlayer: ObservableObject {
                 }
             }
         }
+
+        audioSessionSetup()
+    }
+
+    private func audioSessionSetup() {
+        do {
+            let session = AVAudioSession.sharedInstance()
+            try session.setCategory(
+                .playback,
+                mode: .default,
+                options: [.mixWithOthers]
+            )
+            try session.setActive(true)
+            UIApplication.shared.beginReceivingRemoteControlEvents()
+            Logger.player.debug("Audio session has been initialized")
+        } catch {
+            Logger.player.debug("Failed to set up audio session: \(error.localizedDescription)")
+        }
     }
 
     // MARK: - Playback controls
