@@ -26,7 +26,7 @@ struct AlbumDetailScreen: View {
                 AlbumHeading(album: album)
                     .padding(.bottom, 10)
 
-                AlbumActions()
+                AlbumActions(album: album)
                     .padding(.bottom, 30)
 
                 SongCollection(
@@ -93,20 +93,16 @@ private struct AlbumHeading: View {
 // MARK: - Album actions component
 
 private struct AlbumActions: View {
+    let album: Album
+
     var body: some View {
         HStack {
-            Button {
-                // Album play action
-            } label: {
-                Image(systemSymbol: .playFill)
-                Text("Play")
-            }
-            .frame(width: 120, height: 37)
-            .overlay(
-                RoundedRectangle(cornerRadius: 10)
-                    .stroke(style: StrokeStyle(lineWidth: 1.0))
-            )
-            .disabled(true)
+            PlayButton(text: "Play", item: album)
+                .frame(width: 120, height: 37)
+                .overlay(
+                    RoundedRectangle(cornerRadius: 10)
+                        .stroke(style: StrokeStyle(lineWidth: 1.0))
+                )
 
             Button {
                 // Album shuffle play action

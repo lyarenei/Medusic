@@ -2,106 +2,76 @@ import SFSafeSymbols
 import SwiftUI
 
 struct MusicPlayerScreen: View {
-    @StateObject
-    private var songRepo = SongRepository(store: .songs)
+    @ObservedObject
+    var player: MusicPlayer
 
-    @State
-    private var currentSong: Song = Song(uuid: "asdf", index: 1, name: "Song name", parentId: "asdf", isFavorite: false)
-
-    @State
-    private var sliderValue = 0.35
+    init(player: MusicPlayer = .shared) {
+        _player = ObservedObject(wrappedValue: player)
+    }
 
     var body: some View {
-        ZStack {
-            VStack(spacing: 15) {
-                ArtworkPlaceholder()
+        VStack(spacing: 15) {
+            ArtworkComponent(itemId: player.currentSong?.uuid ?? "")
+                .frame(width: 270, height: 270)
 
-                SongWithActions(
-                    songName: currentSong.name,
-                    artistName: "Artist name"
-                )
+            SongWithActions(song: player.currentSong)
 
-                PlaybackBar()
+            SeekBar(
+                runtime: player.currentSong?.runtime ?? 0,
+                currentTime: $player.currentTime
+            )
 
-                PlaybackControl()
-                    .font(.largeTitle)
-                    .buttonStyle(.plain)
-                    .padding([.leading, .trailing], 50)
+            PlaybackControl()
+                .font(.largeTitle)
+                .buttonStyle(.plain)
+                .padding(.horizontal, 50)
 
+            VolumeBar()
+                .font(.footnote)
+                .padding(.bottom, 20)
+                .disabled(true)
+                .foregroundColor(.init(UIColor.secondaryLabel))
 
-                VolumeBar()
-                    .font(.footnote)
-                    .padding(.bottom, 20)
-
-                BottomPlaceholder()
-                    .padding([.leading, .trailing], 50)
-                    .font(.title3)
-            }
-            .padding([.top, .leading, .trailing], 30)
+            BottomPlaceholder()
+                .padding(.horizontal, 50)
+                .font(.title3)
+                .foregroundColor(.init(UIColor.secondaryLabel))
+                .frame(height: 40)
         }
-        .popupTitle("Song name")
-        .popupImage(Image(systemSymbol: .square))
-        .popupBarMarqueeScrollEnabled(true)
-        .popupBarItems({
-            HStack(spacing:20) {
-                Button(action: {
-
-                }) {
-                    Image(systemSymbol: .playFill)
-                }
-                .buttonStyle(.plain)
-
-                Button(action: {
-
-                }) {
-                    Image(systemSymbol: .forwardFill)
-                }
-                .buttonStyle(.plain)
-                .padding(.trailing, 10)
-            }
-        })
+        .padding([.top, .horizontal], 30)
     }
 }
 
 #if DEBUG
+// swiftlint:disable all
 struct MusicPlayerScreen_Previews: PreviewProvider {
+    static var player = {
+        var mp = MusicPlayer(preview: true)
+        mp.currentSong = PreviewData.songs.first!
+        return mp
+    }
+
     static var previews: some View {
-        MusicPlayerScreen()
+        MusicPlayerScreen(player: player())
     }
 }
+// swiftlint:enable all
 #endif
 
-// MARK: - Artwork placeholder
-
-private struct ArtworkPlaceholder: View {
-    var body: some View {
-        // TODO: collides with closing chevron
-        Text("img")
-            .frame(width: 270, height: 270)
-            .overlay(
-                RoundedRectangle(cornerRadius: 10)
-                    .stroke(style: StrokeStyle(lineWidth: 1.0))
-            )
-    }
-}
-
 // MARK: - Song with actions
-private struct SongWithActions: View {
-    @State
-    var songName: String
 
-    @State
-    var artistName: String
+private struct SongWithActions: View {
+    var song: Song?
 
     var body: some View {
         HStack {
             VStack(alignment: .leading, spacing: 3) {
-                Text(songName)
+                Text(song?.name ?? "")
                     .bold()
                     .lineLimit(1)
                     .font(.title2)
 
-                Text(artistName)
+                Text("song.artistName")
                     .lineLimit(1)
                     .font(.body)
             }
@@ -114,37 +84,52 @@ private struct SongWithActions: View {
                 Image(systemSymbol: .ellipsisCircle)
             }
             .font(.title2)
+            .disabled(true)
         }
     }
 }
 
 // MARK: - Playback bar
 
-private struct PlaybackBar: View {
-    @State
-    private var progressPercent: Double = 65
+private struct SeekBar: View {
+    var runtime: TimeInterval
+
+    @Binding
+    var currentTime: TimeInterval
 
     @State
-    private var currentTime: Int32 = 65
+    private var remainingTime: TimeInterval
 
-    @State
-    private var remainingTime: Int32 = 35
+    init(
+        runtime: TimeInterval,
+        currentTime: Binding<TimeInterval>
+    ) {
+        self.runtime = runtime
+        self._currentTime = currentTime
+        self.remainingTime = runtime
+    }
 
     var body: some View {
         VStack(spacing: 0) {
-            Slider(
-                value: $progressPercent,
-                in: 0...100
+            ProgressView(
+                value: currentTime,
+                total: runtime
             )
+            .progressViewStyle(.linear)
+            .padding(.bottom, 10)
+            .padding(.top, 15)
+            .onChange(of: currentTime) { newValue in
+                remainingTime = runtime - newValue
+            }
 
             HStack {
-                Text("\(currentTime)")
-                    .font(.subheadline)
+                Text(currentTime.timeString)
+                    .font(.caption)
 
                 Spacer()
 
-                Text("\(remainingTime)")
-                    .font(.subheadline)
+                Text(remainingTime.timeString)
+                    .font(.caption)
             }
         }
     }
@@ -153,32 +138,32 @@ private struct PlaybackBar: View {
 // MARK: - Playback control
 
 private struct PlaybackControl: View {
+    @ObservedObject
+    private var player: MusicPlayer = .shared
+
     var body: some View {
         HStack {
-            Button {
-                // Previous song
-            } label: {
-                Image(systemSymbol: .backwardFill)
-            }
-            .font(.title2)
+            PlayPreviousButton(player: player)
+                .font(.title2)
+                .frame(width: 50, height: 50)
+                .contentShape(Rectangle())
+                .disabled(true)
 
             Spacer()
 
-            Button {
-                // Play/pause
-            } label: {
-                Image(systemSymbol: .playFill)
-            }
+            PlayPauseButton(player: player)
+                .frame(width: 50, height: 50)
+                .contentShape(Rectangle())
 
             Spacer()
 
-            Button {
-                // Next song
-            } label: {
-                Image(systemSymbol: .forwardFill)
-            }
-            .font(.title2)
+            PlayNextButton(player: player)
+                .font(.title2)
+                .frame(width: 50, height: 50)
+                .contentShape(Rectangle())
+                .disabled(false)
         }
+        .frame(height: 40)
     }
 }
 
@@ -186,7 +171,7 @@ private struct PlaybackControl: View {
 
 private struct VolumeBar: View {
     @State
-    private var volumePercent: Double = 0.35
+    private var volumePercent = 0.35
 
     var body: some View {
         HStack {
@@ -203,11 +188,14 @@ private struct VolumeBar: View {
 }
 
 private struct BottomPlaceholder: View {
+    @State
+    var airplayPresented = false
+
     var body: some View {
         HStack {
             Image(systemSymbol: .quoteBubble)
             Spacer()
-            Image(systemSymbol: .airplayaudio)
+            AirPlayComponent()
             Spacer()
             Image(systemSymbol: .listBullet)
         }

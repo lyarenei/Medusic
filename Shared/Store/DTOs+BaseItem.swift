@@ -25,5 +25,6 @@ extension Song {
 
             return sum
         }()
+        self.runtime = item.runTimeTicks?.timeInterval ?? 0
     }
 }

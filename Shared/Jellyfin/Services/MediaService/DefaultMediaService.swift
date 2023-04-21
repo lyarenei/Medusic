@@ -9,15 +9,20 @@ final class DefaultMediaService: MediaService {
         self.client = client
     }
 
-    func stream(item id: String, bitrate: Int32?) async throws -> Data {
-        throw MediaServiceError.invalid
+    func getStreamUrl(item id: String, bitrate: Int32? = nil) -> URL? {
+        let baseUrl = client.configuration.url.absoluteString
+        if let bitrate {
+            return URL(string: "\(baseUrl)/Audio/\(id)/stream?audioCodec=aac&audioBitRate=\(bitrate)")
+        }
+
+        return URL(string: "\(baseUrl)/Audio/\(id)/stream?static=true")
     }
 
     func new_downloadItem(id: String, destination: URL) async throws {
         let request = JellyfinAPI.Paths.getAudioStream(itemID: id)
         let delegate = MediaDownloadDelegate(destinationURL: destination)
-        let resp = try await client.download(for: request, delegate: delegate)
-        Logger.jellyfin.debug("Download started for item \(id): \(resp.data)")
+        Logger.jellyfin.debug("Starting download for item \(id)")
+        _ = try await client.download(for: request, delegate: delegate)
     }
 }
 
@@ -50,7 +55,7 @@ class MediaDownloadDelegate: NSObject, URLSessionDownloadDelegate {
     }
 
     func urlSession(_: URLSession, task _: URLSessionTask, didCompleteWithError error: Error?) {
-        if let error = error {
+        if let error {
             Logger.jellyfin.debug("Download error: \(error.localizedDescription)")
         }
     }

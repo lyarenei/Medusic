@@ -129,14 +129,16 @@ struct PreviewData {
             index: 1,
             name: "Song name 1",
             parentId: "1",
-            isFavorite: false
+            isFavorite: false,
+            runtime: 123
         ),
         Song(
             uuid: "2",
             index: 2,
             name: "Song name 2 but this one has very long name",
             parentId: "1",
-            isFavorite: false
+            isFavorite: false,
+            runtime: 123
         ),
         // Songs for album 2
         Song(
@@ -144,21 +146,24 @@ struct PreviewData {
             index: 1,
             name: "Song name 3",
             parentId: "2",
-            isFavorite: false
+            isFavorite: false,
+            runtime: 123
         ),
         Song(
             uuid: "4",
             index: 2,
             name: "Song name 4 but this one has very long name",
             parentId: "2",
-            isFavorite: false
+            isFavorite: false,
+            runtime: 123
         ),
         Song(
             uuid: "5",
             index: 1,
             name: "Very long song name that can't possibly fit on one line on phone screen either in vertical or horizontal orientation",
             parentId: "3",
-            isFavorite: false
+            isFavorite: false,
+            runtime: 123
         ),
     ]
 }

@@ -124,8 +124,8 @@ final class FileRepository: ObservableObject {
         return FileManager.default.fileExists(atPath: fileURL.path) ? fileURL : nil
     }
 
-    func isDownloaded(song: Song) -> Bool {
-        fileURL(for: song.uuid) != nil
+    func fileExists(for itemID: String) -> Bool {
+        return fileURL(for: itemID) != nil
     }
 
     func numberOfDownloadedFiles() -> Int {

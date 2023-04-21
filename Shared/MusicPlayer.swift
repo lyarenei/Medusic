@@ -1,256 +1,224 @@
 import AVFoundation
-import Combine
 import Foundation
+import OSLog
 import SwiftUI
 
-private struct MediaPlayerEnvironmentKey: EnvironmentKey {
-    static let defaultValue: MusicPlayer = .init()
-}
+@MainActor
+final class MusicPlayer: ObservableObject {
+    public static let shared = MusicPlayer()
 
-extension EnvironmentValues {
-    var musicPlayer: MusicPlayer {
-        get { self[MediaPlayerEnvironmentKey.self] }
-        set { self[MediaPlayerEnvironmentKey.self] = newValue }
-    }
-}
-
-class MusicPlayer: NSObject, AVAudioPlayerDelegate, ObservableObject {
-    static let shared = MusicPlayer()
-
-    @Environment(\.albumRepo)
-    private var albumRepo: AlbumRepository
-
-    @Environment(\.songRepo)
-    private var songRepo: SongRepository
+    var player: AVQueuePlayer = .init()
+    var api: ApiClient = .init()
+    var songRepo: SongRepository
+    var fileRepo: FileRepository
 
     @Published
-//    var currentSong: Song? = nil
-    var currentSong: Song? = Song(uuid: "1", index: 1, name: "Random song name", parentId: "1", isFavorite: false)
-    private var currentlyPlayingFile: AVAudioFile?
-    private var currentIndex = 0
+    var currentSong: Song?
 
     @Published
-    var currentPlaybackPosition: TimeInterval = 0
+    var isPlaying = false
 
     @Published
-    var currentTrackDuration: TimeInterval = 0
+    var currentTime: TimeInterval = 0
 
-    @Published
-    var isPlaying: Bool = false
+    private var currentTimeObserver: Any?
+    private var currentItemObserver: NSKeyValueObservation?
 
-    @Published
-    var audioQueue: [String] = []
+    init(
+        preview: Bool = false,
+        songRepo: SongRepository = .shared,
+        fileRepo: FileRepository = .shared
+    ) {
+        self.songRepo = songRepo
+        self.fileRepo = fileRepo
+        guard !preview else { return }
 
-    @Published
-    var playbackHistory: [String] = []
+        let timeInterval = CMTime(seconds: 0.2, preferredTimescale: .max)
+        self.currentTimeObserver = player.addPeriodicTimeObserver(forInterval: timeInterval, queue: .main) { curTime in
+            self.setCurrentTime(curTime.seconds)
+        }
 
+        self.currentItemObserver = player.observe(\.currentItem, options: [.new, .old]) { _, _ in
+            Task {
+                if let songId = await self.player.currentItem?.songId {
+                    let song = await self.songRepo.getSong(by: songId)
+                    await self.setCurrentlyPlaying(newSong: song)
+                } else {
+                    await self.setCurrentlyPlaying(newSong: nil)
+                }
+            }
+        }
 
-    private var audioEngine = AVAudioEngine()
-    private var audioPlayerNode = AVAudioPlayerNode()
-
-    override init() {
-        super.init()
-        audioEngineSetup()
-        interruptionHandlingSetup()
+        audioSessionSetup()
     }
 
     deinit {
-        NotificationCenter.default.removeObserver(self, name: AVAudioSession.interruptionNotification, object: nil)
+        if let currentTimeObserver {
+            player.removeTimeObserver(currentTimeObserver)
+        }
+
+        NotificationCenter.default.removeObserver(
+            self,
+            name: AVAudioSession.interruptionNotification,
+            object: AVAudioSession.sharedInstance()
+        )
     }
 
-    private func audioEngineSetup() {
-        audioEngine.attach(audioPlayerNode)
-        audioEngine.connect(audioPlayerNode, to: audioEngine.mainMixerNode, format: nil)
-        audioEngine.prepare()
+    private func audioSessionSetup() {
         do {
             let session = AVAudioSession.sharedInstance()
             try session.setCategory(
                 .playback,
                 mode: .default,
-                options: [
-                    .allowAirPlay,
-                    .allowBluetooth,
-                    .allowBluetoothA2DP,
-                    .mixWithOthers,
-                ]
+                options: [.mixWithOthers]
             )
             try session.setActive(true)
-            try audioEngine.start()
+            UIApplication.shared.beginReceivingRemoteControlEvents()
+            NotificationCenter.default.addObserver(
+                self,
+                selector: #selector(handleInterruption),
+                name: AVAudioSession.interruptionNotification,
+                object: AVAudioSession.sharedInstance()
+            )
+            Logger.player.debug("Audio session has been initialized")
         } catch {
-            print("Error: \(error)")
+            Logger.player.debug("Failed to set up audio session: \(error.localizedDescription)")
         }
     }
 
     // MARK: - Playback controls
 
-    func enqueue(trackID: String) async {
-        audioQueue.append(trackID)
-        if audioQueue.count == 1 {
-            await loadAndPlayNextTrack()
+    func play(song: Song? = nil) async {
+        if let song {
+            clearQueue(stopPlayback: true)
+            await enqueue(song: song, position: .last)
         }
+
+        player.play()
+        setIsPlaying(isPlaying: true)
     }
 
-    func dequeue() -> String? {
-        return audioQueue.isEmpty ? nil : audioQueue.removeFirst()
-    }
-
-    func play() {
-        audioPlayerNode.play()
-        self.isPlaying = true
+    func play(songs: [Song]) async {
+        clearQueue(stopPlayback: true)
+        await enqueue(songs: songs, position: .last)
+        player.play()
+        setIsPlaying(isPlaying: true)
     }
 
     func pause() {
-        audioPlayerNode.pause()
-        self.isPlaying = false
+        player.pause()
+        setIsPlaying(isPlaying: false)
+    }
+
+    func resume() {
+        player.play()
+        setIsPlaying(isPlaying: true)
     }
 
     func stop() {
-        audioPlayerNode.stop()
-        audioQueue.removeAll()
-        currentIndex = 0
-        stopUpdatingPlaybackPosition()
-        Task { await onStopPlayback?() }
+        clearQueue()
+        setIsPlaying(isPlaying: false)
+        setCurrentlyPlaying(newSong: nil)
     }
 
-    func skipForward() async {
-        if currentIndex + 1 < audioQueue.count {
-            currentIndex += 1
-            await loadAndPlayNextTrack()
-        }
+    func skipForward() {
+        player.advanceToNextItem()
     }
 
-    func skipBackward() async {
-        if currentIndex > 0 {
-            currentIndex -= 1
-            await loadAndPlayNextTrack()
-        }
-    }
-
-    func reorderQueue(fromIndex: Int, toIndex: Int) {
-        guard fromIndex >= 0 && toIndex >= 0 && fromIndex < audioQueue.count && toIndex < audioQueue.count else {
-            return
-        }
-        let trackID = audioQueue.remove(at: fromIndex)
-        audioQueue.insert(trackID, at: toIndex)
-    }
-
-    func playTrackFromHistory(index: Int) async {
-        guard index >= 0 && index < playbackHistory.count else { return }
-        let trackID = playbackHistory[index]
-        await loadAndPlay(trackID: trackID)
-    }
-
-    private func loadAndPlayNextTrack() async {
-        if let trackID = dequeue() {
-            if let song = await songRepo.getSong(by: trackID) {
-                currentSong = song
-                await loadAndPlay(trackID: trackID)
-            }
-        }
-    }
-
-    // MARK: - Internals
-
-    private func loadAndPlay(trackID: String) async {
-        await onTrackStart?()
-
+    func skipBackward() {
         // TODO: implement
     }
 
-    private func writeToTemporaryFile(data: Data) throws -> URL {
-        let temporaryURL = URL(fileURLWithPath: NSTemporaryDirectory()).appendingPathComponent(UUID().uuidString)
-        try data.write(to: temporaryURL, options: .atomic)
-        return temporaryURL
+    // MARK: - Queuing controls
+
+    func enqueue(song: Song, position: EnqueuePosition) async {
+        enqueueToPlayer(song, position: position)
+        Logger.player.debug("Song added to queue: \(song.uuid)")
     }
 
-    // MARK: - Hooks for additional integration
-
-    private var onTrackStart: (() async -> Void)?
-    func setOnTrackStart(_ closure: (() async -> Void)?) {
-        onTrackStart = closure
+    func enqueue(songs: [Song], position: EnqueuePosition) async {
+        enqueueToPlayer(songs, position: position)
+        // swiftformat:disable:next preferKeyPath
+        Logger.player.debug("Songs added to queue: \(songs.map { $0.uuid })")
     }
 
-    private var onBeforeNextTrack: (() async -> Void)?
-    func setOnBeforeNextTrack(_ closure: (() async -> Void)?) {
-        onBeforeNextTrack = closure
-    }
-
-    private var onStopPlayback: (() async -> Void)?
-    func setOnStopPlayback(_ closure: (() async -> Void)?) {
-        onStopPlayback = closure
-    }
-
-    // MARK: - Seeking support
-
-    private var playbackPositionUpdateTimer: AnyCancellable?
-
-    private func startUpdatingPlaybackPosition() {
-        playbackPositionUpdateTimer = Timer.publish(every: 0.5, on: .main, in: .common)
-            .autoconnect()
-            .sink { [weak self] _ in
-                guard let self = self else { return }
-                self.updatePlaybackPosition()
-            }
-    }
-
-    private func stopUpdatingPlaybackPosition() {
-        playbackPositionUpdateTimer?.cancel()
-        playbackPositionUpdateTimer = nil
-    }
-
-    private func updatePlaybackPosition() {
-        guard let audioFile = currentlyPlayingFile else { return }
-        let sampleRate = audioFile.processingFormat.sampleRate
-        let sampleTime = audioPlayerNode.lastRenderTime?.sampleTime ?? 0
-        let nodeTime = audioPlayerNode.playerTime(forNodeTime: audioPlayerNode.lastRenderTime!) ?? AVAudioTime(sampleTime: 0, atRate: sampleRate)
-
-        let currentTime = Double(nodeTime.sampleTime) / sampleRate
-        currentPlaybackPosition = currentTime
-    }
-
-    func seek(to position: TimeInterval) {
-        guard let audioFile = self.currentlyPlayingFile else { return }
-        let sampleRate = audioFile.processingFormat.sampleRate
-        let sampleTime = AVAudioFramePosition(position * sampleRate)
-        let time = AVAudioTime(sampleTime: sampleTime, atRate: sampleRate)
-
-        audioPlayerNode.stop()
-        audioPlayerNode.scheduleFile(audioFile, at: time) {
-            Task {
-                self.playbackHistory.append(audioFile.url.absoluteString)
-                await self.loadAndPlayNextTrack()
-            }
+    /// Clear playback queue. Optionally stop playback of current song.
+    private func clearQueue(stopPlayback: Bool = false) {
+        if stopPlayback {
+            player.removeAllItems()
+        } else {
+            player.clearNextItems()
         }
-        audioPlayerNode.play()
-
-        currentPlaybackPosition = position
     }
 
-    // MARK: - Handle session interrupts such as incoming call or Siri
+    /// Enqueue a song to internal player. The song is placed at specified position.
+    private func enqueueToPlayer(_ song: Song, position: EnqueuePosition) {
+        let fileUrl = fileRepo.fileURL(for: song.uuid)
+        let remoteUrl = api.services.mediaService.getStreamUrl(item: song.uuid, bitrate: nil)
 
-    private func interruptionHandlingSetup() {
-        NotificationCenter.default.addObserver(self, selector: #selector(handleAudioSessionInterruption), name: AVAudioSession.interruptionNotification, object: nil)
-    }
-
-    @objc private func handleAudioSessionInterruption(notification: Notification) {
-        guard let userInfo = notification.userInfo,
-              let typeValue = userInfo[AVAudioSessionInterruptionTypeKey] as? UInt,
-              let type = AVAudioSession.InterruptionType(rawValue: typeValue) else {
+        guard let remoteUrl else {
+            Logger.player.debug("Could not retrieve an URL for song \(song.uuid), skipping")
             return
         }
 
+        let item = AVPlayerItem(url: fileUrl ?? remoteUrl)
+        switch position {
+        case .last:
+            player.append(item: item)
+        case .next:
+            player.prepend(item: item)
+        }
+    }
+
+    private func enqueueToPlayer(_ songs: [Song], position: EnqueuePosition) {
+        switch position {
+        case .last:
+            for song in songs {
+                enqueueToPlayer(song, position: .last)
+            }
+        case .next:
+            for song in songs.reversed() {
+                enqueueToPlayer(song, position: .next)
+            }
+        }
+    }
+
+    private func setCurrentlyPlaying(newSong: Song?) {
+        currentSong = newSong
+        Logger.player.debug("Song set as currently playing: \(newSong?.uuid ?? "nil")")
+    }
+
+    private func setIsPlaying(isPlaying: Bool) {
+        self.isPlaying = isPlaying
+        Logger.player.debug("Player is playing: \(isPlaying)")
+    }
+
+    private func setCurrentTime(_ curTime: TimeInterval) {
+        guard let songRuntime = currentSong?.runtime else { return }
+
+        if curTime >= songRuntime {
+            currentTime = songRuntime
+            return
+        }
+
+        currentTime = curTime.rounded(.toNearestOrAwayFromZero)
+    }
+
+    @objc
+    private func handleInterruption(notification: Notification) {
+        // swiftformat:disable elseOnSameLine
+        guard let userInfo = notification.userInfo,
+              let typeValue = userInfo[AVAudioSessionInterruptionTypeKey] as? UInt,
+              let type = AVAudioSession.InterruptionType(rawValue: typeValue) else { return }
+        // swiftformat:enable elseOnSameLine
+
         switch type {
         case .began:
-            // Interruption began, pause playback
             pause()
         case .ended:
             guard let optionsValue = userInfo[AVAudioSessionInterruptionOptionKey] as? UInt else { return }
             let options = AVAudioSession.InterruptionOptions(rawValue: optionsValue)
-
-            if options.contains(.shouldResume) {
-                // Interruption ended, resume playback
-                play()
-            }
+            if options.contains(.shouldResume) { resume() }
         default:
             break
         }

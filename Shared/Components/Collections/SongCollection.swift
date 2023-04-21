@@ -86,8 +86,16 @@ private struct SongList: View {
                     showArtistName: self.showArtistName,
                     showAction: self.showAction
                 )
+                .onTapGesture { Task(priority: .userInitiated) {
+                    do {
+                        try await MusicPlayer.shared.play(song: song)
+                    } catch {
+                        print("Failed to play song \(song.uuid)")
+                        MusicPlayer.shared.stop()
+                    }
+                }}
                 .contentShape(Rectangle())
-                .contextMenu { ContextOptions(item: song) }
+                .contextMenu { ContextOptions(song: song) }
                 .padding(.horizontal)
 
                 Divider()
@@ -160,40 +168,23 @@ private struct SEC: View {
 }
 
 private struct ContextOptions: View  {
-    let item: Song
+    let song: Song
 
     var body: some View {
-        Button {
-
-        } label: {
-            Image(systemSymbol: .playFill)
-            Text("Play")
-        }
-
+        PlayButton(text: "Play", item: song)
         DownloadButton(
-            item: item,
+            item: song,
             textDownload: "Download",
             textRemove: "Remove"
         )
 
         FavoriteButton(
-            item: item,
+            item: song,
             textFavorite: "Favorite",
             textUnfavorite: "Unfavorite"
         )
 
-        Button {
-
-        } label: {
-            Image(systemSymbol: .textInsert)
-            Text("Play Next")
-        }
-
-        Button {
-
-        } label: {
-            Image(systemSymbol: .textAppend)
-            Text("Play Last")
-        }
+        EnqueueButton(text: "Play Next", item: song, position: .next)
+        EnqueueButton(text: "Play Last", item: song, position: .last)
     }
 }

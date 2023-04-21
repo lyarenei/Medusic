@@ -1,3 +1,5 @@
+import Foundation
+
 public struct JellyfinServerInfo {
     public var name: String
     public var version: String
@@ -23,4 +25,5 @@ struct Song: JellyfinItem {
     var parentId: String
     var isFavorite: Bool
     var size: UInt64 = 0
+    var runtime: TimeInterval
 }

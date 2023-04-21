@@ -1,7 +1,7 @@
 import Foundation
 
 protocol MediaService: ObservableObject {
-    func stream(item id: String, bitrate: Int32?) async throws -> Data
+    func getStreamUrl(item id: String, bitrate: Int32?) -> URL?
 
     func new_downloadItem(id: String, destination: URL) async throws
 }

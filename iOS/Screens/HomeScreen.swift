@@ -1,46 +1,72 @@
-import LNPopupUI
 import SwiftUI
 
 struct HomeScreen: View {
-    @State
-    private var isPlayerPresented = false
+    @ObservedObject
+    var player: MusicPlayer
 
     @State
-    private var isPlayerOpen = false
+    var isPlayerPresented = false
+
+    @State
+    var isPlayerOpen = false
+
+    init(
+        player: MusicPlayer = .shared
+    ) {
+        self._player = ObservedObject(wrappedValue: player)
+    }
 
     var body: some View {
         TabView {
-            LibraryScreen()
-                .tabItem {
-                    Image(systemSymbol: .musicQuarternote3)
-                    Text("Library")
-                }
-                .tag("library_tab")
-
-            Text("Search")
-                .tabItem {
-                    Image(systemSymbol: .magnifyingglass)
-                    Text("Search")
-                }
-                .tag("search_tab")
-
-            SettingsScreen()
-                .tabItem {
-                    Image(systemSymbol: .gear)
-                    Text("Settings")
-                }
-                .tag("settings_tab")
+            libraryTab()
+            searchTab()
+            settingsTab()
         }
-        .popup(isBarPresented: $isPlayerPresented, isPopupOpen: $isPlayerOpen) {
-            MusicPlayerScreen()
+        .onChange(of: player.currentSong) { curSong in
+            withAnimation(.linear) {
+                isPlayerPresented = curSong != nil
+            }
         }
+    }
+
+    @ViewBuilder
+    func libraryTab() -> some View {
+        NowPlayingComponent(
+            isPresented: $isPlayerPresented,
+            content: LibraryScreen()
+        )
+        .tabItem {
+            Image(systemSymbol: .musicQuarternote3)
+            Text("Library")
+        }
+        .tag("library_tab")
+    }
+
+    @ViewBuilder
+    func searchTab() -> some View {
+        Text("Search")
+            .tabItem {
+                Image(systemSymbol: .magnifyingglass)
+                Text("Search")
+            }
+            .tag("search_tab")
+    }
+
+    @ViewBuilder
+    func settingsTab() -> some View {
+        SettingsScreen()
+            .tabItem {
+                Image(systemSymbol: .gear)
+                Text("Settings")
+            }
+            .tag("settings_tab")
     }
 }
 
 #if DEBUG
 struct HomeScreen_Previews: PreviewProvider {
     static var previews: some View {
-        HomeScreen()
+        HomeScreen(player: .init(preview: true))
     }
 }
 #endif
