@@ -46,7 +46,7 @@ struct PlayButton: View {
     }
 
     func playAlbum(_ album: Album) async {
-        let songs = await songRepo.getSongs(ofAlbum: album.uuid)
+        let songs = await songRepo.getSongs(ofAlbum: album.uuid).sortByAlbum()
         await player.enqueue(songs: songs, position: .next)
         await player.play()
     }
