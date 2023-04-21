@@ -51,7 +51,7 @@ struct EnqueueButton: View {
             switch item {
             case let album as Album:
                 let songs = await songRepo.getSongs(ofAlbum: album.uuid)
-                await player.enqueue(songs: songs, position: position)
+                await player.enqueue(songs: songs.sortByAlbum(), position: position)
             case let song as Song:
                 await player.enqueue(song: song, position: position)
             default:
