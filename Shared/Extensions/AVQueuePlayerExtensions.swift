@@ -4,8 +4,9 @@ extension AVQueuePlayer {
     func clearNextItems() {
         guard currentItem != nil else { return }
         for item in items() {
-            if item == currentItem { continue }
-            remove(item)
+            if item != currentItem {
+                remove(item)
+            }
         }
     }
 
