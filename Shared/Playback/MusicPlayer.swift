@@ -150,6 +150,13 @@ final class MusicPlayer: ObservableObject {
     }
 
     private func setCurrentTime(_ curTime: TimeInterval) {
+        guard let songRuntime = currentSong?.runtime else { return }
+
+        if curTime >= songRuntime {
+            currentTime = songRuntime
+            return
+        }
+
         currentTime = curTime.rounded(.toNearestOrAwayFromZero)
     }
 }
