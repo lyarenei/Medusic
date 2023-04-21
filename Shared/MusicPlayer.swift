@@ -61,6 +61,12 @@ final class MusicPlayer: ObservableObject {
             )
             try session.setActive(true)
             UIApplication.shared.beginReceivingRemoteControlEvents()
+            NotificationCenter.default.addObserver(
+                self,
+                selector: #selector(handleInterruption),
+                name: AVAudioSession.interruptionNotification,
+                object: AVAudioSession.sharedInstance()
+            )
             Logger.player.debug("Audio session has been initialized")
         } catch {
             Logger.player.debug("Failed to set up audio session: \(error.localizedDescription)")
@@ -183,5 +189,25 @@ final class MusicPlayer: ObservableObject {
         }
 
         currentTime = curTime.rounded(.toNearestOrAwayFromZero)
+    }
+
+    @objc
+    private func handleInterruption(notification: Notification) {
+        // swiftformat:disable elseOnSameLine
+        guard let userInfo = notification.userInfo,
+              let typeValue = userInfo[AVAudioSessionInterruptionTypeKey] as? UInt,
+              let type = AVAudioSession.InterruptionType(rawValue: typeValue) else { return }
+        // swiftformat:enable elseOnSameLine
+
+        switch type {
+        case .began:
+            pause()
+        case .ended:
+            guard let optionsValue = userInfo[AVAudioSessionInterruptionOptionKey] as? UInt else { return }
+            let options = AVAudioSession.InterruptionOptions(rawValue: optionsValue)
+            if options.contains(.shouldResume) { resume() }
+        default:
+            break
+        }
     }
 }
