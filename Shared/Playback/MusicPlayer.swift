@@ -151,6 +151,5 @@ final class MusicPlayer: ObservableObject {
 
     private func setCurrentTime(_ curTime: TimeInterval) {
         currentTime = curTime.rounded(.toNearestOrAwayFromZero)
-        Logger.player.debug("Current time: \(self.currentTime) (\(curTime))")
     }
 }
