@@ -20,20 +20,14 @@ struct PlayNextButton: View {
             action()
         } label: {
             Image(systemSymbol: .forwardFill)
-            if let text = text {
+            if let text {
                 Text(text)
             }
         }
     }
 
     func action() {
-        Task(priority: .userInitiated) {
-            do {
-                try await player.skipForward()
-            } catch {
-                print("Skip to next track failed")
-            }
-        }
+        player.skipForward()
     }
 }
 
