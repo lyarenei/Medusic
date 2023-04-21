@@ -55,7 +55,6 @@ final class MusicPlayer: ObservableObject {
         if let song {
             clearQueue(stopPlayback: true)
             await enqueue(song: song, position: .last)
-            setCurrentlyPlaying(newSong: song)
         }
 
         player.play()
