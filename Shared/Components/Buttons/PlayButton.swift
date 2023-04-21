@@ -78,7 +78,7 @@ struct PlayPauseButton: View {
 }
 
 #if DEBUG
-// swiftlint disable:all
+// swiftlint:disable all
 struct PlayButton_Previews: PreviewProvider {
     static var previews: some View {
         PlayButton(
@@ -90,5 +90,5 @@ struct PlayButton_Previews: PreviewProvider {
             .previewDisplayName("Play/Pause button")
     }
 }
-// swiftlint enable:all
+// swiftlint:enable all
 #endif
