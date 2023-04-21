@@ -4,10 +4,10 @@ import UIKit
 
 struct AirPlayComponent: UIViewRepresentable {
     func makeUIView(context: Context) -> UIView {
-        return AVRoutePickerView()
+        AVRoutePickerView()
     }
 
-    func updateUIView(_ uiView: UIView, context: Context) { }
+    func updateUIView(_ uiView: UIView, context: Context) {}
 }
 
 #if DEBUG
