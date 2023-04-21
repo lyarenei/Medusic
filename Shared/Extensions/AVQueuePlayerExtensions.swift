@@ -3,10 +3,8 @@ import AVFoundation
 extension AVQueuePlayer {
     func clearNextItems() {
         guard currentItem != nil else { return }
-        for item in items() {
-            if item != currentItem {
-                remove(item)
-            }
+        for item in items() where item != currentItem {
+            remove(item)
         }
     }
 
