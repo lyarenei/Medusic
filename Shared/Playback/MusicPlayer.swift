@@ -61,6 +61,13 @@ final class MusicPlayer: ObservableObject {
         setIsPlaying(isPlaying: true)
     }
 
+    func play(songs: [Song]) async {
+        clearQueue(stopPlayback: true)
+        await enqueue(songs: songs, position: .last)
+        player.play()
+        setIsPlaying(isPlaying: true)
+    }
+
     func pause() {
         player.pause()
         setIsPlaying(isPlaying: false)
