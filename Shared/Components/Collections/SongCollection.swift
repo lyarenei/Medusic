@@ -51,7 +51,7 @@ struct SongCollection: View {
             HStack(spacing: 10) {
                 songInfo(song: song)
                 PrimaryActionButton(item: song)
-                    .frame(width: 30, height: 30)
+                    .frame(width: 25, height: 25)
                     .foregroundColor(.accentColor)
             }
             .frame(height: 45)
