@@ -53,15 +53,45 @@ struct AlbumDetailScreen: View {
 }
 
 #if DEBUG
+// swiftlint:disable all
 struct AlbumDetailScreen_Previews: PreviewProvider {
     static var previews: some View {
         AlbumDetailScreen(
             for: PreviewData.albums.first!,
-            albumRepo: .init(store: .previewStore(items: PreviewData.albums, cacheIdentifier: \.uuid)),
-            songRepo: .init(store: .previewStore(items: PreviewData.songs, cacheIdentifier: \.uuid))
+            albumRepo: .init(
+                store: .previewStore(
+                    items: PreviewData.albums,
+                    cacheIdentifier: \.uuid
+                )
+            ),
+            songRepo: .init(
+                store: .previewStore(
+                    items: PreviewData.songs,
+                    cacheIdentifier: \.uuid
+                )
+            )
         )
+        .previewDisplayName("Default")
+
+        AlbumDetailScreen(
+            for: PreviewData.albums.first!,
+            albumRepo: .init(
+                store: .previewStore(
+                    items: PreviewData.albums,
+                    cacheIdentifier: \.uuid
+                )
+            ),
+            songRepo: .init(
+                store: .previewStore(
+                    items: [],
+                    cacheIdentifier: \.uuid
+                )
+            )
+        )
+        .previewDisplayName("Empty")
     }
 }
+// swiftlint:enable all
 #endif
 
 // MARK: - Album heading component
