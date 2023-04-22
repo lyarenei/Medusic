@@ -66,6 +66,7 @@ struct SongCollection: View {
             showArtwork: showArtwork,
             showArtistName: showArtistName
         )
+        .contentShape(Rectangle())
         .onTapGesture {
             Task { await musicPlayer.play(song: song) }
         }
