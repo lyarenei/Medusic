@@ -15,14 +15,13 @@ struct SongsLibraryScreen: View {
                     .font(.title3)
                     .foregroundColor(.gray)
             } else {
-                List {
-                    SongCollection(
-                        songs: songRepo.songs.sortByAlbum(),
-                        showAlbumOrder: false,
-                        showArtwork: true,
-                        showArtistName: true
-                    )
-                }
+                SongCollection(
+                    songs: songRepo.songs.sortByAlbum(),
+                    showAlbumOrder: false,
+                    showArtwork: true,
+                    showArtistName: true,
+                    type: .list
+                )
                 .listStyle(.plain)
             }
         }

@@ -27,15 +27,18 @@ struct AlbumDetailScreen: View {
                     .padding(.bottom, 10)
 
                 AlbumActions(album: album)
-                    .padding(.bottom, 30)
+                    .padding(.bottom, 20)
+
+                Divider()
+                    .padding(.leading)
 
                 SongCollection(
                     songs: songRepo.songs.filterByAlbum(id: album.uuid),
                     showAlbumOrder: true,
                     showArtwork: false,
-                    showArtistName: false
+                    showArtistName: true,
+                    type: .vstack
                 )
-                .padding(.horizontal)
             }
             .padding(.top, 15)
         }
