@@ -91,17 +91,15 @@ struct SongCollection: View {
 
     @ViewBuilder
     private func songInfo(song: Song) -> some View {
-        SongListRowComponent(
-            song: song,
-            showAlbumOrder: showAlbumOrder,
-            showArtwork: showArtwork,
-            showArtistName: showArtistName
-        )
-        .contentShape(Rectangle())
-        .onTapGesture {
-            Task { await musicPlayer.play(song: song) }
-        }
-        .contextMenu { ContextOptions(song: song) }
+        SongListRowComponent(song: song)
+            .showArtwork(showArtwork)
+            .showArtistName(showArtistName)
+            .showAlbumOrder(showAlbumOrder)
+            .contentShape(Rectangle())
+            .onTapGesture {
+                Task { await musicPlayer.play(song: song) }
+            }
+            .contextMenu { ContextOptions(song: song) }
     }
 
     enum CollectionType {

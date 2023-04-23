@@ -3,12 +3,16 @@ import SwiftUI
 struct SongListRowComponent: View {
     let song: Song
 
-    let showAlbumOrder: Bool
-    let showArtwork: Bool
-    let showArtistName: Bool
+    private var showAlbumOrder = false
+    private var showArtwork = false
+    private var showArtistName = false
 
     @State
-    var artistName: String?
+    private var artistName: String?
+
+    init(song: Song) {
+        self.song = song
+    }
 
     var body: some View {
         HStack(spacing: 0) {
@@ -26,7 +30,7 @@ struct SongListRowComponent: View {
     }
 
     @ViewBuilder
-    func order() -> some View {
+    private func order() -> some View {
         if showAlbumOrder {
             Text("\(song.index)")
                 .font(.title3)
@@ -35,7 +39,7 @@ struct SongListRowComponent: View {
     }
 
     @ViewBuilder
-    func artwork() -> some View {
+    private func artwork() -> some View {
         if showArtwork {
             ArtworkComponent(itemId: song.uuid)
                 .frame(width: 40, height: 40)
@@ -43,7 +47,7 @@ struct SongListRowComponent: View {
     }
 
     @ViewBuilder
-    func songBody() -> some View {
+    private func songBody() -> some View {
         VStack(alignment: .leading, spacing: 2) {
             Text(song.name)
                 .font(.title3)
@@ -60,17 +64,34 @@ struct SongListRowComponent: View {
     }
 }
 
+extension SongListRowComponent {
+    func showAlbumOrder(_ value: Bool = true) -> SongListRowComponent {
+        var view = self
+        view.showAlbumOrder = value
+        return view
+    }
+
+    func showArtwork(_ value: Bool = true) -> SongListRowComponent {
+        var view = self
+        view.showArtwork = value
+        return view
+    }
+
+    func showArtistName(_ value: Bool = true) -> SongListRowComponent {
+        var view = self
+        view.showArtistName = value
+        return view
+    }
+}
+
 #if DEBUG
 // swiftlint:disable all
 struct SongListRowComponent_Previews: PreviewProvider {
     static var previews: some View {
-        SongListRowComponent(
-            song: PreviewData.songs.first!,
-            showAlbumOrder: false,
-            showArtwork: true,
-            showArtistName: true
-        )
-        .padding(.horizontal)
+        SongListRowComponent(song: PreviewData.songs.first!)
+            .showArtwork()
+            .showArtistName()
+            .padding(.horizontal)
     }
 }
 // swiftlint:enable all
