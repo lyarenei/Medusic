@@ -32,13 +32,10 @@ struct AlbumDetailScreen: View {
                 Divider()
                     .padding(.leading)
 
-                SongCollection(
-                    songs: songRepo.songs.filterByAlbum(id: album.uuid),
-                    showAlbumOrder: true,
-                    showArtwork: false,
-                    showArtistName: true,
-                    type: .vstack
-                )
+                SongCollection(songs: songRepo.songs.filterByAlbum(id: album.uuid))
+                    .showAlbumOrder()
+                    .showArtistName()
+                    .collectionType(.vstack)
             }
             .padding(.top, 15)
         }

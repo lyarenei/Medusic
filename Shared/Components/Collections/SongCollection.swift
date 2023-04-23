@@ -3,25 +3,17 @@ import SwiftUI
 struct SongCollection: View {
     var songs: [Song]
 
-    let showAlbumOrder: Bool
-    let showArtwork: Bool
-    let showArtistName: Bool
-    let type: CollectionType
-    let musicPlayer: MusicPlayer
+    private var showAlbumOrder = false
+    private var showArtwork = false
+    private var showArtistName = false
+    private var type: CollectionType = .list
+    private let musicPlayer: MusicPlayer
 
     init(
         songs: [Song],
-        showAlbumOrder: Bool,
-        showArtwork: Bool,
-        showArtistName: Bool,
-        type: CollectionType,
         musicPlayer: MusicPlayer = .shared
     ) {
         self.songs = songs
-        self.showAlbumOrder = showAlbumOrder
-        self.showArtwork = showArtwork
-        self.showArtistName = showArtistName
-        self.type = type
         self.musicPlayer = musicPlayer
     }
 
@@ -34,7 +26,7 @@ struct SongCollection: View {
     }
 
     @ViewBuilder
-    func emptyView() -> some View {
+    private func emptyView() -> some View {
         if type == .list {
             empty()
                 .hideListRowSeparator()
@@ -44,7 +36,7 @@ struct SongCollection: View {
     }
 
     @ViewBuilder
-    func empty() -> some View {
+    private func empty() -> some View {
         HStack {
             Spacer()
             Text("No songs available")
@@ -56,7 +48,7 @@ struct SongCollection: View {
     }
 
     @ViewBuilder
-    func content() -> some View {
+    private func content() -> some View {
         switch type {
         case .list:
             List { listContent() }
@@ -68,7 +60,7 @@ struct SongCollection: View {
     }
 
     @ViewBuilder
-    func listContent() -> some View {
+    private func listContent() -> some View {
         ForEach(songs) { song in
             HStack(spacing: 10) {
                 songInfo(song: song)
@@ -81,7 +73,7 @@ struct SongCollection: View {
     }
 
     @ViewBuilder
-    func stackContent() -> some View {
+    private func stackContent() -> some View {
         ForEach(songs) { song in
             HStack(spacing: 10) {
                 songInfo(song: song)
@@ -98,7 +90,7 @@ struct SongCollection: View {
     }
 
     @ViewBuilder
-    func songInfo(song: Song) -> some View {
+    private func songInfo(song: Song) -> some View {
         SongListRowComponent(
             song: song,
             showAlbumOrder: showAlbumOrder,
@@ -119,44 +111,50 @@ struct SongCollection: View {
     }
 }
 
+extension SongCollection {
+    func showAlbumOrder(_ value: Bool = true) -> SongCollection {
+        var view = self
+        view.showAlbumOrder = value
+        return view
+    }
+
+    func showArtwork(_ value: Bool = true) -> SongCollection {
+        var view = self
+        view.showArtwork = value
+        return view
+    }
+
+    func showArtistName(_ value: Bool = true) -> SongCollection {
+        var view = self
+        view.showArtistName = value
+        return view
+    }
+
+    func collectionType(_ type: CollectionType) -> SongCollection {
+        var view = self
+        view.type = type
+        return view
+    }
+}
+
 #if DEBUG
 struct SongCollection_Previews: PreviewProvider {
     static var previews: some View {
-        SongCollection(
-            songs: PreviewData.songs,
-            showAlbumOrder: false,
-            showArtwork: true,
-            showArtistName: true,
-            type: .list
-        )
-        .previewDisplayName("List")
+        SongCollection(songs: PreviewData.songs)
+            .showArtistName()
+            .showArtwork()
+            .previewDisplayName("List")
 
-        SongCollection(
-            songs: PreviewData.songs,
-            showAlbumOrder: false,
-            showArtwork: true,
-            showArtistName: true,
-            type: .vstack
-        )
-        .previewDisplayName("VStack")
+        SongCollection(songs: PreviewData.songs)
+            .showArtistName()
+            .showArtwork()
+            .previewDisplayName("VStack")
 
-        SongCollection(
-            songs: [],
-            showAlbumOrder: false,
-            showArtwork: true,
-            showArtistName: true,
-            type: .list
-        )
-        .previewDisplayName("Empty list")
+        SongCollection(songs: [])
+            .previewDisplayName("Empty list")
 
-        SongCollection(
-            songs: [],
-            showAlbumOrder: false,
-            showArtwork: true,
-            showArtistName: true,
-            type: .vstack
-        )
-        .previewDisplayName("Empty stack")
+        SongCollection(songs: [])
+            .previewDisplayName("Empty stack")
     }
 }
 #endif
