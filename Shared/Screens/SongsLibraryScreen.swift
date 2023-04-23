@@ -34,7 +34,10 @@ struct SongsLibraryScreen_Previews: PreviewProvider {
     static var previews: some View {
         SongsLibraryScreen(
             songRepo: SongRepository(
-                store: .previewStore(items: PreviewData.songs, cacheIdentifier: \.uuid)
+                store: .previewStore(
+                    items: PreviewData.songs,
+                    cacheIdentifier: \.uuid
+                    )
             )
         )
     }

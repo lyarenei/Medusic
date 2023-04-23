@@ -96,9 +96,7 @@ struct SongCollection: View {
             .showArtistName(showArtistName)
             .showAlbumOrder(showAlbumOrder)
             .contentShape(Rectangle())
-            .onTapGesture {
-                Task { await musicPlayer.play(song: song) }
-            }
+            .onTapGesture { Task { await musicPlayer.play(song: song) } }
             .contextMenu { ContextOptions(song: song) }
     }
 
