@@ -21,13 +21,14 @@ final class ApiClient {
     }
 
     public func useDefaultMode() {
-        var connectUrl = URL(string: "http://localhost:8096")!
-        if let validServerUrl = URL(string: Defaults[.serverUrl]) {
-            connectUrl = validServerUrl
+        // swiftlint:disable:next force_unwrapping
+        var serverUrl = URL(string: "http://localhost:8096")!
+        if let configuredServerUrl = URL(string: Defaults[.serverUrl]) {
+            serverUrl = configuredServerUrl
         }
 
         let jellyfinClient = JellyfinClient(configuration: .init(
-            url: connectUrl,
+            url: serverUrl,
             client: "JellyMusic",
             deviceName: UIDevice.current.model,
             deviceID: UIDevice.current.identifierForVendor?.uuidString ?? "missing_id",
