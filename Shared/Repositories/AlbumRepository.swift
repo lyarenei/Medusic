@@ -48,7 +48,7 @@ final class AlbumRepository: ObservableObject {
     /// Set/reset specified album favorite flag.
     func setFavorite(albumId: String, isFavorite: Bool) async throws {
         if var album = await getAlbum(by: albumId) {
-            // TODO: API call
+            try await apiClient.services.mediaService.setFavorite(itemId: albumId, isFavorite: isFavorite)
             album.isFavorite = isFavorite
             try await $albums.insert(album)
         } else {
