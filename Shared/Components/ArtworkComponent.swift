@@ -4,19 +4,25 @@ import Kingfisher
 struct ArtworkComponent: View {
     private static let cornerRadius: CGFloat = 5
 
-    @Environment(\.api)
-    var api
-
     @State
-    private var artworkImage: PlatformImage? = nil
+    private var artworkImage: PlatformImage?
 
-    var itemId: String
+    let itemId: String
+    let apiClient: ApiClient
+
+    init(
+        itemId: String,
+        apiClient: ApiClient = .shared
+    ) {
+        self.itemId = itemId
+        self.apiClient = apiClient
+    }
 
     var body: some View {
         GeometryReader { proxy in
             let dataProvider = JellyfinImageDataProvider(
                 itemId: itemId,
-                imageService: api.services.imageService,
+                imageService: apiClient.services.imageService,
                 imageSize: CGSize(
                     width: proxy.size.width * UIScreen.main.scale,
                     height: proxy.size.height * UIScreen.main.scale
@@ -40,11 +46,15 @@ struct ArtworkComponent: View {
 }
 
 #if DEBUG
+// swiftlint:disable all
 struct ArtworkComponent_Previews: PreviewProvider {
     static var previews: some View {
-        ArtworkComponent(itemId: "asdf")
-            .environment(\.api, .init())
-            .previewLayout(.fixed(width: 200, height: 200))
+        ArtworkComponent(
+            itemId: PreviewData.albums.first!.uuid,
+            apiClient: .init(previewEnabled: true)
+        )
+        .previewLayout(.fixed(width: 200, height: 200))
     }
 }
+// swiftlint:enable all
 #endif

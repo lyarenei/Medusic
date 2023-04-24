@@ -6,6 +6,7 @@ import SimpleKeychain
 import SwiftUI
 
 final class ApiClient {
+    static let shared = ApiClient()
     private(set) var services: ApiServices = .preview
 
     init(previewEnabled: Bool = Defaults[.previewMode]) {
@@ -22,13 +23,13 @@ final class ApiClient {
     }
 
     /// Use preview mode of the client with mocked data. Does not persist any changes.
-    public func usePreviewMode() {
+    func usePreviewMode() {
         services = .preview
         Logger.jellyfin.debug("Using preview mode for API client")
     }
 
     /// Use default mode of the client which connects to the configured server.
-    public func useDefaultMode() {
+    func useDefaultMode() {
         // swiftlint:disable:next force_unwrapping
         var serverUrl = URL(string: "http://localhost:8096")!
         if let configuredServerUrl = URL(string: Defaults[.serverUrl]) {
@@ -54,7 +55,7 @@ final class ApiClient {
     }
 
     /// Authorize against JellyfinServer with stored credentials.
-    public func performAuth() async throws {
+    func performAuth() async throws {
         Defaults[.userId] = ""
         let keychain = SimpleKeychain()
         let password = try? keychain.string(forKey: "password")
@@ -92,17 +93,6 @@ extension ApiServices {
             systemService: MockSystemService(),
             mediaService: MockMediaService()
         )
-    }
-}
-
-private struct APIEnvironmentKey: EnvironmentKey {
-    static let defaultValue: ApiClient = .init()
-}
-
-extension EnvironmentValues {
-    var api: ApiClient {
-        get { self[APIEnvironmentKey.self] }
-        set { self[APIEnvironmentKey.self] = newValue }
     }
 }
 
