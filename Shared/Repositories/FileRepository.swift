@@ -22,12 +22,13 @@ final class FileRepository: ObservableObject {
 
     init(
         downloadedSongsStore: Store<Song> = .downloadedSongs,
-        downloadQueueStore: Store<Song> = .downloadQueue
+        downloadQueueStore: Store<Song> = .downloadQueue,
+        apiClient: ApiClient = .shared
     ) {
         _downloadedSongs = Stored(in: downloadedSongsStore)
         _downloadQueue = Stored(in: downloadQueueStore)
         self.cacheSizeLimit = Defaults[.maxCacheSize] * 1024 * 1024
-        self.apiClient = ApiClient()
+        self.apiClient = apiClient
         do {
             let cacheUrl = try FileManager.default.url(
                 for: .applicationSupportDirectory,
