@@ -8,17 +8,12 @@ import SwiftUI
 final class ApiClient {
     private(set) var services: ApiServices = .preview
 
-    init() {
-        if Defaults[.previewMode] {
-            usePreviewMode()
-            return
-        }
-
-        useDefaultMode()
+    init(previewEnabled: Bool = Defaults[.previewMode]) {
+        setMode(previewEnabled)
     }
 
-    init(previewEnabled: Bool) {
-        if previewEnabled {
+    private func setMode(_ isPreview: Bool) {
+        if isPreview {
             usePreviewMode()
             return
         }
