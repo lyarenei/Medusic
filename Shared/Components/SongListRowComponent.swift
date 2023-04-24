@@ -41,8 +41,9 @@ struct SongListRowComponent: View {
     @ViewBuilder
     private func artwork() -> some View {
         if showArtwork {
+            let square = CGSize(width: height, height: height)
             ArtworkComponent(itemId: song.uuid)
-                .frame(width: height, height: height)
+                .frame(width: square.width, height: square.height)
         }
     }
 
