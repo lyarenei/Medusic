@@ -1,6 +1,7 @@
 import OSLog
 
 extension Logger {
+    // swiftlint:disable:next force_unwrapping
     private static var subsystem = Bundle.main.bundleIdentifier!
 
     static let library = Logger(subsystem: subsystem, category: "library")
