@@ -1,6 +1,7 @@
 import Defaults
 import Foundation
 import JellyfinAPI
+import OSLog
 import SimpleKeychain
 import SwiftUI
 
@@ -28,6 +29,7 @@ final class ApiClient {
     /// Use preview mode of the client with mocked data. Does not persist any changes.
     public func usePreviewMode() {
         services = .preview
+        Logger.jellyfin.debug("Using preview mode for API client")
     }
 
     public func useDefaultMode() {
@@ -52,6 +54,7 @@ final class ApiClient {
             systemService: DefaultSystemService(client: jellyfinClient),
             mediaService: DefaultMediaService(client: jellyfinClient)
         )
+        Logger.jellyfin.debug("Using default mode for API client")
     }
 
     public func performAuth() async throws -> Bool {
