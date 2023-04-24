@@ -8,6 +8,7 @@ struct SongCollection: View {
     private var showArtistName = false
     private var type: CollectionType = .list
     private let musicPlayer: MusicPlayer
+    private var rowHeight = 40.0
 
     init(
         songs: [Song],
@@ -65,10 +66,10 @@ struct SongCollection: View {
             HStack(spacing: 10) {
                 songInfo(song: song)
                 PrimaryActionButton(item: song)
-                    .frame(width: 25, height: 25)
+                    .frame(width: rowHeight / 1.5, height: rowHeight / 1.5)
                     .foregroundColor(.accentColor)
             }
-            .frame(height: 40)
+            .frame(height: rowHeight)
         }
     }
 
@@ -78,10 +79,10 @@ struct SongCollection: View {
             HStack(spacing: 10) {
                 songInfo(song: song)
                 PrimaryActionButton(item: song)
-                    .frame(width: 25, height: 25)
+                    .frame(width: rowHeight / 1.5, height: rowHeight / 1.5)
                     .padding(.trailing)
             }
-            .frame(height: 40)
+            .frame(height: rowHeight)
             .padding(.leading)
 
             Divider()
@@ -95,6 +96,7 @@ struct SongCollection: View {
             .showArtwork(showArtwork)
             .showArtistName(showArtistName)
             .showAlbumOrder(showAlbumOrder)
+            .height(rowHeight)
             .contentShape(Rectangle())
             .onTapGesture { Task { await musicPlayer.play(song: song) } }
             .contextMenu { ContextOptions(song: song) }
@@ -129,6 +131,12 @@ extension SongCollection {
     func collectionType(_ type: CollectionType) -> SongCollection {
         var view = self
         view.type = type
+        return view
+    }
+
+    func rowHeight(_ height: CGFloat) -> SongCollection {
+        var view = self
+        view.rowHeight = height
         return view
     }
 }

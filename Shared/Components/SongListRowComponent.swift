@@ -6,6 +6,7 @@ struct SongListRowComponent: View {
     private var showAlbumOrder = false
     private var showArtwork = false
     private var showArtistName = false
+    private var height = 40.0
 
     @State
     private var artistName: String?
@@ -41,7 +42,7 @@ struct SongListRowComponent: View {
     private func artwork() -> some View {
         if showArtwork {
             ArtworkComponent(itemId: song.uuid)
-                .frame(width: 40, height: 40)
+                .frame(width: height, height: height)
         }
     }
 
@@ -78,6 +79,12 @@ extension SongListRowComponent {
     func showArtistName(_ value: Bool = true) -> SongListRowComponent {
         var view = self
         view.showArtistName = value
+        return view
+    }
+
+    func height(_ height: CGFloat) -> SongListRowComponent {
+        var view = self
+        view.height = height
         return view
     }
 }
