@@ -49,7 +49,6 @@ struct ServerStatusComponent: View {
         }
 
         guard isConfigured() else { return }
-        apiClient.useDefaultMode()
 
         // URL check
         status = "invalid URL"
