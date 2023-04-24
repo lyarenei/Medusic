@@ -5,6 +5,7 @@ struct AppearanceSettingsScreen: View {
     var body: some View {
         List {
             AlbumDisplayOption()
+            PrimaryActionOption()
         }
         .listStyle(.grouped)
         .navigationTitle("Appearance")
@@ -28,6 +29,18 @@ private struct AlbumDisplayOption: View {
         Picker("Show albums as", selection: $selectedOption) {
             Text("List").tag(AlbumDisplayMode.asList)
             Text("Tiles (default)").tag(AlbumDisplayMode.asTiles)
+        }
+    }
+}
+
+private struct PrimaryActionOption: View {
+    @Default(.primaryAction)
+    var selectedOption: PrimaryAction
+
+    var body: some View {
+        Picker("Primary action", selection: $selectedOption) {
+            Text("Download (default)").tag(PrimaryAction.download)
+            Text("Favorite").tag(PrimaryAction.favorite)
         }
     }
 }
