@@ -49,7 +49,7 @@ struct ServerStatusComponent: View {
         }
 
         guard isConfigured() else { return }
-        ApiClient.shared.useDefaultMode()
+        apiClient.useDefaultMode()
 
         // URL check
         status = "invalid URL"
