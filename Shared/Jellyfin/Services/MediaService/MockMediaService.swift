@@ -8,4 +8,8 @@ final class MockMediaService: MediaService {
     func new_downloadItem(id: String, destination: URL) async throws {
         throw MediaServiceError.invalid
     }
+
+    func setFavorite(itemId: String, isFavorite: Bool) async throws {
+        throw MediaServiceError.invalid
+    }
 }

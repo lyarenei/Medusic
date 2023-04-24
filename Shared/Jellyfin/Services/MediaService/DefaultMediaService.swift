@@ -1,4 +1,6 @@
+import Defaults
 import Foundation
+import Get
 import JellyfinAPI
 import OSLog
 
@@ -23,6 +25,17 @@ final class DefaultMediaService: MediaService {
         let delegate = MediaDownloadDelegate(destinationURL: destination)
         Logger.jellyfin.debug("Starting download for item \(id)")
         _ = try await client.download(for: request, delegate: delegate)
+    }
+
+    func setFavorite(itemId: String, isFavorite: Bool) async throws {
+        var request: Request<UserItemDataDto>
+        if isFavorite {
+            request = JellyfinAPI.Paths.markFavoriteItem(userID: Defaults[.userId], itemID: itemId)
+        } else {
+            request = JellyfinAPI.Paths.unmarkFavoriteItem(userID: Defaults[.userId], itemID: itemId)
+        }
+
+        _ = try await client.send(request)
     }
 }
 
