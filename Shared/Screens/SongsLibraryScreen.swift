@@ -9,25 +9,28 @@ struct SongsLibraryScreen: View {
     }
 
     var body: some View {
-        Group {
-            if songRepo.songs.isEmpty {
-                Text("No songs available")
-                    .font(.title3)
-                    .foregroundColor(.gray)
-            } else {
-                List {
-                    SongCollection(songs: songRepo.songs.sortByAlbum())
-                        .showArtwork()
-                        .showArtistName()
-                        .collectionType(.list)
-                }
-                .listStyle(.plain)
+        content()
+            .navigationTitle("Songs")
+            .navigationBarTitleDisplayMode(.large)
+            .toolbar {
+                ToolbarItem { RefreshButton(mode: .allSongs) }
             }
-        }
-        .navigationTitle("Songs")
-        .navigationBarTitleDisplayMode(.large)
-        .toolbar {
-            ToolbarItem { RefreshButton(mode: .allSongs) }
+    }
+
+    @ViewBuilder
+    private func content() -> some View {
+        if songRepo.songs.isEmpty {
+            Text("No songs available")
+                .font(.title3)
+                .foregroundColor(.gray)
+        } else {
+            List {
+                SongCollection(songs: songRepo.songs.sortByAlbum())
+                    .showArtwork()
+                    .showArtistName()
+                    .collectionType(.list)
+            }
+            .listStyle(.plain)
         }
     }
 }

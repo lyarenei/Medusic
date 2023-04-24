@@ -19,37 +19,6 @@ struct SongCollection: View {
     }
 
     var body: some View {
-        if songs.isEmpty {
-            empty()
-        } else {
-            content()
-        }
-    }
-
-    @ViewBuilder
-    private func emptyView() -> some View {
-        if type == .list {
-            empty()
-                .hideListRowSeparator()
-        } else {
-            empty()
-        }
-    }
-
-    @ViewBuilder
-    private func empty() -> some View {
-        HStack {
-            Spacer()
-            Text("No songs available")
-                .font(.title3)
-                .foregroundColor(.gray)
-
-            Spacer()
-        }
-    }
-
-    @ViewBuilder
-    private func content() -> some View {
         switch type {
         case .list:
             listContent()

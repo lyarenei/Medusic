@@ -32,14 +32,7 @@ struct AlbumDetailScreen: View {
                 Divider()
                     .padding(.leading)
 
-                VStack {
-                    SongCollection(songs: songRepo.songs.filterByAlbum(id: album.uuid))
-                        .showAlbumOrder()
-                        .showArtistName()
-                        .collectionType(.plain)
-                        .rowHeight(30)
-                        .font(.system(size: 16))
-                }
+                albumSongs()
             }
             .padding(.top, 15)
         }
@@ -51,6 +44,24 @@ struct AlbumDetailScreen: View {
 
             ToolbarItem(placement: .navigationBarTrailing) {
                 RefreshButton(mode: .album(id: album.uuid))
+            }
+        }
+    }
+
+    @ViewBuilder
+    private func albumSongs() -> some View {
+        if songRepo.songs.filterByAlbum(id: album.uuid).isEmpty {
+            Text("No songs available")
+                .foregroundColor(.gray)
+                .font(.title3)
+        } else {
+            VStack {
+                SongCollection(songs: songRepo.songs.filterByAlbum(id: album.uuid))
+                    .showAlbumOrder()
+                    .showArtistName()
+                    .collectionType(.plain)
+                    .rowHeight(30)
+                    .font(.system(size: 16))
             }
         }
     }
