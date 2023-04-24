@@ -9,19 +9,28 @@ struct SongsLibraryScreen: View {
     }
 
     var body: some View {
-        ScrollView(.vertical) {
-            SongCollection(
-                songs: songRepo.songs,
-                showAlbumOrder: false,
-                showArtwork: true,
-                showAction: true,
-                showArtistName: true
-            )
-        }
-        .navigationTitle("Songs")
-        .navigationBarTitleDisplayMode(.large)
-        .toolbar {
-            ToolbarItem { RefreshButton(mode: .allSongs) }
+        content()
+            .navigationTitle("Songs")
+            .navigationBarTitleDisplayMode(.large)
+            .toolbar {
+                ToolbarItem { RefreshButton(mode: .allSongs) }
+            }
+    }
+
+    @ViewBuilder
+    private func content() -> some View {
+        if songRepo.songs.isEmpty {
+            Text("No songs available")
+                .font(.title3)
+                .foregroundColor(.gray)
+        } else {
+            List {
+                SongCollection(songs: songRepo.songs.sortByAlbum())
+                    .showArtwork()
+                    .showArtistName()
+                    .collectionType(.list)
+            }
+            .listStyle(.plain)
         }
     }
 }
@@ -29,7 +38,25 @@ struct SongsLibraryScreen: View {
 #if DEBUG
 struct SongsLibraryScreen_Previews: PreviewProvider {
     static var previews: some View {
-        SongsLibraryScreen(songRepo: SongRepository(store: .previewStore(items: PreviewData.songs, cacheIdentifier: \.uuid)))
+        SongsLibraryScreen(
+            songRepo: SongRepository(
+                store: .previewStore(
+                    items: PreviewData.songs,
+                    cacheIdentifier: \.uuid
+                )
+            )
+        )
+        .previewDisplayName("Default")
+
+        SongsLibraryScreen(
+            songRepo: SongRepository(
+                store: .previewStore(
+                    items: [],
+                    cacheIdentifier: \.uuid
+                )
+            )
+        )
+        .previewDisplayName("Empty")
     }
 }
 #endif

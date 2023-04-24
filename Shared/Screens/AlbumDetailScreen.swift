@@ -27,15 +27,12 @@ struct AlbumDetailScreen: View {
                     .padding(.bottom, 10)
 
                 AlbumActions(album: album)
-                    .padding(.bottom, 30)
+                    .padding(.bottom, 20)
 
-                SongCollection(
-                    songs: songRepo.songs.filterByAlbum(id: album.uuid),
-                    showAlbumOrder: true,
-                    showArtwork: false,
-                    showAction: true,
-                    showArtistName: false
-                )
+                Divider()
+                    .padding(.leading)
+
+                albumSongs()
             }
             .padding(.top, 15)
         }
@@ -50,18 +47,66 @@ struct AlbumDetailScreen: View {
             }
         }
     }
+
+    @ViewBuilder
+    private func albumSongs() -> some View {
+        if songRepo.songs.filterByAlbum(id: album.uuid).isEmpty {
+            Text("No songs available")
+                .foregroundColor(.gray)
+                .font(.title3)
+        } else {
+            VStack {
+                SongCollection(songs: songRepo.songs.filterByAlbum(id: album.uuid))
+                    .showAlbumOrder()
+                    .showArtistName()
+                    .collectionType(.plain)
+                    .rowHeight(30)
+                    .font(.system(size: 16))
+            }
+        }
+    }
 }
 
 #if DEBUG
+// swiftlint:disable all
 struct AlbumDetailScreen_Previews: PreviewProvider {
     static var previews: some View {
         AlbumDetailScreen(
             for: PreviewData.albums.first!,
-            albumRepo: .init(store: .previewStore(items: PreviewData.albums, cacheIdentifier: \.uuid)),
-            songRepo: .init(store: .previewStore(items: PreviewData.songs, cacheIdentifier: \.uuid))
+            albumRepo: .init(
+                store: .previewStore(
+                    items: PreviewData.albums,
+                    cacheIdentifier: \.uuid
+                )
+            ),
+            songRepo: .init(
+                store: .previewStore(
+                    items: PreviewData.songs,
+                    cacheIdentifier: \.uuid
+                )
+            )
         )
+        .previewDisplayName("Default")
+
+        AlbumDetailScreen(
+            for: PreviewData.albums.first!,
+            albumRepo: .init(
+                store: .previewStore(
+                    items: PreviewData.albums,
+                    cacheIdentifier: \.uuid
+                )
+            ),
+            songRepo: .init(
+                store: .previewStore(
+                    items: [],
+                    cacheIdentifier: \.uuid
+                )
+            )
+        )
+        .previewDisplayName("Empty")
     }
 }
+// swiftlint:enable all
 #endif
 
 // MARK: - Album heading component

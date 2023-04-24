@@ -1,173 +1,147 @@
 import SwiftUI
-import SwiftUIBackports
 
 struct SongCollection: View {
-    private var songs: [Song]?
+    var songs: [Song]
 
-    private let showAlbumOrder: Bool
-    private let showArtwork: Bool
-    private let showAction: Bool
-    private let showArtistName: Bool
+    private var showAlbumOrder = false
+    private var showArtwork = false
+    private var showArtistName = false
+    private var type: CollectionType = .list
+    private let musicPlayer: MusicPlayer
+    private var rowHeight = 40.0
 
     init(
-        songs: [Song]? = nil,
-        showAlbumOrder: Bool = false,
-        showArtwork: Bool = true,
-        showAction: Bool = true,
-        showArtistName: Bool = false
+        songs: [Song],
+        musicPlayer: MusicPlayer = .shared
     ) {
         self.songs = songs
-        self.showAlbumOrder = showAlbumOrder
-        self.showArtwork = showArtwork
-        self.showAction = showAction
-        self.showArtistName = showArtistName
+        self.musicPlayer = musicPlayer
     }
 
     var body: some View {
-        if let gotSongs = songs, gotSongs.isEmpty {
-            Text("No songs available")
-                .font(.title3)
-                .foregroundColor(.gray)
-        } else if let gotSongs = songs {
-            SongList(
-                songs: gotSongs,
-                showAlbumOrder: self.showAlbumOrder,
-                showArtwork: self.showArtwork,
-                showAction: self.showAction,
-                showArtistName: self.showArtistName
-            )
-        } else {
-            InProgressComponent("Refreshing songs ...")
+        switch type {
+        case .list:
+            listContent()
+        case .plain:
+            plainContent()
         }
+    }
+
+    @ViewBuilder
+    private func listContent() -> some View {
+        ForEach(songs) { song in
+            HStack(spacing: 10) {
+                songInfo(song: song)
+                PrimaryActionButton(item: song)
+                    .frame(width: rowHeight / 1.5, height: rowHeight / 1.5)
+                    .foregroundColor(.accentColor)
+            }
+            .frame(height: rowHeight)
+        }
+    }
+
+    @ViewBuilder
+    private func plainContent() -> some View {
+        ForEach(songs) { song in
+            HStack(spacing: 10) {
+                songInfo(song: song)
+                PrimaryActionButton(item: song)
+                    .frame(width: rowHeight / 1.5, height: rowHeight / 1.5)
+                    .padding(.trailing)
+            }
+            .frame(height: rowHeight)
+            .padding(.leading)
+
+            Divider()
+                .padding(.leading)
+        }
+    }
+
+    @ViewBuilder
+    private func songInfo(song: Song) -> some View {
+        SongListRowComponent(song: song)
+            .showArtwork(showArtwork)
+            .showArtistName(showArtistName)
+            .showAlbumOrder(showAlbumOrder)
+            .height(rowHeight)
+            .contentShape(Rectangle())
+            .onTapGesture { Task { await musicPlayer.play(song: song) } }
+            .contextMenu { ContextOptions(song: song) }
+    }
+
+    enum CollectionType {
+        case list
+        case plain
+    }
+}
+
+extension SongCollection {
+    func showAlbumOrder(_ value: Bool = true) -> SongCollection {
+        var view = self
+        view.showAlbumOrder = value
+        return view
+    }
+
+    func showArtwork(_ value: Bool = true) -> SongCollection {
+        var view = self
+        view.showArtwork = value
+        return view
+    }
+
+    func showArtistName(_ value: Bool = true) -> SongCollection {
+        var view = self
+        view.showArtistName = value
+        return view
+    }
+
+    func collectionType(_ type: CollectionType) -> SongCollection {
+        var view = self
+        view.type = type
+        return view
+    }
+
+    func rowHeight(_ height: CGFloat) -> SongCollection {
+        var view = self
+        view.rowHeight = height
+        return view
     }
 }
 
 #if DEBUG
 struct SongCollection_Previews: PreviewProvider {
     static var previews: some View {
-        SongCollection(songs: PreviewData.songs)
-            .padding([.leading, .trailing])
-            .previewDisplayName("Default")
-        SongCollection(songs: [])
-            .previewDisplayName("Empty")
-        SongCollection(songs: nil)
-            .previewDisplayName("Nil")
+        List {
+            SongCollection(songs: PreviewData.songs)
+                .showArtistName()
+                .showArtwork()
+                .collectionType(.list)
+        }
+        .previewDisplayName("List")
 
-        SEC(
-            song: PreviewData.songs[0],
-            showAlbumOrder: true,
-            showArtwork: false,
-            showArtistName: true,
-            showAction: true
-        )
-        .previewDisplayName("Song entry")
-        .padding(.horizontal)
+        VStack {
+            SongCollection(songs: PreviewData.songs)
+                .showArtistName()
+                .showArtwork()
+                .collectionType(.plain)
+        }
+        .previewDisplayName("VStack")
+
+        List {
+            SongCollection(songs: [])
+                .collectionType(.list)
+        }
+        .previewDisplayName("Empty list")
+
+        VStack {
+            SongCollection(songs: [])
+                .collectionType(.plain)
+        }
+        .previewDisplayName("Empty stack")
     }
 }
 #endif
 
-private struct SongList: View {
-    var songs: [Song]
-    let showAlbumOrder: Bool
-    let showArtwork: Bool
-    let showAction: Bool
-    let showArtistName: Bool
-
-    var body: some View {
-        let dividerPadding = showAlbumOrder ? 37.0 : 57.0
-        LazyVStack(alignment: .leading) {
-            Divider()
-
-            ForEach(songs) { song in
-                SEC(
-                    song: song,
-                    showAlbumOrder: self.showAlbumOrder,
-                    showArtwork: self.showArtwork,
-                    showArtistName: self.showArtistName,
-                    showAction: self.showAction
-                )
-                .onTapGesture { Task(priority: .userInitiated) {
-                    do {
-                        try await MusicPlayer.shared.play(song: song)
-                    } catch {
-                        print("Failed to play song \(song.uuid)")
-                        MusicPlayer.shared.stop()
-                    }
-                }}
-                .contentShape(Rectangle())
-                .contextMenu { ContextOptions(song: song) }
-                .padding(.horizontal)
-
-                Divider()
-                    .padding(.leading, dividerPadding)
-            }
-        }
-    }
-}
-
-private struct SEC: View {
-    @State
-    private var artist = "song.artist"
-
-    let song: Song
-
-    let showAlbumOrder: Bool
-    let showArtwork: Bool
-    let showArtistName: Bool
-    let showAction: Bool
-
-    var body: some View {
-        HStack(spacing: 0) {
-            HStack(spacing: 0) {
-                HStack(spacing: 17) {
-                    if showAlbumOrder {
-                        Text("\(song.index)")
-                            .font(.title3)
-                            .frame(minWidth: 20)
-                    }
-
-                    if showArtwork {
-                        ArtworkComponent(itemId: song.uuid)
-                            .frame(width: 40, height: 40)
-                    }
-
-                    VStack(alignment: .leading, spacing: 2) {
-                        Text(song.name)
-                            .font(.title3)
-                            .lineLimit(1)
-
-                        // TODO: automatic - if artist differs from album artist
-                        if showArtistName {
-                            Text(artist)
-                                .lineLimit(1)
-                                .font(.body)
-                                .foregroundColor(.gray)
-                        }
-                    }
-                }
-                .padding(.vertical, 4)
-
-                Spacer()
-            }
-            .contentShape(Rectangle())
-
-            if showAction {
-                PrimaryActionButton(item: song)
-                    .font(.title3)
-                    .frame(width: 27, height: 27)
-                    .padding(.trailing, 5)
-            }
-        }
-        .frame(height: 45)
-        .backport.task {
-            guard showArtistName else { return }
-            // TODO: fetch artist by song ID
-            self.artist = "song.artist"
-        }
-    }
-}
-
-private struct ContextOptions: View  {
+private struct ContextOptions: View {
     let song: Song
 
     var body: some View {

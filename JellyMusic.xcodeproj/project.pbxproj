@@ -113,6 +113,8 @@
 		9BA521FF29F19FEC0000D0AA /* StringExtensions.swift in Sources */ = {isa = PBXBuildFile; fileRef = 9BA521FD29F19FEC0000D0AA /* StringExtensions.swift */; };
 		9BA5220129F1A2110000D0AA /* AVPlayerItemExtensions.swift in Sources */ = {isa = PBXBuildFile; fileRef = 9BA5220029F1A2110000D0AA /* AVPlayerItemExtensions.swift */; };
 		9BA5220229F1A2110000D0AA /* AVPlayerItemExtensions.swift in Sources */ = {isa = PBXBuildFile; fileRef = 9BA5220029F1A2110000D0AA /* AVPlayerItemExtensions.swift */; };
+		9BA5220429F2EA4C0000D0AA /* SongListRowComponent.swift in Sources */ = {isa = PBXBuildFile; fileRef = 9BA5220329F2EA4C0000D0AA /* SongListRowComponent.swift */; };
+		9BA5220529F2EA4C0000D0AA /* SongListRowComponent.swift in Sources */ = {isa = PBXBuildFile; fileRef = 9BA5220329F2EA4C0000D0AA /* SongListRowComponent.swift */; };
 		9BA7454C29F09143007669D4 /* AVQueuePlayerExtensions.swift in Sources */ = {isa = PBXBuildFile; fileRef = 9BA7454B29F09143007669D4 /* AVQueuePlayerExtensions.swift */; };
 		9BA7454D29F09143007669D4 /* AVQueuePlayerExtensions.swift in Sources */ = {isa = PBXBuildFile; fileRef = 9BA7454B29F09143007669D4 /* AVQueuePlayerExtensions.swift */; };
 		9BB754D629B93F3C009BB3A6 /* JellyfinAPI in Frameworks */ = {isa = PBXBuildFile; productRef = 9BB754D529B93F3C009BB3A6 /* JellyfinAPI */; };
@@ -220,6 +222,7 @@
 		9B80477D29B8CDF80069B407 /* SettingsScreen.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = SettingsScreen.swift; sourceTree = "<group>"; };
 		9BA521FD29F19FEC0000D0AA /* StringExtensions.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = StringExtensions.swift; sourceTree = "<group>"; };
 		9BA5220029F1A2110000D0AA /* AVPlayerItemExtensions.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = AVPlayerItemExtensions.swift; sourceTree = "<group>"; };
+		9BA5220329F2EA4C0000D0AA /* SongListRowComponent.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = SongListRowComponent.swift; sourceTree = "<group>"; };
 		9BA7454B29F09143007669D4 /* AVQueuePlayerExtensions.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = AVQueuePlayerExtensions.swift; sourceTree = "<group>"; };
 		9BB754DA29BA604C009BB3A6 /* DTOs.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = DTOs.swift; sourceTree = "<group>"; };
 		9BB754DD29BA8522009BB3A6 /* DTOs+Codable.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = "DTOs+Codable.swift"; sourceTree = "<group>"; };
@@ -353,6 +356,7 @@
 				9B6FB7B129E5AB500013AA65 /* ServerCredentialsComponent.swift */,
 				9B46248E29E5B1C100A2259A /* ServerStatusComponent.swift */,
 				9B7AF3B329EB09310039A7DF /* AlbumListRowComponent.swift */,
+				9BA5220329F2EA4C0000D0AA /* SongListRowComponent.swift */,
 			);
 			path = Components;
 			sourceTree = "<group>";
@@ -754,6 +758,7 @@
 				9B80474329B768010069B407 /* JellyMusicApp.swift in Sources */,
 				48C1F8D029B9F3E4003BE048 /* DefaultAlbumService.swift in Sources */,
 				9B46249229E5BFE600A2259A /* AppearanceSettingsScreen.swift in Sources */,
+				9BA5220429F2EA4C0000D0AA /* SongListRowComponent.swift in Sources */,
 				9BB75EB629C4F751008CD65A /* InlineValueComponent.swift in Sources */,
 				9B7AF3B429EB09310039A7DF /* AlbumListRowComponent.swift in Sources */,
 				9BB75EAA29C39FFF008CD65A /* SongRepository.swift in Sources */,
@@ -823,6 +828,7 @@
 				9BB75EB729C4F751008CD65A /* InlineValueComponent.swift in Sources */,
 				48C1F8C329B9E795003BE048 /* Store+common.swift in Sources */,
 				9B73ED0029C9ECC5007F74DB /* MockMediaService.swift in Sources */,
+				9BA5220529F2EA4C0000D0AA /* SongListRowComponent.swift in Sources */,
 				9BB75EA029C3883E008CD65A /* FavoriteIcon.swift in Sources */,
 				9B46249929E5CDD000A2259A /* AdvancedSettingsScreen.swift in Sources */,
 				9BB75EB129C4C5E1008CD65A /* Settings.swift in Sources */,
