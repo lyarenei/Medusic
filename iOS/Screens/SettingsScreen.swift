@@ -122,21 +122,13 @@ private struct PreviewMode: View {
                 text: "Preview mode"
             )
         }
-        .onChange(of: previewEnabled, perform: { newValue in
-            // TODO: revisit this
-            if newValue {
+        .onChange(of: previewEnabled, perform: { isEnabled in
+            if isEnabled {
                 apiClient.usePreviewMode()
                 return
             }
 
-            Task {
-                do {
-                    apiClient.useDefaultMode()
-                    try await apiClient.performAuth()
-                } catch {
-                    print("Failed to switch to default mode: \(error)")
-                }
-            }
+            apiClient.useDefaultMode()
         })
     }
 }
