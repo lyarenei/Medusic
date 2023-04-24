@@ -54,7 +54,7 @@ final class ApiClient {
         Logger.jellyfin.debug("Using default mode for API client")
     }
 
-    /// Authorize against JellyfinServer with stored credentials.
+    /// Authorize against Jellyfin server with stored credentials.
     func performAuth() async throws {
         Defaults[.userId] = ""
         let keychain = SimpleKeychain()
