@@ -52,11 +52,9 @@ struct SongCollection: View {
     private func content() -> some View {
         switch type {
         case .list:
-            List { listContent() }
-        case .vstack:
-            VStack { stackContent() }
-        case .lazyVstack:
-            LazyVStack { stackContent() }
+            listContent()
+        case .plain:
+            plainContent()
         }
     }
 
@@ -74,7 +72,7 @@ struct SongCollection: View {
     }
 
     @ViewBuilder
-    private func stackContent() -> some View {
+    private func plainContent() -> some View {
         ForEach(songs) { song in
             HStack(spacing: 10) {
                 songInfo(song: song)
@@ -104,8 +102,7 @@ struct SongCollection: View {
 
     enum CollectionType {
         case list
-        case vstack
-        case lazyVstack
+        case plain
     }
 }
 
@@ -144,21 +141,32 @@ extension SongCollection {
 #if DEBUG
 struct SongCollection_Previews: PreviewProvider {
     static var previews: some View {
-        SongCollection(songs: PreviewData.songs)
-            .showArtistName()
-            .showArtwork()
-            .previewDisplayName("List")
+        List {
+            SongCollection(songs: PreviewData.songs)
+                .showArtistName()
+                .showArtwork()
+                .collectionType(.list)
+        }
+        .previewDisplayName("List")
 
-        SongCollection(songs: PreviewData.songs)
-            .showArtistName()
-            .showArtwork()
-            .previewDisplayName("VStack")
+        VStack {
+            SongCollection(songs: PreviewData.songs)
+                .showArtistName()
+                .showArtwork()
+                .collectionType(.plain)
+        }
+        .previewDisplayName("VStack")
 
-        SongCollection(songs: [])
-            .previewDisplayName("Empty list")
+        List {
+            SongCollection(songs: [])
+                .collectionType(.list)
+        }
+        .previewDisplayName("Empty list")
 
-        SongCollection(songs: [])
-            .previewDisplayName("Empty stack")
+        VStack {
+            SongCollection(songs: [])
+        }
+        .previewDisplayName("Empty stack")
     }
 }
 #endif

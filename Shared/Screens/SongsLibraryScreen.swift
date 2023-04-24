@@ -15,10 +15,13 @@ struct SongsLibraryScreen: View {
                     .font(.title3)
                     .foregroundColor(.gray)
             } else {
-                SongCollection(songs: songRepo.songs.sortByAlbum())
-                    .showArtwork()
-                    .showArtistName()
-                    .listStyle(.plain)
+                List {
+                    SongCollection(songs: songRepo.songs.sortByAlbum())
+                        .showArtwork()
+                        .showArtistName()
+                        .collectionType(.list)
+                }
+                .listStyle(.plain)
             }
         }
         .navigationTitle("Songs")
@@ -40,6 +43,17 @@ struct SongsLibraryScreen_Previews: PreviewProvider {
                 )
             )
         )
+        .previewDisplayName("Default")
+
+        SongsLibraryScreen(
+            songRepo: SongRepository(
+                store: .previewStore(
+                    items: [],
+                    cacheIdentifier: \.uuid
+                )
+            )
+        )
+        .previewDisplayName("Empty")
     }
 }
 #endif

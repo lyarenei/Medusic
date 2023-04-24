@@ -32,10 +32,14 @@ struct AlbumDetailScreen: View {
                 Divider()
                     .padding(.leading)
 
-                SongCollection(songs: songRepo.songs.filterByAlbum(id: album.uuid))
-                    .showAlbumOrder()
-                    .showArtistName()
-                    .collectionType(.vstack)
+                VStack {
+                    SongCollection(songs: songRepo.songs.filterByAlbum(id: album.uuid))
+                        .showAlbumOrder()
+                        .showArtistName()
+                        .collectionType(.plain)
+                        .rowHeight(30)
+                        .font(.system(size: 16))
+                }
             }
             .padding(.top, 15)
         }
