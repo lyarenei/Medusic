@@ -20,29 +20,29 @@ final class AlbumRepository: ObservableObject {
     /// Refresh the store data with data from service.
     func refresh() async throws {
         try await apiClient.performAuth()
-        let remoteAlbums = try await self.apiClient.services.albumService.simple_getAlbums()
-        try await self.$albums.removeAll().insert(remoteAlbums).run()
+        let remoteAlbums = try await apiClient.services.albumService.simple_getAlbums()
+        try await $albums.removeAll().insert(remoteAlbums).run()
     }
 
     func refresh(albumId: String) async throws {
         try await apiClient.performAuth()
-        let remoteAlbum = try await self.apiClient.services.albumService.simple_getAlbum(by: albumId)
+        let remoteAlbum = try await apiClient.services.albumService.simple_getAlbum(by: albumId)
         try await $albums.insert(remoteAlbum)
     }
 
     /// Get all albums.
     func getAlbums() async -> [Album] {
-        return await self.$albums.items
+        await $albums.items
     }
 
     /// Get a specific album form store by its ID.
     func getAlbum(by albumId: String) async -> Album? {
-        return await self.$albums.items.first { $0.uuid == albumId }
+        await $albums.items.first { $0.uuid == albumId }
     }
 
     /// Get all favorite albums.
     func getFavorite() async -> [Album] {
-        return await self.$albums.items.filter { $0.isFavorite }
+        await $albums.items.favorite
     }
 
     /// Set/reset specified album favorite flag.
