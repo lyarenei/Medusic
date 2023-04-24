@@ -1,33 +1,43 @@
 import Defaults
 import Foundation
 import JellyfinAPI
+import OSLog
 import SimpleKeychain
 import SwiftUI
 
 final class ApiClient {
+    static let shared = ApiClient()
     private(set) var services: ApiServices = .preview
 
-    init() {
-        Defaults[.previewMode] ? usePreviewMode() : useDefaultMode()
+    init(previewEnabled: Bool = Defaults[.previewMode]) {
+        setMode(previewEnabled)
     }
 
-    init(previewEnabled: Bool = true) {
-        previewEnabled ? usePreviewMode() : useDefaultMode()
+    private func setMode(_ isPreview: Bool) {
+        if isPreview {
+            usePreviewMode()
+            return
+        }
+
+        useDefaultMode()
     }
 
     /// Use preview mode of the client with mocked data. Does not persist any changes.
-    public func usePreviewMode() {
+    func usePreviewMode() {
         services = .preview
+        Logger.jellyfin.debug("Using preview mode for API client")
     }
 
-    public func useDefaultMode() {
-        var connectUrl = URL(string: "http://localhost:8096")!
-        if let validServerUrl = URL(string: Defaults[.serverUrl]) {
-            connectUrl = validServerUrl
+    /// Use default mode of the client which connects to the configured server.
+    func useDefaultMode() {
+        // swiftlint:disable:next force_unwrapping
+        var serverUrl = URL(string: "http://localhost:8096")!
+        if let configuredServerUrl = URL(string: Defaults[.serverUrl]) {
+            serverUrl = configuredServerUrl
         }
 
         let jellyfinClient = JellyfinClient(configuration: .init(
-            url: connectUrl,
+            url: serverUrl,
             client: "JellyMusic",
             deviceName: UIDevice.current.model,
             deviceID: UIDevice.current.identifierForVendor?.uuidString ?? "missing_id",
@@ -41,9 +51,11 @@ final class ApiClient {
             systemService: DefaultSystemService(client: jellyfinClient),
             mediaService: DefaultMediaService(client: jellyfinClient)
         )
+        Logger.jellyfin.debug("Using default mode for API client")
     }
 
-    public func performAuth() async throws -> Bool {
+    /// Authorize against Jellyfin server with stored credentials.
+    func performAuth() async throws {
         Defaults[.userId] = ""
         let keychain = SimpleKeychain()
         let password = try? keychain.string(forKey: "password")
@@ -56,12 +68,11 @@ final class ApiClient {
             password: userPass
         )
 
-        if !userId.isEmpty {
-            Defaults[.userId] = userId
-            return true
+        if userId.isEmpty {
+            throw ApiClientError.loginFailed
         }
 
-        return false
+        Defaults[.userId] = userId
     }
 }
 
@@ -85,21 +96,14 @@ extension ApiServices {
     }
 }
 
-private struct APIEnvironmentKey: EnvironmentKey {
-    static let defaultValue: ApiClient = .init()
-}
-
-extension EnvironmentValues {
-    var api: ApiClient {
-        get { self[APIEnvironmentKey.self] }
-        set { self[APIEnvironmentKey.self] = newValue }
-    }
-}
-
 enum ApiClientError: Error {
     case noPassword
+    case loginFailed
 }
 
+// MARK: - Mock data for previews (and app preview mode)
+// swiftlint:disable all
+// swiftformat:disable all
 struct PreviewData {
     public static let albums = [
         Album(
@@ -167,3 +171,5 @@ struct PreviewData {
         ),
     ]
 }
+// swiftlint:enable all
+// swiftformat:enable all

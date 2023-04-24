@@ -105,11 +105,14 @@ private struct DeveloperSettings: View {
 }
 
 private struct PreviewMode: View {
-    @Environment(\.api)
-    var api
-
     @Default(.previewMode)
     var previewEnabled: Bool
+
+    var apiClient: ApiClient
+
+    init(apiClient: ApiClient = .shared) {
+        self.apiClient = apiClient
+    }
 
     var body: some View {
         // swiftlint:disable:next trailing_closure
@@ -119,20 +122,13 @@ private struct PreviewMode: View {
                 text: "Preview mode"
             )
         }
-        .onChange(of: previewEnabled, perform: { newValue in
-            if newValue {
-                api.usePreviewMode()
+        .onChange(of: previewEnabled, perform: { isEnabled in
+            if isEnabled {
+                apiClient.usePreviewMode()
                 return
             }
 
-            Task {
-                do {
-                    api.useDefaultMode()
-                    _ = try await api.performAuth()
-                } catch {
-                    print("Failed to switch to default mode: \(error)")
-                }
-            }
+            apiClient.useDefaultMode()
         })
     }
 }

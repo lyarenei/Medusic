@@ -6,8 +6,6 @@ import SwiftUI
 
 @main
 struct JellyMusicApp: App {
-    private var api = ApiClient()
-
     init() {
         // Memory image never expires.
         Kingfisher.ImageCache.default.memoryStorage.config.expiration = .never
@@ -30,7 +28,6 @@ struct JellyMusicApp: App {
                 MacHomeScreen()
                 #endif
             }
-            .environment(\.api, api)
             .onAppear { Task(priority: .medium) {
                 // TODO: would be good to show error to user
                 // NOTE: This overwrites local-only metadata (such as isDownloaded)

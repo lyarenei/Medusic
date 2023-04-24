@@ -7,22 +7,25 @@ final class SongRepository: ObservableObject {
     @Stored
     var songs: [Song]
 
-    private let api: ApiClient
+    let apiClient: ApiClient
 
-    init(store: Store<Song>) {
+    init(
+        store: Store<Song>,
+        apiClient: ApiClient = .shared
+    ) {
         self._songs = Stored(in: store)
-        self.api = ApiClient()
+        self.apiClient = apiClient
     }
 
     /// Refresh the store data with data from service.
     func refresh(for albumId: String? = nil) async throws {
-        let _ = try await self.api.performAuth()
+        try await apiClient.performAuth()
         if let album = albumId {
-            let remoteSongs = try await self.api.services.songService.getSongs(for: album)
+            let remoteSongs = try await self.apiClient.services.songService.getSongs(for: album)
             let localSongs = await self.$songs.items.filterByAlbum(id: album)
             try await self.$songs.remove(localSongs).insert(remoteSongs).run()
         } else {
-            let remoteSongs = try await self.api.services.songService.getSongs()
+            let remoteSongs = try await self.apiClient.services.songService.getSongs()
             try await self.$songs.removeAll().insert(remoteSongs).run()
         }
     }

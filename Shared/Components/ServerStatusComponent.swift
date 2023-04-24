@@ -9,14 +9,17 @@ struct ServerStatusComponent: View {
     @Default(.username)
     var username
 
-    @Environment(\.api)
-    var api: ApiClient
-
     @State
     var serverStatus = "unknown"
 
     @State
     var statusColor: Color = .gray
+
+    let apiClient: ApiClient
+
+    init(apiClient: ApiClient = .shared) {
+        self.apiClient = apiClient
+    }
 
     var body: some View {
         InlineValueComponent(
@@ -46,13 +49,13 @@ struct ServerStatusComponent: View {
         }
 
         guard isConfigured() else { return }
-        api.useDefaultMode()
+        apiClient.useDefaultMode()
 
         // URL check
         status = "invalid URL"
         color = .red
         do {
-            guard try await api.services.systemService.ping() else { return }
+            guard try await apiClient.services.systemService.ping() else { return }
         } catch {
             print("Server ping failed: \(error.localizedDescription)")
             return
@@ -62,7 +65,7 @@ struct ServerStatusComponent: View {
         status = "invalid credentials"
         color = .yellow
         do {
-            guard try await api.performAuth() else { return }
+            try await apiClient.performAuth()
         } catch {
             print("Authentication failed: \(error.localizedDescription)")
             return
@@ -80,9 +83,8 @@ struct ServerStatusComponent: View {
 #if DEBUG
 struct ServerStatusComponent_Previews: PreviewProvider {
     static var previews: some View {
-        ServerStatusComponent()
+        ServerStatusComponent(apiClient: .init(previewEnabled: true))
             .padding(.horizontal)
-            .environment(\.api, ApiClient(previewEnabled: true))
     }
 }
 #endif
