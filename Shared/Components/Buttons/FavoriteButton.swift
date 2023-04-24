@@ -31,6 +31,7 @@ struct FavoriteButton: View {
             FavoriteIcon(isFavorite: isFavorite)
             buttonText(isFavorite ? textUnfavorite : textFavorite)
         }
+        .onAppear { isFavorite = item.isFavorite }
     }
 
     @ViewBuilder
