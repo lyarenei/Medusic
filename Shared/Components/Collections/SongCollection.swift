@@ -134,6 +134,7 @@ struct SongCollection_Previews: PreviewProvider {
 
         VStack {
             SongCollection(songs: [])
+                .collectionType(.plain)
         }
         .previewDisplayName("Empty stack")
     }
