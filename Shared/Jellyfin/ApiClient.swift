@@ -101,6 +101,9 @@ enum ApiClientError: Error {
     case loginFailed
 }
 
+// MARK: - Mock data for previews (and app preview mode)
+// swiftlint:disable all
+// swiftformat:disable all
 struct PreviewData {
     public static let albums = [
         Album(
@@ -168,3 +171,5 @@ struct PreviewData {
         ),
     ]
 }
+// swiftlint:enable all
+// swiftformat:enable all
