@@ -33,7 +33,6 @@ struct SongListRowComponent: View {
     private func order() -> some View {
         if showAlbumOrder {
             Text("\(song.index)")
-                .font(.title3)
                 .frame(minWidth: 20)
         }
     }
@@ -50,7 +49,6 @@ struct SongListRowComponent: View {
     private func songBody() -> some View {
         VStack(alignment: .leading, spacing: 2) {
             Text(song.name)
-                .font(.title3)
                 .lineLimit(1)
 
             // TODO: automatic - if artist differs from album artist
