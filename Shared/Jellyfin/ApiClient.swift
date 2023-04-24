@@ -32,6 +32,7 @@ final class ApiClient {
         Logger.jellyfin.debug("Using preview mode for API client")
     }
 
+    /// Use default mode of the client which connects to the configured server.
     public func useDefaultMode() {
         // swiftlint:disable:next force_unwrapping
         var serverUrl = URL(string: "http://localhost:8096")!
@@ -57,7 +58,8 @@ final class ApiClient {
         Logger.jellyfin.debug("Using default mode for API client")
     }
 
-    public func performAuth() async throws -> Bool {
+    /// Authorize against JellyfinServer with stored credentials.
+    public func performAuth() async throws {
         Defaults[.userId] = ""
         let keychain = SimpleKeychain()
         let password = try? keychain.string(forKey: "password")
