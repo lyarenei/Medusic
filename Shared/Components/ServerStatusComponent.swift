@@ -62,7 +62,7 @@ struct ServerStatusComponent: View {
         status = "invalid credentials"
         color = .yellow
         do {
-            guard try await api.performAuth() else { return }
+            try await api.performAuth()
         } catch {
             print("Authentication failed: \(error.localizedDescription)")
             return

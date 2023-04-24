@@ -72,12 +72,11 @@ final class ApiClient {
             password: userPass
         )
 
-        if !userId.isEmpty {
-            Defaults[.userId] = userId
-            return true
+        if userId.isEmpty {
+            throw ApiClientError.loginFailed
         }
 
-        return false
+        Defaults[.userId] = userId
     }
 }
 
@@ -114,6 +113,7 @@ extension EnvironmentValues {
 
 enum ApiClientError: Error {
     case noPassword
+    case loginFailed
 }
 
 struct PreviewData {
