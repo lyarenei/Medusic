@@ -19,13 +19,13 @@ final class AlbumRepository: ObservableObject {
 
     /// Refresh the store data with data from service.
     func refresh() async throws {
-        let _ = try await self.apiClient.performAuth()
+        try await apiClient.performAuth()
         let remoteAlbums = try await self.apiClient.services.albumService.simple_getAlbums()
         try await self.$albums.removeAll().insert(remoteAlbums).run()
     }
 
     func refresh(albumId: String) async throws {
-        let _ = try await self.apiClient.performAuth()
+        try await apiClient.performAuth()
         let remoteAlbum = try await self.apiClient.services.albumService.simple_getAlbum(by: albumId)
         try await $albums.insert(remoteAlbum)
     }

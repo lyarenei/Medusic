@@ -19,7 +19,7 @@ final class SongRepository: ObservableObject {
 
     /// Refresh the store data with data from service.
     func refresh(for albumId: String? = nil) async throws {
-        let _ = try await self.apiClient.performAuth()
+        try await apiClient.performAuth()
         if let album = albumId {
             let remoteSongs = try await self.apiClient.services.songService.getSongs(for: album)
             let localSongs = await self.$songs.items.filterByAlbum(id: album)
