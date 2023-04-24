@@ -126,7 +126,7 @@ final class FileRepository: ObservableObject {
     }
 
     func fileExists(for itemID: String) -> Bool {
-        return fileURL(for: itemID) != nil
+        fileURL(for: itemID) != nil
     }
 
     func numberOfDownloadedFiles() -> Int {
