@@ -8,11 +8,21 @@ final class ApiClient {
     private(set) var services: ApiServices = .preview
 
     init() {
-        Defaults[.previewMode] ? usePreviewMode() : useDefaultMode()
+        if Defaults[.previewMode] {
+            usePreviewMode()
+            return
+        }
+
+        useDefaultMode()
     }
 
-    init(previewEnabled: Bool = true) {
-        previewEnabled ? usePreviewMode() : useDefaultMode()
+    init(previewEnabled: Bool) {
+        if previewEnabled {
+            usePreviewMode()
+            return
+        }
+
+        useDefaultMode()
     }
 
     /// Use preview mode of the client with mocked data. Does not persist any changes.
