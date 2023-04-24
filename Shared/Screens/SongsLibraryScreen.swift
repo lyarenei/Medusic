@@ -37,7 +37,7 @@ struct SongsLibraryScreen_Previews: PreviewProvider {
                 store: .previewStore(
                     items: PreviewData.songs,
                     cacheIdentifier: \.uuid
-                    )
+                )
             )
         )
     }
