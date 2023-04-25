@@ -220,7 +220,9 @@ final class MusicPlayer: ObservableObject {
         try? await apiClient.services.mediaService.playbackStarted(
             itemId: song.uuid,
             at: currentTime,
-            isPaused: false
+            isPaused: false,
+            playbackQueue: [],
+            volume: 50
         )
     }
 
@@ -229,7 +231,9 @@ final class MusicPlayer: ObservableObject {
         try? await apiClient.services.mediaService.playbackStarted(
             itemId: song.uuid,
             at: currentTime,
-            isPaused: true
+            isPaused: true,
+            playbackQueue: [],
+            volume: 50
         )
     }
 
