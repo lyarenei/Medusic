@@ -33,6 +33,7 @@ struct AlbumDetailScreen: View {
                     .padding(.leading)
 
                 albumSongs()
+                stats()
             }
             .padding(.top, 15)
         }
@@ -60,6 +61,17 @@ struct AlbumDetailScreen: View {
                 .showArtistName()
                 .collectionType(.plain)
                 .rowHeight(30)
+                .font(.system(size: 16))
+        }
+    }
+
+    @ViewBuilder
+    private func stats() -> some View {
+        let sum = songRepo.songs.filterByAlbum(id: album.uuid).count
+        if sum > 0 {
+            let runtime = songRepo.songs.getRuntime(for: album.uuid)
+            Text("\(sum) songs, \(runtime.minutes) minutes")
+                .foregroundColor(.gray)
                 .font(.system(size: 16))
         }
     }
