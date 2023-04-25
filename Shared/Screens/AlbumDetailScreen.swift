@@ -55,14 +55,12 @@ struct AlbumDetailScreen: View {
                 .foregroundColor(.gray)
                 .font(.title3)
         } else {
-            VStack {
-                SongCollection(songs: songRepo.songs.filterByAlbum(id: album.uuid))
-                    .showAlbumOrder()
-                    .showArtistName()
-                    .collectionType(.plain)
-                    .rowHeight(30)
-                    .font(.system(size: 16))
-            }
+            SongCollection(songs: songRepo.songs.filterByAlbum(id: album.uuid))
+                .showAlbumOrder()
+                .showArtistName()
+                .collectionType(.plain)
+                .rowHeight(30)
+                .font(.system(size: 16))
         }
     }
 }
