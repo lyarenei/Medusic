@@ -2,6 +2,12 @@ import Defaults
 import SwiftUI
 
 struct SettingsScreen: View {
+    var apiClient: ApiClient
+
+    init(apiClient: ApiClient = .shared) {
+        self.apiClient = apiClient
+    }
+
     var body: some View {
         NavigationView {
             List {
@@ -25,7 +31,7 @@ struct SettingsScreen: View {
         }
 
         Section {
-            ServerStatusComponent()
+            ServerStatusComponent(apiClient: apiClient)
         }
     }
 
@@ -71,7 +77,7 @@ struct SettingsScreen: View {
     @ViewBuilder
     func developer() -> some View {
         NavigationLink {
-            DeveloperSettings()
+            DeveloperSettings(apiClient: apiClient)
         } label: {
             ListOptionComponent(
                 symbol: .hammer,
@@ -85,7 +91,7 @@ struct SettingsScreen: View {
 #if DEBUG
 struct SettingsScreen_Previews: PreviewProvider {
     static var previews: some View {
-        SettingsScreen()
+        SettingsScreen(apiClient: .init(previewEnabled: true))
     }
 }
 #endif
