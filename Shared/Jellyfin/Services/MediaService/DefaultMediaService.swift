@@ -39,35 +39,39 @@ final class DefaultMediaService: MediaService {
         _ = try await client.send(request)
     }
 
-    func playbackStarted(itemId: String) async throws {
+    func playbackStarted(itemId: String, at position: TimeInterval? = nil) async throws {
         guard Defaults[.readOnly] == false else { return }
         // TODO: send more fields
         let body = JellyfinAPI.PlaybackStartInfo(
             isPaused: false,
             itemID: itemId,
-            playMethod: .directStream
+            playMethod: .directStream,
+            playbackStartTimeTicks: position?.ticks,
+            positionTicks: position?.ticks
         )
 
         let request = JellyfinAPI.Paths.reportPlaybackStart(body)
         try await client.send(request)
     }
 
-    func playbackPaused(itemId: String) async throws {
+    func playbackPaused(itemId: String, at position: TimeInterval? = nil) async throws {
         guard Defaults[.readOnly] == false else { return }
         let body = JellyfinAPI.PlaybackStartInfo(
             isPaused: true,
             itemID: itemId,
-            playMethod: .directStream
+            playMethod: .directStream,
+            playbackStartTimeTicks: position?.ticks,
+            positionTicks: position?.ticks
         )
 
         let request = JellyfinAPI.Paths.reportPlaybackStart(body)
         try await client.send(request)
     }
 
-    func playbackStopped(itemId: String) async throws {
+    func playbackStopped(itemId: String, at position: TimeInterval? = nil) async throws {
         guard Defaults[.readOnly] == false else { return }
         // TODO: send more fields
-        let body = JellyfinAPI.PlaybackStopInfo(itemID: itemId)
+        let body = JellyfinAPI.PlaybackStopInfo(itemID: itemId, positionTicks: position?.ticks)
         let request = JellyfinAPI.Paths.reportPlaybackStopped(body)
         try await client.send(request)
     }

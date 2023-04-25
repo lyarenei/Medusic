@@ -13,15 +13,15 @@ final class MockMediaService: MediaService {
         throw MediaServiceError.invalid
     }
 
-    func playbackStarted(itemId: String) async throws {
+    func playbackStarted(itemId: String, at position: TimeInterval? = nil) async throws {
         throw MediaServiceError.invalid
     }
 
-    func playbackPaused(itemId: String) async throws {
+    func playbackPaused(itemId: String, at position: TimeInterval? = nil) async throws {
         throw MediaServiceError.invalid
     }
 
-    func playbackStopped(itemId: String) async throws {
+    func playbackStopped(itemId: String, at position: TimeInterval? = nil) async throws {
         throw MediaServiceError.invalid
     }
 
