@@ -44,14 +44,14 @@ final class MusicPlayer: ObservableObject {
             guard let self else { return }
             Task {
                 if let currentSong = await self.currentSong {
-                    await self.sendPlaybackStopped(songId: currentSong.uuid)
-                    await self.sendPlaybackFinished(songId: currentSong.uuid)
+                    await self.sendPlaybackStopped(for: currentSong)
+                    await self.sendPlaybackFinished(for: currentSong)
                 }
 
                 if let songId = await self.player.currentItem?.songId {
                     let song = await self.songRepo.getSong(by: songId)
                     await self.setCurrentlyPlaying(newSong: song)
-                    await self.sendPlaybackStarted(songId: songId)
+                    await self.sendPlaybackStarted(for: song)
                 } else {
                     await self.setCurrentlyPlaying(newSong: nil)
                 }
@@ -117,21 +117,13 @@ final class MusicPlayer: ObservableObject {
     func pause() {
         player.pause()
         setIsPlaying(isPlaying: false)
-        Task {
-            if let currentSong = self.currentSong {
-                await self.sendPlaybackPaused(songId: currentSong.uuid)
-            }
-        }
+        Task { await self.sendPlaybackPaused(for: currentSong) }
     }
 
     func resume() {
         player.play()
         setIsPlaying(isPlaying: true)
-        Task {
-            if let currentSong = self.currentSong {
-                await self.sendPlaybackStarted(songId: currentSong.uuid)
-            }
-        }
+        Task { await self.sendPlaybackStarted(for: currentSong) }
     }
 
     func stop() {
@@ -223,31 +215,35 @@ final class MusicPlayer: ObservableObject {
         currentTime = curTime.rounded(.toNearestOrAwayFromZero)
     }
 
-    private func sendPlaybackStarted(songId: String) async {
+    private func sendPlaybackStarted(for song: Song?) async {
+        guard let song else { return }
         try? await apiClient.services.mediaService.playbackStarted(
-            itemId: songId,
+            itemId: song.uuid,
             at: currentTime,
             isPaused: false
         )
     }
 
-    private func sendPlaybackPaused(songId: String) async {
+    private func sendPlaybackPaused(for song: Song?) async {
+        guard let song else { return }
         try? await apiClient.services.mediaService.playbackStarted(
-            itemId: songId,
+            itemId: song.uuid,
             at: currentTime,
             isPaused: true
         )
     }
 
-    private func sendPlaybackStopped(songId: String) async {
+    private func sendPlaybackStopped(for song: Song?) async {
+        guard let song else { return }
         try? await apiClient.services.mediaService.playbackStopped(
-            itemId: songId,
+            itemId: song.uuid,
             at: currentTime
         )
     }
 
-    private func sendPlaybackFinished(songId: String) async {
-        try? await apiClient.services.mediaService.playbackFinished(itemId: songId)
+    private func sendPlaybackFinished(for song: Song?) async {
+        guard let song else { return }
+        try? await apiClient.services.mediaService.playbackFinished(itemId: song.uuid)
     }
 
     @objc
