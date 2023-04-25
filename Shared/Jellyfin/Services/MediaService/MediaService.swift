@@ -6,8 +6,7 @@ protocol MediaService: ObservableObject {
     func new_downloadItem(id: String, destination: URL) async throws
     func setFavorite(itemId: String, isFavorite: Bool) async throws
 
-    func playbackStarted(itemId: String, at position: TimeInterval?) async throws
-    func playbackPaused(itemId: String, at position: TimeInterval?) async throws
+    func playbackStarted(itemId: String, at position: TimeInterval?, isPaused: Bool) async throws
     func playbackStopped(itemId: String, at position: TimeInterval?) async throws
     func playbackFinished(itemId: String) async throws
 }

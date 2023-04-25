@@ -221,21 +221,23 @@ final class MusicPlayer: ObservableObject {
     private func sendPlaybackStarted(songId: String) async {
         try? await apiClient.services.mediaService.playbackStarted(
             itemId: songId,
-            at: self.currentTime
+            at: currentTime,
+            isPaused: false
         )
     }
 
     private func sendPlaybackPaused(songId: String) async {
-        try? await apiClient.services.mediaService.playbackPaused(
+        try? await apiClient.services.mediaService.playbackStarted(
             itemId: songId,
-            at: self.currentTime
+            at: currentTime,
+            isPaused: true
         )
     }
 
     private func sendPlaybackStopped(songId: String) async {
         try? await apiClient.services.mediaService.playbackStopped(
             itemId: songId,
-            at: self.currentTime
+            at: currentTime
         )
     }
 
