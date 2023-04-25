@@ -31,6 +31,7 @@ struct FavoriteButton: View {
             FavoriteIcon(isFavorite: isFavorite)
             buttonText(isFavorite ? textUnfavorite : textFavorite)
         }
+        .onAppear { isFavorite = item.isFavorite }
     }
 
     @ViewBuilder
@@ -45,9 +46,9 @@ struct FavoriteButton: View {
             do {
                 switch item {
                 case let album as Album:
-                    try await albumRepo.setFavorite(albumId: album.uuid, isFavorite: isFavorite)
+                    try await albumRepo.setFavorite(albumId: album.uuid, isFavorite: !isFavorite)
                 case let song as Song:
-                    try await songRepo.setFavorite(songId: song.uuid, isFavorite: isFavorite)
+                    try await songRepo.setFavorite(songId: song.uuid, isFavorite: !isFavorite)
                 default:
                     print("Unhandled item type: \(item)")
                     return
@@ -67,8 +68,18 @@ struct FavoriteButton_Previews: PreviewProvider {
     static var previews: some View {
         FavoriteButton(
             item: PreviewData.albums.first!,
-            albumRepo: .init(store: .previewStore(items: PreviewData.albums, cacheIdentifier: \.uuid)),
-            songRepo: .init(store: .previewStore(items: PreviewData.songs, cacheIdentifier: \.uuid))
+            albumRepo: .init(
+                store: .previewStore(
+                    items: PreviewData.albums,
+                    cacheIdentifier: \.uuid
+                )
+            ),
+            songRepo: .init(
+                store: .previewStore(
+                    items: PreviewData.songs,
+                    cacheIdentifier: \.uuid
+                )
+            )
         )
     }
 }
