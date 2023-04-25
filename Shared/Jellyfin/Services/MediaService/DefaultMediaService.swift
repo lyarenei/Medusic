@@ -44,16 +44,18 @@ final class DefaultMediaService: MediaService {
         at position: TimeInterval?,
         isPaused: Bool,
         playbackQueue: [Song],
-        volume: Int32
+        volume: Int32,
+        isStreaming: Bool
     ) async throws {
         guard Defaults[.readOnly] == false else { return }
+        let isDirectPlay = isStreaming ? Defaults[.streamBitrate] == -1 : true
         let body = JellyfinAPI.PlaybackStartInfo(
             canSeek: false,
             isMuted: volume <= 0,
             isPaused: isPaused,
             itemID: itemId,
             nowPlayingQueue: playbackQueue.map { QueueItem(id: $0.uuid) },
-            playMethod: .directStream,
+            playMethod: isDirectPlay ? .directPlay : .transcode,
             playbackStartTimeTicks: position?.ticks,
             positionTicks: position?.ticks,
             volumeLevel: volume

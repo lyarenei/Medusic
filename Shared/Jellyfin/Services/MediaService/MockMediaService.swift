@@ -18,7 +18,8 @@ final class MockMediaService: MediaService {
         at position: TimeInterval?,
         isPaused: Bool,
         playbackQueue: [Song],
-        volume: Int32
+        volume: Int32,
+        isStreaming: Bool
     ) async throws {
         throw MediaServiceError.invalid
     }

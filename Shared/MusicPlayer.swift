@@ -222,7 +222,8 @@ final class MusicPlayer: ObservableObject {
             at: currentTime,
             isPaused: false,
             playbackQueue: [],
-            volume: 50
+            volume: 50,
+            isStreaming: true
         )
     }
 
@@ -233,7 +234,8 @@ final class MusicPlayer: ObservableObject {
             at: currentTime,
             isPaused: true,
             playbackQueue: [],
-            volume: 50
+            volume: 50,
+            isStreaming: true
         )
     }
 

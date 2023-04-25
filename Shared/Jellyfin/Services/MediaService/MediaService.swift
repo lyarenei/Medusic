@@ -11,7 +11,8 @@ protocol MediaService: ObservableObject {
         at position: TimeInterval?,
         isPaused: Bool,
         playbackQueue: [Song],
-        volume: Int32
+        volume: Int32,
+        isStreaming: Bool
     ) async throws
 
     func playbackStopped(itemId: String, at position: TimeInterval?, playbackQueue: [Song]) async throws
