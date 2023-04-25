@@ -6,6 +6,7 @@ protocol MediaService: ObservableObject {
     func new_downloadItem(id: String, destination: URL) async throws
     func setFavorite(itemId: String, isFavorite: Bool) async throws
 
+    // swiftlint:disable:next function_parameter_count
     func playbackStarted(
         itemId: String,
         at position: TimeInterval?,

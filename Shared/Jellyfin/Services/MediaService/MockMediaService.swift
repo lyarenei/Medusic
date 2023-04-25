@@ -13,6 +13,7 @@ final class MockMediaService: MediaService {
         throw MediaServiceError.invalid
     }
 
+    // swiftlint:disable:next function_parameter_count
     func playbackStarted(
         itemId: String,
         at position: TimeInterval?,

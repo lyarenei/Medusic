@@ -39,6 +39,7 @@ final class DefaultMediaService: MediaService {
         _ = try await client.send(request)
     }
 
+    // swiftlint:disable:next function_parameter_count
     func playbackStarted(
         itemId: String,
         at position: TimeInterval?,
