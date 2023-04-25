@@ -2,6 +2,12 @@ import Defaults
 import SwiftUI
 
 struct SettingsScreen: View {
+    @Default(.streamBitrate)
+    var streamBitrate: Int
+
+    @Default(.downloadBitrate)
+    var downloadBitrate: Int
+
     var apiClient: ApiClient
 
     init(apiClient: ApiClient = .shared) {
@@ -38,6 +44,8 @@ struct SettingsScreen: View {
     @ViewBuilder
     func generalSection() -> some View {
         Section {
+            streamBitrateOption()
+            downloadBitrateOption()
             appearance()
             advanced()
 
@@ -46,6 +54,30 @@ struct SettingsScreen: View {
             #endif
         } header: {
             Text("General")
+        }
+    }
+
+    @ViewBuilder
+    private func streamBitrateOption() -> some View {
+        Picker("Stream bitrate (kbps)", selection: $streamBitrate) {
+            Text("Unlimited (default)").tag(-1)
+            Text("320").tag(320_000)
+            Text("256").tag(256_000)
+            Text("192").tag(192_000)
+            Text("128").tag(128_000)
+            Text("64").tag(064_000)
+        }
+    }
+
+    @ViewBuilder
+    private func downloadBitrateOption() -> some View {
+        Picker("Download bitrate (kbps)", selection: $downloadBitrate) {
+            Text("Unlimited (default)").tag(-1)
+            Text("320").tag(320_000)
+            Text("256").tag(256_000)
+            Text("192").tag(192_000)
+            Text("128").tag(128_000)
+            Text("64").tag(064_000)
         }
     }
 
