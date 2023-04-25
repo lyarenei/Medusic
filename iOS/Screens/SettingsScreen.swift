@@ -94,13 +94,33 @@ struct SettingsScreen_Previews: PreviewProvider {
 // MARK: - Developer settings
 
 private struct DeveloperSettings: View {
+    @Default(.readOnly)
+    var readOnlyEnabled: Bool
+
+    var apiClient: ApiClient
+
+    init(apiClient: ApiClient = .shared) {
+        self.apiClient = apiClient
+    }
+
     var body: some View {
         List {
             PreviewMode()
+            readOnlyMode()
         }
         .listStyle(.grouped)
         .navigationBarTitleDisplayMode(.inline)
         .navigationTitle("Developer")
+    }
+
+    @ViewBuilder
+    private func readOnlyMode() -> some View {
+        Toggle(isOn: $readOnlyEnabled) {
+            ListOptionComponent(
+                symbol: .pencilSlash,
+                text: "Read only mode"
+            )
+        }
     }
 }
 

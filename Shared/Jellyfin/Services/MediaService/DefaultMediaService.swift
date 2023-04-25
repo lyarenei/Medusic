@@ -28,6 +28,7 @@ final class DefaultMediaService: MediaService {
     }
 
     func setFavorite(itemId: String, isFavorite: Bool) async throws {
+        guard Defaults[.readOnly] == false else { return }
         var request: Request<UserItemDataDto>
         if isFavorite {
             request = JellyfinAPI.Paths.markFavoriteItem(userID: Defaults[.userId], itemID: itemId)
@@ -39,6 +40,7 @@ final class DefaultMediaService: MediaService {
     }
 
     func playbackStarted(itemId: String) async throws {
+        guard Defaults[.readOnly] == false else { return }
         // TODO: send more fields
         let body = JellyfinAPI.PlaybackStartInfo(
             itemID: itemId,
@@ -50,6 +52,7 @@ final class DefaultMediaService: MediaService {
     }
 
     func playbackStopped(itemId: String) async throws {
+        guard Defaults[.readOnly] == false else { return }
         // TODO: send more fields
         let body = JellyfinAPI.PlaybackStopInfo(itemID: itemId)
         let request = JellyfinAPI.Paths.reportPlaybackStopped(body)
@@ -57,6 +60,7 @@ final class DefaultMediaService: MediaService {
     }
 
     func playbackFinished(itemId: String) async throws {
+        guard Defaults[.readOnly] == false else { return }
         let request = JellyfinAPI.Paths.markPlayedItem(
             userID: Defaults[.userId],
             itemID: itemId,
