@@ -94,6 +94,9 @@ struct SettingsScreen_Previews: PreviewProvider {
 // MARK: - Developer settings
 
 private struct DeveloperSettings: View {
+    @Default(.previewMode)
+    var previewEnabled: Bool
+
     @Default(.readOnly)
     var readOnlyEnabled: Bool
 
@@ -105,12 +108,30 @@ private struct DeveloperSettings: View {
 
     var body: some View {
         List {
-            PreviewMode()
+            previewMode()
             readOnlyMode()
         }
         .listStyle(.grouped)
         .navigationBarTitleDisplayMode(.inline)
         .navigationTitle("Developer")
+    }
+
+    @ViewBuilder
+    private func previewMode() -> some View {
+        Toggle(isOn: $previewEnabled) {
+            ListOptionComponent(
+                symbol: .eyes,
+                text: "Preview mode"
+            )
+        }
+        .onChange(of: previewEnabled) { isEnabled in
+            if isEnabled {
+                apiClient.usePreviewMode()
+                return
+            }
+
+            apiClient.useDefaultMode()
+        }
     }
 
     @ViewBuilder
@@ -121,35 +142,6 @@ private struct DeveloperSettings: View {
                 text: "Read only mode"
             )
         }
-    }
-}
-
-private struct PreviewMode: View {
-    @Default(.previewMode)
-    var previewEnabled: Bool
-
-    var apiClient: ApiClient
-
-    init(apiClient: ApiClient = .shared) {
-        self.apiClient = apiClient
-    }
-
-    var body: some View {
-        // swiftlint:disable:next trailing_closure
-        Toggle(isOn: $previewEnabled) {
-            ListOptionComponent(
-                symbol: .eyes,
-                text: "Preview mode"
-            )
-        }
-        .onChange(of: previewEnabled, perform: { isEnabled in
-            if isEnabled {
-                apiClient.usePreviewMode()
-                return
-            }
-
-            apiClient.useDefaultMode()
-        })
     }
 }
 #endif
