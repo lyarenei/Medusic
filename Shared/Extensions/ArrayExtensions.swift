@@ -4,6 +4,17 @@ extension Array {
     /// Convenience indicator for checking if the collection is not empty.
     @inlinable
     public var isNotEmpty: Bool { !isEmpty }
+
+    /// Returns a subsequence containing first (up to) specified number of elements.
+    func onlyFirst(_ number: Int) -> Array {
+        let toDrop = count - number
+        return dropLast(toDrop < 0 ? 0 : toDrop)
+    }
+
+    /// Returns a subsequence containing random (up to) specified number of elements.
+    func random(max: Int) -> Array {
+        shuffled().onlyFirst(max)
+    }
 }
 
 extension [Song] {
