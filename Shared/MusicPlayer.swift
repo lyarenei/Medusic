@@ -40,11 +40,18 @@ final class MusicPlayer: ObservableObject {
             self.setCurrentTime(curTime.seconds)
         }
 
-        self.currentItemObserver = player.observe(\.currentItem, options: [.new, .old]) { _, _ in
+        self.currentItemObserver = player.observe(\.currentItem, options: [.new, .old]) { [weak self] _, _ in
+            guard let self else { return }
             Task {
+                if let currentSong = await self.currentSong {
+                    try? await apiClient.services.mediaService.playbackStopped(itemId: currentSong.uuid)
+                    try? await apiClient.services.mediaService.playbackFinished(itemId: currentSong.uuid)
+                }
+
                 if let songId = await self.player.currentItem?.songId {
                     let song = await self.songRepo.getSong(by: songId)
                     await self.setCurrentlyPlaying(newSong: song)
+                    try? await apiClient.services.mediaService.playbackStarted(itemId: songId)
                 } else {
                     await self.setCurrentlyPlaying(newSong: nil)
                 }
