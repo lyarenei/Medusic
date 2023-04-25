@@ -127,6 +127,11 @@ final class MusicPlayer: ObservableObject {
     func resume() {
         player.play()
         setIsPlaying(isPlaying: true)
+        Task {
+            if let currentSong = self.currentSong {
+                await self.sendPlaybackStarted(songId: currentSong.uuid)
+            }
+        }
     }
 
     func stop() {
