@@ -222,7 +222,7 @@ final class MusicPlayer: ObservableObject {
             at: currentTime,
             isPaused: false,
             playbackQueue: [],
-            volume: 50,
+            volume: getVolume(),
             isStreaming: true
         )
     }
@@ -234,7 +234,7 @@ final class MusicPlayer: ObservableObject {
             at: currentTime,
             isPaused: true,
             playbackQueue: [],
-            volume: 50,
+            volume: getVolume(),
             isStreaming: true
         )
     }
@@ -271,5 +271,10 @@ final class MusicPlayer: ObservableObject {
         default:
             break
         }
+    }
+
+    private func getVolume() -> Int32 {
+        let volume = AVAudioSession.sharedInstance().outputVolume * 100
+        return Int32(volume.rounded(.toNearestOrAwayFromZero))
     }
 }
