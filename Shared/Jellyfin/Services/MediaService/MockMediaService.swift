@@ -17,6 +17,10 @@ final class MockMediaService: MediaService {
         throw MediaServiceError.invalid
     }
 
+    func playbackPaused(itemId: String) async throws {
+        throw MediaServiceError.invalid
+    }
+
     func playbackStopped(itemId: String) async throws {
         throw MediaServiceError.invalid
     }

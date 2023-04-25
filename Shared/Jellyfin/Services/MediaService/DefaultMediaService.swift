@@ -43,6 +43,19 @@ final class DefaultMediaService: MediaService {
         guard Defaults[.readOnly] == false else { return }
         // TODO: send more fields
         let body = JellyfinAPI.PlaybackStartInfo(
+            isPaused: false,
+            itemID: itemId,
+            playMethod: .directStream
+        )
+
+        let request = JellyfinAPI.Paths.reportPlaybackStart(body)
+        try await client.send(request)
+    }
+
+    func playbackPaused(itemId: String) async throws {
+        guard Defaults[.readOnly] == false else { return }
+        let body = JellyfinAPI.PlaybackStartInfo(
+            isPaused: true,
             itemID: itemId,
             playMethod: .directStream
         )

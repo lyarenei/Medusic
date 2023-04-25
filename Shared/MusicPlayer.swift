@@ -117,6 +117,11 @@ final class MusicPlayer: ObservableObject {
     func pause() {
         player.pause()
         setIsPlaying(isPlaying: false)
+        Task {
+            if let currentSong = self.currentSong {
+                try? await apiClient.services.mediaService.playbackPaused(itemId: currentSong.uuid)
+            }
+        }
     }
 
     func resume() {
