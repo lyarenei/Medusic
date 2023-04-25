@@ -12,4 +12,16 @@ final class MockMediaService: MediaService {
     func setFavorite(itemId: String, isFavorite: Bool) async throws {
         throw MediaServiceError.invalid
     }
+
+    func playbackStarted(itemId: String) async throws {
+        throw MediaServiceError.invalid
+    }
+
+    func playbackStopped(itemId: String) async throws {
+        throw MediaServiceError.invalid
+    }
+
+    func playbackFinished(itemId: String) async throws {
+        throw MediaServiceError.invalid
+    }
 }

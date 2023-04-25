@@ -5,6 +5,9 @@ protocol MediaService: ObservableObject {
 
     func new_downloadItem(id: String, destination: URL) async throws
     func setFavorite(itemId: String, isFavorite: Bool) async throws
+    func playbackStarted(itemId: String) async throws
+    func playbackStopped(itemId: String) async throws
+    func playbackFinished(itemId: String) async throws
 }
 
 enum MediaServiceError: Error {

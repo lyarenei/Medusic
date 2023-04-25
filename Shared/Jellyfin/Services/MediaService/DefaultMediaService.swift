@@ -37,6 +37,34 @@ final class DefaultMediaService: MediaService {
 
         _ = try await client.send(request)
     }
+
+    func playbackStarted(itemId: String) async throws {
+        // TODO: send more fields
+        let body = JellyfinAPI.PlaybackStartInfo(
+            itemID: itemId,
+            playMethod: .directStream
+        )
+
+        let request = JellyfinAPI.Paths.reportPlaybackStart(body)
+        try await client.send(request)
+    }
+
+    func playbackStopped(itemId: String) async throws {
+        // TODO: send more fields
+        let body = JellyfinAPI.PlaybackStopInfo(itemID: itemId)
+        let request = JellyfinAPI.Paths.reportPlaybackStopped(body)
+        try await client.send(request)
+    }
+
+    func playbackFinished(itemId: String) async throws {
+        let request = JellyfinAPI.Paths.markPlayedItem(
+            userID: Defaults[.userId],
+            itemID: itemId,
+            datePlayed: .init()
+        )
+
+        _ = try await client.send(request)
+    }
 }
 
 class MediaDownloadDelegate: NSObject, URLSessionDownloadDelegate {
