@@ -241,7 +241,8 @@ final class MusicPlayer: ObservableObject {
         guard let song else { return }
         try? await apiClient.services.mediaService.playbackStopped(
             itemId: song.uuid,
-            at: currentTime
+            at: currentTime,
+            playbackQueue: []
         )
     }
 
