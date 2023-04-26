@@ -22,11 +22,7 @@ struct ArtworkComponent: View {
         GeometryReader { proxy in
             let dataProvider = JellyfinImageDataProvider(
                 itemId: itemId,
-                imageService: apiClient.services.imageService,
-                imageSize: CGSize(
-                    width: proxy.size.width * UIScreen.main.scale,
-                    height: proxy.size.height * UIScreen.main.scale
-                )
+                imageService: apiClient.services.imageService
             )
 
             KFImage.dataProvider(dataProvider)
@@ -35,6 +31,7 @@ struct ArtworkComponent: View {
                 .placeholder { ProgressView() }
                 .fade(duration: 0.25)
                 .retry(maxCount: Int.max, interval: .seconds(10))
+                .appendProcessor(DownsamplingImageProcessor(size: proxy.size))
                 .clipShape(RoundedRectangle(cornerRadius: Self.cornerRadius))
                 .overlay(
                     RoundedRectangle(cornerRadius: Self.cornerRadius)
