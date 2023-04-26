@@ -16,6 +16,16 @@ protocol MediaService: ObservableObject {
         isStreaming: Bool
     ) async throws
 
+    // swiftlint:disable:next function_parameter_count
+    func playbackProgress(
+        itemId: String,
+        at position: TimeInterval?,
+        isPaused: Bool,
+        playbackQueue: [Song],
+        volume: Int32,
+        isStreaming: Bool
+    ) async throws
+
     func playbackStopped(itemId: String, at position: TimeInterval?, playbackQueue: [Song]) async throws
     func playbackFinished(itemId: String) async throws
 }

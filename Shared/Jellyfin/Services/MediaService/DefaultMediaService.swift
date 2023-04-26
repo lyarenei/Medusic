@@ -66,6 +66,32 @@ final class DefaultMediaService: MediaService {
         try await client.send(request)
     }
 
+    // swiftlint:disable:next function_parameter_count
+    func playbackProgress(
+        itemId: String,
+        at position: TimeInterval?,
+        isPaused: Bool,
+        playbackQueue: [Song],
+        volume: Int32,
+        isStreaming: Bool
+    ) async throws {
+        guard Defaults[.readOnly] == false else { return }
+        let isDirectPlay = isStreaming ? Defaults[.streamBitrate] == -1 : true
+        let body = JellyfinAPI.PlaybackProgressInfo(
+            canSeek: false,
+            isMuted: volume <= 0,
+            isPaused: isPaused,
+            itemID: itemId,
+            nowPlayingQueue: playbackQueue.map { QueueItem(id: $0.uuid) },
+            playMethod: isDirectPlay ? .directPlay : .transcode,
+            positionTicks: position?.ticks,
+            volumeLevel: volume
+        )
+
+        let request = JellyfinAPI.Paths.reportPlaybackProgress(body)
+        try await client.send(request)
+    }
+
     func playbackStopped(itemId: String, at position: TimeInterval?, playbackQueue: [Song]) async throws {
         guard Defaults[.readOnly] == false else { return }
         let body = JellyfinAPI.PlaybackStopInfo(

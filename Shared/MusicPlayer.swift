@@ -117,13 +117,13 @@ final class MusicPlayer: ObservableObject {
     func pause() {
         player.pause()
         setIsPlaying(isPlaying: false)
-        Task { await self.sendPlaybackPaused(for: currentSong) }
+        Task { await self.sendPlaybackProgress(for: currentSong, isPaused: true) }
     }
 
     func resume() {
         player.play()
         setIsPlaying(isPlaying: true)
-        Task { await self.sendPlaybackStarted(for: currentSong) }
+        Task { await self.sendPlaybackProgress(for: currentSong, isPaused: false) }
     }
 
     func stop() {
@@ -227,12 +227,12 @@ final class MusicPlayer: ObservableObject {
         )
     }
 
-    private func sendPlaybackPaused(for song: Song?) async {
+    private func sendPlaybackProgress(for song: Song?, isPaused: Bool) async {
         guard let song else { return }
-        try? await apiClient.services.mediaService.playbackStarted(
+        try? await apiClient.services.mediaService.playbackProgress(
             itemId: song.uuid,
             at: currentTime,
-            isPaused: true,
+            isPaused: isPaused,
             playbackQueue: [],
             volume: getVolume(),
             isStreaming: true
