@@ -30,7 +30,7 @@ struct ArtworkComponent: View {
                 .resizable()
                 .placeholder { ProgressView() }
                 .fade(duration: 0.25)
-                .retry(maxCount: Int.max, interval: .seconds(10))
+                .retry(maxCount: 5, interval: .seconds(10))
                 .appendProcessor(DownsamplingImageProcessor(size: proxy.size))
                 .clipShape(RoundedRectangle(cornerRadius: Self.cornerRadius))
                 .overlay(
