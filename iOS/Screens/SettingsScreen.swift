@@ -2,6 +2,18 @@ import Defaults
 import SwiftUI
 
 struct SettingsScreen: View {
+    @Default(.streamBitrate)
+    var streamBitrate: Int
+
+    @Default(.downloadBitrate)
+    var downloadBitrate: Int
+
+    var apiClient: ApiClient
+
+    init(apiClient: ApiClient = .shared) {
+        self.apiClient = apiClient
+    }
+
     var body: some View {
         NavigationView {
             List {
@@ -25,13 +37,15 @@ struct SettingsScreen: View {
         }
 
         Section {
-            ServerStatusComponent()
+            ServerStatusComponent(apiClient: apiClient)
         }
     }
 
     @ViewBuilder
     func generalSection() -> some View {
         Section {
+            streamBitrateOption()
+            downloadBitrateOption()
             appearance()
             advanced()
 
@@ -40,6 +54,30 @@ struct SettingsScreen: View {
             #endif
         } header: {
             Text("General")
+        }
+    }
+
+    @ViewBuilder
+    private func streamBitrateOption() -> some View {
+        Picker("Stream bitrate (kbps)", selection: $streamBitrate) {
+            Text("Unlimited (default)").tag(-1)
+            Text("320").tag(320_000)
+            Text("256").tag(256_000)
+            Text("192").tag(192_000)
+            Text("128").tag(128_000)
+            Text("64").tag(064_000)
+        }
+    }
+
+    @ViewBuilder
+    private func downloadBitrateOption() -> some View {
+        Picker("Download bitrate (kbps)", selection: $downloadBitrate) {
+            Text("Unlimited (default)").tag(-1)
+            Text("320").tag(320_000)
+            Text("256").tag(256_000)
+            Text("192").tag(192_000)
+            Text("128").tag(128_000)
+            Text("64").tag(064_000)
         }
     }
 
@@ -71,7 +109,7 @@ struct SettingsScreen: View {
     @ViewBuilder
     func developer() -> some View {
         NavigationLink {
-            DeveloperSettings()
+            DeveloperSettings(apiClient: apiClient)
         } label: {
             ListOptionComponent(
                 symbol: .hammer,
@@ -85,7 +123,7 @@ struct SettingsScreen: View {
 #if DEBUG
 struct SettingsScreen_Previews: PreviewProvider {
     static var previews: some View {
-        SettingsScreen()
+        SettingsScreen(apiClient: .init(previewEnabled: true))
     }
 }
 #endif
@@ -94,19 +132,11 @@ struct SettingsScreen_Previews: PreviewProvider {
 // MARK: - Developer settings
 
 private struct DeveloperSettings: View {
-    var body: some View {
-        List {
-            PreviewMode()
-        }
-        .listStyle(.grouped)
-        .navigationBarTitleDisplayMode(.inline)
-        .navigationTitle("Developer")
-    }
-}
-
-private struct PreviewMode: View {
     @Default(.previewMode)
     var previewEnabled: Bool
+
+    @Default(.readOnly)
+    var readOnlyEnabled: Bool
 
     var apiClient: ApiClient
 
@@ -115,21 +145,41 @@ private struct PreviewMode: View {
     }
 
     var body: some View {
-        // swiftlint:disable:next trailing_closure
+        List {
+            previewMode()
+            readOnlyMode()
+        }
+        .listStyle(.grouped)
+        .navigationBarTitleDisplayMode(.inline)
+        .navigationTitle("Developer")
+    }
+
+    @ViewBuilder
+    private func previewMode() -> some View {
         Toggle(isOn: $previewEnabled) {
             ListOptionComponent(
                 symbol: .eyes,
                 text: "Preview mode"
             )
         }
-        .onChange(of: previewEnabled, perform: { isEnabled in
+        .onChange(of: previewEnabled) { isEnabled in
             if isEnabled {
                 apiClient.usePreviewMode()
                 return
             }
 
             apiClient.useDefaultMode()
-        })
+        }
+    }
+
+    @ViewBuilder
+    private func readOnlyMode() -> some View {
+        Toggle(isOn: $readOnlyEnabled) {
+            ListOptionComponent(
+                symbol: .pencilSlash,
+                text: "Read only mode"
+            )
+        }
     }
 }
 #endif

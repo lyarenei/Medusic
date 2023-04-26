@@ -49,6 +49,7 @@ final class DefaultSongService: SongService {
     }
 
     func toggleFavorite(songId: String) async throws -> Bool {
+        guard Defaults[.readOnly] == false else { return false }
         let request = JellyfinAPI.Paths.markFavoriteItem(
             userID: Defaults[.userId],
             itemID: songId

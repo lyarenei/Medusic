@@ -13,4 +13,9 @@ extension TimeInterval {
         let seconds = Int(self) % 60
         return String(format: "%01d:%02d", minutes, seconds)
     }
+
+    var ticks: Int64 {
+        let ticksPerSecond: Int64 = 10_000_000
+        return Int64(rounded(.toNearestOrAwayFromZero)) * ticksPerSecond
+    }
 }

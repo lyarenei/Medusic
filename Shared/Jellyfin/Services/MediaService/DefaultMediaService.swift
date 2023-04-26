@@ -28,12 +28,88 @@ final class DefaultMediaService: MediaService {
     }
 
     func setFavorite(itemId: String, isFavorite: Bool) async throws {
+        guard Defaults[.readOnly] == false else { return }
         var request: Request<UserItemDataDto>
         if isFavorite {
             request = JellyfinAPI.Paths.markFavoriteItem(userID: Defaults[.userId], itemID: itemId)
         } else {
             request = JellyfinAPI.Paths.unmarkFavoriteItem(userID: Defaults[.userId], itemID: itemId)
         }
+
+        _ = try await client.send(request)
+    }
+
+    // swiftlint:disable:next function_parameter_count
+    func playbackStarted(
+        itemId: String,
+        at position: TimeInterval?,
+        isPaused: Bool,
+        playbackQueue: [Song],
+        volume: Int32,
+        isStreaming: Bool
+    ) async throws {
+        guard Defaults[.readOnly] == false else { return }
+        let isDirectPlay = isStreaming ? Defaults[.streamBitrate] == -1 : true
+        let body = JellyfinAPI.PlaybackStartInfo(
+            canSeek: false,
+            isMuted: volume <= 0,
+            isPaused: isPaused,
+            itemID: itemId,
+            nowPlayingQueue: playbackQueue.map { QueueItem(id: $0.uuid) },
+            playMethod: isDirectPlay ? .directPlay : .transcode,
+            playbackStartTimeTicks: position?.ticks,
+            positionTicks: position?.ticks,
+            volumeLevel: volume
+        )
+
+        let request = JellyfinAPI.Paths.reportPlaybackStart(body)
+        try await client.send(request)
+    }
+
+    // swiftlint:disable:next function_parameter_count
+    func playbackProgress(
+        itemId: String,
+        at position: TimeInterval?,
+        isPaused: Bool,
+        playbackQueue: [Song],
+        volume: Int32,
+        isStreaming: Bool
+    ) async throws {
+        guard Defaults[.readOnly] == false else { return }
+        let isDirectPlay = isStreaming ? Defaults[.streamBitrate] == -1 : true
+        let body = JellyfinAPI.PlaybackProgressInfo(
+            canSeek: false,
+            isMuted: volume <= 0,
+            isPaused: isPaused,
+            itemID: itemId,
+            nowPlayingQueue: playbackQueue.map { QueueItem(id: $0.uuid) },
+            playMethod: isDirectPlay ? .directPlay : .transcode,
+            positionTicks: position?.ticks,
+            volumeLevel: volume
+        )
+
+        let request = JellyfinAPI.Paths.reportPlaybackProgress(body)
+        try await client.send(request)
+    }
+
+    func playbackStopped(itemId: String, at position: TimeInterval?, playbackQueue: [Song]) async throws {
+        guard Defaults[.readOnly] == false else { return }
+        let body = JellyfinAPI.PlaybackStopInfo(
+            itemID: itemId,
+            nowPlayingQueue: playbackQueue.map { QueueItem(id: $0.uuid) },
+            positionTicks: position?.ticks
+        )
+        let request = JellyfinAPI.Paths.reportPlaybackStopped(body)
+        try await client.send(request)
+    }
+
+    func playbackFinished(itemId: String) async throws {
+        guard Defaults[.readOnly] == false else { return }
+        let request = JellyfinAPI.Paths.markPlayedItem(
+            userID: Defaults[.userId],
+            itemID: itemId,
+            datePlayed: .init()
+        )
 
         _ = try await client.send(request)
     }
