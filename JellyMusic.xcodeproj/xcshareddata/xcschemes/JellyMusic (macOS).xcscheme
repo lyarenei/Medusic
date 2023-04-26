@@ -10,13 +10,13 @@
             ActionType = "Xcode.IDEStandardExecutionActionsCore.ExecutionActionType.ShellScriptAction">
             <ActionContent
                title = "Generate build phase file lists"
-               scriptText = "# Type a script or drag a script file from your workspace to insert its path.&#10;cd $SOURCE_ROOT&#10;${SOURCE_ROOT}/generate_swifttlint_filelist.sh&#10;">
+               scriptText = "cd $SOURCE_ROOT&#10;${SOURCE_ROOT}/generate_swifttlint_filelist.sh&#10;">
                <EnvironmentBuildable>
                   <BuildableReference
                      BuildableIdentifier = "primary"
-                     BlueprintIdentifier = "9B80473929B768010069B407"
+                     BlueprintIdentifier = "9B80473F29B768010069B407"
                      BuildableName = "JellyMusic.app"
-                     BlueprintName = "JellyMusic (iOS)"
+                     BlueprintName = "JellyMusic (macOS)"
                      ReferencedContainer = "container:JellyMusic.xcodeproj">
                   </BuildableReference>
                </EnvironmentBuildable>
@@ -32,9 +32,9 @@
             buildForAnalyzing = "YES">
             <BuildableReference
                BuildableIdentifier = "primary"
-               BlueprintIdentifier = "9B80473929B768010069B407"
+               BlueprintIdentifier = "9B80473F29B768010069B407"
                BuildableName = "JellyMusic.app"
-               BlueprintName = "JellyMusic (iOS)"
+               BlueprintName = "JellyMusic (macOS)"
                ReferencedContainer = "container:JellyMusic.xcodeproj">
             </BuildableReference>
          </BuildActionEntry>
@@ -62,9 +62,9 @@
          runnableDebuggingMode = "0">
          <BuildableReference
             BuildableIdentifier = "primary"
-            BlueprintIdentifier = "9B80473929B768010069B407"
+            BlueprintIdentifier = "9B80473F29B768010069B407"
             BuildableName = "JellyMusic.app"
-            BlueprintName = "JellyMusic (iOS)"
+            BlueprintName = "JellyMusic (macOS)"
             ReferencedContainer = "container:JellyMusic.xcodeproj">
          </BuildableReference>
       </BuildableProductRunnable>
@@ -79,9 +79,9 @@
          runnableDebuggingMode = "0">
          <BuildableReference
             BuildableIdentifier = "primary"
-            BlueprintIdentifier = "9B80473929B768010069B407"
+            BlueprintIdentifier = "9B80473F29B768010069B407"
             BuildableName = "JellyMusic.app"
-            BlueprintName = "JellyMusic (iOS)"
+            BlueprintName = "JellyMusic (macOS)"
             ReferencedContainer = "container:JellyMusic.xcodeproj">
          </BuildableReference>
       </BuildableProductRunnable>

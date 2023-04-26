@@ -534,8 +534,8 @@
 			isa = PBXNativeTarget;
 			buildConfigurationList = 9B80474B29B768010069B407 /* Build configuration list for PBXNativeTarget "JellyMusic (iOS)" */;
 			buildPhases = (
-				9B1438DA29E33CA6004056B0 /* ShellScript */,
-				9B32F12529E2D73300CF8A69 /* ShellScript */,
+				9B1438DA29E33CA6004056B0 /* Run SwiftFormat */,
+				9B32F12529E2D73300CF8A69 /* Run SwiftLint */,
 				9B80473629B768010069B407 /* Sources */,
 				9B80473729B768010069B407 /* Frameworks */,
 				9B80473829B768010069B407 /* Resources */,
@@ -564,8 +564,8 @@
 			isa = PBXNativeTarget;
 			buildConfigurationList = 9B80474E29B768010069B407 /* Build configuration list for PBXNativeTarget "JellyMusic (macOS)" */;
 			buildPhases = (
-				9B1438DB29E33F29004056B0 /* ShellScript */,
-				9B32F12629E2D86700CF8A69 /* ShellScript */,
+				9B1438DB29E33F29004056B0 /* Run SwiftFormat */,
+				9B32F12629E2D86700CF8A69 /* Run SwiftLint */,
 				9B80473C29B768010069B407 /* Sources */,
 				9B80473D29B768010069B407 /* Frameworks */,
 				9B80473E29B768010069B407 /* Resources */,
@@ -647,69 +647,81 @@
 /* End PBXResourcesBuildPhase section */
 
 /* Begin PBXShellScriptBuildPhase section */
-		9B1438DA29E33CA6004056B0 /* ShellScript */ = {
+		9B1438DA29E33CA6004056B0 /* Run SwiftFormat */ = {
 			isa = PBXShellScriptBuildPhase;
 			buildActionMask = 2147483647;
 			files = (
 			);
 			inputFileListPaths = (
+				"$(SRCROOT)/build/build_phases/SwiftlintBuildPhase_swiftlint.xcfilelist",
 			);
 			inputPaths = (
 			);
+			name = "Run SwiftFormat";
 			outputFileListPaths = (
 			);
 			outputPaths = (
+				"$(SRCROOT)/build/build_phases/SwiftlintBuildPhase_swiftformat_static_output",
 			);
 			runOnlyForDeploymentPostprocessing = 0;
 			shellPath = /bin/sh;
 			shellScript = "PATH=/opt/homebrew/bin:$PATH\nif which swiftformat >/dev/null; then\n    swiftformat --lint --lenient --config ./.swiftformat .\nelse\n    echo \"SwiftFormat is not installed\"\nfi\n";
 		};
-		9B1438DB29E33F29004056B0 /* ShellScript */ = {
+		9B1438DB29E33F29004056B0 /* Run SwiftFormat */ = {
 			isa = PBXShellScriptBuildPhase;
 			buildActionMask = 2147483647;
 			files = (
 			);
 			inputFileListPaths = (
+				"$(SRCROOT)/build/build_phases/SwiftlintBuildPhase_swiftlint.xcfilelist",
 			);
 			inputPaths = (
 			);
+			name = "Run SwiftFormat";
 			outputFileListPaths = (
 			);
 			outputPaths = (
+				"$(SRCROOT)/build/build_phases/SwiftlintBuildPhase_swiftformat_static_output",
 			);
 			runOnlyForDeploymentPostprocessing = 0;
 			shellPath = /bin/sh;
 			shellScript = "PATH=/opt/homebrew/bin:$PATH\nif which swiftformat >/dev/null; then\n    swiftformat --lint --lenient --config ./.swiftformat .\nelse\n    echo \"SwiftFormat is not installed\"\nfi\n";
 		};
-		9B32F12529E2D73300CF8A69 /* ShellScript */ = {
+		9B32F12529E2D73300CF8A69 /* Run SwiftLint */ = {
 			isa = PBXShellScriptBuildPhase;
 			buildActionMask = 2147483647;
 			files = (
 			);
 			inputFileListPaths = (
+				"$(SRCROOT)/build/build_phases/SwiftlintBuildPhase_swiftlint.xcfilelist",
 			);
 			inputPaths = (
 			);
+			name = "Run SwiftLint";
 			outputFileListPaths = (
 			);
 			outputPaths = (
+				"$(SRCROOT)/build/build_phases/SwiftlintBuildPhase_swiftlint_static_output",
 			);
 			runOnlyForDeploymentPostprocessing = 0;
 			shellPath = /bin/sh;
 			shellScript = "PATH=/opt/homebrew/bin:$PATH\nif which swiftlint >/dev/null; then\n    swiftlint lint --config ./.swiftlint.yml\nelse\n    echo \"SwiftLint is not installed\"\nfi\n";
 		};
-		9B32F12629E2D86700CF8A69 /* ShellScript */ = {
+		9B32F12629E2D86700CF8A69 /* Run SwiftLint */ = {
 			isa = PBXShellScriptBuildPhase;
 			buildActionMask = 2147483647;
 			files = (
 			);
 			inputFileListPaths = (
+				"$(SRCROOT)/build/build_phases/SwiftlintBuildPhase_swiftlint.xcfilelist",
 			);
 			inputPaths = (
 			);
+			name = "Run SwiftLint";
 			outputFileListPaths = (
 			);
 			outputPaths = (
+				"$(SRCROOT)/build/build_phases/SwiftlintBuildPhase_swiftlint_static_output",
 			);
 			runOnlyForDeploymentPostprocessing = 0;
 			shellPath = /bin/sh;
