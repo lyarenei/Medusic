@@ -1,5 +1,6 @@
 import SwiftUI
 import Kingfisher
+import OSLog
 
 struct ArtworkComponent: View {
     private static let cornerRadius: CGFloat = 5
@@ -32,6 +33,15 @@ struct ArtworkComponent: View {
                 .fade(duration: 0.25)
                 .retry(maxCount: 5, interval: .seconds(10))
                 .appendProcessor(DownsamplingImageProcessor(size: proxy.size))
+                .onProgress { receivedSize, totalSize in
+                    print("Downloading image for item \(itemId): \(receivedSize)/\(totalSize)")
+                }
+                .onSuccess { result in
+                    Logger.artwork.debug("Loaded image for item \(itemId) loaded")
+                }
+                .onFailure { error in
+                    Logger.artwork.debug("Failed to load image for item \(itemId): \(error.localizedDescription)")
+                }
                 .clipShape(RoundedRectangle(cornerRadius: Self.cornerRadius))
                 .overlay(
                     RoundedRectangle(cornerRadius: Self.cornerRadius)
