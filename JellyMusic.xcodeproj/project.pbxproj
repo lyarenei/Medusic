@@ -649,6 +649,7 @@
 /* Begin PBXShellScriptBuildPhase section */
 		9B1438DA29E33CA6004056B0 /* Run SwiftFormat */ = {
 			isa = PBXShellScriptBuildPhase;
+			alwaysOutOfDate = 1;
 			buildActionMask = 2147483647;
 			files = (
 			);
@@ -669,6 +670,7 @@
 		};
 		9B1438DB29E33F29004056B0 /* Run SwiftFormat */ = {
 			isa = PBXShellScriptBuildPhase;
+			alwaysOutOfDate = 1;
 			buildActionMask = 2147483647;
 			files = (
 			);
@@ -689,6 +691,7 @@
 		};
 		9B32F12529E2D73300CF8A69 /* Run SwiftLint */ = {
 			isa = PBXShellScriptBuildPhase;
+			alwaysOutOfDate = 1;
 			buildActionMask = 2147483647;
 			files = (
 			);
@@ -709,6 +712,7 @@
 		};
 		9B32F12629E2D86700CF8A69 /* Run SwiftLint */ = {
 			isa = PBXShellScriptBuildPhase;
+			alwaysOutOfDate = 1;
 			buildActionMask = 2147483647;
 			files = (
 			);
