@@ -33,9 +33,6 @@ struct ArtworkComponent: View {
                 .fade(duration: 0.25)
                 .retry(maxCount: 5, interval: .seconds(10))
                 .appendProcessor(DownsamplingImageProcessor(size: proxy.size))
-                .onProgress { receivedSize, totalSize in
-                    print("Downloading image for item \(itemId): \(receivedSize)/\(totalSize)")
-                }
                 .onSuccess { result in
                     Logger.artwork.debug("Loaded image for item \(itemId)")
                 }
