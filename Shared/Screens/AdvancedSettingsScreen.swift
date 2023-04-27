@@ -150,7 +150,10 @@ private struct PurgeOptions: View {
         ConfirmButton(
             btnText: "Reset to defaults",
             alertTitle: "Reset defaults",
-            alertMessage: "This will reset the library data and remove images and downloads as well as reset all settings to their defaults",
+            alertMessage: """
+                This will reset the library data and remove images and downloads
+                as well as reset all settings to their defaults
+                """,
             alertPrimaryBtnText: "Reset",
             alertPrimaryAction: resetToDefault
         )
