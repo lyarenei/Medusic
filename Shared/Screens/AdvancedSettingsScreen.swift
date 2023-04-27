@@ -79,7 +79,6 @@ private struct PurgeOptions: View {
         purgeDownloadsButton()
         purgeAllButton()
         resetToDefaultButton()
-            .disabled(true)
     }
 
     @ViewBuilder
@@ -160,7 +159,15 @@ private struct PurgeOptions: View {
     }
 
     private func resetToDefault() {
-        // TODO: clear cache and all settings
+        Task {
+            do {
+                try await purgeAll()
+            } catch {
+                print("Reset failed: \(error.localizedDescription)")
+            }
+
+            Defaults.removeAll()
+        }
     }
 
     private func purgeImages() {
