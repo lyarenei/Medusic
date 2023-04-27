@@ -13,13 +13,10 @@ struct InlineInputComponent: View {
 
     var body: some View {
         HStack(spacing: 0) {
-            ListOptionComponent(
-                symbol: labelSymbol,
-                text: labelText
-            )
+            label()
+                .lineLimit(1)
 
             Spacer(minLength: 20)
-
             inputField()
                 .lineLimit(1)
                 .multilineTextAlignment(.trailing)
@@ -27,7 +24,14 @@ struct InlineInputComponent: View {
     }
 
     @ViewBuilder
-    func inputField() -> some View {
+    private func label() -> some View {
+        if let labelText {
+            Text(labelText)
+        }
+    }
+
+    @ViewBuilder
+    private func inputField() -> some View {
         if isSecure {
             SecureField(placeholderText, text: $inputText)
         } else {
@@ -47,19 +51,23 @@ struct InlineNumberInputComponent: View {
 
     var body: some View {
         HStack(spacing: 0) {
-            ListOptionComponent(
-                symbol: labelSymbol,
-                text: labelText
-            )
+            label()
+                .lineLimit(1)
 
             Spacer(minLength: 20)
-
             TextField(placeholderText, value: $inputNumber, formatter: formatter)
                 .lineLimit(1)
                 .multilineTextAlignment(.trailing)
                 .frame(maxWidth: 120)
         }
         .keyboardType(.numberPad)
+    }
+
+    @ViewBuilder
+    private func label() -> some View {
+        if let labelText {
+            Text(labelText)
+        }
     }
 }
 
