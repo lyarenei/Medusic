@@ -1,5 +1,4 @@
 import SwiftUI
-import SFSafeSymbols
 
 struct InlineInputComponent: View {
     var title: String?
