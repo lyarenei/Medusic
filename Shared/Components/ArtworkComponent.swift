@@ -21,12 +21,7 @@ struct ArtworkComponent: View {
 
     var body: some View {
         GeometryReader { proxy in
-            let dataProvider = JellyfinImageDataProvider(
-                itemId: itemId,
-                imageService: apiClient.services.imageService
-            )
-
-            KFImage.dataProvider(dataProvider)
+            KFImage.dataProvider(getDataProvider())
                 .cacheOriginalImage()
                 .resizable()
                 .placeholder { ProgressView() }
@@ -46,6 +41,13 @@ struct ArtworkComponent: View {
                         .foregroundColor(Color(UIColor.separator.cgColor))
                 )
         }
+    }
+
+    private func getDataProvider() -> JellyfinImageDataProvider {
+        JellyfinImageDataProvider(
+            itemId: itemId,
+            imageService: apiClient.services.imageService
+        )
     }
 }
 
