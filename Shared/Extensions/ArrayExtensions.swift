@@ -1,3 +1,5 @@
+import Foundation
+
 extension Array {
     /// Convenience indicator for checking if the collection is not empty.
     @inlinable
@@ -35,6 +37,17 @@ extension [Song] {
         first { song -> Bool in
             song.uuid == songId
         }
+    }
+
+    func getRuntime(for albumId: String? = nil) -> TimeInterval {
+        var totalRuntime: TimeInterval = 0
+        if let albumId {
+            filterByAlbum(id: albumId).forEach { totalRuntime += $0.runtime }
+        } else {
+            forEach { totalRuntime += $0.runtime }
+        }
+
+        return totalRuntime
     }
 }
 

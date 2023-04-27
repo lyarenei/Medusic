@@ -8,10 +8,19 @@ extension Int64 {
 }
 
 extension TimeInterval {
+    /// Express this interval in seconds.
+    var seconds: Int {
+        Int(self) % 60
+    }
+
+    /// Express this interval in minutes.
+    var minutes: Int {
+        Int(self) / 60
+    }
+
+    /// Format this interval into minutes:seconds.
     var timeString: String {
-        let minutes = Int(self) / 60
-        let seconds = Int(self) % 60
-        return String(format: "%01d:%02d", minutes, seconds)
+        String(format: "%01d:%02d", minutes, seconds)
     }
 
     var ticks: Int64 {

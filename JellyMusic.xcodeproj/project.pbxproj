@@ -86,7 +86,6 @@
 		9B70BD9D29B91F42000DB31C /* AlbumTileComponent.swift in Sources */ = {isa = PBXBuildFile; fileRef = 9B70BD9C29B91F42000DB31C /* AlbumTileComponent.swift */; };
 		9B70BD9E29B91F42000DB31C /* AlbumTileComponent.swift in Sources */ = {isa = PBXBuildFile; fileRef = 9B70BD9C29B91F42000DB31C /* AlbumTileComponent.swift */; };
 		9B70BDA029B923AE000DB31C /* AlbumDetailScreen.swift in Sources */ = {isa = PBXBuildFile; fileRef = 9B70BD9F29B923AE000DB31C /* AlbumDetailScreen.swift */; };
-		9B70BDA129B923AE000DB31C /* AlbumDetailScreen.swift in Sources */ = {isa = PBXBuildFile; fileRef = 9B70BD9F29B923AE000DB31C /* AlbumDetailScreen.swift */; };
 		9B73ECF929C8F085007F74DB /* MusicPlayerScreen.swift in Sources */ = {isa = PBXBuildFile; fileRef = 9B73ECF829C8F085007F74DB /* MusicPlayerScreen.swift */; };
 		9B73ECFC29C9ECA8007F74DB /* MediaService.swift in Sources */ = {isa = PBXBuildFile; fileRef = 9B73ECFB29C9ECA8007F74DB /* MediaService.swift */; };
 		9B73ECFD29C9ECA8007F74DB /* MediaService.swift in Sources */ = {isa = PBXBuildFile; fileRef = 9B73ECFB29C9ECA8007F74DB /* MediaService.swift */; };
@@ -311,7 +310,6 @@
 		9B61365429BC6E19004C85EC /* Screens */ = {
 			isa = PBXGroup;
 			children = (
-				9B70BD9F29B923AE000DB31C /* AlbumDetailScreen.swift */,
 				9B80476F29B89EE40069B407 /* AlbumLibraryScreen.swift */,
 				9B3D44BF29BE09620054C9E0 /* SongsLibraryScreen.swift */,
 				9B46249129E5BFE600A2259A /* AppearanceSettingsScreen.swift */,
@@ -327,6 +325,7 @@
 				9B80476529B86F460069B407 /* LibraryScreen.swift */,
 				9B80477D29B8CDF80069B407 /* SettingsScreen.swift */,
 				9B73ECF829C8F085007F74DB /* MusicPlayerScreen.swift */,
+				9B70BD9F29B923AE000DB31C /* AlbumDetailScreen.swift */,
 			);
 			path = Screens;
 			sourceTree = "<group>";
@@ -860,7 +859,6 @@
 				9BDB09A629BB4816007F99E4 /* ArtworkComponent.swift in Sources */,
 				9BA521FF29F19FEC0000D0AA /* StringExtensions.swift in Sources */,
 				9B46249329E5BFE600A2259A /* AppearanceSettingsScreen.swift in Sources */,
-				9B70BDA129B923AE000DB31C /* AlbumDetailScreen.swift in Sources */,
 				9BDB099429BB1F57007F99E4 /* DummySongService.swift in Sources */,
 				9B6FB7B329E5AB500013AA65 /* ServerCredentialsComponent.swift in Sources */,
 				48C1F8CA29B9EA60003BE048 /* DTOs+Identifiable.swift in Sources */,
