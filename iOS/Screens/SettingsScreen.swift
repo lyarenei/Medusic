@@ -83,38 +83,23 @@ struct SettingsScreen: View {
 
     @ViewBuilder
     func appearance() -> some View {
-        NavigationLink {
+        NavigationLink("Appearance") {
             AppearanceSettingsScreen()
-        } label: {
-            ListOptionComponent(
-                symbol: .paintbrushPointed,
-                text: "Appearance"
-            )
         }
     }
 
     @ViewBuilder
     func advanced() -> some View {
-        NavigationLink {
+        NavigationLink("Advanced") {
             AdvancedSettingsScreen()
-        } label: {
-            ListOptionComponent(
-                symbol: .wrenchAndScrewdriver,
-                text: "Advanced"
-            )
         }
     }
 
     #if DEBUG
     @ViewBuilder
     func developer() -> some View {
-        NavigationLink {
+        NavigationLink("Developer") {
             DeveloperSettings(apiClient: apiClient)
-        } label: {
-            ListOptionComponent(
-                symbol: .hammer,
-                text: "Developer"
-            )
         }
     }
     #endif
@@ -157,10 +142,7 @@ private struct DeveloperSettings: View {
     @ViewBuilder
     private func previewMode() -> some View {
         Toggle(isOn: $previewEnabled) {
-            ListOptionComponent(
-                symbol: .eyes,
-                text: "Preview mode"
-            )
+            Text("Preview mode")
         }
         .onChange(of: previewEnabled) { isEnabled in
             if isEnabled {
@@ -175,10 +157,7 @@ private struct DeveloperSettings: View {
     @ViewBuilder
     private func readOnlyMode() -> some View {
         Toggle(isOn: $readOnlyEnabled) {
-            ListOptionComponent(
-                symbol: .pencilSlash,
-                text: "Read only mode"
-            )
+            Text("Read only mode")
         }
     }
 }

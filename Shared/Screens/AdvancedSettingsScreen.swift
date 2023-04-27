@@ -71,13 +71,8 @@ private struct PurgeCaches: View {
 
     var body: some View {
         // swiftlint:disable:next trailing_closure
-        Button {
+        Button("Purge all caches") {
             showPurgeCacheConfirm = true
-        } label: {
-            ListOptionComponent(
-                symbol: .trash,
-                text: "Purge all caches"
-            )
         }
         .buttonStyle(.plain)
         .foregroundColor(.red)
