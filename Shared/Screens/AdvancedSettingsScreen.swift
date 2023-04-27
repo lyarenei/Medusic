@@ -7,7 +7,12 @@ struct AdvancedSettingsScreen: View {
     var body: some View {
         List {
             MaxCacheSize()
-            PurgeCaches()
+
+            Section {
+                PurgeOptions()
+            }
+            .buttonStyle(.plain)
+            .foregroundColor(.red)
         }
         .listStyle(.grouped)
         .navigationTitle("Advanced")
@@ -45,7 +50,7 @@ private struct MaxCacheSize: View {
         }
     }
 
-    func getFormatter() -> NumberFormatter {
+    private func getFormatter() -> NumberFormatter {
         let fmt = NumberFormatter()
         fmt.numberStyle = .none
         fmt.minimum = 50
@@ -55,7 +60,7 @@ private struct MaxCacheSize: View {
     }
 }
 
-private struct PurgeCaches: View {
+private struct PurgeOptions: View {
     @Stored(in: .albums)
     var albums: [Album]
 
@@ -66,37 +71,165 @@ private struct PurgeCaches: View {
     var downloadedSongs: [Song]
 
     @State
-    var showPurgeCacheConfirm = false
+    var showConfirm = false
 
     var body: some View {
-        // swiftlint:disable:next trailing_closure
-        Button("Purge all caches") {
-            showPurgeCacheConfirm = true
-        }
-        .buttonStyle(.plain)
-        .foregroundColor(.red)
-        .alert(isPresented: $showPurgeCacheConfirm, content: {
-            Alert(
-                title: Text("Purge all caches"),
-                message: Text("This will remove all metadata, images and downloads"),
-                primaryButton: .destructive(Text("Purge")) { purgeCaches() },
-                secondaryButton: .default(Text("Cancel")) { showPurgeCacheConfirm = false }
-            )
-        })
+        purgeImagesButton()
+        purgeLibraryDataButton()
+        purgeDownloadsButton()
+        purgeAllButton()
+        resetToDefaultButton()
+            .disabled(true)
     }
 
-    func purgeCaches() {
+    @ViewBuilder
+    private func purgeImagesButton() -> some View {
+        AlertButton(
+            btnText: "Delete all images",
+            alertTitle: "Delete images",
+            alertMessage: "This will delete all cached images",
+            alertPrimaryBtnText: "Delete",
+            alertPrimaryAction: purgeImages
+        )
+    }
+
+    @ViewBuilder
+    private func purgeLibraryDataButton() -> some View {
+        AlertButton(
+            btnText: "Reset library",
+            alertTitle: "Reset library",
+            alertMessage: "This will remove all local library data from the device",
+            alertPrimaryBtnText: "Reset"
+        ) {
+            Task {
+                do {
+                    try await purgeLibraryData()
+                } catch {
+                    print("Resetting library data failed: \(error.localizedDescription)")
+                }
+            }
+        }
+    }
+
+    @ViewBuilder
+    private func purgeDownloadsButton() -> some View {
+        AlertButton(
+            btnText: "Remove all downloads",
+            alertTitle: "Remove all downloads",
+            alertMessage: "This will remove all downloaded songs",
+            alertPrimaryBtnText: "Remove"
+        ) {
+            do {
+                try purgeDownloads()
+            } catch {
+                print("Failed to remove downloaded data: \(error.localizedDescription)")
+            }
+        }
+    }
+
+    @ViewBuilder
+    private func purgeAllButton() -> some View {
+        AlertButton(
+            btnText: "Remove everything",
+            alertTitle: "Remove everything",
+            alertMessage: "This will reset the library data and remove images and downloads",
+            alertPrimaryBtnText: "Remove"
+        ) {
+            Task {
+                do {
+                    try await purgeAll()
+                } catch {
+                    print("Purging failed: \(error.localizedDescription)")
+                }
+            }
+        }
+    }
+
+    @ViewBuilder
+    private func resetToDefaultButton() -> some View {
+        AlertButton(
+            btnText: "Reset to defaults",
+            alertTitle: "Reset defaults",
+            alertMessage: "This will reset the library data and remove images and downloads as well as reset all settings to their defaults",
+            alertPrimaryBtnText: "Reset",
+            alertPrimaryAction: resetToDefault
+        )
+    }
+
+    private func resetToDefault() {
+        // TODO: clear cache and all settings
+    }
+
+    private func purgeImages() {
         Kingfisher.ImageCache.default.clearMemoryCache()
         Kingfisher.ImageCache.default.clearDiskCache()
+    }
 
-        Task {
-            do {
-                try await $albums.removeAll()
-                try await $songs.removeAll()
-                try await $downloadedSongs.removeAll()
-                try FileRepository.shared.removeAllFiles()
-            } catch {
-                print("Purging caches failed: \(error)")
+    private func purgeLibraryData() async throws {
+        try await $albums.removeAll()
+        try await $songs.removeAll()
+        try await $downloadedSongs.removeAll()
+    }
+
+    private func purgeDownloads() throws {
+        try FileRepository.shared.removeAllFiles()
+    }
+
+    private func purgeAll() async throws {
+        purgeImages()
+        try await purgeLibraryData()
+        try purgeDownloads()
+    }
+}
+
+struct AlertButton: View {
+    @State
+    var showConfirm = false
+
+    var btnText: String
+
+    var alertTitle: String
+    var alertMessage: String
+
+    var alertPrimaryBtnText: String
+    var alertPrimaryAction: () -> Void
+
+    init(
+        btnText: String,
+        alertTitle: String,
+        alertMessage: String,
+        alertPrimaryBtnText: String,
+        alertPrimaryAction: @escaping () -> Void
+    ) {
+        self.btnText = btnText
+        self.alertTitle = alertTitle
+        self.alertMessage = alertMessage
+        self.alertPrimaryBtnText = alertPrimaryBtnText
+        self.alertPrimaryAction = alertPrimaryAction
+    }
+
+    var body: some View {
+        if #available(iOS 15.0, *) {
+            Button(btnText) {
+                showConfirm = true
+            }
+            .alert(alertTitle, isPresented: $showConfirm) {
+                Button(alertPrimaryBtnText, role: .destructive) { alertPrimaryAction() }
+                Button("Cancel", role: .cancel) { showConfirm = false }
+            } message: {
+                Text(alertMessage)
+            }
+        } else {
+            Button(btnText) {
+                showConfirm = true
+            }
+            .alert(isPresented: $showConfirm) {
+                Alert(
+                    title: Text(alertTitle),
+                    message: Text(alertMessage),
+                    primaryButton: .destructive(Text(alertPrimaryBtnText)) { alertPrimaryAction() },
+                    secondaryButton: .default(Text("Cancel")) { showConfirm = false }
+                )
             }
         }
     }
