@@ -121,8 +121,6 @@
 		9BB754DC29BA604C009BB3A6 /* DTOs.swift in Sources */ = {isa = PBXBuildFile; fileRef = 9BB754DA29BA604C009BB3A6 /* DTOs.swift */; };
 		9BB754DE29BA8522009BB3A6 /* DTOs+Codable.swift in Sources */ = {isa = PBXBuildFile; fileRef = 9BB754DD29BA8522009BB3A6 /* DTOs+Codable.swift */; };
 		9BB754DF29BA8522009BB3A6 /* DTOs+Codable.swift in Sources */ = {isa = PBXBuildFile; fileRef = 9BB754DD29BA8522009BB3A6 /* DTOs+Codable.swift */; };
-		9BB75E8229C12187008CD65A /* ListOptionComponent.swift in Sources */ = {isa = PBXBuildFile; fileRef = 9BB75E8129C12187008CD65A /* ListOptionComponent.swift */; };
-		9BB75E8329C12187008CD65A /* ListOptionComponent.swift in Sources */ = {isa = PBXBuildFile; fileRef = 9BB75E8129C12187008CD65A /* ListOptionComponent.swift */; };
 		9BB75E9B29C38610008CD65A /* DownloadIcon.swift in Sources */ = {isa = PBXBuildFile; fileRef = 9BB75E9A29C38610008CD65A /* DownloadIcon.swift */; };
 		9BB75E9C29C38610008CD65A /* DownloadIcon.swift in Sources */ = {isa = PBXBuildFile; fileRef = 9BB75E9A29C38610008CD65A /* DownloadIcon.swift */; };
 		9BB75E9F29C3883E008CD65A /* FavoriteIcon.swift in Sources */ = {isa = PBXBuildFile; fileRef = 9BB75E9E29C3883E008CD65A /* FavoriteIcon.swift */; };
@@ -225,7 +223,6 @@
 		9BA7454B29F09143007669D4 /* AVQueuePlayerExtensions.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = AVQueuePlayerExtensions.swift; sourceTree = "<group>"; };
 		9BB754DA29BA604C009BB3A6 /* DTOs.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = DTOs.swift; sourceTree = "<group>"; };
 		9BB754DD29BA8522009BB3A6 /* DTOs+Codable.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = "DTOs+Codable.swift"; sourceTree = "<group>"; };
-		9BB75E8129C12187008CD65A /* ListOptionComponent.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = ListOptionComponent.swift; sourceTree = "<group>"; };
 		9BB75E9A29C38610008CD65A /* DownloadIcon.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = DownloadIcon.swift; sourceTree = "<group>"; };
 		9BB75E9E29C3883E008CD65A /* FavoriteIcon.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = FavoriteIcon.swift; sourceTree = "<group>"; };
 		9BB75EA229C3894A008CD65A /* FavoriteButton.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = FavoriteButton.swift; sourceTree = "<group>"; };
@@ -348,7 +345,6 @@
 				9B70BD9C29B91F42000DB31C /* AlbumTileComponent.swift */,
 				9BDB09A429BB4816007F99E4 /* ArtworkComponent.swift */,
 				9B3D44B929BDF2550054C9E0 /* InlineInputComponent.swift */,
-				9BB75E8129C12187008CD65A /* ListOptionComponent.swift */,
 				9BB75EB529C4F751008CD65A /* InlineValueComponent.swift */,
 				9B3C7BE529D04F5800884597 /* InProgressComponent.swift */,
 				9B6FB7AE29E5AA160013AA65 /* ServerUrlComponent.swift */,
@@ -792,7 +788,6 @@
 				9B70BD9D29B91F42000DB31C /* AlbumTileComponent.swift in Sources */,
 				9B1EF39B29D9F90800C2A33B /* NowPlayingComponent.swift in Sources */,
 				9BA521FE29F19FEC0000D0AA /* StringExtensions.swift in Sources */,
-				9BB75E8229C12187008CD65A /* ListOptionComponent.swift in Sources */,
 				9BDB099929BB2FBF007F99E4 /* ImageService.swift in Sources */,
 				48C1F8DA29B9FEB9003BE048 /* AlbumService.swift in Sources */,
 				48C1F8E429BB827E003BE048 /* JellyfinImageProvider.swift in Sources */,
@@ -862,7 +857,6 @@
 				9BDB099429BB1F57007F99E4 /* DummySongService.swift in Sources */,
 				9B6FB7B329E5AB500013AA65 /* ServerCredentialsComponent.swift in Sources */,
 				48C1F8CA29B9EA60003BE048 /* DTOs+Identifiable.swift in Sources */,
-				9BB75E8329C12187008CD65A /* ListOptionComponent.swift in Sources */,
 				9B3C7BEA29D0702600884597 /* Logger.swift in Sources */,
 				9B1EF3A729DCA78800C2A33B /* EnqueueButton.swift in Sources */,
 				9B289EA629F6EC2D007FD445 /* ImageExtensions.swift in Sources */,
