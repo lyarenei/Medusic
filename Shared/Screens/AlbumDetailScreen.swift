@@ -34,6 +34,7 @@ struct AlbumDetailScreen: View {
 
                 albumSongs()
                 stats()
+                    .padding(.vertical, 8)
             }
             .padding(.top, 15)
         }
