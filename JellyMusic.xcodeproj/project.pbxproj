@@ -138,6 +138,8 @@
 		9BB75ECB29C63AE6008CD65A /* SimpleKeychain in Frameworks */ = {isa = PBXBuildFile; productRef = 9BB75ECA29C63AE6008CD65A /* SimpleKeychain */; };
 		9BB75ECD29C64D50008CD65A /* AlbumRepository.swift in Sources */ = {isa = PBXBuildFile; fileRef = 9BB75ECC29C64D50008CD65A /* AlbumRepository.swift */; };
 		9BB75ECE29C64D50008CD65A /* AlbumRepository.swift in Sources */ = {isa = PBXBuildFile; fileRef = 9BB75ECC29C64D50008CD65A /* AlbumRepository.swift */; };
+		9BBE145C29FB13110028C500 /* ConfirmButton.swift in Sources */ = {isa = PBXBuildFile; fileRef = 9BBE145B29FB13110028C500 /* ConfirmButton.swift */; };
+		9BBE145D29FB13110028C500 /* ConfirmButton.swift in Sources */ = {isa = PBXBuildFile; fileRef = 9BBE145B29FB13110028C500 /* ConfirmButton.swift */; };
 		9BDB098D29BB1DD9007F99E4 /* SongService.swift in Sources */ = {isa = PBXBuildFile; fileRef = 9BDB098C29BB1DD9007F99E4 /* SongService.swift */; };
 		9BDB098E29BB1DD9007F99E4 /* SongService.swift in Sources */ = {isa = PBXBuildFile; fileRef = 9BDB098C29BB1DD9007F99E4 /* SongService.swift */; };
 		9BDB099029BB1E73007F99E4 /* DefaultSongService.swift in Sources */ = {isa = PBXBuildFile; fileRef = 9BDB098F29BB1E73007F99E4 /* DefaultSongService.swift */; };
@@ -228,6 +230,7 @@
 		9BB75EAF29C4C5E1008CD65A /* Settings.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = Settings.swift; sourceTree = "<group>"; };
 		9BB75EB529C4F751008CD65A /* InlineValueComponent.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = InlineValueComponent.swift; sourceTree = "<group>"; };
 		9BB75ECC29C64D50008CD65A /* AlbumRepository.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = AlbumRepository.swift; sourceTree = "<group>"; };
+		9BBE145B29FB13110028C500 /* ConfirmButton.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = ConfirmButton.swift; sourceTree = "<group>"; };
 		9BDB098C29BB1DD9007F99E4 /* SongService.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = SongService.swift; sourceTree = "<group>"; };
 		9BDB098F29BB1E73007F99E4 /* DefaultSongService.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = DefaultSongService.swift; sourceTree = "<group>"; };
 		9BDB099229BB1F57007F99E4 /* DummySongService.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = DummySongService.swift; sourceTree = "<group>"; };
@@ -465,6 +468,7 @@
 				9B1EF39F29DCA16200C2A33B /* PlayNextButton.swift */,
 				9B1EF3A229DCA62C00C2A33B /* PlayPreviousButton.swift */,
 				9B1EF3A529DCA78800C2A33B /* EnqueueButton.swift */,
+				9BBE145B29FB13110028C500 /* ConfirmButton.swift */,
 			);
 			path = Buttons;
 			sourceTree = "<group>";
@@ -787,6 +791,7 @@
 				48C1F8DA29B9FEB9003BE048 /* AlbumService.swift in Sources */,
 				48C1F8E429BB827E003BE048 /* JellyfinImageProvider.swift in Sources */,
 				9BEFA1C629C72A65004A07FB /* AlbumCollection.swift in Sources */,
+				9BBE145C29FB13110028C500 /* ConfirmButton.swift in Sources */,
 				9B6FB7B229E5AB500013AA65 /* ServerCredentialsComponent.swift in Sources */,
 				9BDB099329BB1F57007F99E4 /* DummySongService.swift in Sources */,
 				9B21623329E88D12008D3F73 /* MusicPlayer.swift in Sources */,
@@ -842,6 +847,7 @@
 				9B3D44C729BE5E560054C9E0 /* DTOs+BaseItem.swift in Sources */,
 				9B6FB7B029E5AA160013AA65 /* ServerUrlComponent.swift in Sources */,
 				9B289EA929F6EDC3007FD445 /* NumberExtensions.swift in Sources */,
+				9BBE145D29FB13110028C500 /* ConfirmButton.swift in Sources */,
 				9B52AF7829D0B106002E21B9 /* SongCollection.swift in Sources */,
 				9B80474429B768010069B407 /* JellyMusicApp.swift in Sources */,
 				9BEFA1C729C72A65004A07FB /* AlbumCollection.swift in Sources */,

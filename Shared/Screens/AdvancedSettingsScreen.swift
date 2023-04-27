@@ -84,7 +84,7 @@ private struct PurgeOptions: View {
 
     @ViewBuilder
     private func purgeImagesButton() -> some View {
-        AlertButton(
+        ConfirmButton(
             btnText: "Delete all images",
             alertTitle: "Delete images",
             alertMessage: "This will delete all cached images",
@@ -95,7 +95,7 @@ private struct PurgeOptions: View {
 
     @ViewBuilder
     private func purgeLibraryDataButton() -> some View {
-        AlertButton(
+        ConfirmButton(
             btnText: "Reset library",
             alertTitle: "Reset library",
             alertMessage: "This will remove all local library data from the device",
@@ -113,7 +113,7 @@ private struct PurgeOptions: View {
 
     @ViewBuilder
     private func purgeDownloadsButton() -> some View {
-        AlertButton(
+        ConfirmButton(
             btnText: "Remove all downloads",
             alertTitle: "Remove all downloads",
             alertMessage: "This will remove all downloaded songs",
@@ -129,7 +129,7 @@ private struct PurgeOptions: View {
 
     @ViewBuilder
     private func purgeAllButton() -> some View {
-        AlertButton(
+        ConfirmButton(
             btnText: "Remove everything",
             alertTitle: "Remove everything",
             alertMessage: "This will reset the library data and remove images and downloads",
@@ -147,7 +147,7 @@ private struct PurgeOptions: View {
 
     @ViewBuilder
     private func resetToDefaultButton() -> some View {
-        AlertButton(
+        ConfirmButton(
             btnText: "Reset to defaults",
             alertTitle: "Reset defaults",
             alertMessage: "This will reset the library data and remove images and downloads as well as reset all settings to their defaults",
@@ -179,58 +179,5 @@ private struct PurgeOptions: View {
         purgeImages()
         try await purgeLibraryData()
         try purgeDownloads()
-    }
-}
-
-struct AlertButton: View {
-    @State
-    var showConfirm = false
-
-    var btnText: String
-
-    var alertTitle: String
-    var alertMessage: String
-
-    var alertPrimaryBtnText: String
-    var alertPrimaryAction: () -> Void
-
-    init(
-        btnText: String,
-        alertTitle: String,
-        alertMessage: String,
-        alertPrimaryBtnText: String,
-        alertPrimaryAction: @escaping () -> Void
-    ) {
-        self.btnText = btnText
-        self.alertTitle = alertTitle
-        self.alertMessage = alertMessage
-        self.alertPrimaryBtnText = alertPrimaryBtnText
-        self.alertPrimaryAction = alertPrimaryAction
-    }
-
-    var body: some View {
-        if #available(iOS 15.0, *) {
-            Button(btnText) {
-                showConfirm = true
-            }
-            .alert(alertTitle, isPresented: $showConfirm) {
-                Button(alertPrimaryBtnText, role: .destructive) { alertPrimaryAction() }
-                Button("Cancel", role: .cancel) { showConfirm = false }
-            } message: {
-                Text(alertMessage)
-            }
-        } else {
-            Button(btnText) {
-                showConfirm = true
-            }
-            .alert(isPresented: $showConfirm) {
-                Alert(
-                    title: Text(alertTitle),
-                    message: Text(alertMessage),
-                    primaryButton: .destructive(Text(alertPrimaryBtnText)) { alertPrimaryAction() },
-                    secondaryButton: .default(Text("Cancel")) { showConfirm = false }
-                )
-            }
-        }
     }
 }
