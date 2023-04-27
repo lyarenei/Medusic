@@ -19,8 +19,7 @@ struct ServerCredentialsComponent: View {
     @ViewBuilder
     func usernameInput() -> some View {
         InlineInputComponent(
-            labelText: "Username",
-            labelSymbol: .personCropCircle,
+            title: "Username",
             inputText: $username,
             placeholderText: "Account username"
         )
@@ -31,8 +30,7 @@ struct ServerCredentialsComponent: View {
     @ViewBuilder
     func passwordInput() -> some View {
         InlineInputComponent(
-            labelText: "Password",
-            labelSymbol: .key,
+            title: "Password",
             inputText: $password,
             placeholderText: "Account password",
             isSecure: true

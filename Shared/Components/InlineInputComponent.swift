@@ -2,8 +2,7 @@ import SwiftUI
 import SFSafeSymbols
 
 struct InlineInputComponent: View {
-    var labelText: String?
-    var labelSymbol: SFSymbol?
+    var title: String?
 
     @Binding
     var inputText: String
@@ -25,8 +24,8 @@ struct InlineInputComponent: View {
 
     @ViewBuilder
     private func label() -> some View {
-        if let labelText {
-            Text(labelText)
+        if let title {
+            Text(title)
         }
     }
 
@@ -41,8 +40,7 @@ struct InlineInputComponent: View {
 }
 
 struct InlineNumberInputComponent: View {
-    var labelText: String?
-    var labelSymbol: SFSymbol?
+    var title: String?
 
     @Binding
     var inputNumber: UInt64
@@ -65,8 +63,8 @@ struct InlineNumberInputComponent: View {
 
     @ViewBuilder
     private func label() -> some View {
-        if let labelText {
-            Text(labelText)
+        if let title {
+            Text(title)
         }
     }
 }
@@ -92,20 +90,17 @@ struct InlineInputComponent_Previews: PreviewProvider {
     static var previews: some View {
         VStack {
             InlineInputComponent(
-                labelText: "Example",
-                labelSymbol: .return,
+                title: "Example",
                 inputText: $input1
             )
 
             InlineInputComponent(
-                labelText: "Example take 2",
-                labelSymbol: .info,
+                title: "Example take 2",
                 inputText: $input2
             )
 
             InlineNumberInputComponent(
-                labelText: "Number input and longer text",
-                labelSymbol: ._00Circle,
+                title: "Number input and longer text",
                 inputNumber: $inputNumber,
                 formatter: format
             )

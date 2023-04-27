@@ -1,9 +1,7 @@
 import SwiftUI
-import SFSafeSymbols
 
 struct InlineValueComponent: View {
-    var labelText: String?
-    var labelSymbol: SFSymbol?
+    var title: String?
 
     @Binding
     var value: String
@@ -22,8 +20,8 @@ struct InlineValueComponent: View {
 
     @ViewBuilder
     private func label() -> some View {
-        if let labelText {
-            Text(labelText)
+        if let title {
+            Text(title)
         }
     }
 }
@@ -40,14 +38,12 @@ struct InlineValueComponent_Previews: PreviewProvider {
     static var previews: some View {
         VStack {
             InlineValueComponent(
-                labelText: "Example",
-                labelSymbol: .return,
+                title: "Example",
                 value: $v1
             )
 
             InlineValueComponent(
-                labelText: "Example take 2",
-                labelSymbol: .info,
+                title: "Example take 2",
                 value: $v2
             )
         }

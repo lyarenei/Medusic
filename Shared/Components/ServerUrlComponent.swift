@@ -7,8 +7,7 @@ struct ServerUrlComponent: View {
 
     var body: some View {
         InlineInputComponent(
-            labelText: "URL",
-            labelSymbol: .link,
+            title: "URL",
             inputText: $serverUrl,
             placeholderText: "Server URL"
         )

@@ -36,8 +36,7 @@ private struct MaxCacheSize: View {
 
     var body: some View {
         InlineNumberInputComponent(
-            labelText: "Max cache size (MB)",
-            labelSymbol: .internaldrive,
+            title: "Max cache size (MB)",
             inputNumber: $maxCacheSize,
             formatter: getFormatter()
         )

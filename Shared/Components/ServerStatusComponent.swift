@@ -23,8 +23,7 @@ struct ServerStatusComponent: View {
 
     var body: some View {
         InlineValueComponent(
-            labelText: "Server status",
-            labelSymbol: .linkIcloud,
+            title: "Server status",
             value: $serverStatus
         )
         .foregroundColor(statusColor)
