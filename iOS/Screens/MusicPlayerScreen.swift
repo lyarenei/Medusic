@@ -10,8 +10,9 @@ struct MusicPlayerScreen: View {
     }
 
     var body: some View {
+        // swiftlint:disable:next closure_body_length
         VStack(spacing: 15) {
-            ArtworkComponent(itemId: player.currentSong?.uuid ?? "")
+            ArtworkComponent(itemId: player.currentSong?.parentId ?? "")
                 .frame(width: 270, height: 270)
 
             SongWithActions(song: player.currentSong)

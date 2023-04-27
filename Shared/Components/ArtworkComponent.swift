@@ -1,5 +1,6 @@
 import SwiftUI
 import Kingfisher
+import OSLog
 
 struct ArtworkComponent: View {
     private static let cornerRadius: CGFloat = 5
@@ -20,21 +21,19 @@ struct ArtworkComponent: View {
 
     var body: some View {
         GeometryReader { proxy in
-            let dataProvider = JellyfinImageDataProvider(
-                itemId: itemId,
-                imageService: apiClient.services.imageService,
-                imageSize: CGSize(
-                    width: proxy.size.width * UIScreen.main.scale,
-                    height: proxy.size.height * UIScreen.main.scale
-                )
-            )
-
-            KFImage.dataProvider(dataProvider)
+            KFImage.dataProvider(getDataProvider())
                 .cacheOriginalImage()
                 .resizable()
                 .placeholder { ProgressView() }
                 .fade(duration: 0.25)
-                .retry(maxCount: Int.max, interval: .seconds(10))
+                .retry(maxCount: 5, interval: .seconds(10))
+                .appendProcessor(DownsamplingImageProcessor(size: proxy.size))
+                .onSuccess { _ in
+                    Logger.artwork.debug("Loaded image for item \(itemId)")
+                }
+                .onFailure { error in
+                    Logger.artwork.debug("Failed to load image for item \(itemId): \(error.localizedDescription)")
+                }
                 .clipShape(RoundedRectangle(cornerRadius: Self.cornerRadius))
                 .overlay(
                     RoundedRectangle(cornerRadius: Self.cornerRadius)
@@ -42,6 +41,13 @@ struct ArtworkComponent: View {
                         .foregroundColor(Color(UIColor.separator.cgColor))
                 )
         }
+    }
+
+    private func getDataProvider() -> JellyfinImageDataProvider {
+        JellyfinImageDataProvider(
+            itemId: itemId,
+            imageService: apiClient.services.imageService
+        )
     }
 }
 

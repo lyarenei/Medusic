@@ -26,6 +26,7 @@ struct NowPlayingComponent<Content: View>: View {
 }
 
 #if DEBUG
+// swiftlint:disable all
 struct NowPlayingComponent_Previews: PreviewProvider {
     @State
     static var isPresented = true
@@ -44,6 +45,7 @@ struct NowPlayingComponent_Previews: PreviewProvider {
             .previewDisplayName("Content")
     }
 }
+// swiftlint:enable all
 #endif
 
 private struct NowPlayingBar: View {
@@ -51,7 +53,7 @@ private struct NowPlayingBar: View {
     private var player: MusicPlayer
 
     @State
-    var isOpen: Bool = false
+    var isOpen = false
 
     init(player: MusicPlayer = .shared) {
         _player = ObservedObject(wrappedValue: player)
@@ -95,7 +97,7 @@ private struct SongInfo: View {
 
     var body: some View {
         HStack {
-            ArtworkComponent(itemId: song?.uuid ?? "")
+            ArtworkComponent(itemId: song?.parentId ?? "")
                 .frame(width: 50, height: 50)
                 .shadow(radius: 6, x: 0, y: 3)
                 .padding(.leading)
@@ -116,7 +118,7 @@ struct Blur: UIViewRepresentable {
     var style: UIBlurEffect.Style = .systemChromeMaterial
 
     func makeUIView(context: Context) -> UIVisualEffectView {
-        return UIVisualEffectView(effect: UIBlurEffect(style: style))
+        UIVisualEffectView(effect: UIBlurEffect(style: style))
     }
 
     func updateUIView(_ uiView: UIVisualEffectView, context: Context) {
