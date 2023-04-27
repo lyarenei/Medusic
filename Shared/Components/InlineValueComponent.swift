@@ -10,21 +10,26 @@ struct InlineValueComponent: View {
 
     var body: some View {
         HStack(spacing: 0) {
-            ListOptionComponent(
-                symbol: labelSymbol,
-                text: labelText
-            )
+            label()
+                .lineLimit(1)
 
             Spacer(minLength: 20)
-
             Text(value)
                 .lineLimit(1)
                 .multilineTextAlignment(.trailing)
         }
     }
+
+    @ViewBuilder
+    private func label() -> some View {
+        if let labelText {
+            Text(labelText)
+        }
+    }
 }
 
 #if DEBUG
+// swiftlint:disable all
 struct InlineValueComponent_Previews: PreviewProvider {
     @State
     static var v1 = " Foo"
@@ -33,23 +38,21 @@ struct InlineValueComponent_Previews: PreviewProvider {
     static var v2 = " Bar"
 
     static var previews: some View {
-        VStack{
+        VStack {
             InlineValueComponent(
                 labelText: "Example",
                 labelSymbol: .return,
                 value: $v1
             )
-            .padding(.leading)
-            .padding(.trailing)
 
             InlineValueComponent(
                 labelText: "Example take 2",
                 labelSymbol: .info,
                 value: $v2
             )
-            .padding(.leading)
-            .padding(.trailing)
         }
+        .padding(.horizontal)
     }
 }
+// swiftlint:enable all
 #endif
