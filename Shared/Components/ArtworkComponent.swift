@@ -37,7 +37,7 @@ struct ArtworkComponent: View {
                     print("Downloading image for item \(itemId): \(receivedSize)/\(totalSize)")
                 }
                 .onSuccess { result in
-                    Logger.artwork.debug("Loaded image for item \(itemId) loaded")
+                    Logger.artwork.debug("Loaded image for item \(itemId)")
                 }
                 .onFailure { error in
                     Logger.artwork.debug("Failed to load image for item \(itemId): \(error.localizedDescription)")
