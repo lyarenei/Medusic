@@ -37,8 +37,9 @@ struct ServerCredentialsComponent: View {
         )
         .disableAutocorrection(true)
         .autocapitalization(.none)
-        .onChange(of: password, debounceTime: 0.5) { newPassword in
+        .onChange(of: password, debounceTime: 1) { newPassword in
             savePassword(newPassword)
+            NotificationCenter.default.post(name: .PasswordChanged, object: nil)
         }
     }
 

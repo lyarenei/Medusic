@@ -140,6 +140,8 @@
 		9BB75ECE29C64D50008CD65A /* AlbumRepository.swift in Sources */ = {isa = PBXBuildFile; fileRef = 9BB75ECC29C64D50008CD65A /* AlbumRepository.swift */; };
 		9BBE145C29FB13110028C500 /* ConfirmButton.swift in Sources */ = {isa = PBXBuildFile; fileRef = 9BBE145B29FB13110028C500 /* ConfirmButton.swift */; };
 		9BBE145D29FB13110028C500 /* ConfirmButton.swift in Sources */ = {isa = PBXBuildFile; fileRef = 9BBE145B29FB13110028C500 /* ConfirmButton.swift */; };
+		9BBE145F29FB18DA0028C500 /* NotificationExtensions.swift in Sources */ = {isa = PBXBuildFile; fileRef = 9BBE145E29FB18DA0028C500 /* NotificationExtensions.swift */; };
+		9BBE146029FB18DA0028C500 /* NotificationExtensions.swift in Sources */ = {isa = PBXBuildFile; fileRef = 9BBE145E29FB18DA0028C500 /* NotificationExtensions.swift */; };
 		9BDB098D29BB1DD9007F99E4 /* SongService.swift in Sources */ = {isa = PBXBuildFile; fileRef = 9BDB098C29BB1DD9007F99E4 /* SongService.swift */; };
 		9BDB098E29BB1DD9007F99E4 /* SongService.swift in Sources */ = {isa = PBXBuildFile; fileRef = 9BDB098C29BB1DD9007F99E4 /* SongService.swift */; };
 		9BDB099029BB1E73007F99E4 /* DefaultSongService.swift in Sources */ = {isa = PBXBuildFile; fileRef = 9BDB098F29BB1E73007F99E4 /* DefaultSongService.swift */; };
@@ -231,6 +233,7 @@
 		9BB75EB529C4F751008CD65A /* InlineValueComponent.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = InlineValueComponent.swift; sourceTree = "<group>"; };
 		9BB75ECC29C64D50008CD65A /* AlbumRepository.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = AlbumRepository.swift; sourceTree = "<group>"; };
 		9BBE145B29FB13110028C500 /* ConfirmButton.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = ConfirmButton.swift; sourceTree = "<group>"; };
+		9BBE145E29FB18DA0028C500 /* NotificationExtensions.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = NotificationExtensions.swift; sourceTree = "<group>"; };
 		9BDB098C29BB1DD9007F99E4 /* SongService.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = SongService.swift; sourceTree = "<group>"; };
 		9BDB098F29BB1E73007F99E4 /* DefaultSongService.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = DefaultSongService.swift; sourceTree = "<group>"; };
 		9BDB099229BB1F57007F99E4 /* DummySongService.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = DummySongService.swift; sourceTree = "<group>"; };
@@ -376,6 +379,7 @@
 				9B289E9B29F6E6DF007FD445 /* ScrollViewExtensions.swift */,
 				9B289EA429F6EC2D007FD445 /* ImageExtensions.swift */,
 				9B289EA729F6EDC3007FD445 /* NumberExtensions.swift */,
+				9BBE145E29FB18DA0028C500 /* NotificationExtensions.swift */,
 			);
 			path = Extensions;
 			sourceTree = "<group>";
@@ -799,6 +803,7 @@
 				9BF7AF8C29CDF1C8004E0DA7 /* PrimaryActionButton.swift in Sources */,
 				9BB75E9F29C3883E008CD65A /* FavoriteIcon.swift in Sources */,
 				9B289EA529F6EC2D007FD445 /* ImageExtensions.swift in Sources */,
+				9BBE145F29FB18DA0028C500 /* NotificationExtensions.swift in Sources */,
 				9B80477E29B8CDF80069B407 /* SettingsScreen.swift in Sources */,
 				9B289E9929F6E652007FD445 /* ArrayExtensions.swift in Sources */,
 				9B3D449F29BCF9490054C9E0 /* DefaultSystemService.swift in Sources */,
@@ -867,6 +872,7 @@
 				9B1EF3A129DCA16200C2A33B /* PlayNextButton.swift in Sources */,
 				9BA7454D29F09143007669D4 /* AVQueuePlayerExtensions.swift in Sources */,
 				48C1F8D829B9FDDF003BE048 /* DummyAlbumService.swift in Sources */,
+				9BBE146029FB18DA0028C500 /* NotificationExtensions.swift in Sources */,
 				48C1F8C729B9E80D003BE048 /* DTOs+Equatable.swift in Sources */,
 				9B46249029E5B1C100A2259A /* ServerStatusComponent.swift in Sources */,
 				48C1F8D129B9F3E4003BE048 /* DefaultAlbumService.swift in Sources */,

@@ -33,7 +33,9 @@ struct ServerStatusComponent: View {
         .onChange(of: username, debounceTime: 1) { _ in
             Task { await refreshServerStatus() }
         }
-        // TODO: onChange of password
+        .onReceive(NotificationCenter.default.publisher(for: .PasswordChanged)) { _ in
+            Task { await refreshServerStatus() }
+        }
         .onAppear {
             Task { await refreshServerStatus() }
         }
