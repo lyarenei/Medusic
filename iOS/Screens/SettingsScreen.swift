@@ -8,6 +8,9 @@ struct SettingsScreen: View {
     @Default(.downloadBitrate)
     var downloadBitrate: Int
 
+    @Default(.primaryAction)
+    var primaryAction: PrimaryAction
+
     var apiClient: ApiClient
 
     init(apiClient: ApiClient = .shared) {
@@ -19,6 +22,7 @@ struct SettingsScreen: View {
             List {
                 jellyfinSection()
                 generalSection()
+                miscSection()
             }
             .navigationTitle("Settings")
             .listStyle(.grouped)
@@ -46,14 +50,20 @@ struct SettingsScreen: View {
         Section {
             streamBitrateOption()
             downloadBitrateOption()
-            appearance()
+            primaryActionOption()
+        } header: {
+            Text("General")
+        }
+    }
+
+    @ViewBuilder
+    private func miscSection() -> some View {
+        Section {
             advanced()
 
             #if DEBUG
             developer()
             #endif
-        } header: {
-            Text("General")
         }
     }
 
@@ -82,14 +92,15 @@ struct SettingsScreen: View {
     }
 
     @ViewBuilder
-    func appearance() -> some View {
-        NavigationLink("Appearance") {
-            AppearanceSettingsScreen()
+    private func primaryActionOption() -> some View {
+        Picker("Primary action", selection: $primaryAction) {
+            Text("Download (default)").tag(PrimaryAction.download)
+            Text("Favorite").tag(PrimaryAction.favorite)
         }
     }
 
     @ViewBuilder
-    func advanced() -> some View {
+    private func advanced() -> some View {
         NavigationLink("Advanced") {
             AdvancedSettingsScreen()
         }
@@ -97,7 +108,7 @@ struct SettingsScreen: View {
 
     #if DEBUG
     @ViewBuilder
-    func developer() -> some View {
+    private func developer() -> some View {
         NavigationLink("Developer") {
             DeveloperSettings(apiClient: apiClient)
         }
