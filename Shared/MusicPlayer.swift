@@ -35,7 +35,7 @@ final class MusicPlayer: ObservableObject {
         self.apiClient = apiClient
         guard !preview else { return }
 
-        let timeInterval = CMTime(seconds: 1, preferredTimescale: .max)
+        let timeInterval = CMTime(seconds: 1, preferredTimescale: 600)
         self.currentTimeObserver = player.addPeriodicTimeObserver(
             forInterval: timeInterval,
             queue: nil
