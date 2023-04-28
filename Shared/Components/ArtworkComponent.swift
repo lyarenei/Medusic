@@ -27,7 +27,7 @@ struct ArtworkComponent: View {
                 .placeholder { ProgressView() }
                 .fade(duration: 0.25)
                 .retry(maxCount: 5, interval: .seconds(10))
-                .appendProcessor(DownsamplingImageProcessor(size: proxy.size))
+                .appendProcessor(DownsamplingImageProcessor(size: doubleSize(proxy.size)))
                 .onSuccess { _ in
                     Logger.artwork.debug("Loaded image for item \(itemId)")
                 }
@@ -47,6 +47,13 @@ struct ArtworkComponent: View {
         JellyfinImageDataProvider(
             itemId: itemId,
             imageService: apiClient.services.imageService
+        )
+    }
+
+    private func doubleSize(_ size: CGSize) -> CGSize {
+        CGSize(
+            width: size.width * 2,
+            height: size.height * 2
         )
     }
 }
