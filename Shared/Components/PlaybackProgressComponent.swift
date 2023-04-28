@@ -25,9 +25,10 @@ struct PlaybackProgressComponent: View {
                 .padding(.bottom, 10)
                 .padding(.top, 15)
                 .onReceive(observer.publisher) { newValue in
-                    let roundedValue = newValue.rounded(.toNearestOrAwayFromZero)
-                    currentTime = roundedValue
-                    remainingTime = runtime - roundedValue
+                    var curTime = newValue.rounded(.toNearestOrAwayFromZero)
+                    curTime = curTime > runtime ? runtime : curTime
+                    currentTime = curTime
+                    remainingTime = runtime - curTime
                 }
 
             HStack {
