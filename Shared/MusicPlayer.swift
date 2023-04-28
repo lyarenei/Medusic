@@ -3,7 +3,6 @@ import Foundation
 import OSLog
 import SwiftUI
 
-@MainActor
 final class MusicPlayer: ObservableObject {
     public static let shared = MusicPlayer()
 
@@ -107,14 +106,14 @@ final class MusicPlayer: ObservableObject {
             await enqueue(song: song, position: .last)
         }
 
-        player.play()
+        await player.play()
         setIsPlaying(isPlaying: true)
     }
 
     func play(songs: [Song]) async {
         clearQueue(stopPlayback: true)
         await enqueue(songs: songs, position: .last)
-        player.play()
+        await player.play()
         setIsPlaying(isPlaying: true)
     }
 
