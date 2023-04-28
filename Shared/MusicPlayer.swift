@@ -36,7 +36,8 @@ final class MusicPlayer: ObservableObject {
         guard !preview else { return }
 
         let timeInterval = CMTime(seconds: 0.2, preferredTimescale: .max)
-        self.currentTimeObserver = player.addPeriodicTimeObserver(forInterval: timeInterval, queue: .main) { curTime in
+        self.currentTimeObserver = player.addPeriodicTimeObserver(forInterval: timeInterval, queue: .main) { [weak self] curTime in
+            guard let self else { return }
             self.setCurrentTime(curTime.seconds)
         }
 
