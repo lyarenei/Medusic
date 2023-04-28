@@ -46,7 +46,7 @@ struct PlaybackProgressComponent: View {
 // swiftlint:disable all
 struct PlaybackProgressComponent_Previews: PreviewProvider {
     static var player: MusicPlayer {
-        var mp = MusicPlayer(preview: true)
+        let mp = MusicPlayer(preview: true)
         mp.currentSong = PreviewData.songs.first!
         return mp
     }

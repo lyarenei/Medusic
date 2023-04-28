@@ -46,17 +46,17 @@ final class MusicPlayer: ObservableObject {
         self.currentItemObserver = player.observe(\.currentItem, options: [.new, .old]) { [weak self] _, _ in
             guard let self else { return }
             Task {
-                if let currentSong = await self.currentSong {
+                if let currentSong = self.currentSong {
                     await self.sendPlaybackStopped(for: currentSong)
                     await self.sendPlaybackFinished(for: currentSong)
                 }
 
-                if let songId = await self.player.currentItem?.songId {
+                if let songId = self.player.currentItem?.songId {
                     let song = await self.songRepo.getSong(by: songId)
-                    await self.setCurrentlyPlaying(newSong: song)
+                    self.setCurrentlyPlaying(newSong: song)
                     await self.sendPlaybackStarted(for: song)
                 } else {
-                    await self.setCurrentlyPlaying(newSong: nil)
+                    self.setCurrentlyPlaying(newSong: nil)
                 }
             }
         }
