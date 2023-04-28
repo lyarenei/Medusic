@@ -17,10 +17,6 @@ final class MusicPlayer: ObservableObject {
     @Published
     var isPlaying = false
 
-    @Published
-    var currentTime: TimeInterval = 0
-
-    private var currentTimeObserver: Any?
     private var currentItemObserver: NSKeyValueObservation?
 
     init(
@@ -33,15 +29,6 @@ final class MusicPlayer: ObservableObject {
         self.fileRepo = fileRepo
         self.apiClient = apiClient
         guard !preview else { return }
-
-        let timeInterval = CMTime(seconds: 1, preferredTimescale: 600)
-        self.currentTimeObserver = player.addPeriodicTimeObserver(
-            forInterval: timeInterval,
-            queue: nil
-        ) { [weak self] curTime in
-            guard let self else { return }
-            self.setCurrentTime(curTime.seconds)
-        }
 
         self.currentItemObserver = player.observe(\.currentItem, options: [.new, .old]) { [weak self] _, _ in
             guard let self else { return }
@@ -65,10 +52,6 @@ final class MusicPlayer: ObservableObject {
     }
 
     deinit {
-        if let currentTimeObserver {
-            player.removeTimeObserver(currentTimeObserver)
-        }
-
         NotificationCenter.default.removeObserver(
             self,
             name: AVAudioSession.interruptionNotification,
@@ -207,22 +190,11 @@ final class MusicPlayer: ObservableObject {
         Logger.player.debug("Player is playing: \(isPlaying)")
     }
 
-    private func setCurrentTime(_ curTime: TimeInterval) {
-        guard let songRuntime = currentSong?.runtime else { return }
-
-        if curTime >= songRuntime {
-            currentTime = songRuntime
-            return
-        }
-
-        currentTime = curTime.rounded(.toNearestOrAwayFromZero)
-    }
-
     private func sendPlaybackStarted(for song: Song?) async {
         guard let song else { return }
         try? await apiClient.services.mediaService.playbackStarted(
             itemId: song.uuid,
-            at: currentTime,
+            at: player.currentTime().seconds,
             isPaused: false,
             playbackQueue: [],
             volume: getVolume(),
@@ -234,7 +206,7 @@ final class MusicPlayer: ObservableObject {
         guard let song else { return }
         try? await apiClient.services.mediaService.playbackProgress(
             itemId: song.uuid,
-            at: currentTime,
+            at: player.currentTime().seconds,
             isPaused: isPaused,
             playbackQueue: [],
             volume: getVolume(),
@@ -246,7 +218,7 @@ final class MusicPlayer: ObservableObject {
         guard let song else { return }
         try? await apiClient.services.mediaService.playbackStopped(
             itemId: song.uuid,
-            at: currentTime,
+            at: player.currentTime().seconds,
             playbackQueue: []
         )
     }
