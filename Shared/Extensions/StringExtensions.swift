@@ -17,6 +17,10 @@ extension String {
     }
 
     /// Convenience indicator for checking if the string is not empty.
-    @inlinable
     public var isNotEmpty: Bool { !isEmpty }
+
+    /// Search for substring, case insensitive.
+    func containsIgnoreCase(_ substr: String) -> Bool {
+        lowercased().contains(substr.lowercased())
+    }
 }
