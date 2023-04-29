@@ -117,7 +117,7 @@ private struct PurgeOptions: View {
     @ViewBuilder
     private func resetToDefaultButton() -> some View {
         ConfirmButton(
-            btnText: "Reset to defaults",
+            btnText: "Reset JellyMusic",
             alertTitle: "Reset to defaults",
             alertMessage: "This will delete everything and reset all settings to their defaults",
             alertPrimaryBtnText: "Reset",
