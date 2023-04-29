@@ -40,10 +40,10 @@ final class MusicPlayer: ObservableObject {
 
                 if let songId = self.player.currentItem?.songId {
                     let song = await self.songRepo.getSong(by: songId)
-                    self.setCurrentlyPlaying(newSong: song)
+                    await self.setCurrentlyPlaying(newSong: song)
                     await self.sendPlaybackStarted(for: song)
                 } else {
-                    self.setCurrentlyPlaying(newSong: nil)
+                    await self.setCurrentlyPlaying(newSong: nil)
                 }
             }
         }
@@ -90,32 +90,32 @@ final class MusicPlayer: ObservableObject {
         }
 
         await player.play()
-        setIsPlaying(isPlaying: true)
+        await setIsPlaying(isPlaying: true)
     }
 
     func play(songs: [Song]) async {
         clearQueue(stopPlayback: true)
         await enqueue(songs: songs, position: .last)
         await player.play()
-        setIsPlaying(isPlaying: true)
+        await setIsPlaying(isPlaying: true)
     }
 
-    func pause() {
-        player.pause()
-        setIsPlaying(isPlaying: false)
-        Task { await self.sendPlaybackProgress(for: currentSong, isPaused: true) }
+    func pause() async {
+        await player.pause()
+        await setIsPlaying(isPlaying: false)
+        await self.sendPlaybackProgress(for: currentSong, isPaused: true)
     }
 
-    func resume() {
-        player.play()
-        setIsPlaying(isPlaying: true)
-        Task { await self.sendPlaybackProgress(for: currentSong, isPaused: false) }
+    func resume() async {
+        await player.play()
+        await setIsPlaying(isPlaying: true)
+        await self.sendPlaybackProgress(for: currentSong, isPaused: false)
     }
 
-    func stop() {
+    func stop() async {
         clearQueue()
-        setIsPlaying(isPlaying: false)
-        setCurrentlyPlaying(newSong: nil)
+        await setIsPlaying(isPlaying: false)
+        await setCurrentlyPlaying(newSong: nil)
     }
 
     func skipForward() {
@@ -180,11 +180,13 @@ final class MusicPlayer: ObservableObject {
         }
     }
 
-    private func setCurrentlyPlaying(newSong: Song?) {
+    @MainActor
+    private func setCurrentlyPlaying(newSong: Song?) async {
         currentSong = newSong
         Logger.player.debug("Song set as currently playing: \(newSong?.uuid ?? "nil")")
     }
 
+    @MainActor
     private func setIsPlaying(isPlaying: Bool) {
         self.isPlaying = isPlaying
         Logger.player.debug("Player is playing: \(isPlaying)")
@@ -238,11 +240,13 @@ final class MusicPlayer: ObservableObject {
 
         switch type {
         case .began:
-            pause()
+            Task { await pause() }
         case .ended:
             guard let optionsValue = userInfo[AVAudioSessionInterruptionOptionKey] as? UInt else { return }
             let options = AVAudioSession.InterruptionOptions(rawValue: optionsValue)
-            if options.contains(.shouldResume) { resume() }
+            if options.contains(.shouldResume) {
+                Task { await resume() }
+            }
         default:
             break
         }
