@@ -138,12 +138,13 @@
 		9BB75ECB29C63AE6008CD65A /* SimpleKeychain in Frameworks */ = {isa = PBXBuildFile; productRef = 9BB75ECA29C63AE6008CD65A /* SimpleKeychain */; };
 		9BB75ECD29C64D50008CD65A /* AlbumRepository.swift in Sources */ = {isa = PBXBuildFile; fileRef = 9BB75ECC29C64D50008CD65A /* AlbumRepository.swift */; };
 		9BB75ECE29C64D50008CD65A /* AlbumRepository.swift in Sources */ = {isa = PBXBuildFile; fileRef = 9BB75ECC29C64D50008CD65A /* AlbumRepository.swift */; };
-		9BBE146429FC682B0028C500 /* PlaybackProgressComponent.swift in Sources */ = {isa = PBXBuildFile; fileRef = 9BBE146329FC682B0028C500 /* PlaybackProgressComponent.swift */; };
-		9BBE146529FC682B0028C500 /* PlaybackProgressComponent.swift in Sources */ = {isa = PBXBuildFile; fileRef = 9BBE146329FC682B0028C500 /* PlaybackProgressComponent.swift */; };
 		9BBE145C29FB13110028C500 /* ConfirmButton.swift in Sources */ = {isa = PBXBuildFile; fileRef = 9BBE145B29FB13110028C500 /* ConfirmButton.swift */; };
 		9BBE145D29FB13110028C500 /* ConfirmButton.swift in Sources */ = {isa = PBXBuildFile; fileRef = 9BBE145B29FB13110028C500 /* ConfirmButton.swift */; };
 		9BBE145F29FB18DA0028C500 /* NotificationExtensions.swift in Sources */ = {isa = PBXBuildFile; fileRef = 9BBE145E29FB18DA0028C500 /* NotificationExtensions.swift */; };
 		9BBE146029FB18DA0028C500 /* NotificationExtensions.swift in Sources */ = {isa = PBXBuildFile; fileRef = 9BBE145E29FB18DA0028C500 /* NotificationExtensions.swift */; };
+		9BBE146429FC682B0028C500 /* PlaybackProgressComponent.swift in Sources */ = {isa = PBXBuildFile; fileRef = 9BBE146329FC682B0028C500 /* PlaybackProgressComponent.swift */; };
+		9BBE146529FC682B0028C500 /* PlaybackProgressComponent.swift in Sources */ = {isa = PBXBuildFile; fileRef = 9BBE146329FC682B0028C500 /* PlaybackProgressComponent.swift */; };
+		9BBE146729FDA11C0028C500 /* SearchScreen.swift in Sources */ = {isa = PBXBuildFile; fileRef = 9BBE146629FDA11C0028C500 /* SearchScreen.swift */; };
 		9BDB098D29BB1DD9007F99E4 /* SongService.swift in Sources */ = {isa = PBXBuildFile; fileRef = 9BDB098C29BB1DD9007F99E4 /* SongService.swift */; };
 		9BDB098E29BB1DD9007F99E4 /* SongService.swift in Sources */ = {isa = PBXBuildFile; fileRef = 9BDB098C29BB1DD9007F99E4 /* SongService.swift */; };
 		9BDB099029BB1E73007F99E4 /* DefaultSongService.swift in Sources */ = {isa = PBXBuildFile; fileRef = 9BDB098F29BB1E73007F99E4 /* DefaultSongService.swift */; };
@@ -234,9 +235,10 @@
 		9BB75EAF29C4C5E1008CD65A /* Settings.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = Settings.swift; sourceTree = "<group>"; };
 		9BB75EB529C4F751008CD65A /* InlineValueComponent.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = InlineValueComponent.swift; sourceTree = "<group>"; };
 		9BB75ECC29C64D50008CD65A /* AlbumRepository.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = AlbumRepository.swift; sourceTree = "<group>"; };
-		9BBE146329FC682B0028C500 /* PlaybackProgressComponent.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = PlaybackProgressComponent.swift; sourceTree = "<group>"; };
 		9BBE145B29FB13110028C500 /* ConfirmButton.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = ConfirmButton.swift; sourceTree = "<group>"; };
 		9BBE145E29FB18DA0028C500 /* NotificationExtensions.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = NotificationExtensions.swift; sourceTree = "<group>"; };
+		9BBE146329FC682B0028C500 /* PlaybackProgressComponent.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = PlaybackProgressComponent.swift; sourceTree = "<group>"; };
+		9BBE146629FDA11C0028C500 /* SearchScreen.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = SearchScreen.swift; sourceTree = "<group>"; };
 		9BDB098C29BB1DD9007F99E4 /* SongService.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = SongService.swift; sourceTree = "<group>"; };
 		9BDB098F29BB1E73007F99E4 /* DefaultSongService.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = DefaultSongService.swift; sourceTree = "<group>"; };
 		9BDB099229BB1F57007F99E4 /* DummySongService.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = DummySongService.swift; sourceTree = "<group>"; };
@@ -328,6 +330,7 @@
 				9B80477D29B8CDF80069B407 /* SettingsScreen.swift */,
 				9B73ECF829C8F085007F74DB /* MusicPlayerScreen.swift */,
 				9B70BD9F29B923AE000DB31C /* AlbumDetailScreen.swift */,
+				9BBE146629FDA11C0028C500 /* SearchScreen.swift */,
 			);
 			path = Screens;
 			sourceTree = "<group>";
@@ -808,6 +811,7 @@
 				9BF7AF8C29CDF1C8004E0DA7 /* PrimaryActionButton.swift in Sources */,
 				9BB75E9F29C3883E008CD65A /* FavoriteIcon.swift in Sources */,
 				9B289EA529F6EC2D007FD445 /* ImageExtensions.swift in Sources */,
+				9BBE146729FDA11C0028C500 /* SearchScreen.swift in Sources */,
 				9BBE145F29FB18DA0028C500 /* NotificationExtensions.swift in Sources */,
 				9B80477E29B8CDF80069B407 /* SettingsScreen.swift in Sources */,
 				9B289E9929F6E652007FD445 /* ArrayExtensions.swift in Sources */,

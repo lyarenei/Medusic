@@ -44,7 +44,7 @@ struct HomeScreen: View {
 
     @ViewBuilder
     func searchTab() -> some View {
-        Text("Search")
+        SearchScreen()
             .tabItem {
                 Image(systemSymbol: .magnifyingglass)
                 Text("Search")
