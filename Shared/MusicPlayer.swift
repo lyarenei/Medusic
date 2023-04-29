@@ -3,7 +3,6 @@ import Foundation
 import OSLog
 import SwiftUI
 
-@MainActor
 final class MusicPlayer: ObservableObject {
     public static let shared = MusicPlayer()
 
@@ -18,10 +17,6 @@ final class MusicPlayer: ObservableObject {
     @Published
     var isPlaying = false
 
-    @Published
-    var currentTime: TimeInterval = 0
-
-    private var currentTimeObserver: Any?
     private var currentItemObserver: NSKeyValueObservation?
 
     init(
@@ -35,20 +30,15 @@ final class MusicPlayer: ObservableObject {
         self.apiClient = apiClient
         guard !preview else { return }
 
-        let timeInterval = CMTime(seconds: 0.2, preferredTimescale: .max)
-        self.currentTimeObserver = player.addPeriodicTimeObserver(forInterval: timeInterval, queue: .main) { curTime in
-            self.setCurrentTime(curTime.seconds)
-        }
-
         self.currentItemObserver = player.observe(\.currentItem, options: [.new, .old]) { [weak self] _, _ in
             guard let self else { return }
             Task {
-                if let currentSong = await self.currentSong {
+                if let currentSong = self.currentSong {
                     await self.sendPlaybackStopped(for: currentSong)
                     await self.sendPlaybackFinished(for: currentSong)
                 }
 
-                if let songId = await self.player.currentItem?.songId {
+                if let songId = self.player.currentItem?.songId {
                     let song = await self.songRepo.getSong(by: songId)
                     await self.setCurrentlyPlaying(newSong: song)
                     await self.sendPlaybackStarted(for: song)
@@ -62,10 +52,6 @@ final class MusicPlayer: ObservableObject {
     }
 
     deinit {
-        if let currentTimeObserver {
-            player.removeTimeObserver(currentTimeObserver)
-        }
-
         NotificationCenter.default.removeObserver(
             self,
             name: AVAudioSession.interruptionNotification,
@@ -103,33 +89,33 @@ final class MusicPlayer: ObservableObject {
             await enqueue(song: song, position: .last)
         }
 
-        player.play()
-        setIsPlaying(isPlaying: true)
+        await player.play()
+        await setIsPlaying(isPlaying: true)
     }
 
     func play(songs: [Song]) async {
         clearQueue(stopPlayback: true)
         await enqueue(songs: songs, position: .last)
-        player.play()
-        setIsPlaying(isPlaying: true)
+        await player.play()
+        await setIsPlaying(isPlaying: true)
     }
 
-    func pause() {
-        player.pause()
-        setIsPlaying(isPlaying: false)
-        Task { await self.sendPlaybackProgress(for: currentSong, isPaused: true) }
+    func pause() async {
+        await player.pause()
+        await setIsPlaying(isPlaying: false)
+        await sendPlaybackProgress(for: currentSong, isPaused: true)
     }
 
-    func resume() {
-        player.play()
-        setIsPlaying(isPlaying: true)
-        Task { await self.sendPlaybackProgress(for: currentSong, isPaused: false) }
+    func resume() async {
+        await player.play()
+        await setIsPlaying(isPlaying: true)
+        await sendPlaybackProgress(for: currentSong, isPaused: false)
     }
 
-    func stop() {
+    func stop() async {
         clearQueue()
-        setIsPlaying(isPlaying: false)
-        setCurrentlyPlaying(newSong: nil)
+        await setIsPlaying(isPlaying: false)
+        await setCurrentlyPlaying(newSong: nil)
     }
 
     func skipForward() {
@@ -194,32 +180,23 @@ final class MusicPlayer: ObservableObject {
         }
     }
 
-    private func setCurrentlyPlaying(newSong: Song?) {
+    @MainActor
+    private func setCurrentlyPlaying(newSong: Song?) async {
         currentSong = newSong
         Logger.player.debug("Song set as currently playing: \(newSong?.uuid ?? "nil")")
     }
 
+    @MainActor
     private func setIsPlaying(isPlaying: Bool) {
         self.isPlaying = isPlaying
         Logger.player.debug("Player is playing: \(isPlaying)")
-    }
-
-    private func setCurrentTime(_ curTime: TimeInterval) {
-        guard let songRuntime = currentSong?.runtime else { return }
-
-        if curTime >= songRuntime {
-            currentTime = songRuntime
-            return
-        }
-
-        currentTime = curTime.rounded(.toNearestOrAwayFromZero)
     }
 
     private func sendPlaybackStarted(for song: Song?) async {
         guard let song else { return }
         try? await apiClient.services.mediaService.playbackStarted(
             itemId: song.uuid,
-            at: currentTime,
+            at: player.currentTime().seconds,
             isPaused: false,
             playbackQueue: [],
             volume: getVolume(),
@@ -231,7 +208,7 @@ final class MusicPlayer: ObservableObject {
         guard let song else { return }
         try? await apiClient.services.mediaService.playbackProgress(
             itemId: song.uuid,
-            at: currentTime,
+            at: player.currentTime().seconds,
             isPaused: isPaused,
             playbackQueue: [],
             volume: getVolume(),
@@ -243,7 +220,7 @@ final class MusicPlayer: ObservableObject {
         guard let song else { return }
         try? await apiClient.services.mediaService.playbackStopped(
             itemId: song.uuid,
-            at: currentTime,
+            at: player.currentTime().seconds,
             playbackQueue: []
         )
     }
@@ -263,11 +240,13 @@ final class MusicPlayer: ObservableObject {
 
         switch type {
         case .began:
-            pause()
+            Task { await pause() }
         case .ended:
             guard let optionsValue = userInfo[AVAudioSessionInterruptionOptionKey] as? UInt else { return }
             let options = AVAudioSession.InterruptionOptions(rawValue: optionsValue)
-            if options.contains(.shouldResume) { resume() }
+            if options.contains(.shouldResume) {
+                Task { await resume() }
+            }
         default:
             break
         }
