@@ -1,9 +1,7 @@
 import SwiftUI
-import SFSafeSymbols
 
 struct InlineInputComponent: View {
-    var labelText: String?
-    var labelSymbol: SFSymbol?
+    var title: String?
 
     @Binding
     var inputText: String
@@ -13,13 +11,10 @@ struct InlineInputComponent: View {
 
     var body: some View {
         HStack(spacing: 0) {
-            ListOptionComponent(
-                symbol: labelSymbol,
-                text: labelText
-            )
+            label()
+                .lineLimit(1)
 
             Spacer(minLength: 20)
-
             inputField()
                 .lineLimit(1)
                 .multilineTextAlignment(.trailing)
@@ -27,7 +22,14 @@ struct InlineInputComponent: View {
     }
 
     @ViewBuilder
-    func inputField() -> some View {
+    private func label() -> some View {
+        if let title {
+            Text(title)
+        }
+    }
+
+    @ViewBuilder
+    private func inputField() -> some View {
         if isSecure {
             SecureField(placeholderText, text: $inputText)
         } else {
@@ -37,8 +39,7 @@ struct InlineInputComponent: View {
 }
 
 struct InlineNumberInputComponent: View {
-    var labelText: String?
-    var labelSymbol: SFSymbol?
+    var title: String?
 
     @Binding
     var inputNumber: UInt64
@@ -47,19 +48,23 @@ struct InlineNumberInputComponent: View {
 
     var body: some View {
         HStack(spacing: 0) {
-            ListOptionComponent(
-                symbol: labelSymbol,
-                text: labelText
-            )
+            label()
+                .lineLimit(1)
 
             Spacer(minLength: 20)
-
             TextField(placeholderText, value: $inputNumber, formatter: formatter)
                 .lineLimit(1)
                 .multilineTextAlignment(.trailing)
                 .frame(maxWidth: 120)
         }
         .keyboardType(.numberPad)
+    }
+
+    @ViewBuilder
+    private func label() -> some View {
+        if let title {
+            Text(title)
+        }
     }
 }
 
@@ -84,20 +89,17 @@ struct InlineInputComponent_Previews: PreviewProvider {
     static var previews: some View {
         VStack {
             InlineInputComponent(
-                labelText: "Example",
-                labelSymbol: .return,
+                title: "Example",
                 inputText: $input1
             )
 
             InlineInputComponent(
-                labelText: "Example take 2",
-                labelSymbol: .info,
+                title: "Example take 2",
                 inputText: $input2
             )
 
             InlineNumberInputComponent(
-                labelText: "Number input and longer text",
-                labelSymbol: ._00Circle,
+                title: "Number input and longer text",
                 inputNumber: $inputNumber,
                 formatter: format
             )

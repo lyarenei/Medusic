@@ -7,7 +7,12 @@ struct AdvancedSettingsScreen: View {
     var body: some View {
         List {
             MaxCacheSize()
-            PurgeCaches()
+
+            Section {
+                PurgeOptions()
+            }
+            .buttonStyle(.plain)
+            .foregroundColor(.red)
         }
         .listStyle(.grouped)
         .navigationTitle("Advanced")
@@ -36,8 +41,7 @@ private struct MaxCacheSize: View {
 
     var body: some View {
         InlineNumberInputComponent(
-            labelText: "Max cache size (MB)",
-            labelSymbol: .internaldrive,
+            title: "Max cache size (MB)",
             inputNumber: $maxCacheSize,
             formatter: getFormatter()
         )
@@ -46,7 +50,7 @@ private struct MaxCacheSize: View {
         }
     }
 
-    func getFormatter() -> NumberFormatter {
+    private func getFormatter() -> NumberFormatter {
         let fmt = NumberFormatter()
         fmt.numberStyle = .none
         fmt.minimum = 50
@@ -56,7 +60,7 @@ private struct MaxCacheSize: View {
     }
 }
 
-private struct PurgeCaches: View {
+private struct PurgeOptions: View {
     @Stored(in: .albums)
     var albums: [Album]
 
@@ -67,43 +71,90 @@ private struct PurgeCaches: View {
     var downloadedSongs: [Song]
 
     @State
-    var showPurgeCacheConfirm = false
+    var showConfirm = false
 
     var body: some View {
-        // swiftlint:disable:next trailing_closure
-        Button {
-            showPurgeCacheConfirm = true
-        } label: {
-            ListOptionComponent(
-                symbol: .trash,
-                text: "Purge all caches"
-            )
-        }
-        .buttonStyle(.plain)
-        .foregroundColor(.red)
-        .alert(isPresented: $showPurgeCacheConfirm, content: {
-            Alert(
-                title: Text("Purge all caches"),
-                message: Text("This will remove all metadata, images and downloads"),
-                primaryButton: .destructive(Text("Purge")) { purgeCaches() },
-                secondaryButton: .default(Text("Cancel")) { showPurgeCacheConfirm = false }
-            )
-        })
+        purgeLibraryDataButton()
+        purgeDownloadsButton()
+        resetToDefaultButton()
     }
 
-    func purgeCaches() {
-        Kingfisher.ImageCache.default.clearMemoryCache()
-        Kingfisher.ImageCache.default.clearDiskCache()
-
-        Task {
-            do {
-                try await $albums.removeAll()
-                try await $songs.removeAll()
-                try await $downloadedSongs.removeAll()
-                try FileRepository.shared.removeAllFiles()
-            } catch {
-                print("Purging caches failed: \(error)")
+    @ViewBuilder
+    private func purgeLibraryDataButton() -> some View {
+        ConfirmButton(
+            btnText: "Reset library",
+            alertTitle: "Reset library",
+            alertMessage: "This will clear all caches and local library data from the device",
+            alertPrimaryBtnText: "Reset"
+        ) {
+            Task {
+                do {
+                    purgeImages()
+                    try await purgeLibraryData()
+                } catch {
+                    print("Resetting library data failed: \(error.localizedDescription)")
+                }
             }
         }
+    }
+
+    @ViewBuilder
+    private func purgeDownloadsButton() -> some View {
+        ConfirmButton(
+            btnText: "Remove all downloads",
+            alertTitle: "Remove all downloads",
+            alertMessage: "This will remove all downloaded songs",
+            alertPrimaryBtnText: "Remove"
+        ) {
+            do {
+                try purgeDownloads()
+            } catch {
+                print("Failed to remove downloaded data: \(error.localizedDescription)")
+            }
+        }
+    }
+
+    @ViewBuilder
+    private func resetToDefaultButton() -> some View {
+        ConfirmButton(
+            btnText: "Reset JellyMusic",
+            alertTitle: "Reset to defaults",
+            alertMessage: "This will delete everything and reset all settings to their defaults",
+            alertPrimaryBtnText: "Reset",
+            alertPrimaryAction: resetToDefault
+        )
+    }
+
+    private func resetToDefault() {
+        Task {
+            do {
+                try await purgeAll()
+            } catch {
+                print("Reset failed: \(error.localizedDescription)")
+            }
+
+            Defaults.removeAll()
+        }
+    }
+
+    private func purgeImages() {
+        Kingfisher.ImageCache.default.clearMemoryCache()
+        Kingfisher.ImageCache.default.clearDiskCache()
+    }
+
+    private func purgeLibraryData() async throws {
+        try await $albums.removeAll()
+        try await $songs.removeAll()
+        try await $downloadedSongs.removeAll()
+    }
+
+    private func purgeDownloads() throws {
+        try FileRepository.shared.removeAllFiles()
+    }
+
+    private func purgeAll() async throws {
+        purgeImages()
+        try await purgeLibraryData()
+        try purgeDownloads()
     }
 }

@@ -19,8 +19,7 @@ struct ServerCredentialsComponent: View {
     @ViewBuilder
     func usernameInput() -> some View {
         InlineInputComponent(
-            labelText: "Username",
-            labelSymbol: .personCropCircle,
+            title: "Username",
             inputText: $username,
             placeholderText: "Account username"
         )
@@ -31,16 +30,16 @@ struct ServerCredentialsComponent: View {
     @ViewBuilder
     func passwordInput() -> some View {
         InlineInputComponent(
-            labelText: "Password",
-            labelSymbol: .key,
+            title: "Password",
             inputText: $password,
             placeholderText: "Account password",
             isSecure: true
         )
         .disableAutocorrection(true)
         .autocapitalization(.none)
-        .onChange(of: password, debounceTime: 0.5) { newPassword in
+        .onChange(of: password, debounceTime: 1) { newPassword in
             savePassword(newPassword)
+            NotificationCenter.default.post(name: .PasswordChanged, object: nil)
         }
     }
 

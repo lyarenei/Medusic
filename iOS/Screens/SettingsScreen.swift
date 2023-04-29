@@ -8,6 +8,9 @@ struct SettingsScreen: View {
     @Default(.downloadBitrate)
     var downloadBitrate: Int
 
+    @Default(.primaryAction)
+    var primaryAction: PrimaryAction
+
     var apiClient: ApiClient
 
     init(apiClient: ApiClient = .shared) {
@@ -19,6 +22,7 @@ struct SettingsScreen: View {
             List {
                 jellyfinSection()
                 generalSection()
+                miscSection()
             }
             .navigationTitle("Settings")
             .listStyle(.grouped)
@@ -46,14 +50,20 @@ struct SettingsScreen: View {
         Section {
             streamBitrateOption()
             downloadBitrateOption()
-            appearance()
+            primaryActionOption()
+        } header: {
+            Text("General")
+        }
+    }
+
+    @ViewBuilder
+    private func miscSection() -> some View {
+        Section {
             advanced()
 
             #if DEBUG
             developer()
             #endif
-        } header: {
-            Text("General")
         }
     }
 
@@ -82,39 +92,25 @@ struct SettingsScreen: View {
     }
 
     @ViewBuilder
-    func appearance() -> some View {
-        NavigationLink {
-            AppearanceSettingsScreen()
-        } label: {
-            ListOptionComponent(
-                symbol: .paintbrushPointed,
-                text: "Appearance"
-            )
+    private func primaryActionOption() -> some View {
+        Picker("Primary action", selection: $primaryAction) {
+            Text("Download (default)").tag(PrimaryAction.download)
+            Text("Favorite").tag(PrimaryAction.favorite)
         }
     }
 
     @ViewBuilder
-    func advanced() -> some View {
-        NavigationLink {
+    private func advanced() -> some View {
+        NavigationLink("Advanced") {
             AdvancedSettingsScreen()
-        } label: {
-            ListOptionComponent(
-                symbol: .wrenchAndScrewdriver,
-                text: "Advanced"
-            )
         }
     }
 
     #if DEBUG
     @ViewBuilder
-    func developer() -> some View {
-        NavigationLink {
+    private func developer() -> some View {
+        NavigationLink("Developer") {
             DeveloperSettings(apiClient: apiClient)
-        } label: {
-            ListOptionComponent(
-                symbol: .hammer,
-                text: "Developer"
-            )
         }
     }
     #endif
@@ -157,10 +153,7 @@ private struct DeveloperSettings: View {
     @ViewBuilder
     private func previewMode() -> some View {
         Toggle(isOn: $previewEnabled) {
-            ListOptionComponent(
-                symbol: .eyes,
-                text: "Preview mode"
-            )
+            Text("Preview mode")
         }
         .onChange(of: previewEnabled) { isEnabled in
             if isEnabled {
@@ -175,10 +168,7 @@ private struct DeveloperSettings: View {
     @ViewBuilder
     private func readOnlyMode() -> some View {
         Toggle(isOn: $readOnlyEnabled) {
-            ListOptionComponent(
-                symbol: .pencilSlash,
-                text: "Read only mode"
-            )
+            Text("Read only mode")
         }
     }
 }
