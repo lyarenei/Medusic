@@ -74,22 +74,9 @@ private struct PurgeOptions: View {
     var showConfirm = false
 
     var body: some View {
-        purgeImagesButton()
         purgeLibraryDataButton()
         purgeDownloadsButton()
-        purgeAllButton()
         resetToDefaultButton()
-    }
-
-    @ViewBuilder
-    private func purgeImagesButton() -> some View {
-        ConfirmButton(
-            btnText: "Delete all images",
-            alertTitle: "Delete images",
-            alertMessage: "This will delete all cached images",
-            alertPrimaryBtnText: "Delete",
-            alertPrimaryAction: purgeImages
-        )
     }
 
     @ViewBuilder
@@ -97,11 +84,12 @@ private struct PurgeOptions: View {
         ConfirmButton(
             btnText: "Reset library",
             alertTitle: "Reset library",
-            alertMessage: "This will remove all local library data from the device",
+            alertMessage: "This will clear all caches and local library data from the device",
             alertPrimaryBtnText: "Reset"
         ) {
             Task {
                 do {
+                    purgeImages()
                     try await purgeLibraryData()
                 } catch {
                     print("Resetting library data failed: \(error.localizedDescription)")
@@ -127,32 +115,11 @@ private struct PurgeOptions: View {
     }
 
     @ViewBuilder
-    private func purgeAllButton() -> some View {
-        ConfirmButton(
-            btnText: "Remove everything",
-            alertTitle: "Remove everything",
-            alertMessage: "This will reset the library data and remove images and downloads",
-            alertPrimaryBtnText: "Remove"
-        ) {
-            Task {
-                do {
-                    try await purgeAll()
-                } catch {
-                    print("Purging failed: \(error.localizedDescription)")
-                }
-            }
-        }
-    }
-
-    @ViewBuilder
     private func resetToDefaultButton() -> some View {
         ConfirmButton(
             btnText: "Reset to defaults",
-            alertTitle: "Reset defaults",
-            alertMessage: """
-                This will reset the library data and remove images and downloads
-                as well as reset all settings to their defaults
-                """,
+            alertTitle: "Reset to defaults",
+            alertMessage: "This will delete everything and reset all settings to their defaults",
             alertPrimaryBtnText: "Reset",
             alertPrimaryAction: resetToDefault
         )
