@@ -103,13 +103,13 @@ final class MusicPlayer: ObservableObject {
     func pause() async {
         await player.pause()
         await setIsPlaying(isPlaying: false)
-        await self.sendPlaybackProgress(for: currentSong, isPaused: true)
+        await sendPlaybackProgress(for: currentSong, isPaused: true)
     }
 
     func resume() async {
         await player.play()
         await setIsPlaying(isPlaying: true)
-        await self.sendPlaybackProgress(for: currentSong, isPaused: false)
+        await sendPlaybackProgress(for: currentSong, isPaused: false)
     }
 
     func stop() async {
