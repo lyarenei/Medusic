@@ -67,11 +67,21 @@ struct PlayPauseButton: View {
 
     var body: some View {
         Button {
-            player.isPlaying ? player.pause() : player.resume()
+            action()
         } label: {
             Image(systemSymbol: player.isPlaying ? .pauseFill : .playFill)
             if let text {
                 Text(text)
+            }
+        }
+    }
+
+    func action() {
+        Task {
+            if player.isPlaying {
+                await player.pause()
+            } else {
+                await player.resume()
             }
         }
     }
