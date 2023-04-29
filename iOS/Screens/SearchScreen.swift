@@ -28,25 +28,34 @@ struct SearchScreen: View {
             let filteredSongs = songRepo.songs.filter { $0.name.containsIgnoreCase(query) }
 
             List {
-                if filteredAlbums.isNotEmpty {
-                    Text("Albums")
-                        .bold()
-                        .font(.title2)
-
-                    AlbumCollection(albums: filteredAlbums)
-                }
-
-                if filteredSongs.isNotEmpty {
-                    Text("Songs")
-                        .bold()
-                        .font(.title2)
-                        .padding(.top, 30)
-
-                    SongCollection(songs: filteredSongs)
-                        .collectionType(.list)
-                }
+                albumResults(filteredAlbums)
+                songResults(filteredSongs)
             }
             .listStyle(.plain)
+        }
+    }
+
+    @ViewBuilder
+    private func albumResults(_ albums: [Album]) -> some View {
+        if albums.isNotEmpty {
+            Text("Albums")
+                .bold()
+                .font(.title2)
+
+            AlbumCollection(albums: albums)
+        }
+    }
+
+    @ViewBuilder
+    private func songResults(_ songs: [Song]) -> some View {
+        if songs.isNotEmpty {
+            Text("Songs")
+                .bold()
+                .font(.title2)
+                .padding(.top, 30)
+
+            SongCollection(songs: songs)
+                .collectionType(.list)
         }
     }
 }
