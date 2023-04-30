@@ -44,24 +44,46 @@ struct SearchScreen: View {
     @ViewBuilder
     private func albumResults(_ albums: [Album]) -> some View {
         if albums.isNotEmpty {
-            Text("Albums")
-                .bold()
-                .font(.title2)
-
-            AlbumCollection(albums: albums)
+            Section {
+                AlbumCollection(albums: albums)
+                    .forceMode(.asList)
+            } header: {
+                sectionView("Albums")
+            }
         }
     }
 
     @ViewBuilder
     private func songResults(_ songs: [Song]) -> some View {
         if songs.isNotEmpty {
-            Text("Songs")
-                .bold()
-                .font(.title2)
-                .padding(.top, 30)
+            Section {
+                SongCollection(songs: songs)
+                    .collectionType(.list)
+            } header: {
+                sectionView("Songs")
+            }
+        }
+    }
 
-            SongCollection(songs: songs)
-                .collectionType(.list)
+    @ViewBuilder
+    private func sectionView(_ title: String) -> some View {
+        ZStack {
+            Color.systemGroupedBackground
+
+            HStack {
+                Text(title)
+                    .font(.system(size: 18))
+                    .foregroundColor(.darkGray)
+                    .padding(.leading)
+                    .padding(.vertical, 10)
+
+                Spacer()
+            }
+        }
+        .listRowInsets(EdgeInsets(top: 0, leading: 0, bottom: 0, trailing: 0))
+        .overlay {
+            Rectangle()
+                .stroke(style: .init(lineWidth: 0.2))
         }
     }
 }
