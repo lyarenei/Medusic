@@ -109,7 +109,7 @@ struct AlbumCollection: View {
 
             if showChevron {
                 Image(systemSymbol: .chevronRight)
-                    .foregroundColor(.init(UIColor.separator))
+                    .foregroundColor(.gray)
                     .padding(.trailing, 10)
             }
         }
