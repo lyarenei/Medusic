@@ -11,6 +11,9 @@ struct SearchScreen: View {
     @State
     var query = ""
 
+    @State
+    var searchQuery = ""
+
     init(
         albumRepo: AlbumRepository = .shared,
         songRepo: SongRepository = .shared
@@ -23,9 +26,12 @@ struct SearchScreen: View {
         VStack {
             SearchBar(text: $query)
                 .placeholder("Search")
+                .onChange(of: query, debounceTime: 0.5) { newValue in
+                    searchQuery = newValue
+                }
 
-            let filteredAlbums = albumRepo.albums.filter { $0.name.containsIgnoreCase(query) }
-            let filteredSongs = songRepo.songs.filter { $0.name.containsIgnoreCase(query) }
+            let filteredAlbums = albumRepo.albums.filter { $0.name.containsIgnoreCase(searchQuery) }
+            let filteredSongs = songRepo.songs.filter { $0.name.containsIgnoreCase(searchQuery) }
 
             List {
                 albumResults(filteredAlbums)
