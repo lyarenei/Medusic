@@ -11,11 +11,9 @@ struct AlbumLibraryScreen: View {
     }
 
     var body: some View {
-        ScrollView {
+        List {
             AlbumCollection(albums: albumRepo.albums)
-                .padding(.leading, 10)
-                .padding(.trailing, 10)
-                .buttonStyle(.plain)
+                .forceMode(.asList)
         }
         .navigationTitle("Albums")
         .navigationBarTitleDisplayMode(.large)
@@ -28,7 +26,14 @@ struct AlbumLibraryScreen: View {
 #if DEBUG
 struct AlbumLibraryScreen_Previews: PreviewProvider {
     static var previews: some View {
-        AlbumLibraryScreen(albumRepo: .init(store: .previewStore(items: PreviewData.albums, cacheIdentifier: \.uuid)))
+        AlbumLibraryScreen(
+            albumRepo: .init(
+                store: .previewStore(
+                    items: PreviewData.albums,
+                    cacheIdentifier: \.uuid
+                )
+            )
+        )
     }
 }
 #endif
