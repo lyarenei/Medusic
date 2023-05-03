@@ -61,6 +61,7 @@ struct SearchScreen: View {
             Section {
                 SongCollection(songs: songs)
                     .collectionType(.list)
+                    .showAlbumName()
             } header: {
                 sectionView("Songs")
             }
