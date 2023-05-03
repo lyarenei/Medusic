@@ -103,7 +103,7 @@ private struct SongInfo: View {
                 .padding(.leading)
 
             Text(song?.name ?? "")
-                .font(.title3)
+                .font(.system(size: 16))
                 .padding(.leading, 10)
                 .lineLimit(1)
 
