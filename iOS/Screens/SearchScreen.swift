@@ -27,6 +27,7 @@ struct SearchScreen: View {
             SearchBar(text: $query)
                 .placeholder("Search")
                 .isInitialFirstResponder(true)
+                .showsCancelButton(true)
                 .onChange(of: query, debounceTime: 0.5) { newValue in
                     searchQuery = newValue
                 }
