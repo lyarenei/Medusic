@@ -67,7 +67,7 @@ final class MusicPlayer: ObservableObject {
             try session.setCategory(
                 .playback,
                 mode: .default,
-                options: [.mixWithOthers]
+                options: []
             )
             try session.setActive(true)
             UIApplication.shared.beginReceivingRemoteControlEvents()
