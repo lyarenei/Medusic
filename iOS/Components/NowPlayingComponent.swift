@@ -105,6 +105,7 @@ private struct SongInfo: View {
             Text(song?.name ?? "")
                 .font(.title3)
                 .padding(.leading, 10)
+                .lineLimit(1)
 
             Spacer()
         }
