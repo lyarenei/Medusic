@@ -67,7 +67,7 @@ struct SongListRowComponent: View {
 
             artistOrAlbumName()
                 .lineLimit(1)
-                .font(.body)
+                .font(.system(size: 12))
                 .foregroundColor(.gray)
         }
     }
