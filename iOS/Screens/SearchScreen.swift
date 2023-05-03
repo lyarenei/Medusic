@@ -23,24 +23,30 @@ struct SearchScreen: View {
     }
 
     var body: some View {
-        VStack {
-            SearchBar(text: $query)
-                .placeholder("Search")
-                .isInitialFirstResponder(true)
-                .showsCancelButton(true)
-                .onChange(of: query, debounceTime: 0.5) { newValue in
-                    searchQuery = newValue
+        NavigationView {
+            VStack {
+                SearchBar(text: $query)
+                    .placeholder("Search")
+                    .isInitialFirstResponder(true)
+                    .showsCancelButton(true)
+                    .onChange(of: query, debounceTime: 0.5) { newValue in
+                        searchQuery = newValue
+                    }
+
+                let filteredAlbums = albumRepo.albums.filter { $0.name.containsIgnoreCase(searchQuery) }
+                let filteredSongs = songRepo.songs.filter { $0.name.containsIgnoreCase(searchQuery) }
+
+                List {
+                    albumResults(filteredAlbums)
+                    songResults(filteredSongs)
                 }
-
-            let filteredAlbums = albumRepo.albums.filter { $0.name.containsIgnoreCase(searchQuery) }
-            let filteredSongs = songRepo.songs.filter { $0.name.containsIgnoreCase(searchQuery) }
-
-            List {
-                albumResults(filteredAlbums)
-                songResults(filteredSongs)
+                .listStyle(.plain)
             }
-            .listStyle(.plain)
+            .navigationTitle("")
+            .navigationBarTitleDisplayMode(.inline)
+            .navigationBarHidden(true)
         }
+        .navigationViewStyle(.stack)
     }
 
     @ViewBuilder
@@ -62,6 +68,7 @@ struct SearchScreen: View {
                 SongCollection(songs: songs)
                     .collectionType(.list)
                     .showAlbumName()
+                    .showArtwork()
             } header: {
                 sectionView("Songs")
             }
