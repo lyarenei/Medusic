@@ -1,5 +1,6 @@
 import AVFoundation
 import Foundation
+import MediaPlayer
 import OSLog
 import SwiftUI
 
@@ -49,6 +50,7 @@ final class MusicPlayer: ObservableObject {
         }
 
         audioSessionSetup()
+        setupRemoteCommandCenter()
     }
 
     deinit {
@@ -255,5 +257,27 @@ final class MusicPlayer: ObservableObject {
     private func getVolume() -> Int32 {
         let volume = AVAudioSession.sharedInstance().outputVolume * 100
         return Int32(volume.rounded(.toNearestOrAwayFromZero))
+    }
+
+    private func setupRemoteCommandCenter() {
+        let commandCenter = MPRemoteCommandCenter.shared()
+        commandCenter.togglePlayPauseCommand.addTarget { [weak self] _ in
+            guard let self else { return .commandFailed }
+            Task {
+                if self.isPlaying {
+                    await self.pause()
+                } else {
+                    await self.resume()
+                }
+            }
+
+            return .success
+        }
+
+        commandCenter.nextTrackCommand.addTarget { [weak self] _ in
+            guard let self else { return .commandFailed }
+            self.skipForward()
+            return .success
+        }
     }
 }
