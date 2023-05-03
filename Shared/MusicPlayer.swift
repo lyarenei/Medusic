@@ -43,6 +43,7 @@ final class MusicPlayer: ObservableObject {
                     let song = await self.songRepo.getSong(by: songId)
                     await self.setCurrentlyPlaying(newSong: song)
                     await self.sendPlaybackStarted(for: song)
+                    self.setNowPlayingMetadata()
                 } else {
                     await self.setCurrentlyPlaying(newSong: nil)
                 }
@@ -106,12 +107,14 @@ final class MusicPlayer: ObservableObject {
         await player.pause()
         await setIsPlaying(isPlaying: false)
         await sendPlaybackProgress(for: currentSong, isPaused: true)
+        setNowPlayingPlaybackMetadata()
     }
 
     func resume() async {
         await player.play()
         await setIsPlaying(isPlaying: true)
         await sendPlaybackProgress(for: currentSong, isPaused: false)
+        setNowPlayingPlaybackMetadata()
     }
 
     func stop() async {
@@ -279,5 +282,31 @@ final class MusicPlayer: ObservableObject {
             self.skipForward()
             return .success
         }
+    }
+
+    private func setNowPlayingMetadata() {
+        guard let currentSong else { return }
+        let nowPlayingCenter = MPNowPlayingInfoCenter.default()
+        var nowPlaying = nowPlayingCenter.nowPlayingInfo ?? [String: Any]()
+
+        nowPlaying[MPMediaItemPropertyTitle] = currentSong.name
+        nowPlaying[MPMediaItemPropertyArtist] = "song.artistName"
+        nowPlaying[MPMediaItemPropertyAlbumArtist] = "album.artistName"
+
+        nowPlaying[MPNowPlayingInfoPropertyElapsedPlaybackTime] = player.currentTime().seconds
+        nowPlaying[MPMediaItemPropertyPlaybackDuration] = currentSong.runtime
+
+        nowPlayingCenter.nowPlayingInfo = nowPlaying
+    }
+
+    private func setNowPlayingPlaybackMetadata() {
+        guard let currentSong else { return }
+        let nowPlayingCenter = MPNowPlayingInfoCenter.default()
+        var nowPlaying = nowPlayingCenter.nowPlayingInfo ?? [String: Any]()
+
+        nowPlaying[MPNowPlayingInfoPropertyElapsedPlaybackTime] = player.currentTime().seconds
+        nowPlaying[MPMediaItemPropertyPlaybackDuration] = currentSong.runtime
+
+        nowPlayingCenter.nowPlayingInfo = nowPlaying
     }
 }
