@@ -26,6 +26,7 @@ struct SearchScreen: View {
         VStack {
             SearchBar(text: $query)
                 .placeholder("Search")
+                .isInitialFirstResponder(true)
                 .onChange(of: query, debounceTime: 0.5) { newValue in
                     searchQuery = newValue
                 }
