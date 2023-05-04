@@ -270,6 +270,12 @@ final class MusicPlayer: ObservableObject {
             return .success
         }
 
+        commandCenter.pauseCommand.addTarget { [weak self] _ in
+            guard let self else { return .commandFailed }
+            Task { await self.pause() }
+            return .success
+        }
+
         commandCenter.togglePlayPauseCommand.addTarget { [weak self] _ in
             guard let self else { return .commandFailed }
             Task {
