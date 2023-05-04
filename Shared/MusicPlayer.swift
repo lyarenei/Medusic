@@ -1,5 +1,6 @@
 import AVFoundation
 import Foundation
+import Kingfisher
 import MediaPlayer
 import OSLog
 import SwiftUI
@@ -315,6 +316,7 @@ final class MusicPlayer: ObservableObject {
         nowPlaying[MPMediaItemPropertyPlaybackDuration] = currentSong.runtime
 
         nowPlayingCenter.nowPlayingInfo = nowPlaying
+        setNowPlayingArtwork(song: currentSong)
     }
 
     private func setNowPlayingPlaybackMetadata() {
@@ -326,5 +328,25 @@ final class MusicPlayer: ObservableObject {
         nowPlaying[MPMediaItemPropertyPlaybackDuration] = currentSong.runtime
 
         nowPlayingCenter.nowPlayingInfo = nowPlaying
+    }
+
+    private func setNowPlayingArtwork(song: Song) {
+        let provider = apiClient.getImageDataProvider(itemId: song.parentId)
+        let nowPlayingCenter = MPNowPlayingInfoCenter.default()
+        var nowPlaying = nowPlayingCenter.nowPlayingInfo ?? [String: Any]()
+
+        KingfisherManager.shared.retrieveImage(with: .provider(provider)) { result in
+            do {
+                let imageResult = try result.get()
+                let artwork = MPMediaItemArtwork(boundsSize: imageResult.image.size) { _ in
+                    imageResult.image
+                }
+
+                nowPlaying[MPMediaItemPropertyArtwork] = artwork
+                nowPlayingCenter.nowPlayingInfo = nowPlaying
+            } catch {
+                Logger.artwork.debug("Failed to retrieve artwork for now playing info: \(error.localizedDescription)")
+            }
+        }
     }
 }
