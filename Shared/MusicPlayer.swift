@@ -108,14 +108,14 @@ final class MusicPlayer: ObservableObject {
         await player.pause()
         await setIsPlaying(isPlaying: false)
         await sendPlaybackProgress(for: currentSong, isPaused: true)
-        setNowPlayingPlaybackMetadata()
+        setNowPlayingPlaybackMetadata(isPlaying: false)
     }
 
     func resume() async {
         await player.play()
         await setIsPlaying(isPlaying: true)
         await sendPlaybackProgress(for: currentSong, isPaused: false)
-        setNowPlayingPlaybackMetadata()
+        setNowPlayingPlaybackMetadata(isPlaying: true)
     }
 
     func stop() async {
@@ -311,21 +311,22 @@ final class MusicPlayer: ObservableObject {
         nowPlaying[MPMediaItemPropertyTitle] = currentSong.name
         nowPlaying[MPMediaItemPropertyArtist] = "song.artistName"
         nowPlaying[MPMediaItemPropertyAlbumArtist] = "album.artistName"
-
-        nowPlaying[MPNowPlayingInfoPropertyElapsedPlaybackTime] = player.currentTime().seconds
+        nowPlaying[MPMediaItemPropertyAlbumTitle] = "album.Name"
         nowPlaying[MPMediaItemPropertyPlaybackDuration] = currentSong.runtime
 
         nowPlayingCenter.nowPlayingInfo = nowPlaying
+
+        setNowPlayingPlaybackMetadata(isPlaying: true)
         setNowPlayingArtwork(song: currentSong)
     }
 
-    private func setNowPlayingPlaybackMetadata() {
-        guard let currentSong else { return }
+    private func setNowPlayingPlaybackMetadata(isPlaying: Bool) {
         let nowPlayingCenter = MPNowPlayingInfoCenter.default()
         var nowPlaying = nowPlayingCenter.nowPlayingInfo ?? [String: Any]()
 
-        nowPlaying[MPNowPlayingInfoPropertyElapsedPlaybackTime] = player.currentTime().seconds
-        nowPlaying[MPMediaItemPropertyPlaybackDuration] = currentSong.runtime
+        nowPlaying[MPNowPlayingInfoPropertyElapsedPlaybackTime] = player.currentTimeRounded
+        nowPlaying[MPNowPlayingInfoPropertyPlaybackRate] = NSNumber(value: isPlaying ? 1 : 0)
+        nowPlaying[MPNowPlayingInfoPropertyMediaType] = NSNumber(value: MPNowPlayingInfoMediaType.audio.rawValue)
 
         nowPlayingCenter.nowPlayingInfo = nowPlaying
     }
