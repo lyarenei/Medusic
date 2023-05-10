@@ -1,5 +1,7 @@
 import AVFoundation
 import Foundation
+import Kingfisher
+import MediaPlayer
 import OSLog
 import SwiftUI
 
@@ -42,6 +44,7 @@ final class MusicPlayer: ObservableObject {
                     let song = await self.songRepo.getSong(by: songId)
                     await self.setCurrentlyPlaying(newSong: song)
                     await self.sendPlaybackStarted(for: song)
+                    self.setNowPlayingMetadata()
                 } else {
                     await self.setCurrentlyPlaying(newSong: nil)
                 }
@@ -49,6 +52,7 @@ final class MusicPlayer: ObservableObject {
         }
 
         audioSessionSetup()
+        setupRemoteCommandCenter()
     }
 
     deinit {
@@ -65,7 +69,7 @@ final class MusicPlayer: ObservableObject {
             try session.setCategory(
                 .playback,
                 mode: .default,
-                options: [.mixWithOthers]
+                options: []
             )
             try session.setActive(true)
             UIApplication.shared.beginReceivingRemoteControlEvents()
@@ -104,12 +108,14 @@ final class MusicPlayer: ObservableObject {
         await player.pause()
         await setIsPlaying(isPlaying: false)
         await sendPlaybackProgress(for: currentSong, isPaused: true)
+        setNowPlayingPlaybackMetadata(isPlaying: false)
     }
 
     func resume() async {
         await player.play()
         await setIsPlaying(isPlaying: true)
         await sendPlaybackProgress(for: currentSong, isPaused: false)
+        setNowPlayingPlaybackMetadata(isPlaying: true)
     }
 
     func stop() async {
@@ -255,5 +261,96 @@ final class MusicPlayer: ObservableObject {
     private func getVolume() -> Int32 {
         let volume = AVAudioSession.sharedInstance().outputVolume * 100
         return Int32(volume.rounded(.toNearestOrAwayFromZero))
+    }
+
+    private func setupRemoteCommandCenter() {
+        let commandCenter = MPRemoteCommandCenter.shared()
+        commandCenter.playCommand.addTarget { [weak self] _ in
+            guard let self else { return .commandFailed }
+            self.setNowPlayingPlaybackMetadata(isPlaying: true)
+            Task { await self.play() }
+            return .success
+        }
+
+        commandCenter.pauseCommand.addTarget { [weak self] _ in
+            guard let self else { return .commandFailed }
+            self.setNowPlayingPlaybackMetadata(isPlaying: false)
+            Task { await self.pause() }
+            return .success
+        }
+
+        commandCenter.stopCommand.addTarget { [weak self] _ in
+            guard let self else { return .commandFailed }
+            Task { await self.stop() }
+            return .success
+        }
+
+        commandCenter.togglePlayPauseCommand.addTarget { [weak self] _ in
+            guard let self else { return .commandFailed }
+            self.setNowPlayingPlaybackMetadata(isPlaying: self.isPlaying)
+            Task {
+                if self.isPlaying {
+                    await self.pause()
+                } else {
+                    await self.resume()
+                }
+            }
+
+            return .success
+        }
+
+        commandCenter.nextTrackCommand.addTarget { [weak self] _ in
+            guard let self else { return .commandFailed }
+            self.skipForward()
+            return .success
+        }
+    }
+
+    private func setNowPlayingMetadata() {
+        guard let currentSong else { return }
+        let nowPlayingCenter = MPNowPlayingInfoCenter.default()
+        var nowPlaying = nowPlayingCenter.nowPlayingInfo ?? [String: Any]()
+
+        nowPlaying[MPMediaItemPropertyTitle] = currentSong.name
+        nowPlaying[MPMediaItemPropertyArtist] = "song.artistName"
+        nowPlaying[MPMediaItemPropertyAlbumArtist] = "album.artistName"
+        nowPlaying[MPMediaItemPropertyAlbumTitle] = "album.Name"
+        nowPlaying[MPMediaItemPropertyPlaybackDuration] = currentSong.runtime
+
+        nowPlayingCenter.nowPlayingInfo = nowPlaying
+
+        setNowPlayingPlaybackMetadata(isPlaying: true)
+        setNowPlayingArtwork(song: currentSong)
+    }
+
+    private func setNowPlayingPlaybackMetadata(isPlaying: Bool) {
+        let nowPlayingCenter = MPNowPlayingInfoCenter.default()
+        var nowPlaying = nowPlayingCenter.nowPlayingInfo ?? [String: Any]()
+
+        nowPlaying[MPNowPlayingInfoPropertyElapsedPlaybackTime] = player.currentTimeRounded
+        nowPlaying[MPNowPlayingInfoPropertyPlaybackRate] = NSNumber(value: isPlaying ? 1 : 0)
+        nowPlaying[MPNowPlayingInfoPropertyMediaType] = NSNumber(value: MPNowPlayingInfoMediaType.audio.rawValue)
+
+        nowPlayingCenter.nowPlayingInfo = nowPlaying
+    }
+
+    private func setNowPlayingArtwork(song: Song) {
+        let provider = apiClient.getImageDataProvider(itemId: song.parentId)
+        let nowPlayingCenter = MPNowPlayingInfoCenter.default()
+        var nowPlaying = nowPlayingCenter.nowPlayingInfo ?? [String: Any]()
+
+        KingfisherManager.shared.retrieveImage(with: .provider(provider)) { result in
+            do {
+                let imageResult = try result.get()
+                let artwork = MPMediaItemArtwork(boundsSize: imageResult.image.size) { _ in
+                    imageResult.image
+                }
+
+                nowPlaying[MPMediaItemPropertyArtwork] = artwork
+                nowPlayingCenter.nowPlayingInfo = nowPlaying
+            } catch {
+                Logger.artwork.debug("Failed to retrieve artwork for now playing info: \(error.localizedDescription)")
+            }
+        }
     }
 }

@@ -74,6 +74,13 @@ final class ApiClient {
 
         Defaults[.userId] = userId
     }
+
+    func getImageDataProvider(itemId: String) -> JellyfinImageDataProvider {
+        JellyfinImageDataProvider(
+            itemId: itemId,
+            imageService: services.imageService
+        )
+    }
 }
 
 struct ApiServices {

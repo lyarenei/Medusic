@@ -11,11 +11,13 @@ struct PlaybackProgressComponent: View {
 
     private let runtime: TimeInterval
     private var observer: PlayerTimeObserver
+    private var player: MusicPlayer
 
     init(player: MusicPlayer = .shared) {
         self.runtime = player.currentSong?.runtime ?? 0
         self.remainingTime = runtime
         self.observer = .init(player: player.player)
+        self.player = player
     }
 
     var body: some View {
@@ -27,9 +29,9 @@ struct PlaybackProgressComponent: View {
                 .onReceive(observer.publisher) { newValue in
                     var curTime = newValue.rounded(.toNearestOrAwayFromZero)
                     curTime = curTime > runtime ? runtime : curTime
-                    currentTime = curTime
-                    remainingTime = runtime - curTime
+                    setTimes(currentTime: curTime)
                 }
+                .onAppear { setTimes(currentTime: player.player.currentTimeRounded) }
 
             HStack {
                 Text(currentTime.timeString)
@@ -40,6 +42,11 @@ struct PlaybackProgressComponent: View {
                     .font(.caption)
             }
         }
+    }
+
+    private func setTimes(currentTime: TimeInterval) {
+        self.currentTime = currentTime
+        remainingTime = runtime - currentTime
     }
 }
 

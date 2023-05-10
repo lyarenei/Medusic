@@ -34,4 +34,8 @@ extension AVQueuePlayer {
             insert(avItem, after: nil)
         }
     }
+
+    var currentTimeRounded: TimeInterval {
+        currentTime().seconds.rounded(.toNearestOrAwayFromZero)
+    }
 }
