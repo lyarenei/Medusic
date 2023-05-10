@@ -267,12 +267,14 @@ final class MusicPlayer: ObservableObject {
         let commandCenter = MPRemoteCommandCenter.shared()
         commandCenter.playCommand.addTarget { [weak self] _ in
             guard let self else { return .commandFailed }
+            self.setNowPlayingPlaybackMetadata(isPlaying: true)
             Task { await self.play() }
             return .success
         }
 
         commandCenter.pauseCommand.addTarget { [weak self] _ in
             guard let self else { return .commandFailed }
+            self.setNowPlayingPlaybackMetadata(isPlaying: false)
             Task { await self.pause() }
             return .success
         }
@@ -285,6 +287,7 @@ final class MusicPlayer: ObservableObject {
 
         commandCenter.togglePlayPauseCommand.addTarget { [weak self] _ in
             guard let self else { return .commandFailed }
+            self.setNowPlayingPlaybackMetadata(isPlaying: self.isPlaying)
             Task {
                 if self.isPlaying {
                     await self.pause()
