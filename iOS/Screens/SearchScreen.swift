@@ -40,7 +40,7 @@ struct SearchScreen: View {
                     albumResults(filteredAlbums)
                     songResults(filteredSongs)
                 }
-                .listStyle(.plain)
+                .listStyle(.grouped)
             }
             .navigationTitle("")
             .navigationBarTitleDisplayMode(.inline)
@@ -56,7 +56,7 @@ struct SearchScreen: View {
                 AlbumCollection(albums: albums)
                     .forceMode(.asList)
             } header: {
-                sectionView("Albums")
+                Text("Albums")
             }
         }
     }
@@ -70,30 +70,8 @@ struct SearchScreen: View {
                     .showAlbumName()
                     .showArtwork()
             } header: {
-                sectionView("Songs")
+                Text("Songs")
             }
-        }
-    }
-
-    @ViewBuilder
-    private func sectionView(_ title: String) -> some View {
-        ZStack {
-            Color.systemGroupedBackground
-
-            HStack {
-                Text(title)
-                    .font(.system(size: 18))
-                    .foregroundColor(.darkGray)
-                    .padding(.leading)
-                    .padding(.vertical, 10)
-
-                Spacer()
-            }
-        }
-        .listRowInsets(EdgeInsets(top: 0, leading: 0, bottom: 0, trailing: 0))
-        .overlay {
-            Rectangle()
-                .stroke(style: .init(lineWidth: 0.2))
         }
     }
 }
