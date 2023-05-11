@@ -44,12 +44,15 @@ struct HomeScreen: View {
 
     @ViewBuilder
     func searchTab() -> some View {
-        Text("Search")
-            .tabItem {
-                Image(systemSymbol: .magnifyingglass)
-                Text("Search")
-            }
-            .tag("search_tab")
+        NowPlayingComponent(
+            isPresented: $isPlayerPresented,
+            content: SearchScreen()
+        )
+        .tabItem {
+            Image(systemSymbol: .magnifyingglass)
+            Text("Search")
+        }
+        .tag("search_tab")
     }
 
     @ViewBuilder

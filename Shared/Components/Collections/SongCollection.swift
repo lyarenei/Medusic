@@ -6,6 +6,7 @@ struct SongCollection: View {
     private var showAlbumOrder = false
     private var showArtwork = false
     private var showArtistName = false
+    private var showAlbumName = false
     private var type: CollectionType = .list
     private let musicPlayer: MusicPlayer
     private var rowHeight = 40.0
@@ -63,6 +64,7 @@ struct SongCollection: View {
             .showArtwork(showArtwork)
             .showArtistName(showArtistName)
             .showAlbumOrder(showAlbumOrder)
+            .showAlbumName(showAlbumName)
             .height(rowHeight)
             .contentShape(Rectangle())
             .onTapGesture { Task { await musicPlayer.play(song: song) } }
@@ -103,6 +105,12 @@ extension SongCollection {
     func rowHeight(_ height: CGFloat) -> SongCollection {
         var view = self
         view.rowHeight = height
+        return view
+    }
+
+    func showAlbumName(_ value: Bool = true) -> SongCollection {
+        var view = self
+        view.showAlbumName = value
         return view
     }
 }
