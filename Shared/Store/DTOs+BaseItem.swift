@@ -26,5 +26,6 @@ extension Song {
             return sum
         }()
         self.runtime = item.runTimeTicks?.timeInterval ?? 0
+        self.albumDisc = Int(item.parentIndexNumber ?? 0)
     }
 }

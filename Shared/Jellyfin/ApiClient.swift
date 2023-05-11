@@ -141,7 +141,8 @@ struct PreviewData {
             name: "Song name 1",
             parentId: "1",
             isFavorite: false,
-            runtime: 123
+            runtime: 123,
+            albumDisc: 0
         ),
         Song(
             uuid: "2",
@@ -149,7 +150,8 @@ struct PreviewData {
             name: "Song name 2 but this one has very long name",
             parentId: "1",
             isFavorite: false,
-            runtime: 123
+            runtime: 123,
+            albumDisc: 1
         ),
         // Songs for album 2
         Song(
@@ -158,7 +160,8 @@ struct PreviewData {
             name: "Song name 3",
             parentId: "2",
             isFavorite: false,
-            runtime: 123
+            runtime: 123,
+            albumDisc: 0
         ),
         Song(
             uuid: "4",
