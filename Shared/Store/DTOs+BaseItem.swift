@@ -7,7 +7,7 @@ extension Album {
         self.name = item.name ?? ""
         self.artistName = item.albumArtist ?? ""
         self.isFavorite = item.userData?.isFavorite ?? false
-        self.addedAt = item.dateCreated ?? Date()
+        self.createdAt = item.dateCreated ?? Date()
     }
 }
 

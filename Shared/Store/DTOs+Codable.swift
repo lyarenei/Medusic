@@ -6,6 +6,7 @@ extension Album: Codable {
         case name
         case artistName
         case isFavorite
+        case createdAt
     }
 
     public init(from decoder: Decoder) throws {
@@ -14,6 +15,7 @@ extension Album: Codable {
         self.name = try container.decode(String.self, forKey: .name)
         self.artistName = try container.decode(String.self, forKey: .artistName)
         self.isFavorite = try container.decode(Bool.self, forKey: .isFavorite)
+        self.createdAt = try container.decode(Date.self, forKey: .createdAt)
     }
 
     public func encode(to encoder: Encoder) throws {
@@ -22,6 +24,7 @@ extension Album: Codable {
         try container.encode(name, forKey: .name)
         try container.encode(artistName, forKey: .artistName)
         try container.encode(isFavorite, forKey: .isFavorite)
+        try container.encode(createdAt, forKey: .createdAt)
     }
 }
 

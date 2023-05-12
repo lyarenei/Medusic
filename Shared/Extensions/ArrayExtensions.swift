@@ -95,7 +95,7 @@ extension [Album] {
 
     var sortedByDateAdded: [Album] {
         sorted { lhs, rhs -> Bool in
-            lhs.addedAt > rhs.addedAt
+            lhs.createdAt > rhs.createdAt
         }
     }
 }
