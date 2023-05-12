@@ -29,6 +29,8 @@ struct SearchScreen: View {
                     .placeholder("Search")
                     .isInitialFirstResponder(true)
                     .showsCancelButton(true)
+                    .autocorrectionDisabled()
+                    .autocapitalization(.none)
                     .onChange(of: query, debounceTime: 0.5) { newValue in
                         searchQuery = newValue
                     }
