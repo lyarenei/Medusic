@@ -100,7 +100,7 @@ struct LibraryScreen: View {
             .padding(.leading)
 
             if Defaults[.libraryShowFavorites] && Defaults[.libraryShowLatest] {
-                favoritesHContent(albums, empty: empty)
+                sectionHContent(albums, empty: empty)
             } else {
                 sectionVContent(albums, empty: empty)
                     .padding(.leading)
@@ -138,7 +138,7 @@ struct LibraryScreen: View {
     }
 
     @ViewBuilder
-    private func favoritesHContent(_ albums: [Album], empty: String) -> some View {
+    private func sectionHContent(_ albums: [Album], empty: String) -> some View {
         if albums.isNotEmpty {
             ScrollView(.horizontal) {
                 LazyHStack(spacing: 20) {
