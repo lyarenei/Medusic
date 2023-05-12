@@ -107,6 +107,18 @@ struct LibraryScreen: View {
                 .padding(.top, 10)
         }
     }
+
+    @ViewBuilder
+    private func favoritesHContent(_ albums: [Album]) -> some View {
+        ScrollView(.horizontal) {
+            LazyHStack(spacing: 20) {
+                AlbumCollection(albums: albums)
+                    .forceMode(.asTiles)
+                    .padding(.top, 10)
+                    .padding(.bottom, 15)
+            }
+        }
+    }
 }
 
 #if DEBUG
