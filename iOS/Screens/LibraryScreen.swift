@@ -130,10 +130,7 @@ struct LibraryScreen: View {
                 .forceMode(.asPlainList)
                 .buttonStyle(.plain)
         } else {
-            Text(empty)
-                .font(.title3)
-                .foregroundColor(.gray)
-                .padding(.top, 10)
+            emptyText(empty)
         }
     }
 
@@ -150,11 +147,16 @@ struct LibraryScreen: View {
                 .padding(.leading)
             }
         } else {
-            Text(empty)
-                .font(.title3)
-                .foregroundColor(.gray)
-                .padding(.top, 10)
+            emptyText(empty)
         }
+    }
+
+    @ViewBuilder
+    private func emptyText(_ text: String) -> some View {
+        Text(text)
+            .font(.title3)
+            .foregroundColor(.gray)
+            .padding(.top, 10)
     }
 }
 
