@@ -13,25 +13,8 @@ struct LibraryScreen: View {
     var body: some View {
         NavigationView {
             ScrollView {
-                VStack {
-                    mainNavigation()
-                        .padding(.leading)
-
-                    albumSection(
-                        title: "Favorite albums",
-                        empty: "No favorite albums",
-                        albums: albumRepo.albums.favorite.consistent
-                    )
-                    .padding(.top, 10)
-
-                    albumSection(
-                        title: "Recently added",
-                        empty: "No albums",
-                        albums: albumRepo.albums.sortedByDateAdded
-                    )
-                    .padding(.top, 10)
-                }
-                .frame(maxWidth: .infinity, maxHeight: .infinity, alignment: .top)
+                bodyContent()
+                    .frame(maxWidth: .infinity, maxHeight: .infinity, alignment: .top)
             }
             .navigationTitle("Library")
             .navigationBarTitleDisplayMode(.large)
@@ -40,6 +23,28 @@ struct LibraryScreen: View {
             }
         }
         .navigationViewStyle(.stack)
+    }
+
+    @ViewBuilder
+    private func bodyContent() -> some View {
+        VStack {
+            mainNavigation()
+                .padding(.leading)
+
+            albumSection(
+                title: "Favorite albums",
+                empty: "No favorite albums",
+                albums: albumRepo.albums.favorite.consistent
+            )
+            .padding(.top, 10)
+
+            albumSection(
+                title: "Recently added",
+                empty: "No albums",
+                albums: albumRepo.albums.sortedByDateAdded
+            )
+            .padding(.top, 10)
+        }
     }
 
     @ViewBuilder
