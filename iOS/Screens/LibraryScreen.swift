@@ -19,7 +19,6 @@ struct LibraryScreen: View {
 
                     favoriteAlbums()
                         .padding(.top, 10)
-                        .padding(.leading)
                 }
                 .frame(maxWidth: .infinity, maxHeight: .infinity, alignment: .top)
             }
@@ -77,11 +76,19 @@ struct LibraryScreen: View {
 
     @ViewBuilder
     private func favoriteAlbums() -> some View {
-        if Defaults[.libraryShowFavorites] {
-            VStack(spacing: 7) {
+        VStack(spacing: 7) {
+            Group {
                 favoritesTitle()
                 Divider()
-                favoritesContent(albumRepo.albums.favorite.consistent)
+            }
+            .padding(.leading)
+
+            let albumsToDisplay = albumRepo.albums.favorite.consistent
+            if Defaults[.libraryShowFavorites] && Defaults[.libraryShowLatest] {
+                favoritesHContent(albumsToDisplay)
+            } else {
+                favoritesContent(albumsToDisplay)
+                    .padding(.leading)
             }
         }
     }
@@ -120,6 +127,7 @@ struct LibraryScreen: View {
                     .padding(.top, 10)
                     .padding(.bottom, 15)
             }
+            .padding(.leading)
         }
     }
 }
