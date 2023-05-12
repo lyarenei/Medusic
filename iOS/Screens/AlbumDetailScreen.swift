@@ -79,23 +79,30 @@ struct AlbumDetailScreen: View {
             ForEach(enumerating: 1...discCount) { idx in
                 let songs = songRepo.songs.filterByAlbumDisc(idx)
                 Section {
-                    songCollection(songs: songs.sortByIndex())
+                    songCollection(
+                        songs: songs.sortByIndex(),
+                        showLastDivider: idx == discCount
+                    )
                 } header: {
                     discGroupHeader(text: "Disc \(idx)")
                 }
             }
         } else {
-            songCollection(songs: songRepo.songs.filterByAlbum(id: album.uuid))
+            songCollection(
+                songs: songRepo.songs.filterByAlbum(id: album.uuid),
+                showLastDivider: true
+            )
         }
     }
 
     @ViewBuilder
-    private func songCollection(songs: [Song]) -> some View {
+    private func songCollection(songs: [Song], showLastDivider: Bool) -> some View {
         SongCollection(songs: songs)
             .showAlbumOrder()
             .showArtistName()
             .collectionType(.plain)
             .rowHeight(30)
+            .showLastDivider(showLastDivider)
             .font(.system(size: 16))
     }
 
