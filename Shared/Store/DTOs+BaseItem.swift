@@ -1,3 +1,4 @@
+import Foundation
 import JellyfinAPI
 
 extension Album {
@@ -27,5 +28,6 @@ extension Song {
         }()
         self.runtime = item.runTimeTicks?.timeInterval ?? 0
         self.albumDisc = Int(item.parentIndexNumber ?? 0)
+        self.addedAt = item.dateCreated ?? Date()
     }
 }

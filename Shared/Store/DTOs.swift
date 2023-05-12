@@ -27,4 +27,5 @@ struct Song: JellyfinItem {
     var size: UInt64 = 0
     var runtime: TimeInterval
     var albumDisc = 0
+    var addedAt = Date()
 }
