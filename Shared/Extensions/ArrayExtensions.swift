@@ -41,6 +41,22 @@ extension [Song] {
         return filteredSongs.sortByAlbum()
     }
 
+    func filterByAlbumDisc(_ discNumber: Int) -> [Song] {
+        filter { song -> Bool in
+            song.albumDisc == discNumber
+        }
+    }
+
+    func getAlbumDiscCount(albumId: String) -> Int {
+        let filteredSongs = filter { song -> Bool in
+            song.parentId == albumId
+        }
+
+        return filteredSongs.map { song in
+            song.albumDisc
+        }.max() ?? 1
+    }
+
     /// Get song by specified song ID.
     func getById(_ songId: String) -> Song? {
         first { song -> Bool in
