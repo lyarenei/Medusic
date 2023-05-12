@@ -68,7 +68,7 @@ struct LibraryScreen: View {
     }
 
     @ViewBuilder
-    func navLink(for name: String, to dst: some View, icon: SFSymbol) -> some View {
+    private func navLink(for name: String, to dst: some View, icon: SFSymbol) -> some View {
         NavigationLink(destination: dst) {
             HStack(spacing: 15) {
                 Image(systemSymbol: icon)
@@ -109,7 +109,7 @@ struct LibraryScreen: View {
     }
 
     @ViewBuilder
-    func sectionTitle(_ title: String) -> some View {
+    private func sectionTitle(_ title: String) -> some View {
         HStack {
             Text(title)
                 .font(.title)
@@ -124,7 +124,7 @@ struct LibraryScreen: View {
     }
 
     @ViewBuilder
-    func sectionVContent(_ albums: [Album], empty: String) -> some View {
+    private func sectionVContent(_ albums: [Album], empty: String) -> some View {
         if albums.isNotEmpty {
             AlbumCollection(albums: albums)
                 .forceMode(.asPlainList)
