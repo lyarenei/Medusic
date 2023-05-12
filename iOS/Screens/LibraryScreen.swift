@@ -17,8 +17,19 @@ struct LibraryScreen: View {
                     mainNavigation()
                         .padding(.leading)
 
-                    favoriteAlbums()
-                        .padding(.top, 10)
+                    albumSection(
+                        title: "Favorite albums",
+                        empty: "No favorite albums",
+                        albums: albumRepo.albums.favorite.consistent
+                    )
+                    .padding(.top, 10)
+
+                    albumSection(
+                        title: "Recently added",
+                        empty: "No albums",
+                        albums: albumRepo.albums.sortedByDateAdded
+                    )
+                    .padding(.top, 10)
                 }
                 .frame(maxWidth: .infinity, maxHeight: .infinity, alignment: .top)
             }
@@ -75,28 +86,27 @@ struct LibraryScreen: View {
     }
 
     @ViewBuilder
-    private func favoriteAlbums() -> some View {
+    private func albumSection(title: String, empty: String, albums: [Album]) -> some View {
         VStack(spacing: 7) {
             Group {
-                favoritesTitle()
+                sectionTitle(title)
                 Divider()
             }
             .padding(.leading)
 
-            let albumsToDisplay = albumRepo.albums.favorite.consistent
             if Defaults[.libraryShowFavorites] && Defaults[.libraryShowLatest] {
-                favoritesHContent(albumsToDisplay)
+                favoritesHContent(albums, empty: empty)
             } else {
-                favoritesVContent(albumsToDisplay)
+                sectionVContent(albums, empty: empty)
                     .padding(.leading)
             }
         }
     }
 
     @ViewBuilder
-    func favoritesTitle() -> some View {
+    func sectionTitle(_ title: String) -> some View {
         HStack {
-            Text("Favorite albums")
+            Text(title)
                 .font(.title)
                 .bold()
 
@@ -109,13 +119,13 @@ struct LibraryScreen: View {
     }
 
     @ViewBuilder
-    func favoritesVContent(_ albums: [Album]) -> some View {
+    func sectionVContent(_ albums: [Album], empty: String) -> some View {
         if albums.isNotEmpty {
             AlbumCollection(albums: albums)
                 .forceMode(.asPlainList)
                 .buttonStyle(.plain)
         } else {
-            Text("No favorite albums")
+            Text(empty)
                 .font(.title3)
                 .foregroundColor(.gray)
                 .padding(.top, 10)
@@ -123,15 +133,22 @@ struct LibraryScreen: View {
     }
 
     @ViewBuilder
-    private func favoritesHContent(_ albums: [Album]) -> some View {
-        ScrollView(.horizontal) {
-            LazyHStack(spacing: 20) {
-                AlbumCollection(albums: albums)
-                    .forceMode(.asTiles)
-                    .padding(.top, 10)
-                    .padding(.bottom, 15)
+    private func favoritesHContent(_ albums: [Album], empty: String) -> some View {
+        if albums.isNotEmpty {
+            ScrollView(.horizontal) {
+                LazyHStack(spacing: 20) {
+                    AlbumCollection(albums: albums)
+                        .forceMode(.asTiles)
+                        .padding(.top, 10)
+                        .padding(.bottom, 15)
+                }
+                .padding(.leading)
             }
-            .padding(.leading)
+        } else {
+            Text(empty)
+                .font(.title3)
+                .foregroundColor(.gray)
+                .padding(.top, 10)
         }
     }
 }
