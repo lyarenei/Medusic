@@ -87,7 +87,7 @@ struct LibraryScreen: View {
             if Defaults[.libraryShowFavorites] && Defaults[.libraryShowLatest] {
                 favoritesHContent(albumsToDisplay)
             } else {
-                favoritesContent(albumsToDisplay)
+                favoritesVContent(albumsToDisplay)
                     .padding(.leading)
             }
         }
@@ -105,7 +105,7 @@ struct LibraryScreen: View {
     }
 
     @ViewBuilder
-    func favoritesContent(_ albums: [Album]) -> some View {
+    func favoritesVContent(_ albums: [Album]) -> some View {
         if albums.isNotEmpty {
             AlbumCollection(albums: albums)
                 .forceMode(.asPlainList)
