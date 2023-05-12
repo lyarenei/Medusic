@@ -11,6 +11,12 @@ struct SettingsScreen: View {
     @Default(.primaryAction)
     var primaryAction: PrimaryAction
 
+    @Default(.libraryShowFavorites)
+    var libraryShowFavorites
+
+    @Default(.libraryShowLatest)
+    var libraryShowLatest
+
     var apiClient: ApiClient
 
     init(apiClient: ApiClient = .shared) {
@@ -22,6 +28,7 @@ struct SettingsScreen: View {
             List {
                 jellyfinSection()
                 generalSection()
+                libraryScreenSection()
                 miscSection()
             }
             .navigationTitle("Settings")
@@ -53,6 +60,16 @@ struct SettingsScreen: View {
             primaryActionOption()
         } header: {
             Text("General")
+        }
+    }
+
+    @ViewBuilder
+    func libraryScreenSection() -> some View {
+        Section {
+            libraryShowFavoritesOption()
+            libraryShowLatestOption()
+        } header: {
+            Text("Library screen")
         }
     }
 
@@ -96,6 +113,20 @@ struct SettingsScreen: View {
         Picker("Primary action", selection: $primaryAction) {
             Text("Download (default)").tag(PrimaryAction.download)
             Text("Favorite").tag(PrimaryAction.favorite)
+        }
+    }
+
+    @ViewBuilder
+    private func libraryShowFavoritesOption() -> some View {
+        Toggle(isOn: $libraryShowFavorites) {
+            Text("Show favorites")
+        }
+    }
+
+    @ViewBuilder
+    private func libraryShowLatestOption() -> some View {
+        Toggle(isOn: $libraryShowLatest) {
+            Text("Show latest")
         }
     }
 
