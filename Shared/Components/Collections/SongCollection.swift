@@ -54,7 +54,7 @@ struct SongCollection: View {
             .frame(height: rowHeight)
             .padding(.leading)
 
-            separator(song: song)
+            divider(song: song)
         }
     }
 
@@ -72,7 +72,7 @@ struct SongCollection: View {
     }
 
     @ViewBuilder
-    private func separator(song: Song) -> some View {
+    private func divider(song: Song) -> some View {
         if let lastSong = songs.last {
             if song != lastSong || showLastDivider {
                 Divider()
