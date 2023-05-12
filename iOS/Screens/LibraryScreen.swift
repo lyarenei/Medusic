@@ -1,3 +1,4 @@
+import Defaults
 import SFSafeSymbols
 import SwiftUI
 
@@ -76,10 +77,12 @@ struct LibraryScreen: View {
 
     @ViewBuilder
     private func favoriteAlbums() -> some View {
-        VStack(spacing: 7) {
-            favoritesTitle()
-            Divider()
-            favoritesContent(albumRepo.albums.favorite.consistent)
+        if Defaults[.libraryShowFavorites] {
+            VStack(spacing: 7) {
+                favoritesTitle()
+                Divider()
+                favoritesContent(albumRepo.albums.favorite.consistent)
+            }
         }
     }
 
