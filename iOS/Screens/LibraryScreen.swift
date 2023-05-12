@@ -101,6 +101,10 @@ struct LibraryScreen: View {
                 .bold()
 
             Spacer()
+
+            NavigationLink("Show all") {}
+                .padding(.trailing)
+                .disabled(true)
         }
     }
 
