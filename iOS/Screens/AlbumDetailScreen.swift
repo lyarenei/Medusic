@@ -29,8 +29,10 @@ struct AlbumDetailScreen: View {
                 AlbumActions(album: album)
                     .padding(.bottom, 20)
 
-                Divider()
-                    .padding(.leading)
+                if songRepo.songs.getAlbumDiscCount(albumId: album.uuid) <= 1 {
+                    Divider()
+                        .padding(.leading)
+                }
 
                 albumSongs()
                 stats()
