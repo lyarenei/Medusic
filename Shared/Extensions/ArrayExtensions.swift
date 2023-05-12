@@ -92,4 +92,10 @@ extension [Album] {
             lhs.name.lowercased() < rhs.name.lowercased()
         }
     }
+
+    var sortedByDateAdded: [Album] {
+        sorted { lhs, rhs -> Bool in
+            lhs.addedAt > rhs.addedAt
+        }
+    }
 }
