@@ -29,8 +29,10 @@ struct AlbumDetailScreen: View {
                 AlbumActions(album: album)
                     .padding(.bottom, 20)
 
-                Divider()
-                    .padding(.leading)
+                if songRepo.songs.getAlbumDiscCount(albumId: album.uuid) <= 1 {
+                    Divider()
+                        .padding(.leading)
+                }
 
                 albumSongs()
                 stats()
@@ -57,12 +59,7 @@ struct AlbumDetailScreen: View {
                 .foregroundColor(.gray)
                 .font(.title3)
         } else {
-            SongCollection(songs: songRepo.songs.filterByAlbum(id: album.uuid))
-                .showAlbumOrder()
-                .showArtistName()
-                .collectionType(.plain)
-                .rowHeight(30)
-                .font(.system(size: 16))
+            songList()
         }
     }
 
@@ -74,6 +71,58 @@ struct AlbumDetailScreen: View {
             Text("\(sum) songs, \(runtime.minutes) minutes")
                 .foregroundColor(.gray)
                 .font(.system(size: 16))
+        }
+    }
+
+    @ViewBuilder
+    private func songList() -> some View {
+        let discCount = songRepo.songs.getAlbumDiscCount(albumId: album.uuid)
+        if discCount > 1 {
+            ForEach(enumerating: 1...discCount) { idx in
+                let songs = songRepo.songs.filterByAlbum(id: album.uuid).filterByAlbumDisc(idx)
+                Section {
+                    songCollection(
+                        songs: songs.sortByIndex(),
+                        showLastDivider: idx == discCount
+                    )
+                } header: {
+                    discGroupHeader(text: "Disc \(idx)")
+                }
+            }
+        } else {
+            songCollection(
+                songs: songRepo.songs.filterByAlbum(id: album.uuid),
+                showLastDivider: true
+            )
+        }
+    }
+
+    @ViewBuilder
+    private func songCollection(songs: [Song], showLastDivider: Bool) -> some View {
+        SongCollection(songs: songs)
+            .showAlbumOrder()
+            .showArtistName()
+            .collectionType(.plain)
+            .rowHeight(30)
+            .showLastDivider(showLastDivider)
+            .font(.system(size: 16))
+    }
+
+    @ViewBuilder
+    private func discGroupHeader(text: String) -> some View {
+        ZStack {
+            Color(UIColor.systemGroupedBackground)
+
+            HStack {
+                Text(text)
+                    .foregroundColor(.gray)
+                    .font(.system(size: 16))
+
+                Spacer()
+            }
+            .padding(.leading)
+            .padding(.top)
+            .padding(.bottom, 5)
         }
     }
 }

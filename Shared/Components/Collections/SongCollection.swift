@@ -7,6 +7,7 @@ struct SongCollection: View {
     private var showArtwork = false
     private var showArtistName = false
     private var showAlbumName = false
+    private var showLastDivider = true
     private var type: CollectionType = .list
     private let musicPlayer: MusicPlayer
     private var rowHeight = 40.0
@@ -53,8 +54,7 @@ struct SongCollection: View {
             .frame(height: rowHeight)
             .padding(.leading)
 
-            Divider()
-                .padding(.leading)
+            divider(song: song)
         }
     }
 
@@ -69,6 +69,16 @@ struct SongCollection: View {
             .contentShape(Rectangle())
             .onTapGesture { Task { await musicPlayer.play(song: song) } }
             .contextMenu { ContextOptions(song: song) }
+    }
+
+    @ViewBuilder
+    private func divider(song: Song) -> some View {
+        if let lastSong = songs.last {
+            if song != lastSong || showLastDivider {
+                Divider()
+                    .padding(.leading)
+            }
+        }
     }
 
     enum CollectionType {
@@ -111,6 +121,12 @@ extension SongCollection {
     func showAlbumName(_ value: Bool = true) -> SongCollection {
         var view = self
         view.showAlbumName = value
+        return view
+    }
+
+    func showLastDivider(_ value: Bool = true) -> SongCollection {
+        var view = self
+        view.showLastDivider = value
         return view
     }
 }

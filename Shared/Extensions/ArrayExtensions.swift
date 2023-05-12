@@ -10,15 +10,24 @@ extension [Song] {
     /// Sorts songs by album ID, then by their order.
     /// This results in songs being grouped by their albums, and in correct order in that album.
     func sortByAlbum() -> [Song] {
-        sorted { lhs, rhs -> Bool in
-            // Sort by album ID, then by index
-            if lhs.parentId < rhs.parentId { return true }
-            if lhs.parentId > rhs.parentId { return false }
-            if lhs.parentId == rhs.parentId {
-                return lhs.index < rhs.index
-            }
+        sortByParentId().sortByIndex().sortByAlbumDisc()
+    }
 
-            return false
+    func sortByParentId() -> [Song] {
+        sorted { lhs, rhs -> Bool in
+            lhs.parentId < rhs.parentId
+        }
+    }
+
+    func sortByIndex() -> [Song] {
+        sorted { lhs, rhs -> Bool in
+            lhs.index < rhs.index
+        }
+    }
+
+    func sortByAlbumDisc() -> [Song] {
+        sorted { lhs, rhs -> Bool in
+            lhs.albumDisc < rhs.albumDisc
         }
     }
 
@@ -30,6 +39,20 @@ extension [Song] {
         }
 
         return filteredSongs.sortByAlbum()
+    }
+
+    func filterByAlbumDisc(_ discNumber: Int) -> [Song] {
+        filter { song -> Bool in
+            song.albumDisc == discNumber
+        }
+    }
+
+    func getAlbumDiscCount(albumId: String) -> Int {
+        let filteredSongs = filter { song -> Bool in
+            song.parentId == albumId
+        }
+
+        return filteredSongs.map { song in song.albumDisc }.max() ?? 1
     }
 
     /// Get song by specified song ID.

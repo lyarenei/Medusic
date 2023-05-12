@@ -26,4 +26,5 @@ struct Song: JellyfinItem {
     var isFavorite: Bool
     var size: UInt64 = 0
     var runtime: TimeInterval
+    var albumDisc = 0
 }
