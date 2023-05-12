@@ -52,9 +52,7 @@ extension [Song] {
             song.parentId == albumId
         }
 
-        return filteredSongs.map { song in
-            song.albumDisc
-        }.max() ?? 1
+        return filteredSongs.map { song in song.albumDisc }.max() ?? 1
     }
 
     /// Get song by specified song ID.
