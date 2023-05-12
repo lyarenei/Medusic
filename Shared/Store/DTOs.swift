@@ -16,6 +16,7 @@ struct Album: JellyfinItem {
     var name: String
     var artistName: String
     var isFavorite: Bool
+    var addedAt = Date()
 }
 
 struct Song: JellyfinItem {
@@ -27,5 +28,4 @@ struct Song: JellyfinItem {
     var size: UInt64 = 0
     var runtime: TimeInterval
     var albumDisc = 0
-    var addedAt = Date()
 }

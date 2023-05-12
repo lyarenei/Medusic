@@ -7,6 +7,7 @@ extension Album {
         self.name = item.name ?? ""
         self.artistName = item.albumArtist ?? ""
         self.isFavorite = item.userData?.isFavorite ?? false
+        self.addedAt = item.dateCreated ?? Date()
     }
 }
 
@@ -28,6 +29,5 @@ extension Song {
         }()
         self.runtime = item.runTimeTicks?.timeInterval ?? 0
         self.albumDisc = Int(item.parentIndexNumber ?? 0)
-        self.addedAt = item.dateCreated ?? Date()
     }
 }
