@@ -79,7 +79,7 @@ struct AlbumDetailScreen: View {
         let discCount = songRepo.songs.getAlbumDiscCount(albumId: album.uuid)
         if discCount > 1 {
             ForEach(enumerating: 1...discCount) { idx in
-                let songs = songRepo.songs.filterByAlbumDisc(idx)
+                let songs = songRepo.songs.filterByAlbum(id: album.uuid).filterByAlbumDisc(idx)
                 Section {
                     songCollection(
                         songs: songs.sortByIndex(),
