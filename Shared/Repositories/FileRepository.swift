@@ -121,8 +121,7 @@ final class FileRepository: ObservableObject {
     }
 
     func fileURL(for song: Song) -> URL? {
-        // TODO: search for file with id rather than id + extension
-        let fileURL = cacheDirectory.appendingPathComponent("\(song.uuid).\(song.fileExtension)")
+        let fileURL = cacheDirectory.appendingPathComponent(song.uuid)
         return FileManager.default.fileExists(atPath: fileURL.path) ? fileURL : nil
     }
 
@@ -162,8 +161,7 @@ final class FileRepository: ObservableObject {
     }
 
     func removeFile(for song: Song) async throws {
-        // TODO: search file with uuid regardless of extension
-        let fileURL = cacheDirectory.appendingPathComponent(song.uuid).appendingPathExtension(song.fileExtension)
+        let fileURL = cacheDirectory.appendingPathComponent(song.uuid)
         Logger.repository.debug("Removing file for song \(song.uuid)")
         try FileManager.default.removeItem(at: fileURL)
         try await $downloadedSongs.remove(song)
