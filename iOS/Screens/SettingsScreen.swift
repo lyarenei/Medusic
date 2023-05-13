@@ -17,8 +17,8 @@ struct SettingsScreen: View {
     @Default(.libraryShowFavorites)
     var libraryShowFavorites
 
-    @Default(.libraryShowLatest)
-    var libraryShowLatest
+    @Default(.libraryShowRecentlyAdded)
+    var libraryShowRecentlyAdded
 
     var apiClient: ApiClient
 
@@ -71,7 +71,7 @@ struct SettingsScreen: View {
     func libraryScreenSection() -> some View {
         Section {
             libraryShowFavoritesOption()
-            libraryShowLatestOption()
+            libraryShowRecentlyAddedOption()
         } header: {
             Text("Library screen")
         }
@@ -139,8 +139,8 @@ struct SettingsScreen: View {
     }
 
     @ViewBuilder
-    private func libraryShowLatestOption() -> some View {
-        Toggle(isOn: $libraryShowLatest) {
+    private func libraryShowRecentlyAddedOption() -> some View {
+        Toggle(isOn: $libraryShowRecentlyAdded) {
             Text("Show latest")
         }
     }

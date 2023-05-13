@@ -9,8 +9,8 @@ struct LibraryScreen: View {
     @Default(.libraryShowFavorites)
     var showFavoriteAlbums
 
-    @Default(.libraryShowLatest)
-    var showLatestAlbums
+    @Default(.libraryShowRecentlyAdded)
+    var showRecentlyAdded
 
     init(albumRepo: AlbumRepository = .shared) {
         _albumRepo = ObservedObject(wrappedValue: albumRepo)
@@ -104,7 +104,7 @@ struct LibraryScreen: View {
 
     @ViewBuilder
     private func recentlyAddedAlbums() -> some View {
-        if showLatestAlbums {
+        if showRecentlyAdded {
             AlbumPreviewCollection(
                 for: albumRepo.albums.sortedByDateAdded,
                 titleText: "Recently added",
@@ -120,7 +120,7 @@ struct LibraryScreen: View {
     private func numberOfEnabledSections() -> Int {
         let sections = [
             Defaults[.libraryShowFavorites],
-            Defaults[.libraryShowLatest],
+            Defaults[.libraryShowRecentlyAdded],
         ]
 
         return sections.filter { $0 == true }.count

@@ -10,7 +10,7 @@ extension Defaults.Keys {
     static let albumDisplayMode = Key<AlbumDisplayMode>("albumDisplayMode", default: .asTiles)
     static let primaryAction = Key<PrimaryAction>("primaryAction", default: .download)
     static let libraryShowFavorites = Key<Bool>("libraryShowFavorites", default: true)
-    static let libraryShowLatest = Key<Bool>("libraryShowLatest", default: true)
+    static let libraryShowRecentlyAdded = Key<Bool>("libraryShowRecentlyAdded", default: true)
     static let maxPreviewItems = Key<Int>("maxPreviewItems", default: 10)
 
     // App settings
