@@ -17,6 +17,7 @@ final class DefaultSongService: SongService {
             isRecursive: true,
             fields: [
                 .mediaSources,
+                .path,
             ],
             includeItemTypes: [.audio],
             sortBy: sortBy

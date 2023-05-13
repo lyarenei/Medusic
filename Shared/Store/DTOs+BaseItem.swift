@@ -29,5 +29,12 @@ extension Song {
         }()
         self.runtime = item.runTimeTicks?.timeInterval ?? 0
         self.albumDisc = Int(item.parentIndexNumber ?? 0)
+        self.container = {
+            if let path = item.path, let url = URL(string: path) {
+                return url.pathExtension
+            }
+
+            return ""
+        }()
     }
 }
