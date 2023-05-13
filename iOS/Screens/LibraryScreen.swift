@@ -1,9 +1,16 @@
+import Defaults
 import SFSafeSymbols
 import SwiftUI
 
 struct LibraryScreen: View {
     @ObservedObject
     var albumRepo: AlbumRepository
+
+    @Default(.libraryShowFavorites)
+    var showFavoriteAlbums
+
+    @Default(.libraryShowRecentlyAdded)
+    var showRecentlyAdded
 
     init(albumRepo: AlbumRepository = .shared) {
         _albumRepo = ObservedObject(wrappedValue: albumRepo)
@@ -12,15 +19,8 @@ struct LibraryScreen: View {
     var body: some View {
         NavigationView {
             ScrollView {
-                VStack {
-                    mainNavigation()
-                        .padding(.leading)
-
-                    favoriteAlbums()
-                        .padding(.top, 10)
-                        .padding(.leading)
-                }
-                .frame(maxWidth: .infinity, maxHeight: .infinity, alignment: .top)
+                bodyContent()
+                    .frame(maxWidth: .infinity, maxHeight: .infinity, alignment: .top)
             }
             .navigationTitle("Library")
             .navigationBarTitleDisplayMode(.large)
@@ -29,6 +29,20 @@ struct LibraryScreen: View {
             }
         }
         .navigationViewStyle(.stack)
+    }
+
+    @ViewBuilder
+    private func bodyContent() -> some View {
+        VStack {
+            mainNavigation()
+                .padding(.leading)
+
+            favoriteAlbums()
+                .padding(.top, 10)
+
+            recentlyAddedAlbums()
+                .padding(.top, 10)
+        }
     }
 
     @ViewBuilder
@@ -52,7 +66,7 @@ struct LibraryScreen: View {
     }
 
     @ViewBuilder
-    func navLink(for name: String, to dst: some View, icon: SFSymbol) -> some View {
+    private func navLink(for name: String, to dst: some View, icon: SFSymbol) -> some View {
         NavigationLink(destination: dst) {
             HStack(spacing: 15) {
                 Image(systemSymbol: icon)
@@ -76,36 +90,40 @@ struct LibraryScreen: View {
 
     @ViewBuilder
     private func favoriteAlbums() -> some View {
-        VStack(spacing: 7) {
-            favoritesTitle()
-            Divider()
-            favoritesContent(albumRepo.albums.favorite.consistent)
+        if showFavoriteAlbums {
+            AlbumPreviewCollection(
+                for: albumRepo.albums.favorite.consistent,
+                titleText: "Favorite albums",
+                emptyText: "No favorite albums"
+            ) {
+                Text("All favorite albums")
+            }
+            .stackType(numberOfEnabledSections() < 3 ? .vertical : .horizontal)
         }
     }
 
     @ViewBuilder
-    func favoritesTitle() -> some View {
-        HStack {
-            Text("Favorite albums")
-                .font(.title)
-                .bold()
-
-            Spacer()
+    private func recentlyAddedAlbums() -> some View {
+        if showRecentlyAdded {
+            AlbumPreviewCollection(
+                for: albumRepo.albums.sortedByDateAdded,
+                titleText: "Recently added",
+                emptyText: "No albums"
+            ) {
+                Text("All albums, sorted by recently added")
+            }
+            .stackType(numberOfEnabledSections() < 3 ? .vertical : .horizontal)
         }
     }
 
-    @ViewBuilder
-    func favoritesContent(_ albums: [Album]) -> some View {
-        if albums.isNotEmpty {
-            AlbumCollection(albums: albums)
-                .forceMode(.asPlainList)
-                .buttonStyle(.plain)
-        } else {
-            Text("No favorite albums")
-                .font(.title3)
-                .foregroundColor(.gray)
-                .padding(.top, 10)
-        }
+    /// Get number of currently enabled sections on library screen.
+    private func numberOfEnabledSections() -> Int {
+        let sections = [
+            Defaults[.libraryShowFavorites],
+            Defaults[.libraryShowRecentlyAdded],
+        ]
+
+        return sections.filter { $0 == true }.count
     }
 }
 

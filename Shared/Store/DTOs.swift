@@ -16,6 +16,7 @@ struct Album: JellyfinItem {
     var name: String
     var artistName: String
     var isFavorite: Bool
+    var createdAt = Date()
 }
 
 struct Song: JellyfinItem {

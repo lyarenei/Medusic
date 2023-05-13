@@ -1,3 +1,4 @@
+import Foundation
 import JellyfinAPI
 
 extension Album {
@@ -6,6 +7,7 @@ extension Album {
         self.name = item.name ?? ""
         self.artistName = item.albumArtist ?? ""
         self.isFavorite = item.userData?.isFavorite ?? false
+        self.createdAt = item.dateCreated ?? Date()
     }
 }
 

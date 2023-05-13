@@ -88,6 +88,14 @@ extension [Album] {
 
     // TODO: only temporary for consistency, until user can configure sort options
     var consistent: [Album] {
-        sorted { lhs, rhs -> Bool in lhs.uuid < rhs.uuid }
+        sorted { lhs, rhs -> Bool in
+            lhs.name.lowercased() < rhs.name.lowercased()
+        }
+    }
+
+    var sortedByDateAdded: [Album] {
+        sorted { lhs, rhs -> Bool in
+            lhs.createdAt > rhs.createdAt
+        }
     }
 }

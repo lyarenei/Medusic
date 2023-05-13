@@ -18,6 +18,7 @@ final class DefaultAlbumService: AlbumService {
         return JellyfinAPI.Paths.GetItemsParameters(
             userID: Defaults[.userId],
             isRecursive: true,
+            fields: [.dateCreated],
             includeItemTypes: [.musicAlbum],
             ids: itemIds
         )
