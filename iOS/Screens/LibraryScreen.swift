@@ -6,6 +6,12 @@ struct LibraryScreen: View {
     @ObservedObject
     var albumRepo: AlbumRepository
 
+    @Default(.libraryShowFavorites)
+    var showFavoriteAlbums
+
+    @Default(.libraryShowLatest)
+    var showLatestAlbums
+
     init(albumRepo: AlbumRepository = .shared) {
         _albumRepo = ObservedObject(wrappedValue: albumRepo)
     }
@@ -31,23 +37,11 @@ struct LibraryScreen: View {
             mainNavigation()
                 .padding(.leading)
 
-            AlbumPreviewCollection(
-                for: albumRepo.albums.favorite.consistent,
-                titleText: "Favorite albums",
-                emptyText: "No favorite albums"
-            ) {
-                Text("All favorite albums")
-            }
-            .padding(.top, 10)
+            favoriteAlbums()
+                .padding(.top, 10)
 
-            AlbumPreviewCollection(
-                for: albumRepo.albums.sortedByDateAdded,
-                titleText: "Recently added",
-                emptyText: "No albums"
-            ) {
-                Text("All albums, sorted by recently added")
-            }
-            .padding(.top, 10)
+            recentlyAddedAlbums()
+                .padding(.top, 10)
         }
     }
 
@@ -92,6 +86,32 @@ struct LibraryScreen: View {
         .contentShape(Rectangle())
         .font(.title2)
         .padding(.vertical, 5)
+    }
+
+    @ViewBuilder
+    private func favoriteAlbums() -> some View {
+        if showFavoriteAlbums {
+            AlbumPreviewCollection(
+                for: albumRepo.albums.favorite.consistent,
+                titleText: "Favorite albums",
+                emptyText: "No favorite albums"
+            ) {
+                Text("All favorite albums")
+            }
+        }
+    }
+
+    @ViewBuilder
+    private func recentlyAddedAlbums() -> some View {
+        if showLatestAlbums {
+            AlbumPreviewCollection(
+                for: albumRepo.albums.sortedByDateAdded,
+                titleText: "Recently added",
+                emptyText: "No albums"
+            ) {
+                Text("All albums, sorted by recently added")
+            }
+        }
     }
 }
 
