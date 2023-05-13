@@ -68,7 +68,7 @@ struct SettingsScreen: View {
     }
 
     @ViewBuilder
-    func libraryScreenSection() -> some View {
+    private func libraryScreenSection() -> some View {
         Section {
             libraryShowFavoritesOption()
             libraryShowRecentlyAddedOption()
