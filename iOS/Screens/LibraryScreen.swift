@@ -98,6 +98,7 @@ struct LibraryScreen: View {
             ) {
                 Text("All favorite albums")
             }
+            .stackType(numberOfEnabledSections() < 3 ? .vertical : .horizontal)
         }
     }
 
@@ -111,7 +112,18 @@ struct LibraryScreen: View {
             ) {
                 Text("All albums, sorted by recently added")
             }
+            .stackType(numberOfEnabledSections() < 3 ? .vertical : .horizontal)
         }
+    }
+
+    /// Get number of currently enabled sections on library screen.
+    private func numberOfEnabledSections() -> Int {
+        let sections = [
+            Defaults[.libraryShowFavorites],
+            Defaults[.libraryShowLatest],
+        ]
+
+        return sections.filter { $0 == true }.count
     }
 }
 
