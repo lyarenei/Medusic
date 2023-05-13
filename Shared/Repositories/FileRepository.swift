@@ -121,7 +121,8 @@ final class FileRepository: ObservableObject {
     }
 
     func fileURL(for song: Song) -> URL? {
-        let fileURL = cacheDirectory.appendingPathComponent(song.uuid)
+        // TODO: aac extension if not supported
+        let fileURL = cacheDirectory.appendingPathComponent(song.uuid).appendingPathExtension(song.fileExtension)
         return FileManager.default.fileExists(atPath: fileURL.path) ? fileURL : nil
     }
 
