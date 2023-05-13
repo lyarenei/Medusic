@@ -22,6 +22,10 @@ struct AlbumCollection: View {
         self.albums = albums
     }
 
+    init(albums: ArraySlice<Album>) {
+        self.albums = Array(albums)
+    }
+
     var body: some View {
         switch forceDisplayMode ?? displayMode {
         case .asList:

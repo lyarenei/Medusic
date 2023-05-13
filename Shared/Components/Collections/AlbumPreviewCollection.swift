@@ -9,6 +9,9 @@ struct AlbumPreviewCollection<Content: View>: View {
     @ViewBuilder
     private var showAllDest: () -> Content
 
+    @Default(.maxPreviewItems)
+    private var limit
+
     init(
         for albums: [Album],
         titleText: String,
@@ -30,7 +33,6 @@ struct AlbumPreviewCollection<Content: View>: View {
             .padding(.leading)
 
             // TODO: configurable force + automatic
-            // TODO: limit counts, 10 default, configurable up to 20
             if Defaults[.libraryShowFavorites] && Defaults[.libraryShowLatest] {
                 sectionHContent()
             } else {
@@ -60,7 +62,7 @@ struct AlbumPreviewCollection<Content: View>: View {
     @ViewBuilder
     private func sectionVContent() -> some View {
         if albums.isNotEmpty {
-            AlbumCollection(albums: albums)
+            AlbumCollection(albums: albums.prefix(limit))
                 .forceMode(.asPlainList)
                 .buttonStyle(.plain)
         } else {
@@ -73,7 +75,7 @@ struct AlbumPreviewCollection<Content: View>: View {
         if albums.isNotEmpty {
             ScrollView(.horizontal) {
                 LazyHStack(spacing: 20) {
-                    AlbumCollection(albums: albums)
+                    AlbumCollection(albums: albums.prefix(limit))
                         .forceMode(.asTiles)
                         .padding(.top, 10)
                         .padding(.bottom, 15)

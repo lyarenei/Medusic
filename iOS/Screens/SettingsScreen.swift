@@ -11,6 +11,9 @@ struct SettingsScreen: View {
     @Default(.primaryAction)
     var primaryAction: PrimaryAction
 
+    @Default(.maxPreviewItems)
+    var maxPreviewItems: Int
+
     @Default(.libraryShowFavorites)
     var libraryShowFavorites
 
@@ -58,6 +61,7 @@ struct SettingsScreen: View {
             streamBitrateOption()
             downloadBitrateOption()
             primaryActionOption()
+            maxPreviewItemsOption()
         } header: {
             Text("General")
         }
@@ -113,6 +117,17 @@ struct SettingsScreen: View {
         Picker("Primary action", selection: $primaryAction) {
             Text("Download (default)").tag(PrimaryAction.download)
             Text("Favorite").tag(PrimaryAction.favorite)
+        }
+    }
+
+    @ViewBuilder
+    private func maxPreviewItemsOption() -> some View {
+        Picker("Max items in preview", selection: $maxPreviewItems) {
+            Text("5").tag(5)
+            Text("10 (default)").tag(10)
+            Text("15").tag(15)
+            Text("20").tag(20)
+            Text("25").tag(25)
         }
     }
 
