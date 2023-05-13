@@ -30,11 +30,10 @@ extension Song {
         self.runtime = item.runTimeTicks?.timeInterval ?? 0
         self.albumDisc = Int(item.parentIndexNumber ?? 0)
         self.fileExtension = {
-            if let path = item.path, let url = URL(string: path) {
-                return url.pathExtension
-            }
-
-            return ""
+            guard let path = item.path else { return "" }
+            guard let encodedPath = path.addingPercentEncoding(withAllowedCharacters: .urlQueryAllowed) else { return "" }
+            guard let url = URL(string: encodedPath) else { return "" }
+            return url.pathExtension
         }()
     }
 }
