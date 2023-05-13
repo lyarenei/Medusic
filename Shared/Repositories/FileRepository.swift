@@ -114,19 +114,20 @@ final class FileRepository: ObservableObject {
             return
         }
 
-        let outputFileURL = cacheDirectory.appendingPathComponent(song.uuid)
+        let outputFileURL = cacheDirectory.appendingPathComponent("\(song.uuid).\(song.container)")
         Logger.repository.debug("Starting download for song \(song.uuid)")
         await reportCurrentDownloadQueue()
         try await apiClient.services.mediaService.new_downloadItem(id: song.uuid, destination: outputFileURL)
     }
 
-    func fileURL(for songId: String) -> URL? {
-        let fileURL = cacheDirectory.appendingPathComponent(songId)
+    func fileURL(for song: Song) -> URL? {
+        // TODO: search for file with id rather than id + extension
+        let fileURL = cacheDirectory.appendingPathComponent("\(song.uuid).\(song.container)")
         return FileManager.default.fileExists(atPath: fileURL.path) ? fileURL : nil
     }
 
-    func fileExists(for itemID: String) -> Bool {
-        fileURL(for: itemID) != nil
+    func fileExists(for song: Song) -> Bool {
+        fileURL(for: song) != nil
     }
 
     func numberOfDownloadedFiles() -> Int {
@@ -161,7 +162,8 @@ final class FileRepository: ObservableObject {
     }
 
     func removeFile(for song: Song) async throws {
-        let fileURL = cacheDirectory.appendingPathComponent(song.uuid)
+        // TODO: search file with uuid regardless of extension
+        let fileURL = cacheDirectory.appendingPathComponent(song.uuid).appendingPathExtension(song.container)
         Logger.repository.debug("Removing file for song \(song.uuid)")
         try FileManager.default.removeItem(at: fileURL)
         try await $downloadedSongs.remove(song)

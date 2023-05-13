@@ -156,7 +156,7 @@ final class MusicPlayer: ObservableObject {
 
     /// Enqueue a song to internal player. The song is placed at specified position.
     private func enqueueToPlayer(_ song: Song, position: EnqueuePosition) {
-        let fileUrl = fileRepo.fileURL(for: song.uuid)
+        let fileUrl = fileRepo.fileURL(for: song)
         let remoteUrl = apiClient.services.mediaService.getStreamUrl(item: song.uuid, bitrate: nil)
 
         guard let remoteUrl else {
