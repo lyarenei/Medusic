@@ -141,7 +141,7 @@ struct SettingsScreen: View {
     @ViewBuilder
     private func libraryShowRecentlyAddedOption() -> some View {
         Toggle(isOn: $libraryShowRecentlyAdded) {
-            Text("Show latest")
+            Text("Show recently added")
         }
     }
 
