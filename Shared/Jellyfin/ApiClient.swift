@@ -143,7 +143,7 @@ struct PreviewData {
             isFavorite: false,
             runtime: 123,
             albumDisc: 1,
-            container: "flac"
+            fileExtension: "flac"
         ),
         Song(
             uuid: "2",
@@ -153,7 +153,7 @@ struct PreviewData {
             isFavorite: false,
             runtime: 123,
             albumDisc: 2,
-            container: "flac"
+            fileExtension: "flac"
         ),
         // Songs for album 2
         Song(
@@ -163,7 +163,7 @@ struct PreviewData {
             parentId: "2",
             isFavorite: false,
             runtime: 123,
-            container: "flac"
+            fileExtension: "flac"
         ),
         Song(
             uuid: "4",
@@ -172,7 +172,7 @@ struct PreviewData {
             parentId: "2",
             isFavorite: false,
             runtime: 123,
-            container: "flac"
+            fileExtension: "flac"
         ),
         Song(
             uuid: "5",
@@ -181,7 +181,7 @@ struct PreviewData {
             parentId: "3",
             isFavorite: false,
             runtime: 123,
-            container: "flac"
+            fileExtension: "flac"
         ),
     ]
 }
