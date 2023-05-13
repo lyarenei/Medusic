@@ -31,18 +31,22 @@ struct LibraryScreen: View {
             mainNavigation()
                 .padding(.leading)
 
-            albumSection(
-                title: "Favorite albums",
-                empty: "No favorite albums",
-                albums: albumRepo.albums.favorite.consistent
-            )
+            AlbumPreviewCollection(
+                for: albumRepo.albums.favorite.consistent,
+                titleText: "Favorite albums",
+                emptyText: "No favorite albums"
+            ) {
+                Text("All favorite albums")
+            }
             .padding(.top, 10)
 
-            albumSection(
-                title: "Recently added",
-                empty: "No albums",
-                albums: albumRepo.albums.sortedByDateAdded
-            )
+            AlbumPreviewCollection(
+                for: albumRepo.albums.sortedByDateAdded,
+                titleText: "Recently added",
+                emptyText: "No albums"
+            ) {
+                Text("All albums, sorted by recently added")
+            }
             .padding(.top, 10)
         }
     }
@@ -88,75 +92,6 @@ struct LibraryScreen: View {
         .contentShape(Rectangle())
         .font(.title2)
         .padding(.vertical, 5)
-    }
-
-    @ViewBuilder
-    private func albumSection(title: String, empty: String, albums: [Album]) -> some View {
-        VStack(spacing: 7) {
-            Group {
-                sectionTitle(title)
-                Divider()
-            }
-            .padding(.leading)
-
-            if Defaults[.libraryShowFavorites] && Defaults[.libraryShowLatest] {
-                sectionHContent(albums, empty: empty)
-            } else {
-                sectionVContent(albums, empty: empty)
-                    .padding(.leading)
-            }
-        }
-    }
-
-    @ViewBuilder
-    private func sectionTitle(_ title: String) -> some View {
-        HStack {
-            Text(title)
-                .font(.title)
-                .bold()
-
-            Spacer()
-
-            NavigationLink("Show all") {}
-                .padding(.trailing)
-                .disabled(true)
-        }
-    }
-
-    @ViewBuilder
-    private func sectionVContent(_ albums: [Album], empty: String) -> some View {
-        if albums.isNotEmpty {
-            AlbumCollection(albums: albums)
-                .forceMode(.asPlainList)
-                .buttonStyle(.plain)
-        } else {
-            emptyText(empty)
-        }
-    }
-
-    @ViewBuilder
-    private func sectionHContent(_ albums: [Album], empty: String) -> some View {
-        if albums.isNotEmpty {
-            ScrollView(.horizontal) {
-                LazyHStack(spacing: 20) {
-                    AlbumCollection(albums: albums)
-                        .forceMode(.asTiles)
-                        .padding(.top, 10)
-                        .padding(.bottom, 15)
-                }
-                .padding(.leading)
-            }
-        } else {
-            emptyText(empty)
-        }
-    }
-
-    @ViewBuilder
-    private func emptyText(_ text: String) -> some View {
-        Text(text)
-            .font(.title3)
-            .foregroundColor(.gray)
-            .padding(.top, 10)
     }
 }
 
