@@ -5,6 +5,7 @@ struct AlbumPreviewCollection<Content: View>: View {
     private var albums: [Album]
     private var titleText: String
     private var emptyText = "No albums"
+    private var stackType: StackType = .vertical
 
     @ViewBuilder
     private var showAllDest: () -> Content
@@ -32,12 +33,12 @@ struct AlbumPreviewCollection<Content: View>: View {
             }
             .padding(.leading)
 
-            // TODO: configurable force + automatic
-            if Defaults[.libraryShowFavorites] && Defaults[.libraryShowLatest] {
-                sectionHContent()
-            } else {
+            switch stackType {
+            case .vertical:
                 sectionVContent()
                     .padding(.leading)
+            case .horizontal:
+                sectionHContent()
             }
         }
     }
@@ -93,6 +94,19 @@ struct AlbumPreviewCollection<Content: View>: View {
             .font(.title3)
             .foregroundColor(.gray)
             .padding(.top, 10)
+    }
+
+    enum StackType {
+        case vertical
+        case horizontal
+    }
+}
+
+extension AlbumPreviewCollection {
+    func stackType(_ value: StackType) -> AlbumPreviewCollection {
+        var view = self
+        view.stackType = value
+        return view
     }
 }
 
