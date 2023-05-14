@@ -119,7 +119,11 @@ final class FileRepository: ObservableObject {
         let outputFileURL = cacheDirectory.appendingPathComponent(song.uuid).appendingPathExtension(fileExtension)
         Logger.repository.debug("Starting download for song \(song.uuid)")
         await reportCurrentDownloadQueue()
-        try await apiClient.services.mediaService.new_downloadItem(id: song.uuid, destination: outputFileURL)
+        try await apiClient.services.mediaService.new_downloadItem(
+            id: song.uuid,
+            destination: outputFileURL,
+            bitrate: getDownloadPreferredBitrate(for: song)
+        )
     }
 
     func fileURL(for song: Song) -> URL? {
@@ -224,6 +228,15 @@ final class FileRepository: ObservableObject {
 
         Logger.repository.debug("File extension \(song.fileExtension) is not supported, falling back to aac")
         return "aac"
+    }
+
+    private func getDownloadPreferredBitrate(for song: Song) -> Int32? {
+        let bitrateSetting = Int32(Defaults[.downloadBitrate])
+        if song.isNativelySupported {
+            return bitrateSetting < 0 ? nil : bitrateSetting
+        }
+
+        return bitrateSetting
     }
 
     enum FileRepositoryError: Error {
