@@ -114,19 +114,38 @@ final class FileRepository: ObservableObject {
             return
         }
 
-        let outputFileURL = cacheDirectory.appendingPathComponent(song.uuid)
+        let fileExtension = getFileExtension(for: song)
+        let outputFileURL = cacheDirectory.appendingPathComponent(song.uuid).appendingPathExtension(fileExtension)
         Logger.repository.debug("Starting download for song \(song.uuid)")
         await reportCurrentDownloadQueue()
-        try await apiClient.services.mediaService.new_downloadItem(id: song.uuid, destination: outputFileURL)
+        let bitrate = getDownloadPreferredBitrate(for: song)
+        try await apiClient.services.mediaService.downloadItem(
+            id: song.uuid,
+            destination: outputFileURL,
+            bitrate: bitrate != nil ? Int32(bitrate ?? 0) : nil
+        )
     }
 
-    func fileURL(for songId: String) -> URL? {
-        let fileURL = cacheDirectory.appendingPathComponent(songId)
+    func getLocalOrRemoteUrl(for song: Song) -> URL? {
+        guard let fileUrl = fileURL(for: song) else {
+            let bitrate = getStreamPreferredBitrate(for: song)
+            return apiClient.services.mediaService.getStreamUrl(
+                item: song.uuid,
+                bitrate: bitrate != nil ? Int32(bitrate ?? 0) : nil
+            )
+        }
+
+        return fileUrl
+    }
+
+    func fileURL(for song: Song) -> URL? {
+        let fileExtension = getFileExtension(for: song)
+        let fileURL = cacheDirectory.appendingPathComponent(song.uuid).appendingPathExtension(fileExtension)
         return FileManager.default.fileExists(atPath: fileURL.path) ? fileURL : nil
     }
 
-    func fileExists(for itemID: String) -> Bool {
-        fileURL(for: itemID) != nil
+    func fileExists(for song: Song) -> Bool {
+        fileURL(for: song) != nil
     }
 
     func numberOfDownloadedFiles() -> Int {
@@ -212,6 +231,33 @@ final class FileRepository: ObservableObject {
     private func reportCurrentDownloadQueue() async {
         let queueSize = await $downloadQueue.items.count
         Logger.repository.debug("Current queue size: \(queueSize)")
+    }
+
+    private func getFileExtension(for song: Song) -> String {
+        if song.isNativelySupported {
+            return song.fileExtension
+        }
+
+        Logger.repository.debug("File extension \(song.fileExtension) is not supported, falling back to \(AppDefaults.fallbackCodec)")
+        return AppDefaults.fallbackCodec
+    }
+
+    private func getStreamPreferredBitrate(for song: Song) -> Int? {
+        let bitrateSetting = Defaults[.streamBitrate]
+        if song.isNativelySupported {
+            return bitrateSetting < 0 ? nil : bitrateSetting
+        }
+
+        return bitrateSetting < 0 ? AppDefaults.fallbackBitrate : bitrateSetting
+    }
+
+    private func getDownloadPreferredBitrate(for song: Song) -> Int? {
+        let bitrateSetting = Defaults[.streamBitrate]
+        if song.isNativelySupported {
+            return bitrateSetting < 0 ? nil : bitrateSetting
+        }
+
+        return bitrateSetting < 0 ? AppDefaults.fallbackBitrate : bitrateSetting
     }
 
     enum FileRepositoryError: Error {

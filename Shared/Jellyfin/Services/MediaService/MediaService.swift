@@ -3,7 +3,7 @@ import Foundation
 protocol MediaService: ObservableObject {
     func getStreamUrl(item id: String, bitrate: Int32?) -> URL?
 
-    func new_downloadItem(id: String, destination: URL) async throws
+    func downloadItem(id: String, destination: URL, bitrate: Int32?) async throws
     func setFavorite(itemId: String, isFavorite: Bool) async throws
 
     // swiftlint:disable:next function_parameter_count

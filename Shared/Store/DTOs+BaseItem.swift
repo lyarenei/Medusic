@@ -29,5 +29,11 @@ extension Song {
         }()
         self.runtime = item.runTimeTicks?.timeInterval ?? 0
         self.albumDisc = Int(item.parentIndexNumber ?? 0)
+        self.fileExtension = {
+            guard let path = item.path else { return "" }
+            guard let encodedPath = path.addingPercentEncoding(withAllowedCharacters: .urlQueryAllowed) else { return "" }
+            guard let url = URL(string: encodedPath) else { return "" }
+            return url.pathExtension
+        }()
     }
 }

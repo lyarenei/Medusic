@@ -15,6 +15,10 @@ final class DefaultSongService: SongService {
         var requestParameters = JellyfinAPI.Paths.GetItemsParameters(
             userID: Defaults[.userId],
             isRecursive: true,
+            fields: [
+                .mediaSources,
+                .path,
+            ],
             includeItemTypes: [.audio],
             sortBy: sortBy
         )

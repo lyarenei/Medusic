@@ -5,7 +5,7 @@ final class MockMediaService: MediaService {
         nil
     }
 
-    func new_downloadItem(id: String, destination: URL) async throws {
+    func downloadItem(id: String, destination: URL, bitrate: Int32?) async throws {
         throw MediaServiceError.invalid
     }
 

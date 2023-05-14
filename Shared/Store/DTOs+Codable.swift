@@ -37,6 +37,7 @@ extension Song: Codable {
         case isFavorite
         case runtime
         case albumDisc
+        case fileExtension
     }
 
     public init(from decoder: Decoder) throws {
@@ -48,6 +49,7 @@ extension Song: Codable {
         self.isFavorite = try container.decode(Bool.self, forKey: .isFavorite)
         self.runtime = try container.decode(TimeInterval.self, forKey: .runtime)
         self.albumDisc = try container.decode(Int.self, forKey: .albumDisc)
+        self.fileExtension = try container.decode(String.self, forKey: .fileExtension)
     }
 
     public func encode(to encoder: Encoder) throws {
@@ -59,5 +61,6 @@ extension Song: Codable {
         try container.encode(isFavorite, forKey: .isFavorite)
         try container.encode(runtime, forKey: .runtime)
         try container.encode(albumDisc, forKey: .albumDisc)
+        try container.encode(fileExtension, forKey: .fileExtension)
     }
 }

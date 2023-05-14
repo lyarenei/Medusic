@@ -142,7 +142,8 @@ struct PreviewData {
             parentId: "1",
             isFavorite: false,
             runtime: 123,
-            albumDisc: 1
+            albumDisc: 1,
+            fileExtension: "flac"
         ),
         Song(
             uuid: "2",
@@ -151,7 +152,8 @@ struct PreviewData {
             parentId: "1",
             isFavorite: false,
             runtime: 123,
-            albumDisc: 2
+            albumDisc: 2,
+            fileExtension: "flac"
         ),
         // Songs for album 2
         Song(
@@ -160,7 +162,8 @@ struct PreviewData {
             name: "Song name 3",
             parentId: "2",
             isFavorite: false,
-            runtime: 123
+            runtime: 123,
+            fileExtension: "flac"
         ),
         Song(
             uuid: "4",
@@ -168,7 +171,8 @@ struct PreviewData {
             name: "Song name 4 but this one has very long name",
             parentId: "2",
             isFavorite: false,
-            runtime: 123
+            runtime: 123,
+            fileExtension: "flac"
         ),
         Song(
             uuid: "5",
@@ -176,7 +180,8 @@ struct PreviewData {
             name: "Very long song name that can't possibly fit on one line on phone screen either in vertical or horizontal orientation",
             parentId: "3",
             isFavorite: false,
-            runtime: 123
+            runtime: 123,
+            fileExtension: "flac"
         ),
     ]
 }
