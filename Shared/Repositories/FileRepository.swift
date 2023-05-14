@@ -239,7 +239,7 @@ final class FileRepository: ObservableObject {
         }
 
         Logger.repository.debug("File extension \(song.fileExtension) is not supported, falling back to aac")
-        return "aac"
+        return AppDefaults.fallbackCodec
     }
 
     private func getStreamPreferredBitrate(for song: Song) -> Int? {
