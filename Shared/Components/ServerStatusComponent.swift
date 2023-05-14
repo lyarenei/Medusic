@@ -28,6 +28,7 @@ struct ServerStatusComponent: View {
         )
         .foregroundColor(statusColor)
         .onChange(of: serverUrl, debounceTime: 1) { _ in
+            recreateClient()
             Task { await refreshServerStatus() }
         }
         .onChange(of: username, debounceTime: 1) { _ in
@@ -77,6 +78,15 @@ struct ServerStatusComponent: View {
 
     func isConfigured() -> Bool {
         serverUrl.isNotEmpty && username.isNotEmpty
+    }
+
+    func recreateClient() {
+        if Defaults[.previewMode] {
+            apiClient.usePreviewMode()
+            return
+        }
+
+        apiClient.useDefaultMode()
     }
 }
 
