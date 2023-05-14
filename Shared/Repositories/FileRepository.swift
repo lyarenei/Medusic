@@ -1,4 +1,3 @@
-import AVFoundation
 import Boutique
 import Defaults
 import OSLog
