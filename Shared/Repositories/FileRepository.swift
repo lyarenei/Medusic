@@ -126,6 +126,15 @@ final class FileRepository: ObservableObject {
         )
     }
 
+    func getLocalOrRemoteUrl(for song: Song) -> URL? {
+        guard let fileUrl = fileURL(for: song) else {
+            let bitrate = getStreamPreferredBitrate(for: song)
+            return apiClient.services.mediaService.getStreamUrl(item: song.uuid, bitrate: bitrate)
+        }
+
+        return fileUrl
+    }
+
     func fileURL(for song: Song) -> URL? {
         let fileExtension = getFileExtension(for: song)
         let fileURL = cacheDirectory.appendingPathComponent(song.uuid).appendingPathExtension(fileExtension)
@@ -228,6 +237,15 @@ final class FileRepository: ObservableObject {
 
         Logger.repository.debug("File extension \(song.fileExtension) is not supported, falling back to aac")
         return "aac"
+    }
+
+    private func getStreamPreferredBitrate(for song: Song) -> Int32? {
+        let bitrateSetting = Int32(Defaults[.streamBitrate])
+        if song.isNativelySupported {
+            return bitrateSetting < 0 ? nil : bitrateSetting
+        }
+
+        return bitrateSetting
     }
 
     private func getDownloadPreferredBitrate(for song: Song) -> Int32? {
