@@ -118,17 +118,21 @@ final class FileRepository: ObservableObject {
         let outputFileURL = cacheDirectory.appendingPathComponent(song.uuid).appendingPathExtension(fileExtension)
         Logger.repository.debug("Starting download for song \(song.uuid)")
         await reportCurrentDownloadQueue()
+        let bitrate = getDownloadPreferredBitrate(for: song)
         try await apiClient.services.mediaService.downloadItem(
             id: song.uuid,
             destination: outputFileURL,
-            bitrate: getDownloadPreferredBitrate(for: song)
+            bitrate: bitrate != nil ? Int32(bitrate ?? 0) : nil
         )
     }
 
     func getLocalOrRemoteUrl(for song: Song) -> URL? {
         guard let fileUrl = fileURL(for: song) else {
             let bitrate = getStreamPreferredBitrate(for: song)
-            return apiClient.services.mediaService.getStreamUrl(item: song.uuid, bitrate: bitrate)
+            return apiClient.services.mediaService.getStreamUrl(
+                item: song.uuid,
+                bitrate: bitrate != nil ? Int32(bitrate ?? 0) : nil
+            )
         }
 
         return fileUrl
@@ -238,22 +242,22 @@ final class FileRepository: ObservableObject {
         return "aac"
     }
 
-    private func getStreamPreferredBitrate(for song: Song) -> Int32? {
-        let bitrateSetting = Int32(Defaults[.streamBitrate])
+    private func getStreamPreferredBitrate(for song: Song) -> Int? {
+        let bitrateSetting = Defaults[.streamBitrate]
         if song.isNativelySupported {
             return bitrateSetting < 0 ? nil : bitrateSetting
         }
 
-        return bitrateSetting
+        return bitrateSetting < 0 ? AppDefaults.fallbackBitrate : bitrateSetting
     }
 
-    private func getDownloadPreferredBitrate(for song: Song) -> Int32? {
-        let bitrateSetting = Int32(Defaults[.downloadBitrate])
+    private func getDownloadPreferredBitrate(for song: Song) -> Int? {
+        let bitrateSetting = Defaults[.streamBitrate]
         if song.isNativelySupported {
             return bitrateSetting < 0 ? nil : bitrateSetting
         }
 
-        return bitrateSetting
+        return bitrateSetting < 0 ? AppDefaults.fallbackBitrate : bitrateSetting
     }
 
     enum FileRepositoryError: Error {
