@@ -1,3 +1,4 @@
+import AVFoundation
 import Boutique
 import Defaults
 import OSLog
@@ -114,15 +115,16 @@ final class FileRepository: ObservableObject {
             return
         }
 
-        let outputFileURL = cacheDirectory.appendingPathComponent(song.uuid).appendingPathExtension(song.fileExtension)
+        let fileExtension = getFileExtension(for: song)
+        let outputFileURL = cacheDirectory.appendingPathComponent(song.uuid).appendingPathExtension(fileExtension)
         Logger.repository.debug("Starting download for song \(song.uuid)")
         await reportCurrentDownloadQueue()
         try await apiClient.services.mediaService.new_downloadItem(id: song.uuid, destination: outputFileURL)
     }
 
     func fileURL(for song: Song) -> URL? {
-        // TODO: aac extension if not supported
-        let fileURL = cacheDirectory.appendingPathComponent(song.uuid).appendingPathExtension(song.fileExtension)
+        let fileExtension = getFileExtension(for: song)
+        let fileURL = cacheDirectory.appendingPathComponent(song.uuid).appendingPathExtension(fileExtension)
         return FileManager.default.fileExists(atPath: fileURL.path) ? fileURL : nil
     }
 
@@ -213,6 +215,21 @@ final class FileRepository: ObservableObject {
     private func reportCurrentDownloadQueue() async {
         let queueSize = await $downloadQueue.items.count
         Logger.repository.debug("Current queue size: \(queueSize)")
+    }
+
+    private func getSupportedExtensions() -> [String] {
+        let types = AVURLAsset.audiovisualTypes()
+        return types.compactMap { type in
+            UTType(type.rawValue)?.preferredFilenameExtension
+        }
+    }
+
+    private func getFileExtension(for song: Song) -> String {
+        if getSupportedExtensions().contains(where: { $0 == song.fileExtension }) {
+            return song.fileExtension
+        }
+
+        return "aac"
     }
 
     enum FileRepositoryError: Error {
