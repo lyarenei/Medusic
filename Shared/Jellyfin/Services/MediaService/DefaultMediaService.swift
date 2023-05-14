@@ -20,7 +20,7 @@ final class DefaultMediaService: MediaService {
         return URL(string: "\(baseUrl)/Audio/\(id)/stream?static=true")
     }
 
-    func new_downloadItem(id: String, destination: URL, bitrate: Int32?) async throws {
+    func downloadItem(id: String, destination: URL, bitrate: Int32?) async throws {
         let params = JellyfinAPI.Paths.GetAudioStreamParameters(
             isStatic: bitrate == nil,
             audioCodec: bitrate != nil ? "aac" : nil,

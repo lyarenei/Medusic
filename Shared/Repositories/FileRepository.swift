@@ -118,7 +118,7 @@ final class FileRepository: ObservableObject {
         let outputFileURL = cacheDirectory.appendingPathComponent(song.uuid).appendingPathExtension(fileExtension)
         Logger.repository.debug("Starting download for song \(song.uuid)")
         await reportCurrentDownloadQueue()
-        try await apiClient.services.mediaService.new_downloadItem(
+        try await apiClient.services.mediaService.downloadItem(
             id: song.uuid,
             destination: outputFileURL,
             bitrate: getDownloadPreferredBitrate(for: song)
