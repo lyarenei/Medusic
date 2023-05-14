@@ -238,7 +238,7 @@ final class FileRepository: ObservableObject {
             return song.fileExtension
         }
 
-        Logger.repository.debug("File extension \(song.fileExtension) is not supported, falling back to aac")
+        Logger.repository.debug("File extension \(song.fileExtension) is not supported, falling back to \(AppDefaults.fallbackCodec)")
         return AppDefaults.fallbackCodec
     }
 
