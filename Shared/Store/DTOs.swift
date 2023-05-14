@@ -1,3 +1,4 @@
+import AVFoundation
 import Foundation
 
 public struct JellyfinServerInfo {
@@ -29,4 +30,13 @@ struct Song: JellyfinItem {
     var runtime: TimeInterval
     var albumDisc = 0
     var fileExtension: String
+
+    var isNativelySupported: Bool {
+        let types = AVURLAsset.audiovisualTypes()
+        let extensions = types.compactMap { type in
+            UTType(type.rawValue)?.preferredFilenameExtension
+        }
+
+        return extensions.contains { $0 == fileExtension }
+    }
 }

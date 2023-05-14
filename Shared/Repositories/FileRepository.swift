@@ -217,18 +217,12 @@ final class FileRepository: ObservableObject {
         Logger.repository.debug("Current queue size: \(queueSize)")
     }
 
-    private func getSupportedExtensions() -> [String] {
-        let types = AVURLAsset.audiovisualTypes()
-        return types.compactMap { type in
-            UTType(type.rawValue)?.preferredFilenameExtension
-        }
-    }
-
     private func getFileExtension(for song: Song) -> String {
-        if getSupportedExtensions().contains(where: { $0 == song.fileExtension }) {
+        if song.isNativelySupported {
             return song.fileExtension
         }
 
+        Logger.repository.debug("File extension \(song.fileExtension) is not supported, falling back to aac")
         return "aac"
     }
 
