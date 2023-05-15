@@ -17,6 +17,7 @@ struct DownloadButton: View {
     private var textDownload: String?
     private var textRemove: String?
     private var songRepo: SongRepository
+    private var layout: ButtonLayout = .horizontal
 
     init(
         item: any JellyfinItem,
@@ -53,8 +54,12 @@ struct DownloadButton: View {
             if inProgress {
                 progressIndicator(proxy)
             } else {
-                icon()
-                buttonText(isDownloaded ? textRemove : textDownload)
+                switch layout {
+                case .horizontal:
+                    hLayout()
+                case .vertical:
+                    vLayout()
+                }
             }
         }
     }
@@ -74,6 +79,22 @@ struct DownloadButton: View {
                 alignment: .center
             )
             .scaledToFit()
+    }
+
+    @ViewBuilder
+    private func hLayout() -> some View {
+        HStack {
+            icon()
+            buttonText(isDownloaded ? textRemove : textDownload)
+        }
+    }
+
+    @ViewBuilder
+    private func vLayout() -> some View {
+        VStack {
+            icon()
+            buttonText(isDownloaded ? textRemove : textDownload)
+        }
     }
 
     @ViewBuilder
@@ -152,6 +173,19 @@ struct DownloadButton: View {
             print("Unhandled item type: \(item)")
             return
         }
+    }
+
+    enum ButtonLayout {
+        case horizontal
+        case vertical
+    }
+}
+
+extension DownloadButton {
+    func setLayout(_ layout: ButtonLayout) -> DownloadButton {
+        var view = self
+        view.layout = layout
+        return view
     }
 }
 
