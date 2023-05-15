@@ -4,19 +4,19 @@ import SwiftUI
 
 struct DownloadButton: View {
     @State
-    var isDownloaded = false
+    private var isDownloaded = false
 
     @State
-    var inProgress = false
+    private var inProgress = false
 
-    var item: any JellyfinItem
-    var textDownload: String?
-    var textRemove: String?
+    private var item: any JellyfinItem
+    private var textDownload: String?
+    private var textRemove: String?
 
-    var songRepo: SongRepository
+    private var songRepo: SongRepository
 
     @ObservedObject
-    var fileRepo: FileRepository
+    private var fileRepo: FileRepository
 
     init(
         item: any JellyfinItem,
@@ -46,7 +46,7 @@ struct DownloadButton: View {
     }
 
     @ViewBuilder
-    func button(proxy: GeometryProxy) -> some View {
+    private func button(proxy: GeometryProxy) -> some View {
         Button {
             action()
         } label: {
@@ -60,7 +60,7 @@ struct DownloadButton: View {
     }
 
     @ViewBuilder
-    func progressIndicator(_ proxy: GeometryProxy) -> some View {
+    private func progressIndicator(_ proxy: GeometryProxy) -> some View {
         ProgressView()
             .frame(
                 width: proxy.size.width,
@@ -71,13 +71,13 @@ struct DownloadButton: View {
     }
 
     @ViewBuilder
-    func buttonText(_ text: String?) -> some View {
+    private func buttonText(_ text: String?) -> some View {
         if let text {
             Text(text)
         }
     }
 
-    func handleOnAppear() {
+    private func handleOnAppear() {
         switch item {
         case let item as Song:
             isDownloaded = fileRepo.downloadedSongs.contains { $0 == item }
@@ -88,7 +88,7 @@ struct DownloadButton: View {
         }
     }
 
-    func handleIsDownloaded(_ songs: [Song]) {
+    private func handleIsDownloaded(_ songs: [Song]) {
         switch item {
         case let item as Song:
             isDownloaded = songs.contains { $0 == item }
@@ -97,7 +97,7 @@ struct DownloadButton: View {
         }
     }
 
-    func handleInProgress(_ songs: [Song]) {
+    private func handleInProgress(_ songs: [Song]) {
         switch item {
         case let item as Album:
             inProgress = songs.contains { $0.parentId == item.uuid }
@@ -108,7 +108,7 @@ struct DownloadButton: View {
         }
     }
 
-    func action() {
+    private func action() {
         Task {
             do {
                 if isDownloaded {
@@ -122,7 +122,7 @@ struct DownloadButton: View {
         }
     }
 
-    func downloadAction() async throws {
+    private func downloadAction() async throws {
         switch item {
         case let item as Album:
             let songs = await songRepo.getSongs(ofAlbum: item.uuid)
@@ -135,7 +135,7 @@ struct DownloadButton: View {
         }
     }
 
-    func removeAction() async throws {
+    private func removeAction() async throws {
         switch item {
         case let item as Album:
             let songs = await songRepo.getSongs(ofAlbum: item.uuid)
