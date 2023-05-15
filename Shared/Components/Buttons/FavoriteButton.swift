@@ -30,10 +30,30 @@ struct FavoriteButton: View {
         Button {
             action()
         } label: {
+            switch layout {
+            case .horizontal:
+                hLayout()
+            case .vertical:
+                vLayout()
+            }
+        }
+        .onAppear { isFavorite = item.isFavorite }
+    }
+
+    @ViewBuilder
+    private func hLayout() -> some View {
+        HStack {
             icon()
             buttonText(isFavorite ? textUnfavorite : textFavorite)
         }
-        .onAppear { isFavorite = item.isFavorite }
+    }
+
+    @ViewBuilder
+    private func vLayout() -> some View {
+        VStack {
+            icon()
+            buttonText(isFavorite ? textUnfavorite : textFavorite)
+        }
     }
 
     @ViewBuilder
