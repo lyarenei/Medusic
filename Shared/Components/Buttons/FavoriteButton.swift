@@ -123,6 +123,7 @@ struct FavoriteButton_Previews: PreviewProvider {
                 )
             )
         )
+        .frame(width: 60, height: 60)
     }
 }
 // swiftlint:enable all
