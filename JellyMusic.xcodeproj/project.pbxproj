@@ -121,8 +121,6 @@
 		9BB754DC29BA604C009BB3A6 /* DTOs.swift in Sources */ = {isa = PBXBuildFile; fileRef = 9BB754DA29BA604C009BB3A6 /* DTOs.swift */; };
 		9BB754DE29BA8522009BB3A6 /* DTOs+Codable.swift in Sources */ = {isa = PBXBuildFile; fileRef = 9BB754DD29BA8522009BB3A6 /* DTOs+Codable.swift */; };
 		9BB754DF29BA8522009BB3A6 /* DTOs+Codable.swift in Sources */ = {isa = PBXBuildFile; fileRef = 9BB754DD29BA8522009BB3A6 /* DTOs+Codable.swift */; };
-		9BB75E9B29C38610008CD65A /* DownloadIcon.swift in Sources */ = {isa = PBXBuildFile; fileRef = 9BB75E9A29C38610008CD65A /* DownloadIcon.swift */; };
-		9BB75E9C29C38610008CD65A /* DownloadIcon.swift in Sources */ = {isa = PBXBuildFile; fileRef = 9BB75E9A29C38610008CD65A /* DownloadIcon.swift */; };
 		9BB75EA329C3894A008CD65A /* FavoriteButton.swift in Sources */ = {isa = PBXBuildFile; fileRef = 9BB75EA229C3894A008CD65A /* FavoriteButton.swift */; };
 		9BB75EA429C3894A008CD65A /* FavoriteButton.swift in Sources */ = {isa = PBXBuildFile; fileRef = 9BB75EA229C3894A008CD65A /* FavoriteButton.swift */; };
 		9BB75EA629C389D9008CD65A /* DownloadButton.swift in Sources */ = {isa = PBXBuildFile; fileRef = 9BB75EA529C389D9008CD65A /* DownloadButton.swift */; };
@@ -231,7 +229,6 @@
 		9BA8B0C42A0F842500F6AF41 /* AlbumPreviewCollection.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = AlbumPreviewCollection.swift; sourceTree = "<group>"; };
 		9BB754DA29BA604C009BB3A6 /* DTOs.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = DTOs.swift; sourceTree = "<group>"; };
 		9BB754DD29BA8522009BB3A6 /* DTOs+Codable.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = "DTOs+Codable.swift"; sourceTree = "<group>"; };
-		9BB75E9A29C38610008CD65A /* DownloadIcon.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = DownloadIcon.swift; sourceTree = "<group>"; };
 		9BB75EA229C3894A008CD65A /* FavoriteButton.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = FavoriteButton.swift; sourceTree = "<group>"; };
 		9BB75EA529C389D9008CD65A /* DownloadButton.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = DownloadButton.swift; sourceTree = "<group>"; };
 		9BB75EA929C39FFF008CD65A /* SongRepository.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = SongRepository.swift; sourceTree = "<group>"; };
@@ -354,7 +351,6 @@
 			children = (
 				9BEFA1C429C72A2A004A07FB /* Collections */,
 				9BB75EA129C38938008CD65A /* Buttons */,
-				9BB75E9D29C3874F008CD65A /* Icons */,
 				9B70BD9C29B91F42000DB31C /* AlbumTileComponent.swift */,
 				9BDB09A429BB4816007F99E4 /* ArtworkComponent.swift */,
 				9B3D44B929BDF2550054C9E0 /* InlineInputComponent.swift */,
@@ -464,14 +460,6 @@
 				48C1F8E329BB827E003BE048 /* JellyfinImageProvider.swift */,
 			);
 			path = Jellyfin;
-			sourceTree = "<group>";
-		};
-		9BB75E9D29C3874F008CD65A /* Icons */ = {
-			isa = PBXGroup;
-			children = (
-				9BB75E9A29C38610008CD65A /* DownloadIcon.swift */,
-			);
-			path = Icons;
 			sourceTree = "<group>";
 		};
 		9BB75EA129C38938008CD65A /* Buttons */ = {
@@ -778,7 +766,6 @@
 				9B80477029B89EE40069B407 /* AlbumLibraryScreen.swift in Sources */,
 				48C1F8C229B9E795003BE048 /* Store+common.swift in Sources */,
 				9B6FB7AF29E5AA160013AA65 /* ServerUrlComponent.swift in Sources */,
-				9BB75E9B29C38610008CD65A /* DownloadIcon.swift in Sources */,
 				9B80476629B86F460069B407 /* LibraryScreen.swift in Sources */,
 				9B1EF3A329DCA62C00C2A33B /* PlayPreviousButton.swift in Sources */,
 				9BB754DB29BA604C009BB3A6 /* DTOs.swift in Sources */,
@@ -861,7 +848,6 @@
 				9BDB099D29BB302C007F99E4 /* DefaultImageService.swift in Sources */,
 				9BDB098E29BB1DD9007F99E4 /* SongService.swift in Sources */,
 				9BF7AF8D29CDF1C8004E0DA7 /* PrimaryActionButton.swift in Sources */,
-				9BB75E9C29C38610008CD65A /* DownloadIcon.swift in Sources */,
 				9B1EF3B029E151F400C2A33B /* RefreshButton.swift in Sources */,
 				9B52AF9529D339B1002E21B9 /* FileRepository.swift in Sources */,
 				9B73ECFD29C9ECA8007F74DB /* MediaService.swift in Sources */,

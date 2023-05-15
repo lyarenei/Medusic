@@ -1,5 +1,6 @@
 import Combine
 import OSLog
+import SFSafeSymbols
 import SwiftUI
 
 struct DownloadButton: View {
@@ -9,14 +10,13 @@ struct DownloadButton: View {
     @State
     private var inProgress = false
 
+    @ObservedObject
+    private var fileRepo: FileRepository
+
     private var item: any JellyfinItem
     private var textDownload: String?
     private var textRemove: String?
-
     private var songRepo: SongRepository
-
-    @ObservedObject
-    private var fileRepo: FileRepository
 
     init(
         item: any JellyfinItem,
@@ -53,10 +53,16 @@ struct DownloadButton: View {
             if inProgress {
                 progressIndicator(proxy)
             } else {
-                DownloadIcon(isDownloaded: isDownloaded)
+                icon()
                 buttonText(isDownloaded ? textRemove : textDownload)
             }
         }
+    }
+
+    @ViewBuilder
+    private func icon() -> some View {
+        Image(systemSymbol: isDownloaded ? .trash : .icloudAndArrowDown)
+            .scaledToFit()
     }
 
     @ViewBuilder
