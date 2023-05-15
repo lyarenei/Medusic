@@ -45,6 +45,7 @@ struct AlbumCollection: View {
             } label: {
                 albumListEntry(album: album)
             }
+            .contextMenu { AlbumContextMenu(album: album) }
         }
     }
 
@@ -58,6 +59,7 @@ struct AlbumCollection: View {
                     .padding(.vertical, 1)
                     .contentShape(Rectangle())
             }
+            .contextMenu { AlbumContextMenu(album: album) }
 
             Divider()
         }
@@ -72,6 +74,7 @@ struct AlbumCollection: View {
                 AlbumTileComponent(album: album)
             }
             .buttonStyle(.plain)
+            .contextMenu { AlbumContextMenu(album: album) }
         }
     }
 
