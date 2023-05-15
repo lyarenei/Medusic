@@ -10,6 +10,7 @@ struct FavoriteButton: View {
     let item: any JellyfinItem
     let textFavorite: String?
     let textUnfavorite: String?
+    private var layout: ButtonLayout = .horizontal
 
     init(
         item: any JellyfinItem,
@@ -67,6 +68,19 @@ struct FavoriteButton: View {
                 print("Failed to update favorite status")
             }
         }
+    }
+
+    enum ButtonLayout {
+        case horizontal
+        case vertical
+    }
+}
+
+extension FavoriteButton {
+    func setLayout(_ layout: ButtonLayout) -> FavoriteButton {
+        var view = self
+        view.layout = layout
+        return view
     }
 }
 
