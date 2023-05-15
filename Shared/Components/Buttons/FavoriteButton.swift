@@ -35,13 +35,13 @@ struct FavoriteButton: View {
     }
 
     @ViewBuilder
-    func buttonText(_ text: String?) -> some View {
+    private func buttonText(_ text: String?) -> some View {
         if let text {
             Text(text)
         }
     }
 
-    func action() {
+    private func action() {
         Task {
             do {
                 switch item {
