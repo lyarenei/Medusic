@@ -66,7 +66,6 @@ struct FavoriteButton: View {
     @ViewBuilder
     private func icon() -> some View {
         Image(systemSymbol: isFavorite ? .heartFill : .heart)
-            .resizable()
             .scaledToFit()
             .foregroundColor(.red)
     }
@@ -124,12 +123,12 @@ struct FavoriteButton_Previews: PreviewProvider {
                 )
             )
         )
-        .frame(width: 60, height: 60)
         .previewDisplayName("Icon only")
+        .font(.title)
 
         FavoriteButton(
             item: PreviewData.albums.first!,
-            textFavorite: "Favorite",
+            textUnfavorite: "Test",
             albumRepo: .init(
                 store: .previewStore(
                     items: PreviewData.albums,
@@ -144,12 +143,12 @@ struct FavoriteButton_Previews: PreviewProvider {
             )
         )
         .setLayout(.horizontal)
-        .frame(width: 60, height: 60)
         .previewDisplayName("Horizontal")
+        .font(.title)
 
         FavoriteButton(
             item: PreviewData.albums.first!,
-            textFavorite: "Favorite",
+            textUnfavorite: "Test",
             albumRepo: .init(
                 store: .previewStore(
                     items: PreviewData.albums,
@@ -164,8 +163,8 @@ struct FavoriteButton_Previews: PreviewProvider {
             )
         )
         .setLayout(.vertical)
-        .frame(width: 60, height: 60)
         .previewDisplayName("Vertical")
+        .font(.title)
     }
 }
 // swiftlint:enable all
