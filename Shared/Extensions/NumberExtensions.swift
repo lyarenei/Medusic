@@ -10,13 +10,15 @@ extension Int64 {
 extension TimeInterval {
     /// Express this interval in seconds.
     var seconds: Int {
-        guard !isInfinite && !isNaN else { return 0 }
+        guard !isInfinite else { return 0 }
+        guard !isNaN else { return 0 }
         return Int(self) % 60
     }
 
     /// Express this interval in minutes.
     var minutes: Int {
-        guard !isInfinite && !isNaN else { return 0 }
+        guard !isInfinite else { return 0 }
+        guard !isNaN else { return 0 }
         return Int(self) / 60
     }
 
@@ -26,7 +28,8 @@ extension TimeInterval {
     }
 
     var ticks: Int64 {
-        guard !isInfinite && !isNaN else { return 0 }
+        guard !isInfinite else { return 0 }
+        guard !isNaN else { return 0 }
         let ticksPerSecond: Int64 = 10_000_000
         return Int64(rounded(.toNearestOrAwayFromZero)) * ticksPerSecond
     }
