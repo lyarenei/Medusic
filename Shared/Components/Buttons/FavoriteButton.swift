@@ -125,6 +125,47 @@ struct FavoriteButton_Previews: PreviewProvider {
             )
         )
         .frame(width: 60, height: 60)
+        .previewDisplayName("Icon only")
+
+        FavoriteButton(
+            item: PreviewData.albums.first!,
+            textFavorite: "Favorite",
+            albumRepo: .init(
+                store: .previewStore(
+                    items: PreviewData.albums,
+                    cacheIdentifier: \.uuid
+                )
+            ),
+            songRepo: .init(
+                store: .previewStore(
+                    items: PreviewData.songs,
+                    cacheIdentifier: \.uuid
+                )
+            )
+        )
+        .setLayout(.horizontal)
+        .frame(width: 60, height: 60)
+        .previewDisplayName("Horizontal")
+
+        FavoriteButton(
+            item: PreviewData.albums.first!,
+            textFavorite: "Favorite",
+            albumRepo: .init(
+                store: .previewStore(
+                    items: PreviewData.albums,
+                    cacheIdentifier: \.uuid
+                )
+            ),
+            songRepo: .init(
+                store: .previewStore(
+                    items: PreviewData.songs,
+                    cacheIdentifier: \.uuid
+                )
+            )
+        )
+        .setLayout(.vertical)
+        .frame(width: 60, height: 60)
+        .previewDisplayName("Vertical")
     }
 }
 // swiftlint:enable all
