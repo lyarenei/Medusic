@@ -123,8 +123,6 @@
 		9BB754DF29BA8522009BB3A6 /* DTOs+Codable.swift in Sources */ = {isa = PBXBuildFile; fileRef = 9BB754DD29BA8522009BB3A6 /* DTOs+Codable.swift */; };
 		9BB75E9B29C38610008CD65A /* DownloadIcon.swift in Sources */ = {isa = PBXBuildFile; fileRef = 9BB75E9A29C38610008CD65A /* DownloadIcon.swift */; };
 		9BB75E9C29C38610008CD65A /* DownloadIcon.swift in Sources */ = {isa = PBXBuildFile; fileRef = 9BB75E9A29C38610008CD65A /* DownloadIcon.swift */; };
-		9BB75E9F29C3883E008CD65A /* FavoriteIcon.swift in Sources */ = {isa = PBXBuildFile; fileRef = 9BB75E9E29C3883E008CD65A /* FavoriteIcon.swift */; };
-		9BB75EA029C3883E008CD65A /* FavoriteIcon.swift in Sources */ = {isa = PBXBuildFile; fileRef = 9BB75E9E29C3883E008CD65A /* FavoriteIcon.swift */; };
 		9BB75EA329C3894A008CD65A /* FavoriteButton.swift in Sources */ = {isa = PBXBuildFile; fileRef = 9BB75EA229C3894A008CD65A /* FavoriteButton.swift */; };
 		9BB75EA429C3894A008CD65A /* FavoriteButton.swift in Sources */ = {isa = PBXBuildFile; fileRef = 9BB75EA229C3894A008CD65A /* FavoriteButton.swift */; };
 		9BB75EA629C389D9008CD65A /* DownloadButton.swift in Sources */ = {isa = PBXBuildFile; fileRef = 9BB75EA529C389D9008CD65A /* DownloadButton.swift */; };
@@ -234,7 +232,6 @@
 		9BB754DA29BA604C009BB3A6 /* DTOs.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = DTOs.swift; sourceTree = "<group>"; };
 		9BB754DD29BA8522009BB3A6 /* DTOs+Codable.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = "DTOs+Codable.swift"; sourceTree = "<group>"; };
 		9BB75E9A29C38610008CD65A /* DownloadIcon.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = DownloadIcon.swift; sourceTree = "<group>"; };
-		9BB75E9E29C3883E008CD65A /* FavoriteIcon.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = FavoriteIcon.swift; sourceTree = "<group>"; };
 		9BB75EA229C3894A008CD65A /* FavoriteButton.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = FavoriteButton.swift; sourceTree = "<group>"; };
 		9BB75EA529C389D9008CD65A /* DownloadButton.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = DownloadButton.swift; sourceTree = "<group>"; };
 		9BB75EA929C39FFF008CD65A /* SongRepository.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = SongRepository.swift; sourceTree = "<group>"; };
@@ -473,7 +470,6 @@
 			isa = PBXGroup;
 			children = (
 				9BB75E9A29C38610008CD65A /* DownloadIcon.swift */,
-				9BB75E9E29C3883E008CD65A /* FavoriteIcon.swift */,
 			);
 			path = Icons;
 			sourceTree = "<group>";
@@ -831,7 +827,6 @@
 				9B21623329E88D12008D3F73 /* MusicPlayer.swift in Sources */,
 				9B289EA829F6EDC3007FD445 /* NumberExtensions.swift in Sources */,
 				9BF7AF8C29CDF1C8004E0DA7 /* PrimaryActionButton.swift in Sources */,
-				9BB75E9F29C3883E008CD65A /* FavoriteIcon.swift in Sources */,
 				9B289EA529F6EC2D007FD445 /* ImageExtensions.swift in Sources */,
 				9BBE146729FDA11C0028C500 /* SearchScreen.swift in Sources */,
 				9BBE145F29FB18DA0028C500 /* NotificationExtensions.swift in Sources */,
@@ -875,7 +870,6 @@
 				48C1F8C329B9E795003BE048 /* Store+common.swift in Sources */,
 				9B73ED0029C9ECC5007F74DB /* MockMediaService.swift in Sources */,
 				9BA5220529F2EA4C0000D0AA /* SongListRowComponent.swift in Sources */,
-				9BB75EA029C3883E008CD65A /* FavoriteIcon.swift in Sources */,
 				9B46249929E5CDD000A2259A /* AdvancedSettingsScreen.swift in Sources */,
 				9BB75EB129C4C5E1008CD65A /* Settings.swift in Sources */,
 				9B61365E29BCB254004C85EC /* MacHomeScreen.swift in Sources */,

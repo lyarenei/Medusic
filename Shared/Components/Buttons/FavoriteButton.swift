@@ -1,3 +1,4 @@
+import SFSafeSymbols
 import SwiftUI
 
 struct FavoriteButton: View {
@@ -28,7 +29,7 @@ struct FavoriteButton: View {
         Button {
             action()
         } label: {
-            FavoriteIcon(isFavorite: isFavorite)
+            icon()
             buttonText(isFavorite ? textUnfavorite : textFavorite)
         }
         .onAppear { isFavorite = item.isFavorite }
@@ -39,6 +40,13 @@ struct FavoriteButton: View {
         if let text {
             Text(text)
         }
+    }
+
+    private func icon() -> some View {
+        Image(systemSymbol: isFavorite ? .heartFill : .heart)
+            .resizable()
+            .scaledToFit()
+            .foregroundColor(.red)
     }
 
     private func action() {
