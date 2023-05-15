@@ -43,7 +43,7 @@ struct AlbumDetailScreen: View {
         .navigationBarTitleDisplayMode(.inline)
         .toolbar {
             ToolbarItem(placement: .navigationBarTrailing) {
-                DownloadButton(item: album)
+                albumToolbarMenu()
             }
 
             ToolbarItem(placement: .navigationBarTrailing) {
@@ -125,6 +125,16 @@ struct AlbumDetailScreen: View {
             .padding(.bottom, 5)
         }
     }
+
+    @ViewBuilder
+    private func albumToolbarMenu() -> some View {
+        Menu {
+            AlbumContextMenu(album: album)
+        } label: {
+            Image(systemSymbol: .ellipsisCircle)
+                .imageScale(.large)
+        }
+    }
 }
 
 #if DEBUG
@@ -147,6 +157,25 @@ struct AlbumDetailScreen_Previews: PreviewProvider {
             )
         )
         .previewDisplayName("Default")
+
+        NavigationView {
+            AlbumDetailScreen(
+                for: PreviewData.albums.first!,
+                albumRepo: .init(
+                    store: .previewStore(
+                        items: PreviewData.albums,
+                        cacheIdentifier: \.uuid
+                    )
+                ),
+                songRepo: .init(
+                    store: .previewStore(
+                        items: PreviewData.songs,
+                        cacheIdentifier: \.uuid
+                    )
+                )
+            )
+        }
+        .previewDisplayName("With nav")
 
         AlbumDetailScreen(
             for: PreviewData.albums.first!,
