@@ -3,13 +3,13 @@ import SwiftUI
 
 struct FavoriteButton: View {
     @State
-    var isFavorite = false
+    private var isFavorite = false
 
-    let albumRepo: AlbumRepository
-    let songRepo: SongRepository
-    let item: any JellyfinItem
-    let textFavorite: String?
-    let textUnfavorite: String?
+    private let albumRepo: AlbumRepository
+    private let songRepo: SongRepository
+    private let item: any JellyfinItem
+    private let textFavorite: String?
+    private let textUnfavorite: String?
     private var layout: ButtonLayout = .horizontal
 
     init(
