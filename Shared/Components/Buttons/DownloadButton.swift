@@ -34,25 +34,23 @@ struct DownloadButton: View {
     }
 
     var body: some View {
-        GeometryReader { readerProxy in
-            button(proxy: readerProxy)
-                .onAppear { handleOnAppear() }
-                .onChange(of: fileRepo.downloadedSongs) { downloaded in
-                    handleIsDownloaded(downloaded)
-                }
-                .onChange(of: fileRepo.downloadQueue) { dlq in
-                    handleInProgress(dlq)
-                }
-        }
+        button()
+            .onAppear { handleOnAppear() }
+            .onChange(of: fileRepo.downloadedSongs) { downloaded in
+                handleIsDownloaded(downloaded)
+            }
+            .onChange(of: fileRepo.downloadQueue) { dlq in
+                handleInProgress(dlq)
+            }
     }
 
     @ViewBuilder
-    private func button(proxy: GeometryProxy) -> some View {
+    private func button() -> some View {
         Button {
             action()
         } label: {
             if inProgress {
-                progressIndicator(proxy)
+                progressIndicator()
             } else {
                 switch layout {
                 case .horizontal:
@@ -71,13 +69,8 @@ struct DownloadButton: View {
     }
 
     @ViewBuilder
-    private func progressIndicator(_ proxy: GeometryProxy) -> some View {
+    private func progressIndicator() -> some View {
         ProgressView()
-            .frame(
-                width: proxy.size.width,
-                height: proxy.size.height,
-                alignment: .center
-            )
             .scaledToFit()
     }
 
