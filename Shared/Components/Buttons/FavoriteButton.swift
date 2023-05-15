@@ -63,6 +63,7 @@ struct FavoriteButton: View {
         }
     }
 
+    @ViewBuilder
     private func icon() -> some View {
         Image(systemSymbol: isFavorite ? .heartFill : .heart)
             .resizable()
