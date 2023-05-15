@@ -148,6 +148,25 @@ struct AlbumDetailScreen_Previews: PreviewProvider {
         )
         .previewDisplayName("Default")
 
+        NavigationView {
+            AlbumDetailScreen(
+                for: PreviewData.albums.first!,
+                albumRepo: .init(
+                    store: .previewStore(
+                        items: PreviewData.albums,
+                        cacheIdentifier: \.uuid
+                    )
+                ),
+                songRepo: .init(
+                    store: .previewStore(
+                        items: PreviewData.songs,
+                        cacheIdentifier: \.uuid
+                    )
+                )
+            )
+        }
+        .previewDisplayName("With nav")
+
         AlbumDetailScreen(
             for: PreviewData.albums.first!,
             albumRepo: .init(
