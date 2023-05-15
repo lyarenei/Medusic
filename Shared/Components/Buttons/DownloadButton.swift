@@ -195,10 +195,30 @@ struct DownloadButton_Previews: PreviewProvider {
     static var previews: some View {
         DownloadButton(
             item: PreviewData.albums.first!,
+            songRepo: .init(store: .previewStore(items: PreviewData.songs, cacheIdentifier: \.uuid))
+        )
+        .font(.title)
+        .previewDisplayName("Icon only")
+
+        DownloadButton(
+            item: PreviewData.albums.first!,
             textDownload: "Download",
             textRemove: "Remove",
             songRepo: .init(store: .previewStore(items: PreviewData.songs, cacheIdentifier: \.uuid))
         )
+        .setLayout(.horizontal)
+        .font(.title)
+        .previewDisplayName("Horizontal")
+
+        DownloadButton(
+            item: PreviewData.albums.first!,
+            textDownload: "Download",
+            textRemove: "Remove",
+            songRepo: .init(store: .previewStore(items: PreviewData.songs, cacheIdentifier: \.uuid))
+        )
+        .setLayout(.vertical)
+        .font(.title)
+        .previewDisplayName("Vertical")
     }
 }
 // swiftlint:enable all
