@@ -43,7 +43,7 @@ struct AlbumDetailScreen: View {
         .navigationBarTitleDisplayMode(.inline)
         .toolbar {
             ToolbarItem(placement: .navigationBarTrailing) {
-                DownloadButton(item: album)
+                albumToolbarMenu()
             }
 
             ToolbarItem(placement: .navigationBarTrailing) {
@@ -123,6 +123,16 @@ struct AlbumDetailScreen: View {
             .padding(.leading)
             .padding(.top)
             .padding(.bottom, 5)
+        }
+    }
+
+    @ViewBuilder
+    private func albumToolbarMenu() -> some View {
+        Menu {
+            AlbumContextMenu(album: album)
+        } label: {
+            Image(systemSymbol: .ellipsisCircle)
+                .imageScale(.large)
         }
     }
 }
