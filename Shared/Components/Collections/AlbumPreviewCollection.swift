@@ -1,14 +1,11 @@
 import Defaults
 import SwiftUI
 
-struct AlbumPreviewCollection<Content: View>: View {
+struct AlbumPreviewCollection: View {
     private var albums: [Album]
     private var titleText: String
     private var emptyText = "No albums"
     private var stackType: StackType = .vertical
-
-    @ViewBuilder
-    private var showAllDest: () -> Content
 
     @Default(.maxPreviewItems)
     private var limit
@@ -16,13 +13,11 @@ struct AlbumPreviewCollection<Content: View>: View {
     init(
         for albums: [Album],
         titleText: String,
-        emptyText: String,
-        @ViewBuilder showAllDest: @escaping () -> Content
+        emptyText: String
     ) {
         self.albums = albums
         self.titleText = titleText
         self.emptyText = emptyText
-        self.showAllDest = showAllDest
     }
 
     var body: some View {
@@ -51,12 +46,11 @@ struct AlbumPreviewCollection<Content: View>: View {
                 .bold()
 
             Spacer()
-
-            if let showAllDest {
-                NavigationLink("Show all") { showAllDest() }
-                    .padding(.trailing)
-                    .disabled(true)
+            NavigationLink("Show all") {
+                showMoreScreen()
             }
+            .padding(.trailing)
+            .disabled(albums.isEmpty || albums.count <= limit)
         }
     }
 
@@ -96,6 +90,17 @@ struct AlbumPreviewCollection<Content: View>: View {
             .padding(.top, 10)
     }
 
+    @ViewBuilder
+    private func showMoreScreen() -> some View {
+        List {
+            AlbumCollection(albums: albums)
+                .forceMode(.asList)
+        }
+        .listStyle(.plain)
+        .navigationTitle(titleText)
+        .navigationBarTitleDisplayMode(.inline)
+    }
+
     enum StackType {
         case vertical
         case horizontal
@@ -117,15 +122,15 @@ struct AlbumPreviewCollection_Previews: PreviewProvider {
             for: PreviewData.albums,
             titleText: "Preview albums",
             emptyText: "No albums"
-        ) {}
-            .previewDisplayName("Default")
+        )
+        .previewDisplayName("Default")
 
         AlbumPreviewCollection(
             for: [],
             titleText: "Preview albums",
             emptyText: "No albums"
-        ) {}
-            .previewDisplayName("Empty")
+        )
+        .previewDisplayName("Empty")
     }
 }
 #endif

@@ -95,9 +95,7 @@ struct LibraryScreen: View {
                 for: albumRepo.albums.favorite.consistent,
                 titleText: "Favorite albums",
                 emptyText: "No favorite albums"
-            ) {
-                Text("All favorite albums")
-            }
+            )
             .stackType(numberOfEnabledSections() < 3 ? .vertical : .horizontal)
         }
     }
@@ -109,9 +107,7 @@ struct LibraryScreen: View {
                 for: albumRepo.albums.sortedByDateAdded,
                 titleText: "Recently added",
                 emptyText: "No albums"
-            ) {
-                Text("All albums, sorted by recently added")
-            }
+            )
             .stackType(numberOfEnabledSections() < 3 ? .vertical : .horizontal)
         }
     }
