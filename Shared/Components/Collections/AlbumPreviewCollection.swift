@@ -55,7 +55,7 @@ struct AlbumPreviewCollection<Content: View>: View {
             if let showAllDest {
                 NavigationLink("Show all") { showAllDest() }
                     .padding(.trailing)
-                    .disabled(true)
+                    .disabled(albums.isEmpty || albums.count <= limit)
             }
         }
     }
