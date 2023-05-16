@@ -47,12 +47,7 @@ struct AlbumPreviewCollection: View {
 
             Spacer()
             NavigationLink("Show all") {
-                ItemListScreen(
-                    title: titleText,
-                    itemArray: albums
-                ) { album in
-                    AlbumListRowComponent(album: album)
-                }
+                showMoreScreen()
             }
             .padding(.trailing)
             .disabled(albums.isEmpty || albums.count <= limit)
@@ -93,6 +88,17 @@ struct AlbumPreviewCollection: View {
             .font(.title3)
             .foregroundColor(.gray)
             .padding(.top, 10)
+    }
+
+    @ViewBuilder
+    private func showMoreScreen() -> some View {
+        List {
+            AlbumCollection(albums: albums)
+                .forceMode(.asList)
+        }
+        .listStyle(.plain)
+        .navigationTitle(titleText)
+        .navigationBarTitleDisplayMode(.inline)
     }
 
     enum StackType {
