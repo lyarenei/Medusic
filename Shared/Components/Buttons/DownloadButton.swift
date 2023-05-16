@@ -1,22 +1,23 @@
 import Combine
 import OSLog
+import SFSafeSymbols
 import SwiftUI
 
 struct DownloadButton: View {
     @State
-    var isDownloaded = false
+    private var isDownloaded = false
 
     @State
-    var inProgress = false
-
-    var item: any JellyfinItem
-    var textDownload: String?
-    var textRemove: String?
-
-    var songRepo: SongRepository
+    private var inProgress = false
 
     @ObservedObject
-    var fileRepo: FileRepository
+    private var fileRepo: FileRepository
+
+    private var item: any JellyfinItem
+    private var textDownload: String?
+    private var textRemove: String?
+    private var songRepo: SongRepository
+    private var layout: ButtonLayout = .horizontal
 
     init(
         item: any JellyfinItem,
@@ -33,51 +34,70 @@ struct DownloadButton: View {
     }
 
     var body: some View {
-        GeometryReader { readerProxy in
-            button(proxy: readerProxy)
-                .onAppear { handleOnAppear() }
-                .onChange(of: fileRepo.downloadedSongs) { downloaded in
-                    handleIsDownloaded(downloaded)
-                }
-                .onChange(of: fileRepo.downloadQueue) { dlq in
-                    handleInProgress(dlq)
-                }
-        }
+        button()
+            .onAppear { handleOnAppear() }
+            .onChange(of: fileRepo.downloadedSongs) { downloaded in
+                handleIsDownloaded(downloaded)
+            }
+            .onChange(of: fileRepo.downloadQueue) { dlq in
+                handleInProgress(dlq)
+            }
     }
 
     @ViewBuilder
-    func button(proxy: GeometryProxy) -> some View {
+    private func button() -> some View {
         Button {
             action()
         } label: {
             if inProgress {
-                progressIndicator(proxy)
+                progressIndicator()
             } else {
-                DownloadIcon(isDownloaded: isDownloaded)
-                buttonText(isDownloaded ? textRemove : textDownload)
+                switch layout {
+                case .horizontal:
+                    hLayout()
+                case .vertical:
+                    vLayout()
+                }
             }
         }
     }
 
     @ViewBuilder
-    func progressIndicator(_ proxy: GeometryProxy) -> some View {
-        ProgressView()
-            .frame(
-                width: proxy.size.width,
-                height: proxy.size.height,
-                alignment: .center
-            )
+    private func icon() -> some View {
+        Image(systemSymbol: isDownloaded ? .trash : .icloudAndArrowDown)
             .scaledToFit()
     }
 
     @ViewBuilder
-    func buttonText(_ text: String?) -> some View {
+    private func progressIndicator() -> some View {
+        ProgressView()
+            .scaledToFit()
+    }
+
+    @ViewBuilder
+    private func hLayout() -> some View {
+        HStack {
+            icon()
+            buttonText(isDownloaded ? textRemove : textDownload)
+        }
+    }
+
+    @ViewBuilder
+    private func vLayout() -> some View {
+        VStack {
+            icon()
+            buttonText(isDownloaded ? textRemove : textDownload)
+        }
+    }
+
+    @ViewBuilder
+    private func buttonText(_ text: String?) -> some View {
         if let text {
             Text(text)
         }
     }
 
-    func handleOnAppear() {
+    private func handleOnAppear() {
         switch item {
         case let item as Song:
             isDownloaded = fileRepo.downloadedSongs.contains { $0 == item }
@@ -88,7 +108,7 @@ struct DownloadButton: View {
         }
     }
 
-    func handleIsDownloaded(_ songs: [Song]) {
+    private func handleIsDownloaded(_ songs: [Song]) {
         switch item {
         case let item as Song:
             isDownloaded = songs.contains { $0 == item }
@@ -97,7 +117,7 @@ struct DownloadButton: View {
         }
     }
 
-    func handleInProgress(_ songs: [Song]) {
+    private func handleInProgress(_ songs: [Song]) {
         switch item {
         case let item as Album:
             inProgress = songs.contains { $0.parentId == item.uuid }
@@ -108,7 +128,7 @@ struct DownloadButton: View {
         }
     }
 
-    func action() {
+    private func action() {
         Task {
             do {
                 if isDownloaded {
@@ -122,7 +142,7 @@ struct DownloadButton: View {
         }
     }
 
-    func downloadAction() async throws {
+    private func downloadAction() async throws {
         switch item {
         case let item as Album:
             let songs = await songRepo.getSongs(ofAlbum: item.uuid)
@@ -135,7 +155,7 @@ struct DownloadButton: View {
         }
     }
 
-    func removeAction() async throws {
+    private func removeAction() async throws {
         switch item {
         case let item as Album:
             let songs = await songRepo.getSongs(ofAlbum: item.uuid)
@@ -147,6 +167,19 @@ struct DownloadButton: View {
             return
         }
     }
+
+    enum ButtonLayout {
+        case horizontal
+        case vertical
+    }
+}
+
+extension DownloadButton {
+    func setLayout(_ layout: ButtonLayout) -> DownloadButton {
+        var view = self
+        view.layout = layout
+        return view
+    }
 }
 
 #if DEBUG
@@ -155,10 +188,30 @@ struct DownloadButton_Previews: PreviewProvider {
     static var previews: some View {
         DownloadButton(
             item: PreviewData.albums.first!,
+            songRepo: .init(store: .previewStore(items: PreviewData.songs, cacheIdentifier: \.uuid))
+        )
+        .font(.title)
+        .previewDisplayName("Icon only")
+
+        DownloadButton(
+            item: PreviewData.albums.first!,
             textDownload: "Download",
             textRemove: "Remove",
             songRepo: .init(store: .previewStore(items: PreviewData.songs, cacheIdentifier: \.uuid))
         )
+        .setLayout(.horizontal)
+        .font(.title)
+        .previewDisplayName("Horizontal")
+
+        DownloadButton(
+            item: PreviewData.albums.first!,
+            textDownload: "Download",
+            textRemove: "Remove",
+            songRepo: .init(store: .previewStore(items: PreviewData.songs, cacheIdentifier: \.uuid))
+        )
+        .setLayout(.vertical)
+        .font(.title)
+        .previewDisplayName("Vertical")
     }
 }
 // swiftlint:enable all

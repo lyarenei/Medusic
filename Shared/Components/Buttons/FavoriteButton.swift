@@ -1,14 +1,16 @@
+import SFSafeSymbols
 import SwiftUI
 
 struct FavoriteButton: View {
     @State
-    var isFavorite = false
+    private var isFavorite = false
 
-    let albumRepo: AlbumRepository
-    let songRepo: SongRepository
-    let item: any JellyfinItem
-    let textFavorite: String?
-    let textUnfavorite: String?
+    private let albumRepo: AlbumRepository
+    private let songRepo: SongRepository
+    private let item: any JellyfinItem
+    private let textFavorite: String?
+    private let textUnfavorite: String?
+    private var layout: ButtonLayout = .horizontal
 
     init(
         item: any JellyfinItem,
@@ -28,20 +30,47 @@ struct FavoriteButton: View {
         Button {
             action()
         } label: {
-            FavoriteIcon(isFavorite: isFavorite)
-            buttonText(isFavorite ? textUnfavorite : textFavorite)
+            switch layout {
+            case .horizontal:
+                hLayout()
+            case .vertical:
+                vLayout()
+            }
         }
         .onAppear { isFavorite = item.isFavorite }
     }
 
     @ViewBuilder
-    func buttonText(_ text: String?) -> some View {
+    private func hLayout() -> some View {
+        HStack {
+            icon()
+            buttonText(isFavorite ? textUnfavorite : textFavorite)
+        }
+    }
+
+    @ViewBuilder
+    private func vLayout() -> some View {
+        VStack {
+            icon()
+            buttonText(isFavorite ? textUnfavorite : textFavorite)
+        }
+    }
+
+    @ViewBuilder
+    private func buttonText(_ text: String?) -> some View {
         if let text {
             Text(text)
         }
     }
 
-    func action() {
+    @ViewBuilder
+    private func icon() -> some View {
+        Image(systemSymbol: isFavorite ? .heartFill : .heart)
+            .scaledToFit()
+            .foregroundColor(.red)
+    }
+
+    private func action() {
         Task {
             do {
                 switch item {
@@ -59,6 +88,19 @@ struct FavoriteButton: View {
                 print("Failed to update favorite status")
             }
         }
+    }
+
+    enum ButtonLayout {
+        case horizontal
+        case vertical
+    }
+}
+
+extension FavoriteButton {
+    func setLayout(_ layout: ButtonLayout) -> FavoriteButton {
+        var view = self
+        view.layout = layout
+        return view
     }
 }
 
@@ -81,6 +123,48 @@ struct FavoriteButton_Previews: PreviewProvider {
                 )
             )
         )
+        .previewDisplayName("Icon only")
+        .font(.title)
+
+        FavoriteButton(
+            item: PreviewData.albums.first!,
+            textUnfavorite: "Test",
+            albumRepo: .init(
+                store: .previewStore(
+                    items: PreviewData.albums,
+                    cacheIdentifier: \.uuid
+                )
+            ),
+            songRepo: .init(
+                store: .previewStore(
+                    items: PreviewData.songs,
+                    cacheIdentifier: \.uuid
+                )
+            )
+        )
+        .setLayout(.horizontal)
+        .previewDisplayName("Horizontal")
+        .font(.title)
+
+        FavoriteButton(
+            item: PreviewData.albums.first!,
+            textUnfavorite: "Test",
+            albumRepo: .init(
+                store: .previewStore(
+                    items: PreviewData.albums,
+                    cacheIdentifier: \.uuid
+                )
+            ),
+            songRepo: .init(
+                store: .previewStore(
+                    items: PreviewData.songs,
+                    cacheIdentifier: \.uuid
+                )
+            )
+        )
+        .setLayout(.vertical)
+        .previewDisplayName("Vertical")
+        .font(.title)
     }
 }
 // swiftlint:enable all
