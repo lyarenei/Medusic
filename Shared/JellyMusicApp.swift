@@ -1,8 +1,6 @@
-import Defaults
-import JellyfinAPI
 import Kingfisher
-import SFSafeSymbols
 import SwiftUI
+import SwiftUIBackports
 
 @main
 struct JellyMusicApp: App {
@@ -28,16 +26,15 @@ struct JellyMusicApp: App {
                 MacHomeScreen()
                 #endif
             }
-            .onAppear { Task(priority: .medium) {
+            .backport.task {
                 // TODO: would be good to show error to user
-                // NOTE: This overwrites local-only metadata (such as isDownloaded)
                 do {
                     try await AlbumRepository.shared.refresh()
-//                    try await SongRepository.shared.refresh()
+                    try await SongRepository.shared.refresh()
                 } catch {
-                    print("Failed to refresh data: \(error)")
+                    debugPrint("Failed to refresh library: \(error)")
                 }
-            }}
+            }
         }
 
         #if os(macOS)
