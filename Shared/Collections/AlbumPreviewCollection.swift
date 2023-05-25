@@ -44,6 +44,7 @@ struct AlbumPreviewCollection: View {
             Text(titleText)
                 .font(.title)
                 .bold()
+                .lineLimit(1)
 
             Spacer()
             NavigationLink("Show all") {
