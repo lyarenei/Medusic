@@ -22,31 +22,8 @@ struct AlbumDetailScreen: View {
 
     var body: some View {
         ScrollView {
-            VStack {
-                AlbumHeading(album: album)
-                    .padding(.bottom, 10)
-
-                AlbumActions(album: album)
-                    .padding(.bottom, 20)
-
-                if songRepo.songs.getAlbumDiscCount(albumId: album.uuid) <= 1 {
-                    Divider()
-                        .padding(.leading)
-                }
-
-                albumSongs()
-                stats()
-                    .padding(.top, 8)
-                    .padding(.bottom, 15)
-
-                AlbumPreviewCollection(
-                    for: getPreviewAlbums(),
-                    titleText: "More by \(album.artistName)",
-                    emptyText: "No other albums"
-                )
-                .stackType(.horizontal)
-            }
-            .padding(.top, 15)
+            content()
+                .padding(.top, 15)
         }
         .navigationBarTitleDisplayMode(.inline)
         .toolbar {
@@ -57,6 +34,34 @@ struct AlbumDetailScreen: View {
             ToolbarItem(placement: .navigationBarTrailing) {
                 RefreshButton(mode: .album(id: album.uuid))
             }
+        }
+    }
+
+    @ViewBuilder
+    private func content() -> some View {
+        VStack {
+            AlbumHeading(album: album)
+                .padding(.bottom, 10)
+
+            AlbumActions(album: album)
+                .padding(.bottom, 20)
+
+            if songRepo.songs.getAlbumDiscCount(albumId: album.uuid) <= 1 {
+                Divider()
+                    .padding(.leading)
+            }
+
+            albumSongs()
+            stats()
+                .padding(.top, 8)
+                .padding(.bottom, 15)
+
+            AlbumPreviewCollection(
+                for: getPreviewAlbums(),
+                titleText: "More by \(album.artistName)",
+                emptyText: "No other albums"
+            )
+            .stackType(.horizontal)
         }
     }
 
