@@ -349,8 +349,6 @@
 		9B70BDA229B93228000DB31C /* Components */ = {
 			isa = PBXGroup;
 			children = (
-				9BEFA1C429C72A2A004A07FB /* Collections */,
-				9BB75EA129C38938008CD65A /* Buttons */,
 				9B70BD9C29B91F42000DB31C /* AlbumTileComponent.swift */,
 				9BDB09A429BB4816007F99E4 /* ArtworkComponent.swift */,
 				9B3D44B929BDF2550054C9E0 /* InlineInputComponent.swift */,
@@ -406,13 +404,15 @@
 		9B80473229B768000069B407 /* Shared */ = {
 			isa = PBXGroup;
 			children = (
+				9BB75EA129C38938008CD65A /* Buttons */,
+				9BEFA1C429C72A2A004A07FB /* Collections */,
+				9B70BDA229B93228000DB31C /* Components */,
 				9BDB03342A1288CF004EFA3A /* ContextActions */,
 				9B7AF3AF29EB048E0039A7DF /* Extensions */,
-				9BB75EC429C5FF39008CD65A /* Repositories */,
 				9BB75E8029BFA5B0008CD65A /* Jellyfin */,
+				9BB75EC429C5FF39008CD65A /* Repositories */,
 				9B61365429BC6E19004C85EC /* Screens */,
 				48C1F8C429B9E7FF003BE048 /* Store */,
-				9B70BDA229B93228000DB31C /* Components */,
 				9B80473329B768000069B407 /* JellyMusicApp.swift */,
 				4848B22529BCBC2000EB2FAA /* Cancellables.swift */,
 				9B80473529B768010069B407 /* Assets.xcassets */,
