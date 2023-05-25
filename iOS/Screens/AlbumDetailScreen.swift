@@ -36,7 +36,16 @@ struct AlbumDetailScreen: View {
 
                 albumSongs()
                 stats()
-                    .padding(.vertical, 8)
+                    .padding(.top, 8)
+                    .padding(.bottom, 15)
+
+                // TODO: exclude this album
+                AlbumPreviewCollection(
+                    for: albumRepo.albums.filter { $0.artistName == album.artistName },
+                    titleText: "More by \(album.artistName)",
+                    emptyText: "No other albums"
+                )
+                .stackType(.horizontal)
             }
             .padding(.top, 15)
         }
