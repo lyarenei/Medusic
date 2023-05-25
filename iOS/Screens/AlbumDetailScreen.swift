@@ -39,9 +39,8 @@ struct AlbumDetailScreen: View {
                     .padding(.top, 8)
                     .padding(.bottom, 15)
 
-                // TODO: exclude this album
                 AlbumPreviewCollection(
-                    for: albumRepo.albums.filter { $0.artistName == album.artistName },
+                    for: getPreviewAlbums(),
                     titleText: "More by \(album.artistName)",
                     emptyText: "No other albums"
                 )
@@ -143,6 +142,10 @@ struct AlbumDetailScreen: View {
             Image(systemSymbol: .ellipsisCircle)
                 .imageScale(.large)
         }
+    }
+
+    private func getPreviewAlbums() -> [Album] {
+        albumRepo.albums.filter { $0.uuid != album.uuid && $0.artistName == album.artistName }
     }
 }
 
