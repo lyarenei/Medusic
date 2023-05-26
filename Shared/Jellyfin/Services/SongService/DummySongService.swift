@@ -9,16 +9,16 @@ final class DummySongService: SongService {
     }
 
     func getSongs() async throws -> [Song] {
-        return self.songs
+        songs
     }
 
     func getSongs(for albumId: String) async throws -> [Song] {
-        return self.songs.filter { $0.parentId == albumId }
+        songs.filter { $0.parentId == albumId }
     }
 
     func toggleFavorite(songId: String) async throws -> Bool {
-        if let idx = self.songs.firstIndex(where: { $0.uuid == songId }) {
-            self.songs[idx].isFavorite.toggle()
+        if let idx = songs.firstIndex(where: { $0.uuid == songId }) {
+            songs[idx].isFavorite.toggle()
             return true
         }
 

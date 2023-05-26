@@ -34,7 +34,7 @@ final class DefaultSongService: SongService {
 
     // TODO: Add pagination.
     func getSongs() async throws -> [Song] {
-        let remoteSongs = try await self.fetchSongs(
+        let remoteSongs = try await fetchSongs(
             for: nil,
             sortBy: ["Album", "indexNumber"]
         )
@@ -44,7 +44,7 @@ final class DefaultSongService: SongService {
 
     // TODO: Add pagination.
     func getSongs(for albumId: String) async throws -> [Song] {
-        let remoteSongs = try await self.fetchSongs(
+        let remoteSongs = try await fetchSongs(
             for: albumId,
             sortBy: ["indexNumber"]
         )
