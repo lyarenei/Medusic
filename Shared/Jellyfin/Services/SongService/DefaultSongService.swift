@@ -51,19 +51,4 @@ final class DefaultSongService: SongService {
 
         return remoteSongs
     }
-
-    func toggleFavorite(songId: String) async throws -> Bool {
-        guard Defaults[.readOnly] == false else { return false }
-        let request = JellyfinAPI.Paths.markFavoriteItem(
-            userID: Defaults[.userId],
-            itemID: songId
-        )
-
-        let response = try await client.send(request)
-        if let code = response.statusCode {
-            return code <= 400
-        }
-
-        return false
-    }
 }
