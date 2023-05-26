@@ -8,10 +8,7 @@ final class DefaultSongService: SongService {
         self.client = client
     }
 
-    private func fetchSongs(
-        for albumId: String? = nil,
-        sortBy: [String]? = nil
-    ) async throws -> [Song] {
+    private func fetchSongs(for albumId: String? = nil, sortBy: [String]? = nil) async throws -> [Song] {
         var requestParameters = JellyfinAPI.Paths.GetItemsParameters(
             userID: Defaults[.userId],
             isRecursive: true,
@@ -29,7 +26,11 @@ final class DefaultSongService: SongService {
 
         let request = JellyfinAPI.Paths.getItems(parameters: requestParameters)
         let response = try await client.send(request)
-        return response.value.items!.map { Song(from: $0) }
+        if let items = response.value.items {
+            return items.map { Song(from: $0) }
+        }
+
+        throw SongServiceError.noData
     }
 
     // TODO: Add pagination.
