@@ -5,10 +5,18 @@ import SwiftUI
 import SwiftUIBackports
 
 struct AdvancedSettingsScreen: View {
+    @ObservedObject
+    private var fileRepo: FileRepository
+
+    init(fileRepo: FileRepository) {
+        self._fileRepo = ObservedObject(wrappedValue: fileRepo)
+    }
+
     var body: some View {
         List {
             MaxCacheSize()
             ClearArtworkCache()
+            RemoveDownloads(fileRepo: fileRepo)
 
             Section {
                 PurgeOptions()
@@ -25,7 +33,19 @@ struct AdvancedSettingsScreen: View {
 #if DEBUG
 struct AdvancedSettingsScreen_Previews: PreviewProvider {
     static var previews: some View {
-        AdvancedSettingsScreen()
+        AdvancedSettingsScreen(
+            fileRepo: .init(
+                downloadedSongsStore: .previewStore(
+                    items: PreviewData.songs,
+                    cacheIdentifier: \.uuid
+                ),
+                downloadQueueStore: .previewStore(
+                    items: [],
+                    cacheIdentifier: \.uuid
+                ),
+                apiClient: .init(previewEnabled: true)
+            )
+        )
     }
 }
 #endif
@@ -199,5 +219,55 @@ private struct ClearArtworkCache: View {
         Kingfisher.ImageCache.default.clearMemoryCache()
         Kingfisher.ImageCache.default.clearDiskCache()
         resetSize()
+    }
+}
+
+private struct RemoveDownloads: View {
+    @ObservedObject
+    private var fileRepo: FileRepository
+
+    @State
+    private var sizeMB = 0.0
+
+    init(fileRepo: FileRepository) {
+        self._fileRepo = ObservedObject(wrappedValue: fileRepo)
+    }
+
+    var body: some View {
+        Section {
+            ConfirmButton(
+                btnText: "Remove downloads",
+                alertTitle: "Remove downloaded songs",
+                alertMessage: "",
+                alertPrimaryBtnText: "Confirm",
+                alertPrimaryAction: onConfirm
+            )
+            .foregroundColor(.red)
+        } footer: {
+            Text("Current size: \(String(format: "%.1f", sizeMB)) MB")
+        }
+        .backport.task { await calculateSize() }
+    }
+
+    private func resetSize() {
+        Task { await MainActor.run { sizeMB = 0 } }
+    }
+
+    private func onConfirm() {
+        do {
+            try fileRepo.removeAllFiles()
+            resetSize()
+        } catch {
+            print("Failed to remove downloads: \(error.localizedDescription)")
+        }
+    }
+
+    @MainActor
+    private func calculateSize() async {
+        do {
+            sizeMB = try fileRepo.downloadedFilesSizeInMB()
+        } catch {
+            print("Failed to get image cache size: \(error.localizedDescription)")
+        }
     }
 }

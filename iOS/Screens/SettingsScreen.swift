@@ -148,7 +148,7 @@ struct SettingsScreen: View {
     @ViewBuilder
     private func advanced() -> some View {
         NavigationLink("Advanced") {
-            AdvancedSettingsScreen()
+            AdvancedSettingsScreen(fileRepo: .shared)
         }
     }
 
