@@ -97,7 +97,6 @@ private struct PurgeOptions: View {
 
     var body: some View {
         purgeLibraryDataButton()
-        purgeDownloadsButton()
         resetToDefaultButton()
     }
 
@@ -116,22 +115,6 @@ private struct PurgeOptions: View {
                 } catch {
                     print("Resetting library data failed: \(error.localizedDescription)")
                 }
-            }
-        }
-    }
-
-    @ViewBuilder
-    private func purgeDownloadsButton() -> some View {
-        ConfirmButton(
-            btnText: "Remove all downloads",
-            alertTitle: "Remove all downloads",
-            alertMessage: "This will remove all downloaded songs",
-            alertPrimaryBtnText: "Remove"
-        ) {
-            do {
-                try purgeDownloads()
-            } catch {
-                print("Failed to remove downloaded data: \(error.localizedDescription)")
             }
         }
     }
