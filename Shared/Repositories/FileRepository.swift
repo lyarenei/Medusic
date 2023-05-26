@@ -103,7 +103,7 @@ final class FileRepository: ObservableObject {
         let currentSize = try downloadedFilesSize()
         guard currentSize + song.size <= cacheSizeLimit else {
             Logger.repository.info("Download for song \(song.uuid) cancelled: cache size limit reached")
-            return
+            throw FileRepositoryError.cacheSizeLimitExceeded
         }
 
         let fileExtension = getFileExtension(for: song)
