@@ -23,13 +23,13 @@ final class DummyAlbumService: AlbumService {
     }
 
     func simple_getAlbums() async throws -> [Album] {
-        return self.albums
+        albums
     }
 
     func simple_getAlbum(by albumId: String) async throws -> Album {
-        let album = self.albums.first { $0.uuid == albumId }
+        let album = albums.first { $0.uuid == albumId }
 
-        guard let album = album else { throw AlbumFetchError.itemNotFound }
+        guard let album else { throw AlbumFetchError.itemNotFound }
         return album
     }
 }

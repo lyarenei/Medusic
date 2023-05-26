@@ -15,7 +15,7 @@ final class DefaultAlbumService: AlbumService {
     }
 
     private func requestParams(itemIds: [String]? = nil) -> JellyfinAPI.Paths.GetItemsParameters {
-        return JellyfinAPI.Paths.GetItemsParameters(
+        JellyfinAPI.Paths.GetItemsParameters(
             userID: Defaults[.userId],
             isRecursive: true,
             fields: [.dateCreated],
@@ -25,7 +25,7 @@ final class DefaultAlbumService: AlbumService {
     }
 
     private func fetchAll() -> Future<[Album], AlbumFetchError> {
-        return Future<[Album], AlbumFetchError> { [weak self] completion in
+        Future<[Album], AlbumFetchError> { [weak self] completion in
             guard let self else { return completion(.failure(AlbumFetchError.invalid)) }
             Task {
                 do {
@@ -43,7 +43,7 @@ final class DefaultAlbumService: AlbumService {
     }
 
     private func fetchOne(by albumId: String) -> Future<Album, AlbumFetchError> {
-        return Future<Album, AlbumFetchError> { [weak self] completion in
+        Future<Album, AlbumFetchError> { [weak self] completion in
             guard let self else { return completion(.failure(AlbumFetchError.invalid)) }
             Task {
                 do {
@@ -63,7 +63,7 @@ final class DefaultAlbumService: AlbumService {
 
     // TODO: Add pagination.
     func getAlbums() -> AnyPublisher<[Album], AlbumFetchError> {
-        let remotePublisher = self.fetchAll()
+        let remotePublisher = fetchAll()
             .handleEvents(receiveOutput: { [weak self] albums in
                 guard let self else { return }
                 Task {
@@ -86,7 +86,7 @@ final class DefaultAlbumService: AlbumService {
     }
 
     func getAlbum(by albumId: String) -> AnyPublisher<Album, AlbumFetchError> {
-        let remotePublisher = self.fetchOne(by: albumId)
+        let remotePublisher = fetchOne(by: albumId)
             .handleEvents(receiveOutput: { [weak self] album in
                 guard let self else { return }
                 Task {
@@ -113,16 +113,16 @@ final class DefaultAlbumService: AlbumService {
     }
 
     func simple_getAlbums() async throws -> [Album] {
-        let request = JellyfinAPI.Paths.getItems(parameters: self.requestParams())
-        let response = try await self.client.send(request)
+        let request = JellyfinAPI.Paths.getItems(parameters: requestParams())
+        let response = try await client.send(request)
         guard let items = response.value.items else { throw AlbumFetchError.itemsNotFound }
         return items.map(Album.init(from:))
     }
 
     func simple_getAlbum(by albumId: String) async throws -> Album {
-        let requestParams = self.requestParams(itemIds: [albumId])
+        let requestParams = requestParams(itemIds: [albumId])
         let request = JellyfinAPI.Paths.getItems(parameters: requestParams)
-        let response = try await self.client.send(request)
+        let response = try await client.send(request)
         guard let items = response.value.items else { throw AlbumFetchError.itemNotFound }
         return Album(from: items[0])
     }
