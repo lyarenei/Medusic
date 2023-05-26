@@ -2,11 +2,13 @@ import Boutique
 import Defaults
 import Kingfisher
 import SwiftUI
+import SwiftUIBackports
 
 struct AdvancedSettingsScreen: View {
     var body: some View {
         List {
             MaxCacheSize()
+            ClearArtworkCache()
 
             Section {
                 PurgeOptions()
@@ -156,5 +158,46 @@ private struct PurgeOptions: View {
         purgeImages()
         try await purgeLibraryData()
         try purgeDownloads()
+    }
+}
+
+private struct ClearArtworkCache: View {
+    @State
+    private var sizeMB = 0.0
+
+    var body: some View {
+        Section {
+            ConfirmButton(
+                btnText: "Clear artwork cache",
+                alertTitle: "Clear artwork cache",
+                alertMessage: "",
+                alertPrimaryBtnText: "Confirm",
+                alertPrimaryAction: onConfirm
+            )
+            .foregroundColor(.red)
+        } footer: {
+            Text("Cache size: \(String(format: "%.1f", sizeMB)) MB")
+        }
+        .backport.task { await calculateSize() }
+    }
+
+    private func resetSize() {
+        Task { await MainActor.run { sizeMB = 0 } }
+    }
+
+    @MainActor
+    private func calculateSize() async {
+        do {
+            let sizeBytes = try await KingfisherManager.shared.cache.diskStorageSize
+            sizeMB = Double(sizeBytes) / 1024 / 1024
+        } catch {
+            print("Failed to get image cache size: \(error.localizedDescription)")
+        }
+    }
+
+    private func onConfirm() {
+        Kingfisher.ImageCache.default.clearMemoryCache()
+        Kingfisher.ImageCache.default.clearDiskCache()
+        resetSize()
     }
 }
