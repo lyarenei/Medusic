@@ -1,4 +1,3 @@
-import Boutique
 import Defaults
 import Kingfisher
 import SwiftUI
@@ -8,6 +7,11 @@ struct AdvancedSettingsScreen: View {
     @EnvironmentObject
     private var fileRepo: FileRepository
 
+    @EnvironmentObject
+    private var albumRepo: AlbumRepository
+
+    @EnvironmentObject
+    private var songRepo: SongRepository
 
     var body: some View {
         List {
@@ -15,15 +19,45 @@ struct AdvancedSettingsScreen: View {
             ClearArtworkCache()
             RemoveDownloads()
 
-            Section {
-                PurgeOptions()
-            }
-            .buttonStyle(.plain)
-            .foregroundColor(.red)
+            forceLibraryRefresh()
+            resetToDefaultsButton()
+                .foregroundColor(.red)
         }
         .listStyle(.grouped)
         .navigationTitle("Advanced")
         .navigationBarTitleDisplayMode(.inline)
+    }
+
+    @ViewBuilder
+    private func forceLibraryRefresh() -> some View {
+        Button {
+            onForceLibraryRefresh()
+        } label: {
+            Text("Force library refresh")
+        }
+    }
+
+    private func onForceLibraryRefresh() {
+        Task {
+            do {
+                try await albumRepo.refresh()
+                try await songRepo.refresh()
+            } catch {
+                print("Failed to refresh data: \(error.localizedDescription)")
+            }
+        }
+    }
+
+    @ViewBuilder
+    private func resetToDefaultsButton() -> some View {
+        ConfirmButton(
+            btnText: "Reset settings to defaults",
+            alertTitle: "Reset settings to defaults",
+            alertMessage: "",
+            alertPrimaryBtnText: "Reset"
+        ) {
+            Defaults.removeAll()
+        }
     }
 }
 
@@ -83,88 +117,6 @@ private struct MaxCacheSize: View {
         fmt.allowsFloats = false
         fmt.isLenient = false
         return fmt
-    }
-}
-
-private struct PurgeOptions: View {
-    @Stored(in: .albums)
-    var albums: [Album]
-
-    @Stored(in: .songs)
-    var songs: [Song]
-
-    @Stored(in: .downloadedSongs)
-    var downloadedSongs: [Song]
-
-    @State
-    var showConfirm = false
-
-    var body: some View {
-        purgeLibraryDataButton()
-        resetToDefaultButton()
-    }
-
-    @ViewBuilder
-    private func purgeLibraryDataButton() -> some View {
-        ConfirmButton(
-            btnText: "Reset library",
-            alertTitle: "Reset library",
-            alertMessage: "This will clear all caches and local library data from the device",
-            alertPrimaryBtnText: "Reset"
-        ) {
-            Task {
-                do {
-                    purgeImages()
-                    try await purgeLibraryData()
-                } catch {
-                    print("Resetting library data failed: \(error.localizedDescription)")
-                }
-            }
-        }
-    }
-
-    @ViewBuilder
-    private func resetToDefaultButton() -> some View {
-        ConfirmButton(
-            btnText: "Reset JellyMusic",
-            alertTitle: "Reset to defaults",
-            alertMessage: "This will delete everything and reset all settings to their defaults",
-            alertPrimaryBtnText: "Reset",
-            alertPrimaryAction: resetToDefault
-        )
-    }
-
-    private func resetToDefault() {
-        Task {
-            do {
-                try await purgeAll()
-            } catch {
-                print("Reset failed: \(error.localizedDescription)")
-            }
-
-            Defaults.removeAll()
-        }
-    }
-
-    private func purgeImages() {
-        Kingfisher.ImageCache.default.clearMemoryCache()
-        Kingfisher.ImageCache.default.clearDiskCache()
-    }
-
-    private func purgeLibraryData() async throws {
-        try await $albums.removeAll()
-        try await $songs.removeAll()
-        try await $downloadedSongs.removeAll()
-    }
-
-    private func purgeDownloads() throws {
-        try FileRepository.shared.removeAllFiles()
-    }
-
-    private func purgeAll() async throws {
-        purgeImages()
-        try await purgeLibraryData()
-        try purgeDownloads()
     }
 }
 
