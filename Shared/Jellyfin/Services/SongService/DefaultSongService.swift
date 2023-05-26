@@ -3,6 +3,7 @@ import JellyfinAPI
 
 final class DefaultSongService: SongService {
     private let client: JellyfinClient
+    private let pageSize = 100
 
     init(client: JellyfinClient) {
         self.client = client
@@ -35,21 +36,17 @@ final class DefaultSongService: SongService {
 
     // TODO: Add pagination.
     func getSongs() async throws -> [Song] {
-        let remoteSongs = try await fetchSongs(
+        try await fetchSongs(
             for: nil,
             sortBy: ["Album", "indexNumber"]
         )
-
-        return remoteSongs
     }
 
     // TODO: Add pagination.
     func getSongs(for albumId: String) async throws -> [Song] {
-        let remoteSongs = try await fetchSongs(
+        try await fetchSongs(
             for: albumId,
             sortBy: ["indexNumber"]
         )
-
-        return remoteSongs
     }
 }
