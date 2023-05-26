@@ -6,7 +6,7 @@ protocol AlbumService: ObservableObject {
     func getAlbum(by albumId: String) async throws -> Album
 }
 
-enum AlbumFetchError: Error {
+enum AlbumServiceError: Error {
     case invalid
     case itemNotFound
     case itemsNotFound
