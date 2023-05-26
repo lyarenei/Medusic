@@ -148,7 +148,10 @@ struct SettingsScreen: View {
     @ViewBuilder
     private func advanced() -> some View {
         NavigationLink("Advanced") {
-            AdvancedSettingsScreen(fileRepo: .shared)
+            AdvancedSettingsScreen()
+                .environmentObject(FileRepository.shared)
+                .environmentObject(AlbumRepository.shared)
+                .environmentObject(SongRepository.shared)
         }
     }
 

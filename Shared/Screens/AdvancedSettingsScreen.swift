@@ -5,18 +5,15 @@ import SwiftUI
 import SwiftUIBackports
 
 struct AdvancedSettingsScreen: View {
-    @ObservedObject
+    @EnvironmentObject
     private var fileRepo: FileRepository
 
-    init(fileRepo: FileRepository) {
-        self._fileRepo = ObservedObject(wrappedValue: fileRepo)
-    }
 
     var body: some View {
         List {
             MaxCacheSize()
             ClearArtworkCache()
-            RemoveDownloads(fileRepo: fileRepo)
+            RemoveDownloads()
 
             Section {
                 PurgeOptions()
@@ -32,20 +29,27 @@ struct AdvancedSettingsScreen: View {
 
 #if DEBUG
 struct AdvancedSettingsScreen_Previews: PreviewProvider {
+    static var fileRepo: FileRepository = .init(
+        downloadedSongsStore: .previewStore(items: PreviewData.songs, cacheIdentifier: \.uuid),
+        downloadQueueStore: .previewStore(items: [], cacheIdentifier: \.uuid),
+        apiClient: .init(previewEnabled: true)
+    )
+
+    static var albumRepo: AlbumRepository = .init(
+        store: .previewStore(items: PreviewData.albums, cacheIdentifier: \.uuid),
+        apiClient: .init(previewEnabled: true)
+    )
+
+    static var songRepo: SongRepository = .init(
+        store: .previewStore(items: PreviewData.songs, cacheIdentifier: \.uuid),
+        apiClient: .init(previewEnabled: true)
+    )
+
     static var previews: some View {
-        AdvancedSettingsScreen(
-            fileRepo: .init(
-                downloadedSongsStore: .previewStore(
-                    items: PreviewData.songs,
-                    cacheIdentifier: \.uuid
-                ),
-                downloadQueueStore: .previewStore(
-                    items: [],
-                    cacheIdentifier: \.uuid
-                ),
-                apiClient: .init(previewEnabled: true)
-            )
-        )
+        AdvancedSettingsScreen()
+            .environmentObject(fileRepo)
+            .environmentObject(albumRepo)
+            .environmentObject(songRepo)
     }
 }
 #endif
@@ -206,15 +210,11 @@ private struct ClearArtworkCache: View {
 }
 
 private struct RemoveDownloads: View {
-    @ObservedObject
+    @EnvironmentObject
     private var fileRepo: FileRepository
 
     @State
     private var sizeMB = 0.0
-
-    init(fileRepo: FileRepository) {
-        self._fileRepo = ObservedObject(wrappedValue: fileRepo)
-    }
 
     var body: some View {
         Section {
