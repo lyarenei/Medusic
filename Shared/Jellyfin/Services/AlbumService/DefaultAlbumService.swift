@@ -23,14 +23,14 @@ final class DefaultAlbumService: AlbumService {
         )
     }
 
-    func simple_getAlbums() async throws -> [Album] {
+    func getAlbums() async throws -> [Album] {
         let request = JellyfinAPI.Paths.getItems(parameters: requestParams())
         let response = try await client.send(request)
         guard let items = response.value.items else { throw AlbumFetchError.itemsNotFound }
         return items.map(Album.init(from:))
     }
 
-    func simple_getAlbum(by albumId: String) async throws -> Album {
+    func getAlbum(by albumId: String) async throws -> Album {
         let requestParams = requestParams(itemIds: [albumId])
         let request = JellyfinAPI.Paths.getItems(parameters: requestParams)
         let response = try await client.send(request)
