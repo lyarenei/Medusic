@@ -193,13 +193,15 @@ final class FileRepository: ObservableObject {
         }
     }
 
-    func removeAllFiles() throws {
+    func removeAllFiles() async throws {
         Logger.repository.debug("Will remove all files in file repository")
         let fileURLs = try FileManager.default.contentsOfDirectory(at: cacheDirectory, includingPropertiesForKeys: nil, options: [])
         for fileURL in fileURLs {
             Logger.repository.debug("Removing file \(fileURL.debugDescription)")
             try FileManager.default.removeItem(at: fileURL)
         }
+
+        try await $downloadedSongs.removeAll()
     }
 
     func setCacheSizeLimit(_ sizeInMB: UInt64) {

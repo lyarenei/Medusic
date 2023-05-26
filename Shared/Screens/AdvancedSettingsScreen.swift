@@ -189,11 +189,13 @@ private struct RemoveDownloads: View {
     }
 
     private func onConfirm() {
-        do {
-            try fileRepo.removeAllFiles()
-            resetSize()
-        } catch {
-            print("Failed to remove downloads: \(error.localizedDescription)")
+        Task {
+            do {
+                try await fileRepo.removeAllFiles()
+                resetSize()
+            } catch {
+                print("Failed to remove downloads: \(error.localizedDescription)")
+            }
         }
     }
 
