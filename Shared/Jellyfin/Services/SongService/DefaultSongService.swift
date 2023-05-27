@@ -3,7 +3,6 @@ import JellyfinAPI
 
 final class DefaultSongService: SongService {
     private let client: JellyfinClient
-    private let pageSize = 100
 
     init(client: JellyfinClient) {
         self.client = client
