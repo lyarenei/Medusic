@@ -15,8 +15,7 @@ final class DummyAlbumService: AlbumService {
 
     func getAlbum(by albumId: String) async throws -> Album {
         let album = albums.first { $0.uuid == albumId }
-
-        guard let album else { throw AlbumServiceError.itemNotFound }
+        guard let album else { throw AlbumServiceError.noData }
         return album
     }
 }

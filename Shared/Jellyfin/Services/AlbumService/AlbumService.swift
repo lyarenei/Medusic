@@ -8,7 +8,6 @@ protocol AlbumService: ObservableObject {
 
 enum AlbumServiceError: Error {
     case invalid
-    case itemNotFound
-    case itemsNotFound
+    case noData
     case requestFailed(Error)
 }
