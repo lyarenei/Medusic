@@ -13,6 +13,7 @@ final class DefaultSongService: SongService {
         var requestParameters = JellyfinAPI.Paths.GetItemsParameters(
             userID: Defaults[.userId],
             isRecursive: true,
+            parentID: albumId,
             fields: [
                 .mediaSources,
                 .path,
@@ -21,17 +22,10 @@ final class DefaultSongService: SongService {
             sortBy: sortBy
         )
 
-        if let id = albumId {
-            requestParameters.parentID = id
-        }
-
         let request = JellyfinAPI.Paths.getItems(parameters: requestParameters)
         let response = try await client.send(request)
-        if let items = response.value.items {
-            return items.map { Song(from: $0) }
-        }
-
-        throw SongServiceError.noData
+        guard let items = response.value.items else { throw SongServiceError.noData }
+        return items.map(Song.init(from:))
     }
 
     // TODO: Add pagination.
