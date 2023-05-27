@@ -34,7 +34,7 @@ final class DefaultAlbumService: AlbumService {
         let requestParams = requestParams(itemIds: [albumId])
         let request = JellyfinAPI.Paths.getItems(parameters: requestParams)
         let response = try await client.send(request)
-        guard let items = response.value.items else { throw AlbumServiceError.noData }
+        guard let items = response.value.items, items.isNotEmpty else { throw AlbumServiceError.noData }
         return Album(from: items[0])
     }
 }
