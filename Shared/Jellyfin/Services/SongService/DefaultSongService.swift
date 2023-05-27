@@ -10,7 +10,7 @@ final class DefaultSongService: SongService {
     }
 
     private func fetchSongs(for albumId: String? = nil, sortBy: [String]? = nil) async throws -> [Song] {
-        var requestParameters = JellyfinAPI.Paths.GetItemsParameters(
+        let requestParameters = JellyfinAPI.Paths.GetItemsParameters(
             userID: Defaults[.userId],
             isRecursive: true,
             parentID: albumId,
