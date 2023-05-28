@@ -5,6 +5,9 @@ struct MusicPlayerScreen: View {
     @ObservedObject
     var player: MusicPlayer
 
+    @State
+    private var isSongListPresented = false
+
     init(player: MusicPlayer = .shared) {
         _player = ObservedObject(wrappedValue: player)
     }
@@ -15,7 +18,10 @@ struct MusicPlayerScreen: View {
                 .frame(width: 270, height: 270)
 
             SongWithActions(song: player.currentSong)
+
             PlaybackProgressComponent(player: player)
+                .padding(.top, 15)
+
             PlaybackControl()
                 .font(.largeTitle)
                 .buttonStyle(.plain)
@@ -27,13 +33,48 @@ struct MusicPlayerScreen: View {
                 .disabled(true)
                 .foregroundColor(.init(UIColor.secondaryLabel))
 
-            BottomPlaceholder()
-                .padding(.horizontal, 50)
-                .font(.title3)
-                .foregroundColor(.init(UIColor.secondaryLabel))
-                .frame(height: 40)
+            BottomPlaceholder(listTapHandler: {
+                isSongListPresented = true
+            })
+            .padding(.horizontal, 50)
+            .font(.title3)
+            .frame(height: 40)
         }
         .padding([.top, .horizontal], 30)
+        .sheet(isPresented: $isSongListPresented) {
+            List {
+                Section {
+                    ForEach(player.history, id: \.uuid) { song in
+                        Text(song.name)
+                            .contentShape(Rectangle())
+                            .frame(maxWidth: .infinity, alignment: .leading)
+                            .background(.almostClear)
+                            .onTapGesture {
+                                player.playHistory(song: song)
+                            }
+                    }
+                } header: {
+                    Text("History")
+                }
+
+                Section {
+                    ForEach(
+                        player.upNext,
+                        id: \.uuid
+                    ) { song in
+                        Text(song.name)
+                            .contentShape(Rectangle())
+                            .frame(maxWidth: .infinity, alignment: .leading)
+                            .background(.almostClear)
+                            .onTapGesture {
+                                player.playUpNext(song: song)
+                            }
+                    }
+                } header: {
+                    Text("Up next")
+                }
+            }
+        }
     }
 }
 
@@ -96,7 +137,6 @@ private struct PlaybackControl: View {
                 .font(.title2)
                 .frame(width: 50, height: 50)
                 .contentShape(Rectangle())
-                .disabled(true)
 
             Spacer()
 
@@ -110,7 +150,7 @@ private struct PlaybackControl: View {
                 .font(.title2)
                 .frame(width: 50, height: 50)
                 .contentShape(Rectangle())
-                .disabled(false)
+                .disabled(player.upNext.isEmpty)
         }
         .frame(height: 40)
     }
@@ -140,13 +180,25 @@ private struct BottomPlaceholder: View {
     @State
     var airplayPresented = false
 
+    var listTapHandler: () -> Void
+
     var body: some View {
         HStack {
             Image(systemSymbol: .quoteBubble)
+                .foregroundColor(.init(UIColor.secondaryLabel))
+
             Spacer()
+
             AirPlayComponent()
+
             Spacer()
-            Image(systemSymbol: .listBullet)
+
+            Button {
+                listTapHandler()
+            } label: {
+                Image(systemSymbol: .listBullet)
+            }
+            .foregroundColor(.init(UIColor.label))
         }
     }
 }

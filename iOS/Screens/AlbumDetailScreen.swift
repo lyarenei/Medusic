@@ -236,6 +236,7 @@ private struct AlbumActions: View {
                 .overlay(
                     RoundedRectangle(cornerRadius: 10)
                         .stroke(style: StrokeStyle(lineWidth: 1.0))
+                        .foregroundColor(.accentColor)
                 )
 
             Button {
@@ -248,6 +249,7 @@ private struct AlbumActions: View {
             .overlay(
                 RoundedRectangle(cornerRadius: 10)
                     .stroke(style: StrokeStyle(lineWidth: 1.0))
+                    .foregroundColor(.lightGray)
             )
             .disabled(true)
         }

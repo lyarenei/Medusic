@@ -74,6 +74,8 @@ private struct NowPlayingBar: View {
                 .frame(width: 60, height: 60)
                 .font(.title2)
                 .buttonStyle(.plain)
+                // Increase the tap area
+                .padding(.leading)
                 .contentShape(Rectangle())
 
             PlayNextButton(player: player)
@@ -81,6 +83,7 @@ private struct NowPlayingBar: View {
                 .frame(width: 60, height: 60)
                 .buttonStyle(.plain)
                 .contentShape(Rectangle())
+                .disabled(player.upNext.isEmpty)
         }
         .padding(.trailing, 10)
         .frame(width: UIScreen.main.bounds.size.width, height: 65)

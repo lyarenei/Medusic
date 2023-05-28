@@ -4,20 +4,42 @@ import Kingfisher
 import MediaPlayer
 import OSLog
 import SwiftUI
+import Combine
+
+final class AVJellyPlayerItem: AVPlayerItem {
+    var song: Song?
+}
 
 final class MusicPlayer: ObservableObject {
     public static let shared = MusicPlayer()
 
-    var player: AVQueuePlayer = .init()
+    static let seekDelay = 0.75
+
+    var player = AVQueuePlayer()
     let apiClient: ApiClient
     var songRepo: SongRepository
     var fileRepo: FileRepository
+
+    @MainActor
+    @Published
+    private(set) var history: [Song] = []
+
+    /// A flag for when history shouldn't be modified by standard current song change.
+    private var isHistoryRewritten = false
+
+    var upNext: [Song] {
+        player.items()
+            .filter { $0 != player.currentItem }
+            .compactMap { ($0 as? AVJellyPlayerItem)?.song }
+    }
 
     @Published
     var currentSong: Song?
 
     @Published
-    var isPlaying = false
+    private(set) var isPlaying = false
+
+    private var seekCancellable: Cancellable?
 
     private var currentItemObserver: NSKeyValueObservation?
 
@@ -32,22 +54,39 @@ final class MusicPlayer: ObservableObject {
         self.apiClient = apiClient
         guard !preview else { return }
 
-        self.currentItemObserver = player.observe(\.currentItem, options: [.new, .old]) { [weak self] _, _ in
+        currentItemObserver = player.observe(\.currentItem, options: [.old, .new]) { [weak self] player, change in
             guard let self else { return }
-            Task {
-                if let currentSong = self.currentSong {
-                    await self.sendPlaybackStopped(for: currentSong)
-                    await self.sendPlaybackFinished(for: currentSong)
+            guard case .some(let currentItem)? = change.newValue,
+                  let currentJellyItem = currentItem as? AVJellyPlayerItem,
+                  let currentSong = currentJellyItem.song
+            else {
+                Task {
+                    await self.setCurrentlyPlaying(newSong: nil)
+                    Logger.player.info("Current song is not set, stopping.")
+                }
+                return
+            }
+            Task { @MainActor in
+                if case .some(let previousItem)? = change.oldValue,
+                   let previousJellyItem = previousItem as? AVJellyPlayerItem,
+                   let previousSong = previousJellyItem.song,
+                   previousItem != currentItem {
+
+                    if !self.isHistoryRewritten {
+                        Logger.player.debug("Adding song to history: \(currentSong.name)")
+                        self.history.append(previousSong)
+                    } else {
+                        // The next song change should be reported as usual.
+                        self.isHistoryRewritten = false
+                    }
+
+                    await self.sendPlaybackStopped(for: previousSong)
+                    await self.sendPlaybackFinished(for: previousSong)
                 }
 
-                if let songId = self.player.currentItem?.songId {
-                    let song = await self.songRepo.getSong(by: songId)
-                    await self.setCurrentlyPlaying(newSong: song)
-                    await self.sendPlaybackStarted(for: song)
-                    self.setNowPlayingMetadata()
-                } else {
-                    await self.setCurrentlyPlaying(newSong: nil)
-                }
+                await self.setCurrentlyPlaying(newSong: currentSong)
+                await self.sendPlaybackStarted(for: currentSong)
+                self.setNowPlayingMetadata(song: currentSong)
             }
         }
 
@@ -90,7 +129,7 @@ final class MusicPlayer: ObservableObject {
     func play(song: Song? = nil) async {
         if let song {
             clearQueue(stopPlayback: true)
-            await enqueue(song: song, position: .last)
+            enqueue(song: song, position: .last)
         }
 
         await player.play()
@@ -99,9 +138,109 @@ final class MusicPlayer: ObservableObject {
 
     func play(songs: [Song]) async {
         clearQueue(stopPlayback: true)
-        await enqueue(songs: songs, position: .last)
+        enqueue(songs: songs, position: .last)
         await player.play()
         await setIsPlaying(isPlaying: true)
+    }
+
+    @MainActor
+    func playHistory(song: Song) {
+        guard let historySongIndex = history.firstIndex(of: song) else {
+            Logger.player.warning("Failed to find history song index: \(song.name)")
+            return
+        }
+
+        let previousSongs = Array(history.suffix(from: historySongIndex))
+
+        guard let newCurrentSong = previousSongs.first else { return }
+
+        let currentSong = (player.currentItem as? AVJellyPlayerItem)?.song
+
+        history = Array(history.prefix(historySongIndex))
+        isHistoryRewritten = true
+
+        do {
+            let newCurrentItem = try avItemFactory(song: newCurrentSong)
+            player.replaceCurrentItem(with: newCurrentItem)
+        } catch {
+            Logger.player.error("Failed to create AV item: \(newCurrentSong.name)")
+            return
+        }
+
+        enqueue(songs: previousSongs.dropFirst() + [currentSong].compactMap { $0 }, position: .next)
+    }
+
+    @MainActor
+    func playUpNext(song: Song) {
+        let currentJellyItems = player.items().compactMap { $0 as? AVJellyPlayerItem }
+        let currentSongs = currentJellyItems.compactMap(\.song)
+        guard let upNextSongIndex = currentSongs.firstIndex(of: song) else {
+            Logger.player.warning("Failed to find up next song index: \(song.name)")
+            return
+        }
+
+        history += Array(currentSongs.prefix(upTo: upNextSongIndex))
+        isHistoryRewritten = true
+
+        do {
+            let newCurrentSong = currentSongs[upNextSongIndex]
+            let newCurrentItem = try avItemFactory(song: newCurrentSong)
+
+            player.clearNextItems()
+            player.replaceCurrentItem(with: newCurrentItem)
+            player.prepend(items: try currentSongs.suffix(from: upNextSongIndex + 1).map { try avItemFactory(song: $0) })
+        } catch {
+            Logger.player.error("Failed to create AV item: \(currentSongs[upNextSongIndex].name)")
+            return
+        }
+    }
+
+    func seek(percent: Double) {
+        guard let currentItem = player.currentItem,
+              let currentJellyItem = currentItem as? AVJellyPlayerItem,
+              let currentSong = currentJellyItem.song
+        else { return }
+
+        let newTime = currentSong.runtime * percent
+
+        Logger.player.info("Seeking to \(percent)%, time \(newTime.timeString)")
+        player.seek(
+            to: CMTime(
+                seconds: newTime,
+                preferredTimescale: currentItem.currentTime().timescale
+            ),
+            toleranceBefore: .zero,
+            toleranceAfter: .zero
+        )
+    }
+
+    func seekBackward(isActive: Bool) {
+        seek(forward: false, isActive: isActive)
+    }
+
+    func seekForward(isActive: Bool) {
+        seek(forward: true, isActive: isActive)
+    }
+
+    private func seek(forward: Bool, isActive: Bool) {
+        if isActive {
+            let skipSequence = [5, 10, 20, 30, 60].flatMap { Array(repeating: $0, count: 6) }
+            seekCancellable = Timer.publish(every: Self.seekDelay, on: .main, in: .default).autoconnect()
+                .zip(skipSequence.publisher, { $1 })
+                .sink { [weak self] skipAhead in
+                    guard let self else { return }
+                    let currentTime = self.player.currentTime()
+                    let adjustedSkipAhead = forward ? skipAhead : -skipAhead
+                    self.player.seek(
+                        to: CMTime(seconds: currentTime.seconds + Double(adjustedSkipAhead), preferredTimescale: currentTime.timescale),
+                        toleranceBefore: .zero,
+                        toleranceAfter: .zero
+                    )
+                }
+        } else {
+            seekCancellable?.cancel()
+            seekCancellable = nil
+        }
     }
 
     func pause() async {
@@ -128,21 +267,43 @@ final class MusicPlayer: ObservableObject {
         player.advanceToNextItem()
     }
 
+    @MainActor
     func skipBackward() {
-        // TODO: implement
+        if history.isNotEmpty && player.currentTimeRounded < 5 {
+            skipToPreviousSong()
+        } else {
+            Task { @MainActor in
+                await player.seek(to: .zero, toleranceBefore: .zero, toleranceAfter: .zero)
+            }
+        }
+    }
+
+    @MainActor
+    private func skipToPreviousSong() {
+        guard let previousSong = history.last, let currentSong else {
+            Logger.player.info("No song in history to skip backwards to.")
+            return
+        }
+        let previousItem: AVPlayerItem
+        do {
+            previousItem = try avItemFactory(song: previousSong)
+        } catch {
+            Logger.player.error("Failed to create AVPlayerItem from song: \(previousSong.name)")
+            return
+        }
+        player.replaceCurrentItem(with: previousItem)
+        enqueue(song: currentSong, position: .next)
+        history = history.dropLast(2)
     }
 
     // MARK: - Queuing controls
 
-    func enqueue(song: Song, position: EnqueuePosition) async {
+    func enqueue(song: Song, position: EnqueuePosition) {
         enqueueToPlayer(song, position: position)
-        Logger.player.debug("Song added to queue: \(song.uuid)")
     }
 
-    func enqueue(songs: [Song], position: EnqueuePosition) async {
+    func enqueue(songs: [Song], position: EnqueuePosition) {
         enqueueToPlayer(songs, position: position)
-        // swiftformat:disable:next preferKeyPath
-        Logger.player.debug("Songs added to queue: \(songs.map { $0.uuid })")
     }
 
     /// Clear playback queue. Optionally stop playback of current song.
@@ -154,39 +315,52 @@ final class MusicPlayer: ObservableObject {
         }
     }
 
-    /// Enqueue a song to internal player. The song is placed at specified position.
-    private func enqueueToPlayer(_ song: Song, position: EnqueuePosition) {
-        guard let fileUrl = fileRepo.getLocalOrRemoteUrl(for: song) else {
-            Logger.player.debug("Could not retrieve an URL for song \(song.uuid), skipping")
-            return
-        }
+    private func enqueueToPlayer(_ songs: [Song], position: EnqueuePosition) {
+        do {
+            let items = try songs.map(avItemFactory(song:))
+            switch position {
+            case .last:
+                player.append(items: items)
+            case .next:
+                player.prepend(items: items)
+            }
 
-        let item = AVPlayerItem(url: fileUrl)
-        switch position {
-        case .last:
-            player.append(item: item)
-        case .next:
-            player.prepend(item: item)
+            Logger.player.debug("Songs added to queue: \(songs.map(\.name))")
+        } catch {
+            Logger.player.error("Failed to add songs to queue: \(songs.map(\.name))")
         }
     }
 
-    private func enqueueToPlayer(_ songs: [Song], position: EnqueuePosition) {
-        switch position {
-        case .last:
-            for song in songs {
-                enqueueToPlayer(song, position: .last)
+    /// Enqueue a song to internal player. The song is placed at specified position.
+    private func enqueueToPlayer(_ song: Song, position: EnqueuePosition) {
+        do {
+            let item = try avItemFactory(song: song)
+            switch position {
+            case .last:
+                player.append(item: item)
+            case .next:
+                player.prepend(item: item)
             }
-        case .next:
-            for song in songs.reversed() {
-                enqueueToPlayer(song, position: .next)
-            }
+            Logger.player.debug("Song added to queue: \(song.name)")
+        } catch {
+            Logger.player.debug("Failed to add song to queue: \(song.name)")
         }
+    }
+
+    private func avItemFactory(song: Song) throws -> AVPlayerItem {
+        guard let fileUrl = fileRepo.getLocalOrRemoteUrl(for: song) else {
+            Logger.player.debug("Could not retrieve an URL for song \(song.name), skipping")
+            throw PlayerError.songUrlNotFound
+        }
+        let item = AVJellyPlayerItem(url: fileUrl)
+        item.song = song
+        return item
     }
 
     @MainActor
     private func setCurrentlyPlaying(newSong: Song?) async {
         currentSong = newSong
-        Logger.player.debug("Song set as currently playing: \(newSong?.uuid ?? "nil")")
+        Logger.player.debug("Song set as currently playing: \(newSong?.name ?? "nil")")
     }
 
     @MainActor
@@ -296,6 +470,14 @@ final class MusicPlayer: ObservableObject {
             return .success
         }
 
+        commandCenter.previousTrackCommand.addTarget { [weak self] _ in
+            guard let self else { return .commandFailed }
+            Task {
+                await self.skipBackward()
+            }
+            return .success
+        }
+
         commandCenter.nextTrackCommand.addTarget { [weak self] _ in
             guard let self else { return .commandFailed }
             self.skipForward()
@@ -303,21 +485,20 @@ final class MusicPlayer: ObservableObject {
         }
     }
 
-    private func setNowPlayingMetadata() {
-        guard let currentSong else { return }
+    private func setNowPlayingMetadata(song: Song) {
         let nowPlayingCenter = MPNowPlayingInfoCenter.default()
         var nowPlaying = nowPlayingCenter.nowPlayingInfo ?? [String: Any]()
 
-        nowPlaying[MPMediaItemPropertyTitle] = currentSong.name
+        nowPlaying[MPMediaItemPropertyTitle] = song.name
         nowPlaying[MPMediaItemPropertyArtist] = "song.artistName"
         nowPlaying[MPMediaItemPropertyAlbumArtist] = "album.artistName"
         nowPlaying[MPMediaItemPropertyAlbumTitle] = "album.Name"
-        nowPlaying[MPMediaItemPropertyPlaybackDuration] = currentSong.runtime
+        nowPlaying[MPMediaItemPropertyPlaybackDuration] = song.runtime
 
         nowPlayingCenter.nowPlayingInfo = nowPlaying
 
         setNowPlayingPlaybackMetadata(isPlaying: true)
-        setNowPlayingArtwork(song: currentSong)
+        setNowPlayingArtwork(song: song)
     }
 
     private func setNowPlayingPlaybackMetadata(isPlaying: Bool) {
@@ -349,5 +530,9 @@ final class MusicPlayer: ObservableObject {
                 Logger.artwork.debug("Failed to retrieve artwork for now playing info: \(error.localizedDescription)")
             }
         }
+    }
+
+    enum PlayerError: Error {
+        case songUrlNotFound
     }
 }
