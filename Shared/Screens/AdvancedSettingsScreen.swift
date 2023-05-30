@@ -141,7 +141,9 @@ private struct ClearArtworkCache: View {
     }
 
     private func resetSize() {
-        Task { await MainActor.run { sizeMB = 0 } }
+        Task { @MainActor in
+            sizeMB = 0
+        }
     }
 
     @MainActor
@@ -185,7 +187,9 @@ private struct RemoveDownloads: View {
     }
 
     private func resetSize() {
-        Task { await MainActor.run { sizeMB = 0 } }
+        Task { @MainActor in
+            sizeMB = 0
+        }
     }
 
     private func onConfirm() {
