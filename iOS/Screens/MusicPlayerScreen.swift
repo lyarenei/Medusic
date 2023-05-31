@@ -33,9 +33,9 @@ struct MusicPlayerScreen: View {
                 .disabled(true)
                 .foregroundColor(.init(UIColor.secondaryLabel))
 
-            BottomPlaceholder(listTapHandler: {
+            BottomPlaceholder {
                 isSongListPresented = true
-            })
+            }
             .padding(.horizontal, 50)
             .font(.title3)
             .frame(height: 40)
@@ -43,37 +43,40 @@ struct MusicPlayerScreen: View {
         .padding([.top, .horizontal], 30)
         .sheet(isPresented: $isSongListPresented) {
             List {
-                Section {
-                    ForEach(player.history, id: \.uuid) { song in
-                        Text(song.name)
-                            .contentShape(Rectangle())
-                            .frame(maxWidth: .infinity, alignment: .leading)
-                            .background(.almostClear)
-                            .onTapGesture {
-                                player.playHistory(song: song)
-                            }
-                    }
-                } header: {
-                    Text("History")
-                }
-
-                Section {
-                    ForEach(
-                        player.upNext,
-                        id: \.uuid
-                    ) { song in
-                        Text(song.name)
-                            .contentShape(Rectangle())
-                            .frame(maxWidth: .infinity, alignment: .leading)
-                            .background(.almostClear)
-                            .onTapGesture {
-                                player.playUpNext(song: song)
-                            }
-                    }
-                } header: {
-                    Text("Up next")
-                }
+                historySection
+                upNextSection
             }
+            .listStyle(.insetGrouped)
+        }
+    }
+
+    @ViewBuilder
+    private var historySection: some View {
+        Section {
+            ForEach(player.history, id: \.uuid) { song in
+                Text(song.name)
+                    .contentShape(Rectangle())
+                    .frame(maxWidth: .infinity, alignment: .leading)
+                    .background(.almostClear)
+                    .onTapGesture { player.playHistory(song: song) }
+            }
+        } header: {
+            Text("History")
+        }
+    }
+
+    @ViewBuilder
+    private var upNextSection: some View {
+        Section {
+            ForEach(player.upNext, id: \.uuid) { song in
+                Text(song.name)
+                    .contentShape(Rectangle())
+                    .frame(maxWidth: .infinity, alignment: .leading)
+                    .background(.almostClear)
+                    .onTapGesture { player.playUpNext(song: song) }
+            }
+        } header: {
+            Text("Up next")
         }
     }
 }

@@ -34,13 +34,14 @@ struct PlayNextButton: View {
                 player.seekForward(isActive: true)
             }
         )
-        .onLongPressGesture(perform: {}) { isPressing in
+        .onLongPressGesture(perform: {}, onPressingChanged: { isPressing in
             guard !isPressing else {
                 isLongPress = false
                 return
             }
+
             player.seekForward(isActive: false)
-        }
+        })
     }
 
     func action() {

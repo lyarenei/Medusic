@@ -26,6 +26,7 @@ struct PlaybackProgressComponent: View {
         self.player = player
     }
 
+    // swiftlint:disable closure_body_length
     var body: some View {
         VStack(spacing: 10) {
             GeometryReader { geometry in
@@ -42,32 +43,22 @@ struct PlaybackProgressComponent: View {
                     .gesture(
                         DragGesture(minimumDistance: 12)
                             .onChanged { value in
-                                withAnimation {
-                                    isSeeking = true
-                                }
+                                withAnimation { isSeeking = true }
                                 seekPercent = min(1, max(0, value.location.x / geometry.size.width))
                             }
-                            .onEnded { value in
-                                withAnimation {
-                                    isSeeking = false
-                                }
+                            .onEnded { _ in
+                                withAnimation { isSeeking = false }
                                 player.seek(percent: seekPercent)
                             }
                     )
             }
             .fixedSize(horizontal: false, vertical: true)
 
-            HStack {
-                Text(currentTime.timeString)
-                    .font(.caption)
-
-                Spacer()
-
-                Text(remainingTime.timeString)
-                    .font(.caption)
-            }
+            progressTimes
         }
     }
+
+    // swiftlint:enable closure_body_length
 
     @ViewBuilder
     private var progressView: some View {
@@ -79,6 +70,18 @@ struct PlaybackProgressComponent: View {
             } else {
                 ProgressView(value: currentTime, total: runtime)
             }
+        }
+    }
+
+    @ViewBuilder
+    private var progressTimes: some View {
+        HStack {
+            Text(currentTime.timeString)
+                .font(.caption)
+
+            Spacer()
+            Text(remainingTime.timeString)
+                .font(.caption)
         }
     }
 
