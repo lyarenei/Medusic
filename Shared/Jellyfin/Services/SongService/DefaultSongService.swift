@@ -8,13 +8,11 @@ final class DefaultSongService: SongService {
         self.client = client
     }
 
-    private func fetchSongs(
-        for albumId: String? = nil,
-        sortBy: [String]? = nil
-    ) async throws -> [Song] {
-        var requestParameters = JellyfinAPI.Paths.GetItemsParameters(
+    private func fetchSongs(for albumId: String? = nil, sortBy: [String]? = nil) async throws -> [Song] {
+        let requestParameters = JellyfinAPI.Paths.GetItemsParameters(
             userID: Defaults[.userId],
             isRecursive: true,
+            parentID: albumId,
             fields: [
                 .mediaSources,
                 .path,
@@ -23,47 +21,25 @@ final class DefaultSongService: SongService {
             sortBy: sortBy
         )
 
-        if let id = albumId {
-            requestParameters.parentID = id
-        }
-
         let request = JellyfinAPI.Paths.getItems(parameters: requestParameters)
         let response = try await client.send(request)
-        return response.value.items!.map { Song(from: $0) }
+        guard let items = response.value.items else { throw SongServiceError.noData }
+        return items.map(Song.init(from:))
     }
 
     // TODO: Add pagination.
     func getSongs() async throws -> [Song] {
-        let remoteSongs = try await self.fetchSongs(
+        try await fetchSongs(
             for: nil,
             sortBy: ["Album", "indexNumber"]
         )
-
-        return remoteSongs
     }
 
     // TODO: Add pagination.
     func getSongs(for albumId: String) async throws -> [Song] {
-        let remoteSongs = try await self.fetchSongs(
+        try await fetchSongs(
             for: albumId,
             sortBy: ["indexNumber"]
         )
-
-        return remoteSongs
-    }
-
-    func toggleFavorite(songId: String) async throws -> Bool {
-        guard Defaults[.readOnly] == false else { return false }
-        let request = JellyfinAPI.Paths.markFavoriteItem(
-            userID: Defaults[.userId],
-            itemID: songId
-        )
-
-        let response = try await client.send(request)
-        if let code = response.statusCode {
-            return code <= 400
-        }
-
-        return false
     }
 }

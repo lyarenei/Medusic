@@ -14,6 +14,7 @@ final class DefaultImageService: ImageService {
             itemID: itemId,
             imageType: "Primary"
         )
+
         return try await client.send(request).value
     }
 
@@ -22,11 +23,13 @@ final class DefaultImageService: ImageService {
             width: Int32(round(size.width)),
             height: Int32(round(size.height))
         )
+
         let request = JellyfinAPI.Paths.getItemImage(
             itemID: itemId,
             imageType: "Primary",
             parameters: parameters
         )
+
         return try await client.send(request).value
     }
 }
