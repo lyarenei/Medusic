@@ -40,7 +40,6 @@ final class MusicPlayer: ObservableObject {
     private(set) var isPlaying = false
 
     private var seekCancellable: Cancellable?
-
     private var currentItemObserver: NSKeyValueObservation?
 
     init(
@@ -151,11 +150,8 @@ final class MusicPlayer: ObservableObject {
         }
 
         let previousSongs = Array(history.suffix(from: historySongIndex))
-
         guard let newCurrentSong = previousSongs.first else { return }
-
         let currentSong = (player.currentItem as? AVJellyPlayerItem)?.song
-
         history = Array(history.prefix(historySongIndex))
         isHistoryRewritten = true
 
