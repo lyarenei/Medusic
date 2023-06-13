@@ -53,7 +53,8 @@ final class MusicPlayer: ObservableObject {
         self.apiClient = apiClient
         guard !preview else { return }
 
-        currentItemObserver = player.observe(\.currentItem, options: [.old, .new]) { [weak self] player, change in
+        // swiftformat:disable:next redundantSelf
+        currentItemObserver = player.observe(\.currentItem, options: [.old, .new]) { [weak self] _, change in
             guard let self else { return }
             guard case .some(let currentItem)? = change.newValue,
                   let currentJellyItem = currentItem as? AVJellyPlayerItem,
@@ -184,7 +185,7 @@ final class MusicPlayer: ObservableObject {
 
             player.clearNextItems()
             player.replaceCurrentItem(with: newCurrentItem)
-            player.prepend(items: try currentSongs.suffix(from: upNextSongIndex + 1).map { try avItemFactory(song: $0) })
+            try player.prepend(items: currentSongs.suffix(from: upNextSongIndex + 1).map { try avItemFactory(song: $0) })
         } catch {
             Logger.player.error("Failed to create AV item for song: \(currentSongs[upNextSongIndex].uuid)")
             return
@@ -198,7 +199,6 @@ final class MusicPlayer: ObservableObject {
         else { return }
 
         let newTime = currentSong.runtime * percent
-
         Logger.player.info("Seeking to \(percent)%, time \(newTime.timeString)")
         player.seek(
             to: CMTime(
@@ -221,8 +221,9 @@ final class MusicPlayer: ObservableObject {
     private func seek(forward: Bool, isActive: Bool) {
         if isActive {
             let skipSequence = [5, 10, 20, 30, 60].flatMap { Array(repeating: $0, count: 6) }
-            seekCancellable = Timer.publish(every: Self.seekDelay, on: .main, in: .default).autoconnect()
-                .zip(skipSequence.publisher, { $1 })
+            seekCancellable = Timer.publish(every: Self.seekDelay, on: .main, in: .default)
+                .autoconnect()
+                .zip(skipSequence.publisher) { $1 }
                 .sink { [weak self] skipAhead in
                     guard let self else { return }
                     let currentTime = self.player.currentTime()
