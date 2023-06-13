@@ -62,7 +62,7 @@ final class MusicPlayer: ObservableObject {
             else {
                 Task {
                     await self.setCurrentlyPlaying(newSong: nil)
-                    Logger.player.info("Current song is not set, stopping.")
+                    Logger.player.info("Current song is not set, stopping")
                 }
                 return
             }
@@ -73,8 +73,8 @@ final class MusicPlayer: ObservableObject {
                    previousItem != currentItem {
 
                     if !self.isHistoryRewritten {
-                        Logger.player.debug("Adding song to history: \(currentSong.name)")
                         self.history.append(previousSong)
+                        Logger.player.debug("Added song to history: \(currentSong.uuid)")
                     } else {
                         // The next song change should be reported as usual.
                         self.isHistoryRewritten = false
@@ -146,7 +146,7 @@ final class MusicPlayer: ObservableObject {
     @MainActor
     func playHistory(song: Song) {
         guard let historySongIndex = history.firstIndex(of: song) else {
-            Logger.player.warning("Failed to find history song index: \(song.name)")
+            Logger.player.warning("Failed to find history index for song: \(song.uuid)")
             return
         }
 
@@ -163,7 +163,7 @@ final class MusicPlayer: ObservableObject {
             let newCurrentItem = try avItemFactory(song: newCurrentSong)
             player.replaceCurrentItem(with: newCurrentItem)
         } catch {
-            Logger.player.error("Failed to create AV item: \(newCurrentSong.name)")
+            Logger.player.error("Failed to create AV item for song: \(newCurrentSong.uuid)")
             return
         }
 
@@ -175,7 +175,7 @@ final class MusicPlayer: ObservableObject {
         let currentJellyItems = player.items().compactMap { $0 as? AVJellyPlayerItem }
         let currentSongs = currentJellyItems.compactMap(\.song)
         guard let upNextSongIndex = currentSongs.firstIndex(of: song) else {
-            Logger.player.warning("Failed to find up next song index: \(song.name)")
+            Logger.player.warning("Failed to find up next index for song: \(song.uuid)")
             return
         }
 
@@ -190,7 +190,7 @@ final class MusicPlayer: ObservableObject {
             player.replaceCurrentItem(with: newCurrentItem)
             player.prepend(items: try currentSongs.suffix(from: upNextSongIndex + 1).map { try avItemFactory(song: $0) })
         } catch {
-            Logger.player.error("Failed to create AV item: \(currentSongs[upNextSongIndex].name)")
+            Logger.player.error("Failed to create AV item for song: \(currentSongs[upNextSongIndex].uuid)")
             return
         }
     }
@@ -288,7 +288,7 @@ final class MusicPlayer: ObservableObject {
         do {
             previousItem = try avItemFactory(song: previousSong)
         } catch {
-            Logger.player.error("Failed to create AVPlayerItem from song: \(previousSong.name)")
+            Logger.player.error("Failed to create AVPlayerItem for song: \(previousSong.uuid)")
             return
         }
         player.replaceCurrentItem(with: previousItem)
@@ -325,9 +325,9 @@ final class MusicPlayer: ObservableObject {
                 player.prepend(items: items)
             }
 
-            Logger.player.debug("Songs added to queue: \(songs.map(\.name))")
+            Logger.player.debug("Songs added to queue: \(songs.map(\.uuid))")
         } catch {
-            Logger.player.error("Failed to add songs to queue: \(songs.map(\.name))")
+            Logger.player.error("Failed to add songs to queue: \(songs.map(\.uuid))")
         }
     }
 
@@ -341,15 +341,15 @@ final class MusicPlayer: ObservableObject {
             case .next:
                 player.prepend(item: item)
             }
-            Logger.player.debug("Song added to queue: \(song.name)")
+            Logger.player.debug("Song added to queue: \(song.uuid)")
         } catch {
-            Logger.player.debug("Failed to add song to queue: \(song.name)")
+            Logger.player.debug("Failed to add song to queue: \(song.uuid)")
         }
     }
 
     private func avItemFactory(song: Song) throws -> AVPlayerItem {
         guard let fileUrl = fileRepo.getLocalOrRemoteUrl(for: song) else {
-            Logger.player.debug("Could not retrieve an URL for song \(song.name), skipping")
+            Logger.player.debug("Could not retrieve an URL for song \(song.uuid), skipping")
             throw PlayerError.songUrlNotFound
         }
         let item = AVJellyPlayerItem(url: fileUrl)
@@ -360,7 +360,7 @@ final class MusicPlayer: ObservableObject {
     @MainActor
     private func setCurrentlyPlaying(newSong: Song?) async {
         currentSong = newSong
-        Logger.player.debug("Song set as currently playing: \(newSong?.name ?? "nil")")
+        Logger.player.debug("Song set as currently playing: \(newSong?.uuid ?? "nil")")
     }
 
     @MainActor
