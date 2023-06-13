@@ -468,9 +468,7 @@ final class MusicPlayer: ObservableObject {
 
         commandCenter.previousTrackCommand.addTarget { [weak self] _ in
             guard let self else { return .commandFailed }
-            Task {
-                await self.skipBackward()
-            }
+            Task { await self.skipBackward() }
             return .success
         }
 
