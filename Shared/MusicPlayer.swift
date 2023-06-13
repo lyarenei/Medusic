@@ -406,11 +406,10 @@ final class MusicPlayer: ObservableObject {
 
     @objc
     private func handleInterruption(notification: Notification) {
-        // swiftformat:disable elseOnSameLine
         guard let userInfo = notification.userInfo,
               let typeValue = userInfo[AVAudioSessionInterruptionTypeKey] as? UInt,
-              let type = AVAudioSession.InterruptionType(rawValue: typeValue) else { return }
-        // swiftformat:enable elseOnSameLine
+              let type = AVAudioSession.InterruptionType(rawValue: typeValue)
+        else { return }
 
         switch type {
         case .began:
