@@ -161,7 +161,9 @@ final class MusicPlayer: ObservableObject {
             return
         }
 
-        let item = AVPlayerItem(url: fileUrl)
+        let headers = ["Authorization": apiClient.services.systemService.authorizationHeader]
+        let asset = AVURLAsset(url: fileUrl, options: ["AVURLAssetHTTPHeaderFieldsKey": headers])
+        let item = AVPlayerItem(asset: asset)
         switch position {
         case .last:
             player.append(item: item)
