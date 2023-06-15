@@ -12,4 +12,8 @@ final class MockSystemService: SystemService {
     func logIn(username: String, password: String) async throws -> String {
         "logged_in"
     }
+
+    var authorizationHeader: String {
+        "authorization header value"
+    }
 }

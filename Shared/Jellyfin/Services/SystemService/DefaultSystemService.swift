@@ -37,4 +37,20 @@ final class DefaultSystemService: SystemService {
 
         return ""
     }
+
+    var authorizationHeader: String {
+        let parts = [
+            "Token=\"\(client.accessToken ?? "")\"",
+            "Client=\"\(client.configuration.client)\"",
+            "Device=\"\(client.configuration.deviceName)\"",
+            "DeviceId=\"\(client.configuration.deviceID)\"",
+            "Version=\"\(client.configuration.version)\"",
+        ]
+
+        return "Mediabrowser \(parts.joined(separator: ", "))"
+    }
+
+    var userToken: String {
+        client.accessToken ?? ""
+    }
 }

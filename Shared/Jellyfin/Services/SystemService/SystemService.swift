@@ -9,6 +9,8 @@ protocol SystemService: ObservableObject {
     /// If logged in successfully, a user ID is returned for use in other API calls.
     /// If empty, the user was not logged in.
     func logIn(username: String, password: String) async throws -> String
+
+    var authorizationHeader: String { get }
 }
 
 enum SystemServiceError: Error {
