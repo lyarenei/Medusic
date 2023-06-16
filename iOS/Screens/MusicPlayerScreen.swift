@@ -70,9 +70,10 @@ struct MusicPlayerScreen: View {
     private var historySection: some View {
         Section {
             ForEach(player.history, id: \.uuid) { song in
-                Text(song.name)
+                SongListRowComponent(song: song)
+                    .showArtwork()
+                    .showArtistName()
                     .contentShape(Rectangle())
-                    .frame(maxWidth: .infinity, alignment: .leading)
                     .background(.almostClear)
                     .onTapGesture { player.playHistory(song: song) }
             }
@@ -85,9 +86,10 @@ struct MusicPlayerScreen: View {
     private var upNextSection: some View {
         Section {
             ForEach(player.upNext, id: \.uuid) { song in
-                Text(song.name)
+                SongListRowComponent(song: song)
+                    .showArtwork()
+                    .showArtistName()
                     .contentShape(Rectangle())
-                    .frame(maxWidth: .infinity, alignment: .leading)
                     .background(.almostClear)
                     .onTapGesture { player.playUpNext(song: song) }
             }
