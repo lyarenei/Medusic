@@ -43,8 +43,13 @@ struct MusicPlayerScreen: View {
         .padding([.top, .horizontal], 30)
         .sheet(isPresented: $isSongListPresented) {
             List {
-                historySection
-                upNextSection
+                if player.history.isNotEmpty {
+                    historySection
+                }
+
+                if player.upNext.isNotEmpty {
+                    upNextSection
+                }
             }
             .listStyle(.insetGrouped)
         }
