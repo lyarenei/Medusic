@@ -1,5 +1,6 @@
 import SFSafeSymbols
 import SwiftUI
+import SwiftUIX
 
 struct MusicPlayerScreen: View {
     @ObservedObject
