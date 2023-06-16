@@ -51,7 +51,7 @@ struct MusicPlayerScreen: View {
                     upNextSection
                 }
             }
-            .listStyle(.insetGrouped)
+            .listStyle(.grouped)
         }
     }
 
