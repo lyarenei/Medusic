@@ -14,7 +14,8 @@ final class DefaultSystemService: SystemService {
         let response = try await client.send(request)
         return JellyfinServerInfo(
             name: response.value.serverName ?? "unknown",
-            version: response.value.version ?? "unknown")
+            version: response.value.version ?? "unknown"
+        )
     }
 
     func ping() async throws -> Bool {
@@ -29,11 +30,27 @@ final class DefaultSystemService: SystemService {
     }
 
     func logIn(username: String, password: String) async throws -> String {
-        let response = try await client.signIn(username: username , password: password)
+        let response = try await client.signIn(username: username, password: password)
         if let uid = response.user?.id {
             return uid
         }
 
         return ""
+    }
+
+    var authorizationHeader: String {
+        let parts = [
+            "Token=\"\(client.accessToken ?? "")\"",
+            "Client=\"\(client.configuration.client)\"",
+            "Device=\"\(client.configuration.deviceName)\"",
+            "DeviceId=\"\(client.configuration.deviceID)\"",
+            "Version=\"\(client.configuration.version)\"",
+        ]
+
+        return "Mediabrowser \(parts.joined(separator: ", "))"
+    }
+
+    var userToken: String {
+        client.accessToken ?? ""
     }
 }

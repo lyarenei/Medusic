@@ -14,10 +14,10 @@ final class DefaultMediaService: MediaService {
     func getStreamUrl(item id: String, bitrate: Int32? = nil) -> URL? {
         let baseUrl = client.configuration.url.absoluteString
         if let bitrate {
-            return URL(string: "\(baseUrl)/Audio/\(id)/stream?audioCodec=\(AppDefaults.fallbackCodec)&audioBitRate=\(bitrate)")
+            return URL(string: "\(baseUrl)/Audio/\(id)/main.m3u8?audioCodec=\(AppDefaults.fallbackCodec)&audioBitRate=\(bitrate)")
         }
 
-        return URL(string: "\(baseUrl)/Audio/\(id)/stream?static=true")
+        return URL(string: "\(baseUrl)/Audio/\(id)/main.m3u8?static=true")
     }
 
     func downloadItem(id: String, destination: URL, bitrate: Int32?) async throws {

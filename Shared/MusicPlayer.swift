@@ -349,7 +349,10 @@ final class MusicPlayer: ObservableObject {
             Logger.player.debug("Could not retrieve an URL for song \(song.uuid), skipping")
             throw PlayerError.songUrlNotFound
         }
-        let item = AVJellyPlayerItem(url: fileUrl)
+
+        let headers = ["Authorization": apiClient.services.systemService.authorizationHeader]
+        let asset = AVURLAsset(url: fileUrl, options: ["AVURLAssetHTTPHeaderFieldsKey": headers])
+        let item = AVJellyPlayerItem(asset: asset)
         item.song = song
         return item
     }

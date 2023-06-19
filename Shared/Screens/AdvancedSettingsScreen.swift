@@ -1,29 +1,89 @@
-import Boutique
 import Defaults
 import Kingfisher
 import SwiftUI
+import SwiftUIBackports
 
 struct AdvancedSettingsScreen: View {
+    @EnvironmentObject
+    private var fileRepo: FileRepository
+
+    @EnvironmentObject
+    private var albumRepo: AlbumRepository
+
+    @EnvironmentObject
+    private var songRepo: SongRepository
+
     var body: some View {
         List {
             MaxCacheSize()
+            ClearArtworkCache()
+            RemoveDownloads()
 
-            Section {
-                PurgeOptions()
-            }
-            .buttonStyle(.plain)
-            .foregroundColor(.red)
+            forceLibraryRefresh()
+            resetToDefaultsButton()
+                .foregroundColor(.red)
         }
         .listStyle(.grouped)
         .navigationTitle("Advanced")
         .navigationBarTitleDisplayMode(.inline)
     }
+
+    @ViewBuilder
+    private func forceLibraryRefresh() -> some View {
+        Button {
+            onForceLibraryRefresh()
+        } label: {
+            Text("Force library refresh")
+        }
+    }
+
+    private func onForceLibraryRefresh() {
+        Task {
+            do {
+                try await albumRepo.refresh()
+                try await songRepo.refresh()
+            } catch {
+                print("Failed to refresh data: \(error.localizedDescription)")
+            }
+        }
+    }
+
+    @ViewBuilder
+    private func resetToDefaultsButton() -> some View {
+        ConfirmButton(
+            btnText: "Reset settings to defaults",
+            alertTitle: "Reset settings to defaults",
+            alertMessage: "",
+            alertPrimaryBtnText: "Reset"
+        ) {
+            Defaults.removeAll()
+        }
+    }
 }
 
 #if DEBUG
 struct AdvancedSettingsScreen_Previews: PreviewProvider {
+    static var fileRepo: FileRepository = .init(
+        downloadedSongsStore: .previewStore(items: PreviewData.songs, cacheIdentifier: \.uuid),
+        downloadQueueStore: .previewStore(items: [], cacheIdentifier: \.uuid),
+        apiClient: .init(previewEnabled: true)
+    )
+
+    static var albumRepo: AlbumRepository = .init(
+        store: .previewStore(items: PreviewData.albums, cacheIdentifier: \.uuid),
+        apiClient: .init(previewEnabled: true)
+    )
+
+    static var songRepo: SongRepository = .init(
+        store: .previewStore(items: PreviewData.songs, cacheIdentifier: \.uuid),
+        apiClient: .init(previewEnabled: true)
+    )
+
     static var previews: some View {
         AdvancedSettingsScreen()
+            .environmentObject(fileRepo)
+            .environmentObject(albumRepo)
+            .environmentObject(songRepo)
     }
 }
 #endif
@@ -60,101 +120,95 @@ private struct MaxCacheSize: View {
     }
 }
 
-private struct PurgeOptions: View {
-    @Stored(in: .albums)
-    var albums: [Album]
-
-    @Stored(in: .songs)
-    var songs: [Song]
-
-    @Stored(in: .downloadedSongs)
-    var downloadedSongs: [Song]
-
+private struct ClearArtworkCache: View {
     @State
-    var showConfirm = false
+    private var sizeMB = 0.0
 
     var body: some View {
-        purgeLibraryDataButton()
-        purgeDownloadsButton()
-        resetToDefaultButton()
+        Section {
+            ConfirmButton(
+                btnText: "Clear artwork cache",
+                alertTitle: "Clear artwork cache",
+                alertMessage: "",
+                alertPrimaryBtnText: "Confirm",
+                alertPrimaryAction: onConfirm
+            )
+            .foregroundColor(.red)
+        } footer: {
+            Text("Cache size: \(String(format: "%.1f", sizeMB)) MB")
+        }
+        .backport.task { await calculateSize() }
     }
 
-    @ViewBuilder
-    private func purgeLibraryDataButton() -> some View {
-        ConfirmButton(
-            btnText: "Reset library",
-            alertTitle: "Reset library",
-            alertMessage: "This will clear all caches and local library data from the device",
-            alertPrimaryBtnText: "Reset"
-        ) {
-            Task {
-                do {
-                    purgeImages()
-                    try await purgeLibraryData()
-                } catch {
-                    print("Resetting library data failed: \(error.localizedDescription)")
-                }
-            }
+    private func resetSize() {
+        Task { @MainActor in
+            sizeMB = 0
         }
     }
 
-    @ViewBuilder
-    private func purgeDownloadsButton() -> some View {
-        ConfirmButton(
-            btnText: "Remove all downloads",
-            alertTitle: "Remove all downloads",
-            alertMessage: "This will remove all downloaded songs",
-            alertPrimaryBtnText: "Remove"
-        ) {
-            do {
-                try purgeDownloads()
-            } catch {
-                print("Failed to remove downloaded data: \(error.localizedDescription)")
-            }
+    @MainActor
+    private func calculateSize() async {
+        do {
+            let sizeBytes = try await KingfisherManager.shared.cache.diskStorageSize
+            sizeMB = Double(sizeBytes) / 1024 / 1024
+        } catch {
+            print("Failed to get image cache size: \(error.localizedDescription)")
         }
     }
 
-    @ViewBuilder
-    private func resetToDefaultButton() -> some View {
-        ConfirmButton(
-            btnText: "Reset JellyMusic",
-            alertTitle: "Reset to defaults",
-            alertMessage: "This will delete everything and reset all settings to their defaults",
-            alertPrimaryBtnText: "Reset",
-            alertPrimaryAction: resetToDefault
-        )
-    }
-
-    private func resetToDefault() {
-        Task {
-            do {
-                try await purgeAll()
-            } catch {
-                print("Reset failed: \(error.localizedDescription)")
-            }
-
-            Defaults.removeAll()
-        }
-    }
-
-    private func purgeImages() {
+    private func onConfirm() {
         Kingfisher.ImageCache.default.clearMemoryCache()
         Kingfisher.ImageCache.default.clearDiskCache()
+        resetSize()
+    }
+}
+
+private struct RemoveDownloads: View {
+    @EnvironmentObject
+    private var fileRepo: FileRepository
+
+    @State
+    private var sizeMB = 0.0
+
+    var body: some View {
+        Section {
+            ConfirmButton(
+                btnText: "Remove downloads",
+                alertTitle: "Remove downloaded songs",
+                alertMessage: "",
+                alertPrimaryBtnText: "Confirm",
+                alertPrimaryAction: onConfirm
+            )
+            .foregroundColor(.red)
+        } footer: {
+            Text("Current size: \(String(format: "%.1f", sizeMB)) MB")
+        }
+        .backport.task { await calculateSize() }
     }
 
-    private func purgeLibraryData() async throws {
-        try await $albums.removeAll()
-        try await $songs.removeAll()
-        try await $downloadedSongs.removeAll()
+    private func resetSize() {
+        Task { @MainActor in
+            sizeMB = 0
+        }
     }
 
-    private func purgeDownloads() throws {
-        try FileRepository.shared.removeAllFiles()
+    private func onConfirm() {
+        Task {
+            do {
+                try await fileRepo.removeAllFiles()
+                resetSize()
+            } catch {
+                print("Failed to remove downloads: \(error.localizedDescription)")
+            }
+        }
     }
 
-    private func purgeAll() async throws {
-        purgeImages()
-        try await purgeLibraryData()
-        try purgeDownloads()
+    @MainActor
+    private func calculateSize() async {
+        do {
+            sizeMB = try fileRepo.downloadedFilesSizeInMB()
+        } catch {
+            print("Failed to get image cache size: \(error.localizedDescription)")
+        }
     }
 }
