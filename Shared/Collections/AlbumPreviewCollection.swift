@@ -23,31 +23,32 @@ struct AlbumPreviewCollection: View {
     var body: some View {
         VStack(spacing: 7) {
             Group {
-                sectionTitle()
+                sectionTitle
                 Divider()
             }
             .padding(.leading)
 
             switch stackType {
             case .vertical:
-                sectionVContent()
+                sectionVContent
                     .padding(.leading)
             case .horizontal:
-                sectionHContent()
+                sectionHContent
             }
         }
     }
 
     @ViewBuilder
-    private func sectionTitle() -> some View {
+    private var sectionTitle: some View {
         HStack {
             Text(titleText)
-                .font(.title)
+                .font(.title2)
                 .bold()
+                .lineLimit(1)
 
             Spacer()
             NavigationLink("Show all") {
-                showMoreScreen()
+                showMoreScreen
             }
             .padding(.trailing)
             .disabled(albums.isEmpty || albums.count <= limit)
@@ -55,7 +56,7 @@ struct AlbumPreviewCollection: View {
     }
 
     @ViewBuilder
-    private func sectionVContent() -> some View {
+    private var sectionVContent: some View {
         if albums.isNotEmpty {
             AlbumCollection(albums: albums.prefix(limit))
                 .forceMode(.asPlainList)
@@ -66,7 +67,7 @@ struct AlbumPreviewCollection: View {
     }
 
     @ViewBuilder
-    private func sectionHContent() -> some View {
+    private var sectionHContent: some View {
         if albums.isNotEmpty {
             ScrollView(.horizontal) {
                 LazyHStack(spacing: 20) {
@@ -91,7 +92,7 @@ struct AlbumPreviewCollection: View {
     }
 
     @ViewBuilder
-    private func showMoreScreen() -> some View {
+    private var showMoreScreen: some View {
         List {
             AlbumCollection(albums: albums)
                 .forceMode(.asList)

@@ -2,7 +2,6 @@ import Foundation
 
 extension Array {
     /// Convenience indicator for checking if the collection is not empty.
-    @inlinable
     public var isNotEmpty: Bool { !isEmpty }
 }
 
