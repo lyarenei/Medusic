@@ -42,7 +42,7 @@ struct AlbumPreviewCollection: View {
     private var sectionTitle: some View {
         HStack {
             Text(titleText)
-                .font(.title)
+                .font(.title2)
                 .bold()
                 .lineLimit(1)
 
