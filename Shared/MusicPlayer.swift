@@ -1,10 +1,10 @@
 import AVFoundation
+import Combine
 import Foundation
 import Kingfisher
 import MediaPlayer
 import OSLog
 import SwiftUI
-import Combine
 
 final class AVJellyPlayerItem: AVPlayerItem {
     var song: Song?
