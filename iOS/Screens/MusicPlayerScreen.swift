@@ -52,21 +52,33 @@ struct MusicPlayerScreen: View {
                     .padding(.top, 10)
                     .padding(.bottom, 1)
             }
-
-            List {
-                if player.history.isNotEmpty {
-                    historySection
-                }
-
-                if let curSong = player.currentSong {
-                    currentSection(with: curSong)
-                }
-
-                if player.upNext.isNotEmpty {
-                    upNextSection
-                }
+            
+            ScrollViewReader { proxy in
+                songList
+                    .listStyle(.grouped)
+                    .onAppear { animatedScroll(proxy, song: player.currentSong) }
+                    .onChange(of: player.currentSong) { newSong in
+                        animatedScroll(proxy, song: newSong)
+                    }
             }
-            .listStyle(.grouped)
+        }
+    }
+
+
+    @ViewBuilder
+    private var songList: some View {
+        List {
+            if player.history.isNotEmpty {
+                historySection
+            }
+
+            if let curSong = player.currentSong {
+                currentSection(with: curSong)
+            }
+
+            if player.upNext.isNotEmpty {
+                upNextSection
+            }
         }
     }
 
@@ -80,6 +92,7 @@ struct MusicPlayerScreen: View {
                     .contentShape(Rectangle())
                     .background(.almostClear)
                     .onTapGesture { player.playHistory(song: song) }
+                    .id(song.id)
             }
         } header: {
             Text("History")
@@ -93,6 +106,7 @@ struct MusicPlayerScreen: View {
                 .showArtwork()
                 .showArtistName()
                 .background(.almostClear)
+                .id(currentSong.id)
         } header: {
             Text("Currently Playing")
         }
@@ -108,9 +122,17 @@ struct MusicPlayerScreen: View {
                     .contentShape(Rectangle())
                     .background(.almostClear)
                     .onTapGesture { player.playUpNext(song: song) }
+                    .id(song.id)
             }
         } header: {
             Text("Up next")
+        }
+    }
+
+    private func animatedScroll(_ proxy: ScrollViewProxy, song: Song?) {
+        guard let song else { return }
+        withAnimation(.easeInOut) {
+            proxy.scrollTo(song.id, anchor: .top)
         }
     }
 }
