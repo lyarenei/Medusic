@@ -58,6 +58,10 @@ struct MusicPlayerScreen: View {
                     historySection
                 }
 
+                if let curSong = player.currentSong {
+                    currentSection(with: curSong)
+                }
+
                 if player.upNext.isNotEmpty {
                     upNextSection
                 }
@@ -79,6 +83,18 @@ struct MusicPlayerScreen: View {
             }
         } header: {
             Text("History")
+        }
+    }
+
+    @ViewBuilder
+    private func currentSection(with currentSong: Song) -> some View {
+        Section {
+            SongListRowComponent(song: currentSong)
+                .showArtwork()
+                .showArtistName()
+                .background(.almostClear)
+        } header: {
+            Text("Currently Playing")
         }
     }
 
