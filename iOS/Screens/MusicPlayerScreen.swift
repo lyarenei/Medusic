@@ -218,8 +218,8 @@ private struct FooterActions: View {
 
     var body: some View {
         HStack {
-            Image(systemSymbol: .quoteBubble)
-                .foregroundColor(.init(UIColor.secondaryLabel))
+            lyricsButton
+                .disabled(true)
 
             Spacer()
 
@@ -227,12 +227,22 @@ private struct FooterActions: View {
 
             Spacer()
 
-            Button {
-                listTapHandler()
-            } label: {
-                Image(systemSymbol: .listBullet)
-            }
-            .foregroundColor(.init(UIColor.label))
+            queueButton
+                .buttonStyle(.plain)
+        }
+    }
+
+    private var lyricsButton: some View {
+        Button {} label: {
+            Image(systemSymbol: .quoteBubble)
+        }
+    }
+
+    private var queueButton: some View {
+        Button {
+            listTapHandler()
+        } label: {
+            Image(systemSymbol: .listBullet)
         }
     }
 }
