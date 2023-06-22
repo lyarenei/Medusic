@@ -25,11 +25,8 @@ struct MusicPlayerScreen: View {
                 .buttonStyle(.plain)
                 .padding(.horizontal, 50)
 
-            VolumeBar()
-                .font(.footnote)
-                .padding(.bottom, 20)
-                .disabled(true)
-                .foregroundColor(.init(UIColor.secondaryLabel))
+            VolumeSliderComponent()
+                .frame(height: 40)
 
             FooterActions {
                 isSongListPresented = true
@@ -213,26 +210,6 @@ private struct PlaybackControl: View {
                 .disabled(player.upNext.isEmpty)
         }
         .frame(height: 40)
-    }
-}
-
-// MARK: - Volume bar
-
-private struct VolumeBar: View {
-    @State
-    private var volumePercent = 0.35
-
-    var body: some View {
-        HStack {
-            Image(systemSymbol: .speakerFill)
-
-            Slider(
-                value: $volumePercent,
-                in: 0...1
-            )
-
-            Image(systemSymbol: .speakerWave3Fill)
-        }
     }
 }
 
