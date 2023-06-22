@@ -35,6 +35,7 @@ struct MusicPlayerScreen: View {
                 isSongListPresented = true
             }
             .padding(.horizontal, 50)
+            .padding(.bottom, 30)
             .font(.title3)
             .frame(height: 40)
         }
