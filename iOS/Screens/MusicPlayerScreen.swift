@@ -17,7 +17,6 @@ struct MusicPlayerScreen: View {
         VStack(spacing: 15) {
             ArtworkComponent(itemId: player.currentSong?.parentId ?? "")
             SongWithActions(song: player.currentSong)
-
             PlaybackProgressComponent(player: player)
                 .padding(.top, 15)
 
