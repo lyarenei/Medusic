@@ -31,7 +31,7 @@ struct MusicPlayerScreen: View {
                 .disabled(true)
                 .foregroundColor(.init(UIColor.secondaryLabel))
 
-            BottomPlaceholder {
+            FooterActions {
                 isSongListPresented = true
             }
             .padding(.horizontal, 50)
@@ -235,7 +235,7 @@ private struct VolumeBar: View {
     }
 }
 
-private struct BottomPlaceholder: View {
+private struct FooterActions: View {
     @State
     var airplayPresented = false
 
