@@ -13,7 +13,7 @@ extension AVQueuePlayer {
     }
 
     func append(items: [AVPlayerItem]) {
-        for item in items {
+        for item in items where canInsert(item, after: nil) {
             insert(item, after: nil)
         }
     }
@@ -26,11 +26,11 @@ extension AVQueuePlayer {
         let currentItems = self.items()
         clearNextItems()
 
-        for item in items {
+        for item in items where canInsert(item, after: nil) {
             insert(item, after: nil)
         }
 
-        for avItem in currentItems {
+        for avItem in currentItems where canInsert(avItem, after: nil) {
             insert(avItem, after: nil)
         }
     }
