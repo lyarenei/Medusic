@@ -28,9 +28,6 @@ struct ArtworkComponent: View {
                 .fade(duration: 0.25)
                 .retry(maxCount: 5, interval: .seconds(10))
                 .appendProcessor(DownsamplingImageProcessor(size: doubleSize(proxy.size)))
-                .onSuccess { _ in
-                    Logger.artwork.debug("Loaded image for item \(itemId)")
-                }
                 .onFailure { error in
                     Logger.artwork.debug("Failed to load image for item \(itemId): \(error.localizedDescription)")
                 }
