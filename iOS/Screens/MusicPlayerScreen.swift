@@ -194,6 +194,7 @@ private struct PlaybackControl: View {
                 .font(.title2)
                 .frame(width: 50, height: 50)
                 .contentShape(Rectangle())
+                .disabled(player.history.isEmpty)
 
             Spacer()
 
