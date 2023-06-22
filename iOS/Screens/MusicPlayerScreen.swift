@@ -214,9 +214,6 @@ private struct PlaybackControl: View {
 }
 
 private struct FooterActions: View {
-    @State
-    var airplayPresented = false
-
     var listTapHandler: () -> Void
 
     var body: some View {
