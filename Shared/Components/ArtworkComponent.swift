@@ -33,6 +33,7 @@ struct ArtworkComponent: View {
                 }
                 .clipShape(RoundedRectangle(cornerRadius: Self.cornerRadius))
                 .aspectRatio(contentMode: .fit)
+                .fill(alignment: .center)
                 .overlay(
                     RoundedRectangle(cornerRadius: Self.cornerRadius)
                         .stroke(style: StrokeStyle(lineWidth: 0.5))
