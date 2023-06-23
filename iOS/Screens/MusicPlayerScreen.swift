@@ -16,10 +16,9 @@ struct MusicPlayerScreen: View {
     var body: some View {
         VStack(spacing: 15) {
             ArtworkComponent(itemId: player.currentSong?.parentId ?? "")
-            SongWithActions(song: player.currentSong)
+            SongDetails(song: player.currentSong)
+            SongActions(song: player.currentSong)
             PlaybackProgressComponent(player: player)
-                .padding(.top, 15)
-
             PlaybackControl()
                 .font(.largeTitle)
                 .buttonStyle(.plain)
@@ -151,9 +150,7 @@ struct MusicPlayerScreen_Previews: PreviewProvider {
 // swiftlint:enable all
 #endif
 
-// MARK: - Song with actions
-
-private struct SongWithActions: View {
+private struct SongDetails: View {
     var song: Song?
 
     var body: some View {
@@ -177,14 +174,29 @@ private struct SongWithActions: View {
             }
 
             Spacer()
+        }
+    }
+}
 
-            Button {
-                // Options button
-            } label: {
-                Image(systemSymbol: .ellipsisCircle)
-            }
-            .font(.title2)
-            .disabled(true)
+private struct SongActions: View {
+    var song: Song?
+
+    var body: some View {
+        if let song {
+            content(for: song)
+                .frame(height: 40)
+                .font(.title3)
+        }
+    }
+
+    @ViewBuilder
+    private func content(for song: Song) -> some View {
+        HStack {
+            DownloadButton(item: song)
+                .padding(.all, 7)
+
+            FavoriteButton(item: song)
+                .padding(.all, 7)
         }
     }
 }
