@@ -14,11 +14,3 @@ struct VolumeSliderComponent: UIViewRepresentable {
 
     func updateUIView(_ view: MPVolumeView, context: Context) {}
 }
-
-#if DEBUG
-struct VolumeSliderComponent_Previews: PreviewProvider {
-    static var previews: some View {
-        VolumeSliderComponent()
-    }
-}
-#endif
