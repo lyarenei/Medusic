@@ -32,6 +32,7 @@ struct ArtworkComponent: View {
                     Logger.artwork.debug("Failed to load image for item \(itemId): \(error.localizedDescription)")
                 }
                 .clipShape(RoundedRectangle(cornerRadius: Self.cornerRadius))
+                .aspectRatio(contentMode: .fit)
                 .overlay(
                     RoundedRectangle(cornerRadius: Self.cornerRadius)
                         .stroke(style: StrokeStyle(lineWidth: 0.5))
