@@ -157,9 +157,16 @@ private struct SongWithActions: View {
     var song: Song?
 
     var body: some View {
+        if let song {
+            content(for: song)
+        }
+    }
+
+    @ViewBuilder
+    private func content(for song: Song) -> some View {
         HStack {
             VStack(alignment: .leading, spacing: 3) {
-                Text(song?.name ?? "")
+                Text(song.name)
                     .bold()
                     .lineLimit(1)
                     .font(.title2)
