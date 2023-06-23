@@ -240,12 +240,14 @@ private struct FooterActions: View {
         }
     }
 
+    @ViewBuilder
     private var lyricsButton: some View {
         Button {} label: {
             Image(systemSymbol: .quoteBubble)
         }
     }
 
+    @ViewBuilder
     private var queueButton: some View {
         Button {
             listTapHandler()
