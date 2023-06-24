@@ -37,7 +37,7 @@ struct MusicPlayerScreen: View {
         }
         .padding([.top, .horizontal], 30)
         .sheet(isPresented: $isSongListPresented) {
-            sheetCloseButton
+            SheetCloseButton(isPresented: $isSongListPresented)
             ScrollViewReader { proxy in
                 songList
                     .listStyle(.grouped)
@@ -46,19 +46,6 @@ struct MusicPlayerScreen: View {
                         animatedScroll(proxy, song: newSong)
                     }
             }
-        }
-    }
-
-    @ViewBuilder
-    private var sheetCloseButton: some View {
-        Button {
-            isSongListPresented = false
-        } label: {
-            Image(systemSymbol: .chevronCompactDown)
-                .font(.system(size: 42))
-                .foregroundColor(.lightGray)
-                .padding(.top, 10)
-                .padding(.bottom, 1)
         }
     }
 
