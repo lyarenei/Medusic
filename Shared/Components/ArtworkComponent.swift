@@ -3,7 +3,7 @@ import Kingfisher
 import OSLog
 
 struct ArtworkComponent: View {
-    private static let cornerRadius: CGFloat = 5
+    private static let cornerRadius: CGFloat = 15
 
     @State
     private var artworkImage: PlatformImage?
