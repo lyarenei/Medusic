@@ -89,6 +89,7 @@ private struct NowPlayingBar: View {
         .frame(width: UIScreen.main.bounds.size.width, height: 65)
         .background(Blur())
         .sheet(isPresented: $isOpen) {
+            SheetCloseButton(isPresented: $isOpen)
             MusicPlayerScreen()
         }
     }
