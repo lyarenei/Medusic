@@ -32,7 +32,7 @@ struct ArtworkComponent: View {
                     Logger.artwork.debug("Failed to load image for item \(itemId): \(error.localizedDescription)")
                 }
                 .clipShape(RoundedRectangle(cornerRadius: Self.cornerRadius))
-                .border(.gray.opacity(1), cornerRadius: Self.cornerRadius)
+                .border(.gray.opacity(0.5), cornerRadius: Self.cornerRadius)
                 .aspectRatio(contentMode: .fit)
                 .fill(alignment: .center)
         }
