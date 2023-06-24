@@ -125,6 +125,9 @@ struct MusicPlayerScreen: View {
 #if DEBUG
 // swiftlint:disable all
 struct MusicPlayerScreen_Previews: PreviewProvider {
+    @State
+    static var isPresented = false
+
     static var player = {
         var mp = MusicPlayer(preview: true)
         mp.currentSong = PreviewData.songs.first!
@@ -132,7 +135,10 @@ struct MusicPlayerScreen_Previews: PreviewProvider {
     }
 
     static var previews: some View {
-        MusicPlayerScreen(player: player())
+        VStack {
+            SheetCloseButton(isPresented: $isPresented)
+            MusicPlayerScreen(player: player())
+        }
     }
 }
 // swiftlint:enable all
