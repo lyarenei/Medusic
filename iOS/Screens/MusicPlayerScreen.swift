@@ -171,7 +171,8 @@ private struct SongDetails: View {
 
             Spacer()
 
-            AirPlayComponent()
+            FavoriteButton(item: song)
+                .font(.title2)
                 .frame(width: 45, height: 45)
         }
     }
@@ -244,7 +245,7 @@ private struct FooterActions: View {
 
                 Spacer()
 
-                FavoriteButton(item: song)
+                AirPlayComponent()
                     .padding(.all, 7)
 
                 Spacer()
