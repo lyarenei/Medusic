@@ -31,12 +31,12 @@ struct MusicPlayerScreen: View {
                 isSongListPresented = true
             }
             .padding(.horizontal, 50)
-            .padding(.bottom, 30)
             .font(.title3)
             .frame(height: 40)
         }
         .padding(.horizontal, 30)
         .padding(.top, 5)
+        .padding(.bottom, 15)
         .sheet(isPresented: $isSongListPresented) {
             SheetCloseButton(isPresented: $isSongListPresented)
             ScrollViewReader { proxy in
