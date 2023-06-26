@@ -17,7 +17,6 @@ struct MusicPlayerScreen: View {
         VStack(spacing: 15) {
             ArtworkComponent(itemId: player.currentSong?.parentId ?? "")
             SongDetails(song: player.currentSong)
-            SongActions(song: player.currentSong)
             PlaybackProgressComponent(player: player)
             PlaybackControl()
                 .font(.largeTitle)
@@ -27,7 +26,7 @@ struct MusicPlayerScreen: View {
             VolumeSliderComponent()
                 .frame(height: 40)
 
-            FooterActions {
+            FooterActions(song: player.currentSong) {
                 isSongListPresented = true
             }
             .padding(.horizontal, 50)
@@ -171,6 +170,9 @@ private struct SongDetails: View {
             }
 
             Spacer()
+
+            AirPlayComponent()
+                .frame(width: 45, height: 45)
         }
     }
 }
@@ -231,21 +233,26 @@ private struct PlaybackControl: View {
 }
 
 private struct FooterActions: View {
+    var song: Song?
     var listTapHandler: () -> Void
 
     var body: some View {
-        HStack {
-            lyricsButton
-                .disabled(true)
+        if let song {
+            HStack {
+                DownloadButton(item: song)
+                    .padding(.all, 7)
 
-            Spacer()
+                Spacer()
 
-            AirPlayComponent()
+                FavoriteButton(item: song)
+                    .padding(.all, 7)
 
-            Spacer()
+                Spacer()
 
-            queueButton
-                .buttonStyle(.plain)
+                queueButton
+                    .buttonStyle(.plain)
+                    .padding(.all, 7)
+            }
         }
     }
 
