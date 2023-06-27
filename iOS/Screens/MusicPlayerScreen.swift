@@ -16,6 +16,8 @@ struct MusicPlayerScreen: View {
     var body: some View {
         VStack(spacing: 15) {
             ArtworkComponent(itemId: player.currentSong?.parentId ?? "")
+                .frame(width: 310, height: 310)
+
             SongDetails(song: player.currentSong)
             PlaybackProgressComponent(player: player)
             PlaybackControl()
