@@ -25,28 +25,33 @@ struct MusicPlayerScreen: View {
     @ViewBuilder
     private func content(for song: Song, proxy: GeometryProxy) -> some View {
         let height = (proxy.size.height / 5) * 2.5
-        VStack(spacing: 15) {
-            ArtworkComponent(itemId: player.currentSong?.parentId ?? "")
+        VStack(alignment: .center, spacing: 15) {
+            ArtworkComponent(itemId: song.parentId)
                 .frame(width: height, height: height)
 
-            SongDetails(song: player.currentSong)
-            PlaybackProgressComponent(player: player)
-            PlaybackControl()
-                .font(.largeTitle)
-                .buttonStyle(.plain)
+            SongDetails(song: song)
+                .padding(.leading, 30)
+                .padding(.trailing, 18)
+
+            Group {
+                PlaybackProgressComponent(player: player)
+                PlaybackControl()
+                    .font(.largeTitle)
+                    .buttonStyle(.plain)
+                    .padding(.horizontal, 50)
+
+                VolumeSliderComponent()
+                    .frame(height: 40)
+
+                FooterActions(song: song) {
+                    isSongListPresented = true
+                }
                 .padding(.horizontal, 50)
-
-            VolumeSliderComponent()
+                .font(.title3)
                 .frame(height: 40)
-
-            FooterActions(song: player.currentSong) {
-                isSongListPresented = true
             }
-            .padding(.horizontal, 50)
-            .font(.title3)
-            .frame(height: 40)
+            .padding(.horizontal, 30)
         }
-        .padding(.horizontal, 30)
         .padding(.top, 5)
         .padding(.bottom, 15)
     }
