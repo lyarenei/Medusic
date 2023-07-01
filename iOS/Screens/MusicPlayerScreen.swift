@@ -164,16 +164,9 @@ struct MusicPlayerScreen_Previews: PreviewProvider {
 #endif
 
 private struct SongDetails: View {
-    var song: Song?
+    var song: Song
 
     var body: some View {
-        if let song {
-            content(for: song)
-        }
-    }
-
-    @ViewBuilder
-    private func content(for song: Song) -> some View {
         HStack {
             VStack(alignment: .leading, spacing: 3) {
                 Text(song.name)
@@ -196,18 +189,9 @@ private struct SongDetails: View {
 }
 
 private struct SongActions: View {
-    var song: Song?
+    var song: Song
 
     var body: some View {
-        if let song {
-            content(for: song)
-                .frame(height: 40)
-                .font(.title3)
-        }
-    }
-
-    @ViewBuilder
-    private func content(for song: Song) -> some View {
         HStack {
             DownloadButton(item: song)
                 .padding(.all, 7)
@@ -215,6 +199,8 @@ private struct SongActions: View {
             FavoriteButton(item: song)
                 .padding(.all, 7)
         }
+        .frame(height: 40)
+        .font(.title3)
     }
 }
 
@@ -251,26 +237,24 @@ private struct PlaybackControl: View {
 }
 
 private struct FooterActions: View {
-    var song: Song?
+    var song: Song
     var listTapHandler: () -> Void
 
     var body: some View {
-        if let song {
-            HStack {
-                DownloadButton(item: song)
-                    .padding(.all, 7)
+        HStack {
+            DownloadButton(item: song)
+                .padding(.all, 7)
 
-                Spacer()
+            Spacer()
 
-                AirPlayComponent()
-                    .padding(.all, 7)
+            AirPlayComponent()
+                .padding(.all, 7)
 
-                Spacer()
+            Spacer()
 
-                queueButton
-                    .buttonStyle(.plain)
-                    .padding(.all, 7)
-            }
+            queueButton
+                .buttonStyle(.plain)
+                .padding(.all, 7)
         }
     }
 
