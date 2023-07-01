@@ -59,6 +59,8 @@ struct MusicPlayerScreen: View {
     @ViewBuilder
     private var songListSheet: some View {
         SheetCloseButton(isPresented: $isSongListPresented)
+            .padding(.vertical, 7)
+
         ScrollViewReader { proxy in
             songList
                 .listStyle(.grouped)
