@@ -14,57 +14,60 @@ struct MusicPlayerScreen: View {
     }
 
     var body: some View {
-        VStack(spacing: 15) {
-            ArtworkComponent(itemId: player.currentSong?.parentId ?? "")
-                .frame(width: 270, height: 270)
-
-            SongWithActions(song: player.currentSong)
-
-            PlaybackProgressComponent(player: player)
-                .padding(.top, 15)
-
-            PlaybackControl()
-                .font(.largeTitle)
-                .buttonStyle(.plain)
-                .padding(.horizontal, 50)
-
-            VolumeBar()
-                .font(.footnote)
-                .padding(.bottom, 20)
-                .disabled(true)
-                .foregroundColor(.init(UIColor.secondaryLabel))
-
-            BottomPlaceholder {
-                isSongListPresented = true
+        if let curSong = player.currentSong {
+            GeometryReader { proxy in
+                content(for: curSong, proxy: proxy)
             }
-            .padding(.horizontal, 50)
-            .font(.title3)
-            .frame(height: 40)
-        }
-        .padding([.top, .horizontal], 30)
-        .sheet(isPresented: $isSongListPresented) {
-            sheetCloseButton
-            ScrollViewReader { proxy in
-                songList
-                    .listStyle(.grouped)
-                    .onAppear { animatedScroll(proxy, song: player.currentSong) }
-                    .onChange(of: player.currentSong) { newSong in
-                        animatedScroll(proxy, song: newSong)
-                    }
-            }
+            .sheet(isPresented: $isSongListPresented) { songListSheet }
         }
     }
 
     @ViewBuilder
-    private var sheetCloseButton: some View {
-        Button {
-            isSongListPresented = false
-        } label: {
-            Image(systemSymbol: .chevronCompactDown)
-                .font(.system(size: 42))
-                .foregroundColor(.lightGray)
-                .padding(.top, 10)
-                .padding(.bottom, 1)
+    private func content(for song: Song, proxy: GeometryProxy) -> some View {
+        let height = (proxy.size.height / 5) * 2.5
+        VStack(alignment: .center, spacing: 15) {
+            ArtworkComponent(itemId: song.parentId)
+                .frame(width: height, height: height)
+
+            SongDetails(song: song)
+                .padding(.leading, 30)
+                .padding(.trailing, 18)
+
+            Group {
+                PlaybackProgressComponent(player: player)
+                PlaybackControl()
+                    .font(.largeTitle)
+                    .buttonStyle(.plain)
+                    .padding(.horizontal, 50)
+
+                VolumeSliderComponent()
+                    .frame(height: 40)
+
+                FooterActions(song: song) {
+                    isSongListPresented = true
+                }
+                .padding(.horizontal, 50)
+                .font(.title3)
+                .frame(height: 40)
+            }
+            .padding(.horizontal, 30)
+        }
+        .padding(.top, 5)
+        .padding(.bottom, 15)
+    }
+
+    @ViewBuilder
+    private var songListSheet: some View {
+        SheetCloseButton(isPresented: $isSongListPresented)
+            .padding(.vertical, 7)
+
+        ScrollViewReader { proxy in
+            songList
+                .listStyle(.grouped)
+                .onAppear { animatedScroll(proxy, song: player.currentSong) }
+                .onChange(of: player.currentSong) { newSong in
+                    animatedScroll(proxy, song: newSong)
+                }
         }
     }
 
@@ -143,6 +146,9 @@ struct MusicPlayerScreen: View {
 #if DEBUG
 // swiftlint:disable all
 struct MusicPlayerScreen_Previews: PreviewProvider {
+    @State
+    static var isPresented = false
+
     static var player = {
         var mp = MusicPlayer(preview: true)
         mp.currentSong = PreviewData.songs.first!
@@ -150,21 +156,22 @@ struct MusicPlayerScreen_Previews: PreviewProvider {
     }
 
     static var previews: some View {
-        MusicPlayerScreen(player: player())
+        VStack {
+            SheetCloseButton(isPresented: $isPresented)
+            MusicPlayerScreen(player: player())
+        }
     }
 }
 // swiftlint:enable all
 #endif
 
-// MARK: - Song with actions
-
-private struct SongWithActions: View {
-    var song: Song?
+private struct SongDetails: View {
+    var song: Song
 
     var body: some View {
         HStack {
             VStack(alignment: .leading, spacing: 3) {
-                Text(song?.name ?? "")
+                Text(song.name)
                     .bold()
                     .lineLimit(1)
                     .font(.title2)
@@ -176,14 +183,26 @@ private struct SongWithActions: View {
 
             Spacer()
 
-            Button {
-                // Options button
-            } label: {
-                Image(systemSymbol: .ellipsisCircle)
-            }
-            .font(.title2)
-            .disabled(true)
+            FavoriteButton(item: song)
+                .font(.title2)
+                .frame(width: 45, height: 45)
         }
+    }
+}
+
+private struct SongActions: View {
+    var song: Song
+
+    var body: some View {
+        HStack {
+            DownloadButton(item: song)
+                .padding(.all, 7)
+
+            FavoriteButton(item: song)
+                .padding(.all, 7)
+        }
+        .frame(height: 40)
+        .font(.title3)
     }
 }
 
@@ -199,6 +218,7 @@ private struct PlaybackControl: View {
                 .font(.title2)
                 .frame(width: 50, height: 50)
                 .contentShape(Rectangle())
+                .disabled(player.history.isEmpty)
 
             Spacer()
 
@@ -218,49 +238,34 @@ private struct PlaybackControl: View {
     }
 }
 
-// MARK: - Volume bar
-
-private struct VolumeBar: View {
-    @State
-    private var volumePercent = 0.35
-
-    var body: some View {
-        HStack {
-            Image(systemSymbol: .speakerFill)
-
-            Slider(
-                value: $volumePercent,
-                in: 0...1
-            )
-
-            Image(systemSymbol: .speakerWave3Fill)
-        }
-    }
-}
-
-private struct BottomPlaceholder: View {
-    @State
-    var airplayPresented = false
-
+private struct FooterActions: View {
+    var song: Song
     var listTapHandler: () -> Void
 
     var body: some View {
         HStack {
-            Image(systemSymbol: .quoteBubble)
-                .foregroundColor(.init(UIColor.secondaryLabel))
+            DownloadButton(item: song)
+                .padding(.all, 7)
 
             Spacer()
 
             AirPlayComponent()
+                .padding(.all, 7)
 
             Spacer()
 
-            Button {
-                listTapHandler()
-            } label: {
-                Image(systemSymbol: .listBullet)
-            }
-            .foregroundColor(.init(UIColor.label))
+            queueButton
+                .buttonStyle(.plain)
+                .padding(.all, 7)
+        }
+    }
+
+    @ViewBuilder
+    private var queueButton: some View {
+        Button {
+            listTapHandler()
+        } label: {
+            Image(systemSymbol: .listBullet)
         }
     }
 }

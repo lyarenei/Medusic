@@ -1,5 +1,6 @@
 import SFSafeSymbols
 import SwiftUI
+import SwiftUIX
 
 /// Now playing component, somewhat similar what can be seen in Apple Music app.
 ///
@@ -86,9 +87,10 @@ private struct NowPlayingBar: View {
                 .disabled(player.upNext.isEmpty)
         }
         .padding(.trailing, 10)
-        .frame(width: UIScreen.main.bounds.size.width, height: 65)
+        .frame(width: Screen.size.width, height: 65)
         .background(Blur())
         .sheet(isPresented: $isOpen) {
+            SheetCloseButton(isPresented: $isOpen)
             MusicPlayerScreen()
         }
     }
