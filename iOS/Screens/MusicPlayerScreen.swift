@@ -14,9 +14,20 @@ struct MusicPlayerScreen: View {
     }
 
     var body: some View {
+        if let curSong = player.currentSong {
+            GeometryReader { proxy in
+                content(for: curSong, proxy: proxy)
+            }
+            .sheet(isPresented: $isSongListPresented) { songListSheet }
+        }
+    }
+
+    @ViewBuilder
+    private func content(for song: Song, proxy: GeometryProxy) -> some View {
+        let height = (proxy.size.height / 5) * 2.5
         VStack(spacing: 15) {
             ArtworkComponent(itemId: player.currentSong?.parentId ?? "")
-                .frame(width: 310, height: 310)
+                .frame(width: height, height: height)
 
             SongDetails(song: player.currentSong)
             PlaybackProgressComponent(player: player)
@@ -38,7 +49,6 @@ struct MusicPlayerScreen: View {
         .padding(.horizontal, 30)
         .padding(.top, 5)
         .padding(.bottom, 15)
-        .sheet(isPresented: $isSongListPresented) { songListSheet }
     }
 
     @ViewBuilder
