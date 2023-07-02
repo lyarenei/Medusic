@@ -11,7 +11,7 @@ extension String {
         let range = NSRange(location: 0, length: nsString.length)
         return regex?.matches(in: self, options: [], range: range).map { match in
             (0..<match.numberOfRanges).map { position in
-                match.range(at: position).location == NSNotFound ? "" : nsString.substring(with: match.range(at: position))
+                match.range(at: position).location == NSNotFound ? .empty : nsString.substring(with: match.range(at: position))
             }
         } ?? []
     }
@@ -23,4 +23,7 @@ extension String {
     func containsIgnoreCase(_ substr: String) -> Bool {
         lowercased().contains(substr.lowercased())
     }
+
+    /// Empty string.
+    static var empty: Self { "" }
 }

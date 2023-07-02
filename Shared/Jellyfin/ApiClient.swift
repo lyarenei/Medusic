@@ -56,7 +56,7 @@ final class ApiClient {
 
     /// Authorize against Jellyfin server with stored credentials.
     func performAuth() async throws {
-        Defaults[.userId] = ""
+        Defaults[.userId] = .empty
         let keychain = SimpleKeychain()
         let password = try? keychain.string(forKey: "password")
         guard let userPass = password else {

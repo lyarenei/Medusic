@@ -6,7 +6,7 @@ struct InlineInputComponent: View {
     @Binding
     var inputText: String
 
-    var placeholderText = ""
+    var placeholderText: String = .empty
     var isSecure = false
 
     var body: some View {
@@ -43,7 +43,7 @@ struct InlineNumberInputComponent: View {
 
     @Binding
     var inputNumber: UInt64
-    var placeholderText = ""
+    var placeholderText: String = .empty
     var formatter: Formatter
 
     var body: some View {
