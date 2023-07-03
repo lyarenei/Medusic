@@ -19,6 +19,7 @@ final class MusicPlayer: ObservableObject {
     let apiClient: ApiClient
     var songRepo: SongRepository
     var fileRepo: FileRepository
+    var persistRepo: PersistenceRepository
 
     @MainActor
     @Published
@@ -46,10 +47,12 @@ final class MusicPlayer: ObservableObject {
         preview: Bool = false,
         songRepo: SongRepository = .shared,
         fileRepo: FileRepository = .shared,
+        persistRepo: PersistenceRepository = .shared,
         apiClient: ApiClient = .shared
     ) {
         self.songRepo = songRepo
         self.fileRepo = fileRepo
+        self.persistRepo = persistRepo
         self.apiClient = apiClient
         guard !preview else { return }
 
