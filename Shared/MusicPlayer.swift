@@ -142,8 +142,11 @@ final class MusicPlayer: ObservableObject {
     }
 
     func play(songs: [Song]) async {
-        clearQueue(stopPlayback: true)
-        enqueue(songs: songs, position: .last)
+        if songs.isNotEmpty {
+            clearQueue(stopPlayback: true)
+            enqueue(songs: songs, position: .last)
+        }
+
         await player.play()
         await setIsPlaying(isPlaying: true)
     }
