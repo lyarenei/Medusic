@@ -69,6 +69,7 @@ final class MusicPlayer: ObservableObject {
                 }
                 return
             }
+
             Task { @MainActor in
                 if case .some(let previousItem)? = change.oldValue,
                    let previousJellyItem = previousItem as? AVJellyPlayerItem,
@@ -90,6 +91,7 @@ final class MusicPlayer: ObservableObject {
                 await self.setCurrentlyPlaying(newSong: currentSong)
                 await self.sendPlaybackStarted(for: currentSong)
                 self.setNowPlayingMetadata(song: currentSong)
+                self.persistUpNextQueue()
             }
         }
 
@@ -300,10 +302,12 @@ final class MusicPlayer: ObservableObject {
 
     func enqueue(song: Song, position: EnqueuePosition) {
         enqueueToPlayer(song, position: position)
+        persistPlaybackQueue()
     }
 
     func enqueue(songs: [Song], position: EnqueuePosition) {
         enqueueToPlayer(songs, position: position)
+        persistPlaybackQueue()
     }
 
     /// Clear playback queue. Optionally stop playback of current song.
@@ -341,6 +345,7 @@ final class MusicPlayer: ObservableObject {
             case .next:
                 player.prepend(item: item)
             }
+
             Logger.player.debug("Song added to queue: \(song.uuid)")
         } catch {
             Logger.player.debug("Failed to add song to queue: \(song.uuid)")
@@ -530,6 +535,11 @@ final class MusicPlayer: ObservableObject {
                 Logger.artwork.debug("Failed to retrieve artwork for now playing info: \(error.localizedDescription)")
             }
         }
+    }
+
+    private func persistPlaybackQueue() {
+        let currentQueue = player.items().compactMap { $0 as? AVJellyPlayerItem }
+        Task { await persistRepo.save(currentQueue) }
     }
 
     enum PlayerError: Error {
