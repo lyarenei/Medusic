@@ -81,6 +81,10 @@ final class ApiClient {
             imageService: services.imageService
         )
     }
+
+    var isAuthorized: Bool {
+        services.systemService.isAuthorized
+    }
 }
 
 struct ApiServices {

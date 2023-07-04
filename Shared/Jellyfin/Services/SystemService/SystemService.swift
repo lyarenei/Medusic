@@ -11,6 +11,7 @@ protocol SystemService: ObservableObject {
     func logIn(username: String, password: String) async throws -> String
 
     var authorizationHeader: String { get }
+    var isAuthorized: Bool { get }
 }
 
 enum SystemServiceError: Error {

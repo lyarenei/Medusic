@@ -53,4 +53,8 @@ final class DefaultSystemService: SystemService {
     var userToken: String {
         client.accessToken ?? .empty
     }
+
+    var isAuthorized: Bool {
+        client.accessToken?.isNotEmpty ?? false && userToken.isNotEmpty
+    }
 }
