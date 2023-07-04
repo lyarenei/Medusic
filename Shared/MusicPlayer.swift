@@ -54,6 +54,7 @@ final class MusicPlayer: ObservableObject {
         self.fileRepo = fileRepo
         self.persistRepo = persistRepo
         self.apiClient = apiClient
+
         guard !preview else { return }
 
         // swiftformat:disable:next redundantSelf
@@ -97,6 +98,7 @@ final class MusicPlayer: ObservableObject {
 
         audioSessionSetup()
         setupRemoteCommandCenter()
+        Task { await self.restorePlaybackQueue() }
     }
 
     deinit {
@@ -127,6 +129,23 @@ final class MusicPlayer: ObservableObject {
         } catch {
             Logger.player.debug("Failed to set up audio session: \(error.localizedDescription)")
         }
+    }
+
+    private func restorePlaybackQueue() async {
+        if !apiClient.isAuthorized {
+            try? await apiClient.performAuth()
+        }
+
+        let sortedQueueItems = await persistRepo.playbackQueue.sorted { $0.orderIndex < $1.orderIndex }
+        for item in sortedQueueItems {
+            if let song = await songRepo.getSong(by: item.songUuid) {
+                enqueueToPlayer(song, position: .last)
+            }
+        }
+
+        guard let firstQueueItem = sortedQueueItems.first else { return }
+        let firstSong = await songRepo.getSong(by: firstQueueItem.songUuid)
+        await setCurrentlyPlaying(newSong: firstSong)
     }
 
     // MARK: - Playback controls
