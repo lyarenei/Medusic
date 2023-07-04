@@ -380,11 +380,11 @@ final class MusicPlayer: ObservableObject {
             throw PlayerError.songUrlNotFound
         }
 
-        let headers = ["Authorization": apiClient.services.systemService.authorizationHeader]
         if !apiClient.isAuthorized {
             Logger.player.warning("Client is not authenticated against server, remote playback may fail!")
         }
 
+        let headers = ["Authorization": apiClient.authHeader]
         let asset = AVURLAsset(url: fileUrl, options: ["AVURLAssetHTTPHeaderFieldsKey": headers])
         let item = AVJellyPlayerItem(asset: asset)
         item.song = song

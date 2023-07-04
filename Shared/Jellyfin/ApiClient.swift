@@ -85,6 +85,10 @@ final class ApiClient {
     var isAuthorized: Bool {
         services.systemService.isAuthorized
     }
+
+    var authHeader: String {
+        services.systemService.authorizationHeader
+    }
 }
 
 struct ApiServices {
