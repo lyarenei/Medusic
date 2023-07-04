@@ -91,7 +91,7 @@ final class MusicPlayer: ObservableObject {
                 await self.setCurrentlyPlaying(newSong: currentSong)
                 await self.sendPlaybackStarted(for: currentSong)
                 self.setNowPlayingMetadata(song: currentSong)
-                self.persistUpNextQueue()
+                self.persistPlaybackQueue()
             }
         }
 
