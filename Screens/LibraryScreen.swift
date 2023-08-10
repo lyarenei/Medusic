@@ -3,23 +3,19 @@ import SFSafeSymbols
 import SwiftUI
 
 struct LibraryScreen: View {
-    @ObservedObject
-    var albumRepo: AlbumRepository
+    @EnvironmentObject
+    private var albumRepo: AlbumRepository
 
     @Default(.libraryShowFavorites)
-    var showFavoriteAlbums
+    private var showFavoriteAlbums
 
     @Default(.libraryShowRecentlyAdded)
-    var showRecentlyAdded
-
-    init(albumRepo: AlbumRepository = .shared) {
-        _albumRepo = ObservedObject(wrappedValue: albumRepo)
-    }
+    private var showRecentlyAdded
 
     var body: some View {
-        NavigationView {
+        NavigationStack {
             ScrollView {
-                bodyContent()
+                content
                     .frame(maxWidth: .infinity, maxHeight: .infinity, alignment: .top)
             }
             .navigationTitle("Library")
@@ -28,25 +24,24 @@ struct LibraryScreen: View {
                 ToolbarItem { RefreshButton(mode: .all) }
             }
         }
-        .navigationViewStyle(.stack)
     }
 
     @ViewBuilder
-    private func bodyContent() -> some View {
+    private var content: some View {
         VStack {
-            mainNavigation()
+            mainNavigation
                 .padding(.leading)
 
-            favoriteAlbums()
+            favoriteAlbums
                 .padding(.top, 10)
 
-            recentlyAddedAlbums()
+            recentlyAddedAlbums
                 .padding(.top, 10)
         }
     }
 
     @ViewBuilder
-    private func mainNavigation() -> some View {
+    private var mainNavigation: some View {
         VStack(spacing: 5) {
             Divider()
             navLink(for: "Playlists", to: EmptyView(), icon: .musicNoteList)
@@ -89,61 +84,44 @@ struct LibraryScreen: View {
     }
 
     @ViewBuilder
-    private func favoriteAlbums() -> some View {
+    private var favoriteAlbums: some View {
         if showFavoriteAlbums {
             AlbumPreviewCollection(
                 for: albumRepo.albums.favorite.consistent,
                 titleText: "Favorite albums",
                 emptyText: "No favorite albums"
             )
-            .stackType(numberOfEnabledSections() < 3 ? .vertical : .horizontal)
+            .stackType(.horizontal)
         }
     }
 
     @ViewBuilder
-    private func recentlyAddedAlbums() -> some View {
+    private var recentlyAddedAlbums: some View {
         if showRecentlyAdded {
             AlbumPreviewCollection(
                 for: albumRepo.albums.sortedByDateAdded,
                 titleText: "Recently added",
                 emptyText: "No albums"
             )
-            .stackType(numberOfEnabledSections() < 3 ? .vertical : .horizontal)
+            .stackType(.horizontal)
         }
-    }
-
-    /// Get number of currently enabled sections on library screen.
-    private func numberOfEnabledSections() -> Int {
-        let sections = [
-            Defaults[.libraryShowFavorites],
-            Defaults[.libraryShowRecentlyAdded],
-        ]
-
-        return sections.filter { $0 == true }.count
     }
 }
 
 #if DEBUG
 struct LibraryScreen_Previews: PreviewProvider {
     static var previews: some View {
-        LibraryScreen(
-            albumRepo: .init(
-                store: .previewStore(
-                    items: PreviewData.albums,
-                    cacheIdentifier: \.uuid
-                )
+        LibraryScreen()
+            .previewDisplayName("Default")
+            .environmentObject(
+                AlbumRepository(store: .previewStore(items: PreviewData.albums, cacheIdentifier: \.uuid))
             )
-        )
 
-        LibraryScreen(
-            albumRepo: .init(
-                store: .previewStore(
-                    items: [],
-                    cacheIdentifier: \.uuid
-                )
+        LibraryScreen()
+            .previewDisplayName("Empty library")
+            .environmentObject(
+                AlbumRepository(store: .previewStore(items: [], cacheIdentifier: \.uuid))
             )
-        )
-        .previewDisplayName("Empty library")
     }
 }
 #endif
