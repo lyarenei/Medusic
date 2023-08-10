@@ -1,14 +1,12 @@
+import SFSafeSymbols
 import SwiftUI
 
-struct HomeScreen: View {
+struct MainScreen: View {
     @ObservedObject
-    var player: MusicPlayer
+    private var player: MusicPlayer
 
     @State
-    var isPlayerPresented = false
-
-    @State
-    var isPlayerOpen = false
+    private var isPlayerPresented = false
 
     init(
         player: MusicPlayer = .shared
@@ -18,9 +16,9 @@ struct HomeScreen: View {
 
     var body: some View {
         TabView {
-            libraryTab()
-            searchTab()
-            settingsTab()
+            libraryTab
+            searchTab
+            settingsTab
         }
         .onChange(of: player.currentSong) { curSong in
             withAnimation(.linear) {
@@ -30,7 +28,7 @@ struct HomeScreen: View {
     }
 
     @ViewBuilder
-    func libraryTab() -> some View {
+    private var libraryTab: some View {
         NowPlayingComponent(
             isPresented: $isPlayerPresented,
             content: LibraryScreen()
@@ -39,11 +37,10 @@ struct HomeScreen: View {
             Image(systemSymbol: .musicQuarternote3)
             Text("Library")
         }
-        .tag("library_tab")
     }
 
     @ViewBuilder
-    func searchTab() -> some View {
+    private var searchTab: some View {
         NowPlayingComponent(
             isPresented: $isPlayerPresented,
             content: SearchScreen()
@@ -52,24 +49,25 @@ struct HomeScreen: View {
             Image(systemSymbol: .magnifyingglass)
             Text("Search")
         }
-        .tag("search_tab")
     }
 
     @ViewBuilder
-    func settingsTab() -> some View {
+    private var settingsTab: some View {
         SettingsScreen()
             .tabItem {
                 Image(systemSymbol: .gear)
                 Text("Settings")
             }
-            .tag("settings_tab")
     }
 }
 
 #if DEBUG
 struct HomeScreen_Previews: PreviewProvider {
     static var previews: some View {
-        HomeScreen(player: .init(preview: true))
+        MainScreen(player: .init(preview: true))
+            .environmentObject(
+                AlbumRepository(store: .previewStore(items: PreviewData.albums, cacheIdentifier: \.uuid))
+            )
     }
 }
 #endif

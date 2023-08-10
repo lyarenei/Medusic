@@ -17,30 +17,9 @@ struct JellyMusicApp: App {
 
     var body: some Scene {
         WindowGroup {
-            Group {
-                #if os(iOS)
-                HomeScreen()
-                #endif
-
-                #if os(macOS)
-                MacHomeScreen()
-                #endif
-            }
-            .backport.task {
-                // TODO: would be good to show error to user
-                do {
-                    try await AlbumRepository.shared.refresh()
-                    try await SongRepository.shared.refresh()
-                } catch {
-                    debugPrint("Failed to refresh library: \(error)")
-                }
-            }
+            MainScreen()
+                .environmentObject(AlbumRepository(store: .albums))
+                .environmentObject(SongRepository(store: .songs))
         }
-
-        #if os(macOS)
-        Settings {
-            MacSettingsView()
-        }
-        #endif
     }
 }
