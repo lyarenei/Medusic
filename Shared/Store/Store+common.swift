@@ -29,6 +29,12 @@ extension Store<Song> {
     )
 }
 
+extension Store<PlayerQueueItem> {
+    static let playbackQueue = Store<PlayerQueueItem>(
+        storage: SQLiteStorageEngine.default(appendingPath: "PlaybackQueue")
+    )
+}
+
 // MARK: - Environment
 
 private struct AlbumRepoEnvironmentKey: EnvironmentKey {

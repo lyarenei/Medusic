@@ -2,9 +2,9 @@ import Defaults
 
 extension Defaults.Keys {
     // Jellyfin settings
-    static let serverUrl = Key<String>("serverUrl", default: "")
-    static let username = Key<String>("username", default: "")
-    static let userId = Key<String>("userId", default: "")
+    static let serverUrl = Key<String>("serverUrl", default: .empty)
+    static let username = Key<String>("username", default: .empty)
+    static let userId = Key<String>("userId", default: .empty)
 
     // Appearance settings
     static let albumDisplayMode = Key<AlbumDisplayMode>("albumDisplayMode", default: .asTiles)

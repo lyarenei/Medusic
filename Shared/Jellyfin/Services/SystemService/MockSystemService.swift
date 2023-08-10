@@ -16,4 +16,8 @@ final class MockSystemService: SystemService {
     var authorizationHeader: String {
         "authorization header value"
     }
+
+    var isAuthorized: Bool {
+        true
+    }
 }

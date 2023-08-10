@@ -7,7 +7,7 @@ struct ServerCredentialsComponent: View {
     var username: String
 
     @State
-    var password = ""
+    var password: String = .empty
 
     let keychain = SimpleKeychain()
 

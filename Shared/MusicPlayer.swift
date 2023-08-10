@@ -19,6 +19,7 @@ final class MusicPlayer: ObservableObject {
     let apiClient: ApiClient
     var songRepo: SongRepository
     var fileRepo: FileRepository
+    var persistRepo: PersistenceRepository
 
     @MainActor
     @Published
@@ -46,11 +47,14 @@ final class MusicPlayer: ObservableObject {
         preview: Bool = false,
         songRepo: SongRepository = .shared,
         fileRepo: FileRepository = .shared,
+        persistRepo: PersistenceRepository = .shared,
         apiClient: ApiClient = .shared
     ) {
         self.songRepo = songRepo
         self.fileRepo = fileRepo
+        self.persistRepo = persistRepo
         self.apiClient = apiClient
+
         guard !preview else { return }
 
         // swiftformat:disable:next redundantSelf
@@ -66,6 +70,7 @@ final class MusicPlayer: ObservableObject {
                 }
                 return
             }
+
             Task { @MainActor in
                 if case .some(let previousItem)? = change.oldValue,
                    let previousJellyItem = previousItem as? AVJellyPlayerItem,
@@ -87,11 +92,13 @@ final class MusicPlayer: ObservableObject {
                 await self.setCurrentlyPlaying(newSong: currentSong)
                 await self.sendPlaybackStarted(for: currentSong)
                 self.setNowPlayingMetadata(song: currentSong)
+                self.persistPlaybackQueue()
             }
         }
 
         audioSessionSetup()
         setupRemoteCommandCenter()
+        Task { await self.restorePlaybackQueue() }
     }
 
     deinit {
@@ -124,6 +131,23 @@ final class MusicPlayer: ObservableObject {
         }
     }
 
+    private func restorePlaybackQueue() async {
+        if !apiClient.isAuthorized {
+            try? await apiClient.performAuth()
+        }
+
+        let sortedQueueItems = await persistRepo.playbackQueue.sorted { $0.orderIndex < $1.orderIndex }
+        for item in sortedQueueItems {
+            if let song = await songRepo.getSong(by: item.songUuid) {
+                enqueueToPlayer(song, position: .last)
+            }
+        }
+
+        guard let firstQueueItem = sortedQueueItems.first else { return }
+        let firstSong = await songRepo.getSong(by: firstQueueItem.songUuid)
+        await setCurrentlyPlaying(newSong: firstSong)
+    }
+
     // MARK: - Playback controls
 
     func play(song: Song? = nil) async {
@@ -137,8 +161,11 @@ final class MusicPlayer: ObservableObject {
     }
 
     func play(songs: [Song]) async {
-        clearQueue(stopPlayback: true)
-        enqueue(songs: songs, position: .last)
+        if songs.isNotEmpty {
+            clearQueue(stopPlayback: true)
+            enqueue(songs: songs, position: .last)
+        }
+
         await player.play()
         await setIsPlaying(isPlaying: true)
     }
@@ -297,10 +324,12 @@ final class MusicPlayer: ObservableObject {
 
     func enqueue(song: Song, position: EnqueuePosition) {
         enqueueToPlayer(song, position: position)
+        persistPlaybackQueue()
     }
 
     func enqueue(songs: [Song], position: EnqueuePosition) {
         enqueueToPlayer(songs, position: position)
+        persistPlaybackQueue()
     }
 
     /// Clear playback queue. Optionally stop playback of current song.
@@ -338,6 +367,7 @@ final class MusicPlayer: ObservableObject {
             case .next:
                 player.prepend(item: item)
             }
+
             Logger.player.debug("Song added to queue: \(song.uuid)")
         } catch {
             Logger.player.debug("Failed to add song to queue: \(song.uuid)")
@@ -350,7 +380,11 @@ final class MusicPlayer: ObservableObject {
             throw PlayerError.songUrlNotFound
         }
 
-        let headers = ["Authorization": apiClient.services.systemService.authorizationHeader]
+        if !apiClient.isAuthorized {
+            Logger.player.warning("Client is not authenticated against server, remote playback may fail!")
+        }
+
+        let headers = ["Authorization": apiClient.authHeader]
         let asset = AVURLAsset(url: fileUrl, options: ["AVURLAssetHTTPHeaderFieldsKey": headers])
         let item = AVJellyPlayerItem(asset: asset)
         item.song = song
@@ -527,6 +561,11 @@ final class MusicPlayer: ObservableObject {
                 Logger.artwork.debug("Failed to retrieve artwork for now playing info: \(error.localizedDescription)")
             }
         }
+    }
+
+    private func persistPlaybackQueue() {
+        let currentQueue = player.items().compactMap { $0 as? AVJellyPlayerItem }
+        Task { await persistRepo.save(currentQueue) }
     }
 
     enum PlayerError: Error {

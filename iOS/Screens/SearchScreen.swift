@@ -9,10 +9,10 @@ struct SearchScreen: View {
     var songRepo: SongRepository
 
     @State
-    var query = ""
+    var query: String = .empty
 
     @State
-    var searchQuery = ""
+    var searchQuery: String = .empty
 
     init(
         albumRepo: AlbumRepository = .shared,
@@ -44,7 +44,7 @@ struct SearchScreen: View {
                 }
                 .listStyle(.grouped)
             }
-            .navigationTitle("")
+            .navigationTitle(String.empty)
             .navigationBarTitleDisplayMode(.inline)
             .navigationBarHidden(true)
         }

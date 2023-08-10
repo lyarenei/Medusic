@@ -102,12 +102,12 @@ private struct SongInfo: View {
 
     var body: some View {
         HStack {
-            ArtworkComponent(itemId: song?.parentId ?? "")
+            ArtworkComponent(itemId: song?.parentId ?? .empty)
                 .frame(width: 50, height: 50)
                 .shadow(radius: 6, x: 0, y: 3)
                 .padding(.leading)
 
-            Text(song?.name ?? "")
+            Text(song?.name ?? .empty)
                 .font(.system(size: 16))
                 .padding(.leading, 10)
                 .lineLimit(1)

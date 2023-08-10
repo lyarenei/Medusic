@@ -53,7 +53,7 @@ struct AdvancedSettingsScreen: View {
         ConfirmButton(
             btnText: "Reset settings to defaults",
             alertTitle: "Reset settings to defaults",
-            alertMessage: "",
+            alertMessage: .empty,
             alertPrimaryBtnText: "Reset"
         ) {
             Defaults.removeAll()
@@ -129,7 +129,7 @@ private struct ClearArtworkCache: View {
             ConfirmButton(
                 btnText: "Clear artwork cache",
                 alertTitle: "Clear artwork cache",
-                alertMessage: "",
+                alertMessage: .empty,
                 alertPrimaryBtnText: "Confirm",
                 alertPrimaryAction: onConfirm
             )
@@ -175,7 +175,7 @@ private struct RemoveDownloads: View {
             ConfirmButton(
                 btnText: "Remove downloads",
                 alertTitle: "Remove downloaded songs",
-                alertMessage: "",
+                alertMessage: .empty,
                 alertPrimaryBtnText: "Confirm",
                 alertPrimaryAction: onConfirm
             )

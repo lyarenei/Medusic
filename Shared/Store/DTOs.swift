@@ -40,3 +40,9 @@ struct Song: JellyfinItem {
         return extensions.contains { $0 == fileExtension }
     }
 }
+
+struct PlayerQueueItem {
+    var songUuid: String
+    var songUrl: URL
+    var orderIndex: Int
+}

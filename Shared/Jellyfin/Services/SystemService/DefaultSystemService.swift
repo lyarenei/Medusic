@@ -35,12 +35,12 @@ final class DefaultSystemService: SystemService {
             return uid
         }
 
-        return ""
+        return .empty
     }
 
     var authorizationHeader: String {
         let parts = [
-            "Token=\"\(client.accessToken ?? "")\"",
+            "Token=\"\(client.accessToken ?? .empty)\"",
             "Client=\"\(client.configuration.client)\"",
             "Device=\"\(client.configuration.deviceName)\"",
             "DeviceId=\"\(client.configuration.deviceID)\"",
@@ -51,6 +51,10 @@ final class DefaultSystemService: SystemService {
     }
 
     var userToken: String {
-        client.accessToken ?? ""
+        client.accessToken ?? .empty
+    }
+
+    var isAuthorized: Bool {
+        client.accessToken?.isNotEmpty ?? false && userToken.isNotEmpty
     }
 }
