@@ -241,7 +241,6 @@
 		9B61365429BC6E19004C85EC /* Screens */ = {
 			isa = PBXGroup;
 			children = (
-				9B80476F29B89EE40069B407 /* AlbumLibraryScreen.swift */,
 				9B3D44BF29BE09620054C9E0 /* SongsLibraryScreen.swift */,
 				9B46249729E5CDD000A2259A /* AdvancedSettingsScreen.swift */,
 			);
@@ -455,6 +454,7 @@
 			children = (
 				9B80475D29B7D5330069B407 /* MainScreen.swift */,
 				9B80476529B86F460069B407 /* LibraryScreen.swift */,
+				9B80476F29B89EE40069B407 /* AlbumLibraryScreen.swift */,
 			);
 			path = Screens;
 			sourceTree = "<group>";
