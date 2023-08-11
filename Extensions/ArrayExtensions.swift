@@ -16,6 +16,38 @@ extension [Artist] {
     }
 }
 
+extension [Album] {
+    /// Select albums
+    func matching(artistId: String) -> [Album] {
+        filter { $0.artistId == artistId }
+    }
+
+    /// Get album by specified album ID.
+    func getById(_ albumId: String) -> Album? {
+        first { album -> Bool in
+            album.id == albumId
+        }
+    }
+
+    var favorite: [Album] {
+        filter(\.isFavorite)
+    }
+
+    // TODO: only temporary for consistency, until user can configure sort options
+    var consistent: [Album] {
+        sorted { lhs, rhs -> Bool in
+            lhs.name.lowercased() < rhs.name.lowercased()
+        }
+    }
+
+    var sortedByDateAdded: [Album] {
+        sorted { lhs, rhs -> Bool in
+            lhs.createdAt > rhs.createdAt
+        }
+    }
+}
+
+
 extension [Song] {
     /// Sorts songs by album ID, then by their order.
     /// This results in songs being grouped by their albums, and in correct order in that album.
@@ -81,31 +113,5 @@ extension [Song] {
         }
 
         return totalRuntime
-    }
-}
-
-extension [Album] {
-    /// Get album by specified album ID.
-    func getById(_ albumId: String) -> Album? {
-        first { album -> Bool in
-            album.id == albumId
-        }
-    }
-
-    var favorite: [Album] {
-        filter(\.isFavorite)
-    }
-
-    // TODO: only temporary for consistency, until user can configure sort options
-    var consistent: [Album] {
-        sorted { lhs, rhs -> Bool in
-            lhs.name.lowercased() < rhs.name.lowercased()
-        }
-    }
-
-    var sortedByDateAdded: [Album] {
-        sorted { lhs, rhs -> Bool in
-            lhs.createdAt > rhs.createdAt
-        }
     }
 }

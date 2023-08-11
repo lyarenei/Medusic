@@ -12,14 +12,6 @@ protocol JellyfinItem: Identifiable, Codable, Equatable {
     var isFavorite: Bool { get }
 }
 
-struct Album: JellyfinItem {
-    var id: String
-    var name: String
-    var artistName: String
-    var isFavorite: Bool
-    var createdAt = Date()
-}
-
 struct Song: JellyfinItem {
     var id: String
     var index: Int

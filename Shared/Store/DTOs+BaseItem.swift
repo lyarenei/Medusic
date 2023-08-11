@@ -1,16 +1,6 @@
 import Foundation
 import JellyfinAPI
 
-extension Album {
-    init(from item: BaseItemDto) {
-        self.id = item.id ?? .empty
-        self.name = item.name ?? .empty
-        self.artistName = item.albumArtist ?? .empty
-        self.isFavorite = item.userData?.isFavorite ?? false
-        self.createdAt = item.dateCreated ?? Date()
-    }
-}
-
 extension Song {
     init(from item: BaseItemDto) {
         self.id = item.id ?? .empty

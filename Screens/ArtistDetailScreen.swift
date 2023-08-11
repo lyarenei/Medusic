@@ -1,6 +1,9 @@
 import SwiftUI
 
 struct ArtistDetailScreen: View {
+    @EnvironmentObject
+    private var library: LibraryRepository
+
     private let artist: Artist
 
     init(artist: Artist) {
@@ -25,7 +28,8 @@ struct ArtistDetailScreen: View {
                     .font(.title2)
                     .multilineTextAlignment(.leading)
 
-                Text("0 albums, 0 minutes")
+                let albumCount = library.albums.matching(artistId: artist.id).count
+                Text("\(albumCount) albums, 0 minutes")
                     .font(.footnote)
                     .foregroundColor(.secondaryLabel)
             }
@@ -36,16 +40,19 @@ struct ArtistDetailScreen: View {
 
     private var albums: some View {
         List {
-            ForEach(0..<15) { idx in
-                Label {
-                    Text("Album \(idx)")
-                        .font(.title3)
-                } icon: {
-                    Image(systemSymbol: .photoOnRectangleAngled)
-                        .resizable()
-                        .scaledToFit()
+            ForEach(library.albums.matching(artistId: artist.id), id: \.id) { album in
+                NavigationLink {
+                    AlbumDetailScreen(album: album)
+                } label: {
+                    Label {
+                        Text(album.name)
+                            .font(.title3)
+                    } icon: {
+                        ArtworkComponent(itemId: album.id)
+                            .scaledToFit()
+                    }
+                    .labelStyle(.titleAndIcon)
                 }
-                .labelStyle(.titleAndIcon)
                 .frame(height: 40)
             }
         }
@@ -58,6 +65,13 @@ struct ArtistDetailScreen: View {
 struct ArtistDetailScreen_Previews: PreviewProvider {
     static var previews: some View {
         ArtistDetailScreen(artist: PreviewData.artists.first!)
+            .environmentObject(
+                LibraryRepository(
+                    artistStore: .previewStore(items: PreviewData.artists, cacheIdentifier: \.id),
+                    albumStore: .previewStore(items: PreviewData.albums, cacheIdentifier: \.id),
+                    apiClient: .init(previewEnabled: true)
+                )
+            )
     }
 }
 // swiftlint:enable all

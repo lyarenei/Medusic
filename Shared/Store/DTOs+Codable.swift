@@ -1,33 +1,5 @@
 import Foundation
 
-extension Album: Codable {
-    enum CodingKeys: String, CodingKey {
-        case id
-        case name
-        case artistName
-        case isFavorite
-        case createdAt
-    }
-
-    public init(from decoder: Decoder) throws {
-        let container = try decoder.container(keyedBy: CodingKeys.self)
-        self.id = try container.decode(String.self, forKey: .id)
-        self.name = try container.decode(String.self, forKey: .name)
-        self.artistName = try container.decode(String.self, forKey: .artistName)
-        self.isFavorite = try container.decode(Bool.self, forKey: .isFavorite)
-        self.createdAt = try container.decode(Date.self, forKey: .createdAt)
-    }
-
-    public func encode(to encoder: Encoder) throws {
-        var container = encoder.container(keyedBy: CodingKeys.self)
-        try container.encode(id, forKey: .id)
-        try container.encode(name, forKey: .name)
-        try container.encode(artistName, forKey: .artistName)
-        try container.encode(isFavorite, forKey: .isFavorite)
-        try container.encode(createdAt, forKey: .createdAt)
-    }
-}
-
 extension Song: Codable {
     enum CodingKeys: String, CodingKey {
         case id

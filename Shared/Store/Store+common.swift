@@ -5,12 +5,6 @@ import SwiftUI
 
 // MARK: - Stores
 
-extension Store<Album> {
-    static let albums = Store<Album>(
-        storage: SQLiteStorageEngine.default(appendingPath: "Albums")
-    )
-}
-
 extension Store<Song> {
     static let songs = Store<Song>(
         storage: SQLiteStorageEngine.default(appendingPath: "Songs")

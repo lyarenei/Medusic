@@ -91,7 +91,7 @@ struct ArtistLibraryScreen: View {
 
     private func onRefreshButton() async {
         do {
-            try await library.refresh()
+            try await library.refreshArtists()
         } catch {
             print("Failed to refresh artists: \(error.localizedDescription)")
         }
@@ -105,8 +105,12 @@ struct ArtistLibraryScreen_Previews: PreviewProvider {
             ArtistLibraryScreen()
                 .environmentObject(
                     LibraryRepository(
-                        store: .previewStore(
+                        artistStore: .previewStore(
                             items: PreviewData.artists,
+                            cacheIdentifier: \.id
+                        ),
+                        albumStore: .previewStore(
+                            items: PreviewData.albums,
                             cacheIdentifier: \.id
                         ),
                         apiClient: ApiClient(previewEnabled: true)
@@ -118,8 +122,12 @@ struct ArtistLibraryScreen_Previews: PreviewProvider {
         ArtistLibraryScreen()
             .environmentObject(
                 LibraryRepository(
-                    store: .previewStore(
+                    artistStore: .previewStore(
                         items: PreviewData.artists,
+                        cacheIdentifier: \.id
+                    ),
+                    albumStore: .previewStore(
+                        items: PreviewData.albums,
                         cacheIdentifier: \.id
                     ),
                     apiClient: ApiClient(previewEnabled: true)

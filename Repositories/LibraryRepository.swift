@@ -7,18 +7,23 @@ final class LibraryRepository: ObservableObject {
     @Stored
     var artists: [Artist]
 
+    @Stored
+    var albums: [Album]
+
     init(
-        store: Store<Artist>,
+        artistStore: Store<Artist>,
+        albumStore: Store<Album>,
         apiClient: ApiClient
     ) {
-        self._artists = Stored(in: store)
+        self._artists = Stored(in: artistStore)
+        self._albums = Stored(in: albumStore)
         self.apiClient = apiClient
     }
 
-    func refresh() async throws {
+    func refreshArtists() async throws {
         try await apiClient.performAuth()
         try await $artists.removeAll()
-        var pageSize: Int32 = 50
+        let pageSize: Int32 = 50
         var offset: Int32 = 0
         while true {
             let artists = try await apiClient.services.artistService.getArtists(pageSize: pageSize, offset: offset)
@@ -28,7 +33,21 @@ final class LibraryRepository: ObservableObject {
         }
     }
 
-    func refresh(artist: Artist) async throws {
+    func refreshAlbums() async throws {
+        // TODO: pagination
         try await apiClient.performAuth()
+        let remoteAlbums = try await apiClient.services.albumService.getAlbums()
+        try await $albums.removeAll().insert(remoteAlbums).run()
+    }
+
+    func refresh(artist: Artist) async throws {
+        // TODO: implementation
+        try await apiClient.performAuth()
+    }
+
+    func refresh(album: Album) async throws {
+        try await apiClient.performAuth()
+        let remoteAlbum = try await apiClient.services.albumService.getAlbum(by: album.id)
+        try await $albums.insert(remoteAlbum)
     }
 }

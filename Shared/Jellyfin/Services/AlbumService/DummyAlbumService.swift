@@ -3,19 +3,12 @@ import Combine
 import JellyfinAPI
 
 final class DummyAlbumService: AlbumService {
-    private let albums: [Album]
-
-    init(albums: [Album]) {
-        self.albums = albums
-    }
-
     func getAlbums() async throws -> [Album] {
-        albums
+        PreviewData.albums
     }
 
     func getAlbum(by albumId: String) async throws -> Album {
-        let album = albums.first { $0.id == albumId }
-        guard let album else { throw AlbumServiceError.noData }
-        return album
+        // swiftlint:disable:next force_unwrapping
+        PreviewData.albums.first { $0.id == albumId }!
     }
 }
