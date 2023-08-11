@@ -39,7 +39,7 @@ struct AlbumCollection: View {
 
     @ViewBuilder
     private func listContent() -> some View {
-        ForEach(albums, id: \.uuid) { album in
+        ForEach(albums, id: \.id) { album in
             NavigationLink {
                 AlbumDetailScreen(album: album)
             } label: {
@@ -51,7 +51,7 @@ struct AlbumCollection: View {
 
     @ViewBuilder
     private func plainContent() -> some View {
-        ForEach(albums, id: \.uuid) { album in
+        ForEach(albums, id: \.id) { album in
             NavigationLink {
                 AlbumDetailScreen(album: album)
             } label: {
@@ -67,7 +67,7 @@ struct AlbumCollection: View {
 
     @ViewBuilder
     private func tileContent() -> some View {
-        ForEach(albums, id: \.uuid) { album in
+        ForEach(albums, id: \.id) { album in
             NavigationLink {
                 AlbumDetailScreen(album: album)
             } label: {

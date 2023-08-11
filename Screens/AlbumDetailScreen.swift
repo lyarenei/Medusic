@@ -23,7 +23,7 @@ struct AlbumDetailScreen: View {
             }
 
             ToolbarItem(placement: .navigationBarTrailing) {
-                RefreshButton(mode: .album(id: album.uuid))
+                RefreshButton(mode: .album(id: album.id))
             }
         }
     }
@@ -39,7 +39,7 @@ struct AlbumDetailScreen: View {
 
             runtime
 
-            if songRepo.songs.getAlbumDiscCount(albumId: album.uuid) <= 1 {
+            if songRepo.songs.getAlbumDiscCount(albumId: album.id) <= 1 {
                 Divider()
                     .padding(.leading)
             }
@@ -105,9 +105,9 @@ struct AlbumDetailScreen: View {
 
     @ViewBuilder
     private var runtime: some View {
-        let sum = songRepo.songs.filterByAlbum(id: album.uuid).count
+        let sum = songRepo.songs.filterByAlbum(id: album.id).count
         if sum > 0 {
-            let runtime = songRepo.songs.getRuntime(for: album.uuid)
+            let runtime = songRepo.songs.getRuntime(for: album.id)
             Text("\(sum) songs, \(runtime.minutes) minutes")
                 .foregroundColor(.gray)
                 .font(.system(size: 16))
@@ -116,7 +116,7 @@ struct AlbumDetailScreen: View {
 
     @ViewBuilder
     private var songs: some View {
-        if songRepo.songs.filterByAlbum(id: album.uuid).isEmpty {
+        if songRepo.songs.filterByAlbum(id: album.id).isEmpty {
             Text("No songs")
                 .foregroundColor(.gray)
                 .font(.title3)
@@ -127,10 +127,10 @@ struct AlbumDetailScreen: View {
 
     @ViewBuilder
     private var songList: some View {
-        let discCount = songRepo.songs.getAlbumDiscCount(albumId: album.uuid)
+        let discCount = songRepo.songs.getAlbumDiscCount(albumId: album.id)
         if discCount > 1 {
             ForEach(enumerating: 1...discCount) { idx in
-                let songs = songRepo.songs.filterByAlbum(id: album.uuid).filterByAlbumDisc(idx)
+                let songs = songRepo.songs.filterByAlbum(id: album.id).filterByAlbumDisc(idx)
                 Section {
                     songCollection(
                         songs: songs.sortByIndex(),
@@ -142,7 +142,7 @@ struct AlbumDetailScreen: View {
             }
         } else {
             songCollection(
-                songs: songRepo.songs.filterByAlbum(id: album.uuid),
+                songs: songRepo.songs.filterByAlbum(id: album.id),
                 showLastDivider: true
             )
         }
@@ -188,7 +188,7 @@ struct AlbumDetailScreen: View {
     }
 
     private var previewAlbums: [Album] {
-        albumRepo.albums.filter { $0.uuid != album.uuid && $0.artistName == album.artistName }
+        albumRepo.albums.filter { $0.id != album.id && $0.artistName == album.artistName }
     }
 }
 
@@ -200,12 +200,12 @@ struct AlbumDetailScreen_Previews: PreviewProvider {
             .previewDisplayName("Default")
             .environmentObject(
                 AlbumRepository(
-                    store: .previewStore(items: PreviewData.albums, cacheIdentifier: \.uuid)
+                    store: .previewStore(items: PreviewData.albums, cacheIdentifier: \.id)
                 )
             )
             .environmentObject(
                 SongRepository(
-                    store: .previewStore(items: PreviewData.songs, cacheIdentifier: \.uuid)
+                    store: .previewStore(items: PreviewData.songs, cacheIdentifier: \.id)
                 )
             )
 
@@ -213,12 +213,12 @@ struct AlbumDetailScreen_Previews: PreviewProvider {
             AlbumDetailScreen(album: PreviewData.albums.first!)
                 .environmentObject(
                     AlbumRepository(
-                        store: .previewStore(items: PreviewData.albums, cacheIdentifier: \.uuid)
+                        store: .previewStore(items: PreviewData.albums, cacheIdentifier: \.id)
                     )
                 )
                 .environmentObject(
                     SongRepository(
-                        store: .previewStore(items: PreviewData.songs, cacheIdentifier: \.uuid)
+                        store: .previewStore(items: PreviewData.songs, cacheIdentifier: \.id)
                     )
                 )
         }
@@ -227,10 +227,10 @@ struct AlbumDetailScreen_Previews: PreviewProvider {
         AlbumDetailScreen(album: PreviewData.albums.first!)
             .previewDisplayName("Empty")
             .environmentObject(
-                AlbumRepository(store: .previewStore(items: [], cacheIdentifier: \.uuid))
+                AlbumRepository(store: .previewStore(items: [], cacheIdentifier: \.id))
             )
             .environmentObject(
-                SongRepository(store: .previewStore(items: [], cacheIdentifier: \.uuid))
+                SongRepository(store: .previewStore(items: [], cacheIdentifier: \.id))
             )
     }
 }

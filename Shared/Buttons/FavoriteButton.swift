@@ -75,9 +75,9 @@ struct FavoriteButton: View {
             do {
                 switch item {
                 case let album as Album:
-                    try await albumRepo.setFavorite(albumId: album.uuid, isFavorite: !isFavorite)
+                    try await albumRepo.setFavorite(albumId: album.id, isFavorite: !isFavorite)
                 case let song as Song:
-                    try await songRepo.setFavorite(songId: song.uuid, isFavorite: !isFavorite)
+                    try await songRepo.setFavorite(songId: song.id, isFavorite: !isFavorite)
                 default:
                     print("Unhandled item type: \(item)")
                     return
@@ -113,13 +113,13 @@ struct FavoriteButton_Previews: PreviewProvider {
             albumRepo: .init(
                 store: .previewStore(
                     items: PreviewData.albums,
-                    cacheIdentifier: \.uuid
+                    cacheIdentifier: \.id
                 )
             ),
             songRepo: .init(
                 store: .previewStore(
                     items: PreviewData.songs,
-                    cacheIdentifier: \.uuid
+                    cacheIdentifier: \.id
                 )
             )
         )
@@ -132,13 +132,13 @@ struct FavoriteButton_Previews: PreviewProvider {
             albumRepo: .init(
                 store: .previewStore(
                     items: PreviewData.albums,
-                    cacheIdentifier: \.uuid
+                    cacheIdentifier: \.id
                 )
             ),
             songRepo: .init(
                 store: .previewStore(
                     items: PreviewData.songs,
-                    cacheIdentifier: \.uuid
+                    cacheIdentifier: \.id
                 )
             )
         )
@@ -152,13 +152,13 @@ struct FavoriteButton_Previews: PreviewProvider {
             albumRepo: .init(
                 store: .previewStore(
                     items: PreviewData.albums,
-                    cacheIdentifier: \.uuid
+                    cacheIdentifier: \.id
                 )
             ),
             songRepo: .init(
                 store: .previewStore(
                     items: PreviewData.songs,
-                    cacheIdentifier: \.uuid
+                    cacheIdentifier: \.id
                 )
             )
         )

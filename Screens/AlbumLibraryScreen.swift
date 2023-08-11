@@ -39,7 +39,7 @@ struct AlbumLibraryScreen_Previews: PreviewProvider {
                 AlbumRepository(
                     store: .previewStore(
                         items: PreviewData.albums,
-                        cacheIdentifier: \.uuid
+                        cacheIdentifier: \.id
                     )
                 )
             )

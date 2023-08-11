@@ -3,7 +3,7 @@ import JellyfinAPI
 
 extension Album {
     init(from item: BaseItemDto) {
-        self.uuid = item.id ?? .empty
+        self.id = item.id ?? .empty
         self.name = item.name ?? .empty
         self.artistName = item.albumArtist ?? .empty
         self.isFavorite = item.userData?.isFavorite ?? false
@@ -13,7 +13,7 @@ extension Album {
 
 extension Song {
     init(from item: BaseItemDto) {
-        self.uuid = item.id ?? .empty
+        self.id = item.id ?? .empty
         self.index = Int(item.indexNumber ?? 0)
         self.name = item.name ?? .empty
         self.parentId = item.albumID ?? item.parentID ?? .empty

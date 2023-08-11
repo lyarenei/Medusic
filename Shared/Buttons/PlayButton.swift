@@ -46,7 +46,7 @@ struct PlayButton: View {
     }
 
     func playAlbum(_ album: Album) async {
-        let songs = await songRepo.getSongs(ofAlbum: album.uuid)
+        let songs = await songRepo.getSongs(ofAlbum: album.id)
         await player.play(songs: songs.sortByAlbum())
     }
 }
@@ -94,7 +94,7 @@ struct PlayButton_Previews: PreviewProvider {
         PlayButton(
             item: PreviewData.songs.first!,
             player: .init(preview: true),
-            songRepo: .init(store: .previewStore(items: PreviewData.songs, cacheIdentifier: \.uuid))
+            songRepo: .init(store: .previewStore(items: PreviewData.songs, cacheIdentifier: \.id))
         )
         PlayPauseButton(player: .init(preview: true))
             .previewDisplayName("Play/Pause button")

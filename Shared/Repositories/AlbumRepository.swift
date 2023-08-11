@@ -37,7 +37,7 @@ final class AlbumRepository: ObservableObject {
 
     /// Get a specific album form store by its ID.
     func getAlbum(by albumId: String) async -> Album? {
-        await $albums.items.first { $0.uuid == albumId }
+        await $albums.items.first { $0.id == albumId }
     }
 
     /// Get all favorite albums.

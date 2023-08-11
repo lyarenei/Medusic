@@ -12,12 +12,6 @@ extension Album: Equatable {
     }
 }
 
-extension ArtistInfo: Equatable {
-    public static func == (lhs: ArtistInfo, rhs: ArtistInfo) -> Bool {
-        lhs.id == rhs.id
-    }
-}
-
 extension PlayerQueueItem: Equatable {
     public static func == (lhs: PlayerQueueItem, rhs: PlayerQueueItem) -> Bool {
         lhs.id == rhs.id

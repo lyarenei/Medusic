@@ -7,13 +7,13 @@ public struct JellyfinServerInfo {
 }
 
 protocol JellyfinItem: Identifiable, Codable, Equatable {
-    var uuid: String { get }
+    var id: String { get }
     var name: String { get }
     var isFavorite: Bool { get }
 }
 
 struct Album: JellyfinItem {
-    var uuid: String
+    var id: String
     var name: String
     var artistName: String
     var isFavorite: Bool
@@ -21,7 +21,7 @@ struct Album: JellyfinItem {
 }
 
 struct Song: JellyfinItem {
-    var uuid: String
+    var id: String
     var index: Int
     var name: String
     var parentId: String
@@ -42,7 +42,7 @@ struct Song: JellyfinItem {
 }
 
 struct PlayerQueueItem {
-    var songUuid: String
+    var songId: String
     var songUrl: URL
     var orderIndex: Int
 }

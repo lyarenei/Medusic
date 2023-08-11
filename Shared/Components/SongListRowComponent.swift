@@ -125,7 +125,7 @@ struct SongListRowComponent_Previews: PreviewProvider {
             albumRepo: .init(
                 store: .previewStore(
                     items: PreviewData.albums,
-                    cacheIdentifier: \.uuid
+                    cacheIdentifier: \.id
                 )
             )
         )

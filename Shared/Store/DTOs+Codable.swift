@@ -2,7 +2,7 @@ import Foundation
 
 extension Album: Codable {
     enum CodingKeys: String, CodingKey {
-        case uuid
+        case id
         case name
         case artistName
         case isFavorite
@@ -11,7 +11,7 @@ extension Album: Codable {
 
     public init(from decoder: Decoder) throws {
         let container = try decoder.container(keyedBy: CodingKeys.self)
-        self.uuid = try container.decode(String.self, forKey: .uuid)
+        self.id = try container.decode(String.self, forKey: .id)
         self.name = try container.decode(String.self, forKey: .name)
         self.artistName = try container.decode(String.self, forKey: .artistName)
         self.isFavorite = try container.decode(Bool.self, forKey: .isFavorite)
@@ -20,7 +20,7 @@ extension Album: Codable {
 
     public func encode(to encoder: Encoder) throws {
         var container = encoder.container(keyedBy: CodingKeys.self)
-        try container.encode(uuid, forKey: .uuid)
+        try container.encode(id, forKey: .id)
         try container.encode(name, forKey: .name)
         try container.encode(artistName, forKey: .artistName)
         try container.encode(isFavorite, forKey: .isFavorite)
@@ -30,7 +30,7 @@ extension Album: Codable {
 
 extension Song: Codable {
     enum CodingKeys: String, CodingKey {
-        case uuid
+        case id
         case index
         case name
         case parentId
@@ -42,7 +42,7 @@ extension Song: Codable {
 
     public init(from decoder: Decoder) throws {
         let container = try decoder.container(keyedBy: CodingKeys.self)
-        self.uuid = try container.decode(String.self, forKey: .uuid)
+        self.id = try container.decode(String.self, forKey: .id)
         self.index = try container.decode(Int.self, forKey: .index)
         self.name = try container.decode(String.self, forKey: .name)
         self.parentId = try container.decode(String.self, forKey: .parentId)
@@ -54,7 +54,7 @@ extension Song: Codable {
 
     public func encode(to encoder: Encoder) throws {
         var container = encoder.container(keyedBy: CodingKeys.self)
-        try container.encode(uuid, forKey: .uuid)
+        try container.encode(id, forKey: .id)
         try container.encode(index, forKey: .index)
         try container.encode(name, forKey: .name)
         try container.encode(parentId, forKey: .parentId)
@@ -67,21 +67,21 @@ extension Song: Codable {
 
 extension PlayerQueueItem: Codable {
     enum CodingKeys: String, CodingKey {
-        case songUuid
+        case songId
         case songUrl
         case orderIndex
     }
 
     public init(from decoder: Decoder) throws {
         let container = try decoder.container(keyedBy: CodingKeys.self)
-        self.songUuid = try container.decode(String.self, forKey: .songUuid)
+        self.songId = try container.decode(String.self, forKey: .songId)
         self.songUrl = try container.decode(URL.self, forKey: .songUrl)
         self.orderIndex = try container.decode(Int.self, forKey: .orderIndex)
     }
 
     public func encode(to encoder: Encoder) throws {
         var container = encoder.container(keyedBy: CodingKeys.self)
-        try container.encode(songUuid, forKey: .songUuid)
+        try container.encode(songId, forKey: .songId)
         try container.encode(songUrl, forKey: .songUrl)
         try container.encode(orderIndex, forKey: .orderIndex)
     }

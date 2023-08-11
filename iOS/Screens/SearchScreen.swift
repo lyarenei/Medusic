@@ -85,13 +85,13 @@ struct SearchScreen_Previews: PreviewProvider {
             albumRepo: .init(
                 store: .previewStore(
                     items: PreviewData.albums,
-                    cacheIdentifier: \.uuid
+                    cacheIdentifier: \.id
                 )
             ),
             songRepo: .init(
                 store: .previewStore(
                     items: PreviewData.songs,
-                    cacheIdentifier: \.uuid
+                    cacheIdentifier: \.id
                 )
             )
         )

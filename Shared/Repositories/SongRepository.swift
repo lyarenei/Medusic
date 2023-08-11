@@ -42,7 +42,7 @@ final class SongRepository: ObservableObject {
 
     /// Get a specific song form store by specified ID.
     func getSong(by songId: String) async -> Song? {
-        await $songs.items.first { $0.uuid == songId }
+        await $songs.items.first { $0.id == songId }
     }
 
     /// Set/reset specified song favorite flag.

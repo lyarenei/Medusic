@@ -68,7 +68,7 @@ extension [Song] {
     /// Get song by specified song ID.
     func getById(_ songId: String) -> Song? {
         first { song -> Bool in
-            song.uuid == songId
+            song.id == songId
         }
     }
 
@@ -88,7 +88,7 @@ extension [Album] {
     /// Get album by specified album ID.
     func getById(_ albumId: String) -> Album? {
         first { album -> Bool in
-            album.uuid == albumId
+            album.id == albumId
         }
     }
 

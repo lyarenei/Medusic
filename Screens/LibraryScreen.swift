@@ -111,13 +111,13 @@ struct LibraryScreen_Previews: PreviewProvider {
         LibraryScreen()
             .previewDisplayName("Default")
             .environmentObject(
-                AlbumRepository(store: .previewStore(items: PreviewData.albums, cacheIdentifier: \.uuid))
+                AlbumRepository(store: .previewStore(items: PreviewData.albums, cacheIdentifier: \.id))
             )
 
         LibraryScreen()
             .previewDisplayName("Empty library")
             .environmentObject(
-                AlbumRepository(store: .previewStore(items: [], cacheIdentifier: \.uuid))
+                AlbumRepository(store: .previewStore(items: [], cacheIdentifier: \.id))
             )
     }
 }

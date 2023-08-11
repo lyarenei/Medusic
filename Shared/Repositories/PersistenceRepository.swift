@@ -17,8 +17,8 @@ final class PersistenceRepository: ObservableObject {
 
     public func save(_ currentQueue: [AVJellyPlayerItem]) async {
         let orderedItems = currentQueue.enumerated().compactMap { (idx: Int, item: AVJellyPlayerItem) -> PlayerQueueItem? in
-            guard let uuid = item.song?.uuid, let url = item.url else { return nil }
-            return PlayerQueueItem(songUuid: uuid, songUrl: url, orderIndex: idx)
+            guard let id = item.song?.id, let url = item.url else { return nil }
+            return PlayerQueueItem(songId: id, songUrl: url, orderIndex: idx)
         }
 
         do {

@@ -28,19 +28,19 @@ struct PreviewData {
 
     static let albums = [
         Album(
-            uuid: "1",
+            id: "1",
             name: "Nice album name",
             artistName: "Album artist",
             isFavorite: true
         ),
         Album(
-            uuid: "2",
+            id: "2",
             name: "Album with very long name that one gets tired reading it",
             artistName: "Unamusing artist",
             isFavorite: false
         ),
         Album(
-            uuid: "3",
+            id: "3",
             name: "Very long album name that can't possibly fit on one line on phone screen either in vertical or horizontal orientation",
             artistName: "Very long artist name that can't possibly fit on one line on phone screen either in vertical or horizontal orientation",
             isFavorite: true
@@ -50,7 +50,7 @@ struct PreviewData {
     static let songs = [
         // Songs for album 1
         Song(
-            uuid: "1",
+            id: "1",
             index: 1,
             name: "Song name 1",
             parentId: "1",
@@ -60,7 +60,7 @@ struct PreviewData {
             fileExtension: "flac"
         ),
         Song(
-            uuid: "2",
+            id: "2",
             index: 1,
             name: "Song name 2 but this one has very long name",
             parentId: "1",
@@ -71,7 +71,7 @@ struct PreviewData {
         ),
         // Songs for album 2
         Song(
-            uuid: "3",
+            id: "3",
             index: 1,
             name: "Song name 3",
             parentId: "2",
@@ -80,7 +80,7 @@ struct PreviewData {
             fileExtension: "flac"
         ),
         Song(
-            uuid: "4",
+            id: "4",
             index: 2,
             name: "Song name 4 but this one has very long name",
             parentId: "2",
@@ -89,7 +89,7 @@ struct PreviewData {
             fileExtension: "flac"
         ),
         Song(
-            uuid: "5",
+            id: "5",
             index: 1,
             name: "Very long song name that can't possibly fit on one line on phone screen either in vertical or horizontal orientation",
             parentId: "3",

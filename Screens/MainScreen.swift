@@ -66,7 +66,7 @@ struct HomeScreen_Previews: PreviewProvider {
     static var previews: some View {
         MainScreen(player: .init(preview: true))
             .environmentObject(
-                AlbumRepository(store: .previewStore(items: PreviewData.albums, cacheIdentifier: \.uuid))
+                AlbumRepository(store: .previewStore(items: PreviewData.albums, cacheIdentifier: \.id))
             )
     }
 }

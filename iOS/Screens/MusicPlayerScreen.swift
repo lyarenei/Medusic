@@ -91,7 +91,7 @@ struct MusicPlayerScreen: View {
     @ViewBuilder
     private var historySection: some View {
         Section {
-            ForEach(player.history, id: \.uuid) { song in
+            ForEach(player.history, id: \.id) { song in
                 SongListRowComponent(song: song)
                     .showArtwork()
                     .showArtistName()
@@ -121,7 +121,7 @@ struct MusicPlayerScreen: View {
     @ViewBuilder
     private var upNextSection: some View {
         Section {
-            ForEach(player.upNext, id: \.uuid) { song in
+            ForEach(player.upNext, id: \.id) { song in
                 SongListRowComponent(song: song)
                     .showArtwork()
                     .showArtistName()

@@ -64,7 +64,7 @@ struct ArtworkComponent: View {
 struct ArtworkComponent_Previews: PreviewProvider {
     static var previews: some View {
         ArtworkComponent(
-            itemId: PreviewData.albums.first!.uuid,
+            itemId: PreviewData.albums.first!.id,
             apiClient: .init(previewEnabled: true)
         )
         .previewLayout(.fixed(width: 200, height: 200))

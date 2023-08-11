@@ -64,18 +64,18 @@ struct AdvancedSettingsScreen: View {
 #if DEBUG
 struct AdvancedSettingsScreen_Previews: PreviewProvider {
     static var fileRepo: FileRepository = .init(
-        downloadedSongsStore: .previewStore(items: PreviewData.songs, cacheIdentifier: \.uuid),
-        downloadQueueStore: .previewStore(items: [], cacheIdentifier: \.uuid),
+        downloadedSongsStore: .previewStore(items: PreviewData.songs, cacheIdentifier: \.id),
+        downloadQueueStore: .previewStore(items: [], cacheIdentifier: \.id),
         apiClient: .init(previewEnabled: true)
     )
 
     static var albumRepo: AlbumRepository = .init(
-        store: .previewStore(items: PreviewData.albums, cacheIdentifier: \.uuid),
+        store: .previewStore(items: PreviewData.albums, cacheIdentifier: \.id),
         apiClient: .init(previewEnabled: true)
     )
 
     static var songRepo: SongRepository = .init(
-        store: .previewStore(items: PreviewData.songs, cacheIdentifier: \.uuid),
+        store: .previewStore(items: PreviewData.songs, cacheIdentifier: \.id),
         apiClient: .init(previewEnabled: true)
     )
 

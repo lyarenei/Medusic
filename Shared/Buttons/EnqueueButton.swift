@@ -50,7 +50,7 @@ struct EnqueueButton: View {
         Task {
             switch item {
             case let album as Album:
-                let songs = await songRepo.getSongs(ofAlbum: album.uuid)
+                let songs = await songRepo.getSongs(ofAlbum: album.id)
                 await player.enqueue(songs: songs.sortByAlbum(), position: position)
             case let song as Song:
                 await player.enqueue(song: song, position: position)
@@ -68,7 +68,7 @@ struct EnqueueButton_Previews: PreviewProvider {
         EnqueueButton(
             item: PreviewData.songs.first!,
             player: .init(preview: true),
-            songRepo: .init(store: .previewStore(items: PreviewData.songs, cacheIdentifier: \.uuid))
+            songRepo: .init(store: .previewStore(items: PreviewData.songs, cacheIdentifier: \.id))
         )
     }
 }
