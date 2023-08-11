@@ -41,7 +41,7 @@ struct AlbumCollection: View {
     private func listContent() -> some View {
         ForEach(albums, id: \.uuid) { album in
             NavigationLink {
-                AlbumDetailScreen(for: album)
+                AlbumDetailScreen(album: album)
             } label: {
                 albumListEntry(album: album)
             }
@@ -53,7 +53,7 @@ struct AlbumCollection: View {
     private func plainContent() -> some View {
         ForEach(albums, id: \.uuid) { album in
             NavigationLink {
-                AlbumDetailScreen(for: album)
+                AlbumDetailScreen(album: album)
             } label: {
                 albumPlainEntry(album: album)
                     .padding(.vertical, 1)
@@ -69,7 +69,7 @@ struct AlbumCollection: View {
     private func tileContent() -> some View {
         ForEach(albums, id: \.uuid) { album in
             NavigationLink {
-                AlbumDetailScreen(for: album)
+                AlbumDetailScreen(album: album)
             } label: {
                 AlbumTileComponent(album: album)
             }

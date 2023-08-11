@@ -251,7 +251,6 @@
 			children = (
 				9B80477D29B8CDF80069B407 /* SettingsScreen.swift */,
 				9B73ECF829C8F085007F74DB /* MusicPlayerScreen.swift */,
-				9B70BD9F29B923AE000DB31C /* AlbumDetailScreen.swift */,
 				9BBE146629FDA11C0028C500 /* SearchScreen.swift */,
 			);
 			path = Screens;
@@ -455,6 +454,7 @@
 				9B80476529B86F460069B407 /* LibraryScreen.swift */,
 				9B80476F29B89EE40069B407 /* AlbumLibraryScreen.swift */,
 				9B3D44BF29BE09620054C9E0 /* SongsLibraryScreen.swift */,
+				9B70BD9F29B923AE000DB31C /* AlbumDetailScreen.swift */,
 			);
 			path = Screens;
 			sourceTree = "<group>";
