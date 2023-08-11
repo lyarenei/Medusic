@@ -48,10 +48,7 @@ struct LibraryScreen: View {
                 .disabled(true)
 
             Divider()
-
-            navLink(for: "Artists", to: EmptyView(), icon: .musicMic)
-                .disabled(true)
-
+            navLink(for: "Artists", to: ArtistLibraryScreen(), icon: .musicMic)
             Divider()
             navLink(for: "Albums", to: AlbumLibraryScreen(), icon: .squareStack)
             Divider()
@@ -71,9 +68,9 @@ struct LibraryScreen: View {
                 Text(name)
                 Spacer()
                 Image(systemSymbol: .chevronRight)
-                    .frame(width: 25, height: 25)
+                    .frame(width: 30, height: 30)
                     .foregroundColor(.gray)
-                    .font(.system(size: 10))
+                    .font(.system(size: 15))
             }
             .buttonStyle(.plain)
             .padding(.trailing, 15)
