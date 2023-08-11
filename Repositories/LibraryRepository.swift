@@ -16,6 +16,19 @@ final class LibraryRepository: ObservableObject {
     }
 
     func refresh() async throws {
+        try await apiClient.performAuth()
+        try await $artists.removeAll()
+        var pageSize: Int32 = 50
+        var offset: Int32 = 0
+        while true {
+            let artists = try await apiClient.services.artistService.getArtists(pageSize: pageSize, offset: offset)
+            guard artists.isNotEmpty else { return }
+            try await $artists.insert(artists)
+            offset += pageSize
+        }
+    }
 
+    func refresh(artist: Artist) async throws {
+        try await apiClient.performAuth()
     }
 }

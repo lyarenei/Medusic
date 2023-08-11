@@ -49,7 +49,8 @@ final class ApiClient {
             songService: DefaultSongService(client: jellyfinClient),
             imageService: DefaultImageService(client: jellyfinClient),
             systemService: DefaultSystemService(client: jellyfinClient),
-            mediaService: DefaultMediaService(client: jellyfinClient)
+            mediaService: DefaultMediaService(client: jellyfinClient),
+            artistService: DefaultArtistService(client: jellyfinClient)
         )
         Logger.jellyfin.debug("Using default mode for API client")
     }
@@ -97,6 +98,7 @@ struct ApiServices {
     let imageService: any ImageService
     let systemService: any SystemService
     let mediaService: any MediaService
+    let artistService: any ArtistService
 }
 
 extension ApiServices {
@@ -106,7 +108,8 @@ extension ApiServices {
             songService: DummySongService(songs: PreviewData.songs),
             imageService: DummyImageService(),
             systemService: MockSystemService(),
-            mediaService: MockMediaService()
+            mediaService: MockMediaService(),
+            artistService: MockArtistService()
         )
     }
 }
