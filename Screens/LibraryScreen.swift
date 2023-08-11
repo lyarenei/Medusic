@@ -86,7 +86,7 @@ struct LibraryScreen: View {
             AlbumPreviewCollection(
                 for: albumRepo.albums.favorite.consistent,
                 titleText: "Favorite albums",
-                emptyText: "No favorite albums"
+                emptyText: "No albums"
             )
             .stackType(.horizontal)
         }
