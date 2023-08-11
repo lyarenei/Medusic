@@ -33,7 +33,7 @@ struct ArtistLibraryScreen: View {
             List {
                 ForEach(library.artists.sorted(by: sortBy)) { artist in
                     NavigationLink {
-                        EmptyView()
+                        ArtistDetailScreen(artist: artist)
                     } label: {
                         Label {
                             Text(artist.name)
