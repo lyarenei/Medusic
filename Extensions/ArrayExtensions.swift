@@ -5,6 +5,17 @@ extension Array {
     public var isNotEmpty: Bool { !isEmpty }
 }
 
+extension [Artist] {
+    func sorted(by: SortBy) -> [Artist] {
+        switch by {
+        case .name:
+            return sorted { lhs, rhs -> Bool in
+                lhs.sortName < rhs.sortName
+            }
+        }
+    }
+}
+
 extension [Song] {
     /// Sorts songs by album ID, then by their order.
     /// This results in songs being grouped by their albums, and in correct order in that album.
