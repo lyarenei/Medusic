@@ -330,6 +330,7 @@
 				9BF6C8EF2A861D5100916EC1 /* DTOs */,
 				9BF6C8EC2A861C8A00916EC1 /* Repositories */,
 				9BF6C8E82A854D2600916EC1 /* Screens */,
+				9B80473329B768000069B407 /* JellyMusicApp.swift */,
 				9BF6C8F52A86221F00916EC1 /* Store.swift */,
 				9B36DAC429CB941C008C4FE7 /* JellyMusic--iOS--Info.plist */,
 				9B80475C29B7D5140069B407 /* iOS */,
@@ -350,13 +351,11 @@
 				9BB75EC429C5FF39008CD65A /* Repositories */,
 				9B61365429BC6E19004C85EC /* Screens */,
 				48C1F8C429B9E7FF003BE048 /* Store */,
-				9B80473329B768000069B407 /* JellyMusicApp.swift */,
 				4848B22529BCBC2000EB2FAA /* Cancellables.swift */,
 				9B80473529B768010069B407 /* Assets.xcassets */,
 				9BB75EAF29C4C5E1008CD65A /* Settings.swift */,
 				9B3C7BE829D0702600884597 /* Logger.swift */,
 				9B21623229E88D12008D3F73 /* MusicPlayer.swift */,
-				9BDB03302A113558004EFA3A /* AppDefaults.swift */,
 			);
 			path = Shared;
 			sourceTree = "<group>";
@@ -389,6 +388,7 @@
 		9BA88EE82A8648E100E61A61 /* Constants */ = {
 			isa = PBXGroup;
 			children = (
+				9BDB03302A113558004EFA3A /* AppDefaults.swift */,
 				9BA88EE92A8648ED00E61A61 /* PreviewData.swift */,
 			);
 			path = Constants;
