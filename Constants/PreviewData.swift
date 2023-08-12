@@ -13,23 +13,23 @@ struct PreviewData {
         Artist(id: "1", name: "The Blue Suns", sortName: "Blue Suns, The"),
         Artist(id: "2", name: "Q", sortName: "Q"),
         Artist(id: "3", name: "Mellifluous Quartet", sortName: "Mellifluous Quartet"),
-        Artist(id: "4", name: "Anna Jameson", sortName: "Jameson, Anna"),
+        Artist(id: "4", name: "Anna Jameson", sortName: "Anna Jameson"),
         Artist(id: "5", name: "Ron", sortName: "Ron"),
-        Artist(id: "6", name: "Ethereal Dreams", sortName: "Dreams, Ethereal"),
+        Artist(id: "6", name: "Ethereal Dreams", sortName: "Ethereal Dreams"),
         Artist(id: "7", name: "Bella and the Whales", sortName: "Bella and the Whales"),
         Artist(id: "8", name: "MJ", sortName: "MJ"),
-        Artist(id: "9", name: "Titanium Tigers", sortName: "Tigers, Titanium"),
-        Artist(id: "10", name: "Oliver Owens Orchestra", sortName: "Orchestra, Oliver Owens"),
+        Artist(id: "9", name: "Titanium Tigers", sortName: "Titanium Tigers"),
+        Artist(id: "10", name: "Oliver Owens Orchestra", sortName: "Oliver Owens Orchestra"),
         Artist(id: "11", name: "Al", sortName: "Al"),
-        Artist(id: "12", name: "Flaming Feathers", sortName: "Feathers, Flaming"),
+        Artist(id: "12", name: "Flaming Feathers", sortName: "Flaming Feathers"),
         Artist(id: "13", name: "Sarah Simmons & The Silent Seven", sortName: "Sarah Simmons & The Silent Seven"),
         Artist(id: "14", name: "Ix", sortName: "Ix"),
-        Artist(id: "15", name: "Echoing Elements", sortName: "Elements, Echoing"),
+        Artist(id: "15", name: "Echoing Elements", sortName: "Echoing Elements"),
         Artist(id: "16", name: "Xylo", sortName: "Xylo"),
-        Artist(id: "17", name: "Percussion Pioneers", sortName: "Pioneers, Percussion"),
-        Artist(id: "18", name: "Liam's Lyricists", sortName: "Lyricists, Liam's"),
+        Artist(id: "17", name: "Percussion Pioneers", sortName: "Percussion Pioneers"),
+        Artist(id: "18", name: "Liam's Lyricists", sortName: "Liam's Lyricists"),
         Artist(id: "19", name: "Oz", sortName: "Oz"),
-        Artist(id: "20", name: "Jubilant Jammers", sortName: "Jammers, Jubilant")
+        Artist(id: "20", name: "Jubilant Jammers", sortName: "Jubilant Jammers")
     ]
 
     static let albums: [Album] = [
@@ -38,7 +38,7 @@ struct PreviewData {
         Album(id: "103", name: "Quantum Notes", sortName: "Quantum Notes", artistId: "2", isFavorite: true, createdAt: formatter.date(from: "2023/02/15")!),
         Album(id: "104", name: "Quiet Quarrels", sortName: "Quiet Quarrels", artistId: "2", isFavorite: false, createdAt: formatter.date(from: "2021/07/12")!),
         Album(id: "105", name: "Harmonic Hues", sortName: "Harmonic Hues", artistId: "3", isFavorite: true, createdAt: formatter.date(from: "2022/03/25")!),
-        Album(id: "106", name: "Echoed Euphoria", sortName: "Echoed Euphoria", artistId: "4", isFavorite: false, createdAt: formatter.date(from: "2020/08/10")!),
+        Album(id: "106", name: "An Echoed Euphoria", sortName: "Echoed Euphoria, An", artistId: "4", isFavorite: false, createdAt: formatter.date(from: "2020/08/10")!),
         Album(id: "107", name: "Melodies of Ron", sortName: "Melodies of Ron", artistId: "5", isFavorite: true, createdAt: formatter.date(from: "2023/01/11")!),
         Album(id: "108", name: "Dreamy Delights", sortName: "Dreamy Delights", artistId: "6", isFavorite: false, createdAt: formatter.date(from: "2021/12/05")!),
         Album(id: "109", name: "Oceanic Overtones", sortName: "Oceanic Overtones", artistId: "7", isFavorite: true, createdAt: formatter.date(from: "2020/04/21")!),
@@ -51,7 +51,7 @@ struct PreviewData {
         Album(id: "116", name: "Solar Flares", sortName: "Solar Flares", artistId: "1", isFavorite: false, createdAt: formatter.date(from: "2022/07/15")!),
         Album(id: "117", name: "Quartet Quintessence", sortName: "Quartet Quintessence", artistId: "3", isFavorite: true, createdAt: formatter.date(from: "2021/06/25")!),
         Album(id: "118", name: "Anna's Anthems", sortName: "Anna's Anthems", artistId: "4", isFavorite: true, createdAt: formatter.date(from: "2020/09/14")!),
-        Album(id: "119", name: "Rhythms of Ron", sortName: "Rhythms of Ron", artistId: "5", isFavorite: true, createdAt: formatter.date(from: "2021/04/11")!),
+        Album(id: "119", name: "The Rhythms of Ron", sortName: "Rhythms of Ron, The", artistId: "5", isFavorite: true, createdAt: formatter.date(from: "2021/04/11")!),
         Album(id: "120", name: "Dreamscape Dynamics", sortName: "Dreamscape Dynamics", artistId: "6", isFavorite: false, createdAt: formatter.date(from: "2022/11/22")!)
     ]
 
