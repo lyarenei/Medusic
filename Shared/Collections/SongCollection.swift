@@ -31,7 +31,7 @@ struct SongCollection: View {
 
     @ViewBuilder
     private func listContent() -> some View {
-        ForEach(songs) { song in
+        ForEach(songs, id: \.id) { song in
             HStack(spacing: 10) {
                 songInfo(song: song)
                 PrimaryActionButton(item: song)
@@ -44,7 +44,7 @@ struct SongCollection: View {
 
     @ViewBuilder
     private func plainContent() -> some View {
-        ForEach(songs) { song in
+        ForEach(songs, id: \.id) { song in
             HStack(spacing: 10) {
                 songInfo(song: song)
                 PrimaryActionButton(item: song)
