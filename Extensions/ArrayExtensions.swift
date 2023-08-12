@@ -15,7 +15,7 @@ extension Array where Element: JellyfinItem {
         switch by {
         case .name:
             return sorted { lhs, rhs -> Bool in
-                lhs.sortName < rhs.sortName
+                lhs.sortName.lowercased() < rhs.sortName.lowercased()
             }
         }
     }
