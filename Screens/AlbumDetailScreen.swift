@@ -3,7 +3,7 @@ import SwiftUI
 
 struct AlbumDetailScreen: View {
     @EnvironmentObject
-    private var albumRepo: AlbumRepository
+    private var library: LibraryRepository
 
     @EnvironmentObject
     private var songRepo: SongRepository
@@ -188,7 +188,7 @@ struct AlbumDetailScreen: View {
     }
 
     private var previewAlbums: [Album] {
-        albumRepo.albums.filter { $0.id != album.id && $0.artistName == album.artistName }
+        library.albums.filter { $0.id != album.id && $0.artistName == album.artistName }
     }
 }
 
@@ -198,11 +198,7 @@ struct AlbumDetailScreen_Previews: PreviewProvider {
     static var previews: some View {
         AlbumDetailScreen(album: PreviewData.albums.first!)
             .previewDisplayName("Default")
-            .environmentObject(
-                AlbumRepository(
-                    store: .previewStore(items: PreviewData.albums, cacheIdentifier: \.id)
-                )
-            )
+            .environmentObject(PreviewUtils.libraryRepo)
             .environmentObject(
                 SongRepository(
                     store: .previewStore(items: PreviewData.songs, cacheIdentifier: \.id)
@@ -211,11 +207,7 @@ struct AlbumDetailScreen_Previews: PreviewProvider {
 
         NavigationView {
             AlbumDetailScreen(album: PreviewData.albums.first!)
-                .environmentObject(
-                    AlbumRepository(
-                        store: .previewStore(items: PreviewData.albums, cacheIdentifier: \.id)
-                    )
-                )
+                .environmentObject(PreviewUtils.libraryRepo)
                 .environmentObject(
                     SongRepository(
                         store: .previewStore(items: PreviewData.songs, cacheIdentifier: \.id)
@@ -226,9 +218,7 @@ struct AlbumDetailScreen_Previews: PreviewProvider {
 
         AlbumDetailScreen(album: PreviewData.albums.first!)
             .previewDisplayName("Empty")
-            .environmentObject(
-                AlbumRepository(store: .previewStore(items: [], cacheIdentifier: \.id))
-            )
+            .environmentObject(PreviewUtils.libraryRepoEmpty)
             .environmentObject(
                 SongRepository(store: .previewStore(items: [], cacheIdentifier: \.id))
             )
