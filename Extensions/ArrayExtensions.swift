@@ -12,6 +12,7 @@ extension Array where Element: JellyfinItem {
 }
 
 extension [Artist] {
+    // swiftlint:disable:next identifier_name
     func sorted(by: SortBy) -> [Artist] {
         switch by {
         case .name:
