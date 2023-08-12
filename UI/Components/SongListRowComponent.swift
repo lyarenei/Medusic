@@ -1,7 +1,10 @@
+import MarqueeText
 import SwiftUI
-import SwiftUIBackports
 
 struct SongListRowComponent: View {
+    @EnvironmentObject
+    private var library: LibraryRepository
+
     let song: Song
 
     private var showAlbumOrder = false
@@ -10,49 +13,27 @@ struct SongListRowComponent: View {
     private var showAlbumName = false
     private var height = 40.0
 
-    @State
-    private var artistName: String?
-
-    @State
-    private var album: Album?
-
-    private let albumRepo: AlbumRepository
-
-    init(
-        song: Song,
-        albumRepo: AlbumRepository = .shared
-    ) {
+    init(song: Song) {
         self.song = song
-        self.albumRepo = albumRepo
     }
 
     var body: some View {
         HStack(spacing: 0) {
-            HStack(spacing: 0) {
-                HStack(spacing: 17) {
-                    order()
-                    artwork()
-                    songBody()
-                }
-                .padding(.vertical, 4)
-
-                Spacer()
+            HStack(spacing: 17) {
+                orderOrArtwork
+                songBody
             }
+
+            Spacer()
         }
-        .task { album = await albumRepo.getAlbum(by: song.parentId) }
     }
 
     @ViewBuilder
-    private func order() -> some View {
+    private var orderOrArtwork: some View {
         if showAlbumOrder {
             Text("\(song.index)")
                 .frame(minWidth: 20)
-        }
-    }
-
-    @ViewBuilder
-    private func artwork() -> some View {
-        if showArtwork {
+        } else if showArtwork {
             let square = CGSize(width: height, height: height)
             ArtworkComponent(itemId: song.parentId)
                 .frame(width: square.width, height: square.height)
@@ -60,26 +41,35 @@ struct SongListRowComponent: View {
     }
 
     @ViewBuilder
-    private func songBody() -> some View {
+    private var songBody: some View {
         VStack(alignment: .leading, spacing: 2) {
             Text(song.name)
                 .lineLimit(1)
 
-            artistOrAlbumName()
-                .lineLimit(1)
-                .font(.system(size: 12))
+            artistOrAlbumName
                 .foregroundColor(.gray)
         }
     }
 
     @ViewBuilder
-    private func artistOrAlbumName() -> some View {
+    private var artistOrAlbumName: some View {
         // TODO: automatic - if artist differs from album artist
-        if showArtistName, let artistName {
-            Text(artistName)
-
-        } else if showAlbumName, let album {
-            Text(album.name)
+        if showArtistName, true {
+            MarqueeText(
+                text: "artistName",
+                font: .systemFont(ofSize: 12),
+                leftFade: UIConstants.marqueeFadeLen,
+                rightFade: UIConstants.marqueeFadeLen,
+                startDelay: UIConstants.marqueeDelay
+            )
+        } else if showAlbumName, let albumName = library.albums.by(id: song.parentId)?.name {
+            MarqueeText(
+                text: albumName,
+                font: .systemFont(ofSize: 12),
+                leftFade: UIConstants.marqueeFadeLen,
+                rightFade: UIConstants.marqueeFadeLen,
+                startDelay: UIConstants.marqueeDelay
+            )
         }
     }
 }
@@ -120,18 +110,19 @@ extension SongListRowComponent {
 // swiftlint:disable all
 struct SongListRowComponent_Previews: PreviewProvider {
     static var previews: some View {
-        SongListRowComponent(
-            song: PreviewData.songs.first!,
-            albumRepo: .init(
-                store: .previewStore(
-                    items: PreviewData.albums,
-                    cacheIdentifier: \.id
-                )
-            )
-        )
-        .showArtwork()
-        .showArtistName()
-        .padding(.horizontal)
+        List {
+            SongListRowComponent(song: PreviewData.songs.first!)
+                .showArtwork()
+                .showArtistName()
+                .padding(.horizontal)
+
+            SongListRowComponent(song: PreviewData.songs.first!)
+                .showAlbumOrder()
+                .showArtistName()
+                .padding(.horizontal)
+        }
+        .environmentObject(PreviewUtils.libraryRepo)
+        .listStyle(.plain)
     }
 }
 // swiftlint:enable all

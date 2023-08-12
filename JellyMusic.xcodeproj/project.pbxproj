@@ -104,6 +104,7 @@
 		9BF26D462A8781F6006631E9 /* AsyncButton.swift in Sources */ = {isa = PBXBuildFile; fileRef = 9BF26D452A8781F6006631E9 /* AsyncButton.swift */; };
 		9BF26D482A87C3A1006631E9 /* Errors.swift in Sources */ = {isa = PBXBuildFile; fileRef = 9BF26D472A87C3A1006631E9 /* Errors.swift */; };
 		9BF26D592A880EDA006631E9 /* MarqueeText in Frameworks */ = {isa = PBXBuildFile; productRef = 9BF26D582A880EDA006631E9 /* MarqueeText */; };
+		9BF26D5B2A881FC6006631E9 /* UIConstants.swift in Sources */ = {isa = PBXBuildFile; fileRef = 9BF26D5A2A881FC6006631E9 /* UIConstants.swift */; };
 		9BF6C8EE2A861C9B00916EC1 /* LibraryRepository.swift in Sources */ = {isa = PBXBuildFile; fileRef = 9BF6C8ED2A861C9B00916EC1 /* LibraryRepository.swift */; };
 		9BF6C8F12A861D8200916EC1 /* Artist.swift in Sources */ = {isa = PBXBuildFile; fileRef = 9BF6C8F02A861D8200916EC1 /* Artist.swift */; };
 		9BF6C8F62A86222000916EC1 /* Store.swift in Sources */ = {isa = PBXBuildFile; fileRef = 9BF6C8F52A86221F00916EC1 /* Store.swift */; };
@@ -203,6 +204,7 @@
 		9BF26D412A8753E6006631E9 /* PreviewUtils.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = PreviewUtils.swift; sourceTree = "<group>"; };
 		9BF26D452A8781F6006631E9 /* AsyncButton.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = AsyncButton.swift; sourceTree = "<group>"; };
 		9BF26D472A87C3A1006631E9 /* Errors.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = Errors.swift; sourceTree = "<group>"; };
+		9BF26D5A2A881FC6006631E9 /* UIConstants.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = UIConstants.swift; sourceTree = "<group>"; };
 		9BF6C8ED2A861C9B00916EC1 /* LibraryRepository.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = LibraryRepository.swift; sourceTree = "<group>"; };
 		9BF6C8F02A861D8200916EC1 /* Artist.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = Artist.swift; sourceTree = "<group>"; };
 		9BF6C8F52A86221F00916EC1 /* Store.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = Store.swift; sourceTree = "<group>"; };
@@ -290,6 +292,7 @@
 				9B1EF39A29D9F90800C2A33B /* NowPlayingComponent.swift */,
 				9B02CC582A44ECB7003DD97D /* VolumeSliderComponent.swift */,
 				9B70BD9C29B91F42000DB31C /* AlbumTileComponent.swift */,
+				9BA5220329F2EA4C0000D0AA /* SongListRowComponent.swift */,
 			);
 			path = Components;
 			sourceTree = "<group>";
@@ -305,7 +308,6 @@
 				9B6FB7B129E5AB500013AA65 /* ServerCredentialsComponent.swift */,
 				9B46248E29E5B1C100A2259A /* ServerStatusComponent.swift */,
 				9B7AF3B329EB09310039A7DF /* AlbumListRowComponent.swift */,
-				9BA5220329F2EA4C0000D0AA /* SongListRowComponent.swift */,
 				9BBE146329FC682B0028C500 /* PlaybackProgressComponent.swift */,
 			);
 			path = Components;
@@ -408,6 +410,7 @@
 			children = (
 				9BDB03302A113558004EFA3A /* AppDefaults.swift */,
 				9BA88EE92A8648ED00E61A61 /* PreviewData.swift */,
+				9BF26D5A2A881FC6006631E9 /* UIConstants.swift */,
 			);
 			path = Constants;
 			sourceTree = "<group>";
@@ -773,6 +776,7 @@
 				9BB75EB629C4F751008CD65A /* InlineValueComponent.swift in Sources */,
 				9BF6C8EE2A861C9B00916EC1 /* LibraryRepository.swift in Sources */,
 				9BF26D422A8753E6006631E9 /* PreviewUtils.swift in Sources */,
+				9BF26D5B2A881FC6006631E9 /* UIConstants.swift in Sources */,
 				9B7AF3B429EB09310039A7DF /* AlbumListRowComponent.swift in Sources */,
 				9BB75EAA29C39FFF008CD65A /* SongRepository.swift in Sources */,
 				9B73ECFF29C9ECC5007F74DB /* MockMediaService.swift in Sources */,
