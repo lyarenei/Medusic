@@ -1,10 +1,11 @@
 import Foundation
 import JellyfinAPI
 
-struct Artist: Identifiable, Codable {
+struct Artist: JellyfinItem {
     var id: String
     var name = ""
     var sortName = ""
+    var isFavorite = false
 }
 
 extension Artist: Equatable {
@@ -21,5 +22,6 @@ extension Artist {
         self.id = id
         self.name = name
         self.sortName = item.sortName ?? name
+        self.isFavorite = item.userData?.isFavorite ?? false
     }
 }

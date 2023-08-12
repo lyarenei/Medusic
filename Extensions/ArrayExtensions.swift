@@ -9,11 +9,9 @@ extension Array where Element: JellyfinItem {
     func by(id: String) -> Element? {
         first { $0.id == id }
     }
-}
 
-extension [Artist] {
     // swiftlint:disable:next identifier_name
-    func sorted(by: SortBy) -> [Artist] {
+    func sorted(by: SortBy) -> [Element] {
         switch by {
         case .name:
             return sorted { lhs, rhs -> Bool in
