@@ -4,7 +4,7 @@ import SwiftUI
 
 struct LibraryScreen: View {
     @EnvironmentObject
-    private var albumRepo: AlbumRepository
+    private var library: LibraryRepository
 
     @Default(.libraryShowFavorites)
     private var showFavoriteAlbums
@@ -84,7 +84,7 @@ struct LibraryScreen: View {
     private var favoriteAlbums: some View {
         if showFavoriteAlbums {
             AlbumPreviewCollection(
-                for: albumRepo.albums.favorite.consistent,
+                for: library.albums.favorite.consistent,
                 titleText: "Favorite albums",
                 emptyText: "No albums"
             )
@@ -96,7 +96,7 @@ struct LibraryScreen: View {
     private var recentlyAddedAlbums: some View {
         if showRecentlyAdded {
             AlbumPreviewCollection(
-                for: albumRepo.albums.sortedByDateAdded,
+                for: library.albums.sortedByDateAdded,
                 titleText: "Recently added",
                 emptyText: "No albums"
             )
@@ -110,15 +110,11 @@ struct LibraryScreen_Previews: PreviewProvider {
     static var previews: some View {
         LibraryScreen()
             .previewDisplayName("Default")
-            .environmentObject(
-                AlbumRepository(store: .previewStore(items: PreviewData.albums, cacheIdentifier: \.id))
-            )
+            .environmentObject(PreviewUtils.libraryRepo)
 
         LibraryScreen()
             .previewDisplayName("Empty library")
-            .environmentObject(
-                AlbumRepository(store: .previewStore(items: [], cacheIdentifier: \.id))
-            )
+            .environmentObject(PreviewUtils.libraryRepoEmpty)
     }
 }
 #endif
