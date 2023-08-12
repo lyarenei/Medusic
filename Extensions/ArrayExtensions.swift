@@ -19,6 +19,10 @@ extension Array where Element: JellyfinItem {
             }
         }
     }
+
+    var favorite: [Element] {
+        filter(\.isFavorite)
+    }
 }
 
 extension [Album] {
@@ -32,10 +36,6 @@ extension [Album] {
         first { album -> Bool in
             album.id == albumId
         }
-    }
-
-    var favorite: [Album] {
-        filter(\.isFavorite)
     }
 
     // TODO: only temporary for consistency, until user can configure sort options
