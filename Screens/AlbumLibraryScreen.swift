@@ -4,7 +4,7 @@ import SwiftUI
 
 struct AlbumLibraryScreen: View {
     @EnvironmentObject
-    private var albumRepo: AlbumRepository
+    private var library: LibraryRepository
 
     var body: some View {
         content
@@ -17,9 +17,9 @@ struct AlbumLibraryScreen: View {
 
     @ViewBuilder
     private var content: some View {
-        if albumRepo.albums.isNotEmpty {
+        if library.albums.isNotEmpty {
             List {
-                AlbumCollection(albums: albumRepo.albums.consistent)
+                AlbumCollection(albums: library.albums.consistent)
                     .forceMode(.asList)
             }
             .listStyle(.plain)
@@ -35,14 +35,7 @@ struct AlbumLibraryScreen: View {
 struct AlbumLibraryScreen_Previews: PreviewProvider {
     static var previews: some View {
         AlbumLibraryScreen()
-            .environmentObject(
-                AlbumRepository(
-                    store: .previewStore(
-                        items: PreviewData.albums,
-                        cacheIdentifier: \.id
-                    )
-                )
-            )
+            .environmentObject(PreviewUtils.libraryRepo)
     }
 }
 #endif
