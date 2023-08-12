@@ -39,7 +39,7 @@ struct SongListRowComponent: View {
                 Spacer()
             }
         }
-        .backport.task { album = await albumRepo.getAlbum(by: song.parentId) }
+        .task { album = await albumRepo.getAlbum(by: song.parentId) }
     }
 
     @ViewBuilder

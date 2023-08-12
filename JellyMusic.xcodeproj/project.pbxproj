@@ -39,7 +39,6 @@
 		9B3D44A229BCFD370054C9E0 /* MockSystemService.swift in Sources */ = {isa = PBXBuildFile; fileRef = 9B3D44A129BCFD370054C9E0 /* MockSystemService.swift */; };
 		9B3D44BA29BDF2550054C9E0 /* InlineInputComponent.swift in Sources */ = {isa = PBXBuildFile; fileRef = 9B3D44B929BDF2550054C9E0 /* InlineInputComponent.swift */; };
 		9B3D44C029BE09620054C9E0 /* SongsLibraryScreen.swift in Sources */ = {isa = PBXBuildFile; fileRef = 9B3D44BF29BE09620054C9E0 /* SongsLibraryScreen.swift */; };
-		9B3D44C429BE33850054C9E0 /* SwiftUIBackports in Frameworks */ = {isa = PBXBuildFile; productRef = 9B3D44C329BE33850054C9E0 /* SwiftUIBackports */; };
 		9B3D44C629BE5E560054C9E0 /* DTOs+BaseItem.swift in Sources */ = {isa = PBXBuildFile; fileRef = 9B3D44C529BE5E560054C9E0 /* DTOs+BaseItem.swift */; };
 		9B46248F29E5B1C100A2259A /* ServerStatusComponent.swift in Sources */ = {isa = PBXBuildFile; fileRef = 9B46248E29E5B1C100A2259A /* ServerStatusComponent.swift */; };
 		9B46249829E5CDD000A2259A /* AdvancedSettingsScreen.swift in Sources */ = {isa = PBXBuildFile; fileRef = 9B46249729E5CDD000A2259A /* AdvancedSettingsScreen.swift */; };
@@ -219,7 +218,6 @@
 				9BB75EB429C4E640008CD65A /* Defaults in Frameworks */,
 				9BB75EC329C5B1B8008CD65A /* DebouncedOnChange in Frameworks */,
 				488EBAC329D739BF004A3071 /* SwiftUIX in Frameworks */,
-				9B3D44C429BE33850054C9E0 /* SwiftUIBackports in Frameworks */,
 				48C1F8BC29B9E5C9003BE048 /* Kingfisher in Frameworks */,
 				9BB75ECB29C63AE6008CD65A /* SimpleKeychain in Frameworks */,
 				48C1F8BF29B9E6D1003BE048 /* Boutique in Frameworks */,
@@ -612,7 +610,6 @@
 				48C1F8BB29B9E5C9003BE048 /* Kingfisher */,
 				48C1F8BE29B9E6D1003BE048 /* Boutique */,
 				48C1F8CC29B9EE97003BE048 /* SFSafeSymbols */,
-				9B3D44C329BE33850054C9E0 /* SwiftUIBackports */,
 				9BB75EB329C4E640008CD65A /* Defaults */,
 				9BB75EC229C5B1B8008CD65A /* DebouncedOnChange */,
 				9BB75ECA29C63AE6008CD65A /* SimpleKeychain */,
@@ -1130,11 +1127,6 @@
 			isa = XCSwiftPackageProductDependency;
 			package = 48C1F8CB29B9EE97003BE048 /* XCRemoteSwiftPackageReference "SFSafeSymbols" */;
 			productName = SFSafeSymbols;
-		};
-		9B3D44C329BE33850054C9E0 /* SwiftUIBackports */ = {
-			isa = XCSwiftPackageProductDependency;
-			package = 9B3D44C229BE33850054C9E0 /* XCRemoteSwiftPackageReference "SwiftUIBackports" */;
-			productName = SwiftUIBackports;
 		};
 		9BB754D529B93F3C009BB3A6 /* JellyfinAPI */ = {
 			isa = XCSwiftPackageProductDependency;
