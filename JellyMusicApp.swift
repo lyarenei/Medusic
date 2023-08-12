@@ -19,13 +19,7 @@ struct JellyMusicApp: App {
         WindowGroup {
             MainScreen()
                 .environmentObject(SongRepository(store: .songs))
-                .environmentObject(
-                    LibraryRepository(
-                        artistStore: .artists,
-                        albumStore: .albums,
-                        apiClient: .shared
-                    )
-                )
+                .environmentObject(PreviewUtils.libraryRepo)
         }
     }
 }

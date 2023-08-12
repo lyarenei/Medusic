@@ -103,36 +103,12 @@ struct ArtistLibraryScreen_Previews: PreviewProvider {
     static var previews: some View {
         NavigationStack {
             ArtistLibraryScreen()
-                .environmentObject(
-                    LibraryRepository(
-                        artistStore: .previewStore(
-                            items: PreviewData.artists,
-                            cacheIdentifier: \.id
-                        ),
-                        albumStore: .previewStore(
-                            items: PreviewData.albums,
-                            cacheIdentifier: \.id
-                        ),
-                        apiClient: ApiClient(previewEnabled: true)
-                    )
-                )
+                .environmentObject(PreviewUtils.libraryRepo)
         }
         .previewDisplayName("With navigation")
 
         ArtistLibraryScreen()
-            .environmentObject(
-                LibraryRepository(
-                    artistStore: .previewStore(
-                        items: PreviewData.artists,
-                        cacheIdentifier: \.id
-                    ),
-                    albumStore: .previewStore(
-                        items: PreviewData.albums,
-                        cacheIdentifier: \.id
-                    ),
-                    apiClient: ApiClient(previewEnabled: true)
-                )
-            )
+            .environmentObject(PreviewUtils.libraryRepo)
             .previewDisplayName("Plain")
     }
 }

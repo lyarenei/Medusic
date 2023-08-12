@@ -8,6 +8,7 @@ final class PreviewUtils {
         LibraryRepository(
             artistStore: .previewStore(items: PreviewData.artists, cacheIdentifier: \.id),
             albumStore: .previewStore(items: PreviewData.albums, cacheIdentifier: \.id),
+            songStore: .previewStore(items: PreviewData.songs, cacheIdentifier: \.id),
             apiClient: .init(previewEnabled: true)
         )
     }
@@ -16,6 +17,7 @@ final class PreviewUtils {
         LibraryRepository(
             artistStore: .previewStore(items: [], cacheIdentifier: \.id),
             albumStore: .previewStore(items: [], cacheIdentifier: \.id),
+            songStore: .previewStore(items: [], cacheIdentifier: \.id),
             apiClient: .init(previewEnabled: true)
         )
     }

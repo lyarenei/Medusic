@@ -10,13 +10,18 @@ final class LibraryRepository: ObservableObject {
     @Stored
     var albums: [Album]
 
+    @Stored
+    var songs: [Song]
+
     init(
         artistStore: Store<Artist>,
         albumStore: Store<Album>,
+        songStore: Store<Song>,
         apiClient: ApiClient
     ) {
         self._artists = Stored(in: artistStore)
         self._albums = Stored(in: albumStore)
+        self._songs = Stored(in: songStore)
         self.apiClient = apiClient
     }
 
@@ -27,6 +32,7 @@ final class LibraryRepository: ObservableObject {
     func refreshAll() async throws {
         try await refreshArtists()
         try await refreshAlbums()
+        try await refreshSongs()
     }
 
     func refreshArtists() async throws {
@@ -47,6 +53,11 @@ final class LibraryRepository: ObservableObject {
         try await apiClient.performAuth()
         let remoteAlbums = try await apiClient.services.albumService.getAlbums()
         try await $albums.removeAll().insert(remoteAlbums).run()
+    }
+
+    func refreshSongs() async throws {
+        // TODO: implementation
+        try await apiClient.performAuth()
     }
 
     func refresh(artist: Artist) async throws {
@@ -73,6 +84,13 @@ final class LibraryRepository: ObservableObject {
         try await apiClient.services.mediaService.setFavorite(itemId: album.id, isFavorite: isFavorite)
         album.isFavorite = isFavorite
         try await $albums.insert(album)
+    }
+
+    func setFavorite(song: Song, isFavorite: Bool) async throws {
+        guard var song = await $songs.items.by(id: song.id) else { throw LibraryError.notFound }
+        try await apiClient.services.mediaService.setFavorite(itemId: song.id, isFavorite: isFavorite)
+        song.isFavorite = isFavorite
+        try await $songs.insert(song)
     }
 
     @MainActor

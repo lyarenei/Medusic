@@ -65,13 +65,7 @@ struct ArtistDetailScreen: View {
 struct ArtistDetailScreen_Previews: PreviewProvider {
     static var previews: some View {
         ArtistDetailScreen(artist: PreviewData.artists.first!)
-            .environmentObject(
-                LibraryRepository(
-                    artistStore: .previewStore(items: PreviewData.artists, cacheIdentifier: \.id),
-                    albumStore: .previewStore(items: PreviewData.albums, cacheIdentifier: \.id),
-                    apiClient: .init(previewEnabled: true)
-                )
-            )
+            .environmentObject(PreviewUtils.libraryRepo)
     }
 }
 // swiftlint:enable all
