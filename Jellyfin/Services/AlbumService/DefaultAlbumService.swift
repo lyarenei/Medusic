@@ -23,23 +23,27 @@ final class DefaultAlbumService: AlbumService {
         )
     }
 
-    func getAlbums() async throws -> [Album] {
-        let request = JellyfinAPI.Paths.getItems(parameters: requestParams())
+    func getAlbums(pageSize: Int32? = nil, offset: Int32? = nil) async throws -> [Album] {
+        var params = requestParams()
+        params.startIndex = offset
+        params.limit = pageSize
+
+        let request = JellyfinAPI.Paths.getItems(parameters: params)
         let response = try await client.send(request)
 
-        guard let items = response.value.items else { throw AlbumServiceError.invalidResult }
+        guard let items = response.value.items else { throw ServiceError.invalidResult }
         return items.compactMap(Album.init(from:))
     }
 
-    func getAlbum(by albumId: String) async throws -> Album {
-        let requestParams = requestParams(itemIds: [albumId])
+    func getAlbumById(_ id: String) async throws -> Album {
+        let requestParams = requestParams(itemIds: [id])
         let request = JellyfinAPI.Paths.getItems(parameters: requestParams)
         let response = try await client.send(request)
 
-        guard let items = response.value.items else { throw AlbumServiceError.notFound }
-        guard items.isNotEmpty else { throw AlbumServiceError.notFound }
-        if items.count > 1 { throw AlbumServiceError.invalidResult }
-        guard let album = Album(from: items.first) else { throw AlbumServiceError.invalidResult }
+        guard let items = response.value.items else { throw ServiceError.notFound }
+        guard items.isNotEmpty else { throw ServiceError.notFound }
+        if items.count > 1 { throw ServiceError.invalidResult }
+        guard let album = Album(from: items.first) else { throw ServiceError.invalidResult }
         return album
     }
 }

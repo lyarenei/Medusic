@@ -5,8 +5,8 @@ final class MockArtistService: ArtistService {
         PreviewData.artists
     }
 
-    func getArtist(byId: String) async throws -> Artist {
+    func getArtistById(_ id: String) async throws -> Artist {
         // swiftlint:disable:next force_unwrapping
-        PreviewData.artists.first { $0.id == byId }!
+        PreviewData.artists.first { $0.id == id }!
     }
 }

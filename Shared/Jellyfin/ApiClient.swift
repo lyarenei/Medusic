@@ -104,7 +104,7 @@ struct ApiServices {
 extension ApiServices {
     static var preview: ApiServices {
         ApiServices(
-            albumService: DummyAlbumService(),
+            albumService: MockAlbumService(),
             songService: DummySongService(songs: PreviewData.songs),
             imageService: DummyImageService(),
             systemService: MockSystemService(),

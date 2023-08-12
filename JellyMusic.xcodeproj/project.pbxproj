@@ -16,7 +16,7 @@
 		48C1F8C929B9EA60003BE048 /* DTOs+Identifiable.swift in Sources */ = {isa = PBXBuildFile; fileRef = 48C1F8C829B9EA60003BE048 /* DTOs+Identifiable.swift */; };
 		48C1F8CD29B9EE97003BE048 /* SFSafeSymbols in Frameworks */ = {isa = PBXBuildFile; productRef = 48C1F8CC29B9EE97003BE048 /* SFSafeSymbols */; };
 		48C1F8D029B9F3E4003BE048 /* DefaultAlbumService.swift in Sources */ = {isa = PBXBuildFile; fileRef = 48C1F8CF29B9F3E4003BE048 /* DefaultAlbumService.swift */; };
-		48C1F8D729B9FDDF003BE048 /* DummyAlbumService.swift in Sources */ = {isa = PBXBuildFile; fileRef = 48C1F8D629B9FDDF003BE048 /* DummyAlbumService.swift */; };
+		48C1F8D729B9FDDF003BE048 /* MockAlbumService.swift in Sources */ = {isa = PBXBuildFile; fileRef = 48C1F8D629B9FDDF003BE048 /* MockAlbumService.swift */; };
 		48C1F8DA29B9FEB9003BE048 /* AlbumService.swift in Sources */ = {isa = PBXBuildFile; fileRef = 48C1F8D929B9FEB9003BE048 /* AlbumService.swift */; };
 		48C1F8DD29B9FF91003BE048 /* ApiClient.swift in Sources */ = {isa = PBXBuildFile; fileRef = 48C1F8DC29B9FF91003BE048 /* ApiClient.swift */; };
 		48C1F8E429BB827E003BE048 /* JellyfinImageProvider.swift in Sources */ = {isa = PBXBuildFile; fileRef = 48C1F8E329BB827E003BE048 /* JellyfinImageProvider.swift */; };
@@ -103,6 +103,7 @@
 		9BF26D3F2A86DF74006631E9 /* Album.swift in Sources */ = {isa = PBXBuildFile; fileRef = 9BF26D3E2A86DF74006631E9 /* Album.swift */; };
 		9BF26D422A8753E6006631E9 /* PreviewUtils.swift in Sources */ = {isa = PBXBuildFile; fileRef = 9BF26D412A8753E6006631E9 /* PreviewUtils.swift */; };
 		9BF26D462A8781F6006631E9 /* AsyncButton.swift in Sources */ = {isa = PBXBuildFile; fileRef = 9BF26D452A8781F6006631E9 /* AsyncButton.swift */; };
+		9BF26D482A87C3A1006631E9 /* Errors.swift in Sources */ = {isa = PBXBuildFile; fileRef = 9BF26D472A87C3A1006631E9 /* Errors.swift */; };
 		9BF6C8EE2A861C9B00916EC1 /* LibraryRepository.swift in Sources */ = {isa = PBXBuildFile; fileRef = 9BF6C8ED2A861C9B00916EC1 /* LibraryRepository.swift */; };
 		9BF6C8F12A861D8200916EC1 /* Artist.swift in Sources */ = {isa = PBXBuildFile; fileRef = 9BF6C8F02A861D8200916EC1 /* Artist.swift */; };
 		9BF6C8F62A86222000916EC1 /* Store.swift in Sources */ = {isa = PBXBuildFile; fileRef = 9BF6C8F52A86221F00916EC1 /* Store.swift */; };
@@ -117,7 +118,7 @@
 		48C1F8C529B9E80D003BE048 /* DTOs+Equatable.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = "DTOs+Equatable.swift"; sourceTree = "<group>"; };
 		48C1F8C829B9EA60003BE048 /* DTOs+Identifiable.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = "DTOs+Identifiable.swift"; sourceTree = "<group>"; };
 		48C1F8CF29B9F3E4003BE048 /* DefaultAlbumService.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = DefaultAlbumService.swift; sourceTree = "<group>"; };
-		48C1F8D629B9FDDF003BE048 /* DummyAlbumService.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = DummyAlbumService.swift; sourceTree = "<group>"; };
+		48C1F8D629B9FDDF003BE048 /* MockAlbumService.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = MockAlbumService.swift; sourceTree = "<group>"; };
 		48C1F8D929B9FEB9003BE048 /* AlbumService.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = AlbumService.swift; sourceTree = "<group>"; };
 		48C1F8DC29B9FF91003BE048 /* ApiClient.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = ApiClient.swift; sourceTree = "<group>"; };
 		48C1F8E329BB827E003BE048 /* JellyfinImageProvider.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = JellyfinImageProvider.swift; sourceTree = "<group>"; };
@@ -201,6 +202,7 @@
 		9BF26D3E2A86DF74006631E9 /* Album.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = Album.swift; sourceTree = "<group>"; };
 		9BF26D412A8753E6006631E9 /* PreviewUtils.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = PreviewUtils.swift; sourceTree = "<group>"; };
 		9BF26D452A8781F6006631E9 /* AsyncButton.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = AsyncButton.swift; sourceTree = "<group>"; };
+		9BF26D472A87C3A1006631E9 /* Errors.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = Errors.swift; sourceTree = "<group>"; };
 		9BF6C8ED2A861C9B00916EC1 /* LibraryRepository.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = LibraryRepository.swift; sourceTree = "<group>"; };
 		9BF6C8F02A861D8200916EC1 /* Artist.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = Artist.swift; sourceTree = "<group>"; };
 		9BF6C8F52A86221F00916EC1 /* Store.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = Store.swift; sourceTree = "<group>"; };
@@ -245,11 +247,9 @@
 		48C1F8CE29B9F3DB003BE048 /* Services */ = {
 			isa = PBXGroup;
 			children = (
-				9BA88EEB2A86513E00E61A61 /* ArtistService */,
 				9B73ECFA29C9EB8B007F74DB /* MediaService */,
 				9B3D449A29BCF8730054C9E0 /* SystemService */,
 				9BDB099729BB2FAD007F99E4 /* ImageService */,
-				9BDB099529BB2F8B007F99E4 /* AlbumService */,
 				9BDB099629BB2F9A007F99E4 /* SongService */,
 			);
 			path = Services;
@@ -339,6 +339,7 @@
 		9B80472D29B768000069B407 = {
 			isa = PBXGroup;
 			children = (
+				9BF26D492A87CAB4006631E9 /* Jellyfin */,
 				9BF26D432A8781D5006631E9 /* UI */,
 				9BA88EE82A8648E100E61A61 /* Constants */,
 				9BA88EE42A862B6600E61A61 /* Enums */,
@@ -398,6 +399,7 @@
 			isa = PBXGroup;
 			children = (
 				9BA88EE52A862B7300E61A61 /* SortEnums.swift */,
+				9BF26D472A87C3A1006631E9 /* Errors.swift */,
 			);
 			path = Enums;
 			sourceTree = "<group>";
@@ -469,9 +471,9 @@
 		9BDB099529BB2F8B007F99E4 /* AlbumService */ = {
 			isa = PBXGroup;
 			children = (
-				48C1F8CF29B9F3E4003BE048 /* DefaultAlbumService.swift */,
-				48C1F8D629B9FDDF003BE048 /* DummyAlbumService.swift */,
 				48C1F8D929B9FEB9003BE048 /* AlbumService.swift */,
+				48C1F8CF29B9F3E4003BE048 /* DefaultAlbumService.swift */,
+				48C1F8D629B9FDDF003BE048 /* MockAlbumService.swift */,
 			);
 			path = AlbumService;
 			sourceTree = "<group>";
@@ -529,6 +531,23 @@
 				9B1EF3AE29E151F400C2A33B /* RefreshButton.swift */,
 			);
 			path = Buttons;
+			sourceTree = "<group>";
+		};
+		9BF26D492A87CAB4006631E9 /* Jellyfin */ = {
+			isa = PBXGroup;
+			children = (
+				9BF26D4A2A87CAC0006631E9 /* Services */,
+			);
+			path = Jellyfin;
+			sourceTree = "<group>";
+		};
+		9BF26D4A2A87CAC0006631E9 /* Services */ = {
+			isa = PBXGroup;
+			children = (
+				9BDB099529BB2F8B007F99E4 /* AlbumService */,
+				9BA88EEB2A86513E00E61A61 /* ArtistService */,
+			);
+			path = Services;
 			sourceTree = "<group>";
 		};
 		9BF6C8E82A854D2600916EC1 /* Screens */ = {
@@ -721,6 +740,7 @@
 				9B52AF7729D0B106002E21B9 /* SongCollection.swift in Sources */,
 				9B3D449C29BCF89A0054C9E0 /* SystemService.swift in Sources */,
 				9B3D44A229BCFD370054C9E0 /* MockSystemService.swift in Sources */,
+				9BF26D482A87C3A1006631E9 /* Errors.swift in Sources */,
 				9BB75EB029C4C5E1008CD65A /* Settings.swift in Sources */,
 				9B3D44C029BE09620054C9E0 /* SongsLibraryScreen.swift in Sources */,
 				9BA88EEF2A86516B00E61A61 /* DefaultArtistService.swift in Sources */,
@@ -737,7 +757,7 @@
 				48C1F8C629B9E80D003BE048 /* DTOs+Equatable.swift in Sources */,
 				9BDB03312A113558004EFA3A /* AppDefaults.swift in Sources */,
 				9B3B457B2A52160500E80390 /* PersistenceRepository.swift in Sources */,
-				48C1F8D729B9FDDF003BE048 /* DummyAlbumService.swift in Sources */,
+				48C1F8D729B9FDDF003BE048 /* MockAlbumService.swift in Sources */,
 				9B6C17CD29D6BE700061866A /* AirPlayComponent.swift in Sources */,
 				9B1EF3A629DCA78800C2A33B /* EnqueueButton.swift in Sources */,
 				9BF6C8F12A861D8200916EC1 /* Artist.swift in Sources */,

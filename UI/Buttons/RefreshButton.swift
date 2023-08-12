@@ -25,16 +25,16 @@ struct RefreshButton: View {
             switch mode {
             case .album(let id):
                 try await library.refresh(albumId: id)
-                try await SongRepository.shared.refresh(for: id)
+                try await library.refreshSongs(for: id)
             case .allArtists:
                 try await library.refreshArtists()
             case .allAlbums:
                 try await library.refreshAlbums()
+                try await library.refreshSongs()
             case .allSongs:
-                try await SongRepository.shared.refresh()
+                try await library.refreshSongs()
             case .all:
                 try await library.refreshAll()
-                try await SongRepository.shared.refresh()
             }
         } catch {
             print("Refresh failed")
