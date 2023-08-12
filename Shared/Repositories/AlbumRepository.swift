@@ -1,6 +1,7 @@
 import Boutique
 import Foundation
 
+@available(*, deprecated, message: "Use library repository")
 final class AlbumRepository: ObservableObject {
     static let shared = AlbumRepository(store: .albums)
 
