@@ -36,7 +36,7 @@ struct AlbumPreviewCollection: View {
                 sectionHContent
             }
         }
-        .frame(width: .infinity, height: UIConstants.tileSize + 105)
+        .frame(height: UIConstants.tileSize + 105)
     }
 
     @ViewBuilder
