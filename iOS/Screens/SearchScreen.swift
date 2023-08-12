@@ -2,8 +2,8 @@ import SwiftUI
 import SwiftUIX
 
 struct SearchScreen: View {
-    @ObservedObject
-    var albumRepo: AlbumRepository
+    @EnvironmentObject
+    private var library: LibraryRepository
 
     @ObservedObject
     var songRepo: SongRepository
@@ -14,11 +14,7 @@ struct SearchScreen: View {
     @State
     var searchQuery: String = .empty
 
-    init(
-        albumRepo: AlbumRepository = .shared,
-        songRepo: SongRepository = .shared
-    ) {
-        self._albumRepo = ObservedObject(wrappedValue: albumRepo)
+    init(songRepo: SongRepository = .shared) {
         self._songRepo = ObservedObject(wrappedValue: songRepo)
     }
 
@@ -35,7 +31,7 @@ struct SearchScreen: View {
                         searchQuery = newValue
                     }
 
-                let filteredAlbums = albumRepo.albums.filter { $0.name.containsIgnoreCase(searchQuery) }
+                let filteredAlbums = library.albums.filter { $0.name.containsIgnoreCase(searchQuery) }
                 let filteredSongs = songRepo.songs.filter { $0.name.containsIgnoreCase(searchQuery) }
 
                 List {
@@ -82,12 +78,6 @@ struct SearchScreen: View {
 struct SearchScreen_Previews: PreviewProvider {
     static var previews: some View {
         SearchScreen(
-            albumRepo: .init(
-                store: .previewStore(
-                    items: PreviewData.albums,
-                    cacheIdentifier: \.id
-                )
-            ),
             songRepo: .init(
                 store: .previewStore(
                     items: PreviewData.songs,
@@ -95,6 +85,7 @@ struct SearchScreen_Previews: PreviewProvider {
                 )
             )
         )
+        .environmentObject(PreviewUtils.libraryRepo)
     }
 }
 #endif
