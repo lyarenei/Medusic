@@ -116,7 +116,7 @@ final class LibraryRepository: ObservableObject {
         try await apiClient.performAuth()
 
         try await $songs.removeAll()
-        let pageSize: Int32 = 50
+        let pageSize: Int32 = 250
         var offset: Int32 = 0
         while true {
             let songs = try await apiClient.services.songService.getSongs()
