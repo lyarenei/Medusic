@@ -74,4 +74,9 @@ final class LibraryRepository: ObservableObject {
         album.isFavorite = isFavorite
         try await $albums.insert(album)
     }
+
+    @MainActor
+    func getArtistName(for album: Album) -> String {
+        artists.by(id: album.artistId)?.name ?? .empty
+    }
 }

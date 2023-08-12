@@ -49,7 +49,7 @@ struct AlbumDetailScreen: View {
 
             AlbumPreviewCollection(
                 for: previewAlbums,
-                titleText: "More by \(album.artistName)",
+                titleText: "More by \(library.getArtistName(for: album))",
                 emptyText: "No albums"
             )
             .stackType(.horizontal)
@@ -68,7 +68,7 @@ struct AlbumDetailScreen: View {
                     .bold()
                     .multilineTextAlignment(.center)
 
-                Text(album.artistName)
+                Text(library.getArtistName(for: album))
                     .font(.body)
                     .multilineTextAlignment(.center)
             }
@@ -188,7 +188,7 @@ struct AlbumDetailScreen: View {
     }
 
     private var previewAlbums: [Album] {
-        library.albums.filter { $0.id != album.id && $0.artistName == album.artistName }
+        library.albums.filter { $0.id != album.id && $0.artistId == album.artistId }
     }
 }
 
