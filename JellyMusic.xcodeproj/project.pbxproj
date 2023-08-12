@@ -387,7 +387,6 @@
 		9B80475C29B7D5140069B407 /* iOS */ = {
 			isa = PBXGroup;
 			children = (
-				9B6C17CE29D6CB720061866A /* Components */,
 				9B61365529BC6F18004C85EC /* Screens */,
 			);
 			path = iOS;
@@ -517,6 +516,7 @@
 		9BF26D432A8781D5006631E9 /* UI */ = {
 			isa = PBXGroup;
 			children = (
+				9B6C17CE29D6CB720061866A /* Components */,
 				9BF26D442A8781E4006631E9 /* Buttons */,
 			);
 			path = UI;
