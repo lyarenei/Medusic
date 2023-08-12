@@ -18,15 +18,40 @@ struct AlbumLibraryScreen: View {
     @ViewBuilder
     private var content: some View {
         if library.albums.isNotEmpty {
-            List {
-                AlbumCollection(albums: library.albums.consistent)
-                    .forceMode(.asList)
-            }
-            .listStyle(.plain)
+            List { albumList }
+                .listStyle(.plain)
         } else {
-            Text("No albums available")
+            Text("No albums")
                 .font(.title3)
                 .foregroundColor(.gray)
+        }
+    }
+
+    @ViewBuilder
+    private var albumList: some View {
+        ForEach(library.albums.sorted(by: .name), id: \.id) { album in
+            NavigationLink {
+                AlbumDetailScreen(album: album)
+            } label: {
+                label(for: album)
+            }
+        }
+    }
+
+    @ViewBuilder
+    private func label(for album: Album) -> some View {
+        HStack {
+            ArtworkComponent(itemId: album.id)
+                .frame(width: 50, height: 50)
+
+            VStack(alignment: .leading, spacing: 3) {
+                Text(album.name)
+                    .font(.title2)
+
+                Text(library.getArtistName(for: album))
+                    .font(.body)
+                    .foregroundColor(.gray)
+            }
         }
     }
 }
@@ -34,8 +59,10 @@ struct AlbumLibraryScreen: View {
 #if DEBUG
 struct AlbumLibraryScreen_Previews: PreviewProvider {
     static var previews: some View {
-        AlbumLibraryScreen()
-            .environmentObject(PreviewUtils.libraryRepo)
+        NavigationStack {
+            AlbumLibraryScreen()
+                .environmentObject(PreviewUtils.libraryRepo)
+        }
     }
 }
 #endif
