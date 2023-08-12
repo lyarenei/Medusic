@@ -24,7 +24,7 @@ extension Album {
         guard let item else { return nil }
         guard let id = item.id,
               let name = item.name,
-              let artistId = item.parentID
+              let artistId = item.albumArtists?.first?.id
         else { return nil }
 
         self.id = id
