@@ -2,8 +2,10 @@ import SwiftUI
 import Kingfisher
 
 struct AlbumTileComponent: View {
+    @EnvironmentObject
+    private var library: LibraryRepository
 
-    var album: Album
+    let album: Album
 
     var body: some View {
         VStack(alignment: .leading, spacing: 6) {
@@ -16,7 +18,7 @@ struct AlbumTileComponent: View {
                     .font(.subheadline)
                     .lineLimit(1)
 
-                Text(album.artistName)
+                Text(library.getArtistName(for: album))
                     .font(.caption)
                     .lineLimit(1)
             }
@@ -31,6 +33,7 @@ struct AlbumTile_Previews: PreviewProvider {
     static var previews: some View {
         // swiftlint:disable:next force_unwrapping
         AlbumTileComponent(album: PreviewData.albums.first!)
+            .environmentObject(PreviewUtils.libraryRepo)
     }
 }
 #endif
