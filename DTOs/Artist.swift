@@ -9,7 +9,7 @@ struct Artist: JellyfinItem {
 }
 
 extension Artist: Equatable {
-    public static func == (lhs: Artist, rhs: Artist) -> Bool {
+    static func == (lhs: Artist, rhs: Artist) -> Bool {
         lhs.id == rhs.id
     }
 }
