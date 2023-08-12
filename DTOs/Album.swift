@@ -4,10 +4,13 @@ import JellyfinAPI
 struct Album: JellyfinItem {
     var id: String
     var name: String
+    var sortName: String
     var artistId: String
-    var artistName: String
     var isFavorite: Bool
     var createdAt = Date.now
+
+    @available(*, deprecated, message: "Use artist from library repository")
+    var artistName = ""
 }
 
 extension Album: Equatable {
@@ -27,8 +30,8 @@ extension Album {
         self.id = id
         self.name = name
         self.artistId = artistId
-        self.artistName = item.albumArtist ?? .empty
         self.isFavorite = item.userData?.isFavorite ?? false
         self.createdAt = item.dateCreated ?? Date.now
+        self.sortName = item.sortName ?? name
     }
 }

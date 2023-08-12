@@ -10,6 +10,7 @@ protocol JellyfinItem: Identifiable, Codable, Equatable {
     var id: String { get }
     var name: String { get }
     var isFavorite: Bool { get }
+    var sortName: String { get }
 }
 
 struct Song: JellyfinItem {
@@ -22,6 +23,7 @@ struct Song: JellyfinItem {
     var runtime: TimeInterval
     var albumDisc = 0
     var fileExtension: String
+    var sortName: String = .empty
 
     var isNativelySupported: Bool {
         let types = AVURLAsset.audiovisualTypes()
