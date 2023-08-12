@@ -2,7 +2,7 @@ import SwiftUI
 
 struct SongsLibraryScreen: View {
     @EnvironmentObject
-    private var songRepo: SongRepository
+    private var library: LibraryRepository
 
     var body: some View {
         content
@@ -15,12 +15,11 @@ struct SongsLibraryScreen: View {
 
     @ViewBuilder
     private var content: some View {
-        if songRepo.songs.isNotEmpty {
+        if library.songs.isNotEmpty {
             List {
-                SongCollection(songs: songRepo.songs.sortByAlbum())
-                    .showArtwork()
-                    .showArtistName()
-                    .collectionType(.list)
+                ForEach(library.songs.sortByAlbum(), id: \.id) { song in
+                    songRow(for: song)
+                }
             }
             .listStyle(.plain)
         } else {
@@ -29,32 +28,40 @@ struct SongsLibraryScreen: View {
                 .foregroundColor(.gray)
         }
     }
+
+    @ViewBuilder
+    private func songRow(for song: Song) -> some View {
+        HStack {
+            ArtworkComponent(itemId: song.parentId)
+                .frame(width: 38, height: 38)
+
+            VStack(alignment: .leading) {
+                Text(song.name)
+                    .lineLimit(1)
+
+                Text("song.artistName")
+                    .lineLimit(1)
+                    .font(.footnote)
+                    .foregroundColor(.gray)
+            }
+        }
+    }
 }
 
 #if DEBUG
 struct SongsLibraryScreen_Previews: PreviewProvider {
     static var previews: some View {
-        SongsLibraryScreen()
-            .previewDisplayName("Default")
-            .environmentObject(
-                SongRepository(
-                    store: .previewStore(
-                        items: PreviewData.songs,
-                        cacheIdentifier: \.id
-                    )
-                )
-            )
+        NavigationStack {
+            SongsLibraryScreen()
+        }
+        .previewDisplayName("Default")
+        .environmentObject(PreviewUtils.libraryRepo)
 
-        SongsLibraryScreen()
-            .previewDisplayName("Empty")
-            .environmentObject(
-                SongRepository(
-                    store: .previewStore(
-                        items: [],
-                        cacheIdentifier: \.id
-                    )
-                )
-            )
+        NavigationStack {
+            SongsLibraryScreen()
+        }
+        .previewDisplayName("Empty")
+        .environmentObject(PreviewUtils.libraryRepoEmpty)
     }
 }
 #endif
