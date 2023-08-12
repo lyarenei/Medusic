@@ -17,9 +17,9 @@ struct SongsLibraryScreen: View {
     private var content: some View {
         if library.songs.isNotEmpty {
             List {
-                ForEach(library.songs.sortByAlbum(), id: \.id) { song in
-                    songRow(for: song)
-                }
+                SongCollection(songs: library.songs)
+                    .showArtwork()
+                    .showArtistName()
             }
             .listStyle(.plain)
         } else {
