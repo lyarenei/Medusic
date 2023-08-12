@@ -24,6 +24,11 @@ final class LibraryRepository: ObservableObject {
         case notFound
     }
 
+    func refreshAll() async throws {
+        try await refreshArtists()
+        try await refreshAlbums()
+    }
+
     func refreshArtists() async throws {
         try await apiClient.performAuth()
         try await $artists.removeAll()

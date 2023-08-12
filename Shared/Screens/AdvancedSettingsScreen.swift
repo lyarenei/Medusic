@@ -8,7 +8,7 @@ struct AdvancedSettingsScreen: View {
     private var fileRepo: FileRepository
 
     @EnvironmentObject
-    private var albumRepo: AlbumRepository
+    private var library: LibraryRepository
 
     @EnvironmentObject
     private var songRepo: SongRepository
@@ -40,7 +40,7 @@ struct AdvancedSettingsScreen: View {
     private func onForceLibraryRefresh() {
         Task {
             do {
-                try await albumRepo.refresh()
+                try await library.refreshAll()
                 try await songRepo.refresh()
             } catch {
                 print("Failed to refresh data: \(error.localizedDescription)")
@@ -69,11 +69,6 @@ struct AdvancedSettingsScreen_Previews: PreviewProvider {
         apiClient: .init(previewEnabled: true)
     )
 
-    static var albumRepo: AlbumRepository = .init(
-        store: .previewStore(items: PreviewData.albums, cacheIdentifier: \.id),
-        apiClient: .init(previewEnabled: true)
-    )
-
     static var songRepo: SongRepository = .init(
         store: .previewStore(items: PreviewData.songs, cacheIdentifier: \.id),
         apiClient: .init(previewEnabled: true)
@@ -82,8 +77,8 @@ struct AdvancedSettingsScreen_Previews: PreviewProvider {
     static var previews: some View {
         AdvancedSettingsScreen()
             .environmentObject(fileRepo)
-            .environmentObject(albumRepo)
             .environmentObject(songRepo)
+            .environmentObject(PreviewUtils.libraryRepo)
     }
 }
 #endif
