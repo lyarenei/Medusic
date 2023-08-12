@@ -1,4 +1,5 @@
 import Defaults
+import MarqueeText
 import OSLog
 import SFSafeSymbols
 import SwiftUI
@@ -10,6 +11,9 @@ enum AlbumDisplayMode: String, Defaults.Serializable {
 }
 
 struct AlbumCollection: View {
+    @EnvironmentObject
+    private var library: LibraryRepository
+
     @Default(.albumDisplayMode)
     private var displayMode: AlbumDisplayMode
 
@@ -92,14 +96,22 @@ struct AlbumCollection: View {
     @ViewBuilder
     private func albumNameArtist(album: Album) -> some View {
         VStack(alignment: .leading, spacing: 3) {
-            Text(album.name)
-                .font(.title2)
-                .lineLimit(1)
+            MarqueeText(
+                text: album.name,
+                font: .preferredFont(forTextStyle: .title2),
+                leftFade: UIConstants.marqueeFadeLen,
+                rightFade: UIConstants.marqueeFadeLen,
+                startDelay: UIConstants.marqueeDelay
+            )
 
-            Text(album.artistName)
-                .lineLimit(1)
-                .font(.body)
-                .foregroundColor(.gray)
+            MarqueeText(
+                text: library.getArtistName(for: album),
+                font: .preferredFont(forTextStyle: .body),
+                leftFade: UIConstants.marqueeFadeLen,
+                rightFade: UIConstants.marqueeFadeLen,
+                startDelay: UIConstants.marqueeDelay
+            )
+            .foregroundColor(.gray)
         }
     }
 
@@ -152,6 +164,7 @@ struct AlbumList_Previews: PreviewProvider {
                 .forceMode(.asList)
         }
         .previewDisplayName("List")
+        .environmentObject(PreviewUtils.libraryRepo)
 
         VStack {
             AlbumCollection(albums: PreviewData.albums)
@@ -159,6 +172,7 @@ struct AlbumList_Previews: PreviewProvider {
         }
         .previewDisplayName("Vstack")
         .padding(.horizontal)
+        .environmentObject(PreviewUtils.libraryRepo)
 
         ScrollView(.horizontal) {
             HStack {
