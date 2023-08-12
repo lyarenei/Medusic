@@ -31,14 +31,7 @@ extension [Album] {
         filter { $0.artistId == artistId }
     }
 
-    /// Get album by specified album ID.
-    func getById(_ albumId: String) -> Album? {
-        first { album -> Bool in
-            album.id == albumId
-        }
-    }
-
-    // TODO: only temporary for consistency, until user can configure sort options
+    @available(*, deprecated, message: "Use sort by name")
     var consistent: [Album] {
         sorted { lhs, rhs -> Bool in
             lhs.name.lowercased() < rhs.name.lowercased()
