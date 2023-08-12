@@ -150,7 +150,6 @@ struct SettingsScreen: View {
         NavigationLink("Advanced") {
             AdvancedSettingsScreen()
                 .environmentObject(FileRepository.shared)
-                .environmentObject(AlbumRepository.shared)
                 .environmentObject(SongRepository.shared)
         }
     }
