@@ -20,6 +20,10 @@ final class LibraryRepository: ObservableObject {
         self.apiClient = apiClient
     }
 
+    enum LibraryError: Error {
+        case notFound
+    }
+
     func refreshArtists() async throws {
         try await apiClient.performAuth()
         try await $artists.removeAll()
@@ -49,5 +53,16 @@ final class LibraryRepository: ObservableObject {
         try await apiClient.performAuth()
         let remoteAlbum = try await apiClient.services.albumService.getAlbum(by: album.id)
         try await $albums.insert(remoteAlbum)
+    }
+
+    func setFavorite(artist: Artist, isFavorite: Bool) async throws {
+        // TODO: implementation
+    }
+
+    func setFavorite(album: Album, isFavorite: Bool) async throws {
+        guard var album = await $albums.items.by(id: album.id) else { throw LibraryError.notFound }
+        try await apiClient.services.mediaService.setFavorite(itemId: album.id, isFavorite: isFavorite)
+        album.isFavorite = isFavorite
+        try await $albums.insert(album)
     }
 }

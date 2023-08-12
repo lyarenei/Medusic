@@ -2,10 +2,12 @@ import SFSafeSymbols
 import SwiftUI
 
 struct FavoriteButton: View {
+    @EnvironmentObject
+    private var library: LibraryRepository
+
     @State
     private var isFavorite = false
 
-    private let albumRepo: AlbumRepository
     private let songRepo: SongRepository
     private let item: any JellyfinItem
     private let textFavorite: String?
@@ -16,13 +18,11 @@ struct FavoriteButton: View {
         item: any JellyfinItem,
         textFavorite: String? = nil,
         textUnfavorite: String? = nil,
-        albumRepo: AlbumRepository = .shared,
         songRepo: SongRepository = .shared
     ) {
         self.item = item
         self.textFavorite = textFavorite
         self.textUnfavorite = textUnfavorite
-        self.albumRepo = albumRepo
         self.songRepo = songRepo
     }
 
@@ -75,7 +75,7 @@ struct FavoriteButton: View {
             do {
                 switch item {
                 case let album as Album:
-                    try await albumRepo.setFavorite(albumId: album.id, isFavorite: !isFavorite)
+                    try await library.setFavorite(album: album, isFavorite: !isFavorite)
                 case let song as Song:
                     try await songRepo.setFavorite(songId: song.id, isFavorite: !isFavorite)
                 default:
@@ -110,12 +110,6 @@ struct FavoriteButton_Previews: PreviewProvider {
     static var previews: some View {
         FavoriteButton(
             item: PreviewData.albums.first!,
-            albumRepo: .init(
-                store: .previewStore(
-                    items: PreviewData.albums,
-                    cacheIdentifier: \.id
-                )
-            ),
             songRepo: .init(
                 store: .previewStore(
                     items: PreviewData.songs,
@@ -125,16 +119,11 @@ struct FavoriteButton_Previews: PreviewProvider {
         )
         .previewDisplayName("Icon only")
         .font(.title)
+        .environmentObject(PreviewUtils.libraryRepo)
 
         FavoriteButton(
             item: PreviewData.albums.first!,
             textUnfavorite: "Test",
-            albumRepo: .init(
-                store: .previewStore(
-                    items: PreviewData.albums,
-                    cacheIdentifier: \.id
-                )
-            ),
             songRepo: .init(
                 store: .previewStore(
                     items: PreviewData.songs,
@@ -145,16 +134,11 @@ struct FavoriteButton_Previews: PreviewProvider {
         .setLayout(.horizontal)
         .previewDisplayName("Horizontal")
         .font(.title)
+        .environmentObject(PreviewUtils.libraryRepo)
 
         FavoriteButton(
             item: PreviewData.albums.first!,
             textUnfavorite: "Test",
-            albumRepo: .init(
-                store: .previewStore(
-                    items: PreviewData.albums,
-                    cacheIdentifier: \.id
-                )
-            ),
             songRepo: .init(
                 store: .previewStore(
                     items: PreviewData.songs,
@@ -165,6 +149,7 @@ struct FavoriteButton_Previews: PreviewProvider {
         .setLayout(.vertical)
         .previewDisplayName("Vertical")
         .font(.title)
+        .environmentObject(PreviewUtils.libraryRepo)
     }
 }
 // swiftlint:enable all

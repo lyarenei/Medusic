@@ -5,6 +5,12 @@ extension Array {
     public var isNotEmpty: Bool { !isEmpty }
 }
 
+extension Array where Element: JellyfinItem {
+    func by(id: String) -> Element? {
+        first { $0.id == id }
+    }
+}
+
 extension [Artist] {
     func sorted(by: SortBy) -> [Artist] {
         switch by {
