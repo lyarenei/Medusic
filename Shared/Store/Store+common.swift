@@ -25,20 +25,11 @@ extension Store<PlayerQueueItem> {
 
 // MARK: - Environment
 
-private struct AlbumRepoEnvironmentKey: EnvironmentKey {
-    static let defaultValue: AlbumRepository = .init(store: .albums)
-}
-
 private struct SongRepoEnvironmentKey: EnvironmentKey {
     static let defaultValue: SongRepository = .init(store: .songs)
 }
 
 extension EnvironmentValues {
-    var albumRepo: AlbumRepository {
-        get { self[AlbumRepoEnvironmentKey.self] }
-        set { self[AlbumRepoEnvironmentKey.self] = newValue }
-    }
-
     var songRepo: SongRepository {
         get { self[SongRepoEnvironmentKey.self] }
         set { self[SongRepoEnvironmentKey.self] = newValue }

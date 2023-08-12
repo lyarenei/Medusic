@@ -18,7 +18,6 @@ struct JellyMusicApp: App {
     var body: some Scene {
         WindowGroup {
             MainScreen()
-                .environmentObject(AlbumRepository(store: .albums))
                 .environmentObject(SongRepository(store: .songs))
                 .environmentObject(
                     LibraryRepository(
