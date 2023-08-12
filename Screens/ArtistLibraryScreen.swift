@@ -21,7 +21,7 @@ struct ArtistLibraryScreen: View {
             )
             .toolbar {
                 ToolbarItem(placement: .navigationBarTrailing) {
-                    refreshButton
+                    RefreshButton(mode: .allArtists)
                     sortByMenu
                 }
             }
@@ -74,26 +74,6 @@ struct ArtistLibraryScreen: View {
             sortBy = .name
         } label: {
             Label("Name", systemSymbol: .textformat)
-        }
-    }
-
-    // MARK: - Refresh button
-
-    @ViewBuilder
-    private var refreshButton: some View {
-        // TODO: in progress, etc
-        Button {
-            Task { await onRefreshButton() }
-        } label: {
-            Label("Refresh", systemSymbol: .arrowClockwise)
-        }
-    }
-
-    private func onRefreshButton() async {
-        do {
-            try await library.refreshArtists()
-        } catch {
-            print("Failed to refresh artists: \(error.localizedDescription)")
         }
     }
 }

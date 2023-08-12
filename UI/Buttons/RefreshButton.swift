@@ -26,6 +26,8 @@ struct RefreshButton: View {
             case .album(let id):
                 try await library.refresh(albumId: id)
                 try await SongRepository.shared.refresh(for: id)
+            case .allArtists:
+                try await library.refreshArtists()
             case .allAlbums:
                 try await library.refreshAlbums()
             case .allSongs:
@@ -41,6 +43,7 @@ struct RefreshButton: View {
 
     enum ButtonMode {
         case album(id: String)
+        case allArtists
         case allAlbums
         case allSongs
         case all
