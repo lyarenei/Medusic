@@ -54,7 +54,6 @@ extension [Album] {
     }
 }
 
-
 extension [Song] {
     /// Sorts songs by album ID, then by their order.
     /// This results in songs being grouped by their albums, and in correct order in that album.

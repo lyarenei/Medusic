@@ -2,6 +2,6 @@ import JellyfinAPI
 
 extension PlayerQueueItem: Identifiable {
     public var id: String {
-        "\(songId)_\(orderIndex ?? .max)"
+        "\(songId)_\(orderIndex)"
     }
 }

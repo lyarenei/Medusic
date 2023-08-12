@@ -8,7 +8,7 @@ struct InProgressComponent: View {
     }
 
     var body: some View {
-        VStack( alignment: .center, spacing: 5) {
+        VStack(alignment: .center, spacing: 5) {
             ProgressView()
             Text(text)
                 .foregroundColor(.gray)

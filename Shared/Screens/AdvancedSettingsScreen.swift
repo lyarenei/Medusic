@@ -1,7 +1,6 @@
 import Defaults
 import Kingfisher
 import SwiftUI
-import SwiftUIBackports
 
 struct AdvancedSettingsScreen: View {
     @EnvironmentObject
@@ -132,7 +131,7 @@ private struct ClearArtworkCache: View {
         } footer: {
             Text("Cache size: \(String(format: "%.1f", sizeMB)) MB")
         }
-        .backport.task { await calculateSize() }
+        .task { await calculateSize() }
     }
 
     private func resetSize() {
@@ -178,7 +177,7 @@ private struct RemoveDownloads: View {
         } footer: {
             Text("Current size: \(String(format: "%.1f", sizeMB)) MB")
         }
-        .backport.task { await calculateSize() }
+        .task { await calculateSize() }
     }
 
     private func resetSize() {
