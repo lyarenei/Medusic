@@ -54,10 +54,14 @@ final class LibraryRepository: ObservableObject {
         try await apiClient.performAuth()
     }
 
-    func refresh(album: Album) async throws {
+    func refresh(albumId: String) async throws {
         try await apiClient.performAuth()
-        let remoteAlbum = try await apiClient.services.albumService.getAlbum(by: album.id)
+        let remoteAlbum = try await apiClient.services.albumService.getAlbum(by: albumId)
         try await $albums.insert(remoteAlbum)
+    }
+
+    func refresh(album: Album) async throws {
+        try await refresh(albumId: album.id)
     }
 
     func setFavorite(artist: Artist, isFavorite: Bool) async throws {

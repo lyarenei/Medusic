@@ -437,7 +437,6 @@
 				9BB75EA229C3894A008CD65A /* FavoriteButton.swift */,
 				9BB75EA529C389D9008CD65A /* DownloadButton.swift */,
 				9BF7AF8B29CDF1C8004E0DA7 /* PrimaryActionButton.swift */,
-				9B1EF3AE29E151F400C2A33B /* RefreshButton.swift */,
 				9B1EF39C29DC97B100C2A33B /* PlayButton.swift */,
 				9B1EF39F29DCA16200C2A33B /* PlayNextButton.swift */,
 				9B1EF3A229DCA62C00C2A33B /* PlayPreviousButton.swift */,
@@ -527,6 +526,7 @@
 			isa = PBXGroup;
 			children = (
 				9BF26D452A8781F6006631E9 /* AsyncButton.swift */,
+				9B1EF3AE29E151F400C2A33B /* RefreshButton.swift */,
 			);
 			path = Buttons;
 			sourceTree = "<group>";
