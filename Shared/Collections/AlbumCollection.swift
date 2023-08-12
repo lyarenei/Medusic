@@ -75,6 +75,7 @@ struct AlbumCollection: View {
             }
             .buttonStyle(.plain)
             .contextMenu { AlbumContextMenu(album: album) }
+            .frame(width: UIConstants.tileSize, height: UIConstants.tileSize)
         }
     }
 
@@ -159,11 +160,15 @@ struct AlbumList_Previews: PreviewProvider {
         .previewDisplayName("Vstack")
         .padding(.horizontal)
 
-        VStack {
-            AlbumCollection(albums: PreviewData.albums)
-                .forceMode(.asTiles)
+        ScrollView(.horizontal) {
+            HStack {
+                AlbumCollection(albums: PreviewData.albums)
+                    .forceMode(.asTiles)
+            }
+            .padding(.horizontal)
         }
         .previewDisplayName("Tiles")
+        .environmentObject(PreviewUtils.libraryRepo)
     }
 }
 #endif
