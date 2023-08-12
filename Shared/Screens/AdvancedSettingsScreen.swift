@@ -9,17 +9,14 @@ struct AdvancedSettingsScreen: View {
     @EnvironmentObject
     private var library: LibraryRepository
 
-    @EnvironmentObject
-    private var songRepo: SongRepository
-
     var body: some View {
         List {
             MaxCacheSize()
             ClearArtworkCache()
             RemoveDownloads()
 
-            forceLibraryRefresh()
-            resetToDefaultsButton()
+            forceLibraryRefreshButton
+            resetToDefaultsButton
                 .foregroundColor(.red)
         }
         .listStyle(.grouped)
@@ -28,27 +25,20 @@ struct AdvancedSettingsScreen: View {
     }
 
     @ViewBuilder
-    private func forceLibraryRefresh() -> some View {
-        Button {
-            onForceLibraryRefresh()
+    private var forceLibraryRefreshButton: some View {
+        AsyncButton {
+            do {
+                try await library.refreshAll()
+            } catch {
+                print("Failed to refresh library: \(error.localizedDescription)")
+            }
         } label: {
             Text("Force library refresh")
         }
     }
 
-    private func onForceLibraryRefresh() {
-        Task {
-            do {
-                try await library.refreshAll()
-                try await songRepo.refresh()
-            } catch {
-                print("Failed to refresh data: \(error.localizedDescription)")
-            }
-        }
-    }
-
     @ViewBuilder
-    private func resetToDefaultsButton() -> some View {
+    private var resetToDefaultsButton: some View {
         ConfirmButton(
             btnText: "Reset settings to defaults",
             alertTitle: "Reset settings to defaults",
@@ -68,15 +58,9 @@ struct AdvancedSettingsScreen_Previews: PreviewProvider {
         apiClient: .init(previewEnabled: true)
     )
 
-    static var songRepo: SongRepository = .init(
-        store: .previewStore(items: PreviewData.songs, cacheIdentifier: \.id),
-        apiClient: .init(previewEnabled: true)
-    )
-
     static var previews: some View {
         AdvancedSettingsScreen()
             .environmentObject(fileRepo)
-            .environmentObject(songRepo)
             .environmentObject(PreviewUtils.libraryRepo)
     }
 }
@@ -86,12 +70,8 @@ private struct MaxCacheSize: View {
     @Default(.maxCacheSize)
     var maxCacheSize
 
-    @ObservedObject
-    var fileRepo: FileRepository
-
-    init(fileRepo: FileRepository = .shared) {
-        _fileRepo = ObservedObject(wrappedValue: fileRepo)
-    }
+    @EnvironmentObject
+    private var fileRepo: FileRepository
 
     var body: some View {
         InlineNumberInputComponent(
