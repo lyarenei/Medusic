@@ -24,7 +24,7 @@ final class DefaultSongService: SongService {
         let request = JellyfinAPI.Paths.getItems(parameters: requestParameters)
         let response = try await client.send(request)
         guard let items = response.value.items else { throw SongServiceError.noData }
-        return items.map(Song.init(from:))
+        return items.compactMap(Song.init(from:))
     }
 
     // TODO: Add pagination.

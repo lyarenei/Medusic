@@ -1,11 +1,5 @@
 import JellyfinAPI
 
-extension Song: Equatable {
-    public static func == (lhs: Song, rhs: Song) -> Bool {
-        lhs.id == rhs.id
-    }
-}
-
 extension PlayerQueueItem: Equatable {
     public static func == (lhs: PlayerQueueItem, rhs: PlayerQueueItem) -> Bool {
         lhs.id == rhs.id
