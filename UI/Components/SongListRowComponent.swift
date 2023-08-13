@@ -56,7 +56,7 @@ struct SongListRowComponent: View {
         // TODO: automatic - if artist differs from album artist
         if showArtistName {
             MarqueeText(
-                text: "artistName",
+                text: song.artistCreditName,
                 font: .systemFont(ofSize: 12),
                 leftFade: UIConstants.marqueeFadeLen,
                 rightFade: UIConstants.marqueeFadeLen,

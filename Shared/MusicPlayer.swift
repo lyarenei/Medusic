@@ -521,7 +521,7 @@ final class MusicPlayer: ObservableObject {
         var nowPlaying = nowPlayingCenter.nowPlayingInfo ?? [String: Any]()
 
         nowPlaying[MPMediaItemPropertyTitle] = song.name
-        nowPlaying[MPMediaItemPropertyArtist] = "song.artistName"
+        nowPlaying[MPMediaItemPropertyArtist] = song.artistCreditName
         nowPlaying[MPMediaItemPropertyAlbumArtist] = "album.artistName"
         nowPlaying[MPMediaItemPropertyAlbumTitle] = "album.Name"
         nowPlaying[MPMediaItemPropertyPlaybackDuration] = song.runtime
@@ -544,7 +544,7 @@ final class MusicPlayer: ObservableObject {
     }
 
     private func setNowPlayingArtwork(song: Song) {
-        let provider = apiClient.getImageDataProvider(itemId: song.parentId)
+        let provider = apiClient.getImageDataProvider(itemId: song.albumId)
         let nowPlayingCenter = MPNowPlayingInfoCenter.default()
         var nowPlaying = nowPlayingCenter.nowPlayingInfo ?? [String: Any]()
 

@@ -28,6 +28,16 @@ struct Song: JellyfinItem {
 
         return extensions.contains { $0 == fileExtension }
     }
+
+    var artistCreditName: String {
+        if artistNames.count > 1 {
+            let artists = artistNames.dropLast(1).joined(separator: ", ")
+            // swiftlint:disable:next force_unwrapping
+            return "\(artists) and \(artistNames.last!)"
+        }
+
+        return artistNames.joined()
+    }
 }
 
 extension Song: Equatable {

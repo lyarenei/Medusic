@@ -176,7 +176,7 @@ private struct SongDetails: View {
                     .lineLimit(1)
                     .font(.title2)
 
-                Text("song.artistName")
+                Text(song.artistCreditName)
                     .lineLimit(1)
                     .font(.body)
             }
