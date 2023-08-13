@@ -22,16 +22,3 @@ extension Store<PlayerQueueItem> {
         storage: SQLiteStorageEngine.default(appendingPath: "PlaybackQueue")
     )
 }
-
-// MARK: - Environment
-
-private struct SongRepoEnvironmentKey: EnvironmentKey {
-    static let defaultValue: SongRepository = .init(store: .songs)
-}
-
-extension EnvironmentValues {
-    var songRepo: SongRepository {
-        get { self[SongRepoEnvironmentKey.self] }
-        set { self[SongRepoEnvironmentKey.self] = newValue }
-    }
-}
