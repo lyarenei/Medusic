@@ -6,19 +6,12 @@ struct ArtistLibraryScreen: View {
     private var library: LibraryRepository
 
     @State
-    private var searchText = ""
-
-    @State
     private var sortBy: SortBy = .name
 
     var body: some View {
         content
             .navigationTitle("Artists")
             .navigationBarTitleDisplayMode(.large)
-            .searchable(
-                text: $searchText,
-                placement: .navigationBarDrawer
-            )
             .toolbar {
                 ToolbarItem(placement: .navigationBarTrailing) {
                     RefreshButton(mode: .allArtists)
