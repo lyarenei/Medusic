@@ -1,6 +1,5 @@
 import Kingfisher
 import SwiftUI
-import SwiftUIBackports
 
 @main
 struct JellyMusicApp: App {
