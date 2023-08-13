@@ -5,18 +5,11 @@ struct SearchScreen: View {
     @EnvironmentObject
     private var library: LibraryRepository
 
-    @ObservedObject
-    var songRepo: SongRepository
+    @State
+    private var query: String = .empty
 
     @State
-    var query: String = .empty
-
-    @State
-    var searchQuery: String = .empty
-
-    init(songRepo: SongRepository = .shared) {
-        self._songRepo = ObservedObject(wrappedValue: songRepo)
-    }
+    private var searchQuery: String = .empty
 
     var body: some View {
         NavigationView {
@@ -32,7 +25,7 @@ struct SearchScreen: View {
                     }
 
                 let filteredAlbums = library.albums.filter { $0.name.containsIgnoreCase(searchQuery) }
-                let filteredSongs = songRepo.songs.filter { $0.name.containsIgnoreCase(searchQuery) }
+                let filteredSongs = library.songs.filter { $0.name.containsIgnoreCase(searchQuery) }
 
                 List {
                     albumResults(filteredAlbums)
@@ -77,14 +70,9 @@ struct SearchScreen: View {
 #if DEBUG
 struct SearchScreen_Previews: PreviewProvider {
     static var previews: some View {
-        SearchScreen(
-            songRepo: .init(
-                store: .previewStore(
-                    items: PreviewData.songs,
-                    cacheIdentifier: \.id
-                )
-            )
-        )
+        NavigationStack {
+            SearchScreen()
+        }
         .environmentObject(PreviewUtils.libraryRepo)
     }
 }
