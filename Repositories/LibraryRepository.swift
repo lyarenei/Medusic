@@ -139,7 +139,7 @@ final class LibraryRepository: ObservableObject {
         let pageSize: Int32 = 250
         var offset: Int32 = 0
         while true {
-            let songs = try await apiClient.services.songService.getSongs()
+            let songs = try await apiClient.services.songService.getSongs(pageSize: pageSize, offset: offset)
             guard songs.isNotEmpty else { return }
             try await $songs.insert(songs)
             offset += pageSize
@@ -152,7 +152,7 @@ final class LibraryRepository: ObservableObject {
         try await apiClient.performAuth()
 
         let localSongs = await $songs.items.filterByAlbum(id: albumId)
-        let remoteSongs = try await apiClient.services.songService.getSongs(for: albumId)
+        let remoteSongs = try await apiClient.services.songService.getSongsForAlbum(id: albumId)
         try await $songs.remove(localSongs).insert(remoteSongs).run()
     }
 

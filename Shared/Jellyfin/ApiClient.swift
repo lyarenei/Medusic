@@ -105,7 +105,7 @@ extension ApiServices {
     static var preview: ApiServices {
         ApiServices(
             albumService: MockAlbumService(),
-            songService: DummySongService(songs: PreviewData.songs),
+            songService: MockSongService(),
             imageService: DummyImageService(),
             systemService: MockSystemService(),
             mediaService: MockMediaService(),

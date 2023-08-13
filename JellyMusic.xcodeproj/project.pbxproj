@@ -91,7 +91,7 @@
 		9BDB03362A1288EE004EFA3A /* AlbumContextMenu.swift in Sources */ = {isa = PBXBuildFile; fileRef = 9BDB03352A1288EE004EFA3A /* AlbumContextMenu.swift */; };
 		9BDB098D29BB1DD9007F99E4 /* SongService.swift in Sources */ = {isa = PBXBuildFile; fileRef = 9BDB098C29BB1DD9007F99E4 /* SongService.swift */; };
 		9BDB099029BB1E73007F99E4 /* DefaultSongService.swift in Sources */ = {isa = PBXBuildFile; fileRef = 9BDB098F29BB1E73007F99E4 /* DefaultSongService.swift */; };
-		9BDB099329BB1F57007F99E4 /* DummySongService.swift in Sources */ = {isa = PBXBuildFile; fileRef = 9BDB099229BB1F57007F99E4 /* DummySongService.swift */; };
+		9BDB099329BB1F57007F99E4 /* MockSongService.swift in Sources */ = {isa = PBXBuildFile; fileRef = 9BDB099229BB1F57007F99E4 /* MockSongService.swift */; };
 		9BDB099929BB2FBF007F99E4 /* ImageService.swift in Sources */ = {isa = PBXBuildFile; fileRef = 9BDB099829BB2FBF007F99E4 /* ImageService.swift */; };
 		9BDB099C29BB302C007F99E4 /* DefaultImageService.swift in Sources */ = {isa = PBXBuildFile; fileRef = 9BDB099B29BB302C007F99E4 /* DefaultImageService.swift */; };
 		9BDB099F29BB322A007F99E4 /* DummyImageService.swift in Sources */ = {isa = PBXBuildFile; fileRef = 9BDB099E29BB322A007F99E4 /* DummyImageService.swift */; };
@@ -192,7 +192,7 @@
 		9BDB03352A1288EE004EFA3A /* AlbumContextMenu.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = AlbumContextMenu.swift; sourceTree = "<group>"; };
 		9BDB098C29BB1DD9007F99E4 /* SongService.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = SongService.swift; sourceTree = "<group>"; };
 		9BDB098F29BB1E73007F99E4 /* DefaultSongService.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = DefaultSongService.swift; sourceTree = "<group>"; };
-		9BDB099229BB1F57007F99E4 /* DummySongService.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = DummySongService.swift; sourceTree = "<group>"; };
+		9BDB099229BB1F57007F99E4 /* MockSongService.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = MockSongService.swift; sourceTree = "<group>"; };
 		9BDB099829BB2FBF007F99E4 /* ImageService.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = ImageService.swift; sourceTree = "<group>"; };
 		9BDB099B29BB302C007F99E4 /* DefaultImageService.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = DefaultImageService.swift; sourceTree = "<group>"; };
 		9BDB099E29BB322A007F99E4 /* DummyImageService.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = DummyImageService.swift; sourceTree = "<group>"; };
@@ -251,7 +251,6 @@
 				9B73ECFA29C9EB8B007F74DB /* MediaService */,
 				9B3D449A29BCF8730054C9E0 /* SystemService */,
 				9BDB099729BB2FAD007F99E4 /* ImageService */,
-				9BDB099629BB2F9A007F99E4 /* SongService */,
 			);
 			path = Services;
 			sourceTree = "<group>";
@@ -484,7 +483,7 @@
 			children = (
 				9BDB098C29BB1DD9007F99E4 /* SongService.swift */,
 				9BDB098F29BB1E73007F99E4 /* DefaultSongService.swift */,
-				9BDB099229BB1F57007F99E4 /* DummySongService.swift */,
+				9BDB099229BB1F57007F99E4 /* MockSongService.swift */,
 			);
 			path = SongService;
 			sourceTree = "<group>";
@@ -548,6 +547,7 @@
 			children = (
 				9BDB099529BB2F8B007F99E4 /* AlbumService */,
 				9BA88EEB2A86513E00E61A61 /* ArtistService */,
+				9BDB099629BB2F9A007F99E4 /* SongService */,
 			);
 			path = Services;
 			sourceTree = "<group>";
@@ -805,7 +805,7 @@
 				9BEFA1C629C72A65004A07FB /* AlbumCollection.swift in Sources */,
 				9BBE145C29FB13110028C500 /* ConfirmButton.swift in Sources */,
 				9B6FB7B229E5AB500013AA65 /* ServerCredentialsComponent.swift in Sources */,
-				9BDB099329BB1F57007F99E4 /* DummySongService.swift in Sources */,
+				9BDB099329BB1F57007F99E4 /* MockSongService.swift in Sources */,
 				9B21623329E88D12008D3F73 /* MusicPlayer.swift in Sources */,
 				9BA88EED2A86515500E61A61 /* ArtistService.swift in Sources */,
 				9BA88EEA2A8648ED00E61A61 /* PreviewData.swift in Sources */,

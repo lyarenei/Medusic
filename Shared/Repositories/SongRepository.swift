@@ -22,7 +22,7 @@ final class SongRepository: ObservableObject {
     func refresh(for albumId: String? = nil) async throws {
         try await apiClient.performAuth()
         if let album = albumId {
-            let remoteSongs = try await apiClient.services.songService.getSongs(for: album)
+            let remoteSongs = try await apiClient.services.songService.getSongs()
             let localSongs = await $songs.items.filterByAlbum(id: album)
             try await $songs.remove(localSongs).insert(remoteSongs).run()
         } else {
