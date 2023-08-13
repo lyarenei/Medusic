@@ -54,7 +54,7 @@ struct SongListRowComponent: View {
     @ViewBuilder
     private var artistOrAlbumName: some View {
         // TODO: automatic - if artist differs from album artist
-        if showArtistName, true {
+        if showArtistName {
             MarqueeText(
                 text: "artistName",
                 font: .systemFont(ofSize: 12),
