@@ -23,27 +23,9 @@ struct SongsLibraryScreen: View {
             }
             .listStyle(.plain)
         } else {
-            Text("No songs available")
+            Text("No songs")
                 .font(.title3)
                 .foregroundColor(.gray)
-        }
-    }
-
-    @ViewBuilder
-    private func songRow(for song: Song) -> some View {
-        HStack {
-            ArtworkComponent(itemId: song.albumId)
-                .frame(width: 38, height: 38)
-
-            VStack(alignment: .leading) {
-                Text(song.name)
-                    .lineLimit(1)
-
-                Text("song.artistName")
-                    .lineLimit(1)
-                    .font(.footnote)
-                    .foregroundColor(.gray)
-            }
         }
     }
 }
