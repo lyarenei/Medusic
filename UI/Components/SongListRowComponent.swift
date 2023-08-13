@@ -35,7 +35,7 @@ struct SongListRowComponent: View {
                 .frame(minWidth: 20)
         } else if showArtwork {
             let square = CGSize(width: height, height: height)
-            ArtworkComponent(itemId: song.parentId)
+            ArtworkComponent(itemId: song.albumId)
                 .frame(width: square.width, height: square.height)
         }
     }
@@ -62,7 +62,7 @@ struct SongListRowComponent: View {
                 rightFade: UIConstants.marqueeFadeLen,
                 startDelay: UIConstants.marqueeDelay
             )
-        } else if showAlbumName, let albumName = library.albums.by(id: song.parentId)?.name {
+        } else if showAlbumName, let albumName = library.albums.by(id: song.albumId)?.name {
             MarqueeText(
                 text: albumName,
                 font: .systemFont(ofSize: 12),
