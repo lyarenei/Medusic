@@ -36,10 +36,8 @@ struct AlbumDetailScreen: View {
 
             runtime
 
-            if library.getDiscCount(for: album) <= 1 {
-                Divider()
-                    .padding(.leading)
-            }
+            Divider()
+                .padding(.leading)
 
             songs
                 .padding(.bottom, 15)
