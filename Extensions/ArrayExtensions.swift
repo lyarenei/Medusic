@@ -54,7 +54,7 @@ extension [Song] {
     func filtered(by method: SongFilterBy) -> [Song] {
         switch method {
         case .albumId(let id):
-            return filter { $0.parentId == id }
+            return filter { $0.albumId == id }
         case .albumDisc(let num):
             return filter { $0.albumDisc == num }
         }
