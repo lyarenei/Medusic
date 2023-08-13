@@ -5,9 +5,16 @@ extension Array {
     public var isNotEmpty: Bool { !isEmpty }
 }
 
+// MARK: - JellyfinItem
+
 extension Array where Element: JellyfinItem {
-    func by(id: String) -> Element? {
-        first { $0.id == id }
+    func by(id: String) -> Element? { first { $0.id == id } }
+    var favorite: [Element] { filter(\.isFavorite) }
+}
+
+extension Array where Element: JellyfinItem {
+    enum SortBy {
+        case name
     }
 
     // swiftlint:disable:next identifier_name
@@ -19,14 +26,12 @@ extension Array where Element: JellyfinItem {
             }
         }
     }
-
-    var favorite: [Element] {
-        filter(\.isFavorite)
-    }
 }
 
+// MARK: - Albums
+
 extension [Album] {
-    /// Select albums
+    @available(*, deprecated, message: "Use filtered(by:)")
     func matching(artistId: String) -> [Album] {
         filter { $0.artistId == artistId }
     }
@@ -38,12 +43,41 @@ extension [Album] {
         }
     }
 
+    @available(*, deprecated, message: "Use sorted(by:)")
     var sortedByDateAdded: [Album] {
         sorted { lhs, rhs -> Bool in
             lhs.createdAt > rhs.createdAt
         }
     }
 }
+
+extension [Album] {
+    enum AlbumFilterBy {
+        case artist(id: String)
+    }
+
+    func filtered(by method: AlbumFilterBy) -> [Album] {
+        switch method {
+        case .artist(let artistId):
+            return filter { $0.artistId == artistId }
+        }
+    }
+}
+
+extension [Album] {
+    enum AlbumSortBy {
+        case dateAdded
+    }
+
+    func sorted(by method: AlbumSortBy) -> [Album] {
+        switch method {
+        case .dateAdded:
+            return sorted { $0.createdAt < $1.createdAt }
+        }
+    }
+}
+
+// MARK: - Songs
 
 extension [Song] {
     enum SongFilterBy {
