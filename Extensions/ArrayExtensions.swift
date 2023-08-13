@@ -10,6 +10,14 @@ extension Array {
 extension Array where Element: JellyfinItem {
     func by(id: String) -> Element? { first { $0.id == id } }
     var favorite: [Element] { filter(\.isFavorite) }
+
+    // swiftlint:disable:next identifier_name
+    func sorted(by: UserSortBy) -> [Element] {
+        switch by {
+        case .name:
+            return sorted(by: SortBy.name)
+        }
+    }
 }
 
 extension Array where Element: JellyfinItem {

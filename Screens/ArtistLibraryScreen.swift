@@ -6,7 +6,7 @@ struct ArtistLibraryScreen: View {
     private var library: LibraryRepository
 
     @State
-    private var sortBy: SortBy = .name
+    private var sortBy: UserSortBy = .name
 
     var body: some View {
         content
@@ -15,7 +15,7 @@ struct ArtistLibraryScreen: View {
             .toolbar {
                 ToolbarItem(placement: .navigationBarTrailing) {
                     RefreshButton(mode: .allArtists)
-                    sortByMenu
+                    SortMenuButton(sortBy: $sortBy)
                 }
             }
     }
@@ -44,29 +44,6 @@ struct ArtistLibraryScreen: View {
             Text("No artists")
                 .font(.title3)
                 .foregroundColor(.gray)
-        }
-    }
-
-    // MARK: - Sort menu
-
-    @ViewBuilder
-    private var sortByMenu: some View {
-        Menu {
-            sortByNameButton
-        } label: {
-            switch sortBy {
-            case .name:
-                Image(systemSymbol: .textformat)
-            }
-        }
-    }
-
-    @ViewBuilder
-    private var sortByNameButton: some View {
-        Button {
-            sortBy = .name
-        } label: {
-            Label("Name", systemSymbol: .textformat)
         }
     }
 }
