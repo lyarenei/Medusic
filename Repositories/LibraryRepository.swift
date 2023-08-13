@@ -118,7 +118,7 @@ final class LibraryRepository: ObservableObject {
     /// Get album disc count.
     @MainActor
     func getDiscCount(for album: Album) -> Int {
-        let filteredSongs = songs.filter { $0.parentId == album.id }
+        let filteredSongs = songs.filter { $0.albumId == album.id }
         return filteredSongs.map { $0.albumDisc }.max() ?? 1
     }
 

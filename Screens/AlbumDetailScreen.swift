@@ -111,33 +111,34 @@ struct AlbumDetailScreen: View {
 
     @ViewBuilder
     private var songs: some View {
-        if library.getSongs(for: album).isEmpty {
+        let songs = library.songs.filtered(by: .albumId(album.id))
+        if songs.isEmpty {
             Text("No songs")
                 .foregroundColor(.gray)
                 .font(.title3)
         } else {
-            songList
+            songList(of: songs)
         }
     }
 
     @ViewBuilder
-    private var songList: some View {
+    private func songList(of songs: [Song]) -> some View {
         let discCount = library.getDiscCount(for: album)
         if discCount > 1 {
-            ForEach(enumerating: 1...discCount) { idx in
-                let songs = library.getSongs(for: album).filtered(by: .albumDisc(num: idx))
+            ForEach(enumerating: 1...discCount) { discNum in
+                let discSongs = songs.filtered(by: .albumDisc(num: discNum))
                 Section {
                     songCollection(
-                        songs: songs.sorted(by: .index),
-                        showLastDivider: idx == discCount
+                        songs: discSongs.sorted(by: .index),
+                        showLastDivider: discNum == discCount
                     )
                 } header: {
-                    discGroupHeader(text: "Disc \(idx)")
+                    discGroupHeader(text: "Disc \(discNum)")
                 }
             }
         } else {
             songCollection(
-                songs: library.getSongs(for: album),
+                songs: songs.sorted(by: .index),
                 showLastDivider: true
             )
         }
