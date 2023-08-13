@@ -21,6 +21,7 @@ struct AlbumPreviewCollection: View {
     }
 
     var body: some View {
+        let maxHeight = UIConstants.tileSize + 105
         VStack(spacing: 7) {
             Group {
                 sectionTitle
@@ -34,9 +35,10 @@ struct AlbumPreviewCollection: View {
                     .padding(.leading)
             case .horizontal:
                 sectionHContent
+                    .padding(.trailing)
             }
         }
-        .frame(height: UIConstants.tileSize + 105)
+        .frame(height: albums.isNotEmpty ? maxHeight : 80, alignment: .top)
     }
 
     @ViewBuilder
@@ -130,6 +132,7 @@ struct AlbumPreviewCollection_Previews: PreviewProvider {
             }
         }
         .previewDisplayName("Vertical")
+        .environmentObject(PreviewUtils.libraryRepo)
 
         NavigationStack {
             AlbumPreviewCollection(
@@ -150,6 +153,7 @@ struct AlbumPreviewCollection_Previews: PreviewProvider {
             )
         }
         .previewDisplayName("Empty")
+        .environmentObject(PreviewUtils.libraryRepo)
     }
 }
 #endif

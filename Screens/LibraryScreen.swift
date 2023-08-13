@@ -28,15 +28,12 @@ struct LibraryScreen: View {
 
     @ViewBuilder
     private var content: some View {
-        VStack {
+        VStack(spacing: 15) {
             mainNavigation
                 .padding(.leading)
 
             favoriteAlbums
-                .padding(.top, 10)
-
             recentlyAddedAlbums
-                .padding(.top, 10)
         }
     }
 
