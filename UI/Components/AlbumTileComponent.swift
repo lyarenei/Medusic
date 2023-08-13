@@ -13,27 +13,32 @@ struct AlbumTileComponent: View {
             VStack(alignment: .leading, spacing: 6) {
                 ArtworkComponent(itemId: album.id)
 
-                VStack(alignment: .leading, spacing: 2) {
-                    MarqueeText(
-                        text: album.name,
-                        font: .systemFont(ofSize: 17, weight: .medium),
-                        leftFade: UIConstants.marqueeFadeLen,
-                        rightFade: UIConstants.marqueeFadeLen,
-                        startDelay: UIConstants.marqueeDelay
-                    )
-
-                    MarqueeText(
-                        text: library.getArtistName(for: album),
-                        font: .systemFont(ofSize: 12),
-                        leftFade: UIConstants.marqueeFadeLen,
-                        rightFade: UIConstants.marqueeFadeLen,
-                        startDelay: UIConstants.marqueeDelay
-                    )
-                    .foregroundColor(.gray)
-                }
-                .padding(.horizontal, 2)
+                tileNames
+                    .padding(.horizontal, 2)
             }
             .frame(width: proxy.size.width, height: proxy.size.width + 40)
+        }
+    }
+
+    @ViewBuilder
+    private var tileNames: some View {
+        VStack(alignment: .leading, spacing: 2) {
+            MarqueeText(
+                text: album.name,
+                font: .systemFont(ofSize: 17, weight: .medium),
+                leftFade: UIConstants.marqueeFadeLen,
+                rightFade: UIConstants.marqueeFadeLen,
+                startDelay: UIConstants.marqueeDelay
+            )
+
+            MarqueeText(
+                text: library.getArtistName(for: album),
+                font: .systemFont(ofSize: 12),
+                leftFade: UIConstants.marqueeFadeLen,
+                rightFade: UIConstants.marqueeFadeLen,
+                startDelay: UIConstants.marqueeDelay
+            )
+            .foregroundColor(.gray)
         }
     }
 }
