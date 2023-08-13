@@ -91,14 +91,14 @@ extension [Song] {
         }
     }
 
-    @available(*, renamed: "sorted")
+    @available(*, deprecated, message: "Use sorted instead")
     func sortByIndex() -> [Song] {
         sorted { lhs, rhs -> Bool in
             lhs.index < rhs.index
         }
     }
 
-    @available(*, renamed: "sorted")
+    @available(*, deprecated, message: "Use sorted instead")
     func sortByAlbumDisc() -> [Song] {
         sorted { lhs, rhs -> Bool in
             lhs.albumDisc < rhs.albumDisc
@@ -115,7 +115,7 @@ extension [Song] {
         return filteredSongs.sortByAlbum()
     }
 
-    @available(*, renamed: "filtered")
+    @available(*, deprecated, message: "Use filtered instead")
     func filterByAlbumDisc(_ discNumber: Int) -> [Song] {
         filter { song -> Bool in
             song.albumDisc == discNumber

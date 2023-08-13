@@ -10,7 +10,7 @@ struct Song: JellyfinItem {
 
     var index: Int
 
-    @available(*, renamed: "albumId")
+    @available(*, deprecated, message: "Use albumId instead")
     var parentId: String = .empty
 
     var albumId: String
