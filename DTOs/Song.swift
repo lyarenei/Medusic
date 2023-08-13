@@ -9,10 +9,6 @@ struct Song: JellyfinItem {
     var sortName: String
 
     var index: Int
-
-    @available(*, deprecated, message: "Use albumId instead")
-    var parentId: String = .empty
-
     var albumId: String
     var artistNames: [String]
     var size: UInt64 = 0

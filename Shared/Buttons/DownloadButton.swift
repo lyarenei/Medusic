@@ -120,7 +120,7 @@ struct DownloadButton: View {
     private func handleInProgress(_ songs: [Song]) {
         switch item {
         case let item as Album:
-            inProgress = songs.contains { $0.parentId == item.id }
+            inProgress = songs.contains { $0.albumId == item.id }
         case let item as Song:
             inProgress = songs.contains { $0 == item }
         default:

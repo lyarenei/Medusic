@@ -32,7 +32,7 @@ struct SongsLibraryScreen: View {
     @ViewBuilder
     private func songRow(for song: Song) -> some View {
         HStack {
-            ArtworkComponent(itemId: song.parentId)
+            ArtworkComponent(itemId: song.albumId)
                 .frame(width: 38, height: 38)
 
             VStack(alignment: .leading) {

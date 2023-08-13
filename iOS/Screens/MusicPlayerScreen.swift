@@ -26,7 +26,7 @@ struct MusicPlayerScreen: View {
     private func content(for song: Song, proxy: GeometryProxy) -> some View {
         let height = (proxy.size.height / 5) * 2.5
         VStack(alignment: .center, spacing: 15) {
-            ArtworkComponent(itemId: song.parentId)
+            ArtworkComponent(itemId: song.albumId)
                 .frame(width: height, height: height)
 
             SongDetails(song: song)

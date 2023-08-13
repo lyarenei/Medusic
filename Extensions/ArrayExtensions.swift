@@ -88,7 +88,7 @@ extension [Song] {
     @available(*, deprecated, message: "Use different sort")
     func sortByParentId() -> [Song] {
         sorted { lhs, rhs -> Bool in
-            lhs.parentId < rhs.parentId
+            lhs.albumId < rhs.albumId
         }
     }
 
@@ -111,7 +111,7 @@ extension [Song] {
     @available(*, deprecated, message: "Use filtered instead")
     func filterByAlbum(id albumId: String) -> [Song] {
         let filteredSongs = filter { song -> Bool in
-            song.parentId == albumId
+            song.albumId == albumId
         }
 
         return filteredSongs.sortByAlbum()
@@ -127,7 +127,7 @@ extension [Song] {
     @available(*, deprecated, message: "Use library method")
     func getAlbumDiscCount(albumId: String) -> Int {
         let filteredSongs = filter { song -> Bool in
-            song.parentId == albumId
+            song.albumId == albumId
         }
 
         return filteredSongs.map { song in song.albumDisc }.max() ?? 1
