@@ -17,17 +17,17 @@ struct AlbumTileComponent: View {
                     MarqueeText(
                         text: album.name,
                         font: .systemFont(ofSize: 17, weight: .medium),
-                        leftFade: 10,
-                        rightFade: 10,
-                        startDelay: 3
+                        leftFade: UIConstants.marqueeFadeLen,
+                        rightFade: UIConstants.marqueeFadeLen,
+                        startDelay: UIConstants.marqueeDelay
                     )
 
                     MarqueeText(
                         text: library.getArtistName(for: album),
                         font: .systemFont(ofSize: 12),
-                        leftFade: 10,
-                        rightFade: 10,
-                        startDelay: 3
+                        leftFade: UIConstants.marqueeFadeLen,
+                        rightFade: UIConstants.marqueeFadeLen,
+                        startDelay: UIConstants.marqueeDelay
                     )
                     .foregroundColor(.gray)
                 }
