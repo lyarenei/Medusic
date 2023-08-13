@@ -5,9 +5,6 @@ struct AlbumDetailScreen: View {
     @EnvironmentObject
     private var library: LibraryRepository
 
-    @EnvironmentObject
-    private var songRepo: SongRepository
-
     let album: Album
 
     var body: some View {
@@ -39,7 +36,7 @@ struct AlbumDetailScreen: View {
 
             runtime
 
-            if songRepo.songs.getAlbumDiscCount(albumId: album.id) <= 1 {
+            if library.getDiscCount(for: album) <= 1 {
                 Divider()
                     .padding(.leading)
             }
@@ -105,18 +102,16 @@ struct AlbumDetailScreen: View {
 
     @ViewBuilder
     private var runtime: some View {
-        let sum = songRepo.songs.filterByAlbum(id: album.id).count
-        if sum > 0 {
-            let runtime = songRepo.songs.getRuntime(for: album.id)
-            Text("\(sum) songs, \(runtime.minutes) minutes")
-                .foregroundColor(.gray)
-                .font(.system(size: 16))
-        }
+        let songCount = library.getSongs(for: album).count
+        let runtime = library.getRuntime(for: album)
+        Text("\(songCount) songs, \(runtime.minutes) minutes")
+            .foregroundColor(.gray)
+            .font(.system(size: 16))
     }
 
     @ViewBuilder
     private var songs: some View {
-        if songRepo.songs.filterByAlbum(id: album.id).isEmpty {
+        if library.getSongs(for: album).isEmpty {
             Text("No songs")
                 .foregroundColor(.gray)
                 .font(.title3)
@@ -127,13 +122,13 @@ struct AlbumDetailScreen: View {
 
     @ViewBuilder
     private var songList: some View {
-        let discCount = songRepo.songs.getAlbumDiscCount(albumId: album.id)
+        let discCount = library.getDiscCount(for: album)
         if discCount > 1 {
             ForEach(enumerating: 1...discCount) { idx in
-                let songs = songRepo.songs.filterByAlbum(id: album.id).filterByAlbumDisc(idx)
+                let songs = library.getSongs(for: album).filtered(by: .albumDisc(num: idx))
                 Section {
                     songCollection(
-                        songs: songs.sortByIndex(),
+                        songs: songs.sorted(by: .index),
                         showLastDivider: idx == discCount
                     )
                 } header: {
@@ -142,7 +137,7 @@ struct AlbumDetailScreen: View {
             }
         } else {
             songCollection(
-                songs: songRepo.songs.filterByAlbum(id: album.id),
+                songs: library.getSongs(for: album),
                 showLastDivider: true
             )
         }
@@ -196,32 +191,15 @@ struct AlbumDetailScreen: View {
 // swiftlint:disable all
 struct AlbumDetailScreen_Previews: PreviewProvider {
     static var previews: some View {
-        AlbumDetailScreen(album: PreviewData.albums.first!)
-            .previewDisplayName("Default")
-            .environmentObject(PreviewUtils.libraryRepo)
-            .environmentObject(
-                SongRepository(
-                    store: .previewStore(items: PreviewData.songs, cacheIdentifier: \.id)
-                )
-            )
-
         NavigationView {
             AlbumDetailScreen(album: PreviewData.albums.first!)
-                .environmentObject(PreviewUtils.libraryRepo)
-                .environmentObject(
-                    SongRepository(
-                        store: .previewStore(items: PreviewData.songs, cacheIdentifier: \.id)
-                    )
-                )
         }
-        .previewDisplayName("With nav")
+        .previewDisplayName("Default")
+        .environmentObject(PreviewUtils.libraryRepo)
 
         AlbumDetailScreen(album: PreviewData.albums.first!)
             .previewDisplayName("Empty")
             .environmentObject(PreviewUtils.libraryRepoEmpty)
-            .environmentObject(
-                SongRepository(store: .previewStore(items: [], cacheIdentifier: \.id))
-            )
     }
 }
 // swiftlint:enable all
