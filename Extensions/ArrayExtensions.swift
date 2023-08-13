@@ -46,24 +46,59 @@ extension [Album] {
 }
 
 extension [Song] {
+    enum SongFilterBy {
+        case albumId(_ id: String)
+        case albumDisc(num: Int)
+    }
+
+    func filtered(by method: SongFilterBy) -> [Song] {
+        switch method {
+        case .albumId(let id):
+            return filter { $0.parentId == id }
+        case .albumDisc(let num):
+            return filter { $0.albumDisc == num }
+        }
+    }
+}
+
+extension [Song] {
+    enum SongSortBy {
+        case index
+        case albumDisc
+    }
+
+    func sorted(by method: SongSortBy) -> [Song] {
+        switch method {
+        case .index:
+            return sorted { $0.index < $1.index }
+        case .albumDisc:
+            return sorted { $0.albumDisc < $1.albumDisc }
+        }
+    }
+}
+
+extension [Song] {
     /// Sorts songs by album ID, then by their order.
     /// This results in songs being grouped by their albums, and in correct order in that album.
     func sortByAlbum() -> [Song] {
         sortByParentId().sortByIndex().sortByAlbumDisc()
     }
 
+    @available(*, deprecated, message: "Use different sort")
     func sortByParentId() -> [Song] {
         sorted { lhs, rhs -> Bool in
             lhs.parentId < rhs.parentId
         }
     }
 
+    @available(*, renamed: "sorted")
     func sortByIndex() -> [Song] {
         sorted { lhs, rhs -> Bool in
             lhs.index < rhs.index
         }
     }
 
+    @available(*, renamed: "sorted")
     func sortByAlbumDisc() -> [Song] {
         sorted { lhs, rhs -> Bool in
             lhs.albumDisc < rhs.albumDisc
@@ -80,12 +115,14 @@ extension [Song] {
         return filteredSongs.sortByAlbum()
     }
 
+    @available(*, renamed: "filtered")
     func filterByAlbumDisc(_ discNumber: Int) -> [Song] {
         filter { song -> Bool in
             song.albumDisc == discNumber
         }
     }
 
+    @available(*, deprecated, message: "Use library method")
     func getAlbumDiscCount(albumId: String) -> Int {
         let filteredSongs = filter { song -> Bool in
             song.parentId == albumId
@@ -95,12 +132,14 @@ extension [Song] {
     }
 
     /// Get song by specified song ID.
+    @available(*, deprecated, message: "Use by(id:) instead")
     func getById(_ songId: String) -> Song? {
         first { song -> Bool in
             song.id == songId
         }
     }
 
+    @available(*, deprecated, message: "Use library method")
     func getRuntime(for albumId: String? = nil) -> TimeInterval {
         var totalRuntime: TimeInterval = 0
         if let albumId {

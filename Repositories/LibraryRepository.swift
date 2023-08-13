@@ -109,6 +109,26 @@ final class LibraryRepository: ObservableObject {
         try await $albums.insert(album)
     }
 
+    /// Get songs for a specified album. Songs are automatically sorted in the correct order.
+    @MainActor
+    func getSongs(for album: Album) -> [Song] {
+        songs.filterByAlbum(id: album.id).sortByIndex().sortByAlbumDisc()
+    }
+
+    /// Get album disc count.
+    @MainActor
+    func getDiscCount(for album: Album) -> Int {
+        let filteredSongs = songs.filter { $0.parentId == album.id }
+        return filteredSongs.map { $0.albumDisc }.max() ?? 1
+    }
+
+    @MainActor
+    func getRuntime(for album: Album) -> TimeInterval {
+        var totalRuntime: TimeInterval = 0
+        songs.filtered(by: .albumId(album.id)).forEach { totalRuntime += $0.runtime }
+        return totalRuntime
+    }
+
     // MARK: - Songs
 
     func refreshSongs() async throws {
