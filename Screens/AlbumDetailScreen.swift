@@ -39,7 +39,7 @@ struct AlbumDetailScreen: View {
             Divider()
                 .padding(.leading)
 
-            songs
+            albumSongs(library.songs.filtered(by: .albumId(album.id)))
                 .padding(.bottom, 15)
 
             AlbumPreviewCollection(
@@ -108,14 +108,15 @@ struct AlbumDetailScreen: View {
     }
 
     @ViewBuilder
-    private var songs: some View {
-        let songs = library.songs.filtered(by: .albumId(album.id))
-        if songs.isEmpty {
-            Text("No songs")
-                .foregroundColor(.gray)
-                .font(.title3)
-        } else {
-            songList(of: songs)
+    private func albumSongs(_ songs: [Song]) -> some View {
+        VStack {
+            if songs.isEmpty {
+                Text("No songs")
+                    .foregroundColor(.gray)
+                    .font(.title3)
+            } else {
+                songList(of: songs)
+            }
         }
     }
 
@@ -148,7 +149,7 @@ struct AlbumDetailScreen: View {
             .showAlbumOrder()
             .showArtistName()
             .collectionType(.plain)
-            .rowHeight(30)
+            .rowHeight(35)
             .showLastDivider(showLastDivider)
             .font(.system(size: 16))
     }
