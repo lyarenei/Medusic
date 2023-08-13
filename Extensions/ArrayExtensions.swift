@@ -80,6 +80,7 @@ extension [Song] {
 extension [Song] {
     /// Sorts songs by album ID, then by their order.
     /// This results in songs being grouped by their albums, and in correct order in that album.
+    @available(*, deprecated, message: "Use sorted instead")
     func sortByAlbum() -> [Song] {
         sortByParentId().sortByIndex().sortByAlbumDisc()
     }
@@ -107,6 +108,7 @@ extension [Song] {
 
     /// Get only songs which belong to Album specified by its ID.
     /// These songs are sorted by their order in that album.
+    @available(*, deprecated, message: "Use filtered instead")
     func filterByAlbum(id albumId: String) -> [Song] {
         let filteredSongs = filter { song -> Bool in
             song.parentId == albumId
