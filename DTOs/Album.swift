@@ -8,8 +8,6 @@ struct Album: JellyfinItem {
     var artistId: String
     var isFavorite: Bool
     var createdAt = Date.now
-
-    @available(*, deprecated, message: "Use artist from library repository")
     var artistName = ""
 }
 
@@ -24,12 +22,16 @@ extension Album {
         guard let item else { return nil }
         guard let id = item.id,
               let name = item.name,
-              let artistId = item.albumArtists?.first?.id
+              let artist = item.albumArtists?.first,
+              let artistId = artist.id,
+              let artistName = artist.name
         else { return nil }
 
         self.id = id
         self.name = name
         self.artistId = artistId
+        self.artistName = artistName
+
         self.isFavorite = item.userData?.isFavorite ?? false
         self.createdAt = item.dateCreated ?? Date.now
         self.sortName = item.sortName ?? name
