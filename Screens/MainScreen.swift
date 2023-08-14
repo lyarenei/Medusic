@@ -65,6 +65,7 @@ struct MainScreen: View {
 struct HomeScreen_Previews: PreviewProvider {
     static var previews: some View {
         MainScreen(player: .init(preview: true))
+            .environmentObject(PreviewUtils.libraryRepo)
     }
 }
 #endif
