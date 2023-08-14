@@ -1,16 +1,32 @@
-import MediaPlayer
 import SwiftUI
-import UIKit
 
-// Does not work in previews, only on real device.
+// Volume slider does not work on simulator.
+
+#if targetEnvironment(simulator)
+
+struct VolumeSliderComponent: View {
+    @State
+    private var value = 0.35
+
+    var body: some View {
+        Slider(value: $value)
+    }
+}
+
+#else
+
+import MediaPlayer
+import UIKit
 
 struct VolumeSliderComponent: UIViewRepresentable {
     func makeUIView(context: Context) -> MPVolumeView {
         let volumeView = MPVolumeView(frame: .zero)
-        // Despite the warning, the default is true, so the button is displayed.
+        // Ignore warning, we don't want the button anyway.
         volumeView.showsRouteButton = false
         return volumeView
     }
 
     func updateUIView(_ view: MPVolumeView, context: Context) {}
 }
+
+#endif
