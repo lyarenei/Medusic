@@ -4,21 +4,24 @@ struct ArtistDetailScreen: View {
     @EnvironmentObject
     private var library: LibraryRepository
 
-    private let artist: Artist
-
-    init(artist: Artist) {
-        self.artist = artist
-    }
+    let artist: Artist
 
     var body: some View {
+        let albums = library.albums.filtered(by: .artistId(artist.id))
         VStack {
-            header
-            albums
+            artistHeader(albumCount: albums.count)
+            artistAlbums(albums)
         }
         .navigationBarTitleDisplayMode(.inline)
+        .toolbar {
+            ToolbarItem(placement: .navigationBarTrailing) {
+                RefreshButton(mode: .artist(id: artist.id))
+            }
+        }
     }
 
-    private var header: some View {
+    @ViewBuilder
+    private func artistHeader(albumCount: Int) -> some View {
         HStack(spacing: 15) {
             ArtworkComponent(itemId: artist.id)
                 .frame(width: 90, height: 90)
@@ -28,7 +31,6 @@ struct ArtistDetailScreen: View {
                     .font(.title2)
                     .multilineTextAlignment(.leading)
 
-                let albumCount = library.albums.matching(artistId: artist.id).count
                 Text("\(albumCount) albums, 0 minutes")
                     .font(.footnote)
                     .foregroundColor(.secondaryLabel)
@@ -38,9 +40,10 @@ struct ArtistDetailScreen: View {
         .frame(maxWidth: .infinity, alignment: .leading)
     }
 
-    private var albums: some View {
+    @ViewBuilder
+    private func artistAlbums(_ albums: [Album]) -> some View {
         List {
-            ForEach(library.albums.matching(artistId: artist.id), id: \.id) { album in
+            ForEach(albums, id: \.id) { album in
                 NavigationLink {
                     AlbumDetailScreen(album: album)
                 } label: {
@@ -61,12 +64,12 @@ struct ArtistDetailScreen: View {
 }
 
 #if DEBUG
-// swiftlint:disable all
 struct ArtistDetailScreen_Previews: PreviewProvider {
     static var previews: some View {
-        ArtistDetailScreen(artist: PreviewData.artists.first!)
-            .environmentObject(PreviewUtils.libraryRepo)
+        NavigationStack {
+            ArtistDetailScreen(artist: PreviewData.artist)
+        }
+        .environmentObject(PreviewUtils.libraryRepo)
     }
 }
-// swiftlint:enable all
 #endif

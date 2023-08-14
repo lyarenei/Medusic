@@ -23,6 +23,8 @@ struct RefreshButton: View {
     private func action() async {
         do {
             switch mode {
+            case .artist(let id):
+                try await library.refresh(artistId: id)
             case .album(let id):
                 try await library.refresh(albumId: id)
                 try await library.refreshSongs(for: id)
@@ -42,6 +44,7 @@ struct RefreshButton: View {
     }
 
     enum ButtonMode {
+        case artist(id: String)
         case album(id: String)
         case allArtists
         case allAlbums
