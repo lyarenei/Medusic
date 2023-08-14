@@ -60,9 +60,15 @@ final class LibraryRepository: ObservableObject {
     }
 
     func refresh(artist: Artist) async throws {
-        Logger.library.debug("Refreshing artist \(artist.id)...")
-        // TODO: implementation
+        try await refresh(artistId: artist.id)
+    }
+
+    func refresh(artistId: String) async throws {
+        Logger.library.debug("Refreshing artist \(artistId)...")
         try await apiClient.performAuth()
+
+        let artist = try await apiClient.services.artistService.getArtistById(artistId)
+        try await $artists.insert(artist)
     }
 
     func setFavorite(artist: Artist, isFavorite: Bool) async throws {
