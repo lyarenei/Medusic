@@ -75,6 +75,7 @@ final class LibraryRepository: ObservableObject {
         // TODO: implementation
     }
 
+    @available(*, deprecated, message: "Use .artistName property due to jellyfin bug")
     @MainActor
     func getArtistName(for album: Album) -> String {
         artists.by(id: album.artistId)?.name ?? .empty
