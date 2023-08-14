@@ -15,6 +15,8 @@ struct PreviewData {
 
     private static func loadJson<T>(assetName: String, ofType: T.Type) -> T where T: Decodable {
         let decoder = JSONDecoder()
+        decoder.dateDecodingStrategy = .formatted(formatter)
+
         let asset = NSDataAsset(name: assetName)!
         return try! decoder.decode(T.self, from: asset.data)
     }
@@ -22,28 +24,8 @@ struct PreviewData {
     static let artists = loadJson(assetName: "Artists", ofType: [Artist].self)
     static let artist = artists.first!
 
-    static let albums: [Album] = [
-        Album(id: "101", name: "Sunrise Waves", sortName: "Sunrise Waves", artistId: "1", isFavorite: true, createdAt: formatter.date(from: "2022/01/05")!),
-        Album(id: "102", name: "Moonlit Melodies", sortName: "Moonlit Melodies", artistId: "1", isFavorite: false, createdAt: formatter.date(from: "2022/05/10")!),
-        Album(id: "103", name: "Quantum Notes", sortName: "Quantum Notes", artistId: "2", isFavorite: true, createdAt: formatter.date(from: "2023/02/15")!),
-        Album(id: "104", name: "Quiet Quarrels", sortName: "Quiet Quarrels", artistId: "2", isFavorite: false, createdAt: formatter.date(from: "2021/07/12")!),
-        Album(id: "105", name: "Harmonic Hues", sortName: "Harmonic Hues", artistId: "3", isFavorite: true, createdAt: formatter.date(from: "2022/03/25")!),
-        Album(id: "106", name: "An Echoed Euphoria", sortName: "Echoed Euphoria, An", artistId: "4", isFavorite: false, createdAt: formatter.date(from: "2020/08/10")!),
-        Album(id: "107", name: "Melodies of Ron", sortName: "Melodies of Ron", artistId: "5", isFavorite: true, createdAt: formatter.date(from: "2023/01/11")!),
-        Album(id: "108", name: "Dreamy Delights", sortName: "Dreamy Delights", artistId: "6", isFavorite: false, createdAt: formatter.date(from: "2021/12/05")!),
-        Album(id: "109", name: "Oceanic Overtones", sortName: "Oceanic Overtones", artistId: "7", isFavorite: true, createdAt: formatter.date(from: "2020/04/21")!),
-        Album(id: "110", name: "Suns' Surprise", sortName: "Suns' Surprise", artistId: "1", isFavorite: false, createdAt: formatter.date(from: "2019/11/17")!),
-        Album(id: "111", name: "Spectral Sonnets", sortName: "Spectral Sonnets", artistId: "3", isFavorite: true, createdAt: formatter.date(from: "2022/06/19")!),
-        Album(id: "112", name: "Jazzy Jams of Anna", sortName: "Jazzy Jams of Anna", artistId: "4", isFavorite: false, createdAt: formatter.date(from: "2021/09/30")!),
-        Album(id: "113", name: "Ron's Rhapsodies", sortName: "Ron's Rhapsodies", artistId: "5", isFavorite: true, createdAt: formatter.date(from: "2022/05/01")!),
-        Album(id: "114", name: "Dimensions of Dreams", sortName: "Dimensions of Dreams", artistId: "6", isFavorite: false, createdAt: formatter.date(from: "2019/10/05")!),
-        Album(id: "115", name: "Waltz of the Whales", sortName: "Waltz of the Whales", artistId: "7", isFavorite: true, createdAt: formatter.date(from: "2023/03/08")!),
-        Album(id: "116", name: "Solar Flares", sortName: "Solar Flares", artistId: "1", isFavorite: false, createdAt: formatter.date(from: "2022/07/15")!),
-        Album(id: "117", name: "Quartet Quintessence", sortName: "Quartet Quintessence", artistId: "3", isFavorite: true, createdAt: formatter.date(from: "2021/06/25")!),
-        Album(id: "118", name: "Anna's Anthems", sortName: "Anna's Anthems", artistId: "4", isFavorite: true, createdAt: formatter.date(from: "2020/09/14")!),
-        Album(id: "119", name: "The Rhythms of Ron", sortName: "Rhythms of Ron, The", artistId: "5", isFavorite: true, createdAt: formatter.date(from: "2021/04/11")!),
-        Album(id: "120", name: "Dreamscape Dynamics", sortName: "Dreamscape Dynamics", artistId: "6", isFavorite: false, createdAt: formatter.date(from: "2022/11/22")!)
-    ]
+    static let albums = loadJson(assetName: "Albums", ofType: [Album].self)
+    static let album = albums.first!
 
     static let songs: [Song] = [
         // Songs for Album with ID 101
