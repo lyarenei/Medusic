@@ -118,14 +118,14 @@ final class LibraryRepository: ObservableObject {
     /// Get songs for a specified album. Songs are automatically sorted in the correct order.
     @MainActor
     func getSongs(for album: Album) -> [Song] {
-        songs.filterByAlbum(id: album.id).sortByIndex().sortByAlbumDisc()
+        songs.filtered(by: .albumId(album.id)).sorted(by: .index).sorted(by: .albumDisc)
     }
 
     /// Get album disc count.
     @MainActor
     func getDiscCount(for album: Album) -> Int {
         let filteredSongs = songs.filter { $0.albumId == album.id }
-        return filteredSongs.map { $0.albumDisc }.max() ?? 1
+        return filteredSongs.map(\.albumDisc).max() ?? 1
     }
 
     @MainActor
@@ -157,7 +157,7 @@ final class LibraryRepository: ObservableObject {
         Logger.library.debug("Refreshing songs for album \(albumId)...")
         try await apiClient.performAuth()
 
-        let localSongs = await $songs.items.filterByAlbum(id: albumId)
+        let localSongs = await $songs.items.filtered(by: .albumId(albumId))
         let remoteSongs = try await apiClient.services.songService.getSongsForAlbum(id: albumId)
         try await $songs.remove(localSongs).insert(remoteSongs).run()
     }
