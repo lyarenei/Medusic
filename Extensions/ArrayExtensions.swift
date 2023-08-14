@@ -61,13 +61,13 @@ extension [Album] {
 
 extension [Album] {
     enum AlbumFilterBy {
-        case artist(id: String)
+        case artistId(_ id: String)
     }
 
     func filtered(by method: AlbumFilterBy) -> [Album] {
         switch method {
-        case .artist(let artistId):
-            return filter { $0.artistId == artistId }
+        case .artistId(let id):
+            return filter { $0.artistId == id }
         }
     }
 }
