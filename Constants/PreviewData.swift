@@ -1,7 +1,11 @@
-import Foundation
+#if DEBUG
 
 // swiftlint:disable all
 // swiftformat:disable all
+
+import Foundation
+import UIKit
+
 struct PreviewData {
     private static let formatter = {
         let df = DateFormatter()
@@ -9,28 +13,14 @@ struct PreviewData {
         return df
     }()
 
-    static let artists = [
-        Artist(id: "1", name: "The Blue Suns", sortName: "Blue Suns, The"),
-        Artist(id: "2", name: "Q", sortName: "Q"),
-        Artist(id: "3", name: "Mellifluous Quartet", sortName: "Mellifluous Quartet"),
-        Artist(id: "4", name: "Anna Jameson", sortName: "Anna Jameson"),
-        Artist(id: "5", name: "Ron", sortName: "Ron"),
-        Artist(id: "6", name: "Ethereal Dreams", sortName: "Ethereal Dreams"),
-        Artist(id: "7", name: "Bella and the Whales", sortName: "Bella and the Whales"),
-        Artist(id: "8", name: "MJ", sortName: "MJ"),
-        Artist(id: "9", name: "Titanium Tigers", sortName: "Titanium Tigers"),
-        Artist(id: "10", name: "Oliver Owens Orchestra", sortName: "Oliver Owens Orchestra"),
-        Artist(id: "11", name: "Al", sortName: "Al"),
-        Artist(id: "12", name: "Flaming Feathers", sortName: "Flaming Feathers"),
-        Artist(id: "13", name: "Sarah Simmons & The Silent Seven", sortName: "Sarah Simmons & The Silent Seven"),
-        Artist(id: "14", name: "Ix", sortName: "Ix"),
-        Artist(id: "15", name: "Echoing Elements", sortName: "Echoing Elements"),
-        Artist(id: "16", name: "Xylo", sortName: "Xylo"),
-        Artist(id: "17", name: "Percussion Pioneers", sortName: "Percussion Pioneers"),
-        Artist(id: "18", name: "Liam's Lyricists", sortName: "Liam's Lyricists"),
-        Artist(id: "19", name: "Oz", sortName: "Oz"),
-        Artist(id: "20", name: "Jubilant Jammers", sortName: "Jubilant Jammers")
-    ]
+    private static func loadJson<T>(assetName: String, ofType: T.Type) -> T where T: Decodable {
+        let decoder = JSONDecoder()
+        let asset = NSDataAsset(name: assetName)!
+        return try! decoder.decode(T.self, from: asset.data)
+    }
+
+    static let artists = loadJson(assetName: "Artists", ofType: [Artist].self)
+    static let artist = artists.first!
 
     static let albums: [Album] = [
         Album(id: "101", name: "Sunrise Waves", sortName: "Sunrise Waves", artistId: "1", isFavorite: true, createdAt: formatter.date(from: "2022/01/05")!),
@@ -117,5 +107,8 @@ struct PreviewData {
         Song(id: "1410", name: "Lofty Lullabies", isFavorite: false, sortName: "Lofty Lullabies", index: 10, albumId: "105", artistNames: ["The Harmonics"], size: 5080000, runtime: 203, albumDisc: 1, fileExtension: "mp3")
     ]
 }
+
 // swiftlint:enable all
 // swiftformat:enable all
+
+#endif

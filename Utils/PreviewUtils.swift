@@ -3,7 +3,7 @@ import Foundation
 #if DEBUG
 // swiftlint:disable all
 // swiftformat:disable all
-final class PreviewUtils {
+struct PreviewUtils {
     static var libraryRepo: LibraryRepository {
         LibraryRepository(
             artistStore: .previewStore(items: PreviewData.artists, cacheIdentifier: \.id),

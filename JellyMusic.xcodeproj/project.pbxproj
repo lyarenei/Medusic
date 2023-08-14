@@ -22,6 +22,7 @@
 		48C1F8E429BB827E003BE048 /* JellyfinImageProvider.swift in Sources */ = {isa = PBXBuildFile; fileRef = 48C1F8E329BB827E003BE048 /* JellyfinImageProvider.swift */; };
 		9B02CC592A44ECB7003DD97D /* VolumeSliderComponent.swift in Sources */ = {isa = PBXBuildFile; fileRef = 9B02CC582A44ECB7003DD97D /* VolumeSliderComponent.swift */; };
 		9B1866E92A894CC900034A10 /* SortMenuButton.swift in Sources */ = {isa = PBXBuildFile; fileRef = 9B1866E82A894CC900034A10 /* SortMenuButton.swift */; };
+		9B1866EB2A8A051400034A10 /* PreviewData.xcassets in Resources */ = {isa = PBXBuildFile; fileRef = 9B1866EA2A8A051400034A10 /* PreviewData.xcassets */; };
 		9B1EF39B29D9F90800C2A33B /* NowPlayingComponent.swift in Sources */ = {isa = PBXBuildFile; fileRef = 9B1EF39A29D9F90800C2A33B /* NowPlayingComponent.swift */; };
 		9B1EF39D29DC97B100C2A33B /* PlayButton.swift in Sources */ = {isa = PBXBuildFile; fileRef = 9B1EF39C29DC97B100C2A33B /* PlayButton.swift */; };
 		9B1EF3A029DCA16200C2A33B /* PlayNextButton.swift in Sources */ = {isa = PBXBuildFile; fileRef = 9B1EF39F29DCA16200C2A33B /* PlayNextButton.swift */; };
@@ -125,6 +126,7 @@
 		48C1F8E329BB827E003BE048 /* JellyfinImageProvider.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = JellyfinImageProvider.swift; sourceTree = "<group>"; };
 		9B02CC582A44ECB7003DD97D /* VolumeSliderComponent.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = VolumeSliderComponent.swift; sourceTree = "<group>"; };
 		9B1866E82A894CC900034A10 /* SortMenuButton.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = SortMenuButton.swift; sourceTree = "<group>"; };
+		9B1866EA2A8A051400034A10 /* PreviewData.xcassets */ = {isa = PBXFileReference; lastKnownFileType = folder.assetcatalog; path = PreviewData.xcassets; sourceTree = "<group>"; };
 		9B1EF39A29D9F90800C2A33B /* NowPlayingComponent.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = NowPlayingComponent.swift; sourceTree = "<group>"; };
 		9B1EF39C29DC97B100C2A33B /* PlayButton.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = PlayButton.swift; sourceTree = "<group>"; };
 		9B1EF39F29DCA16200C2A33B /* PlayNextButton.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = PlayNextButton.swift; sourceTree = "<group>"; };
@@ -255,6 +257,15 @@
 			path = Services;
 			sourceTree = "<group>";
 		};
+		9B1866EC2A8A083700034A10 /* Assets */ = {
+			isa = PBXGroup;
+			children = (
+				9B80473529B768010069B407 /* Assets.xcassets */,
+				9B1866EA2A8A051400034A10 /* PreviewData.xcassets */,
+			);
+			path = Assets;
+			sourceTree = "<group>";
+		};
 		9B3D449A29BCF8730054C9E0 /* SystemService */ = {
 			isa = PBXGroup;
 			children = (
@@ -339,6 +350,7 @@
 		9B80472D29B768000069B407 = {
 			isa = PBXGroup;
 			children = (
+				9B1866EC2A8A083700034A10 /* Assets */,
 				9BF26D492A87CAB4006631E9 /* Jellyfin */,
 				9BF26D432A8781D5006631E9 /* UI */,
 				9BA88EE82A8648E100E61A61 /* Constants */,
@@ -370,7 +382,6 @@
 				9B61365429BC6E19004C85EC /* Screens */,
 				48C1F8C429B9E7FF003BE048 /* Store */,
 				4848B22529BCBC2000EB2FAA /* Cancellables.swift */,
-				9B80473529B768010069B407 /* Assets.xcassets */,
 				9BB75EAF29C4C5E1008CD65A /* Settings.swift */,
 				9B3C7BE829D0702600884597 /* Logger.swift */,
 				9B21623229E88D12008D3F73 /* MusicPlayer.swift */,
@@ -675,6 +686,7 @@
 			isa = PBXResourcesBuildPhase;
 			buildActionMask = 2147483647;
 			files = (
+				9B1866EB2A8A051400034A10 /* PreviewData.xcassets in Resources */,
 				9B80474729B768010069B407 /* Assets.xcassets in Resources */,
 			);
 			runOnlyForDeploymentPostprocessing = 0;
@@ -957,6 +969,7 @@
 				ASSETCATALOG_COMPILER_GLOBAL_ACCENT_COLOR_NAME = AccentColor;
 				CODE_SIGN_STYLE = Automatic;
 				CURRENT_PROJECT_VERSION = 1;
+				DEVELOPMENT_ASSET_PATHS = Assets/PreviewData.xcassets;
 				DEVELOPMENT_TEAM = H94V7X4C6B;
 				ENABLE_PREVIEWS = YES;
 				GENERATE_INFOPLIST_FILE = YES;
@@ -990,6 +1003,7 @@
 				ASSETCATALOG_COMPILER_GLOBAL_ACCENT_COLOR_NAME = AccentColor;
 				CODE_SIGN_STYLE = Automatic;
 				CURRENT_PROJECT_VERSION = 1;
+				DEVELOPMENT_ASSET_PATHS = Assets/PreviewData.xcassets;
 				DEVELOPMENT_TEAM = H94V7X4C6B;
 				ENABLE_PREVIEWS = YES;
 				GENERATE_INFOPLIST_FILE = YES;
