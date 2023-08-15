@@ -1,3 +1,4 @@
+import OSLog
 import SFSafeSymbols
 import SwiftUI
 
@@ -21,25 +22,35 @@ struct RefreshButton: View {
     }
 
     private func action() async {
+        let text = "Refreshing"
         do {
             switch mode {
             case .artist(let id):
+                Alerts.info("\(text) artist...")
                 try await library.refresh(artistId: id)
             case .album(let id):
+                Alerts.info("\(text) album...")
                 try await library.refresh(albumId: id)
                 try await library.refreshSongs(for: id)
             case .allArtists:
+                Alerts.info("\(text) artists...")
                 try await library.refreshArtists()
             case .allAlbums:
+                Alerts.info("\(text) albums...")
                 try await library.refreshAlbums()
                 try await library.refreshSongs()
             case .allSongs:
+                Alerts.info("\(text) songs...")
                 try await library.refreshSongs()
             case .all:
+                Alerts.info("\(text)...")
                 try await library.refreshAll()
             }
+
+            Alerts.done("\(text) complete")
         } catch {
-            print("Refresh failed")
+            Logger.library.info("\(text) failed: \(error.localizedDescription)")
+            Alerts.error("\(text) failed")
         }
     }
 

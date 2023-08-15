@@ -23,6 +23,8 @@
 		9B02CC592A44ECB7003DD97D /* VolumeSliderComponent.swift in Sources */ = {isa = PBXBuildFile; fileRef = 9B02CC582A44ECB7003DD97D /* VolumeSliderComponent.swift */; };
 		9B1866E92A894CC900034A10 /* SortMenuButton.swift in Sources */ = {isa = PBXBuildFile; fileRef = 9B1866E82A894CC900034A10 /* SortMenuButton.swift */; };
 		9B1866EB2A8A051400034A10 /* PreviewData.xcassets in Resources */ = {isa = PBXBuildFile; fileRef = 9B1866EA2A8A051400034A10 /* PreviewData.xcassets */; };
+		9B1866F32A8A858300034A10 /* Drops in Frameworks */ = {isa = PBXBuildFile; productRef = 9B1866F22A8A858300034A10 /* Drops */; };
+		9B1866F52A8AC6E500034A10 /* Alerts.swift in Sources */ = {isa = PBXBuildFile; fileRef = 9B1866F42A8AC6E500034A10 /* Alerts.swift */; };
 		9B1EF39B29D9F90800C2A33B /* NowPlayingComponent.swift in Sources */ = {isa = PBXBuildFile; fileRef = 9B1EF39A29D9F90800C2A33B /* NowPlayingComponent.swift */; };
 		9B1EF39D29DC97B100C2A33B /* PlayButton.swift in Sources */ = {isa = PBXBuildFile; fileRef = 9B1EF39C29DC97B100C2A33B /* PlayButton.swift */; };
 		9B1EF3A029DCA16200C2A33B /* PlayNextButton.swift in Sources */ = {isa = PBXBuildFile; fileRef = 9B1EF39F29DCA16200C2A33B /* PlayNextButton.swift */; };
@@ -127,6 +129,7 @@
 		9B02CC582A44ECB7003DD97D /* VolumeSliderComponent.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = VolumeSliderComponent.swift; sourceTree = "<group>"; };
 		9B1866E82A894CC900034A10 /* SortMenuButton.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = SortMenuButton.swift; sourceTree = "<group>"; };
 		9B1866EA2A8A051400034A10 /* PreviewData.xcassets */ = {isa = PBXFileReference; lastKnownFileType = folder.assetcatalog; path = PreviewData.xcassets; sourceTree = "<group>"; };
+		9B1866F42A8AC6E500034A10 /* Alerts.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = Alerts.swift; sourceTree = "<group>"; };
 		9B1EF39A29D9F90800C2A33B /* NowPlayingComponent.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = NowPlayingComponent.swift; sourceTree = "<group>"; };
 		9B1EF39C29DC97B100C2A33B /* PlayButton.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = PlayButton.swift; sourceTree = "<group>"; };
 		9B1EF39F29DCA16200C2A33B /* PlayNextButton.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = PlayNextButton.swift; sourceTree = "<group>"; };
@@ -229,6 +232,7 @@
 				48C1F8BF29B9E6D1003BE048 /* Boutique in Frameworks */,
 				48C1F8CD29B9EE97003BE048 /* SFSafeSymbols in Frameworks */,
 				9BB754D629B93F3C009BB3A6 /* JellyfinAPI in Frameworks */,
+				9B1866F32A8A858300034A10 /* Drops in Frameworks */,
 			);
 			runOnlyForDeploymentPostprocessing = 0;
 		};
@@ -350,6 +354,7 @@
 		9B80472D29B768000069B407 = {
 			isa = PBXGroup;
 			children = (
+				9B1866F42A8AC6E500034A10 /* Alerts.swift */,
 				9B1866EC2A8A083700034A10 /* Assets */,
 				9BF26D492A87CAB4006631E9 /* Jellyfin */,
 				9BF26D432A8781D5006631E9 /* UI */,
@@ -631,6 +636,7 @@
 				9BB75ECA29C63AE6008CD65A /* SimpleKeychain */,
 				488EBAC229D739BF004A3071 /* SwiftUIX */,
 				9BF26D582A880EDA006631E9 /* MarqueeText */,
+				9B1866F22A8A858300034A10 /* Drops */,
 			);
 			productName = "JellyMusic (iOS)";
 			productReference = 9B80473A29B768010069B407 /* JellyMusic.app */;
@@ -671,6 +677,7 @@
 				9BB75EC929C63AE6008CD65A /* XCRemoteSwiftPackageReference "SimpleKeychain" */,
 				488EBAC129D739BF004A3071 /* XCRemoteSwiftPackageReference "SwiftUIX" */,
 				9BF26D572A880EDA006631E9 /* XCRemoteSwiftPackageReference "MarqueeText" */,
+				9B1866F12A8A858300034A10 /* XCRemoteSwiftPackageReference "Drops" */,
 			);
 			productRefGroup = 9B80473B29B768010069B407 /* Products */;
 			projectDirPath = "";
@@ -744,6 +751,7 @@
 			buildActionMask = 2147483647;
 			files = (
 				9B3C7BE629D04F5800884597 /* InProgressComponent.swift in Sources */,
+				9B1866F52A8AC6E500034A10 /* Alerts.swift in Sources */,
 				9B73ECF929C8F085007F74DB /* MusicPlayerScreen.swift in Sources */,
 				9BDB099029BB1E73007F99E4 /* DefaultSongService.swift in Sources */,
 				9B1EF3AF29E151F400C2A33B /* RefreshButton.swift in Sources */,
@@ -1085,6 +1093,14 @@
 				minimumVersion = 4.1.1;
 			};
 		};
+		9B1866F12A8A858300034A10 /* XCRemoteSwiftPackageReference "Drops" */ = {
+			isa = XCRemoteSwiftPackageReference;
+			repositoryURL = "https://github.com/omaralbeik/Drops";
+			requirement = {
+				kind = upToNextMajorVersion;
+				minimumVersion = 1.0.0;
+			};
+		};
 		9B3D44C229BE33850054C9E0 /* XCRemoteSwiftPackageReference "SwiftUIBackports" */ = {
 			isa = XCRemoteSwiftPackageReference;
 			repositoryURL = "https://github.com/shaps80/SwiftUIBackports";
@@ -1155,6 +1171,11 @@
 			isa = XCSwiftPackageProductDependency;
 			package = 48C1F8CB29B9EE97003BE048 /* XCRemoteSwiftPackageReference "SFSafeSymbols" */;
 			productName = SFSafeSymbols;
+		};
+		9B1866F22A8A858300034A10 /* Drops */ = {
+			isa = XCSwiftPackageProductDependency;
+			package = 9B1866F12A8A858300034A10 /* XCRemoteSwiftPackageReference "Drops" */;
+			productName = Drops;
 		};
 		9BB754D529B93F3C009BB3A6 /* JellyfinAPI */ = {
 			isa = XCSwiftPackageProductDependency;
