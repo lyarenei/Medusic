@@ -39,7 +39,7 @@ struct AlbumDetailScreen: View {
             Divider()
                 .padding(.leading)
 
-            albumSongs(library.songs.filtered(by: .albumId(album.id)))
+            songs(albumSongs)
                 .padding(.bottom, 15)
 
             AlbumPreviewCollection(
@@ -108,7 +108,7 @@ struct AlbumDetailScreen: View {
     }
 
     @ViewBuilder
-    private func albumSongs(_ songs: [Song]) -> some View {
+    private func songs(_ songs: [Song]) -> some View {
         VStack {
             if songs.isEmpty {
                 Text("No songs")
@@ -145,13 +145,62 @@ struct AlbumDetailScreen: View {
 
     @ViewBuilder
     private func songCollection(songs: [Song], showLastDivider: Bool) -> some View {
-        SongCollection(songs: songs)
+        ForEach(songs, id: \.id) { song in
+            HStack(spacing: 10) {
+                songCell(allSongs: albumSongs, song)
+                PrimaryActionButton(item: song)
+                    .padding(.trailing)
+            }
+            .frame(height: 35)
+            .padding(.leading)
+
+            divider(songs: songs, song: song, showLastDivider: showLastDivider)
+        }
+    }
+
+    @ViewBuilder
+    private func songCell(allSongs: [Song], _ song: Song) -> some View {
+        SongListRowComponent(song: song)
             .showAlbumOrder()
             .showArtistName()
-            .collectionType(.plain)
-            .rowHeight(35)
-            .showLastDivider(showLastDivider)
-            .font(.system(size: 16))
+            .height(35)
+            .contentShape(Rectangle())
+            .contextMenu { SongContextOptions(song: song) }
+            .onTapGesture { Task { await onSongTap(song) } }
+    }
+
+    private func onSongTap(_ song: Song) async {
+        let queue = {
+            var songsToPlay: [Song] = []
+            let currentDiscSongs = albumSongs
+                .filtered(by: .albumDisc(num: song.albumDisc))
+                .sorted(by: .index)
+
+            let albumDiscCount = library.getDiscCount(for: album)
+            var restOfSongs: [Song] = []
+            for discNum in song.albumDisc...albumDiscCount {
+                guard discNum != song.albumDisc else { continue }
+                let discSongs = albumSongs.filtered(by: .albumDisc(num: discNum))
+                restOfSongs.append(contentsOf: discSongs.sorted(by: .index))
+            }
+
+            songsToPlay.append(contentsOf: currentDiscSongs.dropFirst(song.index))
+            songsToPlay.append(contentsOf: restOfSongs)
+            return songsToPlay
+        }()
+
+        await MusicPlayer.shared.play(song: song)
+        MusicPlayer.shared.enqueue(songs: queue, position: .last)
+    }
+
+    @ViewBuilder
+    private func divider(songs: [Song], song: Song, showLastDivider: Bool) -> some View {
+        if let lastSong = songs.last {
+            if song != lastSong || showLastDivider {
+                Divider()
+                    .padding(.leading)
+            }
+        }
     }
 
     @ViewBuilder
@@ -182,8 +231,26 @@ struct AlbumDetailScreen: View {
         }
     }
 
+    private var albumSongs: [Song] {
+        library.songs.filtered(by: .albumId(album.id))
+    }
+
     private var previewAlbums: [Album] {
         library.albums.filter { $0.id != album.id && $0.artistId == album.artistId }
+    }
+}
+
+// MARK: - Context options
+
+private struct SongContextOptions: View {
+    let song: Song
+
+    var body: some View {
+        PlayButton(text: "Play", item: song)
+        DownloadButton(item: song, textDownload: "Download", textRemove: "Remove")
+        FavoriteButton(item: song, textFavorite: "Favorite", textUnfavorite: "Unfavorite")
+        EnqueueButton(text: "Play Next", item: song, position: .next)
+        EnqueueButton(text: "Play Last", item: song, position: .last)
     }
 }
 
