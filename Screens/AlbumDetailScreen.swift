@@ -44,7 +44,7 @@ struct AlbumDetailScreen: View {
 
             AlbumPreviewCollection(
                 for: previewAlbums,
-                titleText: "More by \(library.getArtistName(for: album))",
+                titleText: "More by \(album.artistName)",
                 emptyText: "No albums"
             )
             .stackType(.horizontal)
@@ -63,7 +63,7 @@ struct AlbumDetailScreen: View {
                     .bold()
                     .multilineTextAlignment(.center)
 
-                Text(library.getArtistName(for: album))
+                Text(album.artistName)
                     .font(.body)
                     .multilineTextAlignment(.center)
             }
