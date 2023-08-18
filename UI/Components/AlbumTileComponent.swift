@@ -32,7 +32,7 @@ struct AlbumTileComponent: View {
             )
 
             MarqueeText(
-                text: library.getArtistName(for: album),
+                text: album.artistName,
                 font: .systemFont(ofSize: 12),
                 leftFade: UIConstants.marqueeFadeLen,
                 rightFade: UIConstants.marqueeFadeLen,

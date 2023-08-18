@@ -105,7 +105,7 @@ struct AlbumCollection: View {
             )
 
             MarqueeText(
-                text: library.getArtistName(for: album),
+                text: album.artistName,
                 font: .preferredFont(forTextStyle: .body),
                 leftFade: UIConstants.marqueeFadeLen,
                 rightFade: UIConstants.marqueeFadeLen,
