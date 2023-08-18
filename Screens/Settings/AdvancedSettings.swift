@@ -2,7 +2,7 @@ import Defaults
 import Kingfisher
 import SwiftUI
 
-struct AdvancedSettingsScreen: View {
+struct AdvancedSettings: View {
     @EnvironmentObject
     private var fileRepo: FileRepository
 
@@ -59,7 +59,7 @@ struct AdvancedSettingsScreen_Previews: PreviewProvider {
     )
 
     static var previews: some View {
-        AdvancedSettingsScreen()
+        AdvancedSettings()
             .environmentObject(fileRepo)
             .environmentObject(PreviewUtils.libraryRepo)
     }

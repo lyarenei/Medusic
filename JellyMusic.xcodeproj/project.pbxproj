@@ -44,7 +44,7 @@
 		9B3D44BA29BDF2550054C9E0 /* InlineInputComponent.swift in Sources */ = {isa = PBXBuildFile; fileRef = 9B3D44B929BDF2550054C9E0 /* InlineInputComponent.swift */; };
 		9B3D44C029BE09620054C9E0 /* SongsLibraryScreen.swift in Sources */ = {isa = PBXBuildFile; fileRef = 9B3D44BF29BE09620054C9E0 /* SongsLibraryScreen.swift */; };
 		9B46248F29E5B1C100A2259A /* ServerStatusComponent.swift in Sources */ = {isa = PBXBuildFile; fileRef = 9B46248E29E5B1C100A2259A /* ServerStatusComponent.swift */; };
-		9B46249829E5CDD000A2259A /* AdvancedSettingsScreen.swift in Sources */ = {isa = PBXBuildFile; fileRef = 9B46249729E5CDD000A2259A /* AdvancedSettingsScreen.swift */; };
+		9B46249829E5CDD000A2259A /* AdvancedSettings.swift in Sources */ = {isa = PBXBuildFile; fileRef = 9B46249729E5CDD000A2259A /* AdvancedSettings.swift */; };
 		9B4AD6682A46BCED00E1798F /* SheetCloseButton.swift in Sources */ = {isa = PBXBuildFile; fileRef = 9B4AD6672A46BCED00E1798F /* SheetCloseButton.swift */; };
 		9B52AF7729D0B106002E21B9 /* SongCollection.swift in Sources */ = {isa = PBXBuildFile; fileRef = 9B52AF7629D0B106002E21B9 /* SongCollection.swift */; };
 		9B52AF9429D339B1002E21B9 /* FileRepository.swift in Sources */ = {isa = PBXBuildFile; fileRef = 9B52AF9329D339B1002E21B9 /* FileRepository.swift */; };
@@ -65,6 +65,8 @@
 		9B80476629B86F460069B407 /* LibraryScreen.swift in Sources */ = {isa = PBXBuildFile; fileRef = 9B80476529B86F460069B407 /* LibraryScreen.swift */; };
 		9B80477029B89EE40069B407 /* AlbumLibraryScreen.swift in Sources */ = {isa = PBXBuildFile; fileRef = 9B80476F29B89EE40069B407 /* AlbumLibraryScreen.swift */; };
 		9B80477E29B8CDF80069B407 /* SettingsScreen.swift in Sources */ = {isa = PBXBuildFile; fileRef = 9B80477D29B8CDF80069B407 /* SettingsScreen.swift */; };
+		9B94DB642A8F5327005EDF18 /* GeneralSettings.swift in Sources */ = {isa = PBXBuildFile; fileRef = 9B94DB632A8F5327005EDF18 /* GeneralSettings.swift */; };
+		9B94DB662A8F5D11005EDF18 /* UserInterfaceSettings.swift in Sources */ = {isa = PBXBuildFile; fileRef = 9B94DB652A8F5D11005EDF18 /* UserInterfaceSettings.swift */; };
 		9BA521FE29F19FEC0000D0AA /* StringExtensions.swift in Sources */ = {isa = PBXBuildFile; fileRef = 9BA521FD29F19FEC0000D0AA /* StringExtensions.swift */; };
 		9BA5220129F1A2110000D0AA /* AVPlayerItemExtensions.swift in Sources */ = {isa = PBXBuildFile; fileRef = 9BA5220029F1A2110000D0AA /* AVPlayerItemExtensions.swift */; };
 		9BA5220429F2EA4C0000D0AA /* SongListRowComponent.swift in Sources */ = {isa = PBXBuildFile; fileRef = 9BA5220329F2EA4C0000D0AA /* SongListRowComponent.swift */; };
@@ -150,7 +152,7 @@
 		9B3D44B929BDF2550054C9E0 /* InlineInputComponent.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = InlineInputComponent.swift; sourceTree = "<group>"; };
 		9B3D44BF29BE09620054C9E0 /* SongsLibraryScreen.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = SongsLibraryScreen.swift; sourceTree = "<group>"; };
 		9B46248E29E5B1C100A2259A /* ServerStatusComponent.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = ServerStatusComponent.swift; sourceTree = "<group>"; };
-		9B46249729E5CDD000A2259A /* AdvancedSettingsScreen.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = AdvancedSettingsScreen.swift; sourceTree = "<group>"; };
+		9B46249729E5CDD000A2259A /* AdvancedSettings.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = AdvancedSettings.swift; sourceTree = "<group>"; };
 		9B4AD6672A46BCED00E1798F /* SheetCloseButton.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = SheetCloseButton.swift; sourceTree = "<group>"; };
 		9B52AF7629D0B106002E21B9 /* SongCollection.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = SongCollection.swift; sourceTree = "<group>"; };
 		9B52AF9329D339B1002E21B9 /* FileRepository.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = FileRepository.swift; sourceTree = "<group>"; };
@@ -172,6 +174,8 @@
 		9B80476529B86F460069B407 /* LibraryScreen.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = LibraryScreen.swift; sourceTree = "<group>"; };
 		9B80476F29B89EE40069B407 /* AlbumLibraryScreen.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = AlbumLibraryScreen.swift; sourceTree = "<group>"; };
 		9B80477D29B8CDF80069B407 /* SettingsScreen.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = SettingsScreen.swift; sourceTree = "<group>"; };
+		9B94DB632A8F5327005EDF18 /* GeneralSettings.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = GeneralSettings.swift; sourceTree = "<group>"; };
+		9B94DB652A8F5D11005EDF18 /* UserInterfaceSettings.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = UserInterfaceSettings.swift; sourceTree = "<group>"; };
 		9BA521FD29F19FEC0000D0AA /* StringExtensions.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = StringExtensions.swift; sourceTree = "<group>"; };
 		9BA5220029F1A2110000D0AA /* AVPlayerItemExtensions.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = AVPlayerItemExtensions.swift; sourceTree = "<group>"; };
 		9BA5220329F2EA4C0000D0AA /* SongListRowComponent.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = SongListRowComponent.swift; sourceTree = "<group>"; };
@@ -280,18 +284,9 @@
 			path = SystemService;
 			sourceTree = "<group>";
 		};
-		9B61365429BC6E19004C85EC /* Screens */ = {
-			isa = PBXGroup;
-			children = (
-				9B46249729E5CDD000A2259A /* AdvancedSettingsScreen.swift */,
-			);
-			path = Screens;
-			sourceTree = "<group>";
-		};
 		9B61365529BC6F18004C85EC /* Screens */ = {
 			isa = PBXGroup;
 			children = (
-				9B80477D29B8CDF80069B407 /* SettingsScreen.swift */,
 				9B73ECF829C8F085007F74DB /* MusicPlayerScreen.swift */,
 				9BBE146629FDA11C0028C500 /* SearchScreen.swift */,
 			);
@@ -384,7 +379,6 @@
 				9B7AF3AF29EB048E0039A7DF /* Extensions */,
 				9BB75E8029BFA5B0008CD65A /* Jellyfin */,
 				9BB75EC429C5FF39008CD65A /* Repositories */,
-				9B61365429BC6E19004C85EC /* Screens */,
 				48C1F8C429B9E7FF003BE048 /* Store */,
 				4848B22529BCBC2000EB2FAA /* Cancellables.swift */,
 				9BB75EAF29C4C5E1008CD65A /* Settings.swift */,
@@ -408,6 +402,17 @@
 				9B61365529BC6F18004C85EC /* Screens */,
 			);
 			path = iOS;
+			sourceTree = "<group>";
+		};
+		9B94DB622A8F52A5005EDF18 /* Settings */ = {
+			isa = PBXGroup;
+			children = (
+				9B80477D29B8CDF80069B407 /* SettingsScreen.swift */,
+				9B94DB632A8F5327005EDF18 /* GeneralSettings.swift */,
+				9B94DB652A8F5D11005EDF18 /* UserInterfaceSettings.swift */,
+				9B46249729E5CDD000A2259A /* AdvancedSettings.swift */,
+			);
+			path = Settings;
 			sourceTree = "<group>";
 		};
 		9BA88EE42A862B6600E61A61 /* Enums */ = {
@@ -571,6 +576,7 @@
 		9BF6C8E82A854D2600916EC1 /* Screens */ = {
 			isa = PBXGroup;
 			children = (
+				9B94DB622A8F52A5005EDF18 /* Settings */,
 				9B80475D29B7D5330069B407 /* MainScreen.swift */,
 				9B80476529B86F460069B407 /* LibraryScreen.swift */,
 				9BF6C8F72A86251A00916EC1 /* ArtistLibraryScreen.swift */,
@@ -781,6 +787,7 @@
 				9B70BDA029B923AE000DB31C /* AlbumDetailScreen.swift in Sources */,
 				48C1F8C629B9E80D003BE048 /* DTOs+Equatable.swift in Sources */,
 				9BDB03312A113558004EFA3A /* AppDefaults.swift in Sources */,
+				9B94DB642A8F5327005EDF18 /* GeneralSettings.swift in Sources */,
 				9B3B457B2A52160500E80390 /* PersistenceRepository.swift in Sources */,
 				48C1F8D729B9FDDF003BE048 /* MockAlbumService.swift in Sources */,
 				9B6C17CD29D6BE700061866A /* AirPlayComponent.swift in Sources */,
@@ -812,7 +819,7 @@
 				4848B22629BCBC2000EB2FAA /* Cancellables.swift in Sources */,
 				9B46248F29E5B1C100A2259A /* ServerStatusComponent.swift in Sources */,
 				48C1F8C929B9EA60003BE048 /* DTOs+Identifiable.swift in Sources */,
-				9B46249829E5CDD000A2259A /* AdvancedSettingsScreen.swift in Sources */,
+				9B46249829E5CDD000A2259A /* AdvancedSettings.swift in Sources */,
 				9B70BD9D29B91F42000DB31C /* AlbumTileComponent.swift in Sources */,
 				9BF26D3F2A86DF74006631E9 /* Album.swift in Sources */,
 				9B1EF39B29D9F90800C2A33B /* NowPlayingComponent.swift in Sources */,
@@ -839,6 +846,7 @@
 				9B80477E29B8CDF80069B407 /* SettingsScreen.swift in Sources */,
 				9B3D449F29BCF9490054C9E0 /* DefaultSystemService.swift in Sources */,
 				9B73ECFC29C9ECA8007F74DB /* MediaService.swift in Sources */,
+				9B94DB662A8F5D11005EDF18 /* UserInterfaceSettings.swift in Sources */,
 				9BF6C8FB2A86277F00916EC1 /* ArrayExtensions.swift in Sources */,
 				9B3C7BE929D0702600884597 /* Logger.swift in Sources */,
 				9BF6C8F62A86222000916EC1 /* Store.swift in Sources */,
