@@ -20,6 +20,9 @@ struct SettingsScreen: View {
     @Default(.libraryShowRecentlyAdded)
     var libraryShowRecentlyAdded
 
+    @Default(.appColorScheme)
+    private var colorScheme
+
     var apiClient: ApiClient
 
     init(apiClient: ApiClient = .shared) {
@@ -62,6 +65,7 @@ struct SettingsScreen: View {
             downloadBitrateOption()
             primaryActionOption()
             maxPreviewItemsOption()
+            colorSchemeOption
         } header: {
             Text("General")
         }
@@ -128,6 +132,15 @@ struct SettingsScreen: View {
             Text("15").tag(15)
             Text("20").tag(20)
             Text("25").tag(25)
+        }
+    }
+
+    @ViewBuilder
+    private var colorSchemeOption: some View {
+        Picker("Color scheme", selection: $colorScheme) {
+            Text("System").tag(AppColorScheme.system)
+            Text("Light").tag(AppColorScheme.light)
+            Text("Dark").tag(AppColorScheme.dark)
         }
     }
 

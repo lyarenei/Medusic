@@ -1,8 +1,12 @@
+import Defaults
 import Kingfisher
 import SwiftUI
 
 @main
 struct JellyMusicApp: App {
+    @Default(.appColorScheme)
+    private var appColorScheme
+
     init() {
         // Memory image never expires.
         Kingfisher.ImageCache.default.memoryStorage.config.expiration = .never
@@ -17,6 +21,7 @@ struct JellyMusicApp: App {
     var body: some Scene {
         WindowGroup {
             MainScreen()
+                .preferredColorScheme(appColorScheme.asColorScheme)
                 .environmentObject(SongRepository(store: .songs))
                 .environmentObject(
                     LibraryRepository(

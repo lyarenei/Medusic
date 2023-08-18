@@ -1,4 +1,5 @@
 import Defaults
+import SwiftUI
 
 extension Defaults.Keys {
     // Jellyfin settings
@@ -12,6 +13,7 @@ extension Defaults.Keys {
     static let libraryShowFavorites = Key<Bool>("libraryShowFavorites", default: true)
     static let libraryShowRecentlyAdded = Key<Bool>("libraryShowRecentlyAdded", default: true)
     static let maxPreviewItems = Key<Int>("maxPreviewItems", default: 10)
+    static let appColorScheme = Key<AppColorScheme>("appColorScheme", default: .system)
 
     // App settings
     static let offlineMode = Key<Bool>("offlineMode", default: false)
@@ -27,4 +29,23 @@ extension Defaults.Keys {
 enum PrimaryAction: String, Defaults.Serializable {
     case download
     case favorite
+}
+
+enum AppColorScheme: Int, Defaults.Serializable {
+    case system
+    case light
+    case dark
+}
+
+extension AppColorScheme {
+    var asColorScheme: ColorScheme? {
+        switch self {
+        case .system:
+            return nil
+        case .light:
+            return .light
+        case .dark:
+            return .dark
+        }
+    }
 }
