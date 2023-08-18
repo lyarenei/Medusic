@@ -1,3 +1,4 @@
+import OSLog
 import SFSafeSymbols
 import SwiftUI
 
@@ -7,26 +8,26 @@ enum EnqueuePosition {
 }
 
 struct EnqueueButton: View {
+    @EnvironmentObject
+    private var library: LibraryRepository
+
     @ObservedObject
     var player: MusicPlayer
 
     let text: String?
     let item: any JellyfinItem
     let position: EnqueuePosition
-    let songRepo: SongRepository
 
     init(
         text: String? = nil,
         item: any JellyfinItem,
         position: EnqueuePosition = .last,
-        player: MusicPlayer = .shared,
-        songRepo: SongRepository = .shared
+        player: MusicPlayer = .shared
     ) {
         self.text = text
         self.item = item
         self.position = position
         _player = ObservedObject(wrappedValue: player)
-        self.songRepo = songRepo
     }
 
     var body: some View {
@@ -47,16 +48,15 @@ struct EnqueueButton: View {
     }
 
     func action() {
-        Task {
-            switch item {
-            case let album as Album:
-                let songs = await songRepo.getSongs(ofAlbum: album.id)
-                await player.enqueue(songs: songs.sortByAlbum(), position: position)
-            case let song as Song:
-                await player.enqueue(song: song, position: position)
-            default:
-                print("Unhandled item type: \(item)")
-            }
+        switch item {
+        case let album as Album:
+            let songs = library.songs.filtered(by: .albumId(album.id))
+            player.enqueue(songs: songs.sorted(by: .index), position: position)
+        case let song as Song:
+            player.enqueue(song: song, position: position)
+        default:
+            Logger.player.info("Failed to enqueue item \(item.id): item type not supported")
+            Alerts.error("Enqueue failed")
         }
     }
 }
@@ -65,11 +65,7 @@ struct EnqueueButton: View {
 // swiftlint:disable all
 struct EnqueueButton_Previews: PreviewProvider {
     static var previews: some View {
-        EnqueueButton(
-            item: PreviewData.songs.first!,
-            player: .init(preview: true),
-            songRepo: .init(store: .previewStore(items: PreviewData.songs, cacheIdentifier: \.id))
-        )
+        EnqueueButton(item: PreviewData.songs.first!, player: .init(preview: true))
     }
 }
 // swiftlint:enable all
