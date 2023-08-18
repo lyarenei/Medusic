@@ -12,42 +12,62 @@ struct SearchScreen: View {
     private var searchQuery: String = .empty
 
     var body: some View {
-        NavigationView {
+        NavigationStack {
             VStack {
-                SearchBar(text: $query)
-                    .placeholder("Search")
-                    .isInitialFirstResponder(true)
-                    .showsCancelButton(true)
-                    .autocorrectionDisabled()
-                    .autocapitalization(.none)
-                    .onChange(of: query, debounceTime: 0.5) { newValue in
-                        searchQuery = newValue
-                    }
+                searchBar
 
+                let filteredArtists = library.artists.filter { $0.name.containsIgnoreCase(searchQuery) }
                 let filteredAlbums = library.albums.filter { $0.name.containsIgnoreCase(searchQuery) }
                 let filteredSongs = library.songs.filter { $0.name.containsIgnoreCase(searchQuery) }
 
                 List {
+                    artistResults(filteredArtists)
                     albumResults(filteredAlbums)
                     songResults(filteredSongs)
                 }
                 .listStyle(.grouped)
             }
-            .navigationTitle(String.empty)
+            .navigationTitle("Search")
             .navigationBarTitleDisplayMode(.inline)
-            .navigationBarHidden(true)
         }
-        .navigationViewStyle(.stack)
+    }
+
+    @ViewBuilder
+    private var searchBar: some View {
+        SearchBar(text: $query)
+            .placeholder("Search")
+            .isInitialFirstResponder(true)
+            .showsCancelButton(true)
+            .autocorrectionDisabled()
+            .autocapitalization(.none)
+            .onChange(of: query, debounceTime: 0.5) { newValue in
+                searchQuery = newValue
+            }
+    }
+
+    @ViewBuilder
+    private func artistResults(_ artists: [Artist]) -> some View {
+        if artists.isNotEmpty {
+            Section("Artists") {
+                ForEach(artists, id: \.id) { artist in
+                    NavigationLink {
+                        ArtistDetailScreen(artist: artist)
+                    } label: {
+                        Label(artist.name) {
+                            ArtworkComponent(itemId: artist.id)
+                        }
+                    }
+                }
+            }
+        }
     }
 
     @ViewBuilder
     private func albumResults(_ albums: [Album]) -> some View {
         if albums.isNotEmpty {
-            Section {
+            Section("Albums") {
                 AlbumCollection(albums: albums)
                     .forceMode(.asList)
-            } header: {
-                Text("Albums")
             }
         }
     }
@@ -55,13 +75,11 @@ struct SearchScreen: View {
     @ViewBuilder
     private func songResults(_ songs: [Song]) -> some View {
         if songs.isNotEmpty {
-            Section {
+            Section("Songs") {
                 SongCollection(songs: songs)
                     .collectionType(.list)
                     .showAlbumName()
                     .showArtwork()
-            } header: {
-                Text("Songs")
             }
         }
     }
@@ -70,10 +88,8 @@ struct SearchScreen: View {
 #if DEBUG
 struct SearchScreen_Previews: PreviewProvider {
     static var previews: some View {
-        NavigationStack {
-            SearchScreen()
-        }
-        .environmentObject(PreviewUtils.libraryRepo)
+        SearchScreen()
+            .environmentObject(PreviewUtils.libraryRepo)
     }
 }
 #endif

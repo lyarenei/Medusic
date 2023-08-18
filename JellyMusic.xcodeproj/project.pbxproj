@@ -288,7 +288,6 @@
 			isa = PBXGroup;
 			children = (
 				9B73ECF829C8F085007F74DB /* MusicPlayerScreen.swift */,
-				9BBE146629FDA11C0028C500 /* SearchScreen.swift */,
 			);
 			path = Screens;
 			sourceTree = "<group>";
@@ -584,6 +583,7 @@
 				9B3D44BF29BE09620054C9E0 /* SongsLibraryScreen.swift */,
 				9B70BD9F29B923AE000DB31C /* AlbumDetailScreen.swift */,
 				9BF26D392A86C218006631E9 /* ArtistDetailScreen.swift */,
+				9BBE146629FDA11C0028C500 /* SearchScreen.swift */,
 			);
 			path = Screens;
 			sourceTree = "<group>";
