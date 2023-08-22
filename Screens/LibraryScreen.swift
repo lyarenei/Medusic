@@ -45,11 +45,11 @@ struct LibraryScreen: View {
                 .disabled(true)
 
             Divider()
-            navLink(for: "Artists", to: ArtistLibraryScreen(), icon: .musicMic)
+            navLink(for: "Artists", to: ArtistLibraryScreen(artists: library.artists), icon: .musicMic)
             Divider()
-            navLink(for: "Albums", to: AlbumLibraryScreen(), icon: .squareStack)
+            navLink(for: "Albums", to: AlbumLibraryScreen(albums: library.albums), icon: .squareStack)
             Divider()
-            navLink(for: "Songs", to: SongsLibraryScreen(), icon: .musicNote)
+            navLink(for: "Songs", to: SongsLibraryScreen(songs: library.songs), icon: .musicNote)
             Divider()
         }
     }

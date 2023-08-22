@@ -8,6 +8,8 @@ struct ArtistLibraryScreen: View {
     @State
     private var sortBy: UserSortBy = .name
 
+    let artists: [Artist]
+
     var body: some View {
         content
             .navigationTitle("Artists")
@@ -22,9 +24,9 @@ struct ArtistLibraryScreen: View {
 
     @ViewBuilder
     private var content: some View {
-        if library.artists.isNotEmpty {
+        if artists.isNotEmpty {
             List {
-                ForEach(library.artists.sorted(by: sortBy)) { artist in
+                ForEach(artists.sorted(by: sortBy)) { artist in
                     NavigationLink {
                         ArtistDetailScreen(artist: artist)
                     } label: {
@@ -52,12 +54,12 @@ struct ArtistLibraryScreen: View {
 struct ArtistLibraryScreen_Previews: PreviewProvider {
     static var previews: some View {
         NavigationStack {
-            ArtistLibraryScreen()
+            ArtistLibraryScreen(artists: PreviewData.artists)
                 .environmentObject(PreviewUtils.libraryRepo)
         }
         .previewDisplayName("With navigation")
 
-        ArtistLibraryScreen()
+        ArtistLibraryScreen(artists: PreviewData.artists)
             .environmentObject(PreviewUtils.libraryRepo)
             .previewDisplayName("Plain")
     }

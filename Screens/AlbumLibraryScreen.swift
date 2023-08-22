@@ -6,6 +6,8 @@ struct AlbumLibraryScreen: View {
     @EnvironmentObject
     private var library: LibraryRepository
 
+    let albums: [Album]
+
     var body: some View {
         content
             .navigationTitle("Albums")
@@ -17,9 +19,9 @@ struct AlbumLibraryScreen: View {
 
     @ViewBuilder
     private var content: some View {
-        if library.albums.isNotEmpty {
+        if albums.isNotEmpty {
             List {
-                AlbumCollection(albums: library.albums)
+                AlbumCollection(albums: albums)
                     .forceMode(.asList)
             }
             .listStyle(.plain)
@@ -35,7 +37,7 @@ struct AlbumLibraryScreen: View {
 struct AlbumLibraryScreen_Previews: PreviewProvider {
     static var previews: some View {
         NavigationStack {
-            AlbumLibraryScreen()
+            AlbumLibraryScreen(albums: PreviewData.albums)
                 .environmentObject(PreviewUtils.libraryRepo)
         }
     }

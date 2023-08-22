@@ -4,6 +4,8 @@ struct SongsLibraryScreen: View {
     @EnvironmentObject
     private var library: LibraryRepository
 
+    let songs: [Song]
+
     var body: some View {
         content
             .navigationTitle("Songs")
@@ -15,9 +17,9 @@ struct SongsLibraryScreen: View {
 
     @ViewBuilder
     private var content: some View {
-        if library.songs.isNotEmpty {
+        if songs.isNotEmpty {
             List {
-                SongCollection(songs: library.songs)
+                SongCollection(songs: songs)
                     .showArtwork()
                     .showArtistName()
             }
@@ -34,13 +36,13 @@ struct SongsLibraryScreen: View {
 struct SongsLibraryScreen_Previews: PreviewProvider {
     static var previews: some View {
         NavigationStack {
-            SongsLibraryScreen()
+            SongsLibraryScreen(songs: PreviewData.songs)
         }
         .previewDisplayName("Default")
         .environmentObject(PreviewUtils.libraryRepo)
 
         NavigationStack {
-            SongsLibraryScreen()
+            SongsLibraryScreen(songs: PreviewData.songs)
         }
         .previewDisplayName("Empty")
         .environmentObject(PreviewUtils.libraryRepoEmpty)
