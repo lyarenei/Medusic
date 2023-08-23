@@ -114,7 +114,7 @@ final class DefaultMediaService: MediaService {
         let request = JellyfinAPI.Paths.markPlayedItem(
             userID: Defaults[.userId],
             itemID: itemId,
-            datePlayed: .init()
+            datePlayed: .now
         )
 
         _ = try await client.send(request)
