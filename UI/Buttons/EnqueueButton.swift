@@ -52,8 +52,10 @@ struct EnqueueButton: View {
         case let album as Album:
             let songs = library.songs.filtered(by: .albumId(album.id))
             player.enqueue(songs: songs.sorted(by: .index), position: position)
+            Alerts.done("Album added to queue")
         case let song as Song:
             player.enqueue(song: song, position: position)
+            Alerts.done("Song added to queue")
         default:
             Logger.player.info("Failed to enqueue item \(item.id): item type not supported")
             Alerts.error("Enqueue failed")
