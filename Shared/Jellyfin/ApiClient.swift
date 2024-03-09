@@ -39,8 +39,8 @@ final class ApiClient {
         let jellyfinClient = JellyfinClient(configuration: .init(
             url: serverUrl,
             client: "JellyMusic",
-            deviceName: UIDevice.current.model,
-            deviceID: UIDevice.current.identifierForVendor?.uuidString ?? "missing_id",
+            deviceName: Defaults[.deviceName],
+            deviceID: Defaults[.deviceId],
             version: "0.0"
         ))
 

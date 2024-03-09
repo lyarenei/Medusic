@@ -7,6 +7,9 @@ extension Defaults.Keys {
     static let username = Key<String>("username", default: .empty)
     static let userId = Key<String>("userId", default: .empty)
 
+    static let deviceName = Key<String>("deviceName", default: "device_name_not_set")
+    static let deviceId = Key<String>("deviceId", default: "device_id_not_set")
+
     // Appearance settings
     static let albumDisplayMode = Key<AlbumDisplayMode>("albumDisplayMode", default: .asTiles)
     static let primaryAction = Key<PrimaryAction>("primaryAction", default: .download)

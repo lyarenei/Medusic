@@ -16,6 +16,10 @@ struct JellyMusicApp: App {
 
         // Limit disk cache size to 1 GB.
         Kingfisher.ImageCache.default.diskStorage.config.sizeLimit = 1000 * 1024 * 1024
+
+        // Set values for the Jellyfin API client
+        Defaults[.deviceName] = UIDevice.current.model
+        Defaults[.deviceId] = UIDevice.current.identifierForVendor?.uuidString ?? "no_device_id_available"
     }
 
     var body: some Scene {
