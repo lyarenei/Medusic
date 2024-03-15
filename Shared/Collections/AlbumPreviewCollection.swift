@@ -21,6 +21,7 @@ struct AlbumPreviewCollection: View {
     }
 
     var body: some View {
+        let maxHeight = UIConstants.tileSize + 105
         VStack(spacing: 7) {
             Group {
                 sectionTitle
@@ -34,8 +35,10 @@ struct AlbumPreviewCollection: View {
                     .padding(.leading)
             case .horizontal:
                 sectionHContent
+                    .padding(.trailing)
             }
         }
+        .frame(height: albums.isNotEmpty ? maxHeight : 80, alignment: .top)
     }
 
     @ViewBuilder
@@ -51,7 +54,7 @@ struct AlbumPreviewCollection: View {
                 showMoreScreen
             }
             .padding(.trailing)
-            .disabled(albums.isEmpty || albums.count <= limit)
+            .disabled(albums.count <= limit)
         }
     }
 
@@ -70,7 +73,7 @@ struct AlbumPreviewCollection: View {
     private var sectionHContent: some View {
         if albums.isNotEmpty {
             ScrollView(.horizontal) {
-                LazyHStack(spacing: 20) {
+                LazyHStack(alignment: .top, spacing: 20) {
                     AlbumCollection(albums: albums.prefix(limit))
                         .forceMode(.asTiles)
                         .padding(.top, 10)
@@ -119,19 +122,38 @@ extension AlbumPreviewCollection {
 #if DEBUG
 struct AlbumPreviewCollection_Previews: PreviewProvider {
     static var previews: some View {
-        AlbumPreviewCollection(
-            for: PreviewData.albums,
-            titleText: "Preview albums",
-            emptyText: "No albums"
-        )
-        .previewDisplayName("Default")
+        NavigationStack {
+            ScrollView {
+                AlbumPreviewCollection(
+                    for: PreviewData.albums,
+                    titleText: "Preview albums",
+                    emptyText: "No albums"
+                )
+            }
+        }
+        .previewDisplayName("Vertical")
+        .environmentObject(PreviewUtils.libraryRepo)
 
-        AlbumPreviewCollection(
-            for: [],
-            titleText: "Preview albums",
-            emptyText: "No albums"
-        )
+        NavigationStack {
+            AlbumPreviewCollection(
+                for: PreviewData.albums,
+                titleText: "Preview albums",
+                emptyText: "No albums"
+            )
+            .stackType(.horizontal)
+        }
+        .previewDisplayName("Horizontal")
+        .environmentObject(PreviewUtils.libraryRepo)
+
+        NavigationStack {
+            AlbumPreviewCollection(
+                for: [],
+                titleText: "Preview albums",
+                emptyText: "No albums"
+            )
+        }
         .previewDisplayName("Empty")
+        .environmentObject(PreviewUtils.libraryRepo)
     }
 }
 #endif

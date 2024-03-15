@@ -31,7 +31,7 @@ struct SongCollection: View {
 
     @ViewBuilder
     private func listContent() -> some View {
-        ForEach(songs) { song in
+        ForEach(songs, id: \.id) { song in
             HStack(spacing: 10) {
                 songInfo(song: song)
                 PrimaryActionButton(item: song)
@@ -44,7 +44,7 @@ struct SongCollection: View {
 
     @ViewBuilder
     private func plainContent() -> some View {
-        ForEach(songs) { song in
+        ForEach(songs, id: \.id) { song in
             HStack(spacing: 10) {
                 songInfo(song: song)
                 PrimaryActionButton(item: song)
@@ -141,26 +141,27 @@ struct SongCollection_Previews: PreviewProvider {
                 .collectionType(.list)
         }
         .previewDisplayName("List")
+        .listStyle(.plain)
 
-        VStack {
-            SongCollection(songs: PreviewData.songs)
-                .showArtistName()
-                .showArtwork()
-                .collectionType(.plain)
+        ScrollView {
+            VStack {
+                SongCollection(songs: PreviewData.songs)
+                    .showArtistName()
+                    .showArtwork()
+                    .collectionType(.plain)
+            }
         }
         .previewDisplayName("VStack")
 
-        List {
-            SongCollection(songs: [])
-                .collectionType(.list)
+        ScrollView {
+            VStack {
+                SongCollection(songs: PreviewData.songs)
+                    .showArtistName()
+                    .showAlbumOrder()
+                    .collectionType(.plain)
+            }
         }
-        .previewDisplayName("Empty list")
-
-        VStack {
-            SongCollection(songs: [])
-                .collectionType(.plain)
-        }
-        .previewDisplayName("Empty stack")
+        .previewDisplayName("VStack + order")
     }
 }
 #endif

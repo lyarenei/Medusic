@@ -61,7 +61,7 @@ final class DefaultMediaService: MediaService {
             isMuted: volume <= 0,
             isPaused: isPaused,
             itemID: itemId,
-            nowPlayingQueue: playbackQueue.map { QueueItem(id: $0.uuid) },
+            nowPlayingQueue: playbackQueue.map { QueueItem(id: $0.id) },
             playMethod: isDirectPlay ? .directPlay : .transcode,
             playbackStartTimeTicks: position?.ticks,
             positionTicks: position?.ticks,
@@ -88,7 +88,7 @@ final class DefaultMediaService: MediaService {
             isMuted: volume <= 0,
             isPaused: isPaused,
             itemID: itemId,
-            nowPlayingQueue: playbackQueue.map { QueueItem(id: $0.uuid) },
+            nowPlayingQueue: playbackQueue.map { QueueItem(id: $0.id) },
             playMethod: isDirectPlay ? .directPlay : .transcode,
             positionTicks: position?.ticks,
             volumeLevel: volume
@@ -102,7 +102,7 @@ final class DefaultMediaService: MediaService {
         guard Defaults[.readOnly] == false else { return }
         let body = JellyfinAPI.PlaybackStopInfo(
             itemID: itemId,
-            nowPlayingQueue: playbackQueue.map { QueueItem(id: $0.uuid) },
+            nowPlayingQueue: playbackQueue.map { QueueItem(id: $0.id) },
             positionTicks: position?.ticks
         )
         let request = JellyfinAPI.Paths.reportPlaybackStopped(body)
@@ -114,7 +114,7 @@ final class DefaultMediaService: MediaService {
         let request = JellyfinAPI.Paths.markPlayedItem(
             userID: Defaults[.userId],
             itemID: itemId,
-            datePlayed: .init()
+            datePlayed: .now
         )
 
         _ = try await client.send(request)

@@ -102,17 +102,17 @@ final class FileRepository: ObservableObject {
     private func downloadSong(_ song: Song) async throws {
         let currentSize = try downloadedFilesSize()
         guard currentSize + song.size <= cacheSizeLimit else {
-            Logger.repository.info("Download for song \(song.uuid) cancelled: cache size limit reached")
+            Logger.repository.info("Download for song \(song.id) cancelled: cache size limit reached")
             throw FileRepositoryError.cacheSizeLimitExceeded
         }
 
         let fileExtension = getFileExtension(for: song)
-        let outputFileURL = cacheDirectory.appendingPathComponent(song.uuid).appendingPathExtension(fileExtension)
-        Logger.repository.debug("Starting download for song \(song.uuid)")
+        let outputFileURL = cacheDirectory.appendingPathComponent(song.id).appendingPathExtension(fileExtension)
+        Logger.repository.debug("Starting download for song \(song.id)")
         await reportCurrentDownloadQueue()
         let bitrate = getDownloadPreferredBitrate(for: song)
         try await apiClient.services.mediaService.downloadItem(
-            id: song.uuid,
+            id: song.id,
             destination: outputFileURL,
             bitrate: bitrate != nil ? Int32(bitrate ?? 0) : nil
         )
@@ -122,7 +122,7 @@ final class FileRepository: ObservableObject {
         guard let fileUrl = fileURL(for: song) else {
             let bitrate = getStreamPreferredBitrate(for: song)
             return apiClient.services.mediaService.getStreamUrl(
-                item: song.uuid,
+                item: song.id,
                 bitrate: bitrate != nil ? Int32(bitrate ?? 0) : nil
             )
         }
@@ -132,7 +132,7 @@ final class FileRepository: ObservableObject {
 
     func fileURL(for song: Song) -> URL? {
         let fileExtension = getFileExtension(for: song)
-        let fileURL = cacheDirectory.appendingPathComponent(song.uuid).appendingPathExtension(fileExtension)
+        let fileURL = cacheDirectory.appendingPathComponent(song.id).appendingPathExtension(fileExtension)
         return FileManager.default.fileExists(atPath: fileURL.path) ? fileURL : nil
     }
 
@@ -172,11 +172,11 @@ final class FileRepository: ObservableObject {
     }
 
     func removeFile(for song: Song) async throws {
-        let fileURL = cacheDirectory.appendingPathComponent(song.uuid)
-        Logger.repository.debug("Removing file for song \(song.uuid)")
+        let fileURL = cacheDirectory.appendingPathComponent(song.id)
+        Logger.repository.debug("Removing file for song \(song.id)")
         try FileManager.default.removeItem(at: fileURL)
         try await $downloadedSongs.remove(song)
-        Logger.repository.debug("File for song \(song.uuid) has been removed")
+        Logger.repository.debug("File for song \(song.id) has been removed")
     }
 
     func removeFiles(for songs: [Song]) async throws {
@@ -212,13 +212,13 @@ final class FileRepository: ObservableObject {
 
     private func enqueue(_ song: Song) async throws {
         try await $downloadQueue.insert(song)
-        Logger.repository.debug("Added song \(song.uuid) to download queue")
+        Logger.repository.debug("Added song \(song.id) to download queue")
         await reportCurrentDownloadQueue()
     }
 
     private func dequeue(_ song: Song) async throws {
         try await $downloadQueue.remove(song)
-        Logger.repository.debug("Song \(song.uuid) has been removed from download queue")
+        Logger.repository.debug("Song \(song.id) has been removed from download queue")
         await reportCurrentDownloadQueue()
     }
 

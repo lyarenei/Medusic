@@ -6,7 +6,7 @@ extension AVPlayerItem {
         (asset as? AVURLAsset)?.url
     }
 
-    /// Get the Jellyfin song uuid.
+    /// Get the Jellyfin song id.
     var songId: String? {
         guard let url else { return nil }
         let matches = url.absoluteString.match("\\w{32}")

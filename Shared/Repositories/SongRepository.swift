@@ -1,6 +1,7 @@
 import Boutique
 import Foundation
 
+@available(*, deprecated, message: "Use library repository")
 final class SongRepository: ObservableObject {
     static let shared = SongRepository(store: .songs)
 
@@ -21,7 +22,7 @@ final class SongRepository: ObservableObject {
     func refresh(for albumId: String? = nil) async throws {
         try await apiClient.performAuth()
         if let album = albumId {
-            let remoteSongs = try await apiClient.services.songService.getSongs(for: album)
+            let remoteSongs = try await apiClient.services.songService.getSongs()
             let localSongs = await $songs.items.filterByAlbum(id: album)
             try await $songs.remove(localSongs).insert(remoteSongs).run()
         } else {
@@ -42,7 +43,7 @@ final class SongRepository: ObservableObject {
 
     /// Get a specific song form store by specified ID.
     func getSong(by songId: String) async -> Song? {
-        await $songs.items.first { $0.uuid == songId }
+        await $songs.items.first { $0.id == songId }
     }
 
     /// Set/reset specified song favorite flag.

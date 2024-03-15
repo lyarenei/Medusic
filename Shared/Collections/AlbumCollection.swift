@@ -1,4 +1,5 @@
 import Defaults
+import MarqueeText
 import OSLog
 import SFSafeSymbols
 import SwiftUI
@@ -10,6 +11,9 @@ enum AlbumDisplayMode: String, Defaults.Serializable {
 }
 
 struct AlbumCollection: View {
+    @EnvironmentObject
+    private var library: LibraryRepository
+
     @Default(.albumDisplayMode)
     private var displayMode: AlbumDisplayMode
 
@@ -39,9 +43,9 @@ struct AlbumCollection: View {
 
     @ViewBuilder
     private func listContent() -> some View {
-        ForEach(albums, id: \.uuid) { album in
+        ForEach(albums, id: \.id) { album in
             NavigationLink {
-                AlbumDetailScreen(for: album)
+                AlbumDetailScreen(album: album)
             } label: {
                 albumListEntry(album: album)
             }
@@ -51,9 +55,9 @@ struct AlbumCollection: View {
 
     @ViewBuilder
     private func plainContent() -> some View {
-        ForEach(albums, id: \.uuid) { album in
+        ForEach(albums, id: \.id) { album in
             NavigationLink {
-                AlbumDetailScreen(for: album)
+                AlbumDetailScreen(album: album)
             } label: {
                 albumPlainEntry(album: album)
                     .padding(.vertical, 1)
@@ -67,14 +71,15 @@ struct AlbumCollection: View {
 
     @ViewBuilder
     private func tileContent() -> some View {
-        ForEach(albums, id: \.uuid) { album in
+        ForEach(albums, id: \.id) { album in
             NavigationLink {
-                AlbumDetailScreen(for: album)
+                AlbumDetailScreen(album: album)
             } label: {
                 AlbumTileComponent(album: album)
             }
             .buttonStyle(.plain)
             .contextMenu { AlbumContextMenu(album: album) }
+            .frame(width: UIConstants.tileSize, height: UIConstants.tileSize)
         }
     }
 
@@ -91,14 +96,22 @@ struct AlbumCollection: View {
     @ViewBuilder
     private func albumNameArtist(album: Album) -> some View {
         VStack(alignment: .leading, spacing: 3) {
-            Text(album.name)
-                .font(.title2)
-                .lineLimit(1)
+            MarqueeText(
+                text: album.name,
+                font: .preferredFont(forTextStyle: .title2),
+                leftFade: UIConstants.marqueeFadeLen,
+                rightFade: UIConstants.marqueeFadeLen,
+                startDelay: UIConstants.marqueeDelay
+            )
 
-            Text(album.artistName)
-                .lineLimit(1)
-                .font(.body)
-                .foregroundColor(.gray)
+            MarqueeText(
+                text: album.artistName,
+                font: .preferredFont(forTextStyle: .body),
+                leftFade: UIConstants.marqueeFadeLen,
+                rightFade: UIConstants.marqueeFadeLen,
+                startDelay: UIConstants.marqueeDelay
+            )
+            .foregroundColor(.gray)
         }
     }
 
@@ -151,6 +164,7 @@ struct AlbumList_Previews: PreviewProvider {
                 .forceMode(.asList)
         }
         .previewDisplayName("List")
+        .environmentObject(PreviewUtils.libraryRepo)
 
         VStack {
             AlbumCollection(albums: PreviewData.albums)
@@ -158,12 +172,17 @@ struct AlbumList_Previews: PreviewProvider {
         }
         .previewDisplayName("Vstack")
         .padding(.horizontal)
+        .environmentObject(PreviewUtils.libraryRepo)
 
-        VStack {
-            AlbumCollection(albums: PreviewData.albums)
-                .forceMode(.asTiles)
+        ScrollView(.horizontal) {
+            HStack {
+                AlbumCollection(albums: PreviewData.albums)
+                    .forceMode(.asTiles)
+            }
+            .padding(.horizontal)
         }
         .previewDisplayName("Tiles")
+        .environmentObject(PreviewUtils.libraryRepo)
     }
 }
 #endif

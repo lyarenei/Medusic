@@ -15,45 +15,51 @@ struct MusicPlayerScreen: View {
 
     var body: some View {
         if let curSong = player.currentSong {
-            GeometryReader { proxy in
-                content(for: curSong, proxy: proxy)
-            }
-            .sheet(isPresented: $isSongListPresented) { songListSheet }
+            content(for: curSong)
+                .sheet(isPresented: $isSongListPresented) { songListSheet }
         }
     }
 
     @ViewBuilder
-    private func content(for song: Song, proxy: GeometryProxy) -> some View {
-        let height = (proxy.size.height / 5) * 2.5
+    private func content(for song: Song) -> some View {
         VStack(alignment: .center, spacing: 15) {
-            ArtworkComponent(itemId: song.parentId)
-                .frame(width: height, height: height)
+            ArtworkComponent(itemId: song.albumId)
+                .frame(
+                    width: Screen.size.width - 40,
+                    height: Screen.size.width - 40
+                )
 
             SongDetails(song: song)
-                .padding(.leading, 30)
-                .padding(.trailing, 18)
+                .padding(.leading, 28)
+                .padding(.trailing, 16)
 
             Group {
                 PlaybackProgressComponent(player: player)
                 PlaybackControl()
                     .font(.largeTitle)
                     .buttonStyle(.plain)
-                    .padding(.horizontal, 50)
+                    .padding(.horizontal, 40)
 
                 VolumeSliderComponent()
                     .frame(height: 40)
+                    .padding(.top, 10)
 
-                FooterActions(song: song) {
-                    isSongListPresented = true
-                }
-                .padding(.horizontal, 50)
-                .font(.title3)
-                .frame(height: 40)
+                footerActions(for: song)
             }
-            .padding(.horizontal, 30)
+            .padding(.horizontal, 28)
         }
         .padding(.top, 5)
         .padding(.bottom, 15)
+    }
+
+    @ViewBuilder
+    private func footerActions(for song: Song) -> some View {
+        FooterActions(song: song) {
+            isSongListPresented = true
+        }
+        .padding(.horizontal, 50)
+        .font(.title3)
+        .frame(height: 40)
     }
 
     @ViewBuilder
@@ -91,7 +97,7 @@ struct MusicPlayerScreen: View {
     @ViewBuilder
     private var historySection: some View {
         Section {
-            ForEach(player.history, id: \.uuid) { song in
+            ForEach(player.history, id: \.id) { song in
                 SongListRowComponent(song: song)
                     .showArtwork()
                     .showArtistName()
@@ -121,7 +127,7 @@ struct MusicPlayerScreen: View {
     @ViewBuilder
     private var upNextSection: some View {
         Section {
-            ForEach(player.upNext, id: \.uuid) { song in
+            ForEach(player.upNext, id: \.id) { song in
                 SongListRowComponent(song: song)
                     .showArtwork()
                     .showArtistName()
@@ -156,9 +162,23 @@ struct MusicPlayerScreen_Previews: PreviewProvider {
     }
 
     static var previews: some View {
-        VStack {
-            SheetCloseButton(isPresented: $isPresented)
-            MusicPlayerScreen(player: player())
+        Group {
+            VStack {
+                SheetCloseButton(isPresented: $isPresented)
+                MusicPlayerScreen(player: player())
+            }
+
+            VStack {
+                SheetCloseButton(isPresented: $isPresented)
+                MusicPlayerScreen(player: player())
+            }
+            .previewDevice(PreviewDevice(rawValue: "iPhone 13 mini"))
+
+            VStack {
+                SheetCloseButton(isPresented: $isPresented)
+                MusicPlayerScreen(player: player())
+            }
+            .previewDevice(PreviewDevice(rawValue: "iPhone 14 Pro Max"))
         }
     }
 }
@@ -176,7 +196,7 @@ private struct SongDetails: View {
                     .lineLimit(1)
                     .font(.title2)
 
-                Text("song.artistName")
+                Text(song.artistCreditName)
                     .lineLimit(1)
                     .font(.body)
             }

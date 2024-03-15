@@ -1,6 +1,7 @@
 import Boutique
 import Foundation
 
+@available(*, deprecated, message: "Use library repository")
 final class AlbumRepository: ObservableObject {
     static let shared = AlbumRepository(store: .albums)
 
@@ -20,13 +21,13 @@ final class AlbumRepository: ObservableObject {
     /// Refresh the store data with data from service.
     func refresh() async throws {
         try await apiClient.performAuth()
-        let remoteAlbums = try await apiClient.services.albumService.getAlbums()
+        let remoteAlbums = try await apiClient.services.albumService.getAlbums(pageSize: nil, offset: nil)
         try await $albums.removeAll().insert(remoteAlbums).run()
     }
 
     func refresh(albumId: String) async throws {
         try await apiClient.performAuth()
-        let remoteAlbum = try await apiClient.services.albumService.getAlbum(by: albumId)
+        let remoteAlbum = try await apiClient.services.albumService.getAlbumById(albumId)
         try await $albums.insert(remoteAlbum)
     }
 
@@ -37,7 +38,7 @@ final class AlbumRepository: ObservableObject {
 
     /// Get a specific album form store by its ID.
     func getAlbum(by albumId: String) async -> Album? {
-        await $albums.items.first { $0.uuid == albumId }
+        await $albums.items.first { $0.id == albumId }
     }
 
     /// Get all favorite albums.

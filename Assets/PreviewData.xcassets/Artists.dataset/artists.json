@@ -1,0 +1,122 @@
+[
+  {
+    "id": "1",
+    "name": "The Whispering Shadows",
+    "sortName": "Whispering Shadows, The",
+    "isFavorite": false
+  },
+  {
+    "id": "2",
+    "name": "Lunar Echo",
+    "sortName": "Lunar Echo",
+    "isFavorite": false
+  },
+  {
+    "id": "3",
+    "name": "Bob Johnston",
+    "sortName": "Bob Johnston",
+    "isFavorite": false
+  },
+  {
+    "id": "4",
+    "name": "The Lightening Strings",
+    "sortName": "Lightening Strings, The",
+    "isFavorite": false
+  },
+  {
+    "id": "5",
+    "name": "Ella Thompson",
+    "sortName": "Ella Thompson",
+    "isFavorite": false
+  },
+  {
+    "id": "6",
+    "name": "Euphoric Tides",
+    "sortName": "Euphoric Tides",
+    "isFavorite": false
+  },
+  {
+    "id": "7",
+    "name": "Anna Jameson",
+    "sortName": "Anna Jameson",
+    "isFavorite": false
+  },
+  {
+    "id": "8",
+    "name": "Drifting Soundwaves",
+    "sortName": "Drifting Soundwaves",
+    "isFavorite": false
+  },
+  {
+    "id": "9",
+    "name": "Samuel Rodriguez",
+    "sortName": "Samuel Rodriguez",
+    "isFavorite": false
+  },
+  {
+    "id": "10",
+    "name": "Moontide Melodies",
+    "sortName": "Moontide Melodies",
+    "isFavorite": false
+  },
+  {
+    "id": "11",
+    "name": "Distant Horizons",
+    "sortName": "Distant Horizons",
+    "isFavorite": false
+  },
+  {
+    "id": "12",
+    "name": "Alicia Vikander",
+    "sortName": "Alicia Vikander",
+    "isFavorite": false
+  },
+  {
+    "id": "13",
+    "name": "Symphonic Dreamers",
+    "sortName": "Symphonic Dreamers",
+    "isFavorite": false
+  },
+  {
+    "id": "14",
+    "name": "The Golden Strings",
+    "sortName": "Golden Strings, The",
+    "isFavorite": false
+  },
+  {
+    "id": "15",
+    "name": "David Bronson",
+    "sortName": "David Bronson",
+    "isFavorite": false
+  },
+  {
+    "id": "16",
+    "name": "The Harmonics",
+    "sortName": "Harmonics, The",
+    "isFavorite": false
+  },
+  {
+    "id": "17",
+    "name": "Twilight Tones",
+    "sortName": "Twilight Tones",
+    "isFavorite": false
+  },
+  {
+    "id": "18",
+    "name": "Amber Anderson",
+    "sortName": "Amber Anderson",
+    "isFavorite": false
+  },
+  {
+    "id": "19",
+    "name": "Sonic Serenity",
+    "sortName": "Sonic Serenity",
+    "isFavorite": false
+  },
+  {
+    "id": "20",
+    "name": "Olive Oyl",
+    "sortName": "Olive Oyl",
+    "isFavorite": false
+  }
+]

@@ -1,6 +1,7 @@
-import SwiftUI
 import Kingfisher
 import OSLog
+import SFSafeSymbols
+import SwiftUI
 
 struct ArtworkComponent: View {
     private static let cornerRadius: CGFloat = 5
@@ -24,7 +25,12 @@ struct ArtworkComponent: View {
             KFImage.dataProvider(getDataProvider())
                 .cacheOriginalImage()
                 .resizable()
-                .placeholder { ProgressView() }
+                .placeholder {
+                    Image(systemSymbol: .photoOnRectangleAngled)
+                        .resizable()
+                        .aspectRatio(contentMode: .fit)
+                        .fill(alignment: .center)
+                }
                 .fade(duration: 0.25)
                 .retry(maxCount: 5, interval: .seconds(10))
                 .appendProcessor(DownsamplingImageProcessor(size: doubleSize(proxy.size)))
@@ -58,7 +64,7 @@ struct ArtworkComponent: View {
 struct ArtworkComponent_Previews: PreviewProvider {
     static var previews: some View {
         ArtworkComponent(
-            itemId: PreviewData.albums.first!.uuid,
+            itemId: PreviewData.albums.first!.id,
             apiClient: .init(previewEnabled: true)
         )
         .previewLayout(.fixed(width: 200, height: 200))

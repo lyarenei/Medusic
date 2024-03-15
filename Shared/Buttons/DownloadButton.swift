@@ -120,7 +120,7 @@ struct DownloadButton: View {
     private func handleInProgress(_ songs: [Song]) {
         switch item {
         case let item as Album:
-            inProgress = songs.contains { $0.parentId == item.uuid }
+            inProgress = songs.contains { $0.albumId == item.id }
         case let item as Song:
             inProgress = songs.contains { $0 == item }
         default:
@@ -138,6 +138,7 @@ struct DownloadButton: View {
                 }
             } catch {
                 print("Button action failed for item: \(item) - \(error.localizedDescription)")
+                Alerts.error("Action failed")
             }
         }
     }
@@ -145,7 +146,7 @@ struct DownloadButton: View {
     private func downloadAction() async throws {
         switch item {
         case let item as Album:
-            let songs = await songRepo.getSongs(ofAlbum: item.uuid)
+            let songs = await songRepo.getSongs(ofAlbum: item.id)
             try await fileRepo.enqueueToDownload(songs: songs)
         case let item as Song:
             try await fileRepo.enqueueToDownload(song: item)
@@ -158,7 +159,7 @@ struct DownloadButton: View {
     private func removeAction() async throws {
         switch item {
         case let item as Album:
-            let songs = await songRepo.getSongs(ofAlbum: item.uuid)
+            let songs = await songRepo.getSongs(ofAlbum: item.id)
             try await fileRepo.removeFiles(for: songs)
         case let item as Song:
             try await fileRepo.removeFile(for: item)
@@ -188,7 +189,7 @@ struct DownloadButton_Previews: PreviewProvider {
     static var previews: some View {
         DownloadButton(
             item: PreviewData.albums.first!,
-            songRepo: .init(store: .previewStore(items: PreviewData.songs, cacheIdentifier: \.uuid))
+            songRepo: .init(store: .previewStore(items: PreviewData.songs, cacheIdentifier: \.id))
         )
         .font(.title)
         .previewDisplayName("Icon only")
@@ -197,7 +198,7 @@ struct DownloadButton_Previews: PreviewProvider {
             item: PreviewData.albums.first!,
             textDownload: "Download",
             textRemove: "Remove",
-            songRepo: .init(store: .previewStore(items: PreviewData.songs, cacheIdentifier: \.uuid))
+            songRepo: .init(store: .previewStore(items: PreviewData.songs, cacheIdentifier: \.id))
         )
         .setLayout(.horizontal)
         .font(.title)
@@ -207,7 +208,7 @@ struct DownloadButton_Previews: PreviewProvider {
             item: PreviewData.albums.first!,
             textDownload: "Download",
             textRemove: "Remove",
-            songRepo: .init(store: .previewStore(items: PreviewData.songs, cacheIdentifier: \.uuid))
+            songRepo: .init(store: .previewStore(items: PreviewData.songs, cacheIdentifier: \.id))
         )
         .setLayout(.vertical)
         .font(.title)
