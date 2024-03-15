@@ -1,3 +1,4 @@
+import ButtonKit
 import SFSafeSymbols
 import SwiftUI
 
@@ -37,6 +38,7 @@ struct FavoriteButton: View {
             }
         }
         .onAppear { isFavorite = item.isFavorite }
+        .disabledWhenLoading()
     }
 
     enum ButtonLayout {

@@ -1,3 +1,4 @@
+import ButtonKit
 import OSLog
 import SFSafeSymbols
 import SwiftUI
@@ -19,6 +20,7 @@ struct RefreshButton: View {
                 Image(systemSymbol: .arrowClockwise)
             }
         }
+        .disabledWhenLoading()
     }
 
     private func action() async {

@@ -1,3 +1,4 @@
+import ButtonKit
 import Defaults
 import Kingfisher
 import SwiftUI
@@ -36,6 +37,7 @@ struct AdvancedSettings: View {
         } label: {
             Text("Force library refresh")
         }
+        .disabledWhenLoading()
     }
 
     @ViewBuilder
