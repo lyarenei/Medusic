@@ -2,11 +2,7 @@ import Drops
 import SFSafeSymbols
 import SwiftUI
 
-final class Alerts {
-    static let shared: Alerts = .init()
-
-    private init() {}
-
+enum Alerts {
     static func info(_ text: String) {
         Drops.show(
             .init(
