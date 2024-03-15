@@ -48,6 +48,7 @@
 		9B4AD6682A46BCED00E1798F /* SheetCloseButton.swift in Sources */ = {isa = PBXBuildFile; fileRef = 9B4AD6672A46BCED00E1798F /* SheetCloseButton.swift */; };
 		9B52AF7729D0B106002E21B9 /* SongCollection.swift in Sources */ = {isa = PBXBuildFile; fileRef = 9B52AF7629D0B106002E21B9 /* SongCollection.swift */; };
 		9B52AF9429D339B1002E21B9 /* FileRepository.swift in Sources */ = {isa = PBXBuildFile; fileRef = 9B52AF9329D339B1002E21B9 /* FileRepository.swift */; };
+		9B63869A2BA4F5F8000D4EB6 /* ButtonKit in Frameworks */ = {isa = PBXBuildFile; productRef = 9B6386992BA4F5F8000D4EB6 /* ButtonKit */; };
 		9B6C17CD29D6BE700061866A /* AirPlayComponent.swift in Sources */ = {isa = PBXBuildFile; fileRef = 9B6C17CC29D6BE700061866A /* AirPlayComponent.swift */; };
 		9B6FB7AF29E5AA160013AA65 /* ServerUrlComponent.swift in Sources */ = {isa = PBXBuildFile; fileRef = 9B6FB7AE29E5AA160013AA65 /* ServerUrlComponent.swift */; };
 		9B6FB7B229E5AB500013AA65 /* ServerCredentialsComponent.swift in Sources */ = {isa = PBXBuildFile; fileRef = 9B6FB7B129E5AB500013AA65 /* ServerCredentialsComponent.swift */; };
@@ -105,7 +106,6 @@
 		9BF26D3A2A86C218006631E9 /* ArtistDetailScreen.swift in Sources */ = {isa = PBXBuildFile; fileRef = 9BF26D392A86C218006631E9 /* ArtistDetailScreen.swift */; };
 		9BF26D3F2A86DF74006631E9 /* Album.swift in Sources */ = {isa = PBXBuildFile; fileRef = 9BF26D3E2A86DF74006631E9 /* Album.swift */; };
 		9BF26D422A8753E6006631E9 /* PreviewUtils.swift in Sources */ = {isa = PBXBuildFile; fileRef = 9BF26D412A8753E6006631E9 /* PreviewUtils.swift */; };
-		9BF26D462A8781F6006631E9 /* AsyncButton.swift in Sources */ = {isa = PBXBuildFile; fileRef = 9BF26D452A8781F6006631E9 /* AsyncButton.swift */; };
 		9BF26D482A87C3A1006631E9 /* Errors.swift in Sources */ = {isa = PBXBuildFile; fileRef = 9BF26D472A87C3A1006631E9 /* Errors.swift */; };
 		9BF26D592A880EDA006631E9 /* MarqueeText in Frameworks */ = {isa = PBXBuildFile; productRef = 9BF26D582A880EDA006631E9 /* MarqueeText */; };
 		9BF26D5B2A881FC6006631E9 /* UIConstants.swift in Sources */ = {isa = PBXBuildFile; fileRef = 9BF26D5A2A881FC6006631E9 /* UIConstants.swift */; };
@@ -210,7 +210,6 @@
 		9BF26D392A86C218006631E9 /* ArtistDetailScreen.swift */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.swift; path = ArtistDetailScreen.swift; sourceTree = "<group>"; };
 		9BF26D3E2A86DF74006631E9 /* Album.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = Album.swift; sourceTree = "<group>"; };
 		9BF26D412A8753E6006631E9 /* PreviewUtils.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = PreviewUtils.swift; sourceTree = "<group>"; };
-		9BF26D452A8781F6006631E9 /* AsyncButton.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = AsyncButton.swift; sourceTree = "<group>"; };
 		9BF26D472A87C3A1006631E9 /* Errors.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = Errors.swift; sourceTree = "<group>"; };
 		9BF26D5A2A881FC6006631E9 /* UIConstants.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = UIConstants.swift; sourceTree = "<group>"; };
 		9BF26D5C2A88C120006631E9 /* Song.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = Song.swift; sourceTree = "<group>"; };
@@ -234,6 +233,7 @@
 				48C1F8BC29B9E5C9003BE048 /* Kingfisher in Frameworks */,
 				9BB75ECB29C63AE6008CD65A /* SimpleKeychain in Frameworks */,
 				48C1F8BF29B9E6D1003BE048 /* Boutique in Frameworks */,
+				9B63869A2BA4F5F8000D4EB6 /* ButtonKit in Frameworks */,
 				48C1F8CD29B9EE97003BE048 /* SFSafeSymbols in Frameworks */,
 				9BB754D629B93F3C009BB3A6 /* JellyfinAPI in Frameworks */,
 				9B1866F32A8A858300034A10 /* Drops in Frameworks */,
@@ -545,7 +545,6 @@
 		9BF26D442A8781E4006631E9 /* Buttons */ = {
 			isa = PBXGroup;
 			children = (
-				9BF26D452A8781F6006631E9 /* AsyncButton.swift */,
 				9BB75EA229C3894A008CD65A /* FavoriteButton.swift */,
 				9B1EF3AE29E151F400C2A33B /* RefreshButton.swift */,
 				9B1866E82A894CC900034A10 /* SortMenuButton.swift */,
@@ -643,6 +642,7 @@
 				488EBAC229D739BF004A3071 /* SwiftUIX */,
 				9BF26D582A880EDA006631E9 /* MarqueeText */,
 				9B1866F22A8A858300034A10 /* Drops */,
+				9B6386992BA4F5F8000D4EB6 /* ButtonKit */,
 			);
 			productName = "JellyMusic (iOS)";
 			productReference = 9B80473A29B768010069B407 /* JellyMusic.app */;
@@ -684,6 +684,7 @@
 				488EBAC129D739BF004A3071 /* XCRemoteSwiftPackageReference "SwiftUIX" */,
 				9BF26D572A880EDA006631E9 /* XCRemoteSwiftPackageReference "MarqueeText" */,
 				9B1866F12A8A858300034A10 /* XCRemoteSwiftPackageReference "Drops" */,
+				9B6386982BA4F5F8000D4EB6 /* XCRemoteSwiftPackageReference "ButtonKit" */,
 			);
 			productRefGroup = 9B80473B29B768010069B407 /* Products */;
 			projectDirPath = "";
@@ -839,7 +840,6 @@
 				9BA88EEA2A8648ED00E61A61 /* PreviewData.swift in Sources */,
 				9B289EA829F6EDC3007FD445 /* NumberExtensions.swift in Sources */,
 				9BF7AF8C29CDF1C8004E0DA7 /* PrimaryActionButton.swift in Sources */,
-				9BF26D462A8781F6006631E9 /* AsyncButton.swift in Sources */,
 				9B289EA529F6EC2D007FD445 /* ImageExtensions.swift in Sources */,
 				9BBE146729FDA11C0028C500 /* SearchScreen.swift in Sources */,
 				9BBE145F29FB18DA0028C500 /* NotificationExtensions.swift in Sources */,
@@ -1001,7 +1001,7 @@
 					"@executable_path/Frameworks",
 				);
 				MARKETING_VERSION = 1.0;
-				PRODUCT_BUNDLE_IDENTIFIER = org.lyarenei.JellyMusic;
+				PRODUCT_BUNDLE_IDENTIFIER = org.lyarenei.Medusic;
 				PRODUCT_NAME = JellyMusic;
 				SDKROOT = iphoneos;
 				SWIFT_EMIT_LOC_STRINGS = YES;
@@ -1035,7 +1035,7 @@
 					"@executable_path/Frameworks",
 				);
 				MARKETING_VERSION = 1.0;
-				PRODUCT_BUNDLE_IDENTIFIER = org.lyarenei.JellyMusic;
+				PRODUCT_BUNDLE_IDENTIFIER = org.lyarenei.Medusic;
 				PRODUCT_NAME = JellyMusic;
 				SDKROOT = iphoneos;
 				SWIFT_EMIT_LOC_STRINGS = YES;
@@ -1117,6 +1117,14 @@
 				minimumVersion = 1.0.0;
 			};
 		};
+		9B6386982BA4F5F8000D4EB6 /* XCRemoteSwiftPackageReference "ButtonKit" */ = {
+			isa = XCRemoteSwiftPackageReference;
+			repositoryURL = "https://github.com/Dean151/ButtonKit.git";
+			requirement = {
+				kind = upToNextMajorVersion;
+				minimumVersion = 0.2.1;
+			};
+		};
 		9BB754D429B93F3C009BB3A6 /* XCRemoteSwiftPackageReference "jellyfin-sdk-swift" */ = {
 			isa = XCRemoteSwiftPackageReference;
 			repositoryURL = "https://github.com/jellyfin/jellyfin-sdk-swift";
@@ -1184,6 +1192,11 @@
 			isa = XCSwiftPackageProductDependency;
 			package = 9B1866F12A8A858300034A10 /* XCRemoteSwiftPackageReference "Drops" */;
 			productName = Drops;
+		};
+		9B6386992BA4F5F8000D4EB6 /* ButtonKit */ = {
+			isa = XCSwiftPackageProductDependency;
+			package = 9B6386982BA4F5F8000D4EB6 /* XCRemoteSwiftPackageReference "ButtonKit" */;
+			productName = ButtonKit;
 		};
 		9BB754D529B93F3C009BB3A6 /* JellyfinAPI */ = {
 			isa = XCSwiftPackageProductDependency;
