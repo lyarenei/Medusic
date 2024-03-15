@@ -92,6 +92,7 @@ struct FavoriteButton: View {
             isFavorite.toggle()
         } catch {
             print("Failed to update favorite status: \(error.localizedDescription)")
+            Alerts.error("Action failed")
         }
     }
 }

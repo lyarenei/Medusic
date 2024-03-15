@@ -31,6 +31,7 @@ struct AdvancedSettings: View {
                 try await library.refreshAll()
             } catch {
                 print("Failed to refresh library: \(error.localizedDescription)")
+                Alerts.error("Library refresh failed")
             }
         } label: {
             Text("Force library refresh")
@@ -173,6 +174,7 @@ private struct RemoveDownloads: View {
                 resetSize()
             } catch {
                 print("Failed to remove downloads: \(error.localizedDescription)")
+                Alerts.error("Removing files failed")
             }
         }
     }
@@ -182,7 +184,8 @@ private struct RemoveDownloads: View {
         do {
             sizeMB = try fileRepo.downloadedFilesSizeInMB()
         } catch {
-            print("Failed to get image cache size: \(error.localizedDescription)")
+            print("Failed to get file cache size: \(error.localizedDescription)")
+            Alerts.error("Failed to get file size")
         }
     }
 }

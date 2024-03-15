@@ -138,6 +138,7 @@ struct DownloadButton: View {
                 }
             } catch {
                 print("Button action failed for item: \(item) - \(error.localizedDescription)")
+                Alerts.error("Action failed")
             }
         }
     }

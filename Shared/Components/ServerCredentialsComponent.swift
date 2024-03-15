@@ -48,6 +48,7 @@ struct ServerCredentialsComponent: View {
             try keychain.set(newPassword, forKey: "password")
         } catch {
             print("Failed to save password: \(error.localizedDescription)")
+            Alerts.error("Failed to save password")
         }
     }
 }
