@@ -27,6 +27,7 @@ struct JellyMusicApp: App {
             MainScreen()
                 .preferredColorScheme(appColorScheme.asColorScheme)
                 .environmentObject(SongRepository(store: .songs))
+                .environmentObject(NavigationRouter())
                 .environmentObject(
                     LibraryRepository(
                         artistStore: .artists,
