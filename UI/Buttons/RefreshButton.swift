@@ -20,6 +20,7 @@ struct RefreshButton: View {
                 Image(systemSymbol: .arrowClockwise)
             }
         }
+        .disabledWhenLoading()
     }
 
     private func action() async {

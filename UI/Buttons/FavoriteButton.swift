@@ -38,6 +38,7 @@ struct FavoriteButton: View {
             }
         }
         .onAppear { isFavorite = item.isFavorite }
+        .disabledWhenLoading()
     }
 
     enum ButtonLayout {

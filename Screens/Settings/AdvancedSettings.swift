@@ -37,6 +37,7 @@ struct AdvancedSettings: View {
         } label: {
             Text("Force library refresh")
         }
+        .disabledWhenLoading()
     }
 
     @ViewBuilder
