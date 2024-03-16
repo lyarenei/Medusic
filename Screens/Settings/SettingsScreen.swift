@@ -8,8 +8,17 @@ struct SettingsScreen: View {
         self.apiClient = apiClient
     }
 
+    @State
+    private var serverStatusValue = "unknown"
+
+    @State
+    private var serverStatusColor: Color = .gray
+
+    @State
+    private var pingInProgress = false
+
     var body: some View {
-        NavigationView {
+        NavigationStack {
             List {
                 jellyfinSection
                 GeneralSettings()
@@ -19,22 +28,37 @@ struct SettingsScreen: View {
             .navigationTitle("Settings")
             .listStyle(.grouped)
             .buttonStyle(.plain)
+            .navigationDestination(for: SettingsNav.self) { nav in
+                switch nav {
+                case .jellyfin:
+                    JellyfinSettings(client: apiClient)
+                }
+            }
         }
-        .navigationViewStyle(.stack)
     }
 
     @ViewBuilder
     private var jellyfinSection: some View {
-        Section {
-            ServerUrlComponent()
-            ServerCredentialsComponent()
-        } header: {
-            Text("Jellyfin")
+        NavigationLink(value: SettingsNav.jellyfin) {
+            serverStatus
         }
+    }
 
-        Section {
-            ServerStatusComponent(apiClient: apiClient)
+    @ViewBuilder
+    private var serverStatus: some View {
+        HStack {
+            Text("Jellyfin server")
+            Spacer()
+
+            if pingInProgress {
+                ProgressView()
+                    .scaledToFit()
+            } else {
+                Text(serverStatusValue)
+                    .foregroundStyle(serverStatusColor)
+            }
         }
+        // TODO: server status on appear
     }
 
     @ViewBuilder
