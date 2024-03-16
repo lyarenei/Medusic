@@ -17,8 +17,11 @@ struct SettingsScreen: View {
     @State
     private var checkInProgress = false
 
+    @EnvironmentObject
+    private var router: NavigationRouter
+
     var body: some View {
-        NavigationStack {
+        NavigationStack(path: $router.settingsPath) {
             List {
                 jellyfinSettings
                 GeneralSettings()
