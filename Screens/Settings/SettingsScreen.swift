@@ -26,7 +26,7 @@ struct SettingsScreen: View {
                 miscSection
             }
             .navigationTitle("Settings")
-            .listStyle(.grouped)
+            .listStyle(.insetGrouped)
             .buttonStyle(.plain)
             .navigationDestination(for: SettingsNav.self) { nav in
                 switch nav {
