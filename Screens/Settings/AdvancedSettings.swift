@@ -21,7 +21,7 @@ struct AdvancedSettings: View {
             resetToDefaultsButton
                 .foregroundColor(.red)
         }
-        .listStyle(.grouped)
+        .listStyle(.insetGrouped)
         .navigationTitle("Advanced")
         .navigationBarTitleDisplayMode(.inline)
     }
