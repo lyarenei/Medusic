@@ -30,6 +30,9 @@ struct SettingsScreen: View {
             .buttonStyle(.plain)
             .navigationDestination(for: SettingsNav.self) { nav in
                 switch nav {
+                case .advanced:
+                    AdvancedSettings()
+                        .environmentObject(FileRepository.shared)
                 case .jellyfin:
                     JellyfinSettings(client: apiClient)
                 }
@@ -87,9 +90,8 @@ struct SettingsScreen: View {
 
     @ViewBuilder
     private var advancedSettings: some View {
-        NavigationLink("Advanced") {
-            AdvancedSettings()
-                .environmentObject(FileRepository.shared)
+        NavigationLink(value: SettingsNav.advanced) {
+            Text("Advanced")
         }
     }
 
