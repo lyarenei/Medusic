@@ -25,7 +25,7 @@ struct SettingsScreen: View {
             List {
                 jellyfinSettings
                 GeneralSettings()
-                UserInterfaceSettings()
+
                 miscSection
             }
             .navigationTitle("Settings")
@@ -36,6 +36,8 @@ struct SettingsScreen: View {
                 case .advanced:
                     AdvancedSettings()
                         .environmentObject(FileRepository.shared)
+                case .appearance:
+                    AppearanceSettings()
                 case .jellyfin:
                     JellyfinSettings(client: apiClient)
 
@@ -88,6 +90,7 @@ struct SettingsScreen: View {
     @ViewBuilder
     private var miscSection: some View {
         Section {
+            appearanceSettings
             advancedSettings
 
             #if DEBUG
@@ -100,6 +103,13 @@ struct SettingsScreen: View {
     private var advancedSettings: some View {
         NavigationLink(value: SettingsNav.advanced) {
             Text("Advanced")
+        }
+    }
+
+    @ViewBuilder
+    private var appearanceSettings: some View {
+        NavigationLink(value: SettingsNav.appearance) {
+            Text("Appearance")
         }
     }
 
