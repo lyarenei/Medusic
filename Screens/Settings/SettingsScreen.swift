@@ -15,7 +15,7 @@ struct SettingsScreen: View {
     private var serverStatusColor: Color = .gray
 
     @State
-    private var pingInProgress = false
+    private var checkInProgress = false
 
     var body: some View {
         NavigationStack {
@@ -50,7 +50,7 @@ struct SettingsScreen: View {
             Text("Jellyfin server")
             Spacer()
 
-            if pingInProgress {
+            if checkInProgress {
                 ProgressView()
                     .scaledToFit()
             } else {
@@ -58,7 +58,20 @@ struct SettingsScreen: View {
                     .foregroundStyle(serverStatusColor)
             }
         }
-        // TODO: server status on appear
+        .task {
+            checkInProgress = true
+            defer { checkInProgress = false }
+            let status = await apiClient.getServerStatus()
+            serverStatusValue = status.rawValue
+            switch status {
+            case .offline:
+                serverStatusColor = .red
+            case .online:
+                serverStatusColor = .green
+            default:
+                serverStatusColor = .gray
+            }
+        }
     }
 
     @ViewBuilder

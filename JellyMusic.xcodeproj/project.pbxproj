@@ -60,6 +60,7 @@
 		9B7D1CCD2BA5025800FF888F /* NavigationRouter.swift in Sources */ = {isa = PBXBuildFile; fileRef = 9B7D1CCC2BA5025800FF888F /* NavigationRouter.swift */; };
 		9B7D1CCF2BA5052600FF888F /* JellyfinSettings.swift in Sources */ = {isa = PBXBuildFile; fileRef = 9B7D1CCE2BA5052600FF888F /* JellyfinSettings.swift */; };
 		9B7D1CD22BA5802800FF888F /* JellyfinSettings+ViewModel.swift in Sources */ = {isa = PBXBuildFile; fileRef = 9B7D1CD12BA5802800FF888F /* JellyfinSettings+ViewModel.swift */; };
+		9B7D1CD42BA60F2100FF888F /* Enums.swift in Sources */ = {isa = PBXBuildFile; fileRef = 9B7D1CD32BA60F2100FF888F /* Enums.swift */; };
 		9B80474329B768010069B407 /* JellyMusicApp.swift in Sources */ = {isa = PBXBuildFile; fileRef = 9B80473329B768000069B407 /* JellyMusicApp.swift */; };
 		9B80474729B768010069B407 /* Assets.xcassets in Resources */ = {isa = PBXBuildFile; fileRef = 9B80473529B768010069B407 /* Assets.xcassets */; };
 		9B80475E29B7D5330069B407 /* MainScreen.swift in Sources */ = {isa = PBXBuildFile; fileRef = 9B80475D29B7D5330069B407 /* MainScreen.swift */; };
@@ -167,6 +168,7 @@
 		9B7D1CCC2BA5025800FF888F /* NavigationRouter.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = NavigationRouter.swift; sourceTree = "<group>"; };
 		9B7D1CCE2BA5052600FF888F /* JellyfinSettings.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = JellyfinSettings.swift; sourceTree = "<group>"; };
 		9B7D1CD12BA5802800FF888F /* JellyfinSettings+ViewModel.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = "JellyfinSettings+ViewModel.swift"; sourceTree = "<group>"; };
+		9B7D1CD32BA60F2100FF888F /* Enums.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = Enums.swift; sourceTree = "<group>"; };
 		9B80473329B768000069B407 /* JellyMusicApp.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = JellyMusicApp.swift; sourceTree = "<group>"; };
 		9B80473529B768010069B407 /* Assets.xcassets */ = {isa = PBXFileReference; lastKnownFileType = folder.assetcatalog; path = Assets.xcassets; sourceTree = "<group>"; };
 		9B80473A29B768010069B407 /* JellyMusic.app */ = {isa = PBXFileReference; explicitFileType = wrapper.application; includeInIndex = 0; path = JellyMusic.app; sourceTree = BUILT_PRODUCTS_DIR; };
@@ -455,6 +457,7 @@
 			children = (
 				48C1F8CE29B9F3DB003BE048 /* Services */,
 				48C1F8DC29B9FF91003BE048 /* ApiClient.swift */,
+				9B7D1CD32BA60F2100FF888F /* Enums.swift */,
 				48C1F8E329BB827E003BE048 /* JellyfinImageProvider.swift */,
 			);
 			path = Jellyfin;
@@ -848,6 +851,7 @@
 				9BA88EEA2A8648ED00E61A61 /* PreviewData.swift in Sources */,
 				9B289EA829F6EDC3007FD445 /* NumberExtensions.swift in Sources */,
 				9BF7AF8C29CDF1C8004E0DA7 /* PrimaryActionButton.swift in Sources */,
+				9B7D1CD42BA60F2100FF888F /* Enums.swift in Sources */,
 				9B289EA529F6EC2D007FD445 /* ImageExtensions.swift in Sources */,
 				9BBE146729FDA11C0028C500 /* SearchScreen.swift in Sources */,
 				9BBE145F29FB18DA0028C500 /* NotificationExtensions.swift in Sources */,

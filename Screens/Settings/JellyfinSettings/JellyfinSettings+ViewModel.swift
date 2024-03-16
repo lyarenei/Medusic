@@ -4,12 +4,6 @@ import SimpleKeychain
 import SwiftUI
 
 extension JellyfinSettings {
-    enum ServerStatus: String {
-        case offline
-        case online
-        case unknown
-    }
-
     enum UserStatus: String {
         case noCredentials = "no credentials"
         case invalidCredentials = "invalid credentials"
