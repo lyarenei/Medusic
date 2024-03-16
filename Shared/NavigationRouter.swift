@@ -9,4 +9,8 @@ final class NavigationRouter: ObservableObject {
 enum SettingsNav {
     case advanced
     case jellyfin
+
+    #if DEBUG
+    case developer
+    #endif
 }

@@ -35,6 +35,11 @@ struct SettingsScreen: View {
                         .environmentObject(FileRepository.shared)
                 case .jellyfin:
                     JellyfinSettings(client: apiClient)
+
+                #if DEBUG
+                case .developer:
+                    DeveloperSettings(apiClient: apiClient)
+                #endif
                 }
             }
         }
@@ -98,8 +103,8 @@ struct SettingsScreen: View {
     #if DEBUG
     @ViewBuilder
     private var developerSettings: some View {
-        NavigationLink("Developer") {
-            DeveloperSettings(apiClient: apiClient)
+        NavigationLink(value: SettingsNav.developer) {
+            Text("Developer")
         }
     }
     #endif
