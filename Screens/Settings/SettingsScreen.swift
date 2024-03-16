@@ -20,7 +20,7 @@ struct SettingsScreen: View {
     var body: some View {
         NavigationStack {
             List {
-                jellyfinSection
+                jellyfinSettings
                 GeneralSettings()
                 UserInterfaceSettings()
                 miscSection
@@ -38,7 +38,7 @@ struct SettingsScreen: View {
     }
 
     @ViewBuilder
-    private var jellyfinSection: some View {
+    private var jellyfinSettings: some View {
         NavigationLink(value: SettingsNav.jellyfin) {
             serverStatus
         }
