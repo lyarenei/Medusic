@@ -129,8 +129,8 @@ private struct DeveloperSettings: View {
         Toggle(isOn: $previewEnabled) {
             Text("Preview mode")
         }
-        .onChange(of: previewEnabled) { isEnabled in
-            if isEnabled {
+        .onChange(of: previewEnabled) {
+            if previewEnabled {
                 apiClient.usePreviewMode()
                 return
             }
