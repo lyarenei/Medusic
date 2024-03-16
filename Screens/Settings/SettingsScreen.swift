@@ -113,13 +113,10 @@ struct SettingsScreen: View {
     #endif
 }
 
-#if DEBUG
-struct SettingsScreen_Previews: PreviewProvider {
-    static var previews: some View {
-        SettingsScreen(apiClient: .init(previewEnabled: true))
-    }
+#Preview {
+    SettingsScreen(apiClient: .init(previewEnabled: true))
+        .environmentObject(NavigationRouter())
 }
-#endif
 
 #if DEBUG
 // MARK: - Developer settings
