@@ -8,38 +8,89 @@ struct SettingsScreen: View {
         self.apiClient = apiClient
     }
 
+    @State
+    private var serverStatusValue = "unknown"
+
+    @State
+    private var serverStatusColor: Color = .gray
+
+    @State
+    private var checkInProgress = false
+
+    @EnvironmentObject
+    private var router: NavigationRouter
+
     var body: some View {
-        NavigationView {
+        NavigationStack(path: $router.settingsPath) {
             List {
-                jellyfinSection
+                jellyfinSettings
                 GeneralSettings()
-                UserInterfaceSettings()
+
                 miscSection
             }
             .navigationTitle("Settings")
-            .listStyle(.grouped)
+            .listStyle(.insetGrouped)
             .buttonStyle(.plain)
+            .navigationDestination(for: SettingsNav.self) { nav in
+                switch nav {
+                case .advanced:
+                    AdvancedSettings()
+                        .environmentObject(FileRepository.shared)
+                case .appearance:
+                    AppearanceSettings()
+                case .jellyfin:
+                    JellyfinSettings(client: apiClient)
+
+                #if DEBUG
+                case .developer:
+                    DeveloperSettings(apiClient: apiClient)
+                #endif
+                }
+            }
         }
-        .navigationViewStyle(.stack)
     }
 
     @ViewBuilder
-    private var jellyfinSection: some View {
-        Section {
-            ServerUrlComponent()
-            ServerCredentialsComponent()
-        } header: {
-            Text("Jellyfin")
+    private var jellyfinSettings: some View {
+        NavigationLink(value: SettingsNav.jellyfin) {
+            serverStatus
         }
+    }
 
-        Section {
-            ServerStatusComponent(apiClient: apiClient)
+    @ViewBuilder
+    private var serverStatus: some View {
+        HStack {
+            Text("Jellyfin server")
+            Spacer()
+
+            if checkInProgress {
+                ProgressView()
+                    .scaledToFit()
+            } else {
+                Text(serverStatusValue)
+                    .foregroundStyle(serverStatusColor)
+            }
+        }
+        .task {
+            checkInProgress = true
+            defer { checkInProgress = false }
+            let status = await apiClient.getServerStatus()
+            serverStatusValue = status.rawValue
+            switch status {
+            case .offline:
+                serverStatusColor = .red
+            case .online:
+                serverStatusColor = .green
+            default:
+                serverStatusColor = .gray
+            }
         }
     }
 
     @ViewBuilder
     private var miscSection: some View {
         Section {
+            appearanceSettings
             advancedSettings
 
             #if DEBUG
@@ -50,29 +101,32 @@ struct SettingsScreen: View {
 
     @ViewBuilder
     private var advancedSettings: some View {
-        NavigationLink("Advanced") {
-            AdvancedSettings()
-                .environmentObject(FileRepository.shared)
+        NavigationLink(value: SettingsNav.advanced) {
+            Text("Advanced")
+        }
+    }
+
+    @ViewBuilder
+    private var appearanceSettings: some View {
+        NavigationLink(value: SettingsNav.appearance) {
+            Text("Appearance")
         }
     }
 
     #if DEBUG
     @ViewBuilder
     private var developerSettings: some View {
-        NavigationLink("Developer") {
-            DeveloperSettings(apiClient: apiClient)
+        NavigationLink(value: SettingsNav.developer) {
+            Text("Developer")
         }
     }
     #endif
 }
 
-#if DEBUG
-struct SettingsScreen_Previews: PreviewProvider {
-    static var previews: some View {
-        SettingsScreen(apiClient: .init(previewEnabled: true))
-    }
+#Preview {
+    SettingsScreen(apiClient: .init(previewEnabled: true))
+        .environmentObject(NavigationRouter())
 }
-#endif
 
 #if DEBUG
 // MARK: - Developer settings
@@ -105,8 +159,8 @@ private struct DeveloperSettings: View {
         Toggle(isOn: $previewEnabled) {
             Text("Preview mode")
         }
-        .onChange(of: previewEnabled) { isEnabled in
-            if isEnabled {
+        .onChange(of: previewEnabled) {
+            if previewEnabled {
                 apiClient.usePreviewMode()
                 return
             }

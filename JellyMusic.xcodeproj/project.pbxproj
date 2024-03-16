@@ -43,15 +43,12 @@
 		9B3D44A229BCFD370054C9E0 /* MockSystemService.swift in Sources */ = {isa = PBXBuildFile; fileRef = 9B3D44A129BCFD370054C9E0 /* MockSystemService.swift */; };
 		9B3D44BA29BDF2550054C9E0 /* InlineInputComponent.swift in Sources */ = {isa = PBXBuildFile; fileRef = 9B3D44B929BDF2550054C9E0 /* InlineInputComponent.swift */; };
 		9B3D44C029BE09620054C9E0 /* SongsLibraryScreen.swift in Sources */ = {isa = PBXBuildFile; fileRef = 9B3D44BF29BE09620054C9E0 /* SongsLibraryScreen.swift */; };
-		9B46248F29E5B1C100A2259A /* ServerStatusComponent.swift in Sources */ = {isa = PBXBuildFile; fileRef = 9B46248E29E5B1C100A2259A /* ServerStatusComponent.swift */; };
 		9B46249829E5CDD000A2259A /* AdvancedSettings.swift in Sources */ = {isa = PBXBuildFile; fileRef = 9B46249729E5CDD000A2259A /* AdvancedSettings.swift */; };
 		9B4AD6682A46BCED00E1798F /* SheetCloseButton.swift in Sources */ = {isa = PBXBuildFile; fileRef = 9B4AD6672A46BCED00E1798F /* SheetCloseButton.swift */; };
 		9B52AF7729D0B106002E21B9 /* SongCollection.swift in Sources */ = {isa = PBXBuildFile; fileRef = 9B52AF7629D0B106002E21B9 /* SongCollection.swift */; };
 		9B52AF9429D339B1002E21B9 /* FileRepository.swift in Sources */ = {isa = PBXBuildFile; fileRef = 9B52AF9329D339B1002E21B9 /* FileRepository.swift */; };
 		9B63869A2BA4F5F8000D4EB6 /* ButtonKit in Frameworks */ = {isa = PBXBuildFile; productRef = 9B6386992BA4F5F8000D4EB6 /* ButtonKit */; };
 		9B6C17CD29D6BE700061866A /* AirPlayComponent.swift in Sources */ = {isa = PBXBuildFile; fileRef = 9B6C17CC29D6BE700061866A /* AirPlayComponent.swift */; };
-		9B6FB7AF29E5AA160013AA65 /* ServerUrlComponent.swift in Sources */ = {isa = PBXBuildFile; fileRef = 9B6FB7AE29E5AA160013AA65 /* ServerUrlComponent.swift */; };
-		9B6FB7B229E5AB500013AA65 /* ServerCredentialsComponent.swift in Sources */ = {isa = PBXBuildFile; fileRef = 9B6FB7B129E5AB500013AA65 /* ServerCredentialsComponent.swift */; };
 		9B70BD9D29B91F42000DB31C /* AlbumTileComponent.swift in Sources */ = {isa = PBXBuildFile; fileRef = 9B70BD9C29B91F42000DB31C /* AlbumTileComponent.swift */; };
 		9B70BDA029B923AE000DB31C /* AlbumDetailScreen.swift in Sources */ = {isa = PBXBuildFile; fileRef = 9B70BD9F29B923AE000DB31C /* AlbumDetailScreen.swift */; };
 		9B73ECF929C8F085007F74DB /* MusicPlayerScreen.swift in Sources */ = {isa = PBXBuildFile; fileRef = 9B73ECF829C8F085007F74DB /* MusicPlayerScreen.swift */; };
@@ -60,6 +57,11 @@
 		9B73ED0229C9ECD0007F74DB /* DefaultMediaService.swift in Sources */ = {isa = PBXBuildFile; fileRef = 9B73ED0129C9ECD0007F74DB /* DefaultMediaService.swift */; };
 		9B7AF3B129EB04A60039A7DF /* ViewExtensions.swift in Sources */ = {isa = PBXBuildFile; fileRef = 9B7AF3B029EB04A60039A7DF /* ViewExtensions.swift */; };
 		9B7AF3B429EB09310039A7DF /* AlbumListRowComponent.swift in Sources */ = {isa = PBXBuildFile; fileRef = 9B7AF3B329EB09310039A7DF /* AlbumListRowComponent.swift */; };
+		9B7D1CCD2BA5025800FF888F /* NavigationRouter.swift in Sources */ = {isa = PBXBuildFile; fileRef = 9B7D1CCC2BA5025800FF888F /* NavigationRouter.swift */; };
+		9B7D1CCF2BA5052600FF888F /* JellyfinSettings.swift in Sources */ = {isa = PBXBuildFile; fileRef = 9B7D1CCE2BA5052600FF888F /* JellyfinSettings.swift */; };
+		9B7D1CD22BA5802800FF888F /* JellyfinSettings+ViewModel.swift in Sources */ = {isa = PBXBuildFile; fileRef = 9B7D1CD12BA5802800FF888F /* JellyfinSettings+ViewModel.swift */; };
+		9B7D1CD42BA60F2100FF888F /* Enums.swift in Sources */ = {isa = PBXBuildFile; fileRef = 9B7D1CD32BA60F2100FF888F /* Enums.swift */; };
+		9B7D1CD62BA6333000FF888F /* AppearanceSettings.swift in Sources */ = {isa = PBXBuildFile; fileRef = 9B7D1CD52BA6333000FF888F /* AppearanceSettings.swift */; };
 		9B80474329B768010069B407 /* JellyMusicApp.swift in Sources */ = {isa = PBXBuildFile; fileRef = 9B80473329B768000069B407 /* JellyMusicApp.swift */; };
 		9B80474729B768010069B407 /* Assets.xcassets in Resources */ = {isa = PBXBuildFile; fileRef = 9B80473529B768010069B407 /* Assets.xcassets */; };
 		9B80475E29B7D5330069B407 /* MainScreen.swift in Sources */ = {isa = PBXBuildFile; fileRef = 9B80475D29B7D5330069B407 /* MainScreen.swift */; };
@@ -67,7 +69,6 @@
 		9B80477029B89EE40069B407 /* AlbumLibraryScreen.swift in Sources */ = {isa = PBXBuildFile; fileRef = 9B80476F29B89EE40069B407 /* AlbumLibraryScreen.swift */; };
 		9B80477E29B8CDF80069B407 /* SettingsScreen.swift in Sources */ = {isa = PBXBuildFile; fileRef = 9B80477D29B8CDF80069B407 /* SettingsScreen.swift */; };
 		9B94DB642A8F5327005EDF18 /* GeneralSettings.swift in Sources */ = {isa = PBXBuildFile; fileRef = 9B94DB632A8F5327005EDF18 /* GeneralSettings.swift */; };
-		9B94DB662A8F5D11005EDF18 /* UserInterfaceSettings.swift in Sources */ = {isa = PBXBuildFile; fileRef = 9B94DB652A8F5D11005EDF18 /* UserInterfaceSettings.swift */; };
 		9BA521FE29F19FEC0000D0AA /* StringExtensions.swift in Sources */ = {isa = PBXBuildFile; fileRef = 9BA521FD29F19FEC0000D0AA /* StringExtensions.swift */; };
 		9BA5220129F1A2110000D0AA /* AVPlayerItemExtensions.swift in Sources */ = {isa = PBXBuildFile; fileRef = 9BA5220029F1A2110000D0AA /* AVPlayerItemExtensions.swift */; };
 		9BA5220429F2EA4C0000D0AA /* SongListRowComponent.swift in Sources */ = {isa = PBXBuildFile; fileRef = 9BA5220329F2EA4C0000D0AA /* SongListRowComponent.swift */; };
@@ -151,14 +152,11 @@
 		9B3D44A129BCFD370054C9E0 /* MockSystemService.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = MockSystemService.swift; sourceTree = "<group>"; };
 		9B3D44B929BDF2550054C9E0 /* InlineInputComponent.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = InlineInputComponent.swift; sourceTree = "<group>"; };
 		9B3D44BF29BE09620054C9E0 /* SongsLibraryScreen.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = SongsLibraryScreen.swift; sourceTree = "<group>"; };
-		9B46248E29E5B1C100A2259A /* ServerStatusComponent.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = ServerStatusComponent.swift; sourceTree = "<group>"; };
 		9B46249729E5CDD000A2259A /* AdvancedSettings.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = AdvancedSettings.swift; sourceTree = "<group>"; };
 		9B4AD6672A46BCED00E1798F /* SheetCloseButton.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = SheetCloseButton.swift; sourceTree = "<group>"; };
 		9B52AF7629D0B106002E21B9 /* SongCollection.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = SongCollection.swift; sourceTree = "<group>"; };
 		9B52AF9329D339B1002E21B9 /* FileRepository.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = FileRepository.swift; sourceTree = "<group>"; };
 		9B6C17CC29D6BE700061866A /* AirPlayComponent.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = AirPlayComponent.swift; sourceTree = "<group>"; };
-		9B6FB7AE29E5AA160013AA65 /* ServerUrlComponent.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = ServerUrlComponent.swift; sourceTree = "<group>"; };
-		9B6FB7B129E5AB500013AA65 /* ServerCredentialsComponent.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = ServerCredentialsComponent.swift; sourceTree = "<group>"; };
 		9B70BD9C29B91F42000DB31C /* AlbumTileComponent.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = AlbumTileComponent.swift; sourceTree = "<group>"; };
 		9B70BD9F29B923AE000DB31C /* AlbumDetailScreen.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = AlbumDetailScreen.swift; sourceTree = "<group>"; };
 		9B73ECF829C8F085007F74DB /* MusicPlayerScreen.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = MusicPlayerScreen.swift; sourceTree = "<group>"; };
@@ -167,6 +165,11 @@
 		9B73ED0129C9ECD0007F74DB /* DefaultMediaService.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = DefaultMediaService.swift; sourceTree = "<group>"; };
 		9B7AF3B029EB04A60039A7DF /* ViewExtensions.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = ViewExtensions.swift; sourceTree = "<group>"; };
 		9B7AF3B329EB09310039A7DF /* AlbumListRowComponent.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = AlbumListRowComponent.swift; sourceTree = "<group>"; };
+		9B7D1CCC2BA5025800FF888F /* NavigationRouter.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = NavigationRouter.swift; sourceTree = "<group>"; };
+		9B7D1CCE2BA5052600FF888F /* JellyfinSettings.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = JellyfinSettings.swift; sourceTree = "<group>"; };
+		9B7D1CD12BA5802800FF888F /* JellyfinSettings+ViewModel.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = "JellyfinSettings+ViewModel.swift"; sourceTree = "<group>"; };
+		9B7D1CD32BA60F2100FF888F /* Enums.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = Enums.swift; sourceTree = "<group>"; };
+		9B7D1CD52BA6333000FF888F /* AppearanceSettings.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = AppearanceSettings.swift; sourceTree = "<group>"; };
 		9B80473329B768000069B407 /* JellyMusicApp.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = JellyMusicApp.swift; sourceTree = "<group>"; };
 		9B80473529B768010069B407 /* Assets.xcassets */ = {isa = PBXFileReference; lastKnownFileType = folder.assetcatalog; path = Assets.xcassets; sourceTree = "<group>"; };
 		9B80473A29B768010069B407 /* JellyMusic.app */ = {isa = PBXFileReference; explicitFileType = wrapper.application; includeInIndex = 0; path = JellyMusic.app; sourceTree = BUILT_PRODUCTS_DIR; };
@@ -175,7 +178,6 @@
 		9B80476F29B89EE40069B407 /* AlbumLibraryScreen.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = AlbumLibraryScreen.swift; sourceTree = "<group>"; };
 		9B80477D29B8CDF80069B407 /* SettingsScreen.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = SettingsScreen.swift; sourceTree = "<group>"; };
 		9B94DB632A8F5327005EDF18 /* GeneralSettings.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = GeneralSettings.swift; sourceTree = "<group>"; };
-		9B94DB652A8F5D11005EDF18 /* UserInterfaceSettings.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = UserInterfaceSettings.swift; sourceTree = "<group>"; };
 		9BA521FD29F19FEC0000D0AA /* StringExtensions.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = StringExtensions.swift; sourceTree = "<group>"; };
 		9BA5220029F1A2110000D0AA /* AVPlayerItemExtensions.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = AVPlayerItemExtensions.swift; sourceTree = "<group>"; };
 		9BA5220329F2EA4C0000D0AA /* SongListRowComponent.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = SongListRowComponent.swift; sourceTree = "<group>"; };
@@ -311,9 +313,6 @@
 				9B3D44B929BDF2550054C9E0 /* InlineInputComponent.swift */,
 				9BB75EB529C4F751008CD65A /* InlineValueComponent.swift */,
 				9B3C7BE529D04F5800884597 /* InProgressComponent.swift */,
-				9B6FB7AE29E5AA160013AA65 /* ServerUrlComponent.swift */,
-				9B6FB7B129E5AB500013AA65 /* ServerCredentialsComponent.swift */,
-				9B46248E29E5B1C100A2259A /* ServerStatusComponent.swift */,
 				9B7AF3B329EB09310039A7DF /* AlbumListRowComponent.swift */,
 				9BBE146329FC682B0028C500 /* PlaybackProgressComponent.swift */,
 			);
@@ -343,6 +342,15 @@
 				9BBE145E29FB18DA0028C500 /* NotificationExtensions.swift */,
 			);
 			path = Extensions;
+			sourceTree = "<group>";
+		};
+		9B7D1CD02BA5801200FF888F /* JellyfinSettings */ = {
+			isa = PBXGroup;
+			children = (
+				9B7D1CCE2BA5052600FF888F /* JellyfinSettings.swift */,
+				9B7D1CD12BA5802800FF888F /* JellyfinSettings+ViewModel.swift */,
+			);
+			path = JellyfinSettings;
 			sourceTree = "<group>";
 		};
 		9B80472D29B768000069B407 = {
@@ -383,6 +391,7 @@
 				9BB75EAF29C4C5E1008CD65A /* Settings.swift */,
 				9B3C7BE829D0702600884597 /* Logger.swift */,
 				9B21623229E88D12008D3F73 /* MusicPlayer.swift */,
+				9B7D1CCC2BA5025800FF888F /* NavigationRouter.swift */,
 			);
 			path = Shared;
 			sourceTree = "<group>";
@@ -406,10 +415,11 @@
 		9B94DB622A8F52A5005EDF18 /* Settings */ = {
 			isa = PBXGroup;
 			children = (
+				9B7D1CD02BA5801200FF888F /* JellyfinSettings */,
 				9B80477D29B8CDF80069B407 /* SettingsScreen.swift */,
 				9B94DB632A8F5327005EDF18 /* GeneralSettings.swift */,
-				9B94DB652A8F5D11005EDF18 /* UserInterfaceSettings.swift */,
 				9B46249729E5CDD000A2259A /* AdvancedSettings.swift */,
+				9B7D1CD52BA6333000FF888F /* AppearanceSettings.swift */,
 			);
 			path = Settings;
 			sourceTree = "<group>";
@@ -447,6 +457,7 @@
 			children = (
 				48C1F8CE29B9F3DB003BE048 /* Services */,
 				48C1F8DC29B9FF91003BE048 /* ApiClient.swift */,
+				9B7D1CD32BA60F2100FF888F /* Enums.swift */,
 				48C1F8E329BB827E003BE048 /* JellyfinImageProvider.swift */,
 			);
 			path = Jellyfin;
@@ -773,12 +784,12 @@
 				9B3D44A229BCFD370054C9E0 /* MockSystemService.swift in Sources */,
 				9BF26D482A87C3A1006631E9 /* Errors.swift in Sources */,
 				9BF26D5D2A88C120006631E9 /* Song.swift in Sources */,
+				9B7D1CCD2BA5025800FF888F /* NavigationRouter.swift in Sources */,
 				9BB75EB029C4C5E1008CD65A /* Settings.swift in Sources */,
 				9B3D44C029BE09620054C9E0 /* SongsLibraryScreen.swift in Sources */,
 				9BA88EEF2A86516B00E61A61 /* DefaultArtistService.swift in Sources */,
 				9B80477029B89EE40069B407 /* AlbumLibraryScreen.swift in Sources */,
 				48C1F8C229B9E795003BE048 /* Store+common.swift in Sources */,
-				9B6FB7AF29E5AA160013AA65 /* ServerUrlComponent.swift in Sources */,
 				9B80476629B86F460069B407 /* LibraryScreen.swift in Sources */,
 				9B1EF3A329DCA62C00C2A33B /* PlayPreviousButton.swift in Sources */,
 				9BF6C8F82A86251A00916EC1 /* ArtistLibraryScreen.swift in Sources */,
@@ -805,6 +816,8 @@
 				9BF6C8EE2A861C9B00916EC1 /* LibraryRepository.swift in Sources */,
 				9BF26D422A8753E6006631E9 /* PreviewUtils.swift in Sources */,
 				9BF26D5B2A881FC6006631E9 /* UIConstants.swift in Sources */,
+				9B7D1CD62BA6333000FF888F /* AppearanceSettings.swift in Sources */,
+				9B7D1CCF2BA5052600FF888F /* JellyfinSettings.swift in Sources */,
 				9B7AF3B429EB09310039A7DF /* AlbumListRowComponent.swift in Sources */,
 				9BB75EAA29C39FFF008CD65A /* SongRepository.swift in Sources */,
 				9B73ECFF29C9ECC5007F74DB /* MockMediaService.swift in Sources */,
@@ -818,7 +831,6 @@
 				48C1F8DD29B9FF91003BE048 /* ApiClient.swift in Sources */,
 				9BA5220129F1A2110000D0AA /* AVPlayerItemExtensions.swift in Sources */,
 				4848B22629BCBC2000EB2FAA /* Cancellables.swift in Sources */,
-				9B46248F29E5B1C100A2259A /* ServerStatusComponent.swift in Sources */,
 				48C1F8C929B9EA60003BE048 /* DTOs+Identifiable.swift in Sources */,
 				9B46249829E5CDD000A2259A /* AdvancedSettings.swift in Sources */,
 				9B70BD9D29B91F42000DB31C /* AlbumTileComponent.swift in Sources */,
@@ -830,23 +842,23 @@
 				9B02CC592A44ECB7003DD97D /* VolumeSliderComponent.swift in Sources */,
 				9BF26D3A2A86C218006631E9 /* ArtistDetailScreen.swift in Sources */,
 				48C1F8E429BB827E003BE048 /* JellyfinImageProvider.swift in Sources */,
+				9B7D1CD22BA5802800FF888F /* JellyfinSettings+ViewModel.swift in Sources */,
 				9BDB03362A1288EE004EFA3A /* AlbumContextMenu.swift in Sources */,
 				9BEFA1C629C72A65004A07FB /* AlbumCollection.swift in Sources */,
 				9BBE145C29FB13110028C500 /* ConfirmButton.swift in Sources */,
-				9B6FB7B229E5AB500013AA65 /* ServerCredentialsComponent.swift in Sources */,
 				9BDB099329BB1F57007F99E4 /* MockSongService.swift in Sources */,
 				9B21623329E88D12008D3F73 /* MusicPlayer.swift in Sources */,
 				9BA88EED2A86515500E61A61 /* ArtistService.swift in Sources */,
 				9BA88EEA2A8648ED00E61A61 /* PreviewData.swift in Sources */,
 				9B289EA829F6EDC3007FD445 /* NumberExtensions.swift in Sources */,
 				9BF7AF8C29CDF1C8004E0DA7 /* PrimaryActionButton.swift in Sources */,
+				9B7D1CD42BA60F2100FF888F /* Enums.swift in Sources */,
 				9B289EA529F6EC2D007FD445 /* ImageExtensions.swift in Sources */,
 				9BBE146729FDA11C0028C500 /* SearchScreen.swift in Sources */,
 				9BBE145F29FB18DA0028C500 /* NotificationExtensions.swift in Sources */,
 				9B80477E29B8CDF80069B407 /* SettingsScreen.swift in Sources */,
 				9B3D449F29BCF9490054C9E0 /* DefaultSystemService.swift in Sources */,
 				9B73ECFC29C9ECA8007F74DB /* MediaService.swift in Sources */,
-				9B94DB662A8F5D11005EDF18 /* UserInterfaceSettings.swift in Sources */,
 				9BF6C8FB2A86277F00916EC1 /* ArrayExtensions.swift in Sources */,
 				9B3C7BE929D0702600884597 /* Logger.swift in Sources */,
 				9BF6C8F62A86222000916EC1 /* Store.swift in Sources */,
@@ -911,7 +923,7 @@
 				GCC_WARN_UNINITIALIZED_AUTOS = YES_AGGRESSIVE;
 				GCC_WARN_UNUSED_FUNCTION = YES;
 				GCC_WARN_UNUSED_VARIABLE = YES;
-				IPHONEOS_DEPLOYMENT_TARGET = 16.0;
+				IPHONEOS_DEPLOYMENT_TARGET = 17.0;
 				MTL_ENABLE_DEBUG_INFO = INCLUDE_SOURCE;
 				MTL_FAST_MATH = YES;
 				ONLY_ACTIVE_ARCH = YES;
@@ -967,7 +979,7 @@
 				GCC_WARN_UNINITIALIZED_AUTOS = YES_AGGRESSIVE;
 				GCC_WARN_UNUSED_FUNCTION = YES;
 				GCC_WARN_UNUSED_VARIABLE = YES;
-				IPHONEOS_DEPLOYMENT_TARGET = 16.0;
+				IPHONEOS_DEPLOYMENT_TARGET = 17.0;
 				MTL_ENABLE_DEBUG_INFO = NO;
 				MTL_FAST_MATH = YES;
 				SDKROOT = iphoneos;
@@ -995,7 +1007,7 @@
 				INFOPLIST_KEY_UILaunchScreen_Generation = YES;
 				INFOPLIST_KEY_UISupportedInterfaceOrientations = UIInterfaceOrientationPortrait;
 				INFOPLIST_KEY_UISupportedInterfaceOrientations_iPad = "UIInterfaceOrientationLandscapeLeft UIInterfaceOrientationLandscapeRight UIInterfaceOrientationPortrait UIInterfaceOrientationPortraitUpsideDown";
-				IPHONEOS_DEPLOYMENT_TARGET = 16.0;
+				IPHONEOS_DEPLOYMENT_TARGET = 17.0;
 				LD_RUNPATH_SEARCH_PATHS = (
 					"$(inherited)",
 					"@executable_path/Frameworks",
@@ -1029,7 +1041,7 @@
 				INFOPLIST_KEY_UILaunchScreen_Generation = YES;
 				INFOPLIST_KEY_UISupportedInterfaceOrientations = UIInterfaceOrientationPortrait;
 				INFOPLIST_KEY_UISupportedInterfaceOrientations_iPad = "UIInterfaceOrientationLandscapeLeft UIInterfaceOrientationLandscapeRight UIInterfaceOrientationPortrait UIInterfaceOrientationPortraitUpsideDown";
-				IPHONEOS_DEPLOYMENT_TARGET = 16.0;
+				IPHONEOS_DEPLOYMENT_TARGET = 17.0;
 				LD_RUNPATH_SEARCH_PATHS = (
 					"$(inherited)",
 					"@executable_path/Frameworks",

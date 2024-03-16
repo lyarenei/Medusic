@@ -22,6 +22,15 @@ final class ApiClient {
         useDefaultMode()
     }
 
+    func getServerStatus() async -> ServerStatus {
+        do {
+            let isOk = try await services.systemService.ping()
+            return isOk ? .online : .offline
+        } catch {
+            return .unknown
+        }
+    }
+
     /// Use preview mode of the client with mocked data. Does not persist any changes.
     func usePreviewMode() {
         services = .preview

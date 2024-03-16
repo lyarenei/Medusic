@@ -1,4 +1,5 @@
 import ButtonKit
+import DebouncedOnChange
 import Defaults
 import Kingfisher
 import SwiftUI
@@ -20,7 +21,7 @@ struct AdvancedSettings: View {
             resetToDefaultsButton
                 .foregroundColor(.red)
         }
-        .listStyle(.grouped)
+        .listStyle(.insetGrouped)
         .navigationTitle("Advanced")
         .navigationBarTitleDisplayMode(.inline)
     }
@@ -150,7 +151,7 @@ private struct RemoveDownloads: View {
     var body: some View {
         Section {
             ConfirmButton(
-                btnText: "Remove downloads",
+                btnText: "Remove all downloads",
                 alertTitle: "Remove downloaded songs",
                 alertMessage: .empty,
                 alertPrimaryBtnText: "Confirm",

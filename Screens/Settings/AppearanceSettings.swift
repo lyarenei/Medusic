@@ -1,13 +1,12 @@
 import Defaults
-import Foundation
 import SwiftUI
 
-struct UserInterfaceSettings: View {
-    @Default(.primaryAction)
-    private var primaryAction: PrimaryAction
-
+struct AppearanceSettings: View {
     @Default(.appColorScheme)
     private var colorScheme
+
+    @Default(.primaryAction)
+    private var primaryAction: PrimaryAction
 
     @Default(.libraryShowFavorites)
     private var libraryShowFavorites
@@ -19,20 +18,24 @@ struct UserInterfaceSettings: View {
     private var maxPreviewItems: Int
 
     var body: some View {
-        Section {
-            primaryActionOption
-            colorSchemeOption
+        List {
+            Section {
+                colorSchemeOption
+            }
 
-            librarySettings
-        }
-    }
+            Section {
+                primaryActionOption
+            }
 
-    @ViewBuilder
-    private var primaryActionOption: some View {
-        Picker("Primary action", selection: $primaryAction) {
-            Text("Download").tag(PrimaryAction.download)
-            Text("Favorite").tag(PrimaryAction.favorite)
+            Section {
+                libraryShowFavoritesOption
+                libraryShowRecentlyAddedOption
+                maxPreviewItemsOption
+            }
         }
+        .listStyle(.insetGrouped)
+        .navigationTitle("Appearance")
+        .navigationBarTitleDisplayMode(.inline)
     }
 
     @ViewBuilder
@@ -45,16 +48,10 @@ struct UserInterfaceSettings: View {
     }
 
     @ViewBuilder
-    private var librarySettings: some View {
-        NavigationLink("Library") {
-            List {
-                libraryShowFavoritesOption
-                libraryShowRecentlyAddedOption
-                maxPreviewItemsOption
-            }
-            .listStyle(.grouped)
-            .navigationTitle("Library")
-            .navigationBarTitleDisplayMode(.inline)
+    private var primaryActionOption: some View {
+        Picker("Primary action", selection: $primaryAction) {
+            Text("Download").tag(PrimaryAction.download)
+            Text("Favorite").tag(PrimaryAction.favorite)
         }
     }
 
@@ -74,7 +71,7 @@ struct UserInterfaceSettings: View {
 
     @ViewBuilder
     private var maxPreviewItemsOption: some View {
-        Picker("Max items in preview", selection: $maxPreviewItems) {
+        Picker("Max items in previews", selection: $maxPreviewItems) {
             Text("5").tag(5)
             Text("10").tag(10)
             Text("15").tag(15)
@@ -82,4 +79,8 @@ struct UserInterfaceSettings: View {
             Text("25").tag(25)
         }
     }
+}
+
+#Preview {
+    AppearanceSettings()
 }
