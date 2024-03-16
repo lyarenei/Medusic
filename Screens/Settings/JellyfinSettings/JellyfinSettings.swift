@@ -56,7 +56,13 @@ struct JellyfinSettings: View {
                         .foregroundStyle(Color(viewModel.serverStatusColor))
                 }
 
-                infoEntry("User Status:", value: viewModel.userStatus.rawValue)
+                HStack {
+                    Text("User Status:")
+                    Spacer()
+                    Text(viewModel.userStatus.rawValue)
+                        .foregroundStyle(Color(viewModel.userStatusColor))
+                }
+
                 infoEntry("Name:", value: viewModel.serverName)
                 infoEntry("Version:", value: viewModel.serverVersion)
             }

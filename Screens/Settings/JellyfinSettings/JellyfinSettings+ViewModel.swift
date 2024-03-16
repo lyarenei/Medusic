@@ -25,8 +25,10 @@ extension JellyfinSettings {
         var password: String
 
         private(set) var serverStatus: ServerStatus
-        private(set) var userStatus: UserStatus
         private(set) var serverStatusColor: Color
+
+        private(set) var userStatus: UserStatus
+        private(set) var userStatusColor: Color
 
         private(set) var serverName: String
         private(set) var serverVersion: String
@@ -41,8 +43,10 @@ extension JellyfinSettings {
             self.password = .empty
 
             self.serverStatus = .unknown
-            self.userStatus = .noCredentials
             self.serverStatusColor = .gray
+
+            self.userStatus = .noCredentials
+            self.userStatusColor = .gray
 
             self.serverName = "unknown"
             self.serverVersion = "unknown"
@@ -71,17 +75,21 @@ extension JellyfinSettings {
         }
 
         func refreshServerStatus() async {
-            var status: ServerStatus = .unknown
+            var serverStatus: ServerStatus = .unknown
+            var serverColor: Color = .gray
+
             var userStatus: UserStatus = .noCredentials
-            var color: Color = .gray
+            var userColor: Color = .gray
 
             var name = "unknown"
             var version = "unknown"
 
             defer {
-                serverStatus = status
+                self.serverStatus = serverStatus
+                serverStatusColor = serverColor
+
                 self.userStatus = userStatus
-                serverStatusColor = color
+                userStatusColor = userColor
 
                 serverName = name
                 serverVersion = version
@@ -90,11 +98,12 @@ extension JellyfinSettings {
             guard isConfigured else { return }
 
             // URL check
-            status = .unknown
-            color = .red
+            serverStatus = .unknown
+            serverColor = .red
             do {
                 let serverOk = try await ApiClient.shared.services.systemService.ping()
-                status = serverOk ? .online : .offline
+                serverStatus = serverOk ? .online : .offline
+                serverColor = serverOk ? .green : .red
             } catch {
                 debugPrint("Ping failed", error)
                 return
@@ -102,7 +111,7 @@ extension JellyfinSettings {
 
             // Credentials check
             userStatus = .invalidCredentials
-            color = .yellow
+            userColor = .yellow
             do {
                 try await ApiClient.shared.performAuth()
             } catch {
@@ -111,7 +120,7 @@ extension JellyfinSettings {
             }
 
             userStatus = .loggedIn
-            color = .green
+            userColor = .green
 
             do {
                 let resp = try await ApiClient.shared.services.systemService.getServerInfo()
