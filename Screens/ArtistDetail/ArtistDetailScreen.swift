@@ -6,8 +6,12 @@ struct ArtistDetailScreen: View {
     @State
     private var viewModel: ViewModel
 
-    init(artist: Artist) {
-        self.viewModel = ViewModel(artist: artist)
+    init(viewModel: ViewModel) {
+        self.viewModel = viewModel
+    }
+
+    init(artist: Artist, repo: LibraryRepository = .shared) {
+        self.viewModel = ViewModel(artist: artist, repo: repo)
     }
 
     var body: some View {
@@ -107,6 +111,6 @@ struct ArtistDetailScreen: View {
 
 #Preview {
     NavigationStack {
-        ArtistDetailScreen(artist: PreviewData.artist)
+        ArtistDetailScreen(artist: PreviewData.artist, repo: PreviewUtils.libraryRepo)
     }
 }
