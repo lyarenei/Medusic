@@ -63,6 +63,8 @@ actor LibraryRepository: ObservableObject {
         return totalRuntime
     }
 
+    // MARK: - Before actor
+
     enum LibraryError: Error {
         case notFound
     }
