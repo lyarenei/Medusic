@@ -33,14 +33,17 @@ actor LibraryRepository: ObservableObject {
         self.apiClient = apiClient
     }
 
+    /// Get number of albums for specified artist.
     nonisolated func getAlbumCount(for artist: Artist) async -> Int {
         await albums.filtered(by: .artistId(artist.id)).count
     }
 
+    /// Get albums for specified artist.
     nonisolated func getAlbums(for artist: Artist) async -> [Album] {
         await albums.filtered(by: .artistId(artist.id))
     }
 
+    /// Get total runtime for specified album.
     nonisolated func getRuntime(for album: Album) async -> TimeInterval {
         var totalRuntime: TimeInterval = 0
         for song in await getSongs(for: album) {
@@ -50,6 +53,7 @@ actor LibraryRepository: ObservableObject {
         return totalRuntime
     }
 
+    /// Get total runtime of all songs/albums for specified artist.
     nonisolated func getRuntime(for artist: Artist) async -> TimeInterval {
         var totalRuntime: TimeInterval = 0
         for album in await getAlbums(for: artist) {
