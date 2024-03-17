@@ -2,7 +2,7 @@ import Boutique
 import Foundation
 import OSLog
 
-final class LibraryRepository: ObservableObject {
+actor LibraryRepository: ObservableObject {
     private let apiClient: ApiClient
 
     @Stored
@@ -24,6 +24,32 @@ final class LibraryRepository: ObservableObject {
         self._albums = Stored(in: albumStore)
         self._songs = Stored(in: songStore)
         self.apiClient = apiClient
+    }
+
+    nonisolated func getAlbumCount(for artist: Artist) async -> Int {
+        await albums.filtered(by: .artistId(artist.id)).count
+    }
+
+    nonisolated func getAlbums(for artist: Artist) async -> [Album] {
+        await albums.filtered(by: .artistId(artist.id))
+    }
+
+    nonisolated func getRuntime(for album: Album) async -> TimeInterval {
+        var totalRuntime: TimeInterval = 0
+        for song in await getSongs(for: album) {
+            totalRuntime += song.runtime
+        }
+
+        return totalRuntime
+    }
+
+    nonisolated func getRuntime(for artist: Artist) async -> TimeInterval {
+        var totalRuntime: TimeInterval = 0
+        for album in await getAlbums(for: artist) {
+            totalRuntime += await getRuntime(for: album)
+        }
+
+        return totalRuntime
     }
 
     enum LibraryError: Error {
