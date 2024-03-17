@@ -3,6 +3,13 @@ import Foundation
 import OSLog
 
 actor LibraryRepository: ObservableObject {
+    static let shared = LibraryRepository(
+        artistStore: .artists,
+        albumStore: .albums,
+        songStore: .songs,
+        apiClient: .shared
+    )
+
     private let apiClient: ApiClient
 
     @Stored
