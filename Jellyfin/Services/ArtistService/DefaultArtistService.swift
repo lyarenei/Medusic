@@ -12,7 +12,7 @@ final class DefaultArtistService: ArtistService {
         let params = JellyfinAPI.Paths.GetAlbumArtistsParameters(
             startIndex: offset,
             limit: pageSize,
-            fields: nil
+            fields: [.overview]
         )
 
         let request = JellyfinAPI.Paths.getAlbumArtists(parameters: params)
@@ -23,7 +23,11 @@ final class DefaultArtistService: ArtistService {
     }
 
     func getArtistById(_ id: String) async throws -> Artist {
-        let params = JellyfinAPI.Paths.GetItemsParameters(ids: [id])
+        let params = JellyfinAPI.Paths.GetItemsParameters(
+            fields: [.overview],
+            ids: [id]
+        )
+
         let request = JellyfinAPI.Paths.getItems(parameters: params)
         let response = try await client.send(request)
 

@@ -22,6 +22,9 @@ struct ArtistDetailScreen: View {
 
             albumsSection
                 .listSectionSeparatorTint(.systemGroupedBackground)
+
+            aboutSection
+                .listSectionSeparatorTint(.systemGroupedBackground)
         }
         .listStyle(.plain)
         .navigationBarTitleDisplayMode(.inline)
@@ -81,6 +84,22 @@ struct ArtistDetailScreen: View {
                 .labelStyle(.titleAndIcon)
             }
             .frame(height: 40)
+        }
+    }
+
+    @ViewBuilder
+    private var aboutSection: some View {
+        if viewModel.artist.about.isNotEmpty {
+            Section("About") {
+                Text(viewModel.artist.about)
+                    .font(.caption)
+                    .lineLimit(viewModel.aboutLineLimit)
+                    .onTapGesture {
+                        withAnimation(.easeInOut) {
+                            viewModel.toggleAboutLineLimit()
+                        }
+                    }
+            }
         }
     }
 

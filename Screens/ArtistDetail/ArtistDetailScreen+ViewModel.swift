@@ -8,12 +8,14 @@ extension ArtistDetailScreen {
         private(set) var artist: Artist
         private(set) var albums: [Album]
         private(set) var runtime: TimeInterval
+        private(set) var aboutLineLimit: Int
 
         init(artist: Artist, repo: LibraryRepository = .shared) {
             self.repo = repo
             self.artist = artist
             self.albums = []
             self.runtime = 0
+            self.aboutLineLimit = 5
         }
 
         func updateDetails() async {
@@ -34,6 +36,10 @@ extension ArtistDetailScreen {
         func onRefreshButton() async {
             // TODO: update artist, albums, etc...
             await updateDetails()
+        }
+
+        func toggleAboutLineLimit() {
+            aboutLineLimit = aboutLineLimit == 5 ? .max : 5
         }
     }
 }
