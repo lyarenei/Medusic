@@ -28,7 +28,7 @@ extension ArtistDetailScreen {
                 try await repo.setFavorite(artist: artist, isFavorite: !artist.isFavorite)
                 artist.isFavorite.toggle()
             } catch {
-                debugPrint("Un/Favorite action failed", error)
+                debugPrint("Un/Favorite artist failed", error)
                 Alerts.error("Action failed")
             }
         }
