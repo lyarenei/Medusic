@@ -95,7 +95,6 @@ struct ArtistDetailScreen: View {
                 Image(systemSymbol: .heart)
             }
         }
-        .disabled(true)
     }
 
     @ViewBuilder

@@ -1,4 +1,5 @@
 import Foundation
+import Observation
 
 extension ArtistDetailScreen {
     @Observable
@@ -21,8 +22,13 @@ extension ArtistDetailScreen {
         }
 
         func onFavoriteButton() async {
-            // TODO: update in repo and remote
-            artist.isFavorite.toggle()
+            do {
+                try await repo.setFavorite(artist: artist, isFavorite: !artist.isFavorite)
+                artist.isFavorite.toggle()
+            } catch {
+                debugPrint("Un/Favorite action failed", error)
+                Alerts.error("Action failed")
+            }
         }
 
         func onRefreshButton() async {

@@ -3,6 +3,10 @@ import Foundation
 import OSLog
 
 actor LibraryRepository: ObservableObject {
+    enum LibraryError: Error {
+        case notFound
+    }
+
     static let shared = LibraryRepository(
         artistStore: .artists,
         albumStore: .albums,
@@ -63,11 +67,15 @@ actor LibraryRepository: ObservableObject {
         return totalRuntime
     }
 
-    // MARK: - Before actor
-
-    enum LibraryError: Error {
-        case notFound
+    func setFavorite(artist: Artist, isFavorite: Bool) async throws {
+        try await apiClient.services.mediaService.setFavorite(itemId: artist.id, isFavorite: isFavorite)
+        var newArtist = await artists.by(id: artist.id)
+        guard var newArtist else { throw LibraryError.notFound }
+        newArtist.isFavorite.toggle()
+        try await $artists.insert(newArtist)
     }
+
+    // MARK: - Before actor
 
     func refreshAll() async throws {
         try await refreshArtists()
@@ -108,10 +116,6 @@ actor LibraryRepository: ObservableObject {
 
         let artist = try await apiClient.services.artistService.getArtistById(artistId)
         try await $artists.insert(artist)
-    }
-
-    func setFavorite(artist: Artist, isFavorite: Bool) async throws {
-        // TODO: implementation
     }
 
     @available(*, deprecated, message: "Use .artistName property due to jellyfin bug")
