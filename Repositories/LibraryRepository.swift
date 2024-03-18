@@ -68,10 +68,9 @@ actor LibraryRepository: ObservableObject {
     }
 
     func setFavorite(artist: Artist, isFavorite: Bool) async throws {
+        guard var newArtist = await artists.by(id: artist.id) else { throw LibraryError.notFound }
         try await apiClient.services.mediaService.setFavorite(itemId: artist.id, isFavorite: isFavorite)
-        var newArtist = await artists.by(id: artist.id)
-        guard var newArtist else { throw LibraryError.notFound }
-        newArtist.isFavorite.toggle()
+        newArtist.isFavorite = isFavorite
         try await $artists.insert(newArtist)
     }
 
