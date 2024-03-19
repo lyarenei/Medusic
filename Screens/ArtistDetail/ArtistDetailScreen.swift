@@ -60,7 +60,7 @@ struct ArtistDetailScreen: View {
     @ViewBuilder
     private var albumsSection: some View {
         if viewModel.albums.isNotEmpty {
-            Section("Albums") {
+            Section("Albums (\(viewModel.albums.count))") {
                 artistAlbums
             }
         } else {
