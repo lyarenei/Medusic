@@ -19,6 +19,7 @@ extension ArtistDetailScreen {
         }
 
         func updateDetails() async {
+//            artist = await repo.artists.by(id: artist.id)
             albums = await repo.getAlbums(for: artist)
             runtime = await repo.getRuntime(for: artist)
         }
@@ -34,8 +35,14 @@ extension ArtistDetailScreen {
         }
 
         func onRefreshButton() async {
-            // TODO: update artist, albums, etc...
-            await updateDetails()
+            do {
+                try await repo.refresh(artist: artist)
+                try await repo.refreshAlbums(for: artist)
+                await updateDetails()
+            } catch {
+                debugPrint("Refresh artist failed", error)
+                Alerts.error("Action failed")
+            }
         }
 
         func toggleAboutLineLimit() {

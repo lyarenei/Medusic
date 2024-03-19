@@ -74,6 +74,17 @@ actor LibraryRepository: ObservableObject {
         try await $artists.insert(newArtist)
     }
 
+    func refreshAlbums(for artist: Artist) async throws {
+        guard let artist = await artists.by(id: artist.id) else { throw LibraryError.notFound }
+        let oldAlbums = await albums.filtered(by: .artistId(artist.id))
+        let newAlbums = try await apiClient.services.albumService.getAlbums(for: artist, pageSize: nil, offset: nil)
+        let toRemove = Array(Set(oldAlbums).subtracting(newAlbums))
+        try await $albums.remove(toRemove).insert(newAlbums).run()
+        for album in newAlbums {
+            try await refreshSongs(for: album)
+        }
+    }
+
     // MARK: - Before actor
 
     func refreshAll() async throws {
@@ -193,6 +204,10 @@ actor LibraryRepository: ObservableObject {
             try await $songs.insert(songs)
             offset += pageSize
         }
+    }
+
+    func refreshSongs(for album: Album) async throws {
+        try await refreshSongs(for: album.id)
     }
 
     /// Refresh songs for specified album ID.

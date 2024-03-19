@@ -123,7 +123,6 @@ struct ArtistDetailScreen: View {
         } label: {
             Image(systemSymbol: .arrowClockwise)
         }
-        .disabled(true)
     }
 }
 
