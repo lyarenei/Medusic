@@ -438,7 +438,7 @@ final class MusicPlayer: ObservableObject {
 
     private func sendPlaybackFinished(for song: Song?) async {
         guard let song else { return }
-        try? await apiClient.services.mediaService.playbackFinished(itemId: song.id)
+        try? await apiClient.services.mediaService.markAsPlayed(itemId: song.id)
     }
 
     @objc

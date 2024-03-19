@@ -27,7 +27,7 @@ protocol MediaService: ObservableObject {
     ) async throws
 
     func playbackStopped(itemId: String, at position: TimeInterval?, playbackQueue: [Song]) async throws
-    func playbackFinished(itemId: String) async throws
+    func markAsPlayed(itemId: String) async throws
 }
 
 enum MediaServiceError: Error {
