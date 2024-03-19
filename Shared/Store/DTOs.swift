@@ -6,7 +6,7 @@ public struct JellyfinServerInfo {
     public var version: String
 }
 
-protocol JellyfinItem: Identifiable, Codable, Equatable {
+protocol JellyfinItem: Identifiable, Codable, Equatable, Hashable {
     var id: String { get }
     var name: String { get }
     var isFavorite: Bool { get }
