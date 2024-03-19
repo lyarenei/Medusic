@@ -19,7 +19,13 @@ extension ArtistDetailScreen {
         }
 
         func updateDetails() async {
-//            artist = await repo.artists.by(id: artist.id)
+            do {
+                artist = try await repo.getArtist(by: artist.id)
+            } catch {
+                debugPrint("Loading artist data failed", artist.id, error)
+                Alerts.error("Failed to load data")
+            }
+
             albums = await repo.getAlbums(for: artist)
             runtime = await repo.getRuntime(for: artist)
         }

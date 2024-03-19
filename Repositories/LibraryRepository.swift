@@ -85,6 +85,11 @@ actor LibraryRepository: ObservableObject {
         }
     }
 
+    func getArtist(by id: String) async throws -> Artist {
+        guard let artist = await artists.by(id: id) else { throw LibraryError.notFound }
+        return artist
+    }
+
     // MARK: - Before actor
 
     func refreshAll() async throws {
