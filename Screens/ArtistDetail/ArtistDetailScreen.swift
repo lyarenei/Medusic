@@ -23,8 +23,11 @@ struct ArtistDetailScreen: View {
             albumsSection
                 .listSectionSeparatorTint(.systemGroupedBackground)
 
-            aboutSection
-                .listSectionSeparatorTint(.systemGroupedBackground)
+            Group {
+                aboutSection
+                genreSection
+            }
+            .listRowSeparator(.hidden)
         }
         .listStyle(.plain)
         .navigationBarTitleDisplayMode(.inline)
@@ -100,6 +103,13 @@ struct ArtistDetailScreen: View {
                         }
                     }
             }
+        }
+    }
+
+    @ViewBuilder
+    private var genreSection: some View {
+        Section("Genre") {
+            Text("TBD")
         }
     }
 
