@@ -462,9 +462,9 @@ final class MusicPlayer: ObservableObject {
         }
     }
 
-    private func getVolume() -> Int32 {
+    private func getVolume() -> Int {
         let volume = AVAudioSession.sharedInstance().outputVolume * 100
-        return Int32(volume.rounded(.toNearestOrAwayFromZero))
+        return Int(volume.rounded(.toNearestOrAwayFromZero))
     }
 
     private func setupRemoteCommandCenter() {

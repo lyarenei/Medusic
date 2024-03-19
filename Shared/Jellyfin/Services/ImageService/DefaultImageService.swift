@@ -20,8 +20,8 @@ final class DefaultImageService: ImageService {
 
     func getImage(for itemId: String, size: CGSize) async throws -> Data {
         let parameters = JellyfinAPI.Paths.GetItemImageParameters(
-            width: Int32(round(size.width)),
-            height: Int32(round(size.height))
+            width: Int(round(size.width)),
+            height: Int(round(size.height))
         )
 
         let request = JellyfinAPI.Paths.getItemImage(

@@ -8,7 +8,7 @@ final class DefaultArtistService: ArtistService {
         self.client = client
     }
 
-    func getArtists(pageSize: Int32? = nil, offset: Int32? = nil) async throws -> [Artist] {
+    func getArtists(pageSize: Int? = nil, offset: Int? = nil) async throws -> [Artist] {
         let params = JellyfinAPI.Paths.GetAlbumArtistsParameters(
             startIndex: offset,
             limit: pageSize,

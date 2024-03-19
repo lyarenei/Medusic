@@ -3,7 +3,7 @@ import Combine
 import JellyfinAPI
 
 final class MockAlbumService: AlbumService {
-    func getAlbums(pageSize: Int32? = nil, offset: Int32? = nil) async throws -> [Album] {
+    func getAlbums(pageSize: Int? = nil, offset: Int? = nil) async throws -> [Album] {
         PreviewData.albums
     }
 

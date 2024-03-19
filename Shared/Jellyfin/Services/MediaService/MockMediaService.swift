@@ -1,11 +1,11 @@
 import Foundation
 
 final class MockMediaService: MediaService {
-    func getStreamUrl(item id: String, bitrate: Int32?) -> URL? {
+    func getStreamUrl(item id: String, bitrate: Int?) -> URL? {
         nil
     }
 
-    func downloadItem(id: String, destination: URL, bitrate: Int32?) async throws {
+    func downloadItem(id: String, destination: URL, bitrate: Int?) async throws {
         throw MediaServiceError.invalid
     }
 
@@ -19,7 +19,7 @@ final class MockMediaService: MediaService {
         at position: TimeInterval?,
         isPaused: Bool,
         playbackQueue: [Song],
-        volume: Int32,
+        volume: Int,
         isStreaming: Bool
     ) async throws {
         throw MediaServiceError.invalid
@@ -31,7 +31,7 @@ final class MockMediaService: MediaService {
         at position: TimeInterval?,
         isPaused: Bool,
         playbackQueue: [Song],
-        volume: Int32,
+        volume: Int,
         isStreaming: Bool
     ) async throws {
         throw MediaServiceError.invalid

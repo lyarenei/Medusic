@@ -49,8 +49,8 @@ final class LibraryRepository: ObservableObject {
         try await apiClient.performAuth()
 
         try await $artists.removeAll()
-        let pageSize: Int32 = 50
-        var offset: Int32 = 0
+        let pageSize = 50
+        var offset = 0
         while true {
             let artists = try await apiClient.services.artistService.getArtists(pageSize: pageSize, offset: offset)
             guard artists.isNotEmpty else { return }
@@ -88,8 +88,8 @@ final class LibraryRepository: ObservableObject {
         try await apiClient.performAuth()
 
         try await $albums.removeAll()
-        let pageSize: Int32 = 50
-        var offset: Int32 = 0
+        let pageSize = 50
+        var offset = 0
         while true {
             let albums = try await apiClient.services.albumService.getAlbums(pageSize: pageSize, offset: offset)
             guard albums.isNotEmpty else { return }

@@ -55,7 +55,7 @@ extension Song {
         self.isFavorite = item.userData?.isFavorite ?? false
         self.sortName = item.sortName ?? name
 
-        self.index = Int(item.indexNumber ?? 0)
+        self.index = item.indexNumber ?? 0
         self.albumId = albumId
         self.artistNames = item.artists ?? []
         self.size = {
@@ -68,7 +68,7 @@ extension Song {
             return sum
         }()
         self.runtime = item.runTimeTicks?.timeInterval ?? 0
-        self.albumDisc = Int(item.parentIndexNumber ?? 0)
+        self.albumDisc = item.parentIndexNumber ?? 0
         self.fileExtension = {
             guard let path = item.path else { return .empty }
             guard let encodedPath = path.addingPercentEncoding(withAllowedCharacters: .urlQueryAllowed) else { return .empty }

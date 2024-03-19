@@ -8,7 +8,7 @@ final class DefaultSongService: SongService {
         self.client = client
     }
 
-    func getSongs(pageSize: Int32? = nil, offset: Int32? = nil) async throws -> [Song] {
+    func getSongs(pageSize: Int? = nil, offset: Int? = nil) async throws -> [Song] {
         try await fetchSongs(limit: pageSize, startIndex: offset)
     }
 
@@ -22,8 +22,8 @@ final class DefaultSongService: SongService {
 
     private func fetchSongs(
         for albumId: String? = nil,
-        limit: Int32? = nil,
-        startIndex: Int32? = nil
+        limit: Int? = nil,
+        startIndex: Int? = nil
     ) async throws -> [Song] {
         var params = JellyfinAPI.Paths.GetItemsParameters()
         params.userID = Defaults[.userId]

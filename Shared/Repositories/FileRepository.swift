@@ -114,7 +114,7 @@ final class FileRepository: ObservableObject {
         try await apiClient.services.mediaService.downloadItem(
             id: song.id,
             destination: outputFileURL,
-            bitrate: bitrate != nil ? Int32(bitrate ?? 0) : nil
+            bitrate: bitrate != nil ? bitrate ?? 0 : nil
         )
     }
 
@@ -123,7 +123,7 @@ final class FileRepository: ObservableObject {
             let bitrate = getStreamPreferredBitrate(for: song)
             return apiClient.services.mediaService.getStreamUrl(
                 item: song.id,
-                bitrate: bitrate != nil ? Int32(bitrate ?? 0) : nil
+                bitrate: bitrate != nil ? bitrate ?? 0 : nil
             )
         }
 

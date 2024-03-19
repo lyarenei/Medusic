@@ -1,8 +1,8 @@
 import Foundation
 
-extension Int64 {
+extension Int {
     var timeInterval: TimeInterval {
-        let ticksPerSecond: Int64 = 10_000_000
+        let ticksPerSecond = 10_000_000
         return Double(self / ticksPerSecond)
     }
 }
@@ -27,10 +27,10 @@ extension TimeInterval {
         String(format: "%01d:%02d", minutes, seconds)
     }
 
-    var ticks: Int64 {
+    var ticks: Int {
         guard !isInfinite else { return 0 }
         guard !isNaN else { return 0 }
-        let ticksPerSecond: Int64 = 10_000_000
-        return Int64(rounded(.toNearestOrAwayFromZero)) * ticksPerSecond
+        let ticksPerSecond = 10_000_000
+        return Int(rounded(.toNearestOrAwayFromZero)) * ticksPerSecond
     }
 }

@@ -11,7 +11,7 @@ final class DefaultMediaService: MediaService {
         self.client = client
     }
 
-    func getStreamUrl(item id: String, bitrate: Int32? = nil) -> URL? {
+    func getStreamUrl(item id: String, bitrate: Int? = nil) -> URL? {
         let baseUrl = client.configuration.url.absoluteString
         if let bitrate {
             return URL(string: "\(baseUrl)/Audio/\(id)/main.m3u8?audioCodec=\(AppDefaults.fallbackCodec)&audioBitRate=\(bitrate)")
@@ -20,7 +20,7 @@ final class DefaultMediaService: MediaService {
         return URL(string: "\(baseUrl)/Audio/\(id)/main.m3u8?static=true")
     }
 
-    func downloadItem(id: String, destination: URL, bitrate: Int32?) async throws {
+    func downloadItem(id: String, destination: URL, bitrate: Int?) async throws {
         let params = JellyfinAPI.Paths.GetAudioStreamParameters(
             isStatic: bitrate == nil,
             audioCodec: bitrate != nil ? AppDefaults.fallbackCodec : nil,
@@ -51,7 +51,7 @@ final class DefaultMediaService: MediaService {
         at position: TimeInterval?,
         isPaused: Bool,
         playbackQueue: [Song],
-        volume: Int32,
+        volume: Int,
         isStreaming: Bool
     ) async throws {
         guard Defaults[.readOnly] == false else { return }
@@ -78,7 +78,7 @@ final class DefaultMediaService: MediaService {
         at position: TimeInterval?,
         isPaused: Bool,
         playbackQueue: [Song],
-        volume: Int32,
+        volume: Int,
         isStreaming: Bool
     ) async throws {
         guard Defaults[.readOnly] == false else { return }
