@@ -3,120 +3,140 @@
     "id": "1",
     "name": "The Whispering Shadows",
     "sortName": "Whispering Shadows, The",
-    "isFavorite": false
+    "isFavorite": false,
+    "about": "The Whispering Shadows are a mysterious group of musicians who draw inspiration from the depths of the night, weaving haunting melodies that resonate with the secrets of the universe."
   },
   {
     "id": "2",
     "name": "Lunar Echo",
     "sortName": "Lunar Echo",
-    "isFavorite": false
+    "isFavorite": false,
+    "about": "Lunar Echo is a band formed by lunar enthusiasts who compose music that echoes the enigmatic beauty of the moon, capturing its ethereal essence in every note."
   },
   {
     "id": "3",
     "name": "Bob Johnston",
     "sortName": "Bob Johnston",
-    "isFavorite": false
+    "isFavorite": false,
+    "about": "Bob Johnston is a traveler of both time and space, his music reflects the cosmic journey of his soul as it navigates through the boundless realms of existence."
   },
   {
     "id": "4",
     "name": "The Lightening Strings",
     "sortName": "Lightening Strings, The",
-    "isFavorite": false
+    "isFavorite": false,
+    "about": "The Lightening Strings are a group of electrifying musicians who infuse their performances with a dynamic energy that ignites the very air around them, leaving audiences electrified and enthralled."
   },
   {
     "id": "5",
     "name": "Ella Thompson",
     "sortName": "Ella Thompson",
-    "isFavorite": false
+    "isFavorite": false,
+    "about": "Ella Thompson is a musical sorceress whose voice possesses the power to weave spells of enchantment, captivating listeners and transporting them to realms of pure magic."
   },
   {
     "id": "6",
     "name": "Euphoric Tides",
     "sortName": "Euphoric Tides",
-    "isFavorite": false
+    "isFavorite": false,
+    "about": "Euphoric Tides is a collective of sonic explorers who ride the waves of euphoria, their music a journey through the depths of emotion and the heights of ecstasy."
   },
   {
     "id": "7",
     "name": "Anna Jameson",
     "sortName": "Anna Jameson",
-    "isFavorite": false
+    "isFavorite": false,
+    "about": "Anna Jameson is a musical alchemist, her compositions blending disparate elements into harmonious symphonies that resonate with the alchemy of the soul."
   },
   {
     "id": "8",
     "name": "Drifting Soundwaves",
     "sortName": "Drifting Soundwaves",
-    "isFavorite": false
+    "isFavorite": false,
+    "about": "Drifting Soundwaves is an ambient project that creates music as ephemeral as the wind, their melodies gently caressing the senses like whispers carried on the breeze."
   },
   {
     "id": "9",
     "name": "Samuel Rodriguez",
     "sortName": "Samuel Rodriguez",
-    "isFavorite": false
+    "isFavorite": false,
+    "about": "Samuel Rodriguez is a virtuoso guitarist whose fingers dance across the strings like flames licking the air, his music a blaze of passion and intensity."
   },
   {
     "id": "10",
     "name": "Moontide Melodies",
     "sortName": "Moontide Melodies",
-    "isFavorite": false
+    "isFavorite": false,
+    "about": "Moontide Melodies is a duo that channels the serene beauty of moonlit nights into their music, crafting melodies that ebb and flow like the tides under the silver glow of the moon."
   },
   {
     "id": "11",
     "name": "Distant Horizons",
     "sortName": "Distant Horizons",
-    "isFavorite": false
+    "isFavorite": false,
+    "about": "Distant Horizons is a musical odyssey through the vast expanse of space, each note a star twinkling in the endless void, beckoning listeners to explore the infinite reaches of the cosmos."
   },
   {
     "id": "12",
     "name": "Alicia Vikander",
     "sortName": "Alicia Vikander",
-    "isFavorite": false
+    "isFavorite": false,
+    "about": "Alicia Vikander is a celestial songstress whose voice resonates with the purity of starlight, her music a celestial symphony that illuminates the darkest of nights."
   },
   {
     "id": "13",
     "name": "Symphonic Dreamers",
     "sortName": "Symphonic Dreamers",
-    "isFavorite": false
+    "isFavorite": false,
+    "about": "Symphonic Dreamers are dreamweavers of sound, their music painting vivid landscapes of imagination where reality and fantasy intertwine in a mesmerizing dance."
   },
   {
     "id": "14",
     "name": "The Golden Strings",
     "sortName": "Golden Strings, The",
-    "isFavorite": false
+    "isFavorite": false,
+    "about": "The Golden Strings are a legendary ensemble whose music is said to hold the key to unlocking the secrets of the universe, each note a thread in the fabric of creation."
   },
   {
     "id": "15",
     "name": "David Bronson",
     "sortName": "David Bronson",
-    "isFavorite": false
+    "isFavorite": false,
+    "about": "David Bronson is a bard of the modern age, his songs weaving tales of love and loss, hope and despair, in a tapestry of sound that resonates with the human experience."
   },
   {
     "id": "16",
     "name": "The Harmonics",
     "sortName": "Harmonics, The",
-    "isFavorite": false
+    "isFavorite": false,
+    "about": "The Harmonics are masters of harmony and melody, their music a sublime fusion of sound that transcends the boundaries of the ordinary and elevates the spirit to new heights."
   },
   {
     "id": "17",
     "name": "Twilight Tones",
     "sortName": "Twilight Tones",
-    "isFavorite": false
+    "isFavorite": false,
+    "about": "Twilight Tones are purveyors of music that straddles the line between light and darkness, their melodies casting shadows that dance in the fading light of the day."
   },
   {
     "id": "18",
     "name": "Amber Anderson",
     "sortName": "Amber Anderson",
-    "isFavorite": false
+    "isFavorite": false,
+    "about": "Amber Anderson is a troubadour of the soul, her music a reflection of the myriad hues of human emotion, from the warm glow of joy to the melancholy depths of sorrow."
   },
   {
     "id": "19",
     "name": "Sonic Serenity",
     "sortName": "Sonic Serenity",
-    "isFavorite": false
+    "isFavorite": false,
+    "about": "Sonic Serenity is an oasis of tranquility in a world of chaos, their music a balm for the weary soul, soothing the mind and uplifting the spirit with its gentle melodies."
   },
   {
     "id": "20",
     "name": "Olive Oyl",
     "sortName": "Olive Oyl",
-    "isFavorite": false
+    "isFavorite": false,
+    "about": "Olive Oyl is a free-spirited musician with a passion for exploring eclectic sounds and experimental rhythms, her music reflecting the whimsical and unpredictable nature of life itself."
   }
 ]
