@@ -35,7 +35,7 @@ final class DefaultAlbumService: AlbumService {
         return items.compactMap(Album.init(from:))
     }
 
-    func getAlbums(for artist: Artist, pageSize: Int32? = nil, offset: Int32? = nil) async throws -> [Album] {
+    func getAlbums(for artist: Artist, pageSize: Int? = nil, offset: Int? = nil) async throws -> [Album] {
         var params = requestParams()
         params.startIndex = offset
         params.limit = pageSize
