@@ -14,7 +14,7 @@ actor LibraryRepository: ObservableObject {
         apiClient: .shared
     )
 
-    private let apiClient: ApiClient
+    internal let apiClient: ApiClient
 
     @Stored
     var artists: [Artist]
@@ -36,61 +36,6 @@ actor LibraryRepository: ObservableObject {
         self._songs = Stored(in: songStore)
         self.apiClient = apiClient
     }
-
-    /// Get number of albums for specified artist.
-    nonisolated func getAlbumCount(for artist: Artist) async -> Int {
-        await albums.filtered(by: .artistId(artist.id)).count
-    }
-
-    /// Get albums for specified artist.
-    nonisolated func getAlbums(for artist: Artist) async -> [Album] {
-        await albums.filtered(by: .artistId(artist.id))
-    }
-
-    /// Get total runtime for specified album.
-    nonisolated func getRuntime(for album: Album) async -> TimeInterval {
-        var totalRuntime: TimeInterval = 0
-        for song in await getSongs(for: album) {
-            totalRuntime += song.runtime
-        }
-
-        return totalRuntime
-    }
-
-    /// Get total runtime of all songs/albums for specified artist.
-    nonisolated func getRuntime(for artist: Artist) async -> TimeInterval {
-        var totalRuntime: TimeInterval = 0
-        for album in await getAlbums(for: artist) {
-            totalRuntime += await getRuntime(for: album)
-        }
-
-        return totalRuntime
-    }
-
-    func setFavorite(artist: Artist, isFavorite: Bool) async throws {
-        guard var newArtist = await artists.by(id: artist.id) else { throw LibraryError.notFound }
-        try await apiClient.services.mediaService.setFavorite(itemId: artist.id, isFavorite: isFavorite)
-        newArtist.isFavorite = isFavorite
-        try await $artists.insert(newArtist)
-    }
-
-    func refreshAlbums(for artist: Artist) async throws {
-        guard let artist = await artists.by(id: artist.id) else { throw LibraryError.notFound }
-        let oldAlbums = await albums.filtered(by: .artistId(artist.id))
-        let newAlbums = try await apiClient.services.albumService.getAlbums(for: artist, pageSize: nil, offset: nil)
-        let toRemove = Array(Set(oldAlbums).subtracting(newAlbums))
-        try await $albums.remove(toRemove).insert(newAlbums).run()
-        for album in newAlbums {
-            try await refreshSongs(for: album)
-        }
-    }
-
-    func getArtist(by id: String) async throws -> Artist {
-        guard let artist = await artists.by(id: id) else { throw LibraryError.notFound }
-        return artist
-    }
-
-    // MARK: - Before actor
 
     func refreshAll() async throws {
         try await refreshArtists()
