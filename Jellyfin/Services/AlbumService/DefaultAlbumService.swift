@@ -35,6 +35,19 @@ final class DefaultAlbumService: AlbumService {
         return items.compactMap(Album.init(from:))
     }
 
+    func getAlbums(for artist: Artist, pageSize: Int? = nil, offset: Int? = nil) async throws -> [Album] {
+        var params = requestParams()
+        params.startIndex = offset
+        params.limit = pageSize
+        params.albumArtistIDs = [artist.id]
+
+        let request = JellyfinAPI.Paths.getItems(parameters: params)
+        let response = try await client.send(request)
+
+        guard let items = response.value.items else { throw ServiceError.invalidResult }
+        return items.compactMap(Album.init(from:))
+    }
+
     func getAlbumById(_ id: String) async throws -> Album {
         let requestParams = requestParams(itemIds: [id])
         let request = JellyfinAPI.Paths.getItems(parameters: requestParams)

@@ -2,8 +2,19 @@ import Boutique
 import Foundation
 import OSLog
 
-final class LibraryRepository: ObservableObject {
-    private let apiClient: ApiClient
+actor LibraryRepository: ObservableObject {
+    enum LibraryError: Error {
+        case notFound
+    }
+
+    static let shared = LibraryRepository(
+        artistStore: .artists,
+        albumStore: .albums,
+        songStore: .songs,
+        apiClient: .shared
+    )
+
+    internal let apiClient: ApiClient
 
     @Stored
     var artists: [Artist]
@@ -24,10 +35,6 @@ final class LibraryRepository: ObservableObject {
         self._albums = Stored(in: albumStore)
         self._songs = Stored(in: songStore)
         self.apiClient = apiClient
-    }
-
-    enum LibraryError: Error {
-        case notFound
     }
 
     func refreshAll() async throws {
@@ -69,10 +76,6 @@ final class LibraryRepository: ObservableObject {
 
         let artist = try await apiClient.services.artistService.getArtistById(artistId)
         try await $artists.insert(artist)
-    }
-
-    func setFavorite(artist: Artist, isFavorite: Bool) async throws {
-        // TODO: implementation
     }
 
     @available(*, deprecated, message: "Use .artistName property due to jellyfin bug")
@@ -151,6 +154,10 @@ final class LibraryRepository: ObservableObject {
             try await $songs.insert(songs)
             offset += pageSize
         }
+    }
+
+    func refreshSongs(for album: Album) async throws {
+        try await refreshSongs(for: album.id)
     }
 
     /// Refresh songs for specified album ID.

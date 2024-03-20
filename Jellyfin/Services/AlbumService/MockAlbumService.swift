@@ -11,4 +11,8 @@ final class MockAlbumService: AlbumService {
         // swiftlint:disable:next force_unwrapping
         PreviewData.albums.first { $0.id == id }!
     }
+
+    func getAlbums(for artist: Artist, pageSize: Int? = nil, offset: Int? = nil) async throws -> [Album] {
+        PreviewData.albums.filtered(by: .artistId(artist.id))
+    }
 }

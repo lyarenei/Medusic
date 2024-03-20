@@ -6,6 +6,7 @@ struct Artist: JellyfinItem {
     var name = ""
     var sortName = ""
     var isFavorite = false
+    var about = ""
 }
 
 extension Artist: Equatable {
@@ -23,5 +24,6 @@ extension Artist {
         self.name = name
         self.sortName = item.sortName ?? name
         self.isFavorite = item.userData?.isFavorite ?? false
+        self.about = item.overview ?? .empty
     }
 }
