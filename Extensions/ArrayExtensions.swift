@@ -7,11 +7,50 @@ extension Array {
 
 // MARK: - JellyfinItem
 
+// swiftlint:disable identifier_name
 extension Array where Element: JellyfinItem {
     func by(id: String) -> Element? { first { $0.id == id } }
+
+    func filtered(by: FilterOption) -> [Element] {
+        switch by {
+        case .all:
+            return self
+        case .favorite:
+            return filter(\.isFavorite)
+        }
+    }
+
+    func sorted(by: SortOption) -> [Element] {
+        switch by {
+        case .name:
+            return sorted { lhs, rhs -> Bool in
+                lhs.sortName.lowercased() < rhs.sortName.lowercased()
+            }
+        case .dateAdded:
+            return sorted { lhs, rhs -> Bool in
+                // TODO: actual implementation
+                lhs.id < rhs.id
+            }
+        }
+    }
+
+    func ordered(by: SortDirection) -> [Element] {
+        switch by {
+        case .ascending:
+            return self
+        case .descending:
+            return reversed()
+        }
+    }
+}
+
+// swiftlint:enable identifier_name
+
+extension Array where Element: JellyfinItem {
+    @available(*, deprecated, message: "Use filtered(by:) FilterOption")
     var favorite: [Element] { filter(\.isFavorite) }
 
-    // swiftlint:disable:next identifier_name
+    @available(*, deprecated, message: "Use sorted(by:) SortOption")
     func sorted(by: UserSortBy) -> [Element] {
         switch by {
         case .name:
@@ -25,7 +64,7 @@ extension Array where Element: JellyfinItem {
         case name
     }
 
-    // swiftlint:disable:next identifier_name
+    @available(*, deprecated, message: "Use sorted(by:) SortOption")
     func sorted(by: SortBy) -> [Element] {
         switch by {
         case .name:
@@ -44,14 +83,14 @@ extension [Album] {
         filter { $0.artistId == artistId }
     }
 
-    @available(*, deprecated, message: "Use sort by name")
+    @available(*, deprecated, message: "Use sorted(by:) SortOption")
     var consistent: [Album] {
         sorted { lhs, rhs -> Bool in
             lhs.name.lowercased() < rhs.name.lowercased()
         }
     }
 
-    @available(*, deprecated, message: "Use sorted(by:)")
+    @available(*, deprecated, message: "Use sorted(by:) SortOption")
     var sortedByDateAdded: [Album] {
         sorted { lhs, rhs -> Bool in
             lhs.createdAt > rhs.createdAt
@@ -77,6 +116,7 @@ extension [Album] {
         case dateAdded
     }
 
+    @available(*, deprecated, message: "Use sorted(by:) SortOption")
     func sorted(by method: AlbumSortBy) -> [Album] {
         switch method {
         case .dateAdded:
