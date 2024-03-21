@@ -109,7 +109,7 @@ final class DefaultMediaService: MediaService {
         try await client.send(request)
     }
 
-    func playbackFinished(itemId: String) async throws {
+    func markAsPlayed(itemId: String) async throws {
         guard Defaults[.readOnly] == false else { return }
         let request = JellyfinAPI.Paths.markPlayedItem(
             userID: Defaults[.userId],

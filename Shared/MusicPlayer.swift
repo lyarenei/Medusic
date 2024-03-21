@@ -85,7 +85,7 @@ final class MusicPlayer: ObservableObject {
                         self.isHistoryRewritten = false
                     }
 
-                    await self.sendPlaybackStopped(for: previousSong)
+                    await self.sendPlaybackStopped(for: previousSong, at: previousItem.currentTime().seconds)
                     await self.sendPlaybackFinished(for: previousSong)
                 }
 
@@ -427,18 +427,18 @@ final class MusicPlayer: ObservableObject {
         )
     }
 
-    private func sendPlaybackStopped(for song: Song?) async {
+    private func sendPlaybackStopped(for song: Song?, at time: TimeInterval) async {
         guard let song else { return }
         try? await apiClient.services.mediaService.playbackStopped(
             itemId: song.id,
-            at: player.currentTime().seconds,
+            at: time,
             playbackQueue: []
         )
     }
 
     private func sendPlaybackFinished(for song: Song?) async {
         guard let song else { return }
-        try? await apiClient.services.mediaService.playbackFinished(itemId: song.id)
+        try? await apiClient.services.mediaService.markAsPlayed(itemId: song.id)
     }
 
     @objc
