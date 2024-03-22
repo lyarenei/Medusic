@@ -1,4 +1,5 @@
 import Foundation
+import OrderedCollections
 
 extension Array {
     /// Convenience indicator for checking if the collection is not empty.
@@ -40,6 +41,23 @@ extension Array where Element: JellyfinItem {
             return self
         case .descending:
             return reversed()
+        }
+    }
+
+    enum GroupOption {
+        case firstLetter
+    }
+
+    func grouped(by option: GroupOption) -> OrderedDictionary<String, [Element]> {
+        switch option {
+        default:
+            OrderedDictionary(grouping: self) { Element -> String in
+                if let firstLetter = Element.sortName.uppercased().first {
+                    return String(firstLetter)
+                } else {
+                    return .empty
+                }
+            }
         }
     }
 }

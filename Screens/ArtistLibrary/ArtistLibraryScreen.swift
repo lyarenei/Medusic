@@ -35,30 +35,36 @@ struct ArtistLibraryScreen: View {
     @ViewBuilder
     private var content: some View {
         if viewModel.artists.isNotEmpty {
-            let artists = viewModel.artists
+            let artistGroups = viewModel.artists
                 .filtered(by: viewModel.filter)
                 .sorted(by: viewModel.sortBy)
                 .ordered(by: viewModel.sortDirection)
+                .grouped(by: .firstLetter)
 
             List {
-                ForEach(artists) { artist in
-                    NavigationLink {
-                        ArtistDetailScreen(artist: artist)
-                    } label: {
-                        ArtworkComponent(itemId: artist.id)
-                            .frame(width: 40, height: 40)
+                ForEach(enumerating: artistGroups.keys) { key in
+                    Section(key) {
+                        ForEach(artistGroups[key] ?? []) { artist in
+                            NavigationLink {
+                                ArtistDetailScreen(artist: artist)
+                            } label: {
+                                ArtworkComponent(itemId: artist.id)
+                                    .frame(width: 40, height: 40)
 
-                        MarqueeText(
-                            text: artist.name,
-                            font: .preferredFont(forTextStyle: .title2),
-                            leftFade: UIConstants.marqueeFadeLen,
-                            rightFade: UIConstants.marqueeFadeLen,
-                            startDelay: UIConstants.marqueeDelay
-                        )
+                                MarqueeText(
+                                    text: artist.name,
+                                    font: .preferredFont(forTextStyle: .title2),
+                                    leftFade: UIConstants.marqueeFadeLen,
+                                    rightFade: UIConstants.marqueeFadeLen,
+                                    startDelay: UIConstants.marqueeDelay
+                                )
+                            }
+                        }
                     }
+                    .listRowSeparator(.hidden)
                 }
             }
-            .listStyle(.plain)
+            .listStyle(.grouped)
         } else {
             Text("No artists")
                 .font(.title3)
