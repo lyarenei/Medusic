@@ -43,23 +43,8 @@ struct ArtistLibraryScreen: View {
 
             List {
                 ForEach(enumerating: artistGroups.keys) { key in
-                    Section(key) {
-                        ForEach(artistGroups[key] ?? []) { artist in
-                            NavigationLink {
-                                ArtistDetailScreen(artist: artist)
-                            } label: {
-                                ArtworkComponent(itemId: artist.id)
-                                    .frame(width: 40, height: 40)
-
-                                MarqueeText(
-                                    text: artist.name,
-                                    font: .preferredFont(forTextStyle: .title2),
-                                    leftFade: UIConstants.marqueeFadeLen,
-                                    rightFade: UIConstants.marqueeFadeLen,
-                                    startDelay: UIConstants.marqueeDelay
-                                )
-                            }
-                        }
+                    if let artists = artistGroups[key] {
+                        artistSection(name: key, artists: artists)
                     }
                 }
             }
@@ -68,6 +53,28 @@ struct ArtistLibraryScreen: View {
             Text("No artists")
                 .font(.title3)
                 .foregroundColor(.gray)
+        }
+    }
+
+    @ViewBuilder
+    private func artistSection(name: String, artists: [Artist]) -> some View {
+        Section(name) {
+            ForEach(artists) { artist in
+                NavigationLink {
+                    ArtistDetailScreen(artist: artist)
+                } label: {
+                    ArtworkComponent(itemId: artist.id)
+                        .frame(width: 40, height: 40)
+
+                    MarqueeText(
+                        text: artist.name,
+                        font: .preferredFont(forTextStyle: .title2),
+                        leftFade: UIConstants.marqueeFadeLen,
+                        rightFade: UIConstants.marqueeFadeLen,
+                        startDelay: UIConstants.marqueeDelay
+                    )
+                }
+            }
         }
     }
 
