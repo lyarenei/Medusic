@@ -52,10 +52,13 @@ extension Array where Element: JellyfinItem {
         switch option {
         default:
             OrderedDictionary(grouping: self) { Element -> String in
-                if let firstLetter = Element.sortName.uppercased().first {
+                guard let firstLetter = Element.sortName.uppercased().first else { return .empty }
+                if firstLetter.isNumber {
+                    return "0-9"
+                } else if firstLetter.isLetter && firstLetter.isASCII {
                     return String(firstLetter)
                 } else {
-                    return .empty
+                    return "Other"
                 }
             }
         }
