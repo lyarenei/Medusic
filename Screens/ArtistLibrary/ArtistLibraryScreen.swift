@@ -89,12 +89,8 @@ struct ArtistLibraryScreen: View {
     }
 }
 
-#Preview("With navigation") {
+#Preview {
     NavigationStack {
         ArtistLibraryScreen(artists: PreviewData.artists, repo: PreviewUtils.libraryRepo)
     }
-}
-
-#Preview("Plain") {
-    ArtistLibraryScreen(artists: PreviewData.artists, repo: PreviewUtils.libraryRepo)
 }
