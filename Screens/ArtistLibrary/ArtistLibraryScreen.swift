@@ -61,7 +61,6 @@ struct ArtistLibraryScreen: View {
                             }
                         }
                     }
-                    .listRowSeparator(.hidden)
                 }
             }
             .listStyle(.grouped)
