@@ -89,8 +89,14 @@ struct ArtistLibraryScreen: View {
     }
 }
 
-#Preview {
+#Preview("Normal") {
     NavigationStack {
         ArtistLibraryScreen(artists: PreviewData.artists, repo: PreviewUtils.libraryRepo)
+    }
+}
+
+#Preview("Empty") {
+    NavigationStack {
+        ArtistLibraryScreen(artists: [], repo: PreviewUtils.libraryRepo)
     }
 }
