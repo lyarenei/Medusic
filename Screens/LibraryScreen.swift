@@ -81,7 +81,7 @@ struct LibraryScreen: View {
     private var favoriteAlbums: some View {
         if showFavoriteAlbums {
             AlbumPreviewCollection(
-                for: library.albums.favorite.sorted(by: .dateAdded).reversed(),
+                for: library.albums.favorite.sorted(by: Array<Album>.AlbumSortBy.dateAdded).reversed(),
                 titleText: "Favorite albums",
                 emptyText: "No albums"
             )
@@ -93,7 +93,7 @@ struct LibraryScreen: View {
     private var recentlyAddedAlbums: some View {
         if showRecentlyAdded {
             AlbumPreviewCollection(
-                for: library.albums.sorted(by: .dateAdded).reversed(),
+                for: library.albums.sorted(by: Array<Album>.AlbumSortBy.dateAdded).reversed(),
                 titleText: "Recently added",
                 emptyText: "No albums"
             )
