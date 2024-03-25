@@ -67,7 +67,7 @@ struct ArtistLibraryScreen: View {
                 NavigationLink {
                     ArtistDetailScreen(artist: artist)
                 } label: {
-                    ArtworkComponent(itemId: artist.id)
+                    ArtworkComponent(for: artist)
                         .frame(width: 40, height: 40)
 
                     MarqueeText(
@@ -111,6 +111,7 @@ struct ArtistLibraryScreen: View {
     NavigationStack {
         ArtistLibraryScreen()
             .environmentObject(PreviewUtils.libraryRepo)
+            .environmentObject(ApiClient(previewEnabled: true))
     }
 }
 
@@ -118,5 +119,6 @@ struct ArtistLibraryScreen: View {
     NavigationStack {
         ArtistLibraryScreen()
             .environmentObject(PreviewUtils.libraryRepoEmpty)
+            .environmentObject(ApiClient(previewEnabled: true))
     }
 }
