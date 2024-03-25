@@ -146,8 +146,8 @@ actor LibraryRepository: ObservableObject {
         try await apiClient.performAuth()
 
         try await $songs.removeAll()
-        let pageSize: Int32 = 250
-        var offset: Int32 = 0
+        let pageSize = 250
+        var offset = 0
         while true {
             let songs = try await apiClient.services.songService.getSongs(pageSize: pageSize, offset: offset)
             guard songs.isNotEmpty else { return }

@@ -2,7 +2,7 @@ import Foundation
 import JellyfinAPI
 
 final class MockSongService: SongService {
-    func getSongs(pageSize: Int32? = nil, offset: Int32? = nil) async throws -> [Song] {
+    func getSongs(pageSize: Int? = nil, offset: Int? = nil) async throws -> [Song] {
         PreviewData.songs
     }
 

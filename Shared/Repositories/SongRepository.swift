@@ -22,11 +22,11 @@ final class SongRepository: ObservableObject {
     func refresh(for albumId: String? = nil) async throws {
         try await apiClient.performAuth()
         if let album = albumId {
-            let remoteSongs = try await apiClient.services.songService.getSongs()
+            let remoteSongs = try await apiClient.services.songService.getSongs(pageSize: nil, offset: nil)
             let localSongs = await $songs.items.filterByAlbum(id: album)
             try await $songs.remove(localSongs).insert(remoteSongs).run()
         } else {
-            let remoteSongs = try await apiClient.services.songService.getSongs()
+            let remoteSongs = try await apiClient.services.songService.getSongs(pageSize: nil, offset: nil)
             try await $songs.removeAll().insert(remoteSongs).run()
         }
     }
