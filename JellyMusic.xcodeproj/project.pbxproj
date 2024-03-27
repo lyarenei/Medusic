@@ -270,6 +270,9 @@
 		48C1F8CE29B9F3DB003BE048 /* Services */ = {
 			isa = PBXGroup;
 			children = (
+				9BDB099529BB2F8B007F99E4 /* AlbumService */,
+				9BA88EEB2A86513E00E61A61 /* ArtistService */,
+				9BDB099629BB2F9A007F99E4 /* SongService */,
 				9B73ECFA29C9EB8B007F74DB /* MediaService */,
 				9B3D449A29BCF8730054C9E0 /* SystemService */,
 				9BDB099729BB2FAD007F99E4 /* ImageService */,
@@ -378,7 +381,6 @@
 			children = (
 				9B1866F42A8AC6E500034A10 /* Alerts.swift */,
 				9B1866EC2A8A083700034A10 /* Assets */,
-				9BF26D492A87CAB4006631E9 /* Jellyfin */,
 				9BF26D432A8781D5006631E9 /* UI */,
 				9BA88EE82A8648E100E61A61 /* Constants */,
 				9BA88EE42A862B6600E61A61 /* Enums */,
@@ -399,12 +401,12 @@
 		9B80473229B768000069B407 /* Shared */ = {
 			isa = PBXGroup;
 			children = (
+				9BFEDFCA2BB4CDAC00E1EE46 /* ApiClients */,
 				9BB75EA129C38938008CD65A /* Buttons */,
 				9BEFA1C429C72A2A004A07FB /* Collections */,
 				9B70BDA229B93228000DB31C /* Components */,
 				9BDB03342A1288CF004EFA3A /* ContextActions */,
 				9B7AF3AF29EB048E0039A7DF /* Extensions */,
-				9BB75E8029BFA5B0008CD65A /* Jellyfin */,
 				9BB75EC429C5FF39008CD65A /* Repositories */,
 				48C1F8C429B9E7FF003BE048 /* Store */,
 				4848B22529BCBC2000EB2FAA /* Cancellables.swift */,
@@ -479,17 +481,6 @@
 				9BA88EF02A86531E00E61A61 /* MockArtistService.swift */,
 			);
 			path = ArtistService;
-			sourceTree = "<group>";
-		};
-		9BB75E8029BFA5B0008CD65A /* Jellyfin */ = {
-			isa = PBXGroup;
-			children = (
-				48C1F8CE29B9F3DB003BE048 /* Services */,
-				48C1F8DC29B9FF91003BE048 /* ApiClient.swift */,
-				9B7D1CD32BA60F2100FF888F /* Enums.swift */,
-				48C1F8E329BB827E003BE048 /* JellyfinImageProvider.swift */,
-			);
-			path = Jellyfin;
 			sourceTree = "<group>";
 		};
 		9BB75EA129C38938008CD65A /* Buttons */ = {
@@ -603,24 +594,6 @@
 			path = Buttons;
 			sourceTree = "<group>";
 		};
-		9BF26D492A87CAB4006631E9 /* Jellyfin */ = {
-			isa = PBXGroup;
-			children = (
-				9BF26D4A2A87CAC0006631E9 /* Services */,
-			);
-			path = Jellyfin;
-			sourceTree = "<group>";
-		};
-		9BF26D4A2A87CAC0006631E9 /* Services */ = {
-			isa = PBXGroup;
-			children = (
-				9BDB099529BB2F8B007F99E4 /* AlbumService */,
-				9BA88EEB2A86513E00E61A61 /* ArtistService */,
-				9BDB099629BB2F9A007F99E4 /* SongService */,
-			);
-			path = Services;
-			sourceTree = "<group>";
-		};
 		9BF6C8E82A854D2600916EC1 /* Screens */ = {
 			isa = PBXGroup;
 			children = (
@@ -661,6 +634,25 @@
 				9BF6C8FA2A86277F00916EC1 /* ArrayExtensions.swift */,
 			);
 			path = Extensions;
+			sourceTree = "<group>";
+		};
+		9BFEDFCA2BB4CDAC00E1EE46 /* ApiClients */ = {
+			isa = PBXGroup;
+			children = (
+				9BFEDFCB2BB4CDB600E1EE46 /* Jellyfin */,
+			);
+			path = ApiClients;
+			sourceTree = "<group>";
+		};
+		9BFEDFCB2BB4CDB600E1EE46 /* Jellyfin */ = {
+			isa = PBXGroup;
+			children = (
+				48C1F8CE29B9F3DB003BE048 /* Services */,
+				48C1F8DC29B9FF91003BE048 /* ApiClient.swift */,
+				9B7D1CD32BA60F2100FF888F /* Enums.swift */,
+				48C1F8E329BB827E003BE048 /* JellyfinImageProvider.swift */,
+			);
+			path = Jellyfin;
 			sourceTree = "<group>";
 		};
 /* End PBXGroup section */
