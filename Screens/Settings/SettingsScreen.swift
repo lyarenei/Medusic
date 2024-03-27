@@ -138,6 +138,9 @@ private struct DeveloperSettings: View {
     @Default(.readOnly)
     var readOnlyEnabled: Bool
 
+    @Default(.restorePlaybackQueue)
+    var restorePlaybackQueueEnabled: Bool
+
     var apiClient: ApiClient
 
     init(apiClient: ApiClient = .shared) {
@@ -148,6 +151,7 @@ private struct DeveloperSettings: View {
         List {
             previewMode()
             readOnlyMode()
+            restorePlaybackQueueOption
         }
         .listStyle(.grouped)
         .navigationBarTitleDisplayMode(.inline)
@@ -173,6 +177,13 @@ private struct DeveloperSettings: View {
     private func readOnlyMode() -> some View {
         Toggle(isOn: $readOnlyEnabled) {
             Text("Read only mode")
+        }
+    }
+
+    @ViewBuilder
+    private var restorePlaybackQueueOption: some View {
+        Toggle(isOn: $restorePlaybackQueueEnabled) {
+            Text("Restore playback queue on app restart")
         }
     }
 }

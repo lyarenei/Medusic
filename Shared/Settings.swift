@@ -27,6 +27,7 @@ extension Defaults.Keys {
     // Developer settings
     static let previewMode = Key<Bool>("previewMode", default: false)
     static let readOnly = Key<Bool>("readOnly", default: false)
+    static let restorePlaybackQueue = Key<Bool>("restorePlaybackQueue", default: false)
 }
 
 enum PrimaryAction: String, Defaults.Serializable {

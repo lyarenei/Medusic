@@ -1,5 +1,6 @@
 import AVFoundation
 import Combine
+import Defaults
 import Foundation
 import Kingfisher
 import MediaPlayer
@@ -98,6 +99,7 @@ final class MusicPlayer: ObservableObject {
 
         audioSessionSetup()
         setupRemoteCommandCenter()
+
         Task { await self.restorePlaybackQueue() }
     }
 
@@ -132,6 +134,7 @@ final class MusicPlayer: ObservableObject {
     }
 
     private func restorePlaybackQueue() async {
+        guard Defaults[.restorePlaybackQueue] else { return }
         if !apiClient.isAuthorized {
             try? await apiClient.performAuth()
         }
@@ -564,6 +567,7 @@ final class MusicPlayer: ObservableObject {
     }
 
     private func persistPlaybackQueue() {
+        guard Defaults[.restorePlaybackQueue] else { return }
         let currentQueue = player.items().compactMap { $0 as? AVJellyPlayerItem }
         Task { await persistRepo.save(currentQueue) }
     }
