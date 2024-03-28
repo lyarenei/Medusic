@@ -7,6 +7,7 @@ struct Song: JellyfinItem {
     var name: String
     var isFavorite: Bool
     var sortName: String
+    var createdAt = Date.now
 
     var index: Int
     var albumId: String
@@ -54,6 +55,7 @@ extension Song {
         self.name = name
         self.isFavorite = item.userData?.isFavorite ?? false
         self.sortName = item.sortName ?? name
+        self.createdAt = item.dateCreated ?? .now
 
         self.index = item.indexNumber ?? 0
         self.albumId = albumId

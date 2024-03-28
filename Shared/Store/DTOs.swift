@@ -11,6 +11,7 @@ protocol JellyfinItem: Identifiable, Codable, Equatable, Hashable {
     var name: String { get }
     var isFavorite: Bool { get }
     var sortName: String { get }
+    var createdAt: Date { get }
 }
 
 struct PlayerQueueItem {

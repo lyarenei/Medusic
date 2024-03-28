@@ -29,8 +29,7 @@ extension Array where Element: JellyfinItem {
             }
         case .dateAdded:
             return sorted { lhs, rhs -> Bool in
-                // TODO: actual implementation
-                lhs.id < rhs.id
+                lhs.createdAt < rhs.createdAt
             }
         }
     }
@@ -128,20 +127,6 @@ extension [Album] {
         switch method {
         case .artistId(let id):
             return filter { $0.artistId == id }
-        }
-    }
-}
-
-extension [Album] {
-    enum AlbumSortBy {
-        case dateAdded
-    }
-
-    @available(*, deprecated, message: "Use sorted(by:) SortOption")
-    func sorted(by method: AlbumSortBy) -> [Album] {
-        switch method {
-        case .dateAdded:
-            return sorted { $0.createdAt < $1.createdAt }
         }
     }
 }

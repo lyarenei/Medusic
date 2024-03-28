@@ -12,7 +12,7 @@ final class DefaultArtistService: ArtistService {
         let params = JellyfinAPI.Paths.GetAlbumArtistsParameters(
             startIndex: offset,
             limit: pageSize,
-            fields: [.overview]
+            fields: [.overview, .dateCreated]
         )
 
         let request = JellyfinAPI.Paths.getAlbumArtists(parameters: params)

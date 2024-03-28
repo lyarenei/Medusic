@@ -29,7 +29,7 @@ final class DefaultSongService: SongService {
         params.userID = Defaults[.userId]
         params.isRecursive = true
         params.parentID = albumId
-        params.fields = [.mediaSources, .path]
+        params.fields = [.mediaSources, .path, .dateCreated]
         params.includeItemTypes = [.audio]
         params.limit = limit
         params.startIndex = startIndex
