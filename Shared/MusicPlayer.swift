@@ -43,6 +43,7 @@ final class MusicPlayer: ObservableObject {
 
     private var seekCancellable: Cancellable?
     private var currentItemObserver: NSKeyValueObservation?
+    private var cancellables: Cancellables
 
     init(
         preview: Bool = false,
@@ -55,6 +56,7 @@ final class MusicPlayer: ObservableObject {
         self.fileRepo = fileRepo
         self.persistRepo = persistRepo
         self.apiClient = apiClient
+        self.cancellables = []
 
         guard !preview else { return }
 
@@ -391,6 +393,8 @@ final class MusicPlayer: ObservableObject {
         let asset = AVURLAsset(url: fileUrl, options: ["AVURLAssetHTTPHeaderFieldsKey": headers])
         let item = AVJellyPlayerItem(asset: asset)
         item.song = song
+        subscribeToError(of: item)
+
         return item
     }
 
@@ -570,6 +574,17 @@ final class MusicPlayer: ObservableObject {
         guard Defaults[.restorePlaybackQueue] else { return }
         let currentQueue = player.items().compactMap { $0 as? AVJellyPlayerItem }
         Task { await persistRepo.save(currentQueue) }
+    }
+
+    private func subscribeToError(of item: AVJellyPlayerItem) {
+        item.publisher(for: \.error)
+            .receive(on: DispatchQueue.global(qos: .background))
+            .sink { error in
+                guard let error else { return }
+                Logger.player.error("Failed to play song: \(error.localizedDescription)")
+                Alerts.error("Failed to play song.")
+            }
+            .store(in: &cancellables)
     }
 
     enum PlayerError: Error {
