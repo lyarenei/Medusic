@@ -63,38 +63,40 @@ final class MusicPlayer: ObservableObject {
         // swiftformat:disable:next redundantSelf
         currentItemObserver = player.observe(\.currentItem, options: [.old, .new]) { [weak self] _, change in
             guard let self else { return }
-            guard case .some(let currentItem)? = change.newValue,
-                  let currentJellyItem = currentItem as? AVJellyPlayerItem,
-                  let currentSong = currentJellyItem.song
-            else {
+
+            if case .some(let previousItem)? = change.oldValue,
+               let previousJellyItem = previousItem as? AVJellyPlayerItem,
+               let previousSong = previousJellyItem.song {
+                // report previous item
                 Task {
-                    await self.setCurrentlyPlaying(newSong: nil)
-                    Logger.player.info("Current song is not set, stopping")
-                }
-                return
-            }
-
-            Task { @MainActor in
-                if case .some(let previousItem)? = change.oldValue,
-                   let previousJellyItem = previousItem as? AVJellyPlayerItem,
-                   let previousSong = previousJellyItem.song,
-                   previousItem != currentItem {
-
-                    if !self.isHistoryRewritten {
-                        self.history.append(previousSong)
-                        Logger.player.debug("Added song to history: \(currentSong.id)")
-                    } else {
-                        // The next song change should be reported as usual.
-                        self.isHistoryRewritten = false
-                    }
-
                     await self.sendPlaybackStopped(for: previousSong, at: previousItem.currentTime().seconds)
                     await self.sendPlaybackFinished(for: previousSong)
                 }
 
-                await self.setCurrentlyPlaying(newSong: currentSong)
-                await self.sendPlaybackStarted(for: currentSong)
-                self.setNowPlayingMetadata(song: currentSong)
+                Task { @MainActor in
+                    if !self.isHistoryRewritten {
+                        self.history.append(previousSong)
+                        Logger.player.debug("Added song to history: \(previousSong.id)")
+                    } else {
+                        // The next song change should be reported as usual.
+                        self.isHistoryRewritten = false
+                    }
+                }
+            }
+
+            guard case .some(let nextItem)? = change.newValue,
+                  let nextJellyItem = nextItem as? AVJellyPlayerItem,
+                  let nextSong = nextJellyItem.song
+            else {
+                Logger.player.info("Current song is not set, stopping")
+                Task { await self.setCurrentlyPlaying(newSong: nil) }
+                return
+            }
+
+            Task {
+                await self.setCurrentlyPlaying(newSong: nextSong)
+                await self.sendPlaybackStarted(for: nextSong)
+                self.setNowPlayingMetadata(song: nextSong)
                 self.persistPlaybackQueue()
             }
         }
