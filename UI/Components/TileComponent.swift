@@ -9,27 +9,31 @@ struct TileComponent: View {
     private let item: any JellyfinItem
     private var titleText: String?
     private var subtitleText: String?
+    private var edgeSize = UIConstants.tileSize
 
     init(item: any JellyfinItem) {
         self.item = item
     }
 
     var body: some View {
-        GeometryReader { proxy in
-            let widthScale = subtitleText != nil ? 0.82 : 0.88
-            VStack(alignment: .leading) {
-                ArtworkComponent(for: item)
+        ZStack {
+            GeometryReader { proxy in
+                let widthScale = subtitleText != nil ? 0.82 : 0.88
+                VStack(alignment: .leading) {
+                    ArtworkComponent(for: item)
 
-                VStack(alignment: .leading, spacing: 2) {
-                    title(proxy.size.width)
+                    VStack(alignment: .leading, spacing: 2) {
+                        title(proxy.size.width)
 
-                    if let subtitleText {
-                        subtitle(subtitleText, width: proxy.size.width)
+                        if let subtitleText {
+                            subtitle(subtitleText, width: proxy.size.width)
+                        }
                     }
                 }
+                .frame(width: proxy.size.width, height: proxy.size.width / widthScale)
             }
-            .frame(width: proxy.size.width, height: proxy.size.width / widthScale)
         }
+        .frame(width: edgeSize, height: edgeSize + 40)
     }
 
     @ViewBuilder
@@ -70,12 +74,19 @@ extension TileComponent {
         view.subtitleText = text
         return view
     }
+
+    func setSize(_ newEdgeSize: Double) -> TileComponent {
+        var view = self
+        view.edgeSize = newEdgeSize
+        return view
+    }
 }
 
 #Preview {
     // swiftlint:disable:next force_unwrapping
     TileComponent(item: PreviewData.albums.first!)
+        .setSize(UIConstants.tileSize)
+        .tileSubTitle("Subtitle")
         .environmentObject(PreviewUtils.libraryRepo)
         .environmentObject(ApiClient(previewEnabled: true))
-        .frame(width: UIConstants.tileSize + 110)
 }
