@@ -64,52 +64,63 @@ struct LibraryScreen: View {
 
     @ViewBuilder
     private var favoriteAlbums: some View {
-        if showRecentlyAdded {
-            itemCollectionPreview(
-                title: "Favorite Albums",
-                items: library.albums.filtered(by: .favorite).sorted(by: Array<Album>.AlbumSortBy.dateAdded),
-                previewLimit: Defaults[.maxPreviewItems]
-            )
+        if showFavoriteAlbums {
+            ItemCollectionPreview("Favorite Albums", items: library.albums.filtered(by: .favorite)) { item in
+                // swiftlint:disable:next force_cast
+                let album = item as! Album
+
+                TileComponent(item: album)
+                    .tileSubTitle(album.artistName)
+            } viewAll: { items in
+                albumEntries(items)
+                    .navigationTitle("Favorite Albums")
+                    .navigationBarTitleDisplayMode(.inline)
+                    .listStyle(.plain)
+            }
         }
     }
 
     @ViewBuilder
     private var recentlyAdded: some View {
         if showRecentlyAdded {
-            itemCollectionPreview(
-                title: "Recently added",
-                items: library.albums,
-                previewLimit: Defaults[.maxPreviewItems]
-            )
+            ItemCollectionPreview("Recently added", items: library.albums) { item in
+                // swiftlint:disable:next force_cast
+                let album = item as! Album
+
+                TileComponent(item: album)
+                    .tileSubTitle(album.artistName)
+            } viewAll: { items in
+                albumEntries(items)
+                    .navigationTitle("Recently added")
+                    .navigationBarTitleDisplayMode(.inline)
+                    .listStyle(.plain)
+            }
         }
     }
 
     @ViewBuilder
-    private func itemCollectionPreview(
-        title: String,
-        items: [Album],
-        previewLimit: Int
-    ) -> some View {
-        Section {
-            ScrollView(.horizontal) {
-                LazyHStack(spacing: 20) {
-                    AlbumCollection(albums: items.prefix(previewLimit))
-                        .forceMode(.asTiles)
-                }
-                .padding(.leading)
-                .padding(.top)
-            }
-            .listRowInsets(EdgeInsets())
-        } header: {
-            HStack {
-                Text(title)
-                    .font(.system(size: 24))
-                    .bold()
-                    .foregroundStyle(Color.primary)
+    private func albumEntries(_ items: [any JellyfinItem]) -> some View {
+        List(items, id: \.id) { item in
+            // swiftlint:disable:next force_cast
+            let album = item as! Album
 
-                Spacer()
-                NavigationLink(value: items) {
-                    Text("View all")
+            NavigationLink {
+                AlbumDetailScreen(album: album)
+            } label: {
+                HStack {
+                    ArtworkComponent(for: album.id)
+                        .frame(width: 50, height: 50)
+
+                    VStack(alignment: .leading, spacing: 3) {
+                        Text(album.name)
+                            .font(.title2)
+
+                        Text(album.artistName)
+                            .font(.caption)
+                            .foregroundStyle(Color.gray)
+                    }
+
+                    Spacer()
                 }
             }
         }
@@ -132,5 +143,52 @@ struct LibraryScreen: View {
         .environmentObject(ApiClient(previewEnabled: true))
 }
 
+struct ItemCollectionPreview<Tile: View, ViewAll: View>: View {
+    @Default(.maxPreviewItems)
+    private var previewLimit: Int
+
+    private var title: String
+    private var items: [any JellyfinItem]
+    private var tileView: (any JellyfinItem) -> Tile
+    private var viewAllView: ([any JellyfinItem]) -> ViewAll
+
+    init(
+        _ title: String,
+        items: [any JellyfinItem],
+        @ViewBuilder itemTile: @escaping (any JellyfinItem) -> Tile,
+        @ViewBuilder viewAll: @escaping ([any JellyfinItem]) -> ViewAll
+    ) {
+        self.title = title
+        self.items = items
+        self.tileView = itemTile
+        self.viewAllView = viewAll
+    }
+
+    var body: some View {
+        Section {
+            ScrollView(.horizontal) {
+                LazyHStack(spacing: 20) {
+                    ForEach(items.prefix(previewLimit), id: \.id) { item in
+                        tileView(item)
+                    }
+                }
+                .padding(.leading)
+                .padding(.top)
+            }
+            .listRowInsets(EdgeInsets())
+        } header: {
+            HStack {
+                Text(title)
+                    .font(.system(size: 24))
+                    .bold()
+                    .foregroundStyle(Color.primary)
+
+                Spacer()
+                NavigationLink("View all") {
+                    viewAllView(items)
+                }
+                .disabled(items.count < previewLimit)
+            }
+        }
     }
 }
