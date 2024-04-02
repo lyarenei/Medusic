@@ -1,5 +1,6 @@
 import Defaults
 import Kingfisher
+import OSLog
 import SwiftUI
 
 @main
@@ -26,6 +27,7 @@ struct JellyMusicApp: App {
         WindowGroup {
             MainScreen()
                 .preferredColorScheme(appColorScheme.asColorScheme)
+                .task { await authorizeClient() }
                 .environmentObject(SongRepository(store: .songs))
                 .environmentObject(NavigationRouter())
                 .environmentObject(
@@ -37,5 +39,20 @@ struct JellyMusicApp: App {
                     )
                 )
         }
+    }
+
+    private func authorizeClient() async {
+        guard isConfigured() else { return }
+        do {
+            try await ApiClient.shared.performAuth()
+            Logger.library.debug("API client successfully authorized")
+        } catch {
+            Logger.library.warning("Server authentication failed: \(error.localizedDescription)")
+            Alerts.info("Failed to log in to server")
+        }
+    }
+
+    private func isConfigured() -> Bool {
+        Defaults[.serverUrl].isNotEmpty && Defaults[.username].isNotEmpty
     }
 }
