@@ -208,6 +208,7 @@ struct ItemCollectionPreview<Tile: View, ViewAll: View, Empty: View>: View {
                 }
                 .disabled(items.count < previewLimit)
             }
+            .padding(.top, -15)
         }
     }
 
