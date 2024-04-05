@@ -76,6 +76,8 @@ struct LibraryScreen: View {
                     .navigationTitle("Favorite Albums")
                     .navigationBarTitleDisplayMode(.inline)
                     .listStyle(.plain)
+            } empty: {
+                ContentUnavailableView("No favorites", systemImage: "star.slash")
             }
         }
     }
@@ -94,6 +96,8 @@ struct LibraryScreen: View {
                     .navigationTitle("Recently added")
                     .navigationBarTitleDisplayMode(.inline)
                     .listStyle(.plain)
+            } empty: {
+                ContentUnavailableView("No recents", systemImage: "clock.badge.xmark")
             }
         }
     }
@@ -137,13 +141,19 @@ struct LibraryScreen: View {
     }
 }
 
-#Preview {
+#Preview("Default") {
     LibraryScreen()
         .environmentObject(PreviewUtils.libraryRepo)
         .environmentObject(ApiClient(previewEnabled: true))
 }
 
-struct ItemCollectionPreview<Tile: View, ViewAll: View>: View {
+#Preview("Empty") {
+    LibraryScreen()
+        .environmentObject(PreviewUtils.libraryRepoEmpty)
+        .environmentObject(ApiClient(previewEnabled: true))
+}
+
+struct ItemCollectionPreview<Tile: View, ViewAll: View, Empty: View>: View {
     @Default(.maxPreviewItems)
     private var previewLimit: Int
 
@@ -151,31 +161,33 @@ struct ItemCollectionPreview<Tile: View, ViewAll: View>: View {
     private var items: [any JellyfinItem]
     private var tileView: (any JellyfinItem) -> Tile
     private var viewAllView: ([any JellyfinItem]) -> ViewAll
+    private var emptyView: (() -> Empty)?
 
     init(
         _ title: String,
         items: [any JellyfinItem],
         @ViewBuilder itemTile: @escaping (any JellyfinItem) -> Tile,
-        @ViewBuilder viewAll: @escaping ([any JellyfinItem]) -> ViewAll
+        @ViewBuilder viewAll: @escaping ([any JellyfinItem]) -> ViewAll,
+        @ViewBuilder empty: @escaping () -> Empty
     ) {
         self.title = title
         self.items = items
         self.tileView = itemTile
         self.viewAllView = viewAll
+        self.emptyView = empty
     }
 
     var body: some View {
         Section {
-            ScrollView(.horizontal) {
-                LazyHStack(spacing: 20) {
-                    ForEach(items.prefix(previewLimit), id: \.id) { item in
-                        tileView(item)
-                    }
+            if items.isEmpty {
+                if let emptyView {
+                    emptyView()
+                } else {
+                    ContentUnavailableView("No items", systemImage: "square.stack.3d.up.slash")
                 }
-                .padding(.leading)
-                .padding(.top)
+            } else {
+                content
             }
-            .listRowInsets(EdgeInsets())
         } header: {
             HStack {
                 Text(title)
@@ -190,5 +202,33 @@ struct ItemCollectionPreview<Tile: View, ViewAll: View>: View {
                 .disabled(items.count < previewLimit)
             }
         }
+    }
+
+    private var content: some View {
+        ScrollView(.horizontal) {
+            LazyHStack(spacing: 20) {
+                ForEach(items.prefix(previewLimit), id: \.id) { item in
+                    tileView(item)
+                }
+            }
+            .padding(.leading)
+            .padding(.top)
+        }
+        .listRowInsets(EdgeInsets())
+    }
+}
+
+extension ItemCollectionPreview where Empty == EmptyView {
+    init(
+        _ title: String,
+        items: [any JellyfinItem],
+        @ViewBuilder itemTile: @escaping (any JellyfinItem) -> Tile,
+        @ViewBuilder viewAll: @escaping ([any JellyfinItem]) -> ViewAll
+    ) {
+        self.title = title
+        self.items = items
+        self.tileView = itemTile
+        self.viewAllView = viewAll
+        self.emptyView = nil
     }
 }
