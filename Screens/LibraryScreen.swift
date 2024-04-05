@@ -230,7 +230,7 @@ struct ItemCollectionPreview<Tile: View, ViewAll: View, Empty: View>: View {
                     tileView(item)
                 }
             }
-            .padding(.leading)
+            .padding(.horizontal)
             .padding(.top)
         }
         .listRowInsets(EdgeInsets())
