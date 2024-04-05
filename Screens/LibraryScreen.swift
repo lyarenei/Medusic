@@ -45,7 +45,7 @@ struct LibraryScreen: View {
         .disabled(true)
 
         NavigationLink {
-            ArtistLibraryScreen(artists: library.artists)
+            ArtistLibraryScreen()
         } label: {
             Label("Artists", systemSymbol: .musicMic)
         }
