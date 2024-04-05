@@ -480,6 +480,7 @@ final class MusicPlayer: ObservableObject {
         let commandCenter = MPRemoteCommandCenter.shared()
         commandCenter.playCommand.addTarget { [weak self] _ in
             guard let self else { return .commandFailed }
+            Logger.player.debug("Called play command, player is playing: \(self.isPlaying)")
             self.setNowPlayingPlaybackMetadata(isPlaying: true)
             Task { await self.play() }
             return .success
@@ -487,6 +488,7 @@ final class MusicPlayer: ObservableObject {
 
         commandCenter.pauseCommand.addTarget { [weak self] _ in
             guard let self else { return .commandFailed }
+            Logger.player.debug("Called pause command, player is playing: \(self.isPlaying)")
             self.setNowPlayingPlaybackMetadata(isPlaying: false)
             Task { await self.pause() }
             return .success
@@ -494,12 +496,14 @@ final class MusicPlayer: ObservableObject {
 
         commandCenter.stopCommand.addTarget { [weak self] _ in
             guard let self else { return .commandFailed }
+            Logger.player.debug("Called stop command, player is playing: \(self.isPlaying)")
             Task { await self.stop() }
             return .success
         }
 
         commandCenter.togglePlayPauseCommand.addTarget { [weak self] _ in
             guard let self else { return .commandFailed }
+            Logger.player.debug("Called play/pause command, player is playing: \(self.isPlaying)")
             self.setNowPlayingPlaybackMetadata(isPlaying: self.isPlaying)
             Task {
                 if self.isPlaying {
@@ -514,12 +518,14 @@ final class MusicPlayer: ObservableObject {
 
         commandCenter.previousTrackCommand.addTarget { [weak self] _ in
             guard let self else { return .commandFailed }
+            Logger.player.debug("Called previous track command")
             Task { await self.skipBackward() }
             return .success
         }
 
         commandCenter.nextTrackCommand.addTarget { [weak self] _ in
             guard let self else { return .commandFailed }
+            Logger.player.debug("Called next track command")
             self.skipForward()
             return .success
         }
