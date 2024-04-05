@@ -4,9 +4,6 @@ import Foundation
 import JellyfinAPI
 
 final class DefaultAlbumService: AlbumService {
-    @Stored(in: .albums)
-    private var albums: [Album]
-
     private let client: JellyfinClient
 
     init(client: JellyfinClient) {
