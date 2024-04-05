@@ -69,9 +69,14 @@ struct LibraryScreen: View {
             ItemCollectionPreview("Favorite Albums", items: library.albums.filtered(by: .favorite)) { item in
                 // swiftlint:disable:next force_cast
                 let album = item as! Album
-
-                TileComponent(item: album)
-                    .tileSubTitle(album.artistName)
+                NavigationLink {
+                    AlbumDetailScreen(album: album)
+                } label: {
+                    TileComponent(item: album)
+                        .tileSubTitle(album.artistName)
+                        .padding(.bottom)
+                }
+                .foregroundStyle(Color.primary)
             } viewAll: { items in
                 albumEntries(items)
                     .navigationTitle("Favorite Albums")
@@ -89,9 +94,14 @@ struct LibraryScreen: View {
             ItemCollectionPreview("Recently added", items: library.albums) { item in
                 // swiftlint:disable:next force_cast
                 let album = item as! Album
-
-                TileComponent(item: album)
-                    .tileSubTitle(album.artistName)
+                NavigationLink {
+                    AlbumDetailScreen(album: album)
+                } label: {
+                    TileComponent(item: album)
+                        .tileSubTitle(album.artistName)
+                        .padding(.bottom)
+                }
+                .foregroundStyle(Color.primary)
             } viewAll: { items in
                 albumEntries(items)
                     .navigationTitle("Recently added")
@@ -203,6 +213,7 @@ struct ItemCollectionPreview<Tile: View, ViewAll: View, Empty: View>: View {
                     .foregroundStyle(Color.primary)
 
                 Spacer()
+
                 NavigationLink("View all") {
                     viewAllView(items)
                 }
