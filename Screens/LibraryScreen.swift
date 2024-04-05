@@ -1,5 +1,6 @@
 import ButtonKit
 import Defaults
+import OSLog
 import SFSafeSymbols
 import SwiftUI
 
@@ -133,7 +134,13 @@ struct LibraryScreen: View {
     @ViewBuilder
     private var refreshButton: some View {
         AsyncButton {
-            try await library.refreshAll()
+            do {
+                try await library.refreshAll()
+            } catch {
+                Logger.library.warning("Library refresh failed: \(error.localizedDescription)")
+                Alerts.error("Refresh failed")
+            }
+
         } label: {
             Image(systemSymbol: .arrowClockwise)
                 .scaledToFit()
