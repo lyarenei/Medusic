@@ -168,7 +168,7 @@ struct ItemCollectionPreview<Tile: View, ViewAll: View, Empty: View>: View {
     private var items: [any JellyfinItem]
     private var tileView: (any JellyfinItem) -> Tile
     private var viewAllView: ([any JellyfinItem]) -> ViewAll
-    private var emptyView: (() -> Empty)?
+    private var emptyView: Empty?
 
     init(
         _ title: String,
@@ -181,14 +181,14 @@ struct ItemCollectionPreview<Tile: View, ViewAll: View, Empty: View>: View {
         self.items = items
         self.tileView = itemTile
         self.viewAllView = viewAll
-        self.emptyView = empty
+        self.emptyView = empty()
     }
 
     var body: some View {
         Section {
             if items.isEmpty {
                 if let emptyView {
-                    emptyView()
+                    emptyView
                 } else {
                     ContentUnavailableView("No items", systemImage: "square.stack.3d.up.slash")
                 }
