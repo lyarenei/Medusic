@@ -16,9 +16,9 @@ struct TileComponent: View {
     }
 
     var body: some View {
-        ZStack {
+        let widthScale = subtitleText != nil ? 0.82 : 0.88
+        ZStack(alignment: .leading) {
             GeometryReader { proxy in
-                let widthScale = subtitleText != nil ? 0.82 : 0.88
                 VStack(alignment: .leading) {
                     ArtworkComponent(for: item)
 
@@ -33,7 +33,7 @@ struct TileComponent: View {
                 .frame(width: proxy.size.width, height: proxy.size.width / widthScale)
             }
         }
-        .frame(width: edgeSize, height: edgeSize + 40)
+        .frame(width: edgeSize, height: edgeSize / widthScale)
     }
 
     @ViewBuilder
