@@ -4,139 +4,159 @@
     "name": "The Whispering Shadows",
     "sortName": "Whispering Shadows, The",
     "isFavorite": false,
-    "about": "The Whispering Shadows are a mysterious group of musicians who draw inspiration from the depths of the night, weaving haunting melodies that resonate with the secrets of the universe."
+    "about": "The Whispering Shadows are a mysterious group of musicians who draw inspiration from the depths of the night, weaving haunting melodies that resonate with the secrets of the universe.",
+    "createdAt": "2021/07/15"
   },
   {
     "id": "2",
     "name": "Lunar Echo",
     "sortName": "Lunar Echo",
     "isFavorite": false,
-    "about": "Lunar Echo is a band formed by lunar enthusiasts who compose music that echoes the enigmatic beauty of the moon, capturing its ethereal essence in every note."
+    "about": "Lunar Echo is a band formed by lunar enthusiasts who compose music that echoes the enigmatic beauty of the moon, capturing its ethereal essence in every note.",
+    "createdAt": "2020/09/28"
   },
   {
     "id": "3",
     "name": "Bob Johnston",
     "sortName": "Bob Johnston",
     "isFavorite": false,
-    "about": "Bob Johnston is a traveler of both time and space, his music reflects the cosmic journey of his soul as it navigates through the boundless realms of existence."
+    "about": "Bob Johnston is a traveler of both time and space, his music reflects the cosmic journey of his soul as it navigates through the boundless realms of existence.",
+    "createdAt": "2023/02/10"
   },
   {
     "id": "4",
     "name": "The Lightening Strings",
     "sortName": "Lightening Strings, The",
     "isFavorite": false,
-    "about": "The Lightening Strings are a group of electrifying musicians who infuse their performances with a dynamic energy that ignites the very air around them, leaving audiences electrified and enthralled."
+    "about": "The Lightening Strings are a group of electrifying musicians who infuse their performances with a dynamic energy that ignites the very air around them, leaving audiences electrified and enthralled.",
+    "createdAt": "2020/11/19"
   },
   {
     "id": "5",
     "name": "Ella Thompson",
     "sortName": "Ella Thompson",
     "isFavorite": false,
-    "about": "Ella Thompson is a musical sorceress whose voice possesses the power to weave spells of enchantment, captivating listeners and transporting them to realms of pure magic."
+    "about": "Ella Thompson is a musical sorceress whose voice possesses the power to weave spells of enchantment, captivating listeners and transporting them to realms of pure magic.",
+    "createdAt": "2022/05/03"
   },
   {
     "id": "6",
     "name": "Euphoric Tides",
     "sortName": "Euphoric Tides",
     "isFavorite": false,
-    "about": "Euphoric Tides is a collective of sonic explorers who ride the waves of euphoria, their music a journey through the depths of emotion and the heights of ecstasy."
+    "about": "Euphoric Tides is a collective of sonic explorers who ride the waves of euphoria, their music a journey through the depths of emotion and the heights of ecstasy.",
+    "createdAt": "2023/11/08"
   },
   {
     "id": "7",
     "name": "Anna Jameson",
     "sortName": "Anna Jameson",
     "isFavorite": false,
-    "about": "Anna Jameson is a musical alchemist, her compositions blending disparate elements into harmonious symphonies that resonate with the alchemy of the soul."
+    "about": "Anna Jameson is a musical alchemist, her compositions blending disparate elements into harmonious symphonies that resonate with the alchemy of the soul.",
+    "createdAt": "2022/12/30"
   },
   {
     "id": "8",
     "name": "Drifting Soundwaves",
     "sortName": "Drifting Soundwaves",
     "isFavorite": false,
-    "about": "Drifting Soundwaves is an ambient project that creates music as ephemeral as the wind, their melodies gently caressing the senses like whispers carried on the breeze."
+    "about": "Drifting Soundwaves is an ambient project that creates music as ephemeral as the wind, their melodies gently caressing the senses like whispers carried on the breeze.",
+    "createdAt": "2020/08/14"
   },
   {
     "id": "9",
     "name": "Samuel Rodriguez",
     "sortName": "Samuel Rodriguez",
     "isFavorite": false,
-    "about": "Samuel Rodriguez is a virtuoso guitarist whose fingers dance across the strings like flames licking the air, his music a blaze of passion and intensity."
+    "about": "Samuel Rodriguez is a virtuoso guitarist whose fingers dance across the strings like flames licking the air, his music a blaze of passion and intensity.",
+    "createdAt": "2021/03/20"
   },
   {
     "id": "10",
     "name": "Moontide Melodies",
     "sortName": "Moontide Melodies",
     "isFavorite": false,
-    "about": "Moontide Melodies is a duo that channels the serene beauty of moonlit nights into their music, crafting melodies that ebb and flow like the tides under the silver glow of the moon."
+    "about": "Moontide Melodies is a duo that channels the serene beauty of moonlit nights into their music, crafting melodies that ebb and flow like the tides under the silver glow of the moon.",
+    "createdAt": "2023/09/05"
   },
   {
     "id": "11",
     "name": "Distant Horizons",
     "sortName": "Distant Horizons",
     "isFavorite": false,
-    "about": "Distant Horizons is a musical odyssey through the vast expanse of space, each note a star twinkling in the endless void, beckoning listeners to explore the infinite reaches of the cosmos."
+    "about": "Distant Horizons is a musical odyssey through the vast expanse of space, each note a star twinkling in the endless void, beckoning listeners to explore the infinite reaches of the cosmos.",
+    "createdAt": "2022/01/18"
   },
   {
     "id": "12",
     "name": "Alicia Vikander",
     "sortName": "Alicia Vikander",
     "isFavorite": false,
-    "about": "Alicia Vikander is a celestial songstress whose voice resonates with the purity of starlight, her music a celestial symphony that illuminates the darkest of nights."
+    "about": "Alicia Vikander is a celestial songstress whose voice resonates with the purity of starlight, her music a celestial symphony that illuminates the darkest of nights.",
+    "createdAt": "2021/10/29"
   },
   {
     "id": "13",
     "name": "Symphonic Dreamers",
     "sortName": "Symphonic Dreamers",
     "isFavorite": false,
-    "about": "Symphonic Dreamers are dreamweavers of sound, their music painting vivid landscapes of imagination where reality and fantasy intertwine in a mesmerizing dance."
+    "about": "Symphonic Dreamers are dreamweavers of sound, their music painting vivid landscapes of imagination where reality and fantasy intertwine in a mesmerizing dance.",
+    "createdAt": "2020/06/07"
   },
   {
     "id": "14",
     "name": "The Golden Strings",
     "sortName": "Golden Strings, The",
     "isFavorite": false,
-    "about": "The Golden Strings are a legendary ensemble whose music is said to hold the key to unlocking the secrets of the universe, each note a thread in the fabric of creation."
+    "about": "The Golden Strings are a legendary ensemble whose music is said to hold the key to unlocking the secrets of the universe, each note a thread in the fabric of creation.",
+    "createdAt": "2023/08/21"
   },
   {
     "id": "15",
     "name": "David Bronson",
     "sortName": "David Bronson",
     "isFavorite": false,
-    "about": "David Bronson is a bard of the modern age, his songs weaving tales of love and loss, hope and despair, in a tapestry of sound that resonates with the human experience."
+    "about": "David Bronson is a bard of the modern age, his songs weaving tales of love and loss, hope and despair, in a tapestry of sound that resonates with the human experience.",
+    "createdAt": "2021/02/14"
   },
   {
     "id": "16",
     "name": "The Harmonics",
     "sortName": "Harmonics, The",
     "isFavorite": false,
-    "about": "The Harmonics are masters of harmony and melody, their music a sublime fusion of sound that transcends the boundaries of the ordinary and elevates the spirit to new heights."
+    "about": "The Harmonics are masters of harmony and melody, their music a sublime fusion of sound that transcends the boundaries of the ordinary and elevates the spirit to new heights.",
+    "createdAt": "2020/03/05"
   },
   {
     "id": "17",
     "name": "Twilight Tones",
     "sortName": "Twilight Tones",
     "isFavorite": false,
-    "about": "Twilight Tones are purveyors of music that straddles the line between light and darkness, their melodies casting shadows that dance in the fading light of the day."
+    "about": "Twilight Tones are purveyors of music that straddles the line between light and darkness, their melodies casting shadows that dance in the fading light of the day.",
+    "createdAt": "2022/07/10"
   },
   {
     "id": "18",
     "name": "Amber Anderson",
     "sortName": "Amber Anderson",
     "isFavorite": false,
-    "about": "Amber Anderson is a troubadour of the soul, her music a reflection of the myriad hues of human emotion, from the warm glow of joy to the melancholy depths of sorrow."
+    "about": "Amber Anderson is a troubadour of the soul, her music a reflection of the myriad hues of human emotion, from the warm glow of joy to the melancholy depths of sorrow.",
+    "createdAt": "2023/04/02"
   },
   {
     "id": "19",
     "name": "Sonic Serenity",
     "sortName": "Sonic Serenity",
     "isFavorite": false,
-    "about": "Sonic Serenity is an oasis of tranquility in a world of chaos, their music a balm for the weary soul, soothing the mind and uplifting the spirit with its gentle melodies."
+    "about": "Sonic Serenity is an oasis of tranquility in a world of chaos, their music a balm for the weary soul, soothing the mind and uplifting the spirit with its gentle melodies.",
+    "createdAt": "2020/12/19"
   },
   {
     "id": "20",
     "name": "Olive Oyl",
     "sortName": "Olive Oyl",
     "isFavorite": false,
-    "about": "Olive Oyl is a free-spirited musician with a passion for exploring eclectic sounds and experimental rhythms, her music reflecting the whimsical and unpredictable nature of life itself."
+    "about": "Olive Oyl is a free-spirited musician with a passion for exploring eclectic sounds and experimental rhythms, her music reflecting the whimsical and unpredictable nature of life itself.",
+    "createdAt": "2022/10/08"
   }
 ]
