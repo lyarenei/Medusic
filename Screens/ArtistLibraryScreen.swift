@@ -1,19 +1,21 @@
 import ButtonKit
 import MarqueeText
+import OSLog
 import SFSafeSymbols
 import SwiftUI
 
 struct ArtistLibraryScreen: View {
+    @EnvironmentObject
+    private var repo: LibraryRepository
+
     @State
-    private var viewModel: ViewModel
+    var filter: FilterOption = .all
 
-    init(viewModel: ViewModel) {
-        self.viewModel = viewModel
-    }
+    @State
+    var sortBy: SortOption = .name
 
-    init(artists: [Artist], repo: LibraryRepository = .shared) {
-        self.viewModel = ViewModel(artists: artists, repo: repo)
-    }
+    @State
+    var sortDirection: SortDirection = .ascending
 
     var body: some View {
         content
@@ -22,9 +24,9 @@ struct ArtistLibraryScreen: View {
             .toolbar {
                 ToolbarItem(placement: .topBarTrailing) {
                     FilterSortMenuButton(
-                        filter: $viewModel.filter,
-                        sort: $viewModel.sortBy,
-                        sortDirection: $viewModel.sortDirection
+                        filter: $filter,
+                        sort: $sortBy,
+                        sortDirection: $sortDirection
                     )
                 }
 
@@ -34,11 +36,11 @@ struct ArtistLibraryScreen: View {
 
     @ViewBuilder
     private var content: some View {
-        if viewModel.artists.isNotEmpty {
-            let artistGroups = viewModel.artists
-                .filtered(by: viewModel.filter)
-                .sorted(by: viewModel.sortBy)
-                .ordered(by: viewModel.sortDirection)
+        if repo.artists.isNotEmpty {
+            let artistGroups = repo.artists
+                .filtered(by: filter)
+                .sorted(by: sortBy)
+                .ordered(by: sortDirection)
                 .grouped(by: .firstLetter)
 
             List {
@@ -48,17 +50,19 @@ struct ArtistLibraryScreen: View {
                     }
                 }
             }
-            .listStyle(.grouped)
+            .listStyle(.plain)
         } else {
-            Text("No artists")
-                .font(.title3)
-                .foregroundColor(.gray)
+            ContentUnavailableView(
+                "No artists in library",
+                systemImage: "music.mic",
+                description: Text("Perhaps you forgot to refresh data from Jellyfin?")
+            )
         }
     }
 
     @ViewBuilder
     private func artistSection(name: String, artists: [Artist]) -> some View {
-        Section(name) {
+        Section {
             ForEach(artists) { artist in
                 NavigationLink {
                     ArtistDetailScreen(artist: artist)
@@ -75,28 +79,44 @@ struct ArtistLibraryScreen: View {
                     )
                 }
             }
+        } header: {
+            Text(name)
+                .bold()
+                .foregroundStyle(Color.primary)
+                .font(.title3)
         }
     }
 
     @ViewBuilder
     private var refreshButton: some View {
         AsyncButton {
-            await viewModel.onRefreshButton()
+            await onRefreshButton()
         } label: {
             Image(systemSymbol: .arrowClockwise)
                 .scaledToFit()
+        }
+    }
+
+    private func onRefreshButton() async {
+        do {
+            try await repo.refreshArtists()
+        } catch {
+            Logger.repository.warning("Refreshing artists failed: \(error.localizedDescription)")
+            Alerts.error("Refresh failed")
         }
     }
 }
 
 #Preview("Normal") {
     NavigationStack {
-        ArtistLibraryScreen(artists: PreviewData.artists, repo: PreviewUtils.libraryRepo)
+        ArtistLibraryScreen()
+            .environmentObject(PreviewUtils.libraryRepo)
     }
 }
 
 #Preview("Empty") {
     NavigationStack {
-        ArtistLibraryScreen(artists: [], repo: PreviewUtils.libraryRepo)
+        ArtistLibraryScreen()
+            .environmentObject(PreviewUtils.libraryRepoEmpty)
     }
 }

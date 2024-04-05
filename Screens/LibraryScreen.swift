@@ -45,7 +45,7 @@ struct LibraryScreen: View {
                 .disabled(true)
 
             Divider()
-            navLink(for: "Artists", to: ArtistLibraryScreen(artists: library.artists), icon: .musicMic)
+            navLink(for: "Artists", to: ArtistLibraryScreen(), icon: .musicMic)
             Divider()
             navLink(for: "Albums", to: AlbumLibraryScreen(albums: library.albums), icon: .squareStack)
             Divider()
