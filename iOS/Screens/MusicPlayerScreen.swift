@@ -3,15 +3,14 @@ import SwiftUI
 import SwiftUIX
 
 struct MusicPlayerScreen: View {
-    @ObservedObject
-    var player: MusicPlayer
+    @EnvironmentObject
+    private var player: MusicPlayerCore
+
+    @EnvironmentObject
+    private var repo: LibraryRepository
 
     @State
     private var isSongListPresented = false
-
-    init(player: MusicPlayer = .shared) {
-        _player = ObservedObject(wrappedValue: player)
-    }
 
     var body: some View {
         if let curSong = player.currentSong {
@@ -34,7 +33,7 @@ struct MusicPlayerScreen: View {
                 .padding(.trailing, 16)
 
             Group {
-                PlaybackProgressComponent(player: player)
+//                PlaybackProgressComponent(player: player)
                 PlaybackControl()
                     .font(.largeTitle)
                     .buttonStyle(.plain)
@@ -71,8 +70,8 @@ struct MusicPlayerScreen: View {
             songList
                 .listStyle(.grouped)
                 .onAppear { animatedScroll(proxy, song: player.currentSong) }
-                .onChange(of: player.currentSong) { newSong in
-                    animatedScroll(proxy, song: newSong)
+                .onChange(of: player.currentSong) {
+                    animatedScroll(proxy, song: player.currentSong)
                 }
         }
     }
@@ -88,7 +87,7 @@ struct MusicPlayerScreen: View {
                 currentSection(with: curSong)
             }
 
-            if player.upNext.isNotEmpty {
+            if player.nextUp.isNotEmpty {
                 upNextSection
             }
         }
@@ -103,7 +102,7 @@ struct MusicPlayerScreen: View {
                     .showArtistName()
                     .contentShape(Rectangle())
                     .background(.almostClear)
-                    .onTapGesture { player.playHistory(song: song) }
+//                    .onTapGesture { player.playHistory(song: song) }
                     .id(song.id)
             }
         } header: {
@@ -127,13 +126,13 @@ struct MusicPlayerScreen: View {
     @ViewBuilder
     private var upNextSection: some View {
         Section {
-            ForEach(player.upNext, id: \.id) { song in
+            ForEach(player.nextUp, id: \.id) { song in
                 SongListRowComponent(song: song)
                     .showArtwork()
                     .showArtistName()
                     .contentShape(Rectangle())
                     .background(.almostClear)
-                    .onTapGesture { player.playUpNext(song: song) }
+//                    .onTapGesture { player.playUpNext(song: song) }
                     .id(song.id)
             }
         } header: {
@@ -165,20 +164,14 @@ struct MusicPlayerScreen_Previews: PreviewProvider {
         Group {
             VStack {
                 SheetCloseButton(isPresented: $isPresented)
-                MusicPlayerScreen(player: player())
+                MusicPlayerScreen()
             }
 
             VStack {
                 SheetCloseButton(isPresented: $isPresented)
-                MusicPlayerScreen(player: player())
+                MusicPlayerScreen()
             }
             .previewDevice(PreviewDevice(rawValue: "iPhone 13 mini"))
-
-            VStack {
-                SheetCloseButton(isPresented: $isPresented)
-                MusicPlayerScreen(player: player())
-            }
-            .previewDevice(PreviewDevice(rawValue: "iPhone 14 Pro Max"))
         }
     }
 }
@@ -242,7 +235,7 @@ private struct PlaybackControl: View {
 
             Spacer()
 
-            PlayPauseButton(player: player)
+            PlayPauseButton()
                 .frame(width: 50, height: 50)
                 .contentShape(Rectangle())
 
