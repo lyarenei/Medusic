@@ -101,8 +101,8 @@ final class MusicPlayer: ObservableObject {
             }
         }
 
-        audioSessionSetup()
-        setupRemoteCommandCenter()
+//        audioSessionSetup()
+//        setupRemoteCommandCenter()
 
         Task { await self.restorePlaybackQueue() }
     }
