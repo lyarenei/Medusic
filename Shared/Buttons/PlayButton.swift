@@ -92,13 +92,13 @@ struct PlayPauseButton: View {
 
 #Preview("Play button") {
     PlayButton(item: PreviewData.songs.first!)
-        .environmentObject(MusicPlayerCore(preview: true, apiClient: .init(previewEnabled: true)))
+        .environmentObject(PreviewUtils.player)
         .environmentObject(PreviewUtils.libraryRepo)
 }
 
 #Preview("Play/Pause button") {
     PlayPauseButton()
-        .environmentObject(MusicPlayerCore(preview: true, apiClient: .init(previewEnabled: true)))
+        .environmentObject(PreviewUtils.player)
         .environmentObject(PreviewUtils.libraryRepo)
 }
 
