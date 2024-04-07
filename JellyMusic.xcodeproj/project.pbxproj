@@ -84,7 +84,6 @@
 		9BA8B0C52A0F842500F6AF41 /* AlbumPreviewCollection.swift in Sources */ = {isa = PBXBuildFile; fileRef = 9BA8B0C42A0F842500F6AF41 /* AlbumPreviewCollection.swift */; };
 		9BAB43AF2BC183EF0066BED5 /* MusicPlayerCore.swift in Sources */ = {isa = PBXBuildFile; fileRef = 9BAB43AE2BC183EF0066BED5 /* MusicPlayerCore.swift */; };
 		9BAB43B32BC186300066BED5 /* MusicPlayerCore+CommandCenter.swift in Sources */ = {isa = PBXBuildFile; fileRef = 9BAB43B22BC186300066BED5 /* MusicPlayerCore+CommandCenter.swift */; };
-		9BAB43B52BC1898B0066BED5 /* NewMusicPlayerScreen.swift in Sources */ = {isa = PBXBuildFile; fileRef = 9BAB43B42BC1898B0066BED5 /* NewMusicPlayerScreen.swift */; };
 		9BAB43B72BC192ED0066BED5 /* MusicPlayerCore+NowPlaying.swift in Sources */ = {isa = PBXBuildFile; fileRef = 9BAB43B62BC192ED0066BED5 /* MusicPlayerCore+NowPlaying.swift */; };
 		9BAB43B92BC19A170066BED5 /* MusicPlayerCore+Playback.swift in Sources */ = {isa = PBXBuildFile; fileRef = 9BAB43B82BC19A170066BED5 /* MusicPlayerCore+Playback.swift */; };
 		9BAB43BB2BC19F6D0066BED5 /* MusicPlayerCore+Reporting.swift in Sources */ = {isa = PBXBuildFile; fileRef = 9BAB43BA2BC19F6D0066BED5 /* MusicPlayerCore+Reporting.swift */; };
@@ -204,7 +203,6 @@
 		9BA8B0C42A0F842500F6AF41 /* AlbumPreviewCollection.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = AlbumPreviewCollection.swift; sourceTree = "<group>"; };
 		9BAB43AE2BC183EF0066BED5 /* MusicPlayerCore.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = MusicPlayerCore.swift; sourceTree = "<group>"; };
 		9BAB43B22BC186300066BED5 /* MusicPlayerCore+CommandCenter.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = "MusicPlayerCore+CommandCenter.swift"; sourceTree = "<group>"; };
-		9BAB43B42BC1898B0066BED5 /* NewMusicPlayerScreen.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = NewMusicPlayerScreen.swift; sourceTree = "<group>"; };
 		9BAB43B62BC192ED0066BED5 /* MusicPlayerCore+NowPlaying.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = "MusicPlayerCore+NowPlaying.swift"; sourceTree = "<group>"; };
 		9BAB43B82BC19A170066BED5 /* MusicPlayerCore+Playback.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = "MusicPlayerCore+Playback.swift"; sourceTree = "<group>"; };
 		9BAB43BA2BC19F6D0066BED5 /* MusicPlayerCore+Reporting.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = "MusicPlayerCore+Reporting.swift"; sourceTree = "<group>"; };
@@ -315,7 +313,6 @@
 			isa = PBXGroup;
 			children = (
 				9B73ECF829C8F085007F74DB /* MusicPlayerScreen.swift */,
-				9BAB43B42BC1898B0066BED5 /* NewMusicPlayerScreen.swift */,
 			);
 			path = Screens;
 			sourceTree = "<group>";
@@ -838,7 +835,6 @@
 				9BB75EB029C4C5E1008CD65A /* Settings.swift in Sources */,
 				9B3D44C029BE09620054C9E0 /* SongsLibraryScreen.swift in Sources */,
 				9BA88EEF2A86516B00E61A61 /* DefaultArtistService.swift in Sources */,
-				9BAB43B52BC1898B0066BED5 /* NewMusicPlayerScreen.swift in Sources */,
 				9B80477029B89EE40069B407 /* AlbumLibraryScreen.swift in Sources */,
 				48C1F8C229B9E795003BE048 /* Store+common.swift in Sources */,
 				9B80476629B86F460069B407 /* LibraryScreen.swift in Sources */,
