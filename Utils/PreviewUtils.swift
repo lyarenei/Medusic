@@ -21,6 +21,13 @@ struct PreviewUtils {
             apiClient: .init(previewEnabled: true)
         )
     }
+
+    static var player: MusicPlayerCore {
+        MusicPlayerCore(
+            preview: true,
+            apiClient: .init(previewEnabled: true)
+        )
+    }
 }
 // swiftformat:enable all
 // swiftlint:enable all

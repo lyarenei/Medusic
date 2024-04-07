@@ -241,7 +241,7 @@ private struct PlaybackControl: View {
 
             Spacer()
 
-            PlayNextButton(player: player)
+            PlayNextButton()
                 .font(.title2)
                 .frame(width: 50, height: 50)
                 .contentShape(Rectangle())

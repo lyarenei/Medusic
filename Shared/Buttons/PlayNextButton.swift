@@ -2,17 +2,16 @@ import SFSafeSymbols
 import SwiftUI
 
 struct PlayNextButton: View {
-    @ObservedObject
-    private var player: MusicPlayer
+    @EnvironmentObject
+    private var player: MusicPlayerCore
 
     @State
     private var isLongPress = false
 
     private let text: String?
 
-    init(_ text: String? = nil, player: MusicPlayer = .shared) {
+    init(_ text: String? = nil) {
         self.text = text
-        self._player = ObservedObject(wrappedValue: player)
     }
 
     var body: some View {
@@ -28,7 +27,8 @@ struct PlayNextButton: View {
             LongPressGesture(minimumDuration: MusicPlayer.seekDelay).onEnded { isSuccess in
                 guard isSuccess else { return }
                 isLongPress = isSuccess
-                player.seekForward(isActive: true)
+                // TODO: enable
+//                player.seekForward(isActive: true)
             }
         )
         .onLongPressGesture(perform: {}, onPressingChanged: { isPressing in
@@ -37,7 +37,8 @@ struct PlayNextButton: View {
                 return
             }
 
-            player.seekForward(isActive: false)
+            // TODO: enable
+//            player.seekForward(isActive: false)
         })
     }
 
@@ -50,7 +51,8 @@ struct PlayNextButton: View {
 #if DEBUG
 
 #Preview {
-    PlayNextButton(player: .init(preview: true))
+    PlayNextButton()
+        .environmentObject(PreviewUtils.player)
 }
 
 #endif
