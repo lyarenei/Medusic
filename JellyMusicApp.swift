@@ -30,14 +30,8 @@ struct JellyMusicApp: App {
                 .task { await authorizeClient() }
                 .environmentObject(SongRepository(store: .songs))
                 .environmentObject(NavigationRouter())
-                .environmentObject(
-                    LibraryRepository(
-                        artistStore: .artists,
-                        albumStore: .albums,
-                        songStore: .songs,
-                        apiClient: .shared
-                    )
-                )
+                .environmentObject(ApiClient.shared)
+                .environmentObject(LibraryRepository.shared)
         }
     }
 
