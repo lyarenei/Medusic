@@ -66,9 +66,7 @@ struct LibraryScreen: View {
     @ViewBuilder
     private var favoriteAlbums: some View {
         if showFavoriteAlbums {
-            ItemCollectionPreview("Favorite Albums", items: library.albums.filtered(by: .favorite)) { item in
-                // swiftlint:disable:next force_cast
-                let album = item as! Album
+            ItemCollectionPreview("Favorite Albums", items: library.albums.filtered(by: .favorite)) { album in
                 NavigationLink {
                     AlbumDetailScreen(album: album)
                 } label: {
@@ -91,9 +89,7 @@ struct LibraryScreen: View {
     @ViewBuilder
     private var recentlyAdded: some View {
         if showRecentlyAdded {
-            ItemCollectionPreview("Recently added", items: library.albums) { item in
-                // swiftlint:disable:next force_cast
-                let album = item as! Album
+            ItemCollectionPreview("Recently added", items: library.albums) { album in
                 NavigationLink {
                     AlbumDetailScreen(album: album)
                 } label: {
@@ -170,21 +166,21 @@ struct LibraryScreen: View {
         .environmentObject(ApiClient(previewEnabled: true))
 }
 
-struct ItemCollectionPreview<Tile: View, ViewAll: View, Empty: View>: View {
+struct ItemCollectionPreview<Tile: View, ViewAll: View, Empty: View, Item: JellyfinItem>: View {
     @Default(.maxPreviewItems)
     private var previewLimit: Int
 
     private var title: String
-    private var items: [any JellyfinItem]
-    private var tileView: (any JellyfinItem) -> Tile
-    private var viewAllView: ([any JellyfinItem]) -> ViewAll
+    private var items: [Item]
+    private var tileView: (Item) -> Tile
+    private var viewAllView: ([Item]) -> ViewAll
     private var emptyView: Empty?
 
     init(
         _ title: String,
-        items: [any JellyfinItem],
-        @ViewBuilder itemTile: @escaping (any JellyfinItem) -> Tile,
-        @ViewBuilder viewAll: @escaping ([any JellyfinItem]) -> ViewAll,
+        items: [Item],
+        @ViewBuilder itemTile: @escaping (Item) -> Tile,
+        @ViewBuilder viewAll: @escaping ([Item]) -> ViewAll,
         @ViewBuilder empty: @escaping () -> Empty
     ) {
         self.title = title
@@ -240,9 +236,9 @@ struct ItemCollectionPreview<Tile: View, ViewAll: View, Empty: View>: View {
 extension ItemCollectionPreview where Empty == EmptyView {
     init(
         _ title: String,
-        items: [any JellyfinItem],
-        @ViewBuilder itemTile: @escaping (any JellyfinItem) -> Tile,
-        @ViewBuilder viewAll: @escaping ([any JellyfinItem]) -> ViewAll
+        items: [Item],
+        @ViewBuilder itemTile: @escaping (Item) -> Tile,
+        @ViewBuilder viewAll: @escaping ([Item]) -> ViewAll
     ) {
         self.title = title
         self.items = items
