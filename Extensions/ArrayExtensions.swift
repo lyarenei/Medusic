@@ -152,6 +152,7 @@ extension [Song] {
 extension [Song] {
     enum SongSortBy {
         case index
+        case album
         case albumDisc
     }
 
@@ -159,6 +160,8 @@ extension [Song] {
         switch method {
         case .index:
             return sorted { $0.index < $1.index }
+        case .album:
+            return sortByParentId().sortByIndex().sortByAlbumDisc()
         case .albumDisc:
             return sorted { $0.albumDisc < $1.albumDisc }
         }
