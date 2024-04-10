@@ -15,8 +15,8 @@ struct JellyMusicApp: App {
         // Disk image expires in a week.
         Kingfisher.ImageCache.default.diskStorage.config.expiration = .days(7)
 
-        // Limit disk cache size to 1 GB.
-        Kingfisher.ImageCache.default.diskStorage.config.sizeLimit = 1000 * 1024 * 1024
+        // Limit disk cache size to 3 GB.
+        Kingfisher.ImageCache.default.diskStorage.config.sizeLimit = 3000 * 1024 * 1024
 
         // Set values for the Jellyfin API client
         Defaults[.deviceName] = UIDevice.current.model
