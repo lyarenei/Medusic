@@ -3,19 +3,16 @@ import SwiftUI
 
 struct PlayNextButton: View {
     @ObservedObject
-    var player: MusicPlayer
+    private var player: MusicPlayer
 
     @State
     private var isLongPress = false
 
-    let text: String?
+    private let text: String?
 
-    init(
-        text: String? = nil,
-        player: MusicPlayer = .shared
-    ) {
+    init(_ text: String? = nil, player: MusicPlayer = .shared) {
         self.text = text
-        _player = ObservedObject(wrappedValue: player)
+        self._player = ObservedObject(wrappedValue: player)
     }
 
     var body: some View {
@@ -51,9 +48,9 @@ struct PlayNextButton: View {
 }
 
 #if DEBUG
-struct PlayNextButton_Previews: PreviewProvider {
-    static var previews: some View {
-        PlayNextButton(player: .init(preview: true))
-    }
+
+#Preview {
+    PlayNextButton(player: .init(preview: true))
 }
+
 #endif
