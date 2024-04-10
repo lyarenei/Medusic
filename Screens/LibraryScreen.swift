@@ -110,11 +110,8 @@ struct LibraryScreen: View {
     }
 
     @ViewBuilder
-    private func albumEntries(_ items: [any JellyfinItem]) -> some View {
-        List(items, id: \.id) { item in
-            // swiftlint:disable:next force_cast
-            let album = item as! Album
-
+    private func albumEntries(_ albums: [Album]) -> some View {
+        List(albums, id: \.id) { album in
             NavigationLink {
                 AlbumDetailScreen(album: album)
             } label: {
