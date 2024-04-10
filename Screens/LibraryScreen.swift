@@ -66,7 +66,7 @@ struct LibraryScreen: View {
     @ViewBuilder
     private var favoriteAlbums: some View {
         if showFavoriteAlbums {
-            ItemCollectionPreview("Favorite Albums", items: library.albums.filtered(by: .favorite)) { album in
+            ItemPreviewCollection("Favorite Albums", items: library.albums.filtered(by: .favorite)) { album in
                 NavigationLink {
                     AlbumDetailScreen(album: album)
                 } label: {
@@ -89,7 +89,7 @@ struct LibraryScreen: View {
     @ViewBuilder
     private var recentlyAdded: some View {
         if showRecentlyAdded {
-            ItemCollectionPreview("Recently added", items: library.albums) { album in
+            ItemPreviewCollection("Recently added", items: library.albums) { album in
                 NavigationLink {
                     AlbumDetailScreen(album: album)
                 } label: {
@@ -161,86 +161,4 @@ struct LibraryScreen: View {
     LibraryScreen()
         .environmentObject(PreviewUtils.libraryRepoEmpty)
         .environmentObject(ApiClient(previewEnabled: true))
-}
-
-struct ItemCollectionPreview<Tile: View, ViewAll: View, Empty: View, Item: JellyfinItem>: View {
-    @Default(.maxPreviewItems)
-    private var previewLimit: Int
-
-    private var title: String
-    private var items: [Item]
-    private var tileView: (Item) -> Tile
-    private var viewAllView: ([Item]) -> ViewAll
-    private var emptyView: Empty?
-
-    init(
-        _ title: String,
-        items: [Item],
-        @ViewBuilder itemTile: @escaping (Item) -> Tile,
-        @ViewBuilder viewAll: @escaping ([Item]) -> ViewAll,
-        @ViewBuilder empty: @escaping () -> Empty
-    ) {
-        self.title = title
-        self.items = items
-        self.tileView = itemTile
-        self.viewAllView = viewAll
-        self.emptyView = empty()
-    }
-
-    var body: some View {
-        Section {
-            if items.isEmpty {
-                if let emptyView {
-                    emptyView
-                } else {
-                    ContentUnavailableView("No items", systemImage: "square.stack.3d.up.slash")
-                }
-            } else {
-                content
-            }
-        } header: {
-            HStack {
-                Text(title)
-                    .font(.system(size: 24))
-                    .bold()
-                    .foregroundStyle(Color.primary)
-
-                Spacer()
-
-                NavigationLink("View all") {
-                    viewAllView(items)
-                }
-                .disabled(items.count < previewLimit)
-            }
-            .padding(.top, -15)
-        }
-    }
-
-    private var content: some View {
-        ScrollView(.horizontal) {
-            LazyHStack(spacing: 20) {
-                ForEach(items.prefix(previewLimit), id: \.id) { item in
-                    tileView(item)
-                }
-            }
-            .padding(.horizontal)
-            .padding(.top)
-        }
-        .listRowInsets(EdgeInsets())
-    }
-}
-
-extension ItemCollectionPreview where Empty == EmptyView {
-    init(
-        _ title: String,
-        items: [Item],
-        @ViewBuilder itemTile: @escaping (Item) -> Tile,
-        @ViewBuilder viewAll: @escaping ([Item]) -> ViewAll
-    ) {
-        self.title = title
-        self.items = items
-        self.tileView = itemTile
-        self.viewAllView = viewAll
-        self.emptyView = nil
-    }
 }
