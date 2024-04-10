@@ -6,10 +6,18 @@ import SwiftUIX
 ///
 /// Base implementation taken from: https://itnext.io/add-a-now-playing-bar-with-swiftui-to-your-app-d515b03f05e3
 struct NowPlayingComponent<Content: View>: View {
+    @EnvironmentObject
+    private var player: MusicPlayerCore
+
     @Binding
     var isPresented: Bool
 
     var content: Content
+
+    init(isPresented: Binding<Bool>, @ViewBuilder content: @escaping () -> Content) {
+        self._isPresented = isPresented
+        self.content = content()
+    }
 
     var body: some View {
         VStack(spacing: 0) {
@@ -32,11 +40,13 @@ struct NowPlayingComponent<Content: View>: View {
         var player = PreviewUtils.player
 
         var body: some View {
-            NowPlayingComponent(isPresented: .constant(true), content: LibraryScreen())
-                .task { player.setCurrentlyPlaying(newSong: PreviewData.songs.first) }
-                .environmentObject(ApiClient(previewEnabled: true))
-                .environmentObject(PreviewUtils.libraryRepo)
-                .environmentObject(player)
+            NowPlayingComponent(isPresented: .constant(true)) {
+                LibraryScreen()
+            }
+            .task { player.setCurrentlyPlaying(newSong: PreviewData.songs.first) }
+            .environmentObject(ApiClient(previewEnabled: true))
+            .environmentObject(PreviewUtils.libraryRepo)
+            .environmentObject(player)
         }
     }
 
