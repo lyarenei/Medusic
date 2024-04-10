@@ -28,12 +28,12 @@ struct MusicPlayerScreen: View {
                     height: Screen.size.width - 40
                 )
 
-            SongDetails(song: song)
+            songDetails(for: song)
                 .padding(.leading, 28)
                 .padding(.trailing, 16)
 
             Group {
-//                PlaybackProgressComponent(player: player)
+                PlaybackProgressComponent()
                 PlaybackControl()
                     .font(.largeTitle)
                     .buttonStyle(.plain)
@@ -49,6 +49,28 @@ struct MusicPlayerScreen: View {
         }
         .padding(.top, 5)
         .padding(.bottom, 15)
+    }
+
+    @ViewBuilder
+    private func songDetails(for song: Song) -> some View {
+        HStack {
+            VStack(alignment: .leading, spacing: 3) {
+                Text(song.name)
+                    .bold()
+                    .lineLimit(1)
+                    .font(.title2)
+
+                Text(song.artistCreditName)
+                    .lineLimit(1)
+                    .font(.body)
+            }
+
+            Spacer()
+
+            FavoriteButton(item: song)
+                .font(.title2)
+                .frame(width: 45, height: 45)
+        }
     }
 
     @ViewBuilder
@@ -150,75 +172,27 @@ struct MusicPlayerScreen: View {
     }
 }
 
-#if DEBUG
-// swiftlint:disable all
-struct MusicPlayerScreen_Previews: PreviewProvider {
-    @State
-    static var isPresented = false
+#Preview {
+    struct Preview: View {
+        @State
+        var isPresented = false
 
-    static var player = {
-        var mp = MusicPlayer(preview: true)
-        mp.currentSong = PreviewData.songs.first!
-        return mp
-    }
+        @State
+        var player = PreviewUtils.player
 
-    static var previews: some View {
-        Group {
+        var body: some View {
             VStack {
                 SheetCloseButton(isPresented: $isPresented)
                 MusicPlayerScreen()
             }
-
-            VStack {
-                SheetCloseButton(isPresented: $isPresented)
-                MusicPlayerScreen()
-            }
-            .previewDevice(PreviewDevice(rawValue: "iPhone 13 mini"))
+            .task { player.setCurrentlyPlaying(newSong: PreviewData.songs.first) }
+            .environmentObject(PreviewUtils.libraryRepo)
+            .environmentObject(player)
+            .environmentObject(ApiClient(previewEnabled: true))
         }
     }
-}
-// swiftlint:enable all
-#endif
 
-private struct SongDetails: View {
-    var song: Song
-
-    var body: some View {
-        HStack {
-            VStack(alignment: .leading, spacing: 3) {
-                Text(song.name)
-                    .bold()
-                    .lineLimit(1)
-                    .font(.title2)
-
-                Text(song.artistCreditName)
-                    .lineLimit(1)
-                    .font(.body)
-            }
-
-            Spacer()
-
-            FavoriteButton(item: song)
-                .font(.title2)
-                .frame(width: 45, height: 45)
-        }
-    }
-}
-
-private struct SongActions: View {
-    var song: Song
-
-    var body: some View {
-        HStack {
-            DownloadButton(item: song)
-                .padding(.all, 7)
-
-            FavoriteButton(item: song)
-                .padding(.all, 7)
-        }
-        .frame(height: 40)
-        .font(.title3)
-    }
+    return Preview()
 }
 
 // MARK: - Playback control
