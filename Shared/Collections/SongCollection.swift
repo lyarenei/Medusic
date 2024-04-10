@@ -170,7 +170,7 @@ private struct ContextOptions: View {
     let song: Song
 
     var body: some View {
-        PlayButton(text: "Play", item: song)
+        PlayButton("Play", item: song)
         DownloadButton(
             item: song,
             textDownload: "Download",

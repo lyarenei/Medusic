@@ -4,7 +4,7 @@ struct AlbumContextMenu: View {
     let album: Album
 
     var body: some View {
-        PlayButton(text: "Play", item: album)
+        PlayButton("Play", item: album)
         DownloadButton(item: album, textDownload: "Download", textRemove: "Remove")
         EnqueueButton(text: "Play Next", item: album, position: .next)
         EnqueueButton(text: "Play Last", item: album, position: .last)

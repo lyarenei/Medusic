@@ -1,24 +1,21 @@
+import OSLog
 import SFSafeSymbols
 import SwiftUI
 
 struct PlayButton: View {
     @ObservedObject
-    var player: MusicPlayer
+    private var player: MusicPlayer
 
-    let text: String?
-    let item: any JellyfinItem
-    let songRepo: SongRepository
+    @EnvironmentObject
+    private var repo: LibraryRepository
 
-    init(
-        text: String? = nil,
-        item: any JellyfinItem,
-        player: MusicPlayer = .shared,
-        songRepo: SongRepository = .shared
-    ) {
+    private let text: String?
+    private let item: any JellyfinItem
+
+    init(_ text: String? = nil, item: any JellyfinItem, player: MusicPlayer = .shared) {
         self.text = text
         self.item = item
-        _player = ObservedObject(wrappedValue: player)
-        self.songRepo = songRepo
+        self._player = ObservedObject(wrappedValue: player)
     }
 
     var body: some View {
@@ -40,27 +37,26 @@ struct PlayButton: View {
             case let song as Song:
                 await player.play(song: song)
             default:
-                print("Unhandled item type: \(item)")
+                let type = type(of: item)
+                Logger.library.debug("Playback of item type: \(type) is not implemented")
+                Alerts.error("Playback of \(type) is not available")
             }
         }
     }
 
     func playAlbum(_ album: Album) async {
-        let songs = await songRepo.getSongs(ofAlbum: album.id)
-        await player.play(songs: songs.sortByAlbum())
+        let songs = repo.getSongs(for: album)
+        await player.play(songs: songs.sorted(by: .album))
     }
 }
 
 struct PlayPauseButton: View {
     @ObservedObject
-    var player: MusicPlayer
+    private var player: MusicPlayer
 
-    let text: String?
+    private let text: String?
 
-    init(
-        text: String? = nil,
-        player: MusicPlayer = .shared
-    ) {
+    init(_ text: String? = nil, player: MusicPlayer = .shared) {
         self.text = text
         _player = ObservedObject(wrappedValue: player)
     }
@@ -89,16 +85,15 @@ struct PlayPauseButton: View {
 
 #if DEBUG
 // swiftlint:disable all
-struct PlayButton_Previews: PreviewProvider {
-    static var previews: some View {
-        PlayButton(
-            item: PreviewData.songs.first!,
-            player: .init(preview: true),
-            songRepo: .init(store: .previewStore(items: PreviewData.songs, cacheIdentifier: \.id))
-        )
-        PlayPauseButton(player: .init(preview: true))
-            .previewDisplayName("Play/Pause button")
-    }
+
+#Preview {
+    PlayButton(item: PreviewData.songs.first!, player: .init(preview: true))
+        .environmentObject(PreviewUtils.libraryRepo)
 }
+
+#Preview("Play/Pause button") {
+    PlayPauseButton(player: .init(preview: true))
+}
+
 // swiftlint:enable all
 #endif

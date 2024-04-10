@@ -74,7 +74,7 @@ struct AlbumDetailScreen: View {
     @ViewBuilder
     private var actions: some View {
         HStack {
-            PlayButton(text: "Play", item: album)
+            PlayButton("Play", item: album)
                 .frame(width: 120, height: 45)
                 .overlay(
                     RoundedRectangle(cornerRadius: 10)
@@ -246,7 +246,7 @@ private struct SongContextOptions: View {
     let song: Song
 
     var body: some View {
-        PlayButton(text: "Play", item: song)
+        PlayButton("Play", item: song)
         DownloadButton(item: song, textDownload: "Download", textRemove: "Remove")
         FavoriteButton(item: song, textFavorite: "Favorite", textUnfavorite: "Unfavorite")
         EnqueueButton(text: "Play Next", item: song, position: .next)
