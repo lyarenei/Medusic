@@ -102,6 +102,7 @@ struct MusicPlayerScreen: View {
                     .showArtistName()
                     .contentShape(Rectangle())
                     .background(.almostClear)
+//                TODO: enable
 //                    .onTapGesture { player.playHistory(song: song) }
                     .id(song.id)
             }
@@ -132,6 +133,7 @@ struct MusicPlayerScreen: View {
                     .showArtistName()
                     .contentShape(Rectangle())
                     .background(.almostClear)
+//                TODO: enable
 //                    .onTapGesture { player.playUpNext(song: song) }
                     .id(song.id)
             }
