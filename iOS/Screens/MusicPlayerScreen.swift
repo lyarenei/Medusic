@@ -198,8 +198,8 @@ struct MusicPlayerScreen: View {
 // MARK: - Playback control
 
 private struct PlaybackControl: View {
-    @ObservedObject
-    private var player: MusicPlayer = .shared
+    @EnvironmentObject
+    private var player: MusicPlayerCore
 
     var body: some View {
         HStack {
@@ -221,7 +221,7 @@ private struct PlaybackControl: View {
                 .font(.title2)
                 .frame(width: 50, height: 50)
                 .contentShape(Rectangle())
-                .disabled(player.upNext.isEmpty)
+                .disabled(player.nextUp.isEmpty)
         }
         .frame(height: 40)
     }
