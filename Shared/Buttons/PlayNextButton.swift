@@ -24,7 +24,7 @@ struct PlayNextButton: View {
             }
         }
         .simultaneousGesture(
-            LongPressGesture(minimumDuration: MusicPlayer.seekDelay).onEnded { isSuccess in
+            LongPressGesture(minimumDuration: MusicPlayerCore.seekDelay).onEnded { isSuccess in
                 guard isSuccess else { return }
                 isLongPress = isSuccess
                 // TODO: enable
