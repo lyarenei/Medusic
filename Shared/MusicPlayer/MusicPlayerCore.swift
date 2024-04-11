@@ -72,10 +72,8 @@ final class MusicPlayerCore: ObservableObject {
                 Task {
                     await self.sendPlaybackStopped(for: previousSong, at: previousItem.currentTime().seconds)
                     await self.sendPlaybackFinished(for: previousSong)
+                    await self.appendToHistory(previousSong)
                 }
-
-                Task { await self.appendToHistory(previousSong) }
-                Logger.player.debug("Added song to history: \(previousSong.id)")
             }
 
             guard case .some(let nextItem)? = change.newValue,
@@ -90,6 +88,7 @@ final class MusicPlayerCore: ObservableObject {
             Task {
                 await self.sendPlaybackStarted(for: nextSong)
                 await self.setCurrentlyPlaying(newSong: nextSong)
+                await self.advanceInUpNext()
             }
 
             self.setNowPlayingMetadata(song: nextSong)
@@ -113,9 +112,33 @@ final class MusicPlayerCore: ObservableObject {
     }
 
     @MainActor
+    internal func appendToUpNext(_ songs: [Song]) {
+        upNext.append(contentsOf: songs)
+        Logger.player.debug("Songs added to queue: \(songs.map(\.id))")
+    }
+
+    @MainActor
+    internal func prependToUpNext(_ songs: [Song]) {
+        upNext.insert(contentsOf: songs, at: 0)
+        Logger.player.debug("Songs added to queue: \(songs.map(\.id))")
+    }
+
+    @MainActor
     internal func appendToHistory(_ song: Song) {
         history.append(song)
         Logger.player.debug("Song added to playback history: \(song.id)")
+    }
+
+    @MainActor
+    internal func advanceInUpNext(over number: Int = 1) {
+        guard number >= 1 else {
+            Logger.player.debug("Requested to advance in up next queue over invalid count of songs")
+            return
+        }
+
+        let indexes: IndexSet = .init(integersIn: 0...(number - 1))
+        upNext.remove(atOffsets: indexes)
+        Logger.player.debug("Advanced over \(indexes) in up next queue")
     }
 
     internal func configureSession() throws {

@@ -36,8 +36,10 @@ extension MusicPlayerCore {
             switch position {
             case .last:
                 player.append(items: items)
+                Task { await appendToUpNext(songs) }
             case .next:
                 player.prepend(items: items)
+                Task { await prependToUpNext(songs) }
             }
 
             Logger.player.debug("Songs added to queue: \(songs.map(\.id))")

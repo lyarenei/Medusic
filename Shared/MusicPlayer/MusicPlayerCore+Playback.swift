@@ -12,6 +12,7 @@ extension MusicPlayerCore {
         try configureSession()
         try activateSession()
         player.play()
+        await advanceInUpNext()
     }
 
     func play(songs: [Song]) async throws {
@@ -23,6 +24,7 @@ extension MusicPlayerCore {
         try configureSession()
         try activateSession()
         player.play()
+        await advanceInUpNext()
     }
 
     func pause() async {
