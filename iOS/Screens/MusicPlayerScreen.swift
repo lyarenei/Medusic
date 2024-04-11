@@ -203,7 +203,7 @@ private struct PlaybackControl: View {
 
     var body: some View {
         HStack {
-            PlayPreviousButton(player: player)
+            PlayPreviousButton()
                 .font(.title2)
                 .frame(width: 50, height: 50)
                 .contentShape(Rectangle())

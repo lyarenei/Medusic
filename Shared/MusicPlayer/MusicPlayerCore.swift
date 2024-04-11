@@ -5,6 +5,7 @@ import SwiftUI
 
 final class MusicPlayerCore: ObservableObject {
     static let shared = MusicPlayerCore()
+    static let seekDelay = 0.75
 
     internal let session = AVAudioSession.sharedInstance()
     internal var isSessionConfigured = false
