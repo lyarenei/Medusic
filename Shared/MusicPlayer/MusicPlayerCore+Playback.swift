@@ -27,13 +27,13 @@ extension MusicPlayerCore {
 
     func pause() async {
         player.pause()
-//        await sendPlaybackProgress(for: currentSong, isPaused: true)
+        await sendPlaybackProgress(for: currentSong, isPaused: true)
         setNowPlayingPlaybackMetadata(isPlaying: false)
     }
 
     func resume() async {
         player.play()
-//        await sendPlaybackProgress(for: currentSong, isPaused: false)
+        await sendPlaybackProgress(for: currentSong, isPaused: false)
         setNowPlayingPlaybackMetadata(isPlaying: true)
     }
 
