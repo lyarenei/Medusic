@@ -5,12 +5,10 @@ import OSLog
 extension MusicPlayerCore {
     func play(song: Song? = nil) async throws {
         if let song {
-            clearQueue(stopPlayback: true)
-            enqueue(song: song, position: .last)
+            try await play(songs: [song])
+            return
         }
 
-        try configureSession()
-        try activateSession()
         player.play()
         await advanceInUpNext()
     }
