@@ -63,7 +63,7 @@ extension MusicPlayerCore {
         }
     }
 
-    private func avItemFactory(song: Song) throws -> AVPlayerItem {
+    internal func avItemFactory(song: Song) throws -> AVPlayerItem {
         guard let fileUrl = fileRepo.getLocalOrRemoteUrl(for: song) else {
             Logger.player.debug("Could not retrieve an URL for song \(song.id), skipping")
             throw PlayerError.songUrlNotFound

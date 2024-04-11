@@ -42,8 +42,7 @@ struct PlayPreviousButton: View {
 
     func action() {
         guard !isLongPress else { return }
-//        TODO: enable
-//        player.skipBackward()
+        player.skipBackward()
     }
 }
 
