@@ -88,7 +88,7 @@ private struct NowPlayingBar: View {
                 .frame(width: 60, height: 60)
                 .buttonStyle(.plain)
                 .contentShape(Rectangle())
-                .disabled(player.nextUp.isEmpty)
+                .disabled(player.upNext.isEmpty)
         }
         .padding(.trailing, 10)
         .frame(width: Screen.size.width, height: 65)

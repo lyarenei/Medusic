@@ -109,7 +109,7 @@ struct MusicPlayerScreen: View {
                 currentSection(with: curSong)
             }
 
-            if player.nextUp.isNotEmpty {
+            if player.upNext.isNotEmpty {
                 upNextSection
             }
         }
@@ -149,7 +149,7 @@ struct MusicPlayerScreen: View {
     @ViewBuilder
     private var upNextSection: some View {
         Section {
-            ForEach(player.nextUp, id: \.id) { song in
+            ForEach(player.upNext, id: \.id) { song in
                 SongListRowComponent(song: song)
                     .showArtwork()
                     .showArtistName()
@@ -221,7 +221,7 @@ private struct PlaybackControl: View {
                 .font(.title2)
                 .frame(width: 50, height: 50)
                 .contentShape(Rectangle())
-                .disabled(player.nextUp.isEmpty)
+                .disabled(player.upNext.isEmpty)
         }
         .frame(height: 40)
     }

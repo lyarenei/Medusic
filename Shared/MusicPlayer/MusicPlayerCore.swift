@@ -29,7 +29,7 @@ final class MusicPlayerCore: ObservableObject {
 
     @Published
     @MainActor
-    private(set) var nextUp: [Song] = []
+    private(set) var upNext: [Song] = []
 
     @Published
     @MainActor
