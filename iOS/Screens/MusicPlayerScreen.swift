@@ -172,6 +172,8 @@ struct MusicPlayerScreen: View {
     }
 }
 
+#if DEBUG
+
 #Preview {
     struct Preview: View {
         @State
@@ -194,6 +196,8 @@ struct MusicPlayerScreen: View {
 
     return Preview()
 }
+
+#endif
 
 // MARK: - Playback control
 
