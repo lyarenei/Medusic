@@ -115,6 +115,7 @@ struct LibraryScreen: View {
             NavigationLink {
                 AlbumDetailScreen(album: album)
             } label: {
+                // TODO: use album list row
                 HStack {
                     ArtworkComponent(for: album.id)
                         .frame(width: 50, height: 50)
