@@ -88,6 +88,7 @@
 		9BAB43B92BC19A170066BED5 /* MusicPlayerCore+Playback.swift in Sources */ = {isa = PBXBuildFile; fileRef = 9BAB43B82BC19A170066BED5 /* MusicPlayerCore+Playback.swift */; };
 		9BAB43BB2BC19F6D0066BED5 /* MusicPlayerCore+Reporting.swift in Sources */ = {isa = PBXBuildFile; fileRef = 9BAB43BA2BC19F6D0066BED5 /* MusicPlayerCore+Reporting.swift */; };
 		9BAB43BD2BC1A0AE0066BED5 /* MusicPlayerCore+Queue.swift in Sources */ = {isa = PBXBuildFile; fileRef = 9BAB43BC2BC1A0AE0066BED5 /* MusicPlayerCore+Queue.swift */; };
+		9BAB43C22BC85CBD0066BED5 /* MusicPlayer+Seeking.swift in Sources */ = {isa = PBXBuildFile; fileRef = 9BAB43C12BC85CBD0066BED5 /* MusicPlayer+Seeking.swift */; };
 		9BB754D629B93F3C009BB3A6 /* JellyfinAPI in Frameworks */ = {isa = PBXBuildFile; productRef = 9BB754D529B93F3C009BB3A6 /* JellyfinAPI */; };
 		9BB754DB29BA604C009BB3A6 /* DTOs.swift in Sources */ = {isa = PBXBuildFile; fileRef = 9BB754DA29BA604C009BB3A6 /* DTOs.swift */; };
 		9BB754DE29BA8522009BB3A6 /* DTOs+Codable.swift in Sources */ = {isa = PBXBuildFile; fileRef = 9BB754DD29BA8522009BB3A6 /* DTOs+Codable.swift */; };
@@ -207,6 +208,7 @@
 		9BAB43B82BC19A170066BED5 /* MusicPlayerCore+Playback.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = "MusicPlayerCore+Playback.swift"; sourceTree = "<group>"; };
 		9BAB43BA2BC19F6D0066BED5 /* MusicPlayerCore+Reporting.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = "MusicPlayerCore+Reporting.swift"; sourceTree = "<group>"; };
 		9BAB43BC2BC1A0AE0066BED5 /* MusicPlayerCore+Queue.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = "MusicPlayerCore+Queue.swift"; sourceTree = "<group>"; };
+		9BAB43C12BC85CBD0066BED5 /* MusicPlayer+Seeking.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = "MusicPlayer+Seeking.swift"; sourceTree = "<group>"; };
 		9BB754DA29BA604C009BB3A6 /* DTOs.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = DTOs.swift; sourceTree = "<group>"; };
 		9BB754DD29BA8522009BB3A6 /* DTOs+Codable.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = "DTOs+Codable.swift"; sourceTree = "<group>"; };
 		9BB75EA229C3894A008CD65A /* FavoriteButton.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = FavoriteButton.swift; sourceTree = "<group>"; };
@@ -495,6 +497,7 @@
 				9BAB43B82BC19A170066BED5 /* MusicPlayerCore+Playback.swift */,
 				9BAB43BA2BC19F6D0066BED5 /* MusicPlayerCore+Reporting.swift */,
 				9BAB43BC2BC1A0AE0066BED5 /* MusicPlayerCore+Queue.swift */,
+				9BAB43C12BC85CBD0066BED5 /* MusicPlayer+Seeking.swift */,
 			);
 			path = MusicPlayer;
 			sourceTree = "<group>";
@@ -869,6 +872,7 @@
 				9BF26D5B2A881FC6006631E9 /* UIConstants.swift in Sources */,
 				9B7D1CD62BA6333000FF888F /* AppearanceSettings.swift in Sources */,
 				9B7D1CCF2BA5052600FF888F /* JellyfinSettings.swift in Sources */,
+				9BAB43C22BC85CBD0066BED5 /* MusicPlayer+Seeking.swift in Sources */,
 				9B7AF3B429EB09310039A7DF /* AlbumListRowComponent.swift in Sources */,
 				9BB75EAA29C39FFF008CD65A /* SongRepository.swift in Sources */,
 				9BE2C2822BA6D9B1003A7A43 /* ArtistDetailScreen+ViewModel.swift in Sources */,

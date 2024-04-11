@@ -36,8 +36,7 @@ struct PlaybackProgressComponent: View {
                             }
                             .onEnded { _ in
                                 withAnimation { isSeeking = false }
-//                                TODO: enable
-//                                player.seek(percent: seekPercent)
+                                player.seek(to: seekPercent)
                             }
                     )
             }

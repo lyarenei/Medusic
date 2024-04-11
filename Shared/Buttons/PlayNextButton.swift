@@ -27,8 +27,7 @@ struct PlayNextButton: View {
             LongPressGesture(minimumDuration: MusicPlayerCore.seekDelay).onEnded { isSuccess in
                 guard isSuccess else { return }
                 isLongPress = isSuccess
-                // TODO: enable
-//                player.seekForward(isActive: true)
+                player.seekForward(isActive: true)
             }
         )
         .onLongPressGesture(perform: {}, onPressingChanged: { isPressing in
@@ -37,8 +36,7 @@ struct PlayNextButton: View {
                 return
             }
 
-            // TODO: enable
-//            player.seekForward(isActive: false)
+            player.seekForward(isActive: false)
         })
     }
 

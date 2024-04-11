@@ -1,4 +1,5 @@
 import AVFoundation
+import Combine
 import Foundation
 import OSLog
 import SwiftUI
@@ -18,6 +19,7 @@ final class MusicPlayerCore: ObservableObject {
     private var playbackRateObserver: NSKeyValueObservation?
     private var currentItemObserver: NSKeyValueObservation?
     internal var cancellables: Cancellables = []
+    internal var seekCancellable: Cancellable?
 
     @Published
     @MainActor
