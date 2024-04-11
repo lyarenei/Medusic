@@ -34,6 +34,8 @@ struct NowPlayingComponent<Content: View>: View {
     }
 }
 
+#if DEBUG
+
 #Preview {
     struct Preview: View {
         @State
@@ -52,6 +54,8 @@ struct NowPlayingComponent<Content: View>: View {
 
     return Preview()
 }
+
+#endif
 
 private struct NowPlayingBar: View {
     @EnvironmentObject
