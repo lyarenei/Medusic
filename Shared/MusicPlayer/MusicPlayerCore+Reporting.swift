@@ -10,7 +10,7 @@ extension MusicPlayerCore {
         guard let song else { return }
         try? await apiClient.services.mediaService.playbackStarted(
             itemId: song.id,
-            at: player.currentTime().seconds,
+            at: player.currentTimeRounded,
             isPaused: false,
             playbackQueue: [],
             volume: playerVolume,
@@ -22,7 +22,7 @@ extension MusicPlayerCore {
         guard let song else { return }
         try? await apiClient.services.mediaService.playbackProgress(
             itemId: song.id,
-            at: player.currentTime().seconds,
+            at: player.currentTimeRounded,
             isPaused: isPaused,
             playbackQueue: [],
             volume: playerVolume,
