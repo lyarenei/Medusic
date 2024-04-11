@@ -249,8 +249,8 @@ private struct SongContextOptions: View {
         PlayButton("Play", item: song)
         DownloadButton(item: song, textDownload: "Download", textRemove: "Remove")
         FavoriteButton(item: song, textFavorite: "Favorite", textUnfavorite: "Unfavorite")
-        EnqueueButton(text: "Play Next", item: song, position: .next)
-        EnqueueButton(text: "Play Last", item: song, position: .last)
+        EnqueueButton("Play Next", item: song, position: .next)
+        EnqueueButton("Play Last", item: song, position: .last)
     }
 }
 
