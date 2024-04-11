@@ -7,10 +7,6 @@ import MediaPlayer
 import OSLog
 import SwiftUI
 
-final class AVJellyPlayerItem: AVPlayerItem {
-    var song: Song?
-}
-
 @available(*, deprecated)
 final class MusicPlayer: ObservableObject {
     public static let shared = MusicPlayer()

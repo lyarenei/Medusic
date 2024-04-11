@@ -2,6 +2,10 @@ import AVFoundation
 import Foundation
 import OSLog
 
+final class AVJellyPlayerItem: AVPlayerItem {
+    var song: Song?
+}
+
 extension MusicPlayerCore {
     enum PlayerError: Error {
         case songUrlNotFound
