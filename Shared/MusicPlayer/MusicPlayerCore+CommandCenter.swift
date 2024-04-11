@@ -10,21 +10,8 @@ extension MusicPlayerCore {
         registerPauseCommand(commandCenter)
         registerStopCommand(commandCenter)
         registerPlayPauseCommand(commandCenter)
-
-
-//        commandCenter.previousTrackCommand.addTarget { [weak self] _ in
-//            guard let self else { return .commandFailed }
-//            Logger.player.debug("Called previous track command")
-//            Task { await self.skipBackward() }
-//            return .success
-//        }
-//
-//        commandCenter.nextTrackCommand.addTarget { [weak self] _ in
-//            guard let self else { return .commandFailed }
-//            Logger.player.debug("Called next track command")
-//            self.skipForward()
-//            return .success
-//        }
+        registerNextTrackCommand(commandCenter)
+        registerPreviousTrackCommand(commandCenter)
     }
 
     private func registerPlayCommand(_ center: MPRemoteCommandCenter) {
@@ -48,7 +35,7 @@ extension MusicPlayerCore {
     private func registerPauseCommand(_ center: MPRemoteCommandCenter) {
         center.pauseCommand.addTarget { [weak self] _ in
             guard let self else { return .commandFailed }
-            
+
             Task {
                 await self.pause()
                 self.setNowPlayingPlaybackMetadata(isPlaying: false)
@@ -90,7 +77,23 @@ extension MusicPlayerCore {
 
             return .success
         }
+    }
 
+    private func registerNextTrackCommand(_ center: MPRemoteCommandCenter) {
+        center.nextTrackCommand.addTarget { [weak self] _ in
+            guard let self else { return .commandFailed }
+            Logger.player.debug("Called next track command")
+            self.skipForward()
+            return .success
+        }
+    }
 
+    private func registerPreviousTrackCommand(_ center: MPRemoteCommandCenter) {
+        center.previousTrackCommand.addTarget { [weak self] _ in
+            guard let self else { return .commandFailed }
+            Logger.player.debug("Called previous track command")
+            self.skipBackward()
+            return .success
+        }
     }
 }
