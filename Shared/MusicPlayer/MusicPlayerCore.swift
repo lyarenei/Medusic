@@ -18,6 +18,7 @@ final class MusicPlayerCore: ObservableObject {
 
     private var playbackRateObserver: NSKeyValueObservation?
     private var currentItemObserver: NSKeyValueObservation?
+    private var statusObserver: NSKeyValueObservation?
     internal var cancellables: Cancellables = []
     internal var seekCancellable: Cancellable?
 
@@ -61,10 +62,25 @@ final class MusicPlayerCore: ObservableObject {
             }
         }
 
+        self.statusObserver = player.observe(\.status, options: [.new]) { [weak self] _, change in
+            guard let self else { return }
+            if case .some(let status) = change.newValue {
+                switch status {
+                case .failed:
+                    Logger.player.error("Internal player reported failed state, player needs to be reset")
+                case .readyToPlay:
+                    Logger.player.debug("Internal player is ready to play")
+                case .unknown:
+                    Logger.player.debug("Internal player is is not actively processing audio")
+                default:
+                    Logger.player.debug("Internal player reports unhandled status")
+                }
+            }
+        }
+
 //        player.actionAtItemEnd
 //        player.error
 //        player.reasonForWaitingToPlay
-//        player.status
 //        player.timeControlStatus
 
         // swiftformat:disable:next redundantSelf
