@@ -43,6 +43,12 @@ extension MusicPlayerCore {
         await setCurrentlyPlaying(newSong: nil)
     }
 
+    func skip(to index: Int) async {
+        player.clearNextItems(upTo: index)
+        player.advanceToNextItem()
+        await advanceInUpNext(over: index)
+    }
+
     func skipForward() {
         player.advanceToNextItem()
     }

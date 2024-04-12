@@ -149,14 +149,13 @@ struct MusicPlayerScreen: View {
     @ViewBuilder
     private var upNextSection: some View {
         Section {
-            ForEach(player.upNext, id: \.id) { song in
+            ForEach(Array(player.upNext.enumerated()), id: \.offset) { idx, song in
                 SongListRowComponent(song: song)
                     .showArtwork()
                     .showArtistName()
                     .contentShape(Rectangle())
                     .background(.almostClear)
-//                TODO: enable
-//                    .onTapGesture { player.playUpNext(song: song) }
+                    .onTapGesture { Task { await player.skip(to: idx) } }
                     .id(song.id)
             }
         } header: {

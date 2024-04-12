@@ -1,10 +1,17 @@
 import AVFoundation
 
 extension AVQueuePlayer {
-    func clearNextItems() {
+    func clearNextItems(upTo: Int? = nil) {
         guard currentItem != nil else { return }
-        for item in items() where item != currentItem {
-            remove(item)
+        if let upTo {
+            let currentQueue = items()
+            let newQueue = currentQueue.dropFirst(upTo + 1)
+            clearNextItems()
+            append(items: newQueue)
+        } else {
+            for item in items() where item != currentItem {
+                remove(item)
+            }
         }
     }
 
@@ -13,6 +20,13 @@ extension AVQueuePlayer {
     }
 
     func append(items: [AVPlayerItem]) {
+        for item in items where canInsert(item, after: nil) {
+            insert(item, after: nil)
+        }
+    }
+
+    /// Appends multiple items at the end of queue.
+    func append(items: ArraySlice<AVPlayerItem>) {
         for item in items where canInsert(item, after: nil) {
             insert(item, after: nil)
         }
