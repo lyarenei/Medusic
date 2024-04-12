@@ -221,12 +221,12 @@ final class MusicPlayerCore: ObservableObject {
         switch type {
         case .began:
             debugPrint()
-//            Task { await pause() }
+            Task { await pause() }
         case .ended:
             guard let optionsValue = userInfo[AVAudioSessionInterruptionOptionKey] as? UInt else { return }
             let options = AVAudioSession.InterruptionOptions(rawValue: optionsValue)
             if options.contains(.shouldResume) {
-//                Task { await resume() }
+                Task { await resume() }
             }
         default:
             break
