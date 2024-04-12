@@ -12,8 +12,7 @@ extension MusicPlayerCore {
     }
 
     func enqueue(song: Song, position: EnqueuePosition) {
-        enqueueToPlayer(song, position: position)
-//        persistPlaybackQueue()
+        enqueue(songs: [song], position: position)
     }
 
     func enqueue(songs: [Song], position: EnqueuePosition) {
@@ -21,15 +20,7 @@ extension MusicPlayerCore {
 //        persistPlaybackQueue()
     }
 
-    /// Clear playback queue. Optionally stop playback of current song.
-    internal func clearQueue(stopPlayback: Bool = false) {
-        if stopPlayback {
-            player.removeAllItems()
-        } else {
-            player.clearNextItems()
-        }
-    }
-
+    /// Enqueue a song to internal player. The song is placed at specified position.
     private func enqueueToPlayer(_ songs: [Song], position: EnqueuePosition) {
         do {
             let items = try songs.map(avItemFactory(song:))
@@ -48,20 +39,12 @@ extension MusicPlayerCore {
         }
     }
 
-    /// Enqueue a song to internal player. The song is placed at specified position.
-    private func enqueueToPlayer(_ song: Song, position: EnqueuePosition) {
-        do {
-            let item = try avItemFactory(song: song)
-            switch position {
-            case .last:
-                player.append(item: item)
-            case .next:
-                player.prepend(item: item)
-            }
-
-            Logger.player.debug("Song added to queue: \(song.id)")
-        } catch {
-            Logger.player.debug("Failed to add song to queue: \(song.id)")
+    /// Clear playback queue. Optionally stop playback of current song.
+    internal func clearQueue(stopPlayback: Bool = false) {
+        if stopPlayback {
+            player.removeAllItems()
+        } else {
+            player.clearNextItems()
         }
     }
 
