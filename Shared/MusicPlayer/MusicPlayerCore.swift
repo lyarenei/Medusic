@@ -53,7 +53,11 @@ final class MusicPlayerCore: ObservableObject {
         playbackRateObserver = player.observe(\.rate, options: [.new]) { [weak self] _, change in
             guard let self else { return }
             if case .some(let playbackRate) = change.newValue {
-                Task { await self.updatePlaybackState(playbackRate) }
+                self.setNowPlayingPlaybackMetadata(isPlaying: playbackRate > 0)
+                Task {
+                    await self.updatePlaybackState(playbackRate)
+                    await self.sendPlaybackProgress(for: self.currentSong, isPaused: playbackRate > 0)
+                }
             }
         }
 
