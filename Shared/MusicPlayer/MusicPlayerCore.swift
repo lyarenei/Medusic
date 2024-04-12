@@ -51,7 +51,7 @@ final class MusicPlayerCore: ObservableObject {
         try? configureSession()
 
         // swiftformat:disable:next redundantSelf
-        playbackRateObserver = player.observe(\.rate, options: [.new]) { [weak self] _, change in
+        self.playbackRateObserver = player.observe(\.rate, options: [.new]) { [weak self] _, change in
             guard let self else { return }
             if case .some(let playbackRate) = change.newValue {
                 self.setNowPlayingPlaybackMetadata(isPlaying: playbackRate > 0)
