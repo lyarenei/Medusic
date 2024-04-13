@@ -162,7 +162,11 @@ final class MusicPlayerCore: ObservableObject {
     }
 
     internal func configureSession() throws {
-        guard isSessionConfigured == false else { return }
+        guard isSessionConfigured == false else {
+            Logger.player.debug("Session is already configured, skipping")
+            return
+        }
+
         do {
             try session.setCategory(.playback, mode: .default, options: [])
             isSessionConfigured = true
@@ -175,7 +179,11 @@ final class MusicPlayerCore: ObservableObject {
     }
 
     internal func activateSession() throws {
-        guard !isSessionActive else { return }
+        guard !isSessionActive else {
+            Logger.player.debug("Session is already active, skipping")
+            return
+        }
+
         do {
             try session.setActive(true)
             isSessionActive = true
@@ -199,7 +207,11 @@ final class MusicPlayerCore: ObservableObject {
     }
 
     internal func deactivateSession() throws {
-        guard isSessionActive else { return }
+        guard isSessionActive else {
+            Logger.player.debug("Session is already deactivated, skipping")
+            return
+        }
+
         do {
             try session.setActive(false)
             isSessionActive = false
