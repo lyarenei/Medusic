@@ -4,6 +4,7 @@ import MediaPlayer
 import OSLog
 
 extension MusicPlayerCore {
+    // TODO: support erasing
     internal func setNowPlayingMetadata(song: Song) {
         let nowPlayingCenter = MPNowPlayingInfoCenter.default()
         var nowPlaying = nowPlayingCenter.nowPlayingInfo ?? [String: Any]()
