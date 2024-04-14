@@ -2,7 +2,7 @@ import AVFoundation
 import Foundation
 import OSLog
 
-extension MusicPlayerCore {
+extension MusicPlayer {
     func play(song: Song? = nil, preserveQueue: Bool = false) async throws {
         if let song {
             try await play(songs: [song], preserveQueue: preserveQueue)
@@ -62,7 +62,7 @@ extension MusicPlayerCore {
     }
 
     func skipBackward() {
-        if player.currentTimeRounded < MusicPlayerCore.minPlaybackTime {
+        if player.currentTimeRounded < MusicPlayer.minPlaybackTime {
             Task { @MainActor in
                 if !skipToPreviousSong() {
                     await player.seek(to: .zero, toleranceBefore: .zero, toleranceAfter: .zero)

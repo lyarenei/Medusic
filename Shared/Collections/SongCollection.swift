@@ -2,7 +2,7 @@ import SwiftUI
 
 struct SongCollection: View {
     @EnvironmentObject
-    private var player: MusicPlayerCore
+    private var player: MusicPlayer
 
     private var songs: [Song]
 

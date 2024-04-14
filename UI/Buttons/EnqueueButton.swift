@@ -12,7 +12,7 @@ struct EnqueueButton: View {
     private var library: LibraryRepository
 
     @EnvironmentObject
-    private var player: MusicPlayerCore
+    private var player: MusicPlayer
 
     private let text: String?
     private let item: any JellyfinItem

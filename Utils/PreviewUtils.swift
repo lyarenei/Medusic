@@ -22,8 +22,8 @@ struct PreviewUtils {
         )
     }
 
-    static var player: MusicPlayerCore {
-        MusicPlayerCore(
+    static var player: MusicPlayer {
+        MusicPlayer(
             preview: true,
             apiClient: .init(previewEnabled: true)
         )

@@ -5,7 +5,7 @@ import SwiftUI
 
 struct PlayButton: View {
     @EnvironmentObject
-    private var player: MusicPlayerCore
+    private var player: MusicPlayer
 
     @EnvironmentObject
     private var repo: LibraryRepository
@@ -57,7 +57,7 @@ struct PlayButton: View {
 
 struct PlayPauseButton: View {
     @EnvironmentObject
-    private var player: MusicPlayerCore
+    private var player: MusicPlayer
 
     private let text: String?
 

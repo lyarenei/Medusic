@@ -3,7 +3,7 @@ import Kingfisher
 import MediaPlayer
 import OSLog
 
-extension MusicPlayerCore {
+extension MusicPlayer {
     internal func setupRemoteCommandCenter() {
         let commandCenter = MPRemoteCommandCenter.shared()
         registerPlayCommand(commandCenter)

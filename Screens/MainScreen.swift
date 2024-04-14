@@ -3,7 +3,7 @@ import SwiftUI
 
 struct MainScreen: View {
     @EnvironmentObject
-    private var player: MusicPlayerCore
+    private var player: MusicPlayer
 
     @State
     private var isPlayerPresented = false

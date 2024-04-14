@@ -7,7 +7,7 @@ struct AlbumDetailScreen: View {
     private var library: LibraryRepository
 
     @EnvironmentObject
-    private var player: MusicPlayerCore
+    private var player: MusicPlayer
 
     let album: Album
 

@@ -3,7 +3,7 @@ import Kingfisher
 import MediaPlayer
 import OSLog
 
-extension MusicPlayerCore {
+extension MusicPlayer {
     // TODO: support erasing
     internal func setNowPlayingMetadata(song: Song) {
         let nowPlayingCenter = MPNowPlayingInfoCenter.default()

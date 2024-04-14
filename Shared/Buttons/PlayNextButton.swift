@@ -3,7 +3,7 @@ import SwiftUI
 
 struct PlayNextButton: View {
     @EnvironmentObject
-    private var player: MusicPlayerCore
+    private var player: MusicPlayer
 
     @State
     private var isLongPress = false
@@ -24,7 +24,7 @@ struct PlayNextButton: View {
             }
         }
         .simultaneousGesture(
-            LongPressGesture(minimumDuration: MusicPlayerCore.seekDelay).onEnded { isSuccess in
+            LongPressGesture(minimumDuration: MusicPlayer.seekDelay).onEnded { isSuccess in
                 guard isSuccess else { return }
                 isLongPress = isSuccess
                 player.seekForward(isActive: true)

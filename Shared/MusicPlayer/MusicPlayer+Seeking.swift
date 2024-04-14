@@ -2,7 +2,7 @@ import AVFoundation
 import Foundation
 import OSLog
 
-extension MusicPlayerCore {
+extension MusicPlayer {
     /// Seek in a current track to specified percent.
     func seek(to percent: Double) {
         guard let currentItem = player.currentItem,

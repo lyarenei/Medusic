@@ -6,7 +6,7 @@ final class AVJellyPlayerItem: AVPlayerItem {
     var song: Song?
 }
 
-extension MusicPlayerCore {
+extension MusicPlayer {
     enum PlayerError: Error {
         case songUrlNotFound
     }

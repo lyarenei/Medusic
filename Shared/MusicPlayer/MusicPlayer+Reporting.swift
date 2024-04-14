@@ -1,6 +1,6 @@
 import Foundation
 
-extension MusicPlayerCore {
+extension MusicPlayer {
     private var playerVolume: Int {
         let volume = session.outputVolume * 100
         return Int(volume.rounded(.toNearestOrAwayFromZero))

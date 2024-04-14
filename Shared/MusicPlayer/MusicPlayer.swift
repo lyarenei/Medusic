@@ -4,8 +4,8 @@ import Foundation
 import OSLog
 import SwiftUI
 
-final class MusicPlayerCore: ObservableObject {
-    static let shared = MusicPlayerCore()
+final class MusicPlayer: ObservableObject {
+    static let shared = MusicPlayer()
     static let seekDelay = 0.75
     static let minPlaybackTime = 3.0
 
@@ -279,7 +279,7 @@ final class MusicPlayerCore: ObservableObject {
             await sendPlaybackFinished(for: previous)
 
             // It may not probably be worth it to register in history
-            if atTime > MusicPlayerCore.minPlaybackTime {
+            if atTime > MusicPlayer.minPlaybackTime {
                 await appendToHistory(previous)
             }
         }

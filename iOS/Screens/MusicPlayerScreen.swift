@@ -5,7 +5,7 @@ import SwiftUIX
 
 struct MusicPlayerScreen: View {
     @EnvironmentObject
-    private var player: MusicPlayerCore
+    private var player: MusicPlayer
 
     @EnvironmentObject
     private var repo: LibraryRepository
@@ -194,7 +194,7 @@ struct MusicPlayerScreen: View {
 
 private struct PlaybackControl: View {
     @EnvironmentObject
-    private var player: MusicPlayerCore
+    private var player: MusicPlayer
 
     var body: some View {
         HStack {

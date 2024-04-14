@@ -4,7 +4,7 @@ import SwiftUI
 
 struct PlaybackProgressComponent: View {
     @EnvironmentObject
-    private var player: MusicPlayerCore
+    private var player: MusicPlayer
 
     @State
     private var currentTime: TimeInterval = 0
