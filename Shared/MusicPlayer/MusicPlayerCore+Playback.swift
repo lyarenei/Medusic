@@ -46,9 +46,10 @@ extension MusicPlayerCore {
         try? deactivateSession()
     }
 
+    // Remeber that internal player queue has currently playing item at [0],
+    // so everything in there is off by one comapred to what's shown in the UI.
     func skip(to index: Int) async {
-        // Advance will take care of the - 1
-        player.clearNextItems(upTo: index - 1)
+        player.clearNextItems(upTo: index)
         player.advanceToNextItem()
     }
 

@@ -147,7 +147,7 @@ final class MusicPlayerCore: ObservableObject {
     @MainActor
     internal func updateQueue() {
         Logger.player.debug("Updating player queue...")
-        playerQueue = player.items().compactMap { avItem in
+        playerQueue = player.items().dropFirst().compactMap { avItem in
             if let id = avItem.songId {
                 return library.songs.by(id: id)
             }
