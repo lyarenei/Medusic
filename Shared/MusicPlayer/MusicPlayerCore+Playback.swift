@@ -24,7 +24,9 @@ extension MusicPlayerCore {
             enqueue(songs: songs, position: .last)
         }
 
-        if await currentSong != nil {
+        // swiftformat:disable:next redundantSelf
+        let isPlaying = await self.isPlaying
+        if await currentSong != nil && isPlaying {
             player.advanceToNextItem()
         }
 
