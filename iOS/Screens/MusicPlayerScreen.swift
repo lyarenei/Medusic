@@ -88,14 +88,64 @@ struct MusicPlayerScreen: View {
         SheetCloseButton(isPresented: $isSongListPresented)
             .padding(.vertical, 7)
 
-        ScrollViewReader { proxy in
-            songList
-                .listStyle(.plain)
+        List {
+            if player.playbackHistory.isNotEmpty {
+                historySection
+            }
+
+            if let currentSong = player.currentSong {
+                Section("Currently playing") {
+                    SongListRowComponent(song: currentSong)
+                        .showArtwork()
+                        .showArtistName()
+                        .contentShape(Rectangle())
+                        .background(.almostClear)
+                        .fontWeight(.bold)
+                }
+            }
+
+            if player.playerQueue.isNotEmpty {
+                nextUpSection
+            }
+        }
+
+//        ScrollViewReader { proxy in
+//            songList
+//                .listStyle(.plain)
 //            TODO: update when playback history is reimplemented
 //                .onAppear { animatedScroll(proxy, songIdx: player.queueIndex) }
 //                .onChange(of: player.queueIndex) {
 //                    animatedScroll(proxy, songIdx: player.queueIndex)
 //                }
+//        }
+    }
+
+    @ViewBuilder
+    private var historySection: some View {
+        Section("History") {
+            ForEach(player.playbackHistory) { song in
+                SongListRowComponent(song: song)
+                    .showArtwork()
+                    .showArtistName()
+                    .contentShape(Rectangle())
+                    .background(.almostClear)
+            }
+        }
+    }
+
+    @ViewBuilder
+    private var nextUpSection: some View {
+        Section("Next up") {
+            ForEach(Array(player.playerQueue.enumerated()), id: \.offset) { idx, song in
+                SongListRowComponent(song: song)
+                    .showArtwork()
+                    .showArtistName()
+                    .contentShape(Rectangle())
+                    .background(.almostClear)
+                    .onTapGesture {
+                        Task { await player.skip(to: idx) }
+                    }
+            }
         }
     }
 
