@@ -243,6 +243,9 @@ final class MusicPlayerCore: ObservableObject {
         switch status {
         case .failed:
             Logger.player.error("Internal player reported failed state, player needs to be reset")
+            if let error = player.error {
+                Logger.player.debug("Internal player is in error state: \(error.localizedDescription)")
+            }
         case .readyToPlay:
             Logger.player.debug("Internal player is ready to play")
         case .unknown:
