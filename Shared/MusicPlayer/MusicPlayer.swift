@@ -123,8 +123,8 @@ final class MusicPlayer: ObservableObject {
     }
 
     @MainActor
-    internal func updateQueue() {
-        Logger.player.debug("Updating player queue...")
+    internal func updateNextUp() {
+        Logger.player.debug("Updating next up playback queue...")
         nextUpQueue = player.items().dropFirst().compactMap { avItem in
             if let id = avItem.songId {
                 return library.songs.by(id: id)
@@ -285,7 +285,7 @@ final class MusicPlayer: ObservableObject {
         }
 
         await setCurrentlyPlaying(newSong: next)
-        await updateQueue()
+        await updateNextUp()
 
         if let next {
             // TODO: move above when support for erasing is available

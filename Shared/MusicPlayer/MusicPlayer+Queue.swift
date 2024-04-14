@@ -31,7 +31,7 @@ extension MusicPlayer {
                 player.prepend(items: items)
             }
 
-            Task { await updateQueue() }
+            Task { await updateNextUp() }
             Logger.player.debug("Songs added to queue: \(songs.map(\.id))")
         } catch {
             Logger.player.error("Failed to add songs to player queue: \(songs.map(\.id))")
@@ -46,7 +46,7 @@ extension MusicPlayer {
             player.clearNextItems()
         }
 
-        Task { await updateQueue() }
+        Task { await updateNextUp() }
     }
 
     internal func avItemFactory(song: Song) throws -> AVPlayerItem {
