@@ -31,7 +31,6 @@
 		9B1EF3A329DCA62C00C2A33B /* PlayPreviousButton.swift in Sources */ = {isa = PBXBuildFile; fileRef = 9B1EF3A229DCA62C00C2A33B /* PlayPreviousButton.swift */; };
 		9B1EF3A629DCA78800C2A33B /* EnqueueButton.swift in Sources */ = {isa = PBXBuildFile; fileRef = 9B1EF3A529DCA78800C2A33B /* EnqueueButton.swift */; };
 		9B1EF3AF29E151F400C2A33B /* RefreshButton.swift in Sources */ = {isa = PBXBuildFile; fileRef = 9B1EF3AE29E151F400C2A33B /* RefreshButton.swift */; };
-		9B21623329E88D12008D3F73 /* MusicPlayer.swift in Sources */ = {isa = PBXBuildFile; fileRef = 9B21623229E88D12008D3F73 /* MusicPlayer.swift */; };
 		9B289E9C29F6E6DF007FD445 /* ScrollViewExtensions.swift in Sources */ = {isa = PBXBuildFile; fileRef = 9B289E9B29F6E6DF007FD445 /* ScrollViewExtensions.swift */; };
 		9B289EA529F6EC2D007FD445 /* ImageExtensions.swift in Sources */ = {isa = PBXBuildFile; fileRef = 9B289EA429F6EC2D007FD445 /* ImageExtensions.swift */; };
 		9B289EA829F6EDC3007FD445 /* NumberExtensions.swift in Sources */ = {isa = PBXBuildFile; fileRef = 9B289EA729F6EDC3007FD445 /* NumberExtensions.swift */; };
@@ -150,7 +149,6 @@
 		9B1EF3A229DCA62C00C2A33B /* PlayPreviousButton.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = PlayPreviousButton.swift; sourceTree = "<group>"; };
 		9B1EF3A529DCA78800C2A33B /* EnqueueButton.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = EnqueueButton.swift; sourceTree = "<group>"; };
 		9B1EF3AE29E151F400C2A33B /* RefreshButton.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = RefreshButton.swift; sourceTree = "<group>"; };
-		9B21623229E88D12008D3F73 /* MusicPlayer.swift */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.swift; path = MusicPlayer.swift; sourceTree = "<group>"; };
 		9B289E9B29F6E6DF007FD445 /* ScrollViewExtensions.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = ScrollViewExtensions.swift; sourceTree = "<group>"; };
 		9B289EA429F6EC2D007FD445 /* ImageExtensions.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = ImageExtensions.swift; sourceTree = "<group>"; };
 		9B289EA729F6EDC3007FD445 /* NumberExtensions.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = NumberExtensions.swift; sourceTree = "<group>"; };
@@ -426,7 +424,6 @@
 				4848B22529BCBC2000EB2FAA /* Cancellables.swift */,
 				9BB75EAF29C4C5E1008CD65A /* Settings.swift */,
 				9B3C7BE829D0702600884597 /* Logger.swift */,
-				9B21623229E88D12008D3F73 /* MusicPlayer.swift */,
 				9B7D1CCC2BA5025800FF888F /* NavigationRouter.swift */,
 			);
 			path = Shared;
@@ -906,7 +903,6 @@
 				9BEFA1C629C72A65004A07FB /* AlbumCollection.swift in Sources */,
 				9BBE145C29FB13110028C500 /* ConfirmButton.swift in Sources */,
 				9BDB099329BB1F57007F99E4 /* MockSongService.swift in Sources */,
-				9B21623329E88D12008D3F73 /* MusicPlayer.swift in Sources */,
 				9BA88EED2A86515500E61A61 /* ArtistService.swift in Sources */,
 				9BA88EEA2A8648ED00E61A61 /* PreviewData.swift in Sources */,
 				9B289EA829F6EDC3007FD445 /* NumberExtensions.swift in Sources */,
