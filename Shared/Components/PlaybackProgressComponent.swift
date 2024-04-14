@@ -45,8 +45,12 @@ struct PlaybackProgressComponent: View {
             progressTimes
         }
         .onAppear {
-            runtime = player.currentSong?.runtime ?? 0
             observer = .init(player: player.player)
+            runtime = player.currentSong?.runtime ?? 0
+            setTimes(currentTime: player.player.currentTimeRounded)
+        }
+        .onChange(of: player.currentSong) {
+            runtime = player.currentSong?.runtime ?? 0
             setTimes(currentTime: player.player.currentTimeRounded)
         }
     }

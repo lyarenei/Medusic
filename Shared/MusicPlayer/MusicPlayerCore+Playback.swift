@@ -9,20 +9,26 @@ extension MusicPlayerCore {
             return
         }
 
+        try configureSession()
+        try activateSession()
+
         player.play()
-        await advanceInUpNext()
     }
 
     func play(songs: [Song]) async throws {
+        try configureSession()
+        try activateSession()
+
         if songs.isNotEmpty {
-            clearQueue(stopPlayback: true)
+            clearQueue(stopPlayback: false)
             enqueue(songs: songs, position: .last)
         }
 
-        try configureSession()
-        try activateSession()
+        if await currentSong != nil {
+            player.advanceToNextItem()
+        }
+
         player.play()
-        await advanceInUpNext()
     }
 
     func pause() async {
@@ -34,15 +40,14 @@ extension MusicPlayerCore {
     }
 
     func stop() async {
-        clearQueue()
+        clearQueue(stopPlayback: true)
         try? deactivateSession()
-        await setCurrentlyPlaying(newSong: nil)
     }
 
     func skip(to index: Int) async {
-        player.clearNextItems(upTo: index)
+        // Advance will take care of the - 1
+        player.clearNextItems(upTo: index - 1)
         player.advanceToNextItem()
-        await advanceInUpNext(over: index)
     }
 
     func skipForward() {
@@ -50,7 +55,7 @@ extension MusicPlayerCore {
     }
 
     func skipBackward() {
-        if player.currentTimeRounded < 5 {
+        if player.currentTimeRounded < MusicPlayerCore.minPlaybackTime {
             Task { @MainActor in
                 if !skipToPreviousSong() {
                     await player.seek(to: .zero, toleranceBefore: .zero, toleranceAfter: .zero)
@@ -64,23 +69,25 @@ extension MusicPlayerCore {
     /// Skips to previous song. Returns true if skip succeeded, false otherwise.
     @MainActor
     private func skipToPreviousSong() -> Bool {
-        guard let previousSong = history.last,
-              let currentSong
-        else {
-            Logger.player.info("No song in history to skip backwards to.")
-            return false
-        }
-
-        let previousItem: AVPlayerItem
-        do {
-            previousItem = try avItemFactory(song: previousSong)
-        } catch {
-            Logger.player.error("Failed to create AVPlayerItem for song: \(previousSong.id): \(error.localizedDescription)")
-            return false
-        }
-
-        player.replaceCurrentItem(with: previousItem)
-        enqueue(song: currentSong, position: .next)
+//        TODO: reimplement
+//        guard queueIndex > 0 else {
+//            Logger.player.info("No song in history to skip backwards to.")
+//            return false
+//        }
+//
+//        let previousSong = playbackQueue[queueIndex - 1]
+//        let currentSong = playbackQueue[queueIndex]
+//        let previousItem: AVPlayerItem
+//
+//        do {
+//            previousItem = try avItemFactory(song: previousSong)
+//        } catch {
+//            Logger.player.error("Failed to create AVPlayerItem for song: \(previousSong.id): \(error.localizedDescription)")
+//            return false
+//        }
+//
+//        player.replaceCurrentItem(with: previousItem)
+//        enqueue(song: currentSong, position: .next)
         return true
     }
 }

@@ -90,83 +90,37 @@ struct MusicPlayerScreen: View {
 
         ScrollViewReader { proxy in
             songList
-                .listStyle(.grouped)
-                .onAppear { animatedScroll(proxy, song: player.currentSong) }
-                .onChange(of: player.currentSong) {
-                    animatedScroll(proxy, song: player.currentSong)
-                }
+                .listStyle(.plain)
+//            TODO: update when playback history is reimplemented
+//                .onAppear { animatedScroll(proxy, songIdx: player.queueIndex) }
+//                .onChange(of: player.queueIndex) {
+//                    animatedScroll(proxy, songIdx: player.queueIndex)
+//                }
         }
     }
 
     @ViewBuilder
     private var songList: some View {
-        List {
-            if player.history.isNotEmpty {
-                historySection
-            }
-
-            if let curSong = player.currentSong {
-                currentSection(with: curSong)
-            }
-
-            if player.upNext.isNotEmpty {
-                upNextSection
-            }
-        }
-    }
-
-    @ViewBuilder
-    private var historySection: some View {
-        Section {
-            ForEach(player.history, id: \.id) { song in
-                SongListRowComponent(song: song)
-                    .showArtwork()
-                    .showArtistName()
-                    .contentShape(Rectangle())
-                    .background(.almostClear)
-//                TODO: enable
-//                    .onTapGesture { player.playHistory(song: song) }
-                    .id(song.id)
-            }
-        } header: {
-            Text("History")
-        }
-    }
-
-    @ViewBuilder
-    private func currentSection(with currentSong: Song) -> some View {
-        Section {
-            SongListRowComponent(song: currentSong)
+        List(Array(player.playerQueue.enumerated()), id: \.offset) { idx, song in
+            SongListRowComponent(song: song)
                 .showArtwork()
                 .showArtistName()
+                .contentShape(Rectangle())
                 .background(.almostClear)
-                .id(currentSong.id)
-        } header: {
-            Text("Currently Playing")
+                // TODO: replace with playing icon or something after list row is refactored
+                .fontWeight(idx == 0 ? .bold : .regular)
+                .onTapGesture {
+//                    if idx > player.queueIndex {
+                        Task { await player.skip(to: idx) }
+//                    }
+                }
         }
     }
 
-    @ViewBuilder
-    private var upNextSection: some View {
-        Section {
-            ForEach(Array(player.upNext.enumerated()), id: \.offset) { idx, song in
-                SongListRowComponent(song: song)
-                    .showArtwork()
-                    .showArtistName()
-                    .contentShape(Rectangle())
-                    .background(.almostClear)
-                    .onTapGesture { Task { await player.skip(to: idx) } }
-                    .id(song.id)
-            }
-        } header: {
-            Text("Up next")
-        }
-    }
-
-    private func animatedScroll(_ proxy: ScrollViewProxy, song: Song?) {
-        guard let song else { return }
+    private func animatedScroll(_ proxy: ScrollViewProxy, songIdx: Int?) {
+        guard let songIdx else { return }
         withAnimation(.easeInOut) {
-            proxy.scrollTo(song.id, anchor: .top)
+            proxy.scrollTo(songIdx, anchor: .top)
         }
     }
 }
@@ -210,7 +164,7 @@ private struct PlaybackControl: View {
                 .font(.title2)
                 .frame(width: 50, height: 50)
                 .contentShape(Rectangle())
-                .disabled(player.history.isEmpty)
+                .disabled(true)
 
             Spacer()
 
@@ -224,7 +178,7 @@ private struct PlaybackControl: View {
                 .font(.title2)
                 .frame(width: 50, height: 50)
                 .contentShape(Rectangle())
-                .disabled(player.upNext.isEmpty)
+                .disabled(player.playerQueue.isEmpty)
         }
         .frame(height: 40)
     }

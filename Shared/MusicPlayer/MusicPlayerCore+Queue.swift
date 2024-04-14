@@ -27,15 +27,14 @@ extension MusicPlayerCore {
             switch position {
             case .last:
                 player.append(items: items)
-                Task { await appendToUpNext(songs) }
             case .next:
                 player.prepend(items: items)
-                Task { await prependToUpNext(songs) }
             }
 
+            Task { await updateQueue() }
             Logger.player.debug("Songs added to queue: \(songs.map(\.id))")
         } catch {
-            Logger.player.error("Failed to add songs to queue: \(songs.map(\.id))")
+            Logger.player.error("Failed to add songs to player queue: \(songs.map(\.id))")
         }
     }
 
@@ -46,6 +45,8 @@ extension MusicPlayerCore {
         } else {
             player.clearNextItems()
         }
+
+        Task { await updateQueue() }
     }
 
     internal func avItemFactory(song: Song) throws -> AVPlayerItem {

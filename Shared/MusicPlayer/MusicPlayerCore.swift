@@ -7,6 +7,7 @@ import SwiftUI
 final class MusicPlayerCore: ObservableObject {
     static let shared = MusicPlayerCore()
     static let seekDelay = 0.75
+    static let minPlaybackTime = 3.0
 
     internal let session = AVAudioSession.sharedInstance()
     internal var isSessionConfigured = false
@@ -15,6 +16,7 @@ final class MusicPlayerCore: ObservableObject {
     internal let player = AVQueuePlayer()
     internal var apiClient: ApiClient = .shared
     internal var fileRepo: FileRepository = .shared
+    internal var library: LibraryRepository = .shared
 
     private var playbackRateObserver: NSKeyValueObservation?
     private var currentItemObserver: NSKeyValueObservation?
@@ -31,27 +33,30 @@ final class MusicPlayerCore: ObservableObject {
     @MainActor
     private(set) var currentSong: Song?
 
+    // Playback history is only for user visibility, it is not usued for player functionality.
+    // See playback history behavior in the (Apple) Music app.
     @Published
     @MainActor
-    private(set) var upNext: [Song] = []
+    private(set) var playbackHistory: [Song] = []
 
     @Published
     @MainActor
-    private(set) var history: [Song] = []
+    private(set) var playerQueue: [Song] = []
 
     init(
         preview: Bool = false,
         apiClient: ApiClient = .shared,
-        fileRepo: FileRepository = .shared
+        fileRepo: FileRepository = .shared,
+        library: LibraryRepository = .shared
     ) {
         self.apiClient = apiClient
         self.fileRepo = fileRepo
+        self.library = library
 
         guard !preview else { return }
 
         try? configureSession()
 
-        // swiftformat:disable:next redundantSelf
         self.playbackRateObserver = player.observe(\.rate, options: [.new]) { [weak self] _, change in
             guard let self else { return }
             if case .some(let playbackRate) = change.newValue {
@@ -63,8 +68,7 @@ final class MusicPlayerCore: ObservableObject {
             }
         }
 
-        self.statusObserver = player.observe(\.status, options: [.new]) { [weak self] _, change in
-            guard let self else { return }
+        self.statusObserver = player.observe(\.status, options: [.new]) { _, change in
             if case .some(let status) = change.newValue {
                 switch status {
                 case .failed:
@@ -100,35 +104,22 @@ final class MusicPlayerCore: ObservableObject {
 //        player.error
 //        player.timeControlStatus
 
-        // swiftformat:disable:next redundantSelf
         self.currentItemObserver = player.observe(\.currentItem, options: [.old, .new]) { [weak self] _, change in
             guard let self else { return }
-            if case .some(let previousItem)? = change.oldValue,
-               let previousJellyItem = previousItem as? AVJellyPlayerItem,
-               let previousSong = previousJellyItem.song {
-                Task {
-                    await self.sendPlaybackStopped(for: previousSong, at: previousItem.currentTime().seconds)
-                    await self.sendPlaybackFinished(for: previousSong)
-                    await self.appendToHistory(previousSong)
-                }
-            }
 
-            guard case .some(let nextItem)? = change.newValue,
-                  let nextJellyItem = nextItem as? AVJellyPlayerItem,
-                  let nextSong = nextJellyItem.song
-            else {
-                Task { await self.setCurrentlyPlaying(newSong: nil) }
-                try? deactivateSession()
-                return
-            }
+            let previousJellyItem = change.oldValue as? AVJellyPlayerItem
+            let previousSong = previousJellyItem?.song
+
+            let nextJellyItem = change.newValue as? AVJellyPlayerItem
+            let nextSong = nextJellyItem?.song
 
             Task {
-                await self.sendPlaybackStarted(for: nextSong)
-                await self.setCurrentlyPlaying(newSong: nextSong)
-                await self.advanceInUpNext()
+                await self.handleSongChange(
+                    previous: previousSong,
+                    atTime: previousJellyItem?.currentTime().seconds ?? 0,
+                    next: nextSong
+                )
             }
-
-            self.setNowPlayingMetadata(song: nextSong)
         }
     }
 
@@ -145,42 +136,29 @@ final class MusicPlayerCore: ObservableObject {
     @MainActor
     internal func setCurrentlyPlaying(newSong: Song?) {
         currentSong = newSong
-        Logger.player.debug("Song set as currently playing: \(newSong?.id ?? "none")")
-    }
-
-    @MainActor
-    internal func appendToUpNext(_ songs: [Song]) {
-        upNext.append(contentsOf: songs)
-        Logger.player.debug("Songs added to queue: \(songs.map(\.id))")
-    }
-
-    @MainActor
-    internal func prependToUpNext(_ songs: [Song]) {
-        upNext.insert(contentsOf: songs, at: 0)
-        Logger.player.debug("Songs added to queue: \(songs.map(\.id))")
     }
 
     @MainActor
     internal func appendToHistory(_ song: Song) {
-        history.append(song)
+        playbackHistory.append(song)
         Logger.player.debug("Song added to playback history: \(song.id)")
     }
 
     @MainActor
-    internal func advanceInUpNext(over number: Int = 1) {
-        guard number >= 1 else {
-            Logger.player.debug("Requested to advance in up next queue over invalid count of songs")
-            return
-        }
+    internal func updateQueue() {
+        Logger.player.debug("Updating player queue...")
+        playerQueue = player.items().compactMap { avItem in
+            if let id = avItem.songId {
+                return library.songs.by(id: id)
+            }
 
-        let indexes: IndexSet = .init(integersIn: 0...(number - 1))
-        upNext.remove(atOffsets: indexes)
-        Logger.player.debug("Advanced over \(indexes) in up next queue")
+            return nil
+        }
     }
 
     internal func configureSession() throws {
         guard isSessionConfigured == false else {
-            Logger.player.debug("Session is already configured, skipping")
+            Logger.player.debug("Audio session is already configured, skipping")
             return
         }
 
@@ -197,7 +175,7 @@ final class MusicPlayerCore: ObservableObject {
 
     internal func activateSession() throws {
         guard !isSessionActive else {
-            Logger.player.debug("Session is already active, skipping")
+            Logger.player.debug("Audio session is already active, skipping")
             return
         }
 
@@ -225,7 +203,7 @@ final class MusicPlayerCore: ObservableObject {
 
     internal func deactivateSession() throws {
         guard isSessionActive else {
-            Logger.player.debug("Session is already deactivated, skipping")
+            Logger.player.debug("Audio session is already deactivated, skipping")
             return
         }
 
@@ -269,7 +247,6 @@ final class MusicPlayerCore: ObservableObject {
 
         switch type {
         case .began:
-            debugPrint()
             Task { await pause() }
         case .ended:
             guard let optionsValue = userInfo[AVAudioSessionInterruptionOptionKey] as? UInt else { return }
@@ -279,6 +256,30 @@ final class MusicPlayerCore: ObservableObject {
             }
         default:
             break
+        }
+    }
+
+    private func handleSongChange(previous: Song?, atTime: TimeInterval, next: Song?) async {
+        Logger.player.debug("Currently played AV item has changed, processing change...")
+        if let previous {
+            await sendPlaybackStopped(for: previous, at: atTime)
+            await sendPlaybackFinished(for: previous)
+
+            // It may not probably be worth it to register in history
+            if atTime > MusicPlayerCore.minPlaybackTime {
+                await appendToHistory(previous)
+            }
+        }
+
+        await setCurrentlyPlaying(newSong: next)
+        await updateQueue()
+
+        if let next {
+            // TODO: move above when support for erasing is available
+            setNowPlayingMetadata(song: next)
+            await sendPlaybackStarted(for: next)
+        } else {
+            try? deactivateSession()
         }
     }
 }
