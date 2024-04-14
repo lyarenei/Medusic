@@ -81,10 +81,6 @@ final class MusicPlayerCore: ObservableObject {
             self.handleWaitingToPlay(change.newValue)
         }
 
-//        player.actionAtItemEnd
-//        player.error
-//        player.timeControlStatus
-
         self.currentItemObserver = player.observe(\.currentItem, options: [.old, .new]) { [weak self] _, change in
             guard let self else { return }
 
