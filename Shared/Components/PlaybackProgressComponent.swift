@@ -94,6 +94,9 @@ struct PlaybackProgressComponent: View {
     }
 }
 
+#if DEBUG
+// swiftlint:disable all
+
 #Preview {
     struct Preview: View {
         @State
@@ -111,6 +114,9 @@ struct PlaybackProgressComponent: View {
 
     return Preview()
 }
+
+// swiftlint:enable all
+#endif
 
 /// Observer for playback time.
 ///
