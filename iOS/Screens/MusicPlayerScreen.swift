@@ -1,3 +1,4 @@
+import OSLog
 import SFSafeSymbols
 import SwiftUI
 import SwiftUIX
@@ -88,36 +89,32 @@ struct MusicPlayerScreen: View {
         SheetCloseButton(isPresented: $isSongListPresented)
             .padding(.vertical, 7)
 
-        List {
-            if player.playbackHistory.isNotEmpty {
-                historySection
-            }
+        let currentlyPlayingId = "currently_playing"
+        ScrollViewReader { proxy in
+            List {
+                if player.playbackHistory.isNotEmpty {
+                    historySection
+                }
 
-            if let currentSong = player.currentSong {
-                Section("Currently playing") {
-                    SongListRowComponent(song: currentSong)
-                        .showArtwork()
-                        .showArtistName()
-                        .contentShape(Rectangle())
-                        .background(.almostClear)
-                        .fontWeight(.bold)
+                if let currentSong = player.currentSong {
+                    Section("Currently playing") {
+                        SongListRowComponent(song: currentSong)
+                            .showArtwork()
+                            .showArtistName()
+                            .contentShape(Rectangle())
+                            .background(.almostClear)
+                            .fontWeight(.bold)
+                            .id(currentlyPlayingId)
+                    }
+                }
+
+                if player.nextUpQueue.isNotEmpty {
+                    nextUpSection
                 }
             }
-
-            if player.nextUpQueue.isNotEmpty {
-                nextUpSection
-            }
+            .listStyle(.plain)
+            .onAppear { animatedScroll(proxy, id: currentlyPlayingId) }
         }
-
-//        ScrollViewReader { proxy in
-//            songList
-//                .listStyle(.plain)
-//            TODO: update when playback history is reimplemented
-//                .onAppear { animatedScroll(proxy, songIdx: player.queueIndex) }
-//                .onChange(of: player.queueIndex) {
-//                    animatedScroll(proxy, songIdx: player.queueIndex)
-//                }
-//        }
     }
 
     @ViewBuilder
@@ -129,6 +126,16 @@ struct MusicPlayerScreen: View {
                     .showArtistName()
                     .contentShape(Rectangle())
                     .background(.almostClear)
+                    .onTapGesture {
+                        Task {
+                            do {
+                                try await player.play(song: song, preserveQueue: true)
+                            } catch {
+                                Logger.player.warning("Could not play a song: \(error.localizedDescription)")
+                                Alerts.error("Failed to play song")
+                            }
+                        }
+                    }
             }
         }
     }
@@ -149,28 +156,9 @@ struct MusicPlayerScreen: View {
         }
     }
 
-    @ViewBuilder
-    private var songList: some View {
-        List(Array(player.nextUpQueue.enumerated()), id: \.offset) { idx, song in
-            SongListRowComponent(song: song)
-                .showArtwork()
-                .showArtistName()
-                .contentShape(Rectangle())
-                .background(.almostClear)
-                // TODO: replace with playing icon or something after list row is refactored
-                .fontWeight(idx == 0 ? .bold : .regular)
-                .onTapGesture {
-//                    if idx > player.queueIndex {
-                        Task { await player.skip(to: idx) }
-//                    }
-                }
-        }
-    }
-
-    private func animatedScroll(_ proxy: ScrollViewProxy, songIdx: Int?) {
-        guard let songIdx else { return }
+    private func animatedScroll(_ proxy: ScrollViewProxy, id: String) {
         withAnimation(.easeInOut) {
-            proxy.scrollTo(songIdx, anchor: .top)
+            proxy.scrollTo(id, anchor: .top)
         }
     }
 }

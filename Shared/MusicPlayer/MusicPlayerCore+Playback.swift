@@ -3,9 +3,9 @@ import Foundation
 import OSLog
 
 extension MusicPlayerCore {
-    func play(song: Song? = nil) async throws {
+    func play(song: Song? = nil, preserveQueue: Bool = false) async throws {
         if let song {
-            try await play(songs: [song])
+            try await play(songs: [song], preserveQueue: preserveQueue)
             return
         }
 
@@ -15,13 +15,17 @@ extension MusicPlayerCore {
         player.play()
     }
 
-    func play(songs: [Song]) async throws {
+    func play(songs: [Song], preserveQueue: Bool = false) async throws {
         try configureSession()
         try activateSession()
 
         if songs.isNotEmpty {
-            clearQueue(stopPlayback: false)
-            enqueue(songs: songs, position: .last)
+            if preserveQueue {
+                enqueue(songs: songs, position: .next)
+            } else {
+                clearQueue(stopPlayback: false)
+                enqueue(songs: songs, position: .last)
+            }
         }
 
         // swiftformat:disable:next redundantSelf
