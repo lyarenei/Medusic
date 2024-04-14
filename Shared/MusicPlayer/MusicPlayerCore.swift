@@ -19,6 +19,7 @@ final class MusicPlayerCore: ObservableObject {
     private var playbackRateObserver: NSKeyValueObservation?
     private var currentItemObserver: NSKeyValueObservation?
     private var statusObserver: NSKeyValueObservation?
+    private var waitingToPlayObserver: NSKeyValueObservation?
     internal var cancellables: Cancellables = []
     internal var seekCancellable: Cancellable?
 
@@ -78,9 +79,25 @@ final class MusicPlayerCore: ObservableObject {
             }
         }
 
+        self.waitingToPlayObserver = player.observe(\.reasonForWaitingToPlay, options: [.new]) { _, change in
+            switch change.newValue {
+            case .evaluatingBufferingRate:
+                Logger.player.debug("Internal player is waiting for playback: evaluating buffering rate")
+            case .interstitialEvent:
+                Logger.player.debug("Internal player is waiting for playback: interstitial event occurred")
+            case .noItemToPlay:
+                Logger.player.debug("Internal player is waiting for playback: there is nothing to play")
+            case .toMinimizeStalls:
+                Logger.player.debug("Internal player is waiting for playback: delay to minimize stalling")
+            case .waitingForCoordinatedPlayback:
+                Logger.player.debug("Internal player is waiting for playback: waiting for coordinated playback")
+            default:
+                Logger.player.debug("Internal player is no longer waiting for playback")
+            }
+        }
+
 //        player.actionAtItemEnd
 //        player.error
-//        player.reasonForWaitingToPlay
 //        player.timeControlStatus
 
         // swiftformat:disable:next redundantSelf
