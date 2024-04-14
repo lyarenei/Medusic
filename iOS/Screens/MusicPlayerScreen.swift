@@ -104,7 +104,7 @@ struct MusicPlayerScreen: View {
                 }
             }
 
-            if player.playerQueue.isNotEmpty {
+            if player.nextUpQueue.isNotEmpty {
                 nextUpSection
             }
         }
@@ -136,7 +136,7 @@ struct MusicPlayerScreen: View {
     @ViewBuilder
     private var nextUpSection: some View {
         Section("Next up") {
-            ForEach(Array(player.playerQueue.enumerated()), id: \.offset) { idx, song in
+            ForEach(Array(player.nextUpQueue.enumerated()), id: \.offset) { idx, song in
                 SongListRowComponent(song: song)
                     .showArtwork()
                     .showArtistName()
@@ -151,7 +151,7 @@ struct MusicPlayerScreen: View {
 
     @ViewBuilder
     private var songList: some View {
-        List(Array(player.playerQueue.enumerated()), id: \.offset) { idx, song in
+        List(Array(player.nextUpQueue.enumerated()), id: \.offset) { idx, song in
             SongListRowComponent(song: song)
                 .showArtwork()
                 .showArtistName()
@@ -228,7 +228,7 @@ private struct PlaybackControl: View {
                 .font(.title2)
                 .frame(width: 50, height: 50)
                 .contentShape(Rectangle())
-                .disabled(player.playerQueue.isEmpty)
+                .disabled(player.nextUpQueue.isEmpty)
         }
         .frame(height: 40)
     }

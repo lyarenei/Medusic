@@ -41,7 +41,7 @@ final class MusicPlayerCore: ObservableObject {
 
     @Published
     @MainActor
-    private(set) var playerQueue: [Song] = []
+    private(set) var nextUpQueue: [Song] = []
 
     init(
         preview: Bool = false,
@@ -147,7 +147,7 @@ final class MusicPlayerCore: ObservableObject {
     @MainActor
     internal func updateQueue() {
         Logger.player.debug("Updating player queue...")
-        playerQueue = player.items().dropFirst().compactMap { avItem in
+        nextUpQueue = player.items().dropFirst().compactMap { avItem in
             if let id = avItem.songId {
                 return library.songs.by(id: id)
             }
