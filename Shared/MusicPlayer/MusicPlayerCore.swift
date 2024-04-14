@@ -71,34 +71,14 @@ final class MusicPlayerCore: ObservableObject {
             }
         }
 
-        self.statusObserver = player.observe(\.status, options: [.new]) { _, change in
-            switch change.newValue {
-            case .failed:
-                Logger.player.error("Internal player reported failed state, player needs to be reset")
-            case .readyToPlay:
-                Logger.player.debug("Internal player is ready to play")
-            case .unknown:
-                Logger.player.debug("Internal player is is not actively processing audio")
-            default:
-                Logger.player.debug("Internal player reports unhandled status")
-            }
+        self.statusObserver = player.observe(\.status, options: [.new]) { [weak self] _, change in
+            guard let self else { return }
+            self.handlePlayerStatus(change.newValue)
         }
 
-        self.waitingToPlayObserver = player.observe(\.reasonForWaitingToPlay, options: [.new]) { _, change in
-            switch change.newValue {
-            case .evaluatingBufferingRate:
-                Logger.player.debug("Internal player is waiting for playback: evaluating buffering rate")
-            case .interstitialEvent:
-                Logger.player.debug("Internal player is waiting for playback: interstitial event occurred")
-            case .noItemToPlay:
-                Logger.player.debug("Internal player is waiting for playback: there is nothing to play")
-            case .toMinimizeStalls:
-                Logger.player.debug("Internal player is waiting for playback: delay to minimize stalling")
-            case .waitingForCoordinatedPlayback:
-                Logger.player.debug("Internal player is waiting for playback: waiting for coordinated playback")
-            default:
-                Logger.player.debug("Internal player is no longer waiting for playback")
-            }
+        self.waitingToPlayObserver = player.observe(\.reasonForWaitingToPlay, options: [.new]) { [weak self] _, change in
+            guard let self else { return }
+            self.handleWaitingToPlay(change.newValue)
         }
 
 //        player.actionAtItemEnd
@@ -258,6 +238,38 @@ final class MusicPlayerCore: ObservableObject {
             }
         default:
             break
+        }
+    }
+
+    // MARK: - Observation handlers
+
+    private func handlePlayerStatus(_ status: AVPlayer.Status?) {
+        switch status {
+        case .failed:
+            Logger.player.error("Internal player reported failed state, player needs to be reset")
+        case .readyToPlay:
+            Logger.player.debug("Internal player is ready to play")
+        case .unknown:
+            Logger.player.debug("Internal player is is not actively processing audio")
+        default:
+            Logger.player.debug("Internal player reports unhandled status")
+        }
+    }
+
+    private func handleWaitingToPlay(_ reason: AVPlayer.WaitingReason??) {
+        switch reason {
+        case .evaluatingBufferingRate:
+            Logger.player.debug("Internal player is waiting for playback: evaluating buffering rate")
+        case .interstitialEvent:
+            Logger.player.debug("Internal player is waiting for playback: interstitial event occurred")
+        case .noItemToPlay:
+            Logger.player.debug("Internal player is waiting for playback: there is nothing to play")
+        case .toMinimizeStalls:
+            Logger.player.debug("Internal player is waiting for playback: delay to minimize stalling")
+        case .waitingForCoordinatedPlayback:
+            Logger.player.debug("Internal player is waiting for playback: waiting for coordinated playback")
+        default:
+            Logger.player.debug("Internal player is no longer waiting for playback")
         }
     }
 
