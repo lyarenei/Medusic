@@ -72,17 +72,15 @@ final class MusicPlayerCore: ObservableObject {
         }
 
         self.statusObserver = player.observe(\.status, options: [.new]) { _, change in
-            if case .some(let status) = change.newValue {
-                switch status {
-                case .failed:
-                    Logger.player.error("Internal player reported failed state, player needs to be reset")
-                case .readyToPlay:
-                    Logger.player.debug("Internal player is ready to play")
-                case .unknown:
-                    Logger.player.debug("Internal player is is not actively processing audio")
-                default:
-                    Logger.player.debug("Internal player reports unhandled status")
-                }
+            switch change.newValue {
+            case .failed:
+                Logger.player.error("Internal player reported failed state, player needs to be reset")
+            case .readyToPlay:
+                Logger.player.debug("Internal player is ready to play")
+            case .unknown:
+                Logger.player.debug("Internal player is is not actively processing audio")
+            default:
+                Logger.player.debug("Internal player reports unhandled status")
             }
         }
 
