@@ -255,7 +255,6 @@ private struct FooterActions: View {
             Spacer()
 
             queueButton
-                .buttonStyle(.plain)
                 .padding(.all, 7)
         }
     }
