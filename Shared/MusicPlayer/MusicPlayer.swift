@@ -125,6 +125,8 @@ final class MusicPlayer: ObservableObject {
     @MainActor
     internal func updateNextUp() {
         Logger.player.debug("Updating next up playback queue...")
+
+        // AVQueuePlayer has currently playing item at [0]
         nextUpQueue = player.items().dropFirst().compactMap { avItem in
             if let id = avItem.songId {
                 return library.songs.by(id: id)
