@@ -185,8 +185,13 @@ private struct PlaybackControl: View {
 }
 
 private struct FooterActions: View {
-    var song: Song
-    var listTapHandler: () -> Void
+    private let song: Song
+    private let listTapHandler: () -> Void
+
+    init(song: Song, listTapHandler: @escaping () -> Void) {
+        self.song = song
+        self.listTapHandler = listTapHandler
+    }
 
     var body: some View {
         HStack {
