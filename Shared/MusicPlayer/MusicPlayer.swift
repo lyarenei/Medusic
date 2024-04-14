@@ -136,6 +136,7 @@ final class MusicPlayer: ObservableObject {
         }
     }
 
+    /// Configure an AVAudioSession. A session must be configured before it can be activated.
     internal func configureSession() throws {
         guard isSessionConfigured == false else {
             Logger.player.debug("Audio session is already configured, skipping")
@@ -153,6 +154,9 @@ final class MusicPlayer: ObservableObject {
         }
     }
 
+    /// Activate an AVAudioSession which allows playback.
+    /// Registers an interruption handler and enables receiving remote control events.
+    /// A session must be configured first before it can be activated.
     internal func activateSession() throws {
         guard !isSessionActive else {
             Logger.player.debug("Audio session is already active, skipping")
@@ -181,6 +185,8 @@ final class MusicPlayer: ObservableObject {
         }
     }
 
+    /// Deactivate an AVAudioSession which frees up resources allocated for playback.
+    /// Unregisters an interruption handler and disables receiving remote control events.
     internal func deactivateSession() throws {
         guard isSessionActive else {
             Logger.player.debug("Audio session is already deactivated, skipping")
