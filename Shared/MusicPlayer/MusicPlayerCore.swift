@@ -33,11 +33,14 @@ final class MusicPlayerCore: ObservableObject {
     @MainActor
     private(set) var currentSong: Song?
 
-    // Playback history is only for user visibility, it is not usued for player functionality.
+    // Only for user visibility, it is not used for player functionality.
     // See playback history behavior in the (Apple) Music app.
     @Published
     @MainActor
     private(set) var playbackHistory: [Song] = []
+
+    // Used for player functionality when skipping backwads with skip button.
+    var internalPlaybackHistory: [Song] = []
 
     @Published
     @MainActor
@@ -141,6 +144,7 @@ final class MusicPlayerCore: ObservableObject {
     @MainActor
     internal func appendToHistory(_ song: Song) {
         playbackHistory.append(song)
+        internalPlaybackHistory.append(song)
         Logger.player.debug("Song added to playback history: \(song.id)")
     }
 

@@ -72,25 +72,25 @@ extension MusicPlayerCore {
     /// Skips to previous song. Returns true if skip succeeded, false otherwise.
     @MainActor
     private func skipToPreviousSong() -> Bool {
-//        TODO: reimplement
-//        guard queueIndex > 0 else {
-//            Logger.player.info("No song in history to skip backwards to.")
-//            return false
-//        }
-//
-//        let previousSong = playbackQueue[queueIndex - 1]
-//        let currentSong = playbackQueue[queueIndex]
-//        let previousItem: AVPlayerItem
-//
-//        do {
-//            previousItem = try avItemFactory(song: previousSong)
-//        } catch {
-//            Logger.player.error("Failed to create AVPlayerItem for song: \(previousSong.id): \(error.localizedDescription)")
-//            return false
-//        }
-//
-//        player.replaceCurrentItem(with: previousItem)
-//        enqueue(song: currentSong, position: .next)
+        guard let previousSong = internalPlaybackHistory.popLast() else {
+            Logger.player.debug("History queue is empty, cannot skip backwards")
+            return false
+        }
+
+        let previousItem: AVPlayerItem
+        do {
+            previousItem = try avItemFactory(song: previousSong)
+        } catch {
+            Logger.player.error("Failed to create AVPlayerItem for song: \(previousSong.id): \(error.localizedDescription)")
+            return false
+        }
+
+        player.replaceCurrentItem(with: previousItem)
+
+        if let currentSong {
+            enqueue(song: currentSong, position: .next)
+        }
+
         return true
     }
 }
