@@ -39,7 +39,7 @@ final class MusicPlayerCore: ObservableObject {
     @MainActor
     private(set) var playbackHistory: [Song] = []
 
-    // Used for player functionality when skipping backwads with skip button.
+    // Used for player functionality when skipping backwards with skip button.
     var internalPlaybackHistory: [Song] = []
 
     @Published
