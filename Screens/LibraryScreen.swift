@@ -21,8 +21,13 @@ struct LibraryScreen: View {
                     .font(.system(size: 20))
 
                 Group {
-                    favoriteAlbums
-                    recentlyAdded
+                    if showFavoriteAlbums {
+                        favoriteAlbums
+                    }
+
+                    if showRecentlyAdded {
+                        recentlyAdded
+                    }
                 }
                 .listRowSeparator(.hidden)
                 .textCase(.none)
@@ -65,47 +70,43 @@ struct LibraryScreen: View {
 
     @ViewBuilder
     private var favoriteAlbums: some View {
-        if showFavoriteAlbums {
-            ItemPreviewCollection("Favorite Albums", items: library.albums.filtered(by: .favorite)) { album in
-                NavigationLink {
-                    AlbumDetailScreen(album: album)
-                } label: {
-                    TileComponent(item: album)
-                        .tileSubTitle(album.artistName)
-                        .padding(.bottom)
-                }
-                .foregroundStyle(Color.primary)
-            } viewAll: { items in
-                albumEntries(items)
-                    .navigationTitle("Favorite Albums")
-                    .navigationBarTitleDisplayMode(.inline)
-                    .listStyle(.plain)
-            } empty: {
-                ContentUnavailableView("No favorites", systemImage: "star.slash")
+        ItemPreviewCollection("Favorite Albums", items: library.albums.filtered(by: .favorite)) { album in
+            NavigationLink {
+                AlbumDetailScreen(album: album)
+            } label: {
+                TileComponent(item: album)
+                    .tileSubTitle(album.artistName)
+                    .padding(.bottom)
             }
+            .foregroundStyle(Color.primary)
+        } viewAll: { items in
+            albumEntries(items)
+                .navigationTitle("Favorite Albums")
+                .navigationBarTitleDisplayMode(.inline)
+                .listStyle(.plain)
+        } empty: {
+            ContentUnavailableView("No favorites", systemImage: "star.slash")
         }
     }
 
     @ViewBuilder
     private var recentlyAdded: some View {
-        if showRecentlyAdded {
-            ItemPreviewCollection("Recently added", items: library.albums) { album in
-                NavigationLink {
-                    AlbumDetailScreen(album: album)
-                } label: {
-                    TileComponent(item: album)
-                        .tileSubTitle(album.artistName)
-                        .padding(.bottom)
-                }
-                .foregroundStyle(Color.primary)
-            } viewAll: { items in
-                albumEntries(items)
-                    .navigationTitle("Recently added")
-                    .navigationBarTitleDisplayMode(.inline)
-                    .listStyle(.plain)
-            } empty: {
-                ContentUnavailableView("No recents", systemImage: "clock.badge.xmark")
+        ItemPreviewCollection("Recently added", items: library.albums) { album in
+            NavigationLink {
+                AlbumDetailScreen(album: album)
+            } label: {
+                TileComponent(item: album)
+                    .tileSubTitle(album.artistName)
+                    .padding(.bottom)
             }
+            .foregroundStyle(Color.primary)
+        } viewAll: { items in
+            albumEntries(items)
+                .navigationTitle("Recently added")
+                .navigationBarTitleDisplayMode(.inline)
+                .listStyle(.plain)
+        } empty: {
+            ContentUnavailableView("No recents", systemImage: "clock.badge.xmark")
         }
     }
 
