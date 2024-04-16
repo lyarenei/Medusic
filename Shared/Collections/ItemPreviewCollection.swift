@@ -1,7 +1,7 @@
 import Defaults
 import SwiftUI
 
-struct ItemPreviewCollection<Tile: View, ViewAll: View, Empty: View, Item: JellyfinItem>: View {
+struct ItemPreviewCollection<Tile: View, ViewAll: View, NoItems: View, Item: JellyfinItem>: View {
     @Default(.maxPreviewItems)
     private var previewLimit: Int
 
@@ -9,20 +9,20 @@ struct ItemPreviewCollection<Tile: View, ViewAll: View, Empty: View, Item: Jelly
     private var items: [Item]
     private var tileView: (Item) -> Tile
     private var viewAllView: ([Item]) -> ViewAll
-    private var emptyView: Empty?
+    private var noItemsView: NoItems?
 
     init(
         _ title: String,
         items: [Item],
         @ViewBuilder itemTile: @escaping (Item) -> Tile,
         @ViewBuilder viewAll: @escaping ([Item]) -> ViewAll,
-        @ViewBuilder empty: @escaping () -> Empty
+        @ViewBuilder noItems: @escaping () -> NoItems
     ) {
         self.title = title
         self.items = items
         self.tileView = itemTile
         self.viewAllView = viewAll
-        self.emptyView = empty()
+        self.noItemsView = noItems()
     }
 
     var body: some View {
@@ -37,8 +37,8 @@ struct ItemPreviewCollection<Tile: View, ViewAll: View, Empty: View, Item: Jelly
     @ViewBuilder
     private var contentView: some View {
         if items.isEmpty {
-            if let emptyView {
-                emptyView
+            if let noItemsView {
+                noItemsView
             } else {
                 ContentUnavailableView("No items", systemImage: "square.stack.3d.up.slash")
             }
@@ -79,7 +79,7 @@ struct ItemPreviewCollection<Tile: View, ViewAll: View, Empty: View, Item: Jelly
     }
 }
 
-extension ItemPreviewCollection where Empty == EmptyView {
+extension ItemPreviewCollection where NoItems == EmptyView {
     init(
         _ title: String,
         items: [Item],
@@ -90,7 +90,7 @@ extension ItemPreviewCollection where Empty == EmptyView {
         self.items = items
         self.tileView = itemTile
         self.viewAllView = viewAll
-        self.emptyView = nil
+        self.noItemsView = nil
     }
 }
 

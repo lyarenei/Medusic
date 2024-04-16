@@ -84,7 +84,7 @@ struct LibraryScreen: View {
                 .navigationTitle("Favorite Albums")
                 .navigationBarTitleDisplayMode(.inline)
                 .listStyle(.plain)
-        } empty: {
+        } noItems: {
             ContentUnavailableView("No favorites", systemImage: "star.slash")
         }
     }
@@ -105,7 +105,7 @@ struct LibraryScreen: View {
                 .navigationTitle("Recently added")
                 .navigationBarTitleDisplayMode(.inline)
                 .listStyle(.plain)
-        } empty: {
+        } noItems: {
             ContentUnavailableView("No recents", systemImage: "clock.badge.xmark")
         }
     }
