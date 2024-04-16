@@ -147,6 +147,7 @@ final class MusicPlayer: NSObject, ObservableObject {
 
         do {
             try session.setCategory(.playback, mode: .default, options: [])
+            registerCommandHandlers()
             isSessionConfigured = true
             Logger.player.debug("Audio session has been configured")
         } catch {
