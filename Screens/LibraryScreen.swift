@@ -153,6 +153,9 @@ struct LibraryScreen: View {
     }
 }
 
+#if DEBUG
+// swiftlint:disable all
+
 #Preview("Default") {
     LibraryScreen()
         .environmentObject(PreviewUtils.libraryRepo)
@@ -164,3 +167,6 @@ struct LibraryScreen: View {
         .environmentObject(PreviewUtils.libraryRepoEmpty)
         .environmentObject(ApiClient(previewEnabled: true))
 }
+
+// swiftlint:enable all
+#endif
