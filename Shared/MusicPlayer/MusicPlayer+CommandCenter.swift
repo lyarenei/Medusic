@@ -4,96 +4,82 @@ import MediaPlayer
 import OSLog
 
 extension MusicPlayer {
-    internal func setupRemoteCommandCenter() {
-        let commandCenter = MPRemoteCommandCenter.shared()
-        registerPlayCommand(commandCenter)
-        registerPauseCommand(commandCenter)
-        registerStopCommand(commandCenter)
-        registerPlayPauseCommand(commandCenter)
-        registerNextTrackCommand(commandCenter)
-        registerPreviousTrackCommand(commandCenter)
+    internal func registerCommandHandlers() {
+        let center = MPRemoteCommandCenter.shared()
+        center.playCommand.addTarget(self, action: #selector(handlePlayCommand))
+        center.pauseCommand.addTarget(self, action: #selector(handlePauseCommand))
+        center.stopCommand.addTarget(self, action: #selector(handleStopCommand))
+        center.togglePlayPauseCommand.addTarget(self, action: #selector(handlePlayPauseCommand))
+        center.nextTrackCommand.addTarget(self, action: #selector(handleNextTrackCommand))
+        center.previousTrackCommand.addTarget(self, action: #selector(registerPreviousTrackCommand))
     }
 
-    private func registerPlayCommand(_ center: MPRemoteCommandCenter) {
-        center.playCommand.addTarget { [weak self] _ in
-            guard let self else { return .commandFailed }
-
-            Task {
-                do {
-                    try await self.play()
-                    self.setNowPlayingPlaybackMetadata(isPlaying: true)
-                    Logger.player.debug("Called play command")
-                } catch {
-                    Logger.player.debug("Called play command, playback failed: \(error.localizedDescription)")
-                }
+    @objc
+    private func handlePlayCommand() -> MPRemoteCommandHandlerStatus {
+        Logger.player.debug("Called play command")
+        Task {
+            do {
+                try await self.play()
+                self.setNowPlayingPlaybackMetadata(isPlaying: true)
+                Logger.player.debug("Play command was successfuly executed")
+            } catch {
+                Logger.player.debug("Play command failed: \(error.localizedDescription)")
             }
-
-            return .success
         }
+
+        return .success
     }
 
-    private func registerPauseCommand(_ center: MPRemoteCommandCenter) {
-        center.pauseCommand.addTarget { [weak self] _ in
-            guard let self else { return .commandFailed }
+    @objc
+    private func handlePauseCommand() -> MPRemoteCommandHandlerStatus {
+        Logger.player.debug("Called pause command")
+        Task {
+            await self.pause()
+            self.setNowPlayingPlaybackMetadata(isPlaying: false)
+            Logger.player.debug("Pause command was successfuly executed")
+        }
 
-            Task {
+        return .success
+    }
+
+    @objc
+    private func handleStopCommand() -> MPRemoteCommandHandlerStatus {
+        Logger.player.debug("Called stop command")
+        Task {
+            await self.stop()
+            Logger.player.debug("Stop command was successfully executed")
+        }
+
+        return .success
+    }
+
+    @objc
+    private func handlePlayPauseCommand() -> MPRemoteCommandHandlerStatus {
+        Logger.player.debug("Called play/pause command")
+        Task {
+            if self.player.rate > 0 {
                 await self.pause()
-                self.setNowPlayingPlaybackMetadata(isPlaying: false)
-                Logger.player.debug("Called pause command")
+                Logger.player.debug("Player is playing, pausing")
+            } else {
+                await self.resume()
+                Logger.player.debug("Player is paused, resuming")
             }
-
-            return .success
         }
+
+        return .success
     }
 
-    private func registerStopCommand(_ center: MPRemoteCommandCenter) {
-        center.stopCommand.addTarget { [weak self] _ in
-            guard let self else { return .commandFailed }
-
-            Task {
-                await self.stop()
-                Logger.player.debug("Called stop command")
-            }
-
-            return .success
-        }
+    @objc
+    private func handleNextTrackCommand() -> MPRemoteCommandHandlerStatus {
+        Logger.player.debug("Called next track command")
+        skipForward()
+        return .success
     }
 
-    private func registerPlayPauseCommand(_ center: MPRemoteCommandCenter) {
-        center.togglePlayPauseCommand.addTarget { [weak self] _ in
-            guard let self else { return .commandFailed }
-
-            Task {
-                if self.player.rate > 0 {
-                    await self.pause()
-                    Logger.player.debug("Called play/pause command, player is paused")
-                } else {
-                    await self.resume()
-                    Logger.player.debug("Called play/pause command, player is playing")
-                }
-
-                self.setNowPlayingPlaybackMetadata(isPlaying: self.player.rate > 0)
-            }
-
-            return .success
-        }
-    }
-
-    private func registerNextTrackCommand(_ center: MPRemoteCommandCenter) {
-        center.nextTrackCommand.addTarget { [weak self] _ in
-            guard let self else { return .commandFailed }
-            Logger.player.debug("Called next track command")
-            self.skipForward()
-            return .success
-        }
-    }
-
-    private func registerPreviousTrackCommand(_ center: MPRemoteCommandCenter) {
-        center.previousTrackCommand.addTarget { [weak self] _ in
-            guard let self else { return .commandFailed }
-            Logger.player.debug("Called previous track command")
-            self.skipBackward()
-            return .success
-        }
+    @objc
+    private func registerPreviousTrackCommand() -> MPRemoteCommandHandlerStatus {
+        Logger.player.debug("Called previous track command")
+        skipBackward()
+        return .success
     }
 }
