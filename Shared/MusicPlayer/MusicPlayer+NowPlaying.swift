@@ -28,6 +28,7 @@ extension MusicPlayer {
         nowPlaying[MPNowPlayingInfoPropertyElapsedPlaybackTime] = elapsedTime ?? player.currentTimeRounded
         nowPlaying[MPNowPlayingInfoPropertyPlaybackRate] = NSNumber(value: isPlaying ? 1 : 0)
         nowPlaying[MPNowPlayingInfoPropertyMediaType] = NSNumber(value: MPNowPlayingInfoMediaType.audio.rawValue)
+        nowPlaying[MPNowPlayingInfoPropertyPlaybackQueueCount] = player.items().count
 
         nowPlayingCenter.nowPlayingInfo = nowPlaying
     }
