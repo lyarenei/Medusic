@@ -6,8 +6,8 @@ struct AlbumContextMenu: View {
     var body: some View {
         PlayButton("Play", item: album)
         DownloadButton(item: album, textDownload: "Download", textRemove: "Remove")
-        EnqueueButton(text: "Play Next", item: album, position: .next)
-        EnqueueButton(text: "Play Last", item: album, position: .last)
+        EnqueueButton("Play Next", item: album, position: .next)
+        EnqueueButton("Play Last", item: album, position: .last)
         FavoriteButton(item: album, textFavorite: "Favorite", textUnfavorite: "Unfavorite")
     }
 }

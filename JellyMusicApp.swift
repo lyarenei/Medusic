@@ -28,6 +28,8 @@ struct JellyMusicApp: App {
             MainScreen()
                 .preferredColorScheme(appColorScheme.asColorScheme)
                 .task { await authorizeClient() }
+                .environmentObject(MusicPlayer.shared)
+                .environmentObject(ApiClient.shared)
                 .environmentObject(SongRepository(store: .songs))
                 .environmentObject(NavigationRouter())
                 .environmentObject(ApiClient.shared)

@@ -2,7 +2,7 @@ import SFSafeSymbols
 import SwiftUI
 
 struct PlayPreviousButton: View {
-    @ObservedObject
+    @EnvironmentObject
     private var player: MusicPlayer
 
     @State
@@ -10,9 +10,8 @@ struct PlayPreviousButton: View {
 
     private let text: String?
 
-    init(_ text: String? = nil, player: MusicPlayer = .shared) {
+    init(_ text: String? = nil) {
         self.text = text
-        _player = ObservedObject(wrappedValue: player)
     }
 
     var body: some View {
@@ -50,7 +49,8 @@ struct PlayPreviousButton: View {
 #if DEBUG
 
 #Preview {
-    PlayPreviousButton(player: .init(preview: true))
+    PlayPreviousButton()
+        .environmentObject(PreviewUtils.player)
 }
 
 #endif

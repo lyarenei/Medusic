@@ -2,17 +2,11 @@ import SFSafeSymbols
 import SwiftUI
 
 struct MainScreen: View {
-    @ObservedObject
+    @EnvironmentObject
     private var player: MusicPlayer
 
     @State
     private var isPlayerPresented = false
-
-    init(
-        player: MusicPlayer = .shared
-    ) {
-        self._player = ObservedObject(wrappedValue: player)
-    }
 
     var body: some View {
         TabView {
@@ -29,10 +23,9 @@ struct MainScreen: View {
 
     @ViewBuilder
     private var libraryTab: some View {
-        NowPlayingComponent(
-            isPresented: $isPlayerPresented,
-            content: LibraryScreen()
-        )
+        NowPlayingComponent(isPresented: $isPlayerPresented) {
+            LibraryScreen()
+        }
         .tabItem {
             Image(systemSymbol: .musicQuarternote3)
             Text("Library")
@@ -41,10 +34,9 @@ struct MainScreen: View {
 
     @ViewBuilder
     private var searchTab: some View {
-        NowPlayingComponent(
-            isPresented: $isPlayerPresented,
-            content: SearchScreen()
-        )
+        NowPlayingComponent(isPresented: $isPlayerPresented) {
+            SearchScreen()
+        }
         .tabItem {
             Image(systemSymbol: .magnifyingglass)
             Text("Search")
@@ -64,8 +56,10 @@ struct MainScreen: View {
 #if DEBUG
 struct HomeScreen_Previews: PreviewProvider {
     static var previews: some View {
-        MainScreen(player: .init(preview: true))
+        MainScreen()
             .environmentObject(PreviewUtils.libraryRepo)
+            .environmentObject(PreviewUtils.player)
+            .environmentObject(ApiClient(previewEnabled: true))
     }
 }
 #endif

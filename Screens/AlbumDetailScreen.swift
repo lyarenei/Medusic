@@ -1,9 +1,13 @@
+import OSLog
 import SFSafeSymbols
 import SwiftUI
 
 struct AlbumDetailScreen: View {
     @EnvironmentObject
     private var library: LibraryRepository
+
+    @EnvironmentObject
+    private var player: MusicPlayer
 
     let album: Album
 
@@ -189,8 +193,15 @@ struct AlbumDetailScreen: View {
             return songsToPlay
         }()
 
-        await MusicPlayer.shared.play(song: song)
-        MusicPlayer.shared.enqueue(songs: queue, position: .last)
+        do {
+            try await player.play(song: song)
+        } catch {
+            Logger.player.warning("Failed to play song \(song.id): \(error.localizedDescription)")
+            Alerts.error("Failed to play song")
+            return
+        }
+
+        player.enqueue(songs: queue, position: .last)
     }
 
     @ViewBuilder
@@ -249,27 +260,31 @@ private struct SongContextOptions: View {
         PlayButton("Play", item: song)
         DownloadButton(item: song, textDownload: "Download", textRemove: "Remove")
         FavoriteButton(item: song, textFavorite: "Favorite", textUnfavorite: "Unfavorite")
-        EnqueueButton(text: "Play Next", item: song, position: .next)
-        EnqueueButton(text: "Play Last", item: song, position: .last)
+        EnqueueButton("Play Next", item: song, position: .next)
+        EnqueueButton("Play Last", item: song, position: .last)
     }
 }
 
 #if DEBUG
 // swiftlint:disable all
-struct AlbumDetailScreen_Previews: PreviewProvider {
-    static var previews: some View {
-        NavigationView {
-            AlbumDetailScreen(album: PreviewData.albums.first!)
-        }
-        .previewDisplayName("Default")
-        .environmentObject(PreviewUtils.libraryRepo)
-        .environmentObject(ApiClient(previewEnabled: true))
 
+#Preview("Default") {
+    NavigationView {
         AlbumDetailScreen(album: PreviewData.albums.first!)
-            .previewDisplayName("Empty")
-            .environmentObject(PreviewUtils.libraryRepoEmpty)
-            .environmentObject(ApiClient(previewEnabled: true))
     }
+    .previewDisplayName("Default")
+    .environmentObject(PreviewUtils.libraryRepo)
+    .environmentObject(ApiClient(previewEnabled: true))
+    .environmentObject(PreviewUtils.player)
 }
+
+#Preview("Empty") {
+    AlbumDetailScreen(album: PreviewData.albums.first!)
+        .previewDisplayName("Empty")
+        .environmentObject(PreviewUtils.libraryRepoEmpty)
+        .environmentObject(ApiClient(previewEnabled: true))
+        .environmentObject(PreviewUtils.player)
+}
+
 // swiftlint:enable all
 #endif

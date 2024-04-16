@@ -1,7 +1,10 @@
 import SwiftUI
 
 struct SongCollection: View {
-    var songs: [Song]
+    @EnvironmentObject
+    private var player: MusicPlayer
+
+    private var songs: [Song]
 
     private var showAlbumOrder = false
     private var showArtwork = false
@@ -9,15 +12,10 @@ struct SongCollection: View {
     private var showAlbumName = false
     private var showLastDivider = true
     private var type: CollectionType = .list
-    private let musicPlayer: MusicPlayer
     private var rowHeight = 40.0
 
-    init(
-        songs: [Song],
-        musicPlayer: MusicPlayer = .shared
-    ) {
+    init(songs: [Song]) {
         self.songs = songs
-        self.musicPlayer = musicPlayer
     }
 
     var body: some View {
@@ -67,7 +65,8 @@ struct SongCollection: View {
             .showAlbumName(showAlbumName)
             .height(rowHeight)
             .contentShape(Rectangle())
-            .onTapGesture { Task { await musicPlayer.play(song: song) } }
+            // TODO: handle error
+            .onTapGesture { Task { try? await player.play(song: song) } }
             .contextMenu { ContextOptions(song: song) }
     }
 
@@ -140,6 +139,7 @@ struct SongCollection_Previews: PreviewProvider {
                 .showArtwork()
                 .collectionType(.list)
         }
+        .environmentObject(PreviewUtils.player)
         .previewDisplayName("List")
         .listStyle(.plain)
 
@@ -151,6 +151,7 @@ struct SongCollection_Previews: PreviewProvider {
                     .collectionType(.plain)
             }
         }
+        .environmentObject(PreviewUtils.player)
         .previewDisplayName("VStack")
 
         ScrollView {
@@ -161,6 +162,7 @@ struct SongCollection_Previews: PreviewProvider {
                     .collectionType(.plain)
             }
         }
+        .environmentObject(PreviewUtils.player)
         .previewDisplayName("VStack + order")
     }
 }
@@ -183,7 +185,7 @@ private struct ContextOptions: View {
             textUnfavorite: "Unfavorite"
         )
 
-        EnqueueButton(text: "Play Next", item: song, position: .next)
-        EnqueueButton(text: "Play Last", item: song, position: .last)
+        EnqueueButton("Play Next", item: song, position: .next)
+        EnqueueButton("Play Last", item: song, position: .last)
     }
 }

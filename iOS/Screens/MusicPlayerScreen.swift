@@ -1,17 +1,17 @@
+import OSLog
 import SFSafeSymbols
 import SwiftUI
 import SwiftUIX
 
 struct MusicPlayerScreen: View {
-    @ObservedObject
-    var player: MusicPlayer
+    @EnvironmentObject
+    private var player: MusicPlayer
+
+    @EnvironmentObject
+    private var repo: LibraryRepository
 
     @State
     private var isSongListPresented = false
-
-    init(player: MusicPlayer = .shared) {
-        _player = ObservedObject(wrappedValue: player)
-    }
 
     var body: some View {
         if let curSong = player.currentSong {
@@ -29,12 +29,12 @@ struct MusicPlayerScreen: View {
                     height: Screen.size.width - 40
                 )
 
-            SongDetails(song: song)
+            songDetails(for: song)
                 .padding(.leading, 28)
                 .padding(.trailing, 16)
 
             Group {
-                PlaybackProgressComponent(player: player)
+                PlaybackProgressComponent()
                 PlaybackControl()
                     .font(.largeTitle)
                     .buttonStyle(.plain)
@@ -53,142 +53,7 @@ struct MusicPlayerScreen: View {
     }
 
     @ViewBuilder
-    private func footerActions(for song: Song) -> some View {
-        FooterActions(song: song) {
-            isSongListPresented = true
-        }
-        .padding(.horizontal, 50)
-        .font(.title3)
-        .frame(height: 40)
-    }
-
-    @ViewBuilder
-    private var songListSheet: some View {
-        SheetCloseButton(isPresented: $isSongListPresented)
-            .padding(.vertical, 7)
-
-        ScrollViewReader { proxy in
-            songList
-                .listStyle(.grouped)
-                .onAppear { animatedScroll(proxy, song: player.currentSong) }
-                .onChange(of: player.currentSong) { newSong in
-                    animatedScroll(proxy, song: newSong)
-                }
-        }
-    }
-
-    @ViewBuilder
-    private var songList: some View {
-        List {
-            if player.history.isNotEmpty {
-                historySection
-            }
-
-            if let curSong = player.currentSong {
-                currentSection(with: curSong)
-            }
-
-            if player.upNext.isNotEmpty {
-                upNextSection
-            }
-        }
-    }
-
-    @ViewBuilder
-    private var historySection: some View {
-        Section {
-            ForEach(player.history, id: \.id) { song in
-                SongListRowComponent(song: song)
-                    .showArtwork()
-                    .showArtistName()
-                    .contentShape(Rectangle())
-                    .background(.almostClear)
-                    .onTapGesture { player.playHistory(song: song) }
-                    .id(song.id)
-            }
-        } header: {
-            Text("History")
-        }
-    }
-
-    @ViewBuilder
-    private func currentSection(with currentSong: Song) -> some View {
-        Section {
-            SongListRowComponent(song: currentSong)
-                .showArtwork()
-                .showArtistName()
-                .background(.almostClear)
-                .id(currentSong.id)
-        } header: {
-            Text("Currently Playing")
-        }
-    }
-
-    @ViewBuilder
-    private var upNextSection: some View {
-        Section {
-            ForEach(player.upNext, id: \.id) { song in
-                SongListRowComponent(song: song)
-                    .showArtwork()
-                    .showArtistName()
-                    .contentShape(Rectangle())
-                    .background(.almostClear)
-                    .onTapGesture { player.playUpNext(song: song) }
-                    .id(song.id)
-            }
-        } header: {
-            Text("Up next")
-        }
-    }
-
-    private func animatedScroll(_ proxy: ScrollViewProxy, song: Song?) {
-        guard let song else { return }
-        withAnimation(.easeInOut) {
-            proxy.scrollTo(song.id, anchor: .top)
-        }
-    }
-}
-
-#if DEBUG
-// swiftlint:disable all
-struct MusicPlayerScreen_Previews: PreviewProvider {
-    @State
-    static var isPresented = false
-
-    static var player = {
-        var mp = MusicPlayer(preview: true)
-        mp.currentSong = PreviewData.songs.first!
-        return mp
-    }
-
-    static var previews: some View {
-        Group {
-            VStack {
-                SheetCloseButton(isPresented: $isPresented)
-                MusicPlayerScreen(player: player())
-            }
-
-            VStack {
-                SheetCloseButton(isPresented: $isPresented)
-                MusicPlayerScreen(player: player())
-            }
-            .previewDevice(PreviewDevice(rawValue: "iPhone 13 mini"))
-
-            VStack {
-                SheetCloseButton(isPresented: $isPresented)
-                MusicPlayerScreen(player: player())
-            }
-            .previewDevice(PreviewDevice(rawValue: "iPhone 14 Pro Max"))
-        }
-    }
-}
-// swiftlint:enable all
-#endif
-
-private struct SongDetails: View {
-    var song: Song
-
-    var body: some View {
+    private func songDetails(for song: Song) -> some View {
         HStack {
             VStack(alignment: .leading, spacing: 3) {
                 Text(song.name)
@@ -208,59 +73,162 @@ private struct SongDetails: View {
                 .frame(width: 45, height: 45)
         }
     }
-}
 
-private struct SongActions: View {
-    var song: Song
-
-    var body: some View {
-        HStack {
-            DownloadButton(item: song)
-                .padding(.all, 7)
-
-            FavoriteButton(item: song)
-                .padding(.all, 7)
+    @ViewBuilder
+    private func footerActions(for song: Song) -> some View {
+        FooterActions(song: song) {
+            isSongListPresented = true
         }
-        .frame(height: 40)
+        .padding(.horizontal, 50)
         .font(.title3)
+        .frame(height: 40)
+    }
+
+    @ViewBuilder
+    private var songListSheet: some View {
+        SheetCloseButton(isPresented: $isSongListPresented)
+            .padding(.vertical, 7)
+
+        let currentlyPlayingId = "currently_playing"
+        ScrollViewReader { proxy in
+            List {
+                if player.playbackHistory.isNotEmpty {
+                    historySection
+                }
+
+                if let currentSong = player.currentSong {
+                    Section("Currently playing") {
+                        SongListRowComponent(song: currentSong)
+                            .showArtwork()
+                            .showArtistName()
+                            .contentShape(Rectangle())
+                            .background(.almostClear)
+                            .fontWeight(.bold)
+                            .id(currentlyPlayingId)
+                    }
+                }
+
+                if player.nextUpQueue.isNotEmpty {
+                    nextUpSection
+                }
+            }
+            .listStyle(.plain)
+            .onAppear { animatedScroll(proxy, id: currentlyPlayingId) }
+        }
+    }
+
+    @ViewBuilder
+    private var historySection: some View {
+        Section("History") {
+            ForEach(player.playbackHistory) { song in
+                SongListRowComponent(song: song)
+                    .showArtwork()
+                    .showArtistName()
+                    .contentShape(Rectangle())
+                    .background(.almostClear)
+                    .onTapGesture {
+                        Task {
+                            do {
+                                try await player.play(song: song, preserveQueue: true)
+                            } catch {
+                                Logger.player.warning("Could not play a song: \(error.localizedDescription)")
+                                Alerts.error("Failed to play song")
+                            }
+                        }
+                    }
+            }
+        }
+    }
+
+    @ViewBuilder
+    private var nextUpSection: some View {
+        Section("Next up") {
+            ForEach(Array(player.nextUpQueue.enumerated()), id: \.offset) { idx, song in
+                SongListRowComponent(song: song)
+                    .showArtwork()
+                    .showArtistName()
+                    .contentShape(Rectangle())
+                    .background(.almostClear)
+                    .onTapGesture {
+                        Task { await player.skip(to: idx) }
+                    }
+            }
+        }
+    }
+
+    private func animatedScroll(_ proxy: ScrollViewProxy, id: String) {
+        withAnimation(.easeInOut) {
+            proxy.scrollTo(id, anchor: .top)
+        }
     }
 }
+
+#if DEBUG
+
+#Preview {
+    struct Preview: View {
+        @State
+        var isPresented = false
+
+        @State
+        var player = PreviewUtils.player
+
+        var body: some View {
+            VStack {
+                SheetCloseButton(isPresented: $isPresented)
+                MusicPlayerScreen()
+            }
+            .task { player.setCurrentlyPlaying(newSong: PreviewData.songs.first) }
+            .environmentObject(PreviewUtils.libraryRepo)
+            .environmentObject(player)
+            .environmentObject(ApiClient(previewEnabled: true))
+        }
+    }
+
+    return Preview()
+}
+
+#endif
 
 // MARK: - Playback control
 
 private struct PlaybackControl: View {
-    @ObservedObject
-    private var player: MusicPlayer = .shared
+    @EnvironmentObject
+    private var player: MusicPlayer
 
     var body: some View {
         HStack {
-            PlayPreviousButton(player: player)
+            PlayPreviousButton()
                 .font(.title2)
-                .frame(width: 50, height: 50)
-                .contentShape(Rectangle())
-                .disabled(player.history.isEmpty)
-
-            Spacer()
-
-            PlayPauseButton(player: player)
                 .frame(width: 50, height: 50)
                 .contentShape(Rectangle())
 
             Spacer()
 
-            PlayNextButton(player: player)
+            PlayPauseButton()
+                .frame(width: 50, height: 50)
+                .contentShape(Rectangle())
+
+            Spacer()
+
+            PlayNextButton()
                 .font(.title2)
                 .frame(width: 50, height: 50)
                 .contentShape(Rectangle())
-                .disabled(player.upNext.isEmpty)
+                .disabled(player.nextUpQueue.isEmpty)
         }
         .frame(height: 40)
     }
 }
 
 private struct FooterActions: View {
-    var song: Song
-    var listTapHandler: () -> Void
+    private let song: Song
+    private let listTapHandler: () -> Void
+
+    init(song: Song, listTapHandler: @escaping () -> Void) {
+        self.song = song
+        self.listTapHandler = listTapHandler
+    }
 
     var body: some View {
         HStack {
@@ -275,7 +243,6 @@ private struct FooterActions: View {
             Spacer()
 
             queueButton
-                .buttonStyle(.plain)
                 .padding(.all, 7)
         }
     }

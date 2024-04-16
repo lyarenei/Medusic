@@ -1,9 +1,10 @@
+import ButtonKit
 import OSLog
 import SFSafeSymbols
 import SwiftUI
 
 struct PlayButton: View {
-    @ObservedObject
+    @EnvironmentObject
     private var player: MusicPlayer
 
     @EnvironmentObject
@@ -12,73 +13,76 @@ struct PlayButton: View {
     private let text: String?
     private let item: any JellyfinItem
 
-    init(_ text: String? = nil, item: any JellyfinItem, player: MusicPlayer = .shared) {
+    init(_ text: String? = nil, item: any JellyfinItem) {
         self.text = text
         self.item = item
-        self._player = ObservedObject(wrappedValue: player)
     }
 
     var body: some View {
-        Button {
-            action()
+        AsyncButton {
+            await action()
         } label: {
-            Image(systemSymbol: .playFill)
-            if let text {
-                Text(text)
+            HStack {
+                Image(systemSymbol: .playFill)
+                if let text {
+                    Text(text)
+                }
             }
         }
     }
 
-    func action() {
-        Task {
+    func action() async {
+        do {
             switch item {
             case let album as Album:
-                await playAlbum(album)
+                try await playAlbum(album)
             case let song as Song:
-                await player.play(song: song)
+                try await player.play(song: song)
             default:
                 let type = type(of: item)
                 Logger.library.debug("Playback of item type: \(type) is not implemented")
                 Alerts.error("Playback of \(type) is not available")
             }
+        } catch {
+            Logger.library.warning("Failed to start playback: \(error.localizedDescription)")
+            Alerts.error("Failed to start playback")
         }
     }
 
-    func playAlbum(_ album: Album) async {
+    func playAlbum(_ album: Album) async throws {
         let songs = repo.getSongs(for: album)
-        await player.play(songs: songs.sorted(by: .album))
+        try await player.play(songs: songs.sorted(by: .album))
     }
 }
 
 struct PlayPauseButton: View {
-    @ObservedObject
+    @EnvironmentObject
     private var player: MusicPlayer
 
     private let text: String?
 
-    init(_ text: String? = nil, player: MusicPlayer = .shared) {
+    init(_ text: String? = nil) {
         self.text = text
-        _player = ObservedObject(wrappedValue: player)
     }
 
     var body: some View {
-        Button {
-            action()
+        AsyncButton {
+            await action()
         } label: {
-            Image(systemSymbol: player.isPlaying ? .pauseFill : .playFill)
-            if let text {
-                Text(text)
+            HStack {
+                Image(systemSymbol: player.isPlaying ? .pauseFill : .playFill)
+                if let text {
+                    Text(text)
+                }
             }
         }
     }
 
-    func action() {
-        Task {
-            if player.isPlaying {
-                await player.pause()
-            } else {
-                await player.resume()
-            }
+    func action() async {
+        if player.isPlaying {
+            await player.pause()
+        } else {
+            await player.resume()
         }
     }
 }
@@ -86,13 +90,16 @@ struct PlayPauseButton: View {
 #if DEBUG
 // swiftlint:disable all
 
-#Preview {
-    PlayButton(item: PreviewData.songs.first!, player: .init(preview: true))
+#Preview("Play button") {
+    PlayButton(item: PreviewData.songs.first!)
+        .environmentObject(PreviewUtils.player)
         .environmentObject(PreviewUtils.libraryRepo)
 }
 
 #Preview("Play/Pause button") {
-    PlayPauseButton(player: .init(preview: true))
+    PlayPauseButton()
+        .environmentObject(PreviewUtils.player)
+        .environmentObject(PreviewUtils.libraryRepo)
 }
 
 // swiftlint:enable all

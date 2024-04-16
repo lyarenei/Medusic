@@ -3,11 +3,14 @@ import Combine
 import SwiftUI
 
 struct PlaybackProgressComponent: View {
+    @EnvironmentObject
+    private var player: MusicPlayer
+
     @State
     private var currentTime: TimeInterval = 0
 
     @State
-    private var remainingTime: TimeInterval
+    private var remainingTime: TimeInterval = 0
 
     @State
     private var isSeeking = false
@@ -15,31 +18,16 @@ struct PlaybackProgressComponent: View {
     @State
     private var seekPercent = 0.0
 
-    private let runtime: TimeInterval
-    private var observer: PlayerTimeObserver
-    private var player: MusicPlayer
+    @State
+    private var runtime: TimeInterval = 0
 
-    init(player: MusicPlayer = .shared) {
-        self.runtime = player.currentSong?.runtime ?? 0
-        self.remainingTime = runtime
-        self.observer = .init(player: player.player)
-        self.player = player
-    }
+    @State
+    private var observer: PlayerTimeObserver?
 
-    // swiftlint:disable closure_body_length
     var body: some View {
         VStack(spacing: 10) {
             GeometryReader { geometry in
                 progressView
-                    .progressViewStyle(.linear)
-                    .onReceive(observer.publisher) { newValue in
-                        var curTime = newValue.rounded(.toNearestOrAwayFromZero)
-                        curTime = curTime > runtime ? runtime : curTime
-                        setTimes(currentTime: curTime)
-                    }
-                    .onAppear { setTimes(currentTime: player.player.currentTimeRounded) }
-                    .scaleEffect(x: 1, y: isSeeking ? 3.5 : 1, anchor: .center)
-                    .animation(.easeInOut, value: isSeeking)
                     .gesture(
                         DragGesture(minimumDistance: 12)
                             .onChanged { value in
@@ -48,7 +36,7 @@ struct PlaybackProgressComponent: View {
                             }
                             .onEnded { _ in
                                 withAnimation { isSeeking = false }
-                                player.seek(percent: seekPercent)
+                                player.seek(to: seekPercent)
                             }
                     )
             }
@@ -56,9 +44,16 @@ struct PlaybackProgressComponent: View {
 
             progressTimes
         }
+        .onAppear {
+            observer = .init(player: player.player)
+            runtime = player.currentSong?.runtime ?? 0
+            setTimes(currentTime: player.player.currentTimeRounded)
+        }
+        .onChange(of: player.currentSong) {
+            runtime = player.currentSong?.runtime ?? 0
+            setTimes(currentTime: player.player.currentTimeRounded)
+        }
     }
-
-    // swiftlint:enable closure_body_length
 
     @ViewBuilder
     private var progressView: some View {
@@ -71,6 +66,14 @@ struct PlaybackProgressComponent: View {
                 ProgressView(value: currentTime, total: runtime)
             }
         }
+        .progressViewStyle(.linear)
+        .onReceive(observer?.currentTime) { newValue in
+            var curTime = newValue.rounded(.toNearestOrAwayFromZero)
+            curTime = curTime > runtime ? runtime : curTime
+            setTimes(currentTime: curTime)
+        }
+        .scaleEffect(x: 1, y: isSeeking ? 3.5 : 1, anchor: .center)
+        .animation(.easeInOut, value: isSeeking)
     }
 
     @ViewBuilder
@@ -93,17 +96,25 @@ struct PlaybackProgressComponent: View {
 
 #if DEBUG
 // swiftlint:disable all
-struct PlaybackProgressComponent_Previews: PreviewProvider {
-    static var player: MusicPlayer {
-        let mp = MusicPlayer(preview: true)
-        mp.currentSong = PreviewData.songs.first!
-        return mp
+
+#Preview {
+    struct Preview: View {
+        @State
+        var player = PreviewUtils.player
+
+        var body: some View {
+            PlaybackProgressComponent()
+                .padding(.horizontal)
+                .task { player.setCurrentlyPlaying(newSong: PreviewData.songs.first) }
+                .environmentObject(ApiClient(previewEnabled: true))
+                .environmentObject(PreviewUtils.libraryRepo)
+                .environmentObject(player)
+        }
     }
 
-    static var previews: some View {
-        PlaybackProgressComponent(player: player)
-    }
+    return Preview()
 }
+
 // swiftlint:enable all
 #endif
 
@@ -113,7 +124,7 @@ struct PlaybackProgressComponent_Previews: PreviewProvider {
 private class PlayerTimeObserver {
     private var timeObservation: Any?
     private weak var player: AVQueuePlayer?
-    let publisher = PassthroughSubject<TimeInterval, Never>()
+    let currentTime = PassthroughSubject<TimeInterval, Never>()
 
     init(player: AVQueuePlayer) {
         self.player = player
@@ -122,7 +133,7 @@ private class PlayerTimeObserver {
             queue: nil
         ) { [weak self] currentTime in
             guard let self else { return }
-            self.publisher.send(currentTime.seconds)
+            self.currentTime.send(currentTime.seconds)
         }
     }
 

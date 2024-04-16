@@ -11,23 +11,21 @@ struct EnqueueButton: View {
     @EnvironmentObject
     private var library: LibraryRepository
 
-    @ObservedObject
-    var player: MusicPlayer
+    @EnvironmentObject
+    private var player: MusicPlayer
 
-    let text: String?
-    let item: any JellyfinItem
-    let position: EnqueuePosition
+    private let text: String?
+    private let item: any JellyfinItem
+    private let position: EnqueuePosition
 
     init(
-        text: String? = nil,
+        _ text: String? = nil,
         item: any JellyfinItem,
-        position: EnqueuePosition = .last,
-        player: MusicPlayer = .shared
+        position: EnqueuePosition = .last
     ) {
         self.text = text
         self.item = item
         self.position = position
-        _player = ObservedObject(wrappedValue: player)
     }
 
     var body: some View {
@@ -57,7 +55,7 @@ struct EnqueueButton: View {
             player.enqueue(song: song, position: position)
             Alerts.done("Song added to queue")
         default:
-            Logger.player.info("Failed to enqueue item \(item.id): item type not supported")
+            Logger.player.warning("Failed to enqueue item \(item.id): item type not supported")
             Alerts.error("Enqueue failed")
         }
     }
@@ -65,10 +63,12 @@ struct EnqueueButton: View {
 
 #if DEBUG
 // swiftlint:disable all
-struct EnqueueButton_Previews: PreviewProvider {
-    static var previews: some View {
-        EnqueueButton(item: PreviewData.songs.first!, player: .init(preview: true))
-    }
+
+#Preview {
+    EnqueueButton(item: PreviewData.songs.first!)
+        .environmentObject(PreviewUtils.libraryRepo)
+        .environmentObject(PreviewUtils.player)
 }
+
 // swiftlint:enable all
 #endif

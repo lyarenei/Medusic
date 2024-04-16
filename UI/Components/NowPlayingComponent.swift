@@ -6,10 +6,18 @@ import SwiftUIX
 ///
 /// Base implementation taken from: https://itnext.io/add-a-now-playing-bar-with-swiftui-to-your-app-d515b03f05e3
 struct NowPlayingComponent<Content: View>: View {
+    @EnvironmentObject
+    private var player: MusicPlayer
+
     @Binding
     var isPresented: Bool
 
     var content: Content
+
+    init(isPresented: Binding<Bool>, @ViewBuilder content: @escaping () -> Content) {
+        self._isPresented = isPresented
+        self.content = content()
+    }
 
     var body: some View {
         VStack(spacing: 0) {
@@ -27,53 +35,47 @@ struct NowPlayingComponent<Content: View>: View {
 }
 
 #if DEBUG
-// swiftlint:disable all
-struct NowPlayingComponent_Previews: PreviewProvider {
-    @State
-    static var isPresented = true
 
-    static var player = {
-        var mp = MusicPlayer(preview: true)
-        mp.currentSong = PreviewData.songs.first!
-        return mp
+#Preview {
+    struct Preview: View {
+        @State
+        var player = PreviewUtils.player
+
+        var body: some View {
+            NowPlayingComponent(isPresented: .constant(true)) {
+                LibraryScreen()
+            }
+            .task { player.setCurrentlyPlaying(newSong: PreviewData.songs.first) }
+            .environmentObject(ApiClient(previewEnabled: true))
+            .environmentObject(PreviewUtils.libraryRepo)
+            .environmentObject(player)
+        }
     }
 
-    static var previews: some View {
-        NowPlayingComponent(isPresented: $isPresented, content: LibraryScreen())
-            .previewDisplayName("BG + buttons")
-            .environmentObject(ApiClient(previewEnabled: true))
-
-        NowPlayingBar(player: player())
-            .previewDisplayName("Content")
-            .environmentObject(ApiClient(previewEnabled: true))
-    }
+    return Preview()
 }
-// swiftlint:enable all
+
 #endif
 
 private struct NowPlayingBar: View {
-    @ObservedObject
+    @EnvironmentObject
     private var player: MusicPlayer
 
     @State
-    var isOpen = false
-
-    init(player: MusicPlayer = .shared) {
-        _player = ObservedObject(wrappedValue: player)
-    }
+    private var isOpen = false
 
     var body: some View {
         HStack(spacing: 0) {
             Button {
                 isOpen = true
             } label: {
-                SongInfo(song: $player.currentSong)
+                songInfo(for: player.currentSong)
                     .frame(height: 60)
                     .contentShape(Rectangle())
             }
             .buttonStyle(.plain)
 
-            PlayPauseButton(player: player)
+            PlayPauseButton()
                 .frame(width: 60, height: 60)
                 .font(.title2)
                 .buttonStyle(.plain)
@@ -81,12 +83,12 @@ private struct NowPlayingBar: View {
                 .padding(.leading)
                 .contentShape(Rectangle())
 
-            PlayNextButton(player: player)
+            PlayNextButton()
                 .font(.title2)
                 .frame(width: 60, height: 60)
                 .buttonStyle(.plain)
                 .contentShape(Rectangle())
-                .disabled(player.upNext.isEmpty)
+                .disabled(player.nextUpQueue.isEmpty)
         }
         .padding(.trailing, 10)
         .frame(width: Screen.size.width, height: 65)
@@ -96,13 +98,9 @@ private struct NowPlayingBar: View {
             MusicPlayerScreen()
         }
     }
-}
 
-private struct SongInfo: View {
-    @Binding
-    var song: Song?
-
-    var body: some View {
+    @ViewBuilder
+    private func songInfo(for song: Song?) -> some View {
         HStack {
             ArtworkComponent(for: song?.albumId ?? .empty)
                 .frame(width: 50, height: 50)
