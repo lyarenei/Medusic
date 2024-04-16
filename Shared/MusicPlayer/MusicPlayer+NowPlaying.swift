@@ -21,11 +21,11 @@ extension MusicPlayer {
         setNowPlayingArtwork(song: song)
     }
 
-    internal func setNowPlayingPlaybackMetadata(isPlaying: Bool) {
+    internal func setNowPlayingPlaybackMetadata(isPlaying: Bool, elapsedTime: TimeInterval? = nil) {
         let nowPlayingCenter = MPNowPlayingInfoCenter.default()
         var nowPlaying = nowPlayingCenter.nowPlayingInfo ?? [String: Any]()
 
-        nowPlaying[MPNowPlayingInfoPropertyElapsedPlaybackTime] = player.currentTimeRounded
+        nowPlaying[MPNowPlayingInfoPropertyElapsedPlaybackTime] = elapsedTime ?? player.currentTimeRounded
         nowPlaying[MPNowPlayingInfoPropertyPlaybackRate] = NSNumber(value: isPlaying ? 1 : 0)
         nowPlaying[MPNowPlayingInfoPropertyMediaType] = NSNumber(value: MPNowPlayingInfoMediaType.audio.rawValue)
 

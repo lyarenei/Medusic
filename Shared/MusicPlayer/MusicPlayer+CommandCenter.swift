@@ -80,6 +80,7 @@ extension MusicPlayer {
     private func registerPreviousTrackCommand() -> MPRemoteCommandHandlerStatus {
         Logger.player.debug("Called previous track command")
         skipBackward()
+        setNowPlayingPlaybackMetadata(isPlaying: true, elapsedTime: 0)
         return .success
     }
 }
