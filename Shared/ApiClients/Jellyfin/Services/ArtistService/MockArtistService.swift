@@ -1,5 +1,8 @@
 import Foundation
 
+#if DEBUG
+// swiftlint:disable all
+
 final class MockArtistService: ArtistService {
     func getArtists(pageSize: Int?, offset: Int?) async throws -> [Artist] {
         PreviewData.artists
@@ -10,3 +13,6 @@ final class MockArtistService: ArtistService {
         PreviewData.artists.first { $0.id == id }!
     }
 }
+
+// swiftlint:enable all
+#endif

@@ -127,10 +127,12 @@ extension JellyfinSettings {
         }
 
         private func recreateClient() {
+            #if DEBUG
             if Defaults[.previewMode] {
                 ApiClient.shared.usePreviewMode()
                 return
             }
+            #endif
 
             ApiClient.shared.useDefaultMode()
         }

@@ -107,6 +107,9 @@ struct ArtistLibraryScreen: View {
     }
 }
 
+#if DEBUG
+// swiftlint:disable all
+
 #Preview("Normal") {
     NavigationStack {
         ArtistLibraryScreen()
@@ -122,3 +125,6 @@ struct ArtistLibraryScreen: View {
             .environmentObject(ApiClient(previewEnabled: true))
     }
 }
+
+// swiftlint:enable all
+#endif

@@ -8,6 +8,8 @@ import SwiftUI
 final class ApiClient: ObservableObject {
     static let shared = ApiClient()
 
+    #if DEBUG
+
     @Published
     private(set) var services: ApiServices = .preview
 
@@ -24,6 +26,48 @@ final class ApiClient: ObservableObject {
         useDefaultMode()
     }
 
+    /// Use preview mode of the client with mocked data. Does not persist any changes.
+    func usePreviewMode() {
+        services = .preview
+        Logger.jellyfin.debug("Using preview mode for API client")
+    }
+
+    #else
+
+    @Published
+    private(set) var services: ApiServices
+
+    init(previewEnabled: Bool = false) {
+        // swiftlint:disable:next force_unwrapping
+        var serverUrl = URL(string: "http://localhost:8096")!
+        if let configuredServerUrl = URL(string: Defaults[.serverUrl]) {
+            serverUrl = configuredServerUrl
+        }
+
+        let jellyfinClient = JellyfinClient(configuration: .init(
+            url: serverUrl,
+            client: "JellyMusic",
+            deviceName: Defaults[.deviceName],
+            deviceID: Defaults[.deviceId],
+            version: "0.0"
+        ))
+
+        self.services = ApiServices(
+            albumService: DefaultAlbumService(client: jellyfinClient),
+            songService: DefaultSongService(client: jellyfinClient),
+            imageService: DefaultImageService(client: jellyfinClient),
+            systemService: DefaultSystemService(client: jellyfinClient),
+            mediaService: DefaultMediaService(client: jellyfinClient),
+            artistService: DefaultArtistService(client: jellyfinClient)
+        )
+    }
+
+    private func setMode(_ isPreview: Bool) {
+        useDefaultMode()
+    }
+
+    #endif
+
     func getServerStatus() async -> ServerStatus {
         do {
             let isOk = try await services.systemService.ping()
@@ -31,12 +75,6 @@ final class ApiClient: ObservableObject {
         } catch {
             return .unknown
         }
-    }
-
-    /// Use preview mode of the client with mocked data. Does not persist any changes.
-    func usePreviewMode() {
-        services = .preview
-        Logger.jellyfin.debug("Using preview mode for API client")
     }
 
     /// Use default mode of the client which connects to the configured server.
@@ -63,6 +101,7 @@ final class ApiClient: ObservableObject {
             mediaService: DefaultMediaService(client: jellyfinClient),
             artistService: DefaultArtistService(client: jellyfinClient)
         )
+
         Logger.jellyfin.debug("Using default mode for API client")
     }
 
@@ -112,6 +151,9 @@ struct ApiServices {
     let artistService: any ArtistService
 }
 
+#if DEBUG
+// swiftlint:disable all
+
 extension ApiServices {
     static var preview: ApiServices {
         ApiServices(
@@ -124,6 +166,9 @@ extension ApiServices {
         )
     }
 }
+
+// swiftlint:enable all
+#endif
 
 enum ApiClientError: Error {
     case noPassword

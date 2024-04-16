@@ -62,9 +62,14 @@ struct ArtworkComponent: View {
     }
 }
 
+#if DEBUG
+// swiftlint:disable all
+
 #Preview {
-    // swiftlint:disable:next force_unwrapping
     ArtworkComponent(for: PreviewData.albums.first!)
         .environmentObject(ApiClient(previewEnabled: true))
         .frame(width: 200, height: 200)
 }
+
+// swiftlint:enable all
+#endif

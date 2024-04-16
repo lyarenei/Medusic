@@ -2,6 +2,9 @@ import Foundation
 import Combine
 import JellyfinAPI
 
+#if DEBUG
+// swiftlint:disable all
+
 final class MockAlbumService: AlbumService {
     func getAlbums(pageSize: Int? = nil, offset: Int? = nil) async throws -> [Album] {
         PreviewData.albums
@@ -16,3 +19,6 @@ final class MockAlbumService: AlbumService {
         PreviewData.albums.filtered(by: .artistId(artist.id))
     }
 }
+
+// swiftlint:enable all
+#endif

@@ -136,9 +136,15 @@ struct ArtistDetailScreen: View {
     }
 }
 
+#if DEBUG
+// swiftlint:disable all
+
 #Preview {
     NavigationStack {
         ArtistDetailScreen(artist: PreviewData.artist, repo: PreviewUtils.libraryRepo)
             .environmentObject(ApiClient(previewEnabled: true))
     }
 }
+
+// swiftlint:enable all
+#endif

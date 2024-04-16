@@ -82,6 +82,9 @@ extension TileComponent {
     }
 }
 
+#if DEBUG
+// swiftlint:disable all
+
 #Preview {
     // swiftlint:disable:next force_unwrapping
     TileComponent(item: PreviewData.albums.first!)
@@ -90,3 +93,6 @@ extension TileComponent {
         .environmentObject(PreviewUtils.libraryRepo)
         .environmentObject(ApiClient(previewEnabled: true))
 }
+
+// swiftlint:enable all
+#endif
