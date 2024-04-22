@@ -81,7 +81,7 @@ final class FileRepository: ObservableObject {
     }
 
     private func downloadNextSong() async throws {
-        if let nextSong = await $downloadQueue.items.sortByAlbum().first {
+        if let nextSong = await $downloadQueue.items.sorted(by: .album).first {
             do {
                 try await downloadSong(nextSong)
             } catch {
