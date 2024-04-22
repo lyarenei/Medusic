@@ -81,6 +81,7 @@ final class FileRepository: ObservableObject {
     }
 
     private func downloadNextSong() async throws {
+        // swiftlint:disable:next sorted_first_last
         if let nextSong = await $downloadQueue.items.sorted(by: .album).first {
             do {
                 try await downloadSong(nextSong)
@@ -130,7 +131,7 @@ final class FileRepository: ObservableObject {
         return fileUrl
     }
 
-    /// Get a file URL for a song. 
+    /// Get a file URL for a song.
     /// Should be used only for downloading.
     /// Use `getLocalFileUrl()` for a lookup.
     func fileURL(for song: Song) -> URL? {
