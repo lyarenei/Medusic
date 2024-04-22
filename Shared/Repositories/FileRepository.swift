@@ -246,7 +246,7 @@ final class FileRepository: ObservableObject {
     }
 
     private func getDownloadPreferredBitrate(for song: Song) -> Int? {
-        let bitrateSetting = Defaults[.streamBitrate]
+        let bitrateSetting = Defaults[.downloadBitrate]
         if song.isNativelySupported {
             return bitrateSetting < 0 ? nil : bitrateSetting
         }
