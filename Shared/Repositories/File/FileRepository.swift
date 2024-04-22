@@ -36,7 +36,7 @@ final class FileRepository: ObservableObject {
                 create: true
             )
 
-            self.cacheDirectory = cacheUrl.appendingPathComponent("JellyMusic/Downloads", isDirectory: true)
+            self.cacheDirectory = cacheUrl.appendingPathComponent("Medusic/Downloads", isDirectory: true)
             try FileManager.default.createDirectory(
                 at: cacheDirectory,
                 withIntermediateDirectories: true,
