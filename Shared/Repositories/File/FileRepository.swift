@@ -130,10 +130,26 @@ final class FileRepository: ObservableObject {
         return fileUrl
     }
 
+    /// Get a file URL for a song. 
+    /// Should be used only for downloading.
+    /// Use `getLocalFileUrl()` for a lookup.
     func fileURL(for song: Song) -> URL? {
         let fileExtension = getFileExtension(for: song)
         let fileURL = cacheDirectory.appendingPathComponent(song.id).appendingPathExtension(fileExtension)
         return FileManager.default.fileExists(atPath: fileURL.path) ? fileURL : nil
+    }
+
+    /// Get a file URL for a song.
+    /// Should be used only for lookups as we can't determine the file extension due to the nature settings and already downloaded files.
+    /// Use `fileUrl()` for downloading.
+    func getLocalFileUrl(for song: Song) -> URL? {
+        do {
+            let fileURLs = try FileManager.default.contentsOfDirectory(at: cacheDirectory, includingPropertiesForKeys: nil, options: [])
+            return fileURLs.first { $0.absoluteString.contains(song.id) }
+        } catch {
+            Logger.repository.warning("Could not obtain cache directory contents: \(error.localizedDescription)")
+            return nil
+        }
     }
 
     func fileExists(for song: Song) -> Bool {
