@@ -119,7 +119,7 @@ final class FileRepository: ObservableObject {
     }
 
     func getLocalOrRemoteUrl(for song: Song) -> URL? {
-        guard let fileUrl = fileURL(for: song) else {
+        guard let fileUrl = getLocalFileUrl(for: song) else {
             let bitrate = getStreamPreferredBitrate(for: song)
             return apiClient.services.mediaService.getStreamUrl(
                 item: song.id,
