@@ -24,8 +24,8 @@ final class FileRepository: ObservableObject {
         downloadQueueStore: Store<Song> = .downloadQueue,
         apiClient: ApiClient = .shared
     ) {
-        _downloadedSongs = Stored(in: downloadedSongsStore)
-        _downloadQueue = Stored(in: downloadQueueStore)
+        self._downloadedSongs = Stored(in: downloadedSongsStore)
+        self._downloadQueue = Stored(in: downloadQueueStore)
         self.cacheSizeLimit = Defaults[.maxCacheSize] * 1024 * 1024
         self.apiClient = apiClient
         do {
