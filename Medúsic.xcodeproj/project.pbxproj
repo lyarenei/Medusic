@@ -184,7 +184,7 @@
 		9B7D1CD52BA6333000FF888F /* AppearanceSettings.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = AppearanceSettings.swift; sourceTree = "<group>"; };
 		9B80473329B768000069B407 /* JellyMusicApp.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = JellyMusicApp.swift; sourceTree = "<group>"; };
 		9B80473529B768010069B407 /* Assets.xcassets */ = {isa = PBXFileReference; lastKnownFileType = folder.assetcatalog; path = Assets.xcassets; sourceTree = "<group>"; };
-		9B80473A29B768010069B407 /* JellyMusic.app */ = {isa = PBXFileReference; explicitFileType = wrapper.application; includeInIndex = 0; path = JellyMusic.app; sourceTree = BUILT_PRODUCTS_DIR; };
+		9B80473A29B768010069B407 /* Medúsic.app */ = {isa = PBXFileReference; explicitFileType = wrapper.application; includeInIndex = 0; path = "Medúsic.app"; sourceTree = BUILT_PRODUCTS_DIR; };
 		9B80475D29B7D5330069B407 /* MainScreen.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = MainScreen.swift; sourceTree = "<group>"; };
 		9B80476529B86F460069B407 /* LibraryScreen.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = LibraryScreen.swift; sourceTree = "<group>"; };
 		9B80476F29B89EE40069B407 /* AlbumLibraryScreen.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = AlbumLibraryScreen.swift; sourceTree = "<group>"; };
@@ -432,7 +432,7 @@
 		9B80473B29B768010069B407 /* Products */ = {
 			isa = PBXGroup;
 			children = (
-				9B80473A29B768010069B407 /* JellyMusic.app */,
+				9B80473A29B768010069B407 /* Medúsic.app */,
 			);
 			name = Products;
 			sourceTree = "<group>";
@@ -673,9 +673,9 @@
 /* End PBXGroup section */
 
 /* Begin PBXNativeTarget section */
-		9B80473929B768010069B407 /* JellyMusic (iOS) */ = {
+		9B80473929B768010069B407 /* Medúsic (iOS) */ = {
 			isa = PBXNativeTarget;
-			buildConfigurationList = 9B80474B29B768010069B407 /* Build configuration list for PBXNativeTarget "JellyMusic (iOS)" */;
+			buildConfigurationList = 9B80474B29B768010069B407 /* Build configuration list for PBXNativeTarget "Medúsic (iOS)" */;
 			buildPhases = (
 				9B1438DA29E33CA6004056B0 /* Run SwiftFormat */,
 				9B32F12529E2D73300CF8A69 /* Run SwiftLint */,
@@ -687,7 +687,7 @@
 			);
 			dependencies = (
 			);
-			name = "JellyMusic (iOS)";
+			name = "Medúsic (iOS)";
 			packageProductDependencies = (
 				9BB754D529B93F3C009BB3A6 /* JellyfinAPI */,
 				48C1F8BB29B9E5C9003BE048 /* Kingfisher */,
@@ -702,7 +702,7 @@
 				9B6386992BA4F5F8000D4EB6 /* ButtonKit */,
 			);
 			productName = "JellyMusic (iOS)";
-			productReference = 9B80473A29B768010069B407 /* JellyMusic.app */;
+			productReference = 9B80473A29B768010069B407 /* Medúsic.app */;
 			productType = "com.apple.product-type.application";
 		};
 /* End PBXNativeTarget section */
@@ -720,7 +720,7 @@
 					};
 				};
 			};
-			buildConfigurationList = 9B80473129B768000069B407 /* Build configuration list for PBXProject "JellyMusic" */;
+			buildConfigurationList = 9B80473129B768000069B407 /* Build configuration list for PBXProject "Medúsic" */;
 			compatibilityVersion = "Xcode 13.0";
 			developmentRegion = en;
 			hasScannedForEncodings = 0;
@@ -747,7 +747,7 @@
 			projectDirPath = "";
 			projectRoot = "";
 			targets = (
-				9B80473929B768010069B407 /* JellyMusic (iOS) */,
+				9B80473929B768010069B407 /* Medúsic (iOS) */,
 			);
 		};
 /* End PBXProject section */
@@ -1056,7 +1056,7 @@
 				ENABLE_PREVIEWS = YES;
 				GENERATE_INFOPLIST_FILE = YES;
 				INFOPLIST_FILE = Info.plist;
-				INFOPLIST_KEY_CFBundleDisplayName = JellyMusic;
+				INFOPLIST_KEY_CFBundleDisplayName = "Medúsic";
 				INFOPLIST_KEY_LSApplicationCategoryType = "public.app-category.music";
 				INFOPLIST_KEY_UIApplicationSceneManifest_Generation = YES;
 				INFOPLIST_KEY_UIApplicationSupportsIndirectInputEvents = YES;
@@ -1070,7 +1070,7 @@
 				);
 				MARKETING_VERSION = 1.0;
 				PRODUCT_BUNDLE_IDENTIFIER = dev.xkrivo.Medusic;
-				PRODUCT_NAME = JellyMusic;
+				PRODUCT_NAME = "Medúsic";
 				SDKROOT = iphoneos;
 				SWIFT_EMIT_LOC_STRINGS = YES;
 				SWIFT_VERSION = 5.0;
@@ -1090,7 +1090,7 @@
 				ENABLE_PREVIEWS = YES;
 				GENERATE_INFOPLIST_FILE = YES;
 				INFOPLIST_FILE = Info.plist;
-				INFOPLIST_KEY_CFBundleDisplayName = JellyMusic;
+				INFOPLIST_KEY_CFBundleDisplayName = "Medúsic";
 				INFOPLIST_KEY_LSApplicationCategoryType = "public.app-category.music";
 				INFOPLIST_KEY_UIApplicationSceneManifest_Generation = YES;
 				INFOPLIST_KEY_UIApplicationSupportsIndirectInputEvents = YES;
@@ -1104,7 +1104,7 @@
 				);
 				MARKETING_VERSION = 1.0;
 				PRODUCT_BUNDLE_IDENTIFIER = dev.xkrivo.Medusic;
-				PRODUCT_NAME = JellyMusic;
+				PRODUCT_NAME = "Medúsic";
 				SDKROOT = iphoneos;
 				SWIFT_EMIT_LOC_STRINGS = YES;
 				SWIFT_VERSION = 5.0;
@@ -1116,7 +1116,7 @@
 /* End XCBuildConfiguration section */
 
 /* Begin XCConfigurationList section */
-		9B80473129B768000069B407 /* Build configuration list for PBXProject "JellyMusic" */ = {
+		9B80473129B768000069B407 /* Build configuration list for PBXProject "Medúsic" */ = {
 			isa = XCConfigurationList;
 			buildConfigurations = (
 				9B80474929B768010069B407 /* Debug */,
@@ -1125,7 +1125,7 @@
 			defaultConfigurationIsVisible = 0;
 			defaultConfigurationName = Release;
 		};
-		9B80474B29B768010069B407 /* Build configuration list for PBXNativeTarget "JellyMusic (iOS)" */ = {
+		9B80474B29B768010069B407 /* Build configuration list for PBXNativeTarget "Medúsic (iOS)" */ = {
 			isa = XCConfigurationList;
 			buildConfigurations = (
 				9B80474C29B768010069B407 /* Debug */,

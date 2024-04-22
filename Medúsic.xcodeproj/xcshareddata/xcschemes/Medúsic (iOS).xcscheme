@@ -15,9 +15,9 @@
                   <BuildableReference
                      BuildableIdentifier = "primary"
                      BlueprintIdentifier = "9B80473929B768010069B407"
-                     BuildableName = "JellyMusic.app"
-                     BlueprintName = "JellyMusic (iOS)"
-                     ReferencedContainer = "container:JellyMusic.xcodeproj">
+                     BuildableName = "Medu&#x301;sic.app"
+                     BlueprintName = "Medu&#x301;sic (iOS)"
+                     ReferencedContainer = "container:Medu&#x301;sic.xcodeproj">
                   </BuildableReference>
                </EnvironmentBuildable>
             </ActionContent>
@@ -33,9 +33,9 @@
             <BuildableReference
                BuildableIdentifier = "primary"
                BlueprintIdentifier = "9B80473929B768010069B407"
-               BuildableName = "JellyMusic.app"
-               BlueprintName = "JellyMusic (iOS)"
-               ReferencedContainer = "container:JellyMusic.xcodeproj">
+               BuildableName = "Medu&#x301;sic.app"
+               BlueprintName = "Medu&#x301;sic (iOS)"
+               ReferencedContainer = "container:Medu&#x301;sic.xcodeproj">
             </BuildableReference>
          </BuildActionEntry>
       </BuildActionEntries>
@@ -63,9 +63,9 @@
          <BuildableReference
             BuildableIdentifier = "primary"
             BlueprintIdentifier = "9B80473929B768010069B407"
-            BuildableName = "JellyMusic.app"
-            BlueprintName = "JellyMusic (iOS)"
-            ReferencedContainer = "container:JellyMusic.xcodeproj">
+            BuildableName = "Medu&#x301;sic.app"
+            BlueprintName = "Medu&#x301;sic (iOS)"
+            ReferencedContainer = "container:Medu&#x301;sic.xcodeproj">
          </BuildableReference>
       </BuildableProductRunnable>
    </LaunchAction>
@@ -80,9 +80,9 @@
          <BuildableReference
             BuildableIdentifier = "primary"
             BlueprintIdentifier = "9B80473929B768010069B407"
-            BuildableName = "JellyMusic.app"
-            BlueprintName = "JellyMusic (iOS)"
-            ReferencedContainer = "container:JellyMusic.xcodeproj">
+            BuildableName = "Medu&#x301;sic.app"
+            BlueprintName = "Medu&#x301;sic (iOS)"
+            ReferencedContainer = "container:Medu&#x301;sic.xcodeproj">
          </BuildableReference>
       </BuildableProductRunnable>
    </ProfileAction>
