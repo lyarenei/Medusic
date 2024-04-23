@@ -49,7 +49,9 @@ extension JellyfinSettings {
         func onSaveCredentials() async {
             do {
                 try saveCredentials()
-                recreateClient()
+                await MainActor.run {
+                    recreateClient()
+                }
                 await refreshServerStatus()
                 Alerts.info("Settings saved")
             } catch {
