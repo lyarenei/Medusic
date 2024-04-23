@@ -2,11 +2,8 @@ import Defaults
 import SwiftUI
 
 struct SettingsScreen: View {
-    var apiClient: ApiClient
-
-    init(apiClient: ApiClient = .shared) {
-        self.apiClient = apiClient
-    }
+    @EnvironmentObject
+    private var apiClient: ApiClient
 
     @State
     private var serverStatusValue = "unknown"
@@ -123,10 +120,16 @@ struct SettingsScreen: View {
     #endif
 }
 
+#if DEBUG
+// swiftlint:disable all
+
 #Preview {
-    SettingsScreen(apiClient: .init(previewEnabled: true))
-        .environmentObject(NavigationRouter())
+    SettingsScreen()
+        .environmentObject(ApiClient(previewEnabled: true))
 }
+
+// swiftlint:enable all
+#endif
 
 #if DEBUG
 // MARK: - Developer settings
