@@ -1,3 +1,4 @@
+import ButtonKit
 import OSLog
 import SFSafeSymbols
 import SwiftUI
@@ -86,19 +87,23 @@ struct AlbumDetailScreen: View {
                         .foregroundColor(.accentColor)
                 )
 
-            Button {
-                // Album shuffle play action
+            AsyncButton {
+                let songs = library.getSongs(for: album)
+                do {
+                    try await player.play(songs: songs.shuffled())
+                } catch {
+                    Logger.library.warning("Failed to start playback: \(error.localizedDescription)")
+                    Alerts.error("Failed to start playback")
+                }
             } label: {
-                Image(systemSymbol: .shuffle)
-                Text("Shuffle")
+                Label("Shuffle", systemSymbol: .shuffle)
             }
             .frame(width: 120, height: 45)
             .overlay(
                 RoundedRectangle(cornerRadius: 10)
                     .stroke(style: StrokeStyle(lineWidth: 1.0))
-                    .foregroundColor(.lightGray)
+                    .foregroundColor(.accentColor)
             )
-            .disabled(true)
         }
     }
 
