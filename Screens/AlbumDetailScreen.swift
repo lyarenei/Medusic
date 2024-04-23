@@ -41,18 +41,17 @@ struct AlbumDetailScreen: View {
 
             runtime
 
-            Divider()
-                .padding(.leading)
-
             songs(albumSongs)
                 .padding(.bottom, 15)
 
-            AlbumPreviewCollection(
-                for: previewAlbums,
-                titleText: "More by \(album.artistName)",
-                emptyText: "No albums"
-            )
-            .stackType(.horizontal)
+            if previewAlbums.isNotEmpty {
+                AlbumPreviewCollection(
+                    for: previewAlbums,
+                    titleText: "More by \(album.artistName)",
+                    emptyText: "No albums"
+                )
+                .stackType(.horizontal)
+            }
         }
     }
 
@@ -111,9 +110,14 @@ struct AlbumDetailScreen: View {
     private var runtime: some View {
         let songCount = library.getSongs(for: album).count
         let runtime = library.getRuntime(for: album)
-        Text("\(songCount) songs, \(runtime.minutes) minutes")
-            .foregroundColor(.gray)
-            .font(.system(size: 16))
+
+        if songCount > 0 {
+            Text("\(songCount) songs, \(runtime.minutes) minutes")
+                .foregroundColor(.gray)
+                .font(.system(size: 16))
+        } else {
+            EmptyView()
+        }
     }
 
     @ViewBuilder
@@ -145,6 +149,9 @@ struct AlbumDetailScreen: View {
                 }
             }
         } else {
+            Divider()
+                .padding(.leading)
+
             songCollection(
                 songs: songs.sorted(by: .index),
                 showLastDivider: true
