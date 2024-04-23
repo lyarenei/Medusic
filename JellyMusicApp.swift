@@ -31,7 +31,6 @@ struct JellyMusicApp: App {
                 .environmentObject(MusicPlayer.shared)
                 .environmentObject(ApiClient.shared)
                 .environmentObject(SongRepository(store: .songs))
-                .environmentObject(NavigationRouter())
                 .environmentObject(ApiClient.shared)
                 .environmentObject(LibraryRepository.shared)
         }

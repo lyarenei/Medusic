@@ -14,11 +14,11 @@ struct SettingsScreen: View {
     @State
     private var checkInProgress = false
 
-    @EnvironmentObject
-    private var router: NavigationRouter
+    @State
+    private var navPath = NavigationPath()
 
     var body: some View {
-        NavigationStack(path: $router.settingsPath) {
+        NavigationStack(path: $navPath) {
             List {
                 jellyfinSettings
                 GeneralSettings()
@@ -118,6 +118,18 @@ struct SettingsScreen: View {
         }
     }
     #endif
+}
+
+extension SettingsScreen {
+    enum SettingsNav {
+        case advanced
+        case appearance
+        case jellyfin
+
+        #if DEBUG
+        case developer
+        #endif
+    }
 }
 
 #if DEBUG
