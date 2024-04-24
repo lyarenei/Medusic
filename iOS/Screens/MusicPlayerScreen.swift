@@ -1,3 +1,4 @@
+import Defaults
 import OSLog
 import SFSafeSymbols
 import SwiftUI
@@ -9,6 +10,9 @@ struct MusicPlayerScreen: View {
 
     @EnvironmentObject
     private var repo: LibraryRepository
+
+    @Default(.playerShowVolumeSlider)
+    private var showVolumeSlider: Bool
 
     @State
     private var isSongListPresented = false
@@ -40,9 +44,11 @@ struct MusicPlayerScreen: View {
                     .buttonStyle(.plain)
                     .padding(.horizontal, 40)
 
-                VolumeSliderComponent()
-                    .frame(height: 40)
-                    .padding(.top, 10)
+                if showVolumeSlider {
+                    VolumeSliderComponent()
+                        .frame(height: 40)
+                        .padding(.top, 10)
+                }
 
                 footerActions(for: song)
             }
