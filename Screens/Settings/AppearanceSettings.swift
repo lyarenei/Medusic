@@ -92,7 +92,7 @@ struct AppearanceSettings: View {
                 Text("Show volume slider")
             }
         } footer: {
-            Text("Show volume slider on player screen.")
+            Text("Display volume slider on player screen.")
         }
     }
 }
