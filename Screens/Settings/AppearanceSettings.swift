@@ -17,6 +17,9 @@ struct AppearanceSettings: View {
     @Default(.maxPreviewItems)
     private var maxPreviewItems: Int
 
+    @Default(.playerShowVolumeSlider)
+    private var playerShowVolumeSlider: Bool
+
     var body: some View {
         List {
             Section {
@@ -32,6 +35,8 @@ struct AppearanceSettings: View {
                 libraryShowRecentlyAddedOption
                 maxPreviewItemsOption
             }
+
+            playerShowVolumeSliderOption
         }
         .listStyle(.insetGrouped)
         .navigationTitle("Appearance")
@@ -77,6 +82,17 @@ struct AppearanceSettings: View {
             Text("15").tag(15)
             Text("20").tag(20)
             Text("25").tag(25)
+        }
+    }
+
+    @ViewBuilder
+    private var playerShowVolumeSliderOption: some View {
+        Section {
+            Toggle(isOn: $playerShowVolumeSlider) {
+                Text("Show volume slider")
+            }
+        } footer: {
+            Text("Show volume slider on player screen.")
         }
     }
 }
