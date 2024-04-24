@@ -81,6 +81,12 @@ struct AppearanceSettings: View {
     }
 }
 
+#if DEBUG
+// swiftlint:disable all
+
 #Preview {
     AppearanceSettings()
 }
+
+// swiftlint:enable all
+#endif

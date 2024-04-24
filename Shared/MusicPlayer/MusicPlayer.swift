@@ -4,7 +4,7 @@ import Foundation
 import OSLog
 import SwiftUI
 
-final class MusicPlayer: ObservableObject {
+final class MusicPlayer: NSObject, ObservableObject {
     static let shared = MusicPlayer()
     static let seekDelay = 0.75
     static let minPlaybackTime = 3.0
@@ -52,6 +52,8 @@ final class MusicPlayer: ObservableObject {
         fileRepo: FileRepository = .shared,
         library: LibraryRepository = .shared
     ) {
+        super.init()
+
         self.apiClient = apiClient
         self.fileRepo = fileRepo
         self.library = library
@@ -145,6 +147,7 @@ final class MusicPlayer: ObservableObject {
 
         do {
             try session.setCategory(.playback, mode: .default, options: [])
+            registerCommandHandlers()
             isSessionConfigured = true
             Logger.player.debug("Audio session has been configured")
         } catch {

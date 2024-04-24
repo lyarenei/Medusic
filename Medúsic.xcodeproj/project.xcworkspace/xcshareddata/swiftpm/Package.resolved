@@ -1,5 +1,5 @@
 {
-  "originHash" : "2fc96e03f09a0249e56b03cb2459cd37ccd3c1307c0c71025420a79ab18e92b8",
+  "originHash" : "2039d5d3985b6bffbda2e5da375df830cbb8e1dc940e2f095ba0d598703ce034",
   "pins" : [
     {
       "identity" : "bodega",
@@ -125,24 +125,6 @@
       "state" : {
         "revision" : "94cf62b3ba8d4bed62680a282d4c25f9c63c2efb",
         "version" : "1.1.0"
-      }
-    },
-    {
-      "identity" : "swiftbackports",
-      "kind" : "remoteSourceControl",
-      "location" : "https://github.com/shaps80/SwiftBackports",
-      "state" : {
-        "revision" : "ddca6a237c1ba2291d5a3cc47ec8480ce6e9f805",
-        "version" : "1.0.3"
-      }
-    },
-    {
-      "identity" : "swiftuibackports",
-      "kind" : "remoteSourceControl",
-      "location" : "https://github.com/shaps80/SwiftUIBackports",
-      "state" : {
-        "revision" : "556d42f391b74059a354b81b8c8e19cc7cb576f4",
-        "version" : "1.15.1"
       }
     },
     {

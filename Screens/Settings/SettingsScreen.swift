@@ -2,11 +2,8 @@ import Defaults
 import SwiftUI
 
 struct SettingsScreen: View {
-    var apiClient: ApiClient
-
-    init(apiClient: ApiClient = .shared) {
-        self.apiClient = apiClient
-    }
+    @EnvironmentObject
+    private var apiClient: ApiClient
 
     @State
     private var serverStatusValue = "unknown"
@@ -17,11 +14,11 @@ struct SettingsScreen: View {
     @State
     private var checkInProgress = false
 
-    @EnvironmentObject
-    private var router: NavigationRouter
+    @State
+    private var navPath = NavigationPath()
 
     var body: some View {
-        NavigationStack(path: $router.settingsPath) {
+        NavigationStack(path: $navPath) {
             List {
                 jellyfinSettings
                 GeneralSettings()
@@ -123,10 +120,28 @@ struct SettingsScreen: View {
     #endif
 }
 
-#Preview {
-    SettingsScreen(apiClient: .init(previewEnabled: true))
-        .environmentObject(NavigationRouter())
+extension SettingsScreen {
+    enum SettingsNav {
+        case advanced
+        case appearance
+        case jellyfin
+
+        #if DEBUG
+        case developer
+        #endif
+    }
 }
+
+#if DEBUG
+// swiftlint:disable all
+
+#Preview {
+    SettingsScreen()
+        .environmentObject(ApiClient(previewEnabled: true))
+}
+
+// swiftlint:enable all
+#endif
 
 #if DEBUG
 // MARK: - Developer settings

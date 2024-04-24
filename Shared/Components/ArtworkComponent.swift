@@ -28,15 +28,11 @@ struct ArtworkComponent: View {
                 .dataProvider(jellyfinProvider)
                 .cacheOriginalImage()
                 .resizable()
-                .placeholder {
-                    Image(systemSymbol: .photoOnRectangleAngled)
-                        .resizable()
-                        .aspectRatio(contentMode: .fit)
-                        .fill(alignment: .center)
-                }
+                .placeholder { ProgressView() }
                 .fade(duration: Self.fadeDuration)
                 .retry(maxCount: Self.retryCount, interval: .seconds(Self.retryInterval))
                 .appendProcessor(DownsamplingImageProcessor(size: doubleSize(proxy.size)))
+                .onFailureImage(.init(systemSymbol: .photoOnRectangleAngled))
                 .onFailure { error in
                     Logger.artwork.debug("Failed to load image for item \(itemId): \(error.localizedDescription)")
                 }

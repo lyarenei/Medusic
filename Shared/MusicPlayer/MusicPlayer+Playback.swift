@@ -19,18 +19,19 @@ extension MusicPlayer {
         try configureSession()
         try activateSession()
 
-        if songs.isNotEmpty {
-            if preserveQueue {
-                enqueue(songs: songs, position: .next)
-            } else {
-                clearQueue(stopPlayback: false)
-                enqueue(songs: songs, position: .last)
-            }
+        guard songs.isNotEmpty else {
+            player.play()
+            return
         }
 
-        // swiftformat:disable:next redundantSelf
-        let isPlaying = await self.isPlaying
-        if await currentSong != nil && isPlaying {
+        if !preserveQueue {
+            clearQueue(stopPlayback: false)
+        }
+
+        let isPlayerInUse = await currentSong != nil
+        enqueue(songs: songs, position: .next)
+
+        if isPlayerInUse {
             player.advanceToNextItem()
         }
 

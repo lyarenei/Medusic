@@ -34,6 +34,7 @@
 		9B289E9C29F6E6DF007FD445 /* ScrollViewExtensions.swift in Sources */ = {isa = PBXBuildFile; fileRef = 9B289E9B29F6E6DF007FD445 /* ScrollViewExtensions.swift */; };
 		9B289EA529F6EC2D007FD445 /* ImageExtensions.swift in Sources */ = {isa = PBXBuildFile; fileRef = 9B289EA429F6EC2D007FD445 /* ImageExtensions.swift */; };
 		9B289EA829F6EDC3007FD445 /* NumberExtensions.swift in Sources */ = {isa = PBXBuildFile; fileRef = 9B289EA729F6EDC3007FD445 /* NumberExtensions.swift */; };
+		9B3060122BD6C33B003FBD74 /* PrivacyInfo.xcprivacy in Resources */ = {isa = PBXBuildFile; fileRef = 9B3060112BD6C33B003FBD74 /* PrivacyInfo.xcprivacy */; };
 		9B3B457B2A52160500E80390 /* PersistenceRepository.swift in Sources */ = {isa = PBXBuildFile; fileRef = 9B3B457A2A52160500E80390 /* PersistenceRepository.swift */; };
 		9B3C7BE629D04F5800884597 /* InProgressComponent.swift in Sources */ = {isa = PBXBuildFile; fileRef = 9B3C7BE529D04F5800884597 /* InProgressComponent.swift */; };
 		9B3C7BE929D0702600884597 /* Logger.swift in Sources */ = {isa = PBXBuildFile; fileRef = 9B3C7BE829D0702600884597 /* Logger.swift */; };
@@ -59,7 +60,6 @@
 		9B7ACB522BAA165600DF0569 /* LibraryRepository+Albums.swift in Sources */ = {isa = PBXBuildFile; fileRef = 9B7ACB512BAA165600DF0569 /* LibraryRepository+Albums.swift */; };
 		9B7AF3B129EB04A60039A7DF /* ViewExtensions.swift in Sources */ = {isa = PBXBuildFile; fileRef = 9B7AF3B029EB04A60039A7DF /* ViewExtensions.swift */; };
 		9B7AF3B429EB09310039A7DF /* AlbumListRowComponent.swift in Sources */ = {isa = PBXBuildFile; fileRef = 9B7AF3B329EB09310039A7DF /* AlbumListRowComponent.swift */; };
-		9B7D1CCD2BA5025800FF888F /* NavigationRouter.swift in Sources */ = {isa = PBXBuildFile; fileRef = 9B7D1CCC2BA5025800FF888F /* NavigationRouter.swift */; };
 		9B7D1CCF2BA5052600FF888F /* JellyfinSettings.swift in Sources */ = {isa = PBXBuildFile; fileRef = 9B7D1CCE2BA5052600FF888F /* JellyfinSettings.swift */; };
 		9B7D1CD22BA5802800FF888F /* JellyfinSettings+ViewModel.swift in Sources */ = {isa = PBXBuildFile; fileRef = 9B7D1CD12BA5802800FF888F /* JellyfinSettings+ViewModel.swift */; };
 		9B7D1CD42BA60F2100FF888F /* Enums.swift in Sources */ = {isa = PBXBuildFile; fileRef = 9B7D1CD32BA60F2100FF888F /* Enums.swift */; };
@@ -153,6 +153,7 @@
 		9B289E9B29F6E6DF007FD445 /* ScrollViewExtensions.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = ScrollViewExtensions.swift; sourceTree = "<group>"; };
 		9B289EA429F6EC2D007FD445 /* ImageExtensions.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = ImageExtensions.swift; sourceTree = "<group>"; };
 		9B289EA729F6EDC3007FD445 /* NumberExtensions.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = NumberExtensions.swift; sourceTree = "<group>"; };
+		9B3060112BD6C33B003FBD74 /* PrivacyInfo.xcprivacy */ = {isa = PBXFileReference; lastKnownFileType = text.xml; path = PrivacyInfo.xcprivacy; sourceTree = "<group>"; };
 		9B36DAC429CB941C008C4FE7 /* Info.plist */ = {isa = PBXFileReference; lastKnownFileType = text.plist.xml; path = Info.plist; sourceTree = "<group>"; };
 		9B3B457A2A52160500E80390 /* PersistenceRepository.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = PersistenceRepository.swift; sourceTree = "<group>"; };
 		9B3C7BE529D04F5800884597 /* InProgressComponent.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = InProgressComponent.swift; sourceTree = "<group>"; };
@@ -178,14 +179,13 @@
 		9B7ACB512BAA165600DF0569 /* LibraryRepository+Albums.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = "LibraryRepository+Albums.swift"; sourceTree = "<group>"; };
 		9B7AF3B029EB04A60039A7DF /* ViewExtensions.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = ViewExtensions.swift; sourceTree = "<group>"; };
 		9B7AF3B329EB09310039A7DF /* AlbumListRowComponent.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = AlbumListRowComponent.swift; sourceTree = "<group>"; };
-		9B7D1CCC2BA5025800FF888F /* NavigationRouter.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = NavigationRouter.swift; sourceTree = "<group>"; };
 		9B7D1CCE2BA5052600FF888F /* JellyfinSettings.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = JellyfinSettings.swift; sourceTree = "<group>"; };
 		9B7D1CD12BA5802800FF888F /* JellyfinSettings+ViewModel.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = "JellyfinSettings+ViewModel.swift"; sourceTree = "<group>"; };
 		9B7D1CD32BA60F2100FF888F /* Enums.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = Enums.swift; sourceTree = "<group>"; };
 		9B7D1CD52BA6333000FF888F /* AppearanceSettings.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = AppearanceSettings.swift; sourceTree = "<group>"; };
 		9B80473329B768000069B407 /* JellyMusicApp.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = JellyMusicApp.swift; sourceTree = "<group>"; };
 		9B80473529B768010069B407 /* Assets.xcassets */ = {isa = PBXFileReference; lastKnownFileType = folder.assetcatalog; path = Assets.xcassets; sourceTree = "<group>"; };
-		9B80473A29B768010069B407 /* JellyMusic.app */ = {isa = PBXFileReference; explicitFileType = wrapper.application; includeInIndex = 0; path = JellyMusic.app; sourceTree = BUILT_PRODUCTS_DIR; };
+		9B80473A29B768010069B407 /* Medúsic.app */ = {isa = PBXFileReference; explicitFileType = wrapper.application; includeInIndex = 0; path = "Medúsic.app"; sourceTree = BUILT_PRODUCTS_DIR; };
 		9B80475D29B7D5330069B407 /* MainScreen.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = MainScreen.swift; sourceTree = "<group>"; };
 		9B80476529B86F460069B407 /* LibraryScreen.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = LibraryScreen.swift; sourceTree = "<group>"; };
 		9B80476F29B89EE40069B407 /* AlbumLibraryScreen.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = AlbumLibraryScreen.swift; sourceTree = "<group>"; };
@@ -392,6 +392,7 @@
 		9B80472D29B768000069B407 = {
 			isa = PBXGroup;
 			children = (
+				9B3060112BD6C33B003FBD74 /* PrivacyInfo.xcprivacy */,
 				9B1866F42A8AC6E500034A10 /* Alerts.swift */,
 				9B1866EC2A8A083700034A10 /* Assets */,
 				9BF26D432A8781D5006631E9 /* UI */,
@@ -426,7 +427,6 @@
 				4848B22529BCBC2000EB2FAA /* Cancellables.swift */,
 				9BB75EAF29C4C5E1008CD65A /* Settings.swift */,
 				9B3C7BE829D0702600884597 /* Logger.swift */,
-				9B7D1CCC2BA5025800FF888F /* NavigationRouter.swift */,
 			);
 			path = Shared;
 			sourceTree = "<group>";
@@ -434,7 +434,7 @@
 		9B80473B29B768010069B407 /* Products */ = {
 			isa = PBXGroup;
 			children = (
-				9B80473A29B768010069B407 /* JellyMusic.app */,
+				9B80473A29B768010069B407 /* Medúsic.app */,
 			);
 			name = Products;
 			sourceTree = "<group>";
@@ -676,9 +676,9 @@
 /* End PBXGroup section */
 
 /* Begin PBXNativeTarget section */
-		9B80473929B768010069B407 /* JellyMusic (iOS) */ = {
+		9B80473929B768010069B407 /* Medúsic (iOS) */ = {
 			isa = PBXNativeTarget;
-			buildConfigurationList = 9B80474B29B768010069B407 /* Build configuration list for PBXNativeTarget "JellyMusic (iOS)" */;
+			buildConfigurationList = 9B80474B29B768010069B407 /* Build configuration list for PBXNativeTarget "Medúsic (iOS)" */;
 			buildPhases = (
 				9B1438DA29E33CA6004056B0 /* Run SwiftFormat */,
 				9B32F12529E2D73300CF8A69 /* Run SwiftLint */,
@@ -690,7 +690,7 @@
 			);
 			dependencies = (
 			);
-			name = "JellyMusic (iOS)";
+			name = "Medúsic (iOS)";
 			packageProductDependencies = (
 				9BB754D529B93F3C009BB3A6 /* JellyfinAPI */,
 				48C1F8BB29B9E5C9003BE048 /* Kingfisher */,
@@ -705,7 +705,7 @@
 				9B6386992BA4F5F8000D4EB6 /* ButtonKit */,
 			);
 			productName = "JellyMusic (iOS)";
-			productReference = 9B80473A29B768010069B407 /* JellyMusic.app */;
+			productReference = 9B80473A29B768010069B407 /* Medúsic.app */;
 			productType = "com.apple.product-type.application";
 		};
 /* End PBXNativeTarget section */
@@ -723,7 +723,7 @@
 					};
 				};
 			};
-			buildConfigurationList = 9B80473129B768000069B407 /* Build configuration list for PBXProject "JellyMusic" */;
+			buildConfigurationList = 9B80473129B768000069B407 /* Build configuration list for PBXProject "Medúsic" */;
 			compatibilityVersion = "Xcode 13.0";
 			developmentRegion = en;
 			hasScannedForEncodings = 0;
@@ -737,7 +737,6 @@
 				48C1F8BA29B9E5C9003BE048 /* XCRemoteSwiftPackageReference "Kingfisher" */,
 				48C1F8BD29B9E6D1003BE048 /* XCRemoteSwiftPackageReference "Boutique" */,
 				48C1F8CB29B9EE97003BE048 /* XCRemoteSwiftPackageReference "SFSafeSymbols" */,
-				9B3D44C229BE33850054C9E0 /* XCRemoteSwiftPackageReference "SwiftUIBackports" */,
 				9BB75EB229C4E640008CD65A /* XCRemoteSwiftPackageReference "Defaults" */,
 				9BB75EC129C5B1B8008CD65A /* XCRemoteSwiftPackageReference "DebouncedOnChange" */,
 				9BB75EC929C63AE6008CD65A /* XCRemoteSwiftPackageReference "SimpleKeychain" */,
@@ -750,7 +749,7 @@
 			projectDirPath = "";
 			projectRoot = "";
 			targets = (
-				9B80473929B768010069B407 /* JellyMusic (iOS) */,
+				9B80473929B768010069B407 /* Medúsic (iOS) */,
 			);
 		};
 /* End PBXProject section */
@@ -760,6 +759,7 @@
 			isa = PBXResourcesBuildPhase;
 			buildActionMask = 2147483647;
 			files = (
+				9B3060122BD6C33B003FBD74 /* PrivacyInfo.xcprivacy in Resources */,
 				9B1866EB2A8A051400034A10 /* PreviewData.xcassets in Resources */,
 				9B80474729B768010069B407 /* Assets.xcassets in Resources */,
 			);
@@ -835,7 +835,6 @@
 				9B3D44A229BCFD370054C9E0 /* MockSystemService.swift in Sources */,
 				9BF26D482A87C3A1006631E9 /* Errors.swift in Sources */,
 				9BF26D5D2A88C120006631E9 /* Song.swift in Sources */,
-				9B7D1CCD2BA5025800FF888F /* NavigationRouter.swift in Sources */,
 				9BB75EB029C4C5E1008CD65A /* Settings.swift in Sources */,
 				9B3D44C029BE09620054C9E0 /* SongsLibraryScreen.swift in Sources */,
 				9BA88EEF2A86516B00E61A61 /* DefaultArtistService.swift in Sources */,
@@ -1060,7 +1059,7 @@
 				ENABLE_PREVIEWS = YES;
 				GENERATE_INFOPLIST_FILE = YES;
 				INFOPLIST_FILE = Info.plist;
-				INFOPLIST_KEY_CFBundleDisplayName = JellyMusic;
+				INFOPLIST_KEY_CFBundleDisplayName = "Medúsic";
 				INFOPLIST_KEY_LSApplicationCategoryType = "public.app-category.music";
 				INFOPLIST_KEY_UIApplicationSceneManifest_Generation = YES;
 				INFOPLIST_KEY_UIApplicationSupportsIndirectInputEvents = YES;
@@ -1073,8 +1072,8 @@
 					"@executable_path/Frameworks",
 				);
 				MARKETING_VERSION = 1.0;
-				PRODUCT_BUNDLE_IDENTIFIER = org.lyarenei.Medusic;
-				PRODUCT_NAME = JellyMusic;
+				PRODUCT_BUNDLE_IDENTIFIER = dev.xkrivo.Medusic;
+				PRODUCT_NAME = "Medúsic";
 				SDKROOT = iphoneos;
 				SWIFT_EMIT_LOC_STRINGS = YES;
 				SWIFT_VERSION = 5.0;
@@ -1094,7 +1093,7 @@
 				ENABLE_PREVIEWS = YES;
 				GENERATE_INFOPLIST_FILE = YES;
 				INFOPLIST_FILE = Info.plist;
-				INFOPLIST_KEY_CFBundleDisplayName = JellyMusic;
+				INFOPLIST_KEY_CFBundleDisplayName = "Medúsic";
 				INFOPLIST_KEY_LSApplicationCategoryType = "public.app-category.music";
 				INFOPLIST_KEY_UIApplicationSceneManifest_Generation = YES;
 				INFOPLIST_KEY_UIApplicationSupportsIndirectInputEvents = YES;
@@ -1107,8 +1106,8 @@
 					"@executable_path/Frameworks",
 				);
 				MARKETING_VERSION = 1.0;
-				PRODUCT_BUNDLE_IDENTIFIER = org.lyarenei.Medusic;
-				PRODUCT_NAME = JellyMusic;
+				PRODUCT_BUNDLE_IDENTIFIER = dev.xkrivo.Medusic;
+				PRODUCT_NAME = "Medúsic";
 				SDKROOT = iphoneos;
 				SWIFT_EMIT_LOC_STRINGS = YES;
 				SWIFT_VERSION = 5.0;
@@ -1120,7 +1119,7 @@
 /* End XCBuildConfiguration section */
 
 /* Begin XCConfigurationList section */
-		9B80473129B768000069B407 /* Build configuration list for PBXProject "JellyMusic" */ = {
+		9B80473129B768000069B407 /* Build configuration list for PBXProject "Medúsic" */ = {
 			isa = XCConfigurationList;
 			buildConfigurations = (
 				9B80474929B768010069B407 /* Debug */,
@@ -1129,7 +1128,7 @@
 			defaultConfigurationIsVisible = 0;
 			defaultConfigurationName = Release;
 		};
-		9B80474B29B768010069B407 /* Build configuration list for PBXNativeTarget "JellyMusic (iOS)" */ = {
+		9B80474B29B768010069B407 /* Build configuration list for PBXNativeTarget "Medúsic (iOS)" */ = {
 			isa = XCConfigurationList;
 			buildConfigurations = (
 				9B80474C29B768010069B407 /* Debug */,
@@ -1176,14 +1175,6 @@
 		9B1866F12A8A858300034A10 /* XCRemoteSwiftPackageReference "Drops" */ = {
 			isa = XCRemoteSwiftPackageReference;
 			repositoryURL = "https://github.com/omaralbeik/Drops";
-			requirement = {
-				kind = upToNextMajorVersion;
-				minimumVersion = 1.0.0;
-			};
-		};
-		9B3D44C229BE33850054C9E0 /* XCRemoteSwiftPackageReference "SwiftUIBackports" */ = {
-			isa = XCRemoteSwiftPackageReference;
-			repositoryURL = "https://github.com/shaps80/SwiftUIBackports";
 			requirement = {
 				kind = upToNextMajorVersion;
 				minimumVersion = 1.0.0;
