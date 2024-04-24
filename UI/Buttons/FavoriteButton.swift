@@ -37,7 +37,11 @@ struct FavoriteButton: View {
                 vLayout(symbol, text)
             }
         }
-        .onAppear { isFavorite = item.isFavorite }
+        .sensoryFeedback(.success, trigger: isFavorite) { old, new in !old && new }
+        .sensoryFeedback(.impact, trigger: isFavorite) { old, new in old && !new }
+        .onAppear {
+            isFavorite = item.isFavorite
+        }
         .disabledWhenLoading()
     }
 

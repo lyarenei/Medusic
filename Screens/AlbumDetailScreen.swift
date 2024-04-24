@@ -1,3 +1,4 @@
+import ButtonKit
 import OSLog
 import SFSafeSymbols
 import SwiftUI
@@ -40,18 +41,17 @@ struct AlbumDetailScreen: View {
 
             runtime
 
-            Divider()
-                .padding(.leading)
-
             songs(albumSongs)
                 .padding(.bottom, 15)
 
-            AlbumPreviewCollection(
-                for: previewAlbums,
-                titleText: "More by \(album.artistName)",
-                emptyText: "No albums"
-            )
-            .stackType(.horizontal)
+            if previewAlbums.isNotEmpty {
+                AlbumPreviewCollection(
+                    for: previewAlbums,
+                    titleText: "More by \(album.artistName)",
+                    emptyText: "No albums"
+                )
+                .stackType(.horizontal)
+            }
         }
     }
 
@@ -86,19 +86,23 @@ struct AlbumDetailScreen: View {
                         .foregroundColor(.accentColor)
                 )
 
-            Button {
-                // Album shuffle play action
+            AsyncButton {
+                let songs = library.getSongs(for: album)
+                do {
+                    try await player.play(songs: songs.shuffled())
+                } catch {
+                    Logger.library.warning("Failed to start playback: \(error.localizedDescription)")
+                    Alerts.error("Failed to start playback")
+                }
             } label: {
-                Image(systemSymbol: .shuffle)
-                Text("Shuffle")
+                Label("Shuffle", systemSymbol: .shuffle)
             }
             .frame(width: 120, height: 45)
             .overlay(
                 RoundedRectangle(cornerRadius: 10)
                     .stroke(style: StrokeStyle(lineWidth: 1.0))
-                    .foregroundColor(.lightGray)
+                    .foregroundColor(.accentColor)
             )
-            .disabled(true)
         }
     }
 
@@ -106,9 +110,14 @@ struct AlbumDetailScreen: View {
     private var runtime: some View {
         let songCount = library.getSongs(for: album).count
         let runtime = library.getRuntime(for: album)
-        Text("\(songCount) songs, \(runtime.minutes) minutes")
-            .foregroundColor(.gray)
-            .font(.system(size: 16))
+
+        if songCount > 0 {
+            Text("\(songCount) songs, \(runtime.minutes) minutes")
+                .foregroundColor(.gray)
+                .font(.system(size: 16))
+        } else {
+            EmptyView()
+        }
     }
 
     @ViewBuilder
@@ -140,6 +149,9 @@ struct AlbumDetailScreen: View {
                 }
             }
         } else {
+            Divider()
+                .padding(.leading)
+
             songCollection(
                 songs: songs.sorted(by: .index),
                 showLastDivider: true
