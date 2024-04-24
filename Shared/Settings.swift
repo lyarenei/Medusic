@@ -17,6 +17,7 @@ extension Defaults.Keys {
     static let libraryShowRecentlyAdded = Key<Bool>("libraryShowRecentlyAdded", default: true)
     static let maxPreviewItems = Key<Int>("maxPreviewItems", default: 10)
     static let appColorScheme = Key<AppColorScheme>("appColorScheme", default: .system)
+    static let playerShowVolumeSlider = Key<Bool>("playerShowVolumeSlider", default: true)
 
     // App settings
     static let offlineMode = Key<Bool>("offlineMode", default: false)
