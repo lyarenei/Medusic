@@ -81,6 +81,7 @@
 		9BA88EEF2A86516B00E61A61 /* DefaultArtistService.swift in Sources */ = {isa = PBXBuildFile; fileRef = 9BA88EEE2A86516B00E61A61 /* DefaultArtistService.swift */; };
 		9BA88EF12A86531E00E61A61 /* MockArtistService.swift in Sources */ = {isa = PBXBuildFile; fileRef = 9BA88EF02A86531E00E61A61 /* MockArtistService.swift */; };
 		9BA8B0C52A0F842500F6AF41 /* AlbumPreviewCollection.swift in Sources */ = {isa = PBXBuildFile; fileRef = 9BA8B0C42A0F842500F6AF41 /* AlbumPreviewCollection.swift */; };
+		9BAB43C02BC74BE20066BED5 /* ItemPreviewCollection.swift in Sources */ = {isa = PBXBuildFile; fileRef = 9BAB43BF2BC74BE20066BED5 /* ItemPreviewCollection.swift */; };
 		9BAB43AF2BC183EF0066BED5 /* MusicPlayer.swift in Sources */ = {isa = PBXBuildFile; fileRef = 9BAB43AE2BC183EF0066BED5 /* MusicPlayer.swift */; };
 		9BAB43B32BC186300066BED5 /* MusicPlayer+CommandCenter.swift in Sources */ = {isa = PBXBuildFile; fileRef = 9BAB43B22BC186300066BED5 /* MusicPlayer+CommandCenter.swift */; };
 		9BAB43B72BC192ED0066BED5 /* MusicPlayer+NowPlaying.swift in Sources */ = {isa = PBXBuildFile; fileRef = 9BAB43B62BC192ED0066BED5 /* MusicPlayer+NowPlaying.swift */; };
@@ -200,6 +201,7 @@
 		9BA88EEE2A86516B00E61A61 /* DefaultArtistService.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = DefaultArtistService.swift; sourceTree = "<group>"; };
 		9BA88EF02A86531E00E61A61 /* MockArtistService.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = MockArtistService.swift; sourceTree = "<group>"; };
 		9BA8B0C42A0F842500F6AF41 /* AlbumPreviewCollection.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = AlbumPreviewCollection.swift; sourceTree = "<group>"; };
+		9BAB43BF2BC74BE20066BED5 /* ItemPreviewCollection.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = ItemPreviewCollection.swift; sourceTree = "<group>"; };
 		9BAB43AE2BC183EF0066BED5 /* MusicPlayer.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = MusicPlayer.swift; sourceTree = "<group>"; };
 		9BAB43B22BC186300066BED5 /* MusicPlayer+CommandCenter.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = "MusicPlayer+CommandCenter.swift"; sourceTree = "<group>"; };
 		9BAB43B62BC192ED0066BED5 /* MusicPlayer+NowPlaying.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = "MusicPlayer+NowPlaying.swift"; sourceTree = "<group>"; };
@@ -576,6 +578,7 @@
 				9BEFA1C529C72A65004A07FB /* AlbumCollection.swift */,
 				9B52AF7629D0B106002E21B9 /* SongCollection.swift */,
 				9BA8B0C42A0F842500F6AF41 /* AlbumPreviewCollection.swift */,
+				9BAB43BF2BC74BE20066BED5 /* ItemPreviewCollection.swift */,
 			);
 			path = Collections;
 			sourceTree = "<group>";
@@ -813,6 +816,7 @@
 				9B3C7BE629D04F5800884597 /* InProgressComponent.swift in Sources */,
 				9B1866F52A8AC6E500034A10 /* Alerts.swift in Sources */,
 				9B73ECF929C8F085007F74DB /* MusicPlayerScreen.swift in Sources */,
+				9BAB43C02BC74BE20066BED5 /* ItemPreviewCollection.swift in Sources */,
 				9BDB099029BB1E73007F99E4 /* DefaultSongService.swift in Sources */,
 				9B1EF3AF29E151F400C2A33B /* RefreshButton.swift in Sources */,
 				9B289E9C29F6E6DF007FD445 /* ScrollViewExtensions.swift in Sources */,

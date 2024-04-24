@@ -86,7 +86,6 @@ extension TileComponent {
 // swiftlint:disable all
 
 #Preview {
-    // swiftlint:disable:next force_unwrapping
     TileComponent(item: PreviewData.albums.first!)
         .setSize(UIConstants.tileSize)
         .tileSubTitle("Subtitle")

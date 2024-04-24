@@ -1,4 +1,6 @@
+import ButtonKit
 import Defaults
+import OSLog
 import SFSafeSymbols
 import SwiftUI
 
@@ -14,104 +16,157 @@ struct LibraryScreen: View {
 
     var body: some View {
         NavigationStack {
-            ScrollView {
-                content
-                    .frame(maxWidth: .infinity, maxHeight: .infinity, alignment: .top)
+            List {
+                navSection
+                    .font(.system(size: 20))
+
+                Group {
+                    if showFavoriteAlbums {
+                        favoriteAlbums
+                    }
+
+                    if showRecentlyAdded {
+                        recentlyAdded
+                    }
+                }
+                .listRowSeparator(.hidden)
+                .textCase(.none)
             }
+            .listStyle(.grouped)
             .navigationTitle("Library")
             .navigationBarTitleDisplayMode(.large)
+            .scrollContentBackground(.hidden)
             .toolbar {
-                ToolbarItem { RefreshButton(mode: .all) }
+                ToolbarItem { refreshButton }
             }
         }
     }
 
     @ViewBuilder
-    private var content: some View {
-        VStack(spacing: 15) {
-            mainNavigation
-                .padding(.leading)
-
-            favoriteAlbums
-            recentlyAddedAlbums
+    private var navSection: some View {
+        NavigationLink {} label: {
+            Label("Playlists", systemSymbol: .musicNoteList)
         }
-    }
+        .disabled(true)
 
-    @ViewBuilder
-    private var mainNavigation: some View {
-        VStack(spacing: 5) {
-            Divider()
-            navLink(for: "Playlists", to: EmptyView(), icon: .musicNoteList)
-                .disabled(true)
-
-            Divider()
-            navLink(for: "Artists", to: ArtistLibraryScreen(), icon: .musicMic)
-            Divider()
-            navLink(for: "Albums", to: AlbumLibraryScreen(albums: library.albums), icon: .squareStack)
-            Divider()
-            navLink(for: "Songs", to: SongsLibraryScreen(songs: library.songs), icon: .musicNote)
-            Divider()
+        NavigationLink {
+            ArtistLibraryScreen()
+        } label: {
+            Label("Artists", systemSymbol: .musicMic)
         }
-    }
 
-    @ViewBuilder
-    private func navLink(for name: String, to dst: some View, icon: SFSymbol) -> some View {
-        NavigationLink(destination: dst) {
-            HStack(spacing: 15) {
-                Image(systemSymbol: icon)
-                    .foregroundColor(.accentColor)
-                    .frame(minWidth: 25)
-
-                Text(name)
-                Spacer()
-                Image(systemSymbol: .chevronRight)
-                    .frame(width: 30, height: 30)
-                    .foregroundColor(.gray)
-                    .font(.system(size: 15))
-            }
-            .buttonStyle(.plain)
-            .padding(.trailing, 15)
+        NavigationLink {
+            AlbumLibraryScreen(albums: library.albums)
+        } label: {
+            Label("Albums", systemSymbol: .squareStack)
         }
-        .contentShape(Rectangle())
-        .font(.title2)
-        .padding(.vertical, 5)
+
+        NavigationLink {
+            SongsLibraryScreen(songs: library.songs)
+        } label: {
+            Label("Songs", systemSymbol: .musicNote)
+        }
     }
 
     @ViewBuilder
     private var favoriteAlbums: some View {
-        if showFavoriteAlbums {
-            AlbumPreviewCollection(
-                for: library.albums.favorite.sorted(by: .dateAdded).ordered(by: .descending),
-                titleText: "Favorite albums",
-                emptyText: "No albums"
-            )
-            .stackType(.horizontal)
+        ItemPreviewCollection("Favorite Albums", items: library.albums.filtered(by: .favorite)) { album in
+            NavigationLink {
+                AlbumDetailScreen(album: album)
+            } label: {
+                TileComponent(item: album)
+                    .tileSubTitle(album.artistName)
+                    .padding(.bottom)
+            }
+            .foregroundStyle(Color.primary)
+        } viewAll: { items in
+            albumEntries(items)
+                .navigationTitle("Favorite Albums")
+                .navigationBarTitleDisplayMode(.inline)
+                .listStyle(.plain)
+        } noItems: {
+            ContentUnavailableView("No favorites", systemImage: "star.slash")
         }
     }
 
     @ViewBuilder
-    private var recentlyAddedAlbums: some View {
-        if showRecentlyAdded {
-            AlbumPreviewCollection(
-                for: library.albums.sorted(by: .dateAdded).ordered(by: .descending),
-                titleText: "Recently added",
-                emptyText: "No albums"
-            )
-            .stackType(.horizontal)
+    private var recentlyAdded: some View {
+        ItemPreviewCollection("Recently added", items: library.albums) { album in
+            NavigationLink {
+                AlbumDetailScreen(album: album)
+            } label: {
+                TileComponent(item: album)
+                    .tileSubTitle(album.artistName)
+                    .padding(.bottom)
+            }
+            .foregroundStyle(Color.primary)
+        } viewAll: { items in
+            albumEntries(items)
+                .navigationTitle("Recently added")
+                .navigationBarTitleDisplayMode(.inline)
+                .listStyle(.plain)
+        } noItems: {
+            ContentUnavailableView("No recents", systemImage: "clock.badge.xmark")
+        }
+    }
+
+    @ViewBuilder
+    private func albumEntries(_ albums: [Album]) -> some View {
+        List(albums, id: \.id) { album in
+            NavigationLink {
+                AlbumDetailScreen(album: album)
+            } label: {
+                // TODO: use album list row
+                HStack {
+                    ArtworkComponent(for: album.id)
+                        .frame(width: 50, height: 50)
+
+                    VStack(alignment: .leading, spacing: 3) {
+                        Text(album.name)
+                            .font(.title2)
+
+                        Text(album.artistName)
+                            .font(.caption)
+                            .foregroundStyle(Color.gray)
+                    }
+
+                    Spacer()
+                }
+            }
+        }
+    }
+
+    @ViewBuilder
+    private var refreshButton: some View {
+        AsyncButton {
+            do {
+                try await library.refreshAll()
+            } catch {
+                Logger.library.warning("Library refresh failed: \(error.localizedDescription)")
+                Alerts.error("Refresh failed")
+            }
+
+        } label: {
+            Image(systemSymbol: .arrowClockwise)
+                .scaledToFit()
         }
     }
 }
 
 #if DEBUG
-struct LibraryScreen_Previews: PreviewProvider {
-    static var previews: some View {
-        LibraryScreen()
-            .previewDisplayName("Default")
-            .environmentObject(PreviewUtils.libraryRepo)
+// swiftlint:disable all
 
-        LibraryScreen()
-            .previewDisplayName("Empty library")
-            .environmentObject(PreviewUtils.libraryRepoEmpty)
-    }
+#Preview("Default") {
+    LibraryScreen()
+        .environmentObject(PreviewUtils.libraryRepo)
+        .environmentObject(ApiClient(previewEnabled: true))
 }
+
+#Preview("Empty") {
+    LibraryScreen()
+        .environmentObject(PreviewUtils.libraryRepoEmpty)
+        .environmentObject(ApiClient(previewEnabled: true))
+}
+
+// swiftlint:enable all
 #endif
