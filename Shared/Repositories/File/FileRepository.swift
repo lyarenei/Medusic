@@ -43,7 +43,7 @@ final class FileRepository: ObservableObject {
                 attributes: [.protectionKey: "none"]
             )
         } catch {
-            fatalError("Could not set up app cache: \(error.localizedDescription)")
+            fatalError("Could not set file repository: \(error.localizedDescription)")
         }
 
         startDownloading()
