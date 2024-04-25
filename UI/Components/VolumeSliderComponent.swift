@@ -46,9 +46,14 @@ private struct UIVolumeSlider: UIViewRepresentable {
     }
 
     func makeUIView(context: Context) -> SystemVolumeView {
+        let thumbImage = UIImage()
         var view = SystemVolumeView(frame: .zero)
         view.showsVolumeSlider = true
         view.showsRouteButton = false
+        view.setVolumeThumbImage(thumbImage, for: .normal)
+        view.setVolumeThumbImage(thumbImage, for: .selected)
+        view.setVolumeThumbImage(thumbImage, for: .focused)
+        view.setVolumeThumbImage(thumbImage, for: .highlighted)
         return view
     }
 
