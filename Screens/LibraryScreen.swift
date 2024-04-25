@@ -44,10 +44,11 @@ struct LibraryScreen: View {
 
     @ViewBuilder
     private var navSection: some View {
-        NavigationLink {} label: {
+        Button {
+            Alerts.info("Feature is not implemented")
+        } label: {
             Label("Playlists", systemSymbol: .musicNoteList)
         }
-        .disabled(true)
 
         NavigationLink {
             ArtistLibraryScreen()
