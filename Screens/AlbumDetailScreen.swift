@@ -289,6 +289,7 @@ private struct SongContextOptions: View {
     .environmentObject(PreviewUtils.libraryRepo)
     .environmentObject(ApiClient(previewEnabled: true))
     .environmentObject(PreviewUtils.player)
+    .environmentObject(PreviewUtils.fileRepo)
 }
 
 #Preview("Empty") {
@@ -297,6 +298,7 @@ private struct SongContextOptions: View {
         .environmentObject(PreviewUtils.libraryRepoEmpty)
         .environmentObject(ApiClient(previewEnabled: true))
         .environmentObject(PreviewUtils.player)
+        .environmentObject(PreviewUtils.fileRepo)
 }
 
 // swiftlint:enable all
