@@ -30,7 +30,6 @@ struct JellyMusicApp: App {
                 .task { await authorizeClient() }
                 .environmentObject(MusicPlayer.shared)
                 .environmentObject(ApiClient.shared)
-                .environmentObject(SongRepository(store: .songs))
                 .environmentObject(ApiClient.shared)
                 .environmentObject(LibraryRepository.shared)
                 .environmentObject(FileRepository.shared)
