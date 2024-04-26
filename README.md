@@ -1,25 +1,28 @@
 <div align=center>
-  <img src='resources/appIcon.jpeg' alt='JellyMusic icon' width=128 height=128 />
+  <img src='resources/appIcon.jpeg' alt='Medusic icon' width=128 height=128 />
   <div align=center>
-    <h1>JellyMusic</h1>
+    <h1>Medúsic</h1>
     <p>A native iOS Jellyfin client for music playback</p>
   </div>
 </div>
 
 ## About
 
-JellyMusic is a native iOS client for music playback, written in Swift and SwiftUI with the aim to provide a clean and native-looking interface which fits right into the iOS design. The UI layout is directly based on the Apple Music app.
+Medúsic is a native Jellyfin iOS client for music playback. The project aims to implement a Jellyfin music client using native technologies on Apple platforms (Swift and SwiftUI) so that the look and feel fits right into the iOS/Apple design. The UI design and layout in general follows the Apple Music UI, but with some changes to accomodate simplicity and customizability.
 
 ## Features
 
-The app currently offers pretty basic functions, with the most notable being:
+The app has currently implemented these features:
 
-- Online and offline playback
-- Gapless playback[^1]
-- Playback reporting
-- UI customization
-- Customizable bitrate to save data
-- Persistent playback queue
+- Playback (currently online only), including gapless[^1] playback
+- Playback reporting to Jellyfin server
+- Customizable streaming bitrate
+- Light/Dark color scheme
+- Favoriting artists/albums/songs
+
+... and hopefully some more will be added over time.
+
+For a list of planned features, check the repository issues with `enhancement` or `documentation` label(s).
 
 [^1]: Requires properly encoded files for lossy formats - learn more [here](https://en.wikipedia.org/wiki/Gapless_playback#Format_support)
 
@@ -27,10 +30,11 @@ The app currently offers pretty basic functions, with the most notable being:
 
 1. Clone the repository
 2. Open project in Xcode
-3. You should be done; the project uses SPM for dependencies, Xcode should automatically install them
+3. Wait for xcode to restore dependencies
+4. Change development team to yours
+
+And that should be it. You should be now able to compile the app and run it in simulator or on your phone.
 
 ## Releases
 
-There are no releases right now as the app is still pretty basic and still missing a lot of stuff to make it usable for others. Still, if you want to check it out, you can sideload it from Xcode.
-
-Once the app will be in a somewhat presentable shape, I'll provide IPAs here and consider setting up TestFlight.
+For now, the only way is to compile it yourself and sideload from Xcode. Once I'm comfortable with the app state, I'll set up a TestFlight and maybe provide IPAs here.
