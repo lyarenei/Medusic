@@ -119,12 +119,6 @@ actor LibraryRepository: ObservableObject {
         try await $albums.insert(album)
     }
 
-    /// Get songs for a specified album. Songs are automatically sorted in the correct order.
-    @MainActor
-    func getSongs(for album: Album) -> [Song] {
-        songs.filtered(by: .albumId(album.id)).sorted(by: .index).sorted(by: .albumDisc)
-    }
-
     /// Get album disc count.
     @MainActor
     func getDiscCount(for album: Album) -> Int {
