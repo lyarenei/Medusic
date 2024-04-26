@@ -21,7 +21,7 @@ struct DownloadButton<Item: JellyfinItem>: View {
     private var item: Item
     private var textDownload: String?
     private var textRemove: String?
-    private var layout: ButtonLayout = .horizontal
+    private var hideText = false
     private var downloader: Downloader
 
     init(
@@ -72,12 +72,7 @@ struct DownloadButton<Item: JellyfinItem>: View {
                 ProgressView()
                     .scaledToFit()
             } else {
-                switch layout {
-                case .horizontal:
-                    hLayout()
-                case .vertical:
-                    vLayout()
-                }
+                label
             }
         }
     }
@@ -89,25 +84,14 @@ struct DownloadButton<Item: JellyfinItem>: View {
     }
 
     @ViewBuilder
-    private func hLayout() -> some View {
-        HStack {
-            icon
-            buttonText(isDownloaded ? textRemove : textDownload)
-        }
-    }
-
-    @ViewBuilder
-    private func vLayout() -> some View {
-        VStack {
-            icon
-            buttonText(isDownloaded ? textRemove : textDownload)
-        }
-    }
-
-    @ViewBuilder
-    private func buttonText(_ text: String?) -> some View {
-        if let text {
-            Text(text)
+    private var label: some View {
+        let text = isDownloaded ? textRemove : textDownload
+        if hideText {
+            Label(text ?? .empty) { icon }
+                .labelStyle(.iconOnly)
+        } else {
+            Label(text ?? .empty) { icon }
+                .labelStyle(.titleAndIcon)
         }
     }
 
@@ -179,9 +163,9 @@ struct DownloadButton<Item: JellyfinItem>: View {
 }
 
 extension DownloadButton {
-    func setLayout(_ layout: ButtonLayout) -> DownloadButton {
+    func hideText(_ value: Bool = true) -> DownloadButton {
         var view = self
-        view.layout = layout
+        view.hideText = value
         return view
     }
 }
@@ -191,22 +175,14 @@ extension DownloadButton {
 
 #Preview("Icon only") {
     DownloadButton(item: PreviewData.albums.first!)
+        .hideText()
         .font(.title)
         .environmentObject(PreviewUtils.libraryRepo)
         .environmentObject(PreviewUtils.fileRepo)
 }
 
-#Preview("Horizontal") {
+#Preview("Text + icon") {
     DownloadButton(item: PreviewData.albums.first!, textDownload: "Download", textRemove: "Remove")
-        .setLayout(.horizontal)
-        .font(.title)
-        .environmentObject(PreviewUtils.libraryRepo)
-        .environmentObject(PreviewUtils.fileRepo)
-}
-
-#Preview("Vertical") {
-    DownloadButton(item: PreviewData.albums.first!, textDownload: "Download", textRemove: "Remove")
-        .setLayout(.vertical)
         .font(.title)
         .environmentObject(PreviewUtils.libraryRepo)
         .environmentObject(PreviewUtils.fileRepo)
