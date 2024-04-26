@@ -70,7 +70,12 @@ final class FileRepository: ObservableObject {
 
     func numberOfDownloadedFiles() -> Int {
         let enumerator = FileManager.default.enumerator(at: cacheDirectory, includingPropertiesForKeys: nil)
-        return enumerator?.allObjects.count ?? 0
+        if let count = enumerator?.allObjects.count {
+            return count
+        }
+
+        logger.warning("Failed to get number of files in download cache - provided value is nil")
+        return 0
     }
 
     func downloadedFilesSizeInMB() throws -> Double {
