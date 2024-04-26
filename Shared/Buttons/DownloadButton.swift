@@ -75,6 +75,7 @@ struct DownloadButton<Item: JellyfinItem>: View {
                 label
             }
         }
+        .disabled(inProgress)
     }
 
     @ViewBuilder
