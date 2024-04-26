@@ -1,11 +1,11 @@
 import Defaults
 import SwiftUI
 
-struct PrimaryActionButton: View {
+struct PrimaryActionButton<Item: JellyfinItem>: View {
     @Default(.primaryAction)
     private var primaryAction: PrimaryAction
 
-    let item: any JellyfinItem
+    let item: Item
 
     var body: some View {
         switch primaryAction {
@@ -19,10 +19,10 @@ struct PrimaryActionButton: View {
 
 #if DEBUG
 // swiftlint:disable all
-struct PrimaryActionButton_Previews: PreviewProvider {
-    static var previews: some View {
-        PrimaryActionButton(item: PreviewData.songs.first!)
-    }
+
+#Preview {
+    PrimaryActionButton(item: PreviewData.songs.first!)
 }
+
 // swiftlint:enable all
 #endif

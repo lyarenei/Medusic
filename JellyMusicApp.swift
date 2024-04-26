@@ -33,6 +33,7 @@ struct JellyMusicApp: App {
                 .environmentObject(SongRepository(store: .songs))
                 .environmentObject(ApiClient.shared)
                 .environmentObject(LibraryRepository.shared)
+                .environmentObject(FileRepository.shared)
         }
     }
 

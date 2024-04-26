@@ -55,19 +55,13 @@ struct AdvancedSettings: View {
 }
 
 #if DEBUG
-struct AdvancedSettingsScreen_Previews: PreviewProvider {
-    static var fileRepo: FileRepository = .init(
-        downloadedSongsStore: .previewStore(items: PreviewData.songs, cacheIdentifier: \.id),
-        downloadQueueStore: .previewStore(items: [], cacheIdentifier: \.id),
-        apiClient: .init(previewEnabled: true)
-    )
 
-    static var previews: some View {
-        AdvancedSettings()
-            .environmentObject(fileRepo)
-            .environmentObject(PreviewUtils.libraryRepo)
-    }
+#Preview {
+    AdvancedSettings()
+        .environmentObject(PreviewUtils.fileRepo)
+        .environmentObject(PreviewUtils.libraryRepo)
 }
+
 #endif
 
 private struct MaxCacheSize: View {
@@ -83,7 +77,7 @@ private struct MaxCacheSize: View {
             inputNumber: $maxCacheSize,
             formatter: getFormatter()
         )
-        .onChange(of: maxCacheSize, debounceTime: 5) { newValue in
+        .onChange(of: maxCacheSize, debounceTime: Duration.seconds(5)) { newValue in
             fileRepo.setCacheSizeLimit(newValue)
         }
     }

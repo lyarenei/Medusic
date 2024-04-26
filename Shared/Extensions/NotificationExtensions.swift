@@ -1,5 +1,6 @@
 import Foundation
 
 extension Notification.Name {
-    static let PasswordChanged = Self("org.lyarenei.JellyMusic.PasswordChanged")
+    static let SongFileDownloaded = Self("org.lyarenei.Medusic.SongFileDownloaded")
+    static let SongFileDeleted = Self("org.lyarenei.Medusic.SongFileDeleted")
 }

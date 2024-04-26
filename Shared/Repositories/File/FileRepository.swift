@@ -10,24 +10,19 @@ final class FileRepository: ObservableObject {
     @Stored
     var downloadedSongs: [Song]
 
-    @Stored
-    var downloadQueue: [Song]
+    private var cacheDirectory: URL
+    private let apiClient: ApiClient
+    private let logger = Logger.repository
 
-    var cacheDirectory: URL
     var cacheSizeLimit: UInt64
-
-    let apiClient: ApiClient
-    var downloadTask: Task<Void, Never>?
 
     init(
         downloadedSongsStore: Store<Song> = .downloadedSongs,
-        downloadQueueStore: Store<Song> = .downloadQueue,
         apiClient: ApiClient = .shared
     ) {
         self._downloadedSongs = Stored(in: downloadedSongsStore)
-        self._downloadQueue = Stored(in: downloadQueueStore)
-        self.cacheSizeLimit = Defaults[.maxCacheSize] * 1024 * 1024
         self.apiClient = apiClient
+        self.cacheSizeLimit = Defaults[.maxCacheSize] * 1024 * 1024
         do {
             let cacheUrl = try FileManager.default.url(
                 for: .applicationSupportDirectory,
@@ -45,79 +40,59 @@ final class FileRepository: ObservableObject {
         } catch {
             fatalError("Could not set file repository: \(error.localizedDescription)")
         }
-
-        startDownloading()
     }
 
-    /// Enqueue song for download.
-    func enqueueToDownload(song: Song, startDownload: Bool = true) async throws {
-        try await enqueue(song)
-        if startDownload {
-            startDownloading()
-        }
+    /// Generate a file URL for a specified song and file extension.
+    func generateURL(for song: Song, with ext: String) -> URL {
+        cacheDirectory.appendingPathComponent(song.id).appendingPathExtension(ext)
     }
 
-    /// Enqueue multiple songs for download.
-    func enqueueToDownload(songs: [Song], startDownload: Bool = true) async throws {
-        for song in songs {
-            try await enqueue(song)
-        }
+    func getCacheSize() throws -> UInt64 {
+        var totalSize: UInt64 = 0
+        let enumerator = FileManager.default.enumerator(
+            at: cacheDirectory,
+            includingPropertiesForKeys: [.fileSizeKey],
+            options: []
+        )
 
-        if startDownload {
-            startDownloading()
-        }
-    }
-
-    /// Start downloading songs in queue.
-    func startDownloading() {
-        guard downloadTask == nil else { return }
-        downloadTask = Task {
+        while let fileURL = enumerator?.nextObject() as? URL {
             do {
-                try await downloadNextSong()
+                let fileAttributes = try fileURL.resourceValues(forKeys: [.fileSizeKey])
+                totalSize += UInt64(fileAttributes.fileSize ?? 0)
             } catch {
-                Logger.repository.debug("Download failed: \(error.localizedDescription)")
+                logger.debug("Failed to calculate file size: \(error.localizedDescription)")
+                throw error
             }
         }
+
+        return totalSize
     }
 
-    private func downloadNextSong() async throws {
-        // swiftlint:disable:next sorted_first_last
-        if let nextSong = await $downloadQueue.items.sorted(by: .album).first {
-            do {
-                try await downloadSong(nextSong)
-            } catch {
-                Logger.repository.debug("Song download failed: \(error.localizedDescription)")
-                try await downloadNextSong()
-                return
-            }
-
-            try await dequeue(nextSong)
-            try await $downloadedSongs.insert(nextSong)
-            try await downloadNextSong()
-        } else {
-            downloadTask?.cancel()
-            downloadTask = nil
-        }
+    func numberOfDownloadedFiles() -> Int {
+        let enumerator = FileManager.default.enumerator(at: cacheDirectory, includingPropertiesForKeys: nil)
+        return enumerator?.allObjects.count ?? 0
     }
 
-    private func downloadSong(_ song: Song) async throws {
-        let currentSize = try downloadedFilesSize()
-        guard currentSize + song.size <= cacheSizeLimit else {
-            Logger.repository.info("Download for song \(song.id) cancelled: cache size limit reached")
-            throw FileRepositoryError.cacheSizeLimitExceeded
-        }
+    func downloadedFilesSizeInMB() throws -> Double {
+        let totalSizeInBytes = try getCacheSize()
+        return Double(totalSizeInBytes) / 1024.0 / 1024.0
+    }
 
-        let fileExtension = getFileExtension(for: song)
-        let outputFileURL = cacheDirectory.appendingPathComponent(song.id).appendingPathExtension(fileExtension)
-        Logger.repository.debug("Starting download for song \(song.id)")
-        await reportCurrentDownloadQueue()
-        let bitrate = getDownloadPreferredBitrate(for: song)
-        try await apiClient.services.mediaService.downloadItem(
-            id: song.id,
-            destination: outputFileURL,
-            bitrate: bitrate != nil ? bitrate ?? 0 : nil
+    func setCacheSizeLimit(_ sizeInMB: UInt64) {
+        logger.debug("Setting cache limit to \(sizeInMB) MB")
+        cacheSizeLimit = sizeInMB * 1024 * 1024
+    }
+
+    @MainActor
+    private func emitSongDeletedNotification(for song: Song) {
+        NotificationCenter.default.post(
+            name: .SongFileDeleted,
+            object: nil,
+            userInfo: ["song": song]
         )
     }
+
+    // MARK: - Old stuff
 
     func getLocalOrRemoteUrl(for song: Song) -> URL? {
         guard let fileUrl = getLocalFileUrl(for: song) else {
@@ -132,68 +107,32 @@ final class FileRepository: ObservableObject {
     }
 
     /// Get a file URL for a song.
-    /// Should be used only for downloading.
-    /// Use `getLocalFileUrl()` for a lookup.
-    func fileURL(for song: Song) -> URL? {
-        let fileExtension = getFileExtension(for: song)
-        let fileURL = cacheDirectory.appendingPathComponent(song.id).appendingPathExtension(fileExtension)
-        return FileManager.default.fileExists(atPath: fileURL.path) ? fileURL : nil
-    }
-
-    /// Get a file URL for a song.
-    /// Should be used only for lookups as we can't determine the file extension due to the nature settings and already downloaded files.
-    /// Use `fileUrl()` for downloading.
+    /// Should be used only for lookups as we can't determine the file extension due to the nature of settings and already downloaded files.
     func getLocalFileUrl(for song: Song) -> URL? {
         do {
             let fileURLs = try FileManager.default.contentsOfDirectory(at: cacheDirectory, includingPropertiesForKeys: nil, options: [])
             return fileURLs.first { $0.absoluteString.contains(song.id) }
         } catch {
-            Logger.repository.warning("Could not obtain cache directory contents: \(error.localizedDescription)")
+            logger.warning("Could not obtain cache directory contents: \(error.localizedDescription)")
             return nil
         }
     }
 
     func fileExists(for song: Song) -> Bool {
-        fileURL(for: song) != nil
-    }
-
-    func numberOfDownloadedFiles() -> Int {
-        let enumerator = FileManager.default.enumerator(at: cacheDirectory, includingPropertiesForKeys: nil)
-        return enumerator?.allObjects.count ?? 0
-    }
-
-    func downloadedFilesSizeInMB() throws -> Double {
-        let totalSizeInBytes = try downloadedFilesSize()
-        return Double(totalSizeInBytes) / 1024.0 / 1024.0
-    }
-
-    private func downloadedFilesSize() throws -> UInt64 {
-        var totalSize: UInt64 = 0
-        let enumerator = FileManager.default.enumerator(
-            at: cacheDirectory,
-            includingPropertiesForKeys: [.fileSizeKey],
-            options: []
-        )
-
-        while let fileURL = enumerator?.nextObject() as? URL {
-            do {
-                let fileAttributes = try fileURL.resourceValues(forKeys: [.fileSizeKey])
-                totalSize += UInt64(fileAttributes.fileSize ?? 0)
-            } catch {
-                Logger.repository.debug("Failed to calculate file size: \(error.localizedDescription)")
-                throw error
-            }
-        }
-
-        return totalSize
+        getLocalFileUrl(for: song) != nil
     }
 
     func removeFile(for song: Song) async throws {
-        let fileURL = cacheDirectory.appendingPathComponent(song.id)
-        Logger.repository.debug("Removing file for song \(song.id)")
+        guard let fileURL = getLocalFileUrl(for: song) else {
+            logger.warning("File for song \(song.id) does not exist")
+            return
+        }
+
+        logger.debug("Removing file for song \(song.id)")
         try FileManager.default.removeItem(at: fileURL)
         try await $downloadedSongs.remove(song)
-        Logger.repository.debug("File for song \(song.id) has been removed")
+        logger.debug("File for song \(song.id) has been removed")
+        await emitSongDeletedNotification(for: song)
     }
 
     func removeFiles(for songs: [Song]) async throws {
@@ -203,55 +142,17 @@ final class FileRepository: ObservableObject {
     }
 
     func removeAllFiles() async throws {
-        Logger.repository.debug("Will remove all files in file repository")
+        logger.debug("Will remove all files in file repository")
         let fileURLs = try FileManager.default.contentsOfDirectory(at: cacheDirectory, includingPropertiesForKeys: nil, options: [])
         for fileURL in fileURLs {
-            Logger.repository.debug("Removing file \(fileURL.debugDescription)")
+            logger.debug("Removing file \(fileURL.debugDescription)")
             try FileManager.default.removeItem(at: fileURL)
         }
 
         try await $downloadedSongs.removeAll()
     }
 
-    func setCacheSizeLimit(_ sizeInMB: UInt64) {
-        Logger.repository.debug("Setting cache limit to \(sizeInMB) MB")
-        cacheSizeLimit = sizeInMB * 1024 * 1024
-    }
-
-    func checkCacheSizeLimit() throws {
-        let currentSize = try downloadedFilesSize()
-        if currentSize > cacheSizeLimit {
-            throw FileRepositoryError.cacheSizeLimitExceeded
-        }
-    }
-
     // MARK: - Internal
-
-    private func enqueue(_ song: Song) async throws {
-        try await $downloadQueue.insert(song)
-        Logger.repository.debug("Added song \(song.id) to download queue")
-        await reportCurrentDownloadQueue()
-    }
-
-    private func dequeue(_ song: Song) async throws {
-        try await $downloadQueue.remove(song)
-        Logger.repository.debug("Song \(song.id) has been removed from download queue")
-        await reportCurrentDownloadQueue()
-    }
-
-    private func reportCurrentDownloadQueue() async {
-        let queueSize = await $downloadQueue.items.count
-        Logger.repository.debug("Current queue size: \(queueSize)")
-    }
-
-    private func getFileExtension(for song: Song) -> String {
-        if song.isNativelySupported {
-            return song.fileExtension
-        }
-
-        Logger.repository.debug("File extension \(song.fileExtension) is not supported, falling back to \(AppDefaults.fallbackCodec)")
-        return AppDefaults.fallbackCodec
-    }
 
     private func getStreamPreferredBitrate(for song: Song) -> Int? {
         let bitrateSetting = Defaults[.streamBitrate]
@@ -260,19 +161,5 @@ final class FileRepository: ObservableObject {
         }
 
         return bitrateSetting < 0 ? AppDefaults.fallbackBitrate : bitrateSetting
-    }
-
-    private func getDownloadPreferredBitrate(for song: Song) -> Int? {
-        let bitrateSetting = Defaults[.downloadBitrate]
-        if song.isNativelySupported {
-            return bitrateSetting < 0 ? nil : bitrateSetting
-        }
-
-        return bitrateSetting < 0 ? AppDefaults.fallbackBitrate : bitrateSetting
-    }
-
-    enum FileRepositoryError: Error {
-        case cacheDirectoryIsNil
-        case cacheSizeLimitExceeded
     }
 }
