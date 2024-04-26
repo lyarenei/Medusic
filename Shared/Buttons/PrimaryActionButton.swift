@@ -22,6 +22,7 @@ struct PrimaryActionButton<Item: JellyfinItem>: View {
 
 #Preview {
     PrimaryActionButton(item: PreviewData.songs.first!)
+        .environmentObject(PreviewUtils.fileRepo)
 }
 
 // swiftlint:enable all
