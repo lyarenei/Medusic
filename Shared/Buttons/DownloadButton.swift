@@ -28,7 +28,6 @@ struct DownloadButton<Item: JellyfinItem>: View {
         item: Item,
         textDownload: String? = nil,
         textRemove: String? = nil,
-        songRepo: SongRepository = .shared,
         fileRepo: FileRepository = .shared,
         downloader: Downloader = .shared
     ) {
@@ -191,33 +190,26 @@ extension DownloadButton {
 // swiftlint:disable all
 
 #Preview("Icon only") {
-    DownloadButton(
-        item: PreviewData.albums.first!,
-        songRepo: .init(store: .previewStore(items: PreviewData.songs, cacheIdentifier: \.id))
-    )
-    .font(.title)
+    DownloadButton(item: PreviewData.albums.first!)
+        .font(.title)
+        .environmentObject(PreviewUtils.libraryRepo)
+        .environmentObject(PreviewUtils.fileRepo)
 }
 
 #Preview("Horizontal") {
-    DownloadButton(
-        item: PreviewData.albums.first!,
-        textDownload: "Download",
-        textRemove: "Remove",
-        songRepo: .init(store: .previewStore(items: PreviewData.songs, cacheIdentifier: \.id))
-    )
-    .setLayout(.horizontal)
-    .font(.title)
+    DownloadButton(item: PreviewData.albums.first!, textDownload: "Download", textRemove: "Remove")
+        .setLayout(.horizontal)
+        .font(.title)
+        .environmentObject(PreviewUtils.libraryRepo)
+        .environmentObject(PreviewUtils.fileRepo)
 }
 
 #Preview("Vertical") {
-    DownloadButton(
-        item: PreviewData.albums.first!,
-        textDownload: "Download",
-        textRemove: "Remove",
-        songRepo: .init(store: .previewStore(items: PreviewData.songs, cacheIdentifier: \.id))
-    )
-    .setLayout(.vertical)
-    .font(.title)
+    DownloadButton(item: PreviewData.albums.first!, textDownload: "Download", textRemove: "Remove")
+        .setLayout(.vertical)
+        .font(.title)
+        .environmentObject(PreviewUtils.libraryRepo)
+        .environmentObject(PreviewUtils.fileRepo)
 }
 
 // swiftlint:enable all
