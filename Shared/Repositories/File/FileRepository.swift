@@ -60,7 +60,7 @@ final class FileRepository: ObservableObject {
                 let fileAttributes = try fileURL.resourceValues(forKeys: [.fileSizeKey])
                 totalSize += UInt64(fileAttributes.fileSize ?? 0)
             } catch {
-                logger.debug("Failed to calculate file size: \(error.localizedDescription)")
+                logger.warning("Failed to calculate file size: \(error.localizedDescription)")
                 throw error
             }
         }
