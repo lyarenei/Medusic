@@ -322,14 +322,6 @@
 			path = Assets;
 			sourceTree = "<group>";
 		};
-		9B27F08A2BD70FE7009B79C5 /* File */ = {
-			isa = PBXGroup;
-			children = (
-				9B52AF9329D339B1002E21B9 /* FileRepository.swift */,
-			);
-			path = File;
-			sourceTree = "<group>";
-		};
 		9B3D449A29BCF8730054C9E0 /* SystemService */ = {
 			isa = PBXGroup;
 			children = (
@@ -551,7 +543,7 @@
 		9BB75EC429C5FF39008CD65A /* Repositories */ = {
 			isa = PBXGroup;
 			children = (
-				9B27F08A2BD70FE7009B79C5 /* File */,
+				9B52AF9329D339B1002E21B9 /* FileRepository.swift */,
 				9B3B457A2A52160500E80390 /* PersistenceRepository.swift */,
 			);
 			path = Repositories;
