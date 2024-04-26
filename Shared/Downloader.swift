@@ -127,11 +127,11 @@ final class Downloader: ObservableObject {
 
     /// Get a target bitrate of a downloaded song.
     private func getDownloadBitrate(for song: Song) -> Int? {
-        guard Defaults[.downloadBitrate] == -1 else {
-            return Defaults[.downloadBitrate]
+        if Defaults[.downloadBitrate] == -1 {
+            return song.isNativelySupported ? nil : AppDefaults.fallbackBitrate
         }
 
-        return song.isNativelySupported ? nil : AppDefaults.fallbackBitrate
+        return Defaults[.downloadBitrate]
     }
 }
 
