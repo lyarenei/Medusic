@@ -81,13 +81,13 @@
 		9BA88EEF2A86516B00E61A61 /* DefaultArtistService.swift in Sources */ = {isa = PBXBuildFile; fileRef = 9BA88EEE2A86516B00E61A61 /* DefaultArtistService.swift */; };
 		9BA88EF12A86531E00E61A61 /* MockArtistService.swift in Sources */ = {isa = PBXBuildFile; fileRef = 9BA88EF02A86531E00E61A61 /* MockArtistService.swift */; };
 		9BA8B0C52A0F842500F6AF41 /* AlbumPreviewCollection.swift in Sources */ = {isa = PBXBuildFile; fileRef = 9BA8B0C42A0F842500F6AF41 /* AlbumPreviewCollection.swift */; };
-		9BAB43C02BC74BE20066BED5 /* ItemPreviewCollection.swift in Sources */ = {isa = PBXBuildFile; fileRef = 9BAB43BF2BC74BE20066BED5 /* ItemPreviewCollection.swift */; };
 		9BAB43AF2BC183EF0066BED5 /* MusicPlayer.swift in Sources */ = {isa = PBXBuildFile; fileRef = 9BAB43AE2BC183EF0066BED5 /* MusicPlayer.swift */; };
 		9BAB43B32BC186300066BED5 /* MusicPlayer+CommandCenter.swift in Sources */ = {isa = PBXBuildFile; fileRef = 9BAB43B22BC186300066BED5 /* MusicPlayer+CommandCenter.swift */; };
 		9BAB43B72BC192ED0066BED5 /* MusicPlayer+NowPlaying.swift in Sources */ = {isa = PBXBuildFile; fileRef = 9BAB43B62BC192ED0066BED5 /* MusicPlayer+NowPlaying.swift */; };
 		9BAB43B92BC19A170066BED5 /* MusicPlayer+Playback.swift in Sources */ = {isa = PBXBuildFile; fileRef = 9BAB43B82BC19A170066BED5 /* MusicPlayer+Playback.swift */; };
 		9BAB43BB2BC19F6D0066BED5 /* MusicPlayer+Reporting.swift in Sources */ = {isa = PBXBuildFile; fileRef = 9BAB43BA2BC19F6D0066BED5 /* MusicPlayer+Reporting.swift */; };
 		9BAB43BD2BC1A0AE0066BED5 /* MusicPlayer+Queue.swift in Sources */ = {isa = PBXBuildFile; fileRef = 9BAB43BC2BC1A0AE0066BED5 /* MusicPlayer+Queue.swift */; };
+		9BAB43C02BC74BE20066BED5 /* ItemPreviewCollection.swift in Sources */ = {isa = PBXBuildFile; fileRef = 9BAB43BF2BC74BE20066BED5 /* ItemPreviewCollection.swift */; };
 		9BAB43C22BC85CBD0066BED5 /* MusicPlayer+Seeking.swift in Sources */ = {isa = PBXBuildFile; fileRef = 9BAB43C12BC85CBD0066BED5 /* MusicPlayer+Seeking.swift */; };
 		9BB754D629B93F3C009BB3A6 /* JellyfinAPI in Frameworks */ = {isa = PBXBuildFile; productRef = 9BB754D529B93F3C009BB3A6 /* JellyfinAPI */; };
 		9BB754DB29BA604C009BB3A6 /* DTOs.swift in Sources */ = {isa = PBXBuildFile; fileRef = 9BB754DA29BA604C009BB3A6 /* DTOs.swift */; };
@@ -185,7 +185,7 @@
 		9B7D1CD52BA6333000FF888F /* AppearanceSettings.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = AppearanceSettings.swift; sourceTree = "<group>"; };
 		9B80473329B768000069B407 /* JellyMusicApp.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = JellyMusicApp.swift; sourceTree = "<group>"; };
 		9B80473529B768010069B407 /* Assets.xcassets */ = {isa = PBXFileReference; lastKnownFileType = folder.assetcatalog; path = Assets.xcassets; sourceTree = "<group>"; };
-		9B80473A29B768010069B407 /* Medúsic.app */ = {isa = PBXFileReference; explicitFileType = wrapper.application; includeInIndex = 0; path = "Medúsic.app"; sourceTree = BUILT_PRODUCTS_DIR; };
+		9B80473A29B768010069B407 /* Medusic.app */ = {isa = PBXFileReference; explicitFileType = wrapper.application; includeInIndex = 0; path = Medusic.app; sourceTree = BUILT_PRODUCTS_DIR; };
 		9B80475D29B7D5330069B407 /* MainScreen.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = MainScreen.swift; sourceTree = "<group>"; };
 		9B80476529B86F460069B407 /* LibraryScreen.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = LibraryScreen.swift; sourceTree = "<group>"; };
 		9B80476F29B89EE40069B407 /* AlbumLibraryScreen.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = AlbumLibraryScreen.swift; sourceTree = "<group>"; };
@@ -201,13 +201,13 @@
 		9BA88EEE2A86516B00E61A61 /* DefaultArtistService.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = DefaultArtistService.swift; sourceTree = "<group>"; };
 		9BA88EF02A86531E00E61A61 /* MockArtistService.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = MockArtistService.swift; sourceTree = "<group>"; };
 		9BA8B0C42A0F842500F6AF41 /* AlbumPreviewCollection.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = AlbumPreviewCollection.swift; sourceTree = "<group>"; };
-		9BAB43BF2BC74BE20066BED5 /* ItemPreviewCollection.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = ItemPreviewCollection.swift; sourceTree = "<group>"; };
 		9BAB43AE2BC183EF0066BED5 /* MusicPlayer.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = MusicPlayer.swift; sourceTree = "<group>"; };
 		9BAB43B22BC186300066BED5 /* MusicPlayer+CommandCenter.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = "MusicPlayer+CommandCenter.swift"; sourceTree = "<group>"; };
 		9BAB43B62BC192ED0066BED5 /* MusicPlayer+NowPlaying.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = "MusicPlayer+NowPlaying.swift"; sourceTree = "<group>"; };
 		9BAB43B82BC19A170066BED5 /* MusicPlayer+Playback.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = "MusicPlayer+Playback.swift"; sourceTree = "<group>"; };
 		9BAB43BA2BC19F6D0066BED5 /* MusicPlayer+Reporting.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = "MusicPlayer+Reporting.swift"; sourceTree = "<group>"; };
 		9BAB43BC2BC1A0AE0066BED5 /* MusicPlayer+Queue.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = "MusicPlayer+Queue.swift"; sourceTree = "<group>"; };
+		9BAB43BF2BC74BE20066BED5 /* ItemPreviewCollection.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = ItemPreviewCollection.swift; sourceTree = "<group>"; };
 		9BAB43C12BC85CBD0066BED5 /* MusicPlayer+Seeking.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = "MusicPlayer+Seeking.swift"; sourceTree = "<group>"; };
 		9BB754DA29BA604C009BB3A6 /* DTOs.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = DTOs.swift; sourceTree = "<group>"; };
 		9BB754DD29BA8522009BB3A6 /* DTOs+Codable.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = "DTOs+Codable.swift"; sourceTree = "<group>"; };
@@ -434,7 +434,7 @@
 		9B80473B29B768010069B407 /* Products */ = {
 			isa = PBXGroup;
 			children = (
-				9B80473A29B768010069B407 /* Medúsic.app */,
+				9B80473A29B768010069B407 /* Medusic.app */,
 			);
 			name = Products;
 			sourceTree = "<group>";
@@ -676,9 +676,9 @@
 /* End PBXGroup section */
 
 /* Begin PBXNativeTarget section */
-		9B80473929B768010069B407 /* Medúsic (iOS) */ = {
+		9B80473929B768010069B407 /* Medusic (iOS) */ = {
 			isa = PBXNativeTarget;
-			buildConfigurationList = 9B80474B29B768010069B407 /* Build configuration list for PBXNativeTarget "Medúsic (iOS)" */;
+			buildConfigurationList = 9B80474B29B768010069B407 /* Build configuration list for PBXNativeTarget "Medusic (iOS)" */;
 			buildPhases = (
 				9B1438DA29E33CA6004056B0 /* Run SwiftFormat */,
 				9B32F12529E2D73300CF8A69 /* Run SwiftLint */,
@@ -690,7 +690,7 @@
 			);
 			dependencies = (
 			);
-			name = "Medúsic (iOS)";
+			name = "Medusic (iOS)";
 			packageProductDependencies = (
 				9BB754D529B93F3C009BB3A6 /* JellyfinAPI */,
 				48C1F8BB29B9E5C9003BE048 /* Kingfisher */,
@@ -705,7 +705,7 @@
 				9B6386992BA4F5F8000D4EB6 /* ButtonKit */,
 			);
 			productName = "JellyMusic (iOS)";
-			productReference = 9B80473A29B768010069B407 /* Medúsic.app */;
+			productReference = 9B80473A29B768010069B407 /* Medusic.app */;
 			productType = "com.apple.product-type.application";
 		};
 /* End PBXNativeTarget section */
@@ -723,7 +723,7 @@
 					};
 				};
 			};
-			buildConfigurationList = 9B80473129B768000069B407 /* Build configuration list for PBXProject "Medúsic" */;
+			buildConfigurationList = 9B80473129B768000069B407 /* Build configuration list for PBXProject "Medusic" */;
 			compatibilityVersion = "Xcode 13.0";
 			developmentRegion = en;
 			hasScannedForEncodings = 0;
@@ -749,7 +749,7 @@
 			projectDirPath = "";
 			projectRoot = "";
 			targets = (
-				9B80473929B768010069B407 /* Medúsic (iOS) */,
+				9B80473929B768010069B407 /* Medusic (iOS) */,
 			);
 		};
 /* End PBXProject section */
@@ -1069,7 +1069,7 @@
 				);
 				MARKETING_VERSION = 1.0;
 				PRODUCT_BUNDLE_IDENTIFIER = dev.xkrivo.Medusic;
-				PRODUCT_NAME = "Medúsic";
+				PRODUCT_NAME = Medusic;
 				SDKROOT = iphoneos;
 				SWIFT_EMIT_LOC_STRINGS = YES;
 				SWIFT_VERSION = 5.0;
@@ -1103,7 +1103,7 @@
 				);
 				MARKETING_VERSION = 1.0;
 				PRODUCT_BUNDLE_IDENTIFIER = dev.xkrivo.Medusic;
-				PRODUCT_NAME = "Medúsic";
+				PRODUCT_NAME = Medusic;
 				SDKROOT = iphoneos;
 				SWIFT_EMIT_LOC_STRINGS = YES;
 				SWIFT_VERSION = 5.0;
@@ -1115,7 +1115,7 @@
 /* End XCBuildConfiguration section */
 
 /* Begin XCConfigurationList section */
-		9B80473129B768000069B407 /* Build configuration list for PBXProject "Medúsic" */ = {
+		9B80473129B768000069B407 /* Build configuration list for PBXProject "Medusic" */ = {
 			isa = XCConfigurationList;
 			buildConfigurations = (
 				9B80474929B768010069B407 /* Debug */,
@@ -1124,7 +1124,7 @@
 			defaultConfigurationIsVisible = 0;
 			defaultConfigurationName = Release;
 		};
-		9B80474B29B768010069B407 /* Build configuration list for PBXNativeTarget "Medúsic (iOS)" */ = {
+		9B80474B29B768010069B407 /* Build configuration list for PBXNativeTarget "Medusic (iOS)" */ = {
 			isa = XCConfigurationList;
 			buildConfigurations = (
 				9B80474C29B768010069B407 /* Debug */,

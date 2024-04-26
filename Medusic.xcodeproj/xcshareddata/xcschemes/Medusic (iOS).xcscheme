@@ -16,8 +16,8 @@
                      BuildableIdentifier = "primary"
                      BlueprintIdentifier = "9B80473929B768010069B407"
                      BuildableName = "Medu&#x301;sic.app"
-                     BlueprintName = "Medu&#x301;sic (iOS)"
-                     ReferencedContainer = "container:Medu&#x301;sic.xcodeproj">
+                     BlueprintName = "Medusic (iOS)"
+                     ReferencedContainer = "container:Medusic.xcodeproj">
                   </BuildableReference>
                </EnvironmentBuildable>
             </ActionContent>
@@ -34,8 +34,8 @@
                BuildableIdentifier = "primary"
                BlueprintIdentifier = "9B80473929B768010069B407"
                BuildableName = "Medu&#x301;sic.app"
-               BlueprintName = "Medu&#x301;sic (iOS)"
-               ReferencedContainer = "container:Medu&#x301;sic.xcodeproj">
+               BlueprintName = "Medusic (iOS)"
+               ReferencedContainer = "container:Medusic.xcodeproj">
             </BuildableReference>
          </BuildActionEntry>
       </BuildActionEntries>
@@ -64,8 +64,8 @@
             BuildableIdentifier = "primary"
             BlueprintIdentifier = "9B80473929B768010069B407"
             BuildableName = "Medu&#x301;sic.app"
-            BlueprintName = "Medu&#x301;sic (iOS)"
-            ReferencedContainer = "container:Medu&#x301;sic.xcodeproj">
+            BlueprintName = "Medusic (iOS)"
+            ReferencedContainer = "container:Medusic.xcodeproj">
          </BuildableReference>
       </BuildableProductRunnable>
    </LaunchAction>
@@ -81,8 +81,8 @@
             BuildableIdentifier = "primary"
             BlueprintIdentifier = "9B80473929B768010069B407"
             BuildableName = "Medu&#x301;sic.app"
-            BlueprintName = "Medu&#x301;sic (iOS)"
-            ReferencedContainer = "container:Medu&#x301;sic.xcodeproj">
+            BlueprintName = "Medusic (iOS)"
+            ReferencedContainer = "container:Medusic.xcodeproj">
          </BuildableReference>
       </BuildableProductRunnable>
    </ProfileAction>
