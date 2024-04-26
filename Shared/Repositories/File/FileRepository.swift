@@ -13,6 +13,7 @@ final class FileRepository: ObservableObject {
     private var cacheDirectory: URL
     private let apiClient: ApiClient
     private let logger = Logger.repository
+    private var observerRef: NSObjectProtocol?
 
     var cacheSizeLimit: UInt64
 
@@ -39,6 +40,20 @@ final class FileRepository: ObservableObject {
             )
         } catch {
             fatalError("Could not set file repository: \(error.localizedDescription)")
+        }
+
+        self.observerRef = NotificationCenter.default.addObserver(forName: .SongFileDownloaded, object: nil, queue: .main) { event in
+            guard let data = event.userInfo,
+                  let song = data["song"] as? Song
+            else { return }
+
+            Task {
+                do {
+                    try await downloadedSongsStore.insert(song)
+                } catch {
+                    self.logger.warning("Failed to mark song \(song.id) as downloaded: \(error.localizedDescription)")
+                }
+            }
         }
 
         Task { await checkCacheIntegrity() }
