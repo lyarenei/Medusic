@@ -135,9 +135,17 @@ final class FileRepository: ObservableObject {
         }
     }
 
+    /// Remove all files in the download cache.
     func removeAllFiles() async throws {
         logger.debug("Will remove all files in file repository")
+
+        let songCount = await downloadedSongs.count
         let fileURLs = try FileManager.default.contentsOfDirectory(at: cacheDirectory, includingPropertiesForKeys: nil, options: [])
+
+        if songCount != fileURLs.count {
+            logger.warning("Downloaded song count (\(songCount)) does not match file count (\(fileURLs))!")
+        }
+
         for fileURL in fileURLs {
             logger.debug("Removing file \(fileURL.debugDescription)")
             try FileManager.default.removeItem(at: fileURL)
