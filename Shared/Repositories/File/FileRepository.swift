@@ -126,7 +126,7 @@ final class FileRepository: ObservableObject {
         try FileManager.default.removeItem(at: fileURL)
         try await $downloadedSongs.remove(song)
         logger.debug("File for song \(song.id) has been removed")
-        await emitSongDeletedNotification(for: song)
+        await Notifier.emitSongDeleted(song)
     }
 
     func removeFiles(for songs: [Song]) async throws {
@@ -155,16 +155,5 @@ final class FileRepository: ObservableObject {
         }
 
         return bitrateSetting < 0 ? AppDefaults.fallbackBitrate : bitrateSetting
-    }
-}
-
-extension FileRepository {
-    @MainActor
-    private func emitSongDeletedNotification(for song: Song) {
-        NotificationCenter.default.post(
-            name: .SongFileDeleted,
-            object: nil,
-            userInfo: ["song": song]
-        )
     }
 }

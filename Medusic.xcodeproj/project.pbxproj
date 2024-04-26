@@ -67,6 +67,7 @@
 		9B7D1CD22BA5802800FF888F /* JellyfinSettings+ViewModel.swift in Sources */ = {isa = PBXBuildFile; fileRef = 9B7D1CD12BA5802800FF888F /* JellyfinSettings+ViewModel.swift */; };
 		9B7D1CD42BA60F2100FF888F /* Enums.swift in Sources */ = {isa = PBXBuildFile; fileRef = 9B7D1CD32BA60F2100FF888F /* Enums.swift */; };
 		9B7D1CD62BA6333000FF888F /* AppearanceSettings.swift in Sources */ = {isa = PBXBuildFile; fileRef = 9B7D1CD52BA6333000FF888F /* AppearanceSettings.swift */; };
+		9B7EB40C2BDBC0450067C06D /* Notifier.swift in Sources */ = {isa = PBXBuildFile; fileRef = 9B7EB40B2BDBC0450067C06D /* Notifier.swift */; };
 		9B80474329B768010069B407 /* JellyMusicApp.swift in Sources */ = {isa = PBXBuildFile; fileRef = 9B80473329B768000069B407 /* JellyMusicApp.swift */; };
 		9B80474729B768010069B407 /* Assets.xcassets in Resources */ = {isa = PBXBuildFile; fileRef = 9B80473529B768010069B407 /* Assets.xcassets */; };
 		9B80475E29B7D5330069B407 /* MainScreen.swift in Sources */ = {isa = PBXBuildFile; fileRef = 9B80475D29B7D5330069B407 /* MainScreen.swift */; };
@@ -202,6 +203,7 @@
 		9B7D1CD12BA5802800FF888F /* JellyfinSettings+ViewModel.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = "JellyfinSettings+ViewModel.swift"; sourceTree = "<group>"; };
 		9B7D1CD32BA60F2100FF888F /* Enums.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = Enums.swift; sourceTree = "<group>"; };
 		9B7D1CD52BA6333000FF888F /* AppearanceSettings.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = AppearanceSettings.swift; sourceTree = "<group>"; };
+		9B7EB40B2BDBC0450067C06D /* Notifier.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = Notifier.swift; sourceTree = "<group>"; };
 		9B80473329B768000069B407 /* JellyMusicApp.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = JellyMusicApp.swift; sourceTree = "<group>"; };
 		9B80473529B768010069B407 /* Assets.xcassets */ = {isa = PBXFileReference; lastKnownFileType = folder.assetcatalog; path = Assets.xcassets; sourceTree = "<group>"; };
 		9B80473A29B768010069B407 /* Medusic.app */ = {isa = PBXFileReference; explicitFileType = wrapper.application; includeInIndex = 0; path = Medusic.app; sourceTree = BUILT_PRODUCTS_DIR; };
@@ -459,6 +461,7 @@
 				9BB75EAF29C4C5E1008CD65A /* Settings.swift */,
 				9B3C7BE829D0702600884597 /* Logger.swift */,
 				9B27F08D2BDAF324009B79C5 /* Downloader.swift */,
+				9B7EB40B2BDBC0450067C06D /* Notifier.swift */,
 			);
 			path = Shared;
 			sourceTree = "<group>";
@@ -893,6 +896,7 @@
 				9BA8B0C52A0F842500F6AF41 /* AlbumPreviewCollection.swift in Sources */,
 				9BBE146429FC682B0028C500 /* PlaybackProgressComponent.swift in Sources */,
 				9B80474329B768010069B407 /* JellyMusicApp.swift in Sources */,
+				9B7EB40C2BDBC0450067C06D /* Notifier.swift in Sources */,
 				48C1F8D029B9F3E4003BE048 /* DefaultAlbumService.swift in Sources */,
 				9BA5220429F2EA4C0000D0AA /* SongListRowComponent.swift in Sources */,
 				9BB75EB629C4F751008CD65A /* InlineValueComponent.swift in Sources */,

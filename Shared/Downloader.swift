@@ -86,7 +86,7 @@ final class Downloader: ObservableObject {
         }
 
         try await dequeue(nextSong)
-        await emitSongDownloadedNotification(for: nextSong)
+        await Notifier.emitSongDownloaded(nextSong)
         try await downloadNextSong()
     }
 
@@ -132,15 +132,6 @@ final class Downloader: ObservableObject {
         }
 
         return song.isNativelySupported ? nil : AppDefaults.fallbackBitrate
-    }
-
-    @MainActor
-    private func emitSongDownloadedNotification(for song: Song) {
-        NotificationCenter.default.post(
-            name: .SongFileDownloaded,
-            object: nil,
-            userInfo: ["song": song]
-        )
     }
 }
 
