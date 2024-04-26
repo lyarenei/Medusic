@@ -83,17 +83,6 @@ final class FileRepository: ObservableObject {
         cacheSizeLimit = sizeInMB * 1024 * 1024
     }
 
-    @MainActor
-    private func emitSongDeletedNotification(for song: Song) {
-        NotificationCenter.default.post(
-            name: .SongFileDeleted,
-            object: nil,
-            userInfo: ["song": song]
-        )
-    }
-
-    // MARK: - Old stuff
-
     func getLocalOrRemoteUrl(for song: Song) -> URL? {
         guard let fileUrl = getLocalFileUrl(for: song) else {
             let bitrate = getStreamPreferredBitrate(for: song)
@@ -161,5 +150,16 @@ final class FileRepository: ObservableObject {
         }
 
         return bitrateSetting < 0 ? AppDefaults.fallbackBitrate : bitrateSetting
+    }
+}
+
+extension FileRepository {
+    @MainActor
+    private func emitSongDeletedNotification(for song: Song) {
+        NotificationCenter.default.post(
+            name: .SongFileDeleted,
+            object: nil,
+            userInfo: ["song": song]
+        )
     }
 }
