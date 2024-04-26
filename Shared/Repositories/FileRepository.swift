@@ -204,7 +204,7 @@ final class FileRepository: ObservableObject {
             }
         }
 
-        logger.info("Download cache integrity finished: found \(missingSongIds.count + missingFileIds.count) errors")
+        logger.info("Download cache integrity check finished: found \(missingSongIds.count + missingFileIds.count) errors")
     }
 
     // MARK: - Internal
