@@ -148,12 +148,12 @@ final class FileRepository: ObservableObject {
 
     // MARK: - Internal
 
+    /// Get bitrate for streaming. Returns nil if the setting is to use original bitrate and codec is natively supported.
     private func getStreamPreferredBitrate(for song: Song) -> Int? {
-        let bitrateSetting = Defaults[.streamBitrate]
-        if song.isNativelySupported {
-            return bitrateSetting < 0 ? nil : bitrateSetting
+        if Defaults[.streamBitrate] == -1 {
+            return song.isNativelySupported ? nil : AppDefaults.fallbackBitrate
         }
 
-        return bitrateSetting < 0 ? AppDefaults.fallbackBitrate : bitrateSetting
+        return Defaults[.streamBitrate]
     }
 }
