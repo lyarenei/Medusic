@@ -19,15 +19,15 @@ struct DownloadButton<Item: JellyfinItem>: View {
 
     private var logger = Logger.library
     private var item: Item
-    private var textDownload: String?
-    private var textRemove: String?
+    private var textDownload: String
+    private var textRemove: String
     private var hideText = false
     private var downloader: Downloader
 
     init(
         item: Item,
-        textDownload: String? = nil,
-        textRemove: String? = nil,
+        textDownload: String,
+        textRemove: String,
         fileRepo: FileRepository = .shared,
         downloader: Downloader = .shared
     ) {
@@ -39,6 +39,10 @@ struct DownloadButton<Item: JellyfinItem>: View {
         if let song = item as? Song {
             self.isDownloaded = fileRepo.fileExists(for: song)
         }
+    }
+
+    init(item: Item) {
+        self.init(item: item, textDownload: .empty, textRemove: .empty)
     }
 
     var body: some View {
@@ -79,20 +83,14 @@ struct DownloadButton<Item: JellyfinItem>: View {
     }
 
     @ViewBuilder
-    private var icon: some View {
-        Image(systemSymbol: isDownloaded ? .trash : .icloudAndArrowDown)
-            .scaledToFit()
-    }
-
-    @ViewBuilder
     private var label: some View {
-        let text = isDownloaded ? textRemove : textDownload
-        if hideText {
-            Label(text ?? .empty) { icon }
-                .labelStyle(.iconOnly)
+        if textDownload.isEmpty || textRemove.isEmpty {
+            Image(systemSymbol: isDownloaded ? .trash : .icloudAndArrowDown)
+                .scaledToFit()
         } else {
-            Label(text ?? .empty) { icon }
-                .labelStyle(.titleAndIcon)
+            Label(isDownloaded ? textRemove : textDownload) {
+                Image(systemSymbol: isDownloaded ? .trash : .icloudAndArrowDown)
+            }
         }
     }
 
@@ -163,20 +161,11 @@ struct DownloadButton<Item: JellyfinItem>: View {
     }
 }
 
-extension DownloadButton {
-    func hideText(_ value: Bool = true) -> DownloadButton {
-        var view = self
-        view.hideText = value
-        return view
-    }
-}
-
 #if DEBUG
 // swiftlint:disable all
 
 #Preview("Icon only") {
     DownloadButton(item: PreviewData.albums.first!)
-        .hideText()
         .font(.title)
         .environmentObject(PreviewUtils.libraryRepo)
         .environmentObject(PreviewUtils.fileRepo)
