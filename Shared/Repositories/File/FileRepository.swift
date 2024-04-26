@@ -40,6 +40,8 @@ final class FileRepository: ObservableObject {
         } catch {
             fatalError("Could not set file repository: \(error.localizedDescription)")
         }
+
+        Task { await checkCacheIntegrity() }
     }
 
     /// Generate a file URL for a specified song and file extension.
@@ -154,6 +156,42 @@ final class FileRepository: ObservableObject {
         try await $downloadedSongs.removeAll()
     }
 
+    /// Check and fix the integrity of cache.
+    func checkCacheIntegrity() async {
+        let fileURLs: [URL]
+        do {
+            fileURLs = try FileManager.default.contentsOfDirectory(at: cacheDirectory, includingPropertiesForKeys: nil, options: [])
+        } catch {
+            logger.warning("Download cache integrity check failed: \(error.localizedDescription)")
+            return
+        }
+
+        let fileIds = Set(fileURLs.map { $0.deletingPathExtension().lastPathComponent })
+        let songIds = Set(await downloadedSongs.map(\.id))
+
+        // File exists but no matching song in downloaded store
+        let missingFileIds = fileIds.subtracting(songIds)
+        for missingFileId in missingFileIds {
+            let url = fileURLs.first { $0.deletingPathExtension().lastPathComponent == missingFileId }
+            if let url {
+                logger.info("Found file for song \(missingFileId), but it is not tracked, removing")
+                removeFile(at: url)
+            }
+        }
+
+        // Song in store but missing file
+        let missingSongIds = songIds.subtracting(fileIds)
+        for missingSongId in missingSongIds {
+            let song = await downloadedSongs.first { $0.id == missingSongId }
+            if let song {
+                logger.info("Found song \(missingSongId) as downloaded, but no file found, removing")
+                await untrackDownloaded(song)
+            }
+        }
+
+        logger.info("Download cache integrity finished: found \(missingSongIds.count + missingFileIds.count) errors")
+    }
+
     // MARK: - Internal
 
     /// Get bitrate for streaming. Returns nil if the setting is to use original bitrate and codec is natively supported.
@@ -163,5 +201,21 @@ final class FileRepository: ObservableObject {
         }
 
         return Defaults[.streamBitrate]
+    }
+
+    private func removeFile(at url: URL) {
+        do {
+            try FileManager.default.removeItem(at: url)
+        } catch {
+            logger.warning("Failed to remove file: \(error.localizedDescription)")
+        }
+    }
+
+    private func untrackDownloaded(_ song: Song) async {
+        do {
+            try await $downloadedSongs.remove(song)
+        } catch {
+            logger.warning("Failed to unmark song \(song.id) as downloaded")
+        }
     }
 }
