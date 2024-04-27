@@ -103,6 +103,7 @@ struct AlbumDetailScreen: View {
                     .stroke(style: StrokeStyle(lineWidth: 1.0))
                     .foregroundColor(.accentColor)
             )
+            .disabledWhenLoading()
         }
     }
 

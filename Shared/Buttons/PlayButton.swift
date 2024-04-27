@@ -29,6 +29,7 @@ struct PlayButton: View {
                 }
             }
         }
+        .disabledWhenLoading()
     }
 
     func action() async {
@@ -76,6 +77,7 @@ struct PlayPauseButton: View {
                 }
             }
         }
+        .disabledWhenLoading()
     }
 
     func action() async {
