@@ -2,8 +2,12 @@
 disabled_rules:
   - trailing_comma
 
+analyzer_rules:
+  - unused_declaration
+  - unused_import
+
 opt_in_rules:
-# Lint
+  # Lint
   - discarded_notification_center_observer # When registering for a notification using a block, the opaque observer that is returned should be stored so it can be removed later (in deinit for example).
   - overridden_super_call # call super from viewDidAppear and similar methods
   - private_action # don't access IBActions from other files
@@ -13,8 +17,8 @@ opt_in_rules:
   - prohibited_super_call # Some methods should not call super (UIView.loadView, NSView.updateLayer, NSFileProviderExtension.providePlaceholder)
   - unowned_variable_capture # Prefer capturing references as weak to avoid potential crashes.
 
-# Style
-  - closure_spacing  # closure should have single space inside each brace
+  # Style
+  - closure_spacing # closure should have single space inside each brace
   - operator_usage_whitespace # one space around binary operators
   - collection_alignment # All elements in a collection literal should be vertically aligned
   - literal_expression_end_indentation # Array and dictionary literal end should have the same indentation as the line that started it.
@@ -30,7 +34,7 @@ opt_in_rules:
   - unneeded_parentheses_in_closure_argument # Parentheses are not needed when declaring closure arguments.
   - trailing_closure
 
-# Performance
+  # Performance
   - contains_over_first_not_nil # `use contains` instead of `filter { }.first`
   - sorted_first_last # prefer min/max over sorted { }.first
   - first_where # Prefer using .first(where:) over .filter { }.first in collections.
@@ -42,7 +46,7 @@ opt_in_rules:
   - empty_collection_literal # Prefer checking isEmpty over comparing collection to an empty array or dictionary literal.
   - flatmap_over_map_reduce # Prefer flatMap over map followed by reduce([], +).
 
-# Idiomatic
+  # Idiomatic
   - discouraged_optional_boolean # don't use optional booleans, use enums or @DefaultFalse (custom propertyWrapper) instead
   - explicit_init # don't call Type.init() explicitly
   - joined_default_parameter # use `joined()` instead of `joined(separator: "")`
@@ -58,19 +62,18 @@ opt_in_rules:
   - static_operator # Operators should be declared as static functions, not free functions.
   - prohibited_interface_builder
   - self_binding
-  - unused_declaration
   - switch_case_on_newline
   - override_in_extension
-#  - no_extension_access_modifier
+  #  - no_extension_access_modifier
   - toggle_bool
   - implicit_return
   - fallthrough
 
-# Metrics
+  # Metrics
   - enum_case_associated_values_count # Number of associated values in an enum case should be low. Create new struct for parameters if needed
   - closure_body_length # Closure bodies should not span too many lines.
 
-# Could be modified by old projects (or disabled):
+  # Could be modified by old projects (or disabled):
   - modifier_order # Modifier order should be consistent.
   - implicitly_unwrapped_optional # Don't use implicitly unwrapped outside outlets (use guard, if statements).
   # Array init violations has false positive cases with Result type
@@ -103,7 +106,7 @@ force_cast: error # NSNumber() as! Int
 force_try: error # try! a()
 
 function_body_length:
-    warning: 60
+  warning: 60
 
 legacy_hashing: error # Prefer using the hash(into:) function instead of overriding hashValue
 
@@ -113,6 +116,9 @@ private_outlet:
 identifier_name:
   excluded:
     - id
+    - by
+    - i
+    - j
     - x
     - y
     - z
@@ -143,7 +149,6 @@ line_length:
   ignores_urls: true
   ignores_function_declarations: false
   ignores_comments: true
-#  ignores_comments: false
 
 file_length:
   warning: 500
@@ -152,8 +157,8 @@ file_length:
 
 closure_body_length: 40
 
-function_parameter_count: 5  # don't pass too many parameters to methods, use objects/structs instead
-type_body_length: 300  # don't use long types, use extensions if needed
+function_parameter_count: 5 # don't pass too many parameters to methods, use objects/structs instead
+type_body_length: 300 # don't use long types, use extensions if needed
 
 nesting:
   type_level:
