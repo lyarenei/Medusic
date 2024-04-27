@@ -39,9 +39,7 @@ struct FavoriteButton: View {
         }
         .sensoryFeedback(.success, trigger: isFavorite) { old, new in !old && new }
         .sensoryFeedback(.impact, trigger: isFavorite) { old, new in old && !new }
-        .onAppear {
-            isFavorite = item.isFavorite
-        }
+        .onAppear { isFavorite = item.isFavorite }
         .disabledWhenLoading()
     }
 
