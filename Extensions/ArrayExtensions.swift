@@ -66,57 +66,7 @@ extension Array where Element: JellyfinItem {
 
 // swiftlint:enable identifier_name
 
-extension Array where Element: JellyfinItem {
-    @available(*, deprecated, message: "Use filtered(by:) FilterOption")
-    var favorite: [Element] { filter(\.isFavorite) }
-
-    @available(*, deprecated, message: "Use sorted(by:) SortOption")
-    func sorted(by: UserSortBy) -> [Element] {
-        switch by {
-        case .name:
-            return sorted(by: SortBy.name)
-        }
-    }
-}
-
-extension Array where Element: JellyfinItem {
-    enum SortBy {
-        case name
-    }
-
-    @available(*, deprecated, message: "Use sorted(by:) SortOption")
-    func sorted(by: SortBy) -> [Element] {
-        switch by {
-        case .name:
-            return sorted { lhs, rhs -> Bool in
-                lhs.sortName.lowercased() < rhs.sortName.lowercased()
-            }
-        }
-    }
-}
-
 // MARK: - Albums
-
-extension [Album] {
-    @available(*, deprecated, message: "Use filtered(by:)")
-    func matching(artistId: String) -> [Album] {
-        filter { $0.artistId == artistId }
-    }
-
-    @available(*, deprecated, message: "Use sorted(by:) SortOption")
-    var consistent: [Album] {
-        sorted { lhs, rhs -> Bool in
-            lhs.name.lowercased() < rhs.name.lowercased()
-        }
-    }
-
-    @available(*, deprecated, message: "Use sorted(by:) SortOption")
-    var sortedByDateAdded: [Album] {
-        sorted { lhs, rhs -> Bool in
-            lhs.createdAt > rhs.createdAt
-        }
-    }
-}
 
 extension [Album] {
     enum AlbumFilterBy {
