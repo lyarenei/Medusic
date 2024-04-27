@@ -10,6 +10,9 @@ struct PlayPreviousButton: View {
 
     private let text: String?
 
+    @State
+    private var bounce = false
+
     init(_ text: String? = nil) {
         self.text = text
     }
@@ -19,6 +22,8 @@ struct PlayPreviousButton: View {
             action()
         } label: {
             Image(systemSymbol: .backwardFill)
+                .symbolEffect(.bounce, value: bounce)
+
             if let text {
                 Text(text)
             }
@@ -43,6 +48,7 @@ struct PlayPreviousButton: View {
     func action() {
         guard !isLongPress else { return }
         player.skipBackward()
+        bounce.toggle()
     }
 }
 
