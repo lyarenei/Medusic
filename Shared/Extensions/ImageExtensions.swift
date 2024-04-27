@@ -1,5 +1,5 @@
-import SwiftUI
 import Kingfisher
+import SwiftUI
 
 typealias PlatformImage = KFCrossPlatformImage
 

@@ -96,7 +96,7 @@
 --rules redundantVoidReturnType
 --rules semicolons
 # --rules sortDeclarations
-# --rules sortedImports
+--rules sortImports
 # --rules sortedSwitchCases
 --rules spaceAroundBraces
 --rules spaceAroundBrackets
