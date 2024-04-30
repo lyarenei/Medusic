@@ -14,9 +14,9 @@ struct MainScreen: View {
             searchTab
             settingsTab
         }
-        .onChange(of: player.currentSong) { curSong in
+        .onChange(of: player.currentSong) {
             withAnimation(.linear) {
-                isPlayerPresented = curSong != nil
+                isPlayerPresented = player.currentSong != nil
             }
         }
     }
