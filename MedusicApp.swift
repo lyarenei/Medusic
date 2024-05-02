@@ -25,7 +25,7 @@ struct MedusicApp: App {
 
     var body: some Scene {
         WindowGroup {
-            MainScreen()
+            IPadMainScreen()
                 .preferredColorScheme(appColorScheme.asColorScheme)
                 .task { await authorizeClient() }
                 .environmentObject(MusicPlayer.shared)
@@ -33,6 +33,7 @@ struct MedusicApp: App {
                 .environmentObject(LibraryRepository.shared)
                 .environmentObject(FileRepository.shared)
                 .environmentObject(Downloader.shared)
+                .modelContainer(for: [Artist.self, Album.self])
         }
     }
 
