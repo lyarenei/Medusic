@@ -13,7 +13,8 @@ final class Artist {
 
     var createdAt: Date
 
-    @Relationship(inverse: \Album.artists)
+    // TODO: verify how cascade works in many to many relationship
+    @Relationship(deleteRule: .cascade, inverse: \Album.artists)
     var albums: [Album]
 
     init(
