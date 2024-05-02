@@ -13,6 +13,9 @@ final class Artist {
 
     var createdAt: Date
 
+    @Relationship(inverse: \Album.artists)
+    var albums: [Album]
+
     init(
         jellyfinId: String,
         name: String,
@@ -20,7 +23,8 @@ final class Artist {
         aboutInfo: String = .empty,
         isFavorite: Bool = false,
         favoriteAt: Date = .distantPast,
-        createdAt: Date = .distantPast
+        createdAt: Date = .distantPast,
+        albums: [Album] = []
     ) {
         self.jellyfinId = jellyfinId
         self.name = name
@@ -32,6 +36,7 @@ final class Artist {
         self.isFavorite = isFavorite
         self.favoriteAt = favoriteAt
         self.createdAt = createdAt
+        self.albums = albums
     }
 }
 
@@ -50,7 +55,7 @@ extension Artist {
     // SwiftData does not support derived attributes yet, so we need to do this.
     var runtime: TimeInterval {
         var runtime: TimeInterval = 0
-//        albums.forEach { runtime += $0.runtime }
+        albums.forEach { runtime += $0.runtime }
         return runtime
     }
 }

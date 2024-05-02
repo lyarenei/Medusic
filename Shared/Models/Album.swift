@@ -13,6 +13,9 @@ final class Album {
 
     var createdAt: Date
 
+    // Relationships
+    var artists: [Artist]
+
     init(
         jellyfinId: String,
         name: String,
@@ -20,7 +23,8 @@ final class Album {
         aboutInfo: String = .empty,
         isFavorite: Bool = false,
         favoriteAt: Date = .distantPast,
-        createdAt: Date = .distantPast
+        createdAt: Date = .distantPast,
+        artists: [Artist] = []
     ) {
         self.jellyfinId = jellyfinId
         self.name = name
@@ -32,6 +36,7 @@ final class Album {
         self.isFavorite = isFavorite
         self.favoriteAt = favoriteAt
         self.createdAt = createdAt
+        self.artists = artists
     }
 }
 
