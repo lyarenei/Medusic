@@ -72,6 +72,9 @@ private struct IPadArtistLibraryScreenContent: View {
     @State
     private var path = NavigationPath()
 
+    @State
+    private var cols = [GridItem(.adaptive(minimum: 220))]
+
     init(filterBy: FilterOption, sortBy: SortOption, sortOrder: SortOrder) {
         let predicate: Predicate<Artist> = Artist.predicate(for: filterBy)
         switch sortBy {
@@ -84,25 +87,30 @@ private struct IPadArtistLibraryScreenContent: View {
 
     var body: some View {
         NavigationStack(path: $path) {
-            // TODO: maybe a grid of tiles
-            List(artists) { artist in
-                NavigationLink(value: artist) {
-                    //                TODO: artwork component accepts only jellyfin items
-                    //                ArtworkComponent(for: artist)
-                    //                    .frame(width: 40, height: 40)
+            ScrollView {
+                LazyVGrid(columns: cols, spacing: 20) {
+                    ForEach(artists) { artist in
+                        NavigationLink(value: artist) {
+                            VStack(alignment: .leading) {
+                                ArtworkComponent(for: artist.jellyfinId)
+                                    .frame(width: 220, height: 220)
 
-                    MarqueeText(
-                        text: artist.name,
-                        font: .preferredFont(forTextStyle: .title2),
-                        leftFade: UIConstants.marqueeFadeLen,
-                        rightFade: UIConstants.marqueeFadeLen,
-                        startDelay: UIConstants.marqueeDelay
-                    )
+                                MarqueeText(
+                                    text: artist.name,
+                                    font: .preferredFont(forTextStyle: .title2),
+                                    leftFade: UIConstants.marqueeFadeLen,
+                                    rightFade: UIConstants.marqueeFadeLen,
+                                    startDelay: UIConstants.marqueeDelay
+                                )
+                            }
+                        }
+                        .frame(width: 220)
+                        .foregroundStyle(.primary)
+                    }
                 }
-            }
-            .listStyle(.plain)
-            .navigationDestination(for: Artist.self) { artist in
-                Text(artist.name)
+                .navigationDestination(for: Artist.self) { artist in
+                    Text(artist.name)
+                }
             }
         }
     }
@@ -116,6 +124,7 @@ private struct IPadArtistLibraryScreenContent: View {
         IPadArtistLibraryScreen()
     }
     .modelContainer(PreviewDataSource.container)
+    .environmentObject(ApiClient(previewEnabled: true))
 }
 
 // swiftlint:enable all

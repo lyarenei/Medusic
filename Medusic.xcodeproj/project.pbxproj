@@ -80,6 +80,7 @@
 		9B9A79022BE379A300E848DC /* IPadMainScreen.swift in Sources */ = {isa = PBXBuildFile; fileRef = 9B9A79012BE379A300E848DC /* IPadMainScreen.swift */; };
 		9B9A79042BE39FEA00E848DC /* IPadArtistLibraryScreen.swift in Sources */ = {isa = PBXBuildFile; fileRef = 9B9A79032BE39FEA00E848DC /* IPadArtistLibraryScreen.swift */; };
 		9B9A79072BE3A6B300E848DC /* IPadRefreshButton.swift in Sources */ = {isa = PBXBuildFile; fileRef = 9B9A79062BE3A6B300E848DC /* IPadRefreshButton.swift */; };
+		9B9A790E2BE3BFCC00E848DC /* IPadTileComponent.swift in Sources */ = {isa = PBXBuildFile; fileRef = 9B9A790D2BE3BFCC00E848DC /* IPadTileComponent.swift */; };
 		9B9A78EC2BE19C5A00E848DC /* UIDevice.swift in Sources */ = {isa = PBXBuildFile; fileRef = 9B9A78EB2BE19C5A00E848DC /* UIDevice.swift */; };
 		9BA505A12BACC8F00060277C /* FilterSortMenuButton.swift in Sources */ = {isa = PBXBuildFile; fileRef = 9BA505A02BACC8F00060277C /* FilterSortMenuButton.swift */; };
 		9BA521FE29F19FEC0000D0AA /* StringExtensions.swift in Sources */ = {isa = PBXBuildFile; fileRef = 9BA521FD29F19FEC0000D0AA /* StringExtensions.swift */; };
@@ -221,6 +222,7 @@
 		9B9A79012BE379A300E848DC /* IPadMainScreen.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = IPadMainScreen.swift; sourceTree = "<group>"; };
 		9B9A79032BE39FEA00E848DC /* IPadArtistLibraryScreen.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = IPadArtistLibraryScreen.swift; sourceTree = "<group>"; };
 		9B9A79062BE3A6B300E848DC /* IPadRefreshButton.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = IPadRefreshButton.swift; sourceTree = "<group>"; };
+		9B9A790D2BE3BFCC00E848DC /* IPadTileComponent.swift */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.swift; path = IPadTileComponent.swift; sourceTree = "<group>"; };
 		9B9A78EB2BE19C5A00E848DC /* UIDevice.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = UIDevice.swift; sourceTree = "<group>"; };
 		9BA505A02BACC8F00060277C /* FilterSortMenuButton.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = FilterSortMenuButton.swift; sourceTree = "<group>"; };
 		9BA521FD29F19FEC0000D0AA /* StringExtensions.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = StringExtensions.swift; sourceTree = "<group>"; };
@@ -514,6 +516,7 @@
 		9B9A78FF2BE3797700E848DC /* UI */ = {
 			isa = PBXGroup;
 			children = (
+				9B9A79082BE3B14200E848DC /* Components */,
 				9B9A79052BE3A69E00E848DC /* Buttons */,
 				9B9A79002BE3798700E848DC /* Screens */,
 			);
@@ -535,6 +538,14 @@
 				9B9A79062BE3A6B300E848DC /* IPadRefreshButton.swift */,
 			);
 			path = Buttons;
+			sourceTree = "<group>";
+		};
+		9B9A79082BE3B14200E848DC /* Components */ = {
+			isa = PBXGroup;
+			children = (
+				9B9A790D2BE3BFCC00E848DC /* IPadTileComponent.swift */,
+			);
+			path = Components;
 			sourceTree = "<group>";
 		};
 		9BA88EE42A862B6600E61A61 /* Enums */ = {
@@ -962,6 +973,7 @@
 				9B73ECFF29C9ECC5007F74DB /* MockMediaService.swift in Sources */,
 				9BDB099F29BB322A007F99E4 /* DummyImageService.swift in Sources */,
 				9B80475E29B7D5330069B407 /* MainScreen.swift in Sources */,
+				9B9A790E2BE3BFCC00E848DC /* IPadTileComponent.swift in Sources */,
 				9B1866E92A894CC900034A10 /* SortMenuButton.swift in Sources */,
 				9B4AD6682A46BCED00E1798F /* SheetCloseButton.swift in Sources */,
 				9B52AF9429D339B1002E21B9 /* FileRepository.swift in Sources */,
