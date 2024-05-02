@@ -1,7 +1,7 @@
 import Foundation
 import JellyfinAPI
 
-struct Artist: JellyfinItem {
+struct ArtistDto: JellyfinItem {
     var id: String
     var name = ""
     var sortName = ""
@@ -10,13 +10,13 @@ struct Artist: JellyfinItem {
     var createdAt = Date.now
 }
 
-extension Artist: Equatable {
-    static func == (lhs: Artist, rhs: Artist) -> Bool {
+extension ArtistDto: Equatable {
+    static func == (lhs: ArtistDto, rhs: ArtistDto) -> Bool {
         lhs.id == rhs.id
     }
 }
 
-extension Artist {
+extension ArtistDto {
     init?(from item: BaseItemDto?) {
         guard let item else { return nil }
         guard let id = item.id, let name = item.name else { return nil }

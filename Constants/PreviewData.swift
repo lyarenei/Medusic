@@ -21,7 +21,7 @@ struct PreviewData {
         return try! decoder.decode(T.self, from: asset.data)
     }
 
-    static let artists = loadJson(assetName: "Artists", ofType: [Artist].self)
+    static let artists = loadJson(assetName: "Artists", ofType: [ArtistDto].self)
     static let artist = artists.first!
 
     static let albums = loadJson(assetName: "Albums", ofType: [Album].self)

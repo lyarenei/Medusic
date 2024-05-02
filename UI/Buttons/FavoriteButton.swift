@@ -82,7 +82,7 @@ struct FavoriteButton: View {
     private func action() async {
         do {
             switch item {
-            case let artist as Artist:
+            case let artist as ArtistDto:
                 try await library.setFavorite(artist: artist, isFavorite: !isFavorite)
             case let album as Album:
                 try await library.setFavorite(album: album, isFavorite: !isFavorite)

@@ -5,12 +5,12 @@ extension ArtistDetailScreen {
     @Observable
     final class ViewModel {
         private let repo: LibraryRepository
-        private(set) var artist: Artist
+        private(set) var artist: ArtistDto
         private(set) var albums: [Album]
         private(set) var runtime: TimeInterval
         private(set) var aboutLineLimit: Int
 
-        init(artist: Artist, repo: LibraryRepository = .shared) {
+        init(artist: ArtistDto, repo: LibraryRepository = .shared) {
             self.repo = repo
             self.artist = artist
             self.albums = []

@@ -17,7 +17,7 @@ actor LibraryRepository: ObservableObject {
     internal let apiClient: ApiClient
 
     @Stored
-    var artists: [Artist]
+    var artists: [ArtistDto]
 
     @Stored
     var albums: [Album]
@@ -26,7 +26,7 @@ actor LibraryRepository: ObservableObject {
     var songs: [Song]
 
     init(
-        artistStore: Store<Artist>,
+        artistStore: Store<ArtistDto>,
         albumStore: Store<Album>,
         songStore: Store<Song>,
         apiClient: ApiClient
@@ -66,7 +66,7 @@ actor LibraryRepository: ObservableObject {
         }
     }
 
-    func refresh(artist: Artist) async throws {
+    func refresh(artist: ArtistDto) async throws {
         try await refresh(artistId: artist.id)
     }
 

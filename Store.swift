@@ -1,8 +1,8 @@
 import Boutique
 import Foundation
 
-extension Store<Artist> {
-    static let artists = Store<Artist>(
+extension Store<ArtistDto> {
+    static let artists = Store<ArtistDto>(
         storage: SQLiteStorageEngine.default(appendingPath: "Artists")
     )
 }

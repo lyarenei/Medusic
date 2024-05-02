@@ -46,7 +46,7 @@ struct SearchScreen: View {
     }
 
     @ViewBuilder
-    private func artistResults(_ artists: [Artist]) -> some View {
+    private func artistResults(_ artists: [ArtistDto]) -> some View {
         if artists.isNotEmpty {
             Section("Artists") {
                 ForEach(artists, id: \.id) { artist in

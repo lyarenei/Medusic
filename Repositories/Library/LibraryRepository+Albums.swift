@@ -8,7 +8,7 @@ extension LibraryRepository {
     }
 
     /// Get albums for specified artist.
-    nonisolated func getAlbums(for artist: Artist) async -> [Album] {
+    nonisolated func getAlbums(for artist: ArtistDto) async -> [Album] {
         await albums.filtered(by: .artistId(artist.id))
     }
 
@@ -24,7 +24,7 @@ extension LibraryRepository {
 
     /// Refresh all albums for a specified artists. The songs in these albums are refreshed as well.
     /// Removes albums no longer associated with the artist.
-    func refreshAlbums(for artist: Artist) async throws {
+    func refreshAlbums(for artist: ArtistDto) async throws {
         guard let artist = await artists.by(id: artist.id) else { throw LibraryError.notFound }
         let oldAlbums = await albums.filtered(by: .artistId(artist.id))
         let newAlbums = try await apiClient.services.albumService.getAlbums(for: artist, pageSize: nil, offset: nil)
