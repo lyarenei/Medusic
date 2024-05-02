@@ -76,9 +76,9 @@ private struct IPadArtistLibraryScreenContent: View {
         let predicate: Predicate<Artist> = Artist.predicate(for: filterBy)
         switch sortBy {
         case .name:
-            self._artists = Query(filter: predicate, sort: \.sortName, order: sortOrder)
+            self._artists = Query(filter: predicate, sort: \.sortName, order: sortOrder, animation: .smooth)
         case .dateAdded:
-            self._artists = Query(filter: predicate, sort: \.createdAt, order: sortOrder)
+            self._artists = Query(filter: predicate, sort: \.createdAt, order: sortOrder, animation: .smooth)
         }
     }
 
