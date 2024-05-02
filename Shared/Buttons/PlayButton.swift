@@ -35,7 +35,7 @@ struct PlayButton: View {
     func action() async {
         do {
             switch item {
-            case let album as Album:
+            case let album as AlbumDto:
                 try await playAlbum(album)
             case let song as Song:
                 try await player.play(song: song)
@@ -50,8 +50,8 @@ struct PlayButton: View {
         }
     }
 
-    func playAlbum(_ album: Album) async throws {
-        let songs = await repo.getSongs(for: album)
+    func playAlbum(_ album: AlbumDto) async throws {
+        let songs = repo.getSongs(for: album)
         try await player.play(songs: songs.sorted(by: .album))
     }
 }

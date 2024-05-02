@@ -10,7 +10,7 @@ struct AlbumDetailScreen: View {
     @EnvironmentObject
     private var player: MusicPlayer
 
-    let album: Album
+    let album: AlbumDto
 
     var body: some View {
         ScrollView {
@@ -259,7 +259,7 @@ struct AlbumDetailScreen: View {
         library.songs.filtered(by: .albumId(album.id))
     }
 
-    private var previewAlbums: [Album] {
+    private var previewAlbums: [AlbumDto] {
         library.albums.filter { $0.id != album.id && $0.artistId == album.artistId }
     }
 }

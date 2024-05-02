@@ -1,7 +1,7 @@
 import SwiftUI
 
 struct AlbumListRowComponent: View {
-    let album: Album
+    let album: AlbumDto
 
     var body: some View {
         HStack(spacing: 17) {

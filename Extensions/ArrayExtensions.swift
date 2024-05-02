@@ -68,12 +68,12 @@ extension Array where Element: JellyfinItem {
 
 // MARK: - Albums
 
-extension [Album] {
+extension [AlbumDto] {
     enum AlbumFilterBy {
         case artistId(_ id: String)
     }
 
-    func filtered(by method: AlbumFilterBy) -> [Album] {
+    func filtered(by method: AlbumFilterBy) -> [AlbumDto] {
         switch method {
         case .artistId(let id):
             return filter { $0.artistId == id }

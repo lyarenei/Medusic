@@ -24,7 +24,7 @@ struct PreviewData {
     static let artists = loadJson(assetName: "Artists", ofType: [ArtistDto].self)
     static let artist = artists.first!
 
-    static let albums = loadJson(assetName: "Albums", ofType: [Album].self)
+    static let albums = loadJson(assetName: "Albums", ofType: [AlbumDto].self)
     static let album = albums.first!
 
     static let songs: [Song] = [

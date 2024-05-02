@@ -112,7 +112,7 @@ struct LibraryScreen: View {
     }
 
     @ViewBuilder
-    private func albumEntries(_ albums: [Album]) -> some View {
+    private func albumEntries(_ albums: [AlbumDto]) -> some View {
         List(albums, id: \.id) { album in
             NavigationLink {
                 AlbumDetailScreen(album: album)

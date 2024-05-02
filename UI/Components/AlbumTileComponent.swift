@@ -7,7 +7,7 @@ struct AlbumTileComponent: View {
     @EnvironmentObject
     private var library: LibraryRepository
 
-    let album: Album
+    let album: AlbumDto
 
     var body: some View {
         GeometryReader { proxy in

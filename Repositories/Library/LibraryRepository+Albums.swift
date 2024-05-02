@@ -2,18 +2,18 @@ import Foundation
 
 extension LibraryRepository {
     /// Get artist by ID.
-    func getAlbum(by id: String) async throws -> Album {
+    func getAlbum(by id: String) async throws -> AlbumDto {
         guard let album = await albums.by(id: id) else { throw LibraryError.notFound }
         return album
     }
 
     /// Get albums for specified artist.
-    nonisolated func getAlbums(for artist: ArtistDto) async -> [Album] {
+    nonisolated func getAlbums(for artist: ArtistDto) async -> [AlbumDto] {
         await albums.filtered(by: .artistId(artist.id))
     }
 
     /// Get total runtime for specified album.
-    nonisolated func getRuntime(for album: Album) async -> TimeInterval {
+    nonisolated func getRuntime(for album: AlbumDto) async -> TimeInterval {
         var totalRuntime: TimeInterval = 0
         for song in await getSongs(for: album) {
             totalRuntime += song.runtime

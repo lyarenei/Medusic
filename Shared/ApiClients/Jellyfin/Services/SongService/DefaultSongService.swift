@@ -12,7 +12,7 @@ final class DefaultSongService: SongService {
         try await fetchSongs(limit: pageSize, startIndex: offset)
     }
 
-    func getSongsForAlbum(_ album: Album) async throws -> [Song] {
+    func getSongsForAlbum(_ album: AlbumDto) async throws -> [Song] {
         try await fetchSongs(for: album.id)
     }
 

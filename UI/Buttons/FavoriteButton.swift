@@ -84,7 +84,7 @@ struct FavoriteButton: View {
             switch item {
             case let artist as ArtistDto:
                 try await library.setFavorite(artist: artist, isFavorite: !isFavorite)
-            case let album as Album:
+            case let album as AlbumDto:
                 try await library.setFavorite(album: album, isFavorite: !isFavorite)
             case let song as Song:
                 try await library.setFavorite(song: song, isFavorite: !isFavorite)

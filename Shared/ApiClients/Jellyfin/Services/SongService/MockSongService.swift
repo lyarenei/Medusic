@@ -9,7 +9,7 @@ final class MockSongService: SongService {
         PreviewData.songs
     }
 
-    func getSongsForAlbum(_ album: Album) async throws -> [Song] {
+    func getSongsForAlbum(_ album: AlbumDto) async throws -> [Song] {
         PreviewData.songs.filtered(by: .albumId(album.id))
     }
 

@@ -63,7 +63,7 @@ struct SearchScreen: View {
     }
 
     @ViewBuilder
-    private func albumResults(_ albums: [Album]) -> some View {
+    private func albumResults(_ albums: [AlbumDto]) -> some View {
         if albums.isNotEmpty {
             Section("Albums") {
                 AlbumCollection(albums: albums)

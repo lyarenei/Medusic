@@ -6,7 +6,7 @@ extension ArtistDetailScreen {
     final class ViewModel {
         private let repo: LibraryRepository
         private(set) var artist: ArtistDto
-        private(set) var albums: [Album]
+        private(set) var albums: [AlbumDto]
         private(set) var runtime: TimeInterval
         private(set) var aboutLineLimit: Int
 

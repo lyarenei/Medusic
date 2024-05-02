@@ -128,7 +128,7 @@ struct DownloadButton<Item: JellyfinItem>: View {
     private func downloadAction() async throws {
         inProgress = true
         switch item {
-        case let item as Album:
+        case let item as AlbumDto:
             let songs = await library.getSongs(for: item)
             try await downloader.download(songs)
         case let item as Song:
@@ -143,7 +143,7 @@ struct DownloadButton<Item: JellyfinItem>: View {
 
     private func removeAction() async throws {
         switch item {
-        case let item as Album:
+        case let item as AlbumDto:
             let songs = await library.getSongs(for: item)
             try await fileRepo.removeFiles(for: songs)
         case let item as Song:

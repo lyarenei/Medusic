@@ -1,7 +1,7 @@
 import SwiftUI
 
 struct AlbumContextMenu: View {
-    let album: Album
+    let album: AlbumDto
 
     var body: some View {
         PlayButton("Play", item: album)

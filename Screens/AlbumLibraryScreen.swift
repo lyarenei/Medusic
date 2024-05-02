@@ -6,7 +6,7 @@ struct AlbumLibraryScreen: View {
     @EnvironmentObject
     private var library: LibraryRepository
 
-    let albums: [Album]
+    let albums: [AlbumDto]
 
     var body: some View {
         content

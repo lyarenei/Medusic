@@ -114,7 +114,7 @@ extension ItemPreviewCollection where NoItems == EmptyView {
 
 #Preview("Empty") {
     List {
-        ItemPreviewCollection("Items preview", items: [Album]()) { album in
+        ItemPreviewCollection("Items preview", items: [AlbumDto]()) { album in
             TileComponent(item: album)
                 .tileSubTitle(album.artistName)
                 .padding(.bottom)

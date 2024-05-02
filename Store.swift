@@ -7,8 +7,8 @@ extension Store<ArtistDto> {
     )
 }
 
-extension Store<Album> {
-    static let albums = Store<Album>(
+extension Store<AlbumDto> {
+    static let albums = Store<AlbumDto>(
         storage: SQLiteStorageEngine.default(appendingPath: "Albums")
     )
 }
