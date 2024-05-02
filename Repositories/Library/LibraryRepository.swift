@@ -23,12 +23,12 @@ actor LibraryRepository: ObservableObject {
     var albums: [AlbumDto]
 
     @Stored
-    var songs: [Song]
+    var songs: [SongDto]
 
     init(
         artistStore: Store<ArtistDto>,
         albumStore: Store<AlbumDto>,
-        songStore: Store<Song>,
+        songStore: Store<SongDto>,
         apiClient: ApiClient
     ) {
         self._artists = Stored(in: artistStore)
@@ -121,7 +121,7 @@ actor LibraryRepository: ObservableObject {
 
     /// Get songs for a specified album. Songs are automatically sorted in the correct order.
     @MainActor
-    func getSongs(for album: AlbumDto) -> [Song] {
+    func getSongs(for album: AlbumDto) -> [SongDto] {
         songs.filtered(by: .albumId(album.id)).sorted(by: .index).sorted(by: .albumDisc)
     }
 
@@ -170,7 +170,7 @@ actor LibraryRepository: ObservableObject {
         try await $songs.remove(localSongs).insert(remoteSongs).run()
     }
 
-    func setFavorite(song: Song, isFavorite: Bool) async throws {
+    func setFavorite(song: SongDto, isFavorite: Bool) async throws {
         guard var song = await $songs.items.by(id: song.id) else { throw LibraryError.notFound }
         try await apiClient.services.mediaService.setFavorite(itemId: song.id, isFavorite: isFavorite)
         song.isFavorite = isFavorite

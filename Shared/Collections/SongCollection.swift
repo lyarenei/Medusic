@@ -4,7 +4,7 @@ struct SongCollection: View {
     @EnvironmentObject
     private var player: MusicPlayer
 
-    private var songs: [Song]
+    private var songs: [SongDto]
 
     private var showAlbumOrder = false
     private var showArtwork = false
@@ -14,7 +14,7 @@ struct SongCollection: View {
     private var type: CollectionType = .list
     private var rowHeight = 40.0
 
-    init(songs: [Song]) {
+    init(songs: [SongDto]) {
         self.songs = songs
     }
 
@@ -57,7 +57,7 @@ struct SongCollection: View {
     }
 
     @ViewBuilder
-    private func songInfo(song: Song) -> some View {
+    private func songInfo(song: SongDto) -> some View {
         SongListRowComponent(song: song)
             .showArtwork(showArtwork)
             .showArtistName(showArtistName)
@@ -71,7 +71,7 @@ struct SongCollection: View {
     }
 
     @ViewBuilder
-    private func divider(song: Song) -> some View {
+    private func divider(song: SongDto) -> some View {
         if let lastSong = songs.last {
             if song != lastSong || showLastDivider {
                 Divider()
@@ -169,7 +169,7 @@ struct SongCollection_Previews: PreviewProvider {
 #endif
 
 private struct ContextOptions: View {
-    let song: Song
+    let song: SongDto
 
     var body: some View {
         PlayButton("Play", item: song)

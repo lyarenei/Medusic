@@ -6,7 +6,7 @@ extension MusicPlayer {
         return Int(volume.rounded(.toNearestOrAwayFromZero))
     }
 
-    internal func sendPlaybackStarted(for song: Song?) async {
+    internal func sendPlaybackStarted(for song: SongDto?) async {
         guard let song else { return }
         try? await apiClient.services.mediaService.playbackStarted(
             itemId: song.id,
@@ -18,7 +18,7 @@ extension MusicPlayer {
         )
     }
 
-    internal func sendPlaybackProgress(for song: Song?, isPaused: Bool) async {
+    internal func sendPlaybackProgress(for song: SongDto?, isPaused: Bool) async {
         guard let song else { return }
         try? await apiClient.services.mediaService.playbackProgress(
             itemId: song.id,
@@ -30,7 +30,7 @@ extension MusicPlayer {
         )
     }
 
-    internal func sendPlaybackStopped(for song: Song?, at time: TimeInterval) async {
+    internal func sendPlaybackStopped(for song: SongDto?, at time: TimeInterval) async {
         guard let song else { return }
         try? await apiClient.services.mediaService.playbackStopped(
             itemId: song.id,
@@ -39,7 +39,7 @@ extension MusicPlayer {
         )
     }
 
-    internal func sendPlaybackFinished(for song: Song?) async {
+    internal func sendPlaybackFinished(for song: SongDto?) async {
         guard let song else { return }
         try? await apiClient.services.mediaService.markAsPlayed(itemId: song.id)
     }

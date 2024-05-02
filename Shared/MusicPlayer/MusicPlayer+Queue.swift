@@ -3,7 +3,7 @@ import Foundation
 import OSLog
 
 final class AVJellyPlayerItem: AVPlayerItem {
-    var song: Song?
+    var song: SongDto?
 }
 
 extension MusicPlayer {
@@ -11,17 +11,17 @@ extension MusicPlayer {
         case songUrlNotFound
     }
 
-    func enqueue(song: Song, position: EnqueuePosition) {
+    func enqueue(song: SongDto, position: EnqueuePosition) {
         enqueue(songs: [song], position: position)
     }
 
-    func enqueue(songs: [Song], position: EnqueuePosition) {
+    func enqueue(songs: [SongDto], position: EnqueuePosition) {
         enqueueToPlayer(songs, position: position)
 //        persistPlaybackQueue()
     }
 
     /// Enqueue a song to internal player. The song is placed at specified position.
-    private func enqueueToPlayer(_ songs: [Song], position: EnqueuePosition) {
+    private func enqueueToPlayer(_ songs: [SongDto], position: EnqueuePosition) {
         do {
             let items = try songs.map(avItemFactory(song:))
             switch position {
@@ -49,7 +49,7 @@ extension MusicPlayer {
         Task { await updateNextUp() }
     }
 
-    internal func avItemFactory(song: Song) throws -> AVPlayerItem {
+    internal func avItemFactory(song: SongDto) throws -> AVPlayerItem {
         guard let fileUrl = fileRepo.getLocalOrRemoteUrl(for: song) else {
             Logger.player.debug("Could not retrieve an URL for song \(song.id), skipping")
             throw PlayerError.songUrlNotFound

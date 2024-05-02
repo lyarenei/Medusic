@@ -73,7 +73,7 @@ struct SearchScreen: View {
     }
 
     @ViewBuilder
-    private func songResults(_ songs: [Song]) -> some View {
+    private func songResults(_ songs: [SongDto]) -> some View {
         if songs.isNotEmpty {
             Section("Songs") {
                 SongCollection(songs: songs)

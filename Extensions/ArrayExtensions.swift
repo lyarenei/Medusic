@@ -83,13 +83,13 @@ extension [AlbumDto] {
 
 // MARK: - Songs
 
-extension [Song] {
+extension [SongDto] {
     enum SongFilterBy {
         case albumId(_ id: String)
         case albumDisc(num: Int)
     }
 
-    func filtered(by method: SongFilterBy) -> [Song] {
+    func filtered(by method: SongFilterBy) -> [SongDto] {
         switch method {
         case .albumId(let id):
             return filter { $0.albumId == id }
@@ -99,14 +99,14 @@ extension [Song] {
     }
 }
 
-extension [Song] {
+extension [SongDto] {
     enum SongSortBy {
         case index
         case album
         case albumDisc
     }
 
-    func sorted(by method: SongSortBy) -> [Song] {
+    func sorted(by method: SongSortBy) -> [SongDto] {
         switch method {
         case .index:
             return sorted { $0.index < $1.index }
@@ -118,30 +118,30 @@ extension [Song] {
     }
 }
 
-extension [Song] {
+extension [SongDto] {
     /// Sorts songs by album ID, then by their order.
     /// This results in songs being grouped by their albums, and in correct order in that album.
     @available(*, deprecated, message: "Use sorted instead")
-    func sortByAlbum() -> [Song] {
+    func sortByAlbum() -> [SongDto] {
         sortByParentId().sortByIndex().sortByAlbumDisc()
     }
 
     @available(*, deprecated, message: "Use different sort")
-    func sortByParentId() -> [Song] {
+    func sortByParentId() -> [SongDto] {
         sorted { lhs, rhs -> Bool in
             lhs.albumId < rhs.albumId
         }
     }
 
     @available(*, deprecated, message: "Use sorted instead")
-    func sortByIndex() -> [Song] {
+    func sortByIndex() -> [SongDto] {
         sorted { lhs, rhs -> Bool in
             lhs.index < rhs.index
         }
     }
 
     @available(*, deprecated, message: "Use sorted instead")
-    func sortByAlbumDisc() -> [Song] {
+    func sortByAlbumDisc() -> [SongDto] {
         sorted { lhs, rhs -> Bool in
             lhs.albumDisc < rhs.albumDisc
         }
@@ -150,7 +150,7 @@ extension [Song] {
     /// Get only songs which belong to Album specified by its ID.
     /// These songs are sorted by their order in that album.
     @available(*, deprecated, message: "Use filtered instead")
-    func filterByAlbum(id albumId: String) -> [Song] {
+    func filterByAlbum(id albumId: String) -> [SongDto] {
         let filteredSongs = filter { song -> Bool in
             song.albumId == albumId
         }
@@ -159,7 +159,7 @@ extension [Song] {
     }
 
     @available(*, deprecated, message: "Use filtered instead")
-    func filterByAlbumDisc(_ discNumber: Int) -> [Song] {
+    func filterByAlbumDisc(_ discNumber: Int) -> [SongDto] {
         filter { song -> Bool in
             song.albumDisc == discNumber
         }
@@ -176,7 +176,7 @@ extension [Song] {
 
     /// Get song by specified song ID.
     @available(*, deprecated, message: "Use by(id:) instead")
-    func getById(_ songId: String) -> Song? {
+    func getById(_ songId: String) -> SongDto? {
         first { song -> Bool in
             song.id == songId
         }

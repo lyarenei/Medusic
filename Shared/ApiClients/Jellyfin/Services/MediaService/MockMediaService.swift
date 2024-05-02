@@ -18,7 +18,7 @@ final class MockMediaService: MediaService {
         itemId: String,
         at position: TimeInterval?,
         isPaused: Bool,
-        playbackQueue: [Song],
+        playbackQueue: [SongDto],
         volume: Int,
         isStreaming: Bool
     ) async throws {
@@ -30,14 +30,14 @@ final class MockMediaService: MediaService {
         itemId: String,
         at position: TimeInterval?,
         isPaused: Bool,
-        playbackQueue: [Song],
+        playbackQueue: [SongDto],
         volume: Int,
         isStreaming: Bool
     ) async throws {
         throw MediaServiceError.invalid
     }
 
-    func playbackStopped(itemId: String, at position: TimeInterval?, playbackQueue: [Song]) async throws {
+    func playbackStopped(itemId: String, at position: TimeInterval?, playbackQueue: [SongDto]) async throws {
         throw MediaServiceError.invalid
     }
 

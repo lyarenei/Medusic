@@ -96,7 +96,7 @@ struct DownloadButton<Item: JellyfinItem>: View {
 
     private func handleOnAppear() {
         switch item {
-        case let item as Song:
+        case let item as SongDto:
             isDownloaded = fileRepo.fileExists(for: item)
             inProgress = downloader.queue.contains { $0 == item }
         default:
@@ -131,7 +131,7 @@ struct DownloadButton<Item: JellyfinItem>: View {
         case let item as AlbumDto:
             let songs = await library.getSongs(for: item)
             try await downloader.download(songs)
-        case let item as Song:
+        case let item as SongDto:
             try await downloader.download(item)
         default:
             inProgress = false
@@ -146,7 +146,7 @@ struct DownloadButton<Item: JellyfinItem>: View {
         case let item as AlbumDto:
             let songs = await library.getSongs(for: item)
             try await fileRepo.removeFiles(for: songs)
-        case let item as Song:
+        case let item as SongDto:
             try await fileRepo.removeFile(for: item)
         default:
             let type = type(of: item)

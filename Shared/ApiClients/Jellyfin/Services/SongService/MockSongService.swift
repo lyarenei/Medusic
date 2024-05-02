@@ -5,15 +5,15 @@ import JellyfinAPI
 // swiftlint:disable all
 
 final class MockSongService: SongService {
-    func getSongs(pageSize: Int? = nil, offset: Int? = nil) async throws -> [Song] {
+    func getSongs(pageSize: Int? = nil, offset: Int? = nil) async throws -> [SongDto] {
         PreviewData.songs
     }
 
-    func getSongsForAlbum(_ album: AlbumDto) async throws -> [Song] {
+    func getSongsForAlbum(_ album: AlbumDto) async throws -> [SongDto] {
         PreviewData.songs.filtered(by: .albumId(album.id))
     }
 
-    func getSongsForAlbum(id albumId: String) async throws -> [Song] {
+    func getSongsForAlbum(id albumId: String) async throws -> [SongDto] {
         PreviewData.songs.filtered(by: .albumId(albumId))
     }
 }

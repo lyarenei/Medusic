@@ -37,7 +37,7 @@ struct PlayButton: View {
             switch item {
             case let album as AlbumDto:
                 try await playAlbum(album)
-            case let song as Song:
+            case let song as SongDto:
                 try await player.play(song: song)
             default:
                 let type = type(of: item)

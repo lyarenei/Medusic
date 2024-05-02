@@ -5,14 +5,14 @@ import SwiftUI
 
 // MARK: - Stores
 
-extension Store<Song> {
-    static let songs = Store<Song>(
+extension Store<SongDto> {
+    static let songs = Store<SongDto>(
         storage: SQLiteStorageEngine.default(appendingPath: "Songs")
     )
-    static let downloadedSongs = Store<Song>(
+    static let downloadedSongs = Store<SongDto>(
         storage: SQLiteStorageEngine.default(appendingPath: "DownloadedSongs")
     )
-    static let downloadQueue = Store<Song>(
+    static let downloadQueue = Store<SongDto>(
         storage: SQLiteStorageEngine.default(appendingPath: "DownloadQueue")
     )
 }

@@ -86,7 +86,7 @@ struct FavoriteButton: View {
                 try await library.setFavorite(artist: artist, isFavorite: !isFavorite)
             case let album as AlbumDto:
                 try await library.setFavorite(album: album, isFavorite: !isFavorite)
-            case let song as Song:
+            case let song as SongDto:
                 try await library.setFavorite(song: song, isFavorite: !isFavorite)
             default:
                 print("Unhandled item type: \(item)")

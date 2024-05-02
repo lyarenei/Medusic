@@ -5,7 +5,7 @@ import OSLog
 
 extension MusicPlayer {
     // TODO: support erasing
-    internal func setNowPlayingMetadata(song: Song) {
+    internal func setNowPlayingMetadata(song: SongDto) {
         let nowPlayingCenter = MPNowPlayingInfoCenter.default()
         var nowPlaying = nowPlayingCenter.nowPlayingInfo ?? [String: Any]()
 
@@ -33,7 +33,7 @@ extension MusicPlayer {
         nowPlayingCenter.nowPlayingInfo = nowPlaying
     }
 
-    private func setNowPlayingArtwork(song: Song) {
+    private func setNowPlayingArtwork(song: SongDto) {
         let provider = apiClient.getImageDataProvider(itemId: song.albumId)
         let nowPlayingCenter = MPNowPlayingInfoCenter.default()
         var nowPlaying = nowPlayingCenter.nowPlayingInfo ?? [String: Any]()

@@ -3,7 +3,7 @@ import Foundation
 import OSLog
 
 extension MusicPlayer {
-    func play(song: Song? = nil, preserveQueue: Bool = false) async throws {
+    func play(song: SongDto? = nil, preserveQueue: Bool = false) async throws {
         if let song {
             try await play(songs: [song], preserveQueue: preserveQueue)
             return
@@ -15,7 +15,7 @@ extension MusicPlayer {
         player.play()
     }
 
-    func play(songs: [Song], preserveQueue: Bool = false) async throws {
+    func play(songs: [SongDto], preserveQueue: Bool = false) async throws {
         try configureSession()
         try activateSession()
 

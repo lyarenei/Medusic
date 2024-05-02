@@ -11,7 +11,7 @@ protocol MediaService: ObservableObject {
         itemId: String,
         at position: TimeInterval?,
         isPaused: Bool,
-        playbackQueue: [Song],
+        playbackQueue: [SongDto],
         volume: Int,
         isStreaming: Bool
     ) async throws
@@ -21,12 +21,12 @@ protocol MediaService: ObservableObject {
         itemId: String,
         at position: TimeInterval?,
         isPaused: Bool,
-        playbackQueue: [Song],
+        playbackQueue: [SongDto],
         volume: Int,
         isStreaming: Bool
     ) async throws
 
-    func playbackStopped(itemId: String, at position: TimeInterval?, playbackQueue: [Song]) async throws
+    func playbackStopped(itemId: String, at position: TimeInterval?, playbackQueue: [SongDto]) async throws
     func markAsPlayed(itemId: String) async throws
 }
 
