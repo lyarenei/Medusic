@@ -74,3 +74,35 @@ actor BackgroundDataManager {
         }
     }
 }
+
+#if DEBUG
+// swiftlint:disable all
+
+@MainActor
+struct PreviewDataSource {
+    static var container: ModelContainer {
+        let config = ModelConfiguration(isStoredInMemoryOnly: true)
+        let container = try! ModelContainer(for: Artist.self, configurations: config)
+
+        for artist in PreviewData.artists {
+            let newArtist = Artist(
+                jellyfinId: artist.id,
+                name: artist.name,
+                sortName: artist.sortName,
+                aboutInfo: artist.about,
+                isFavorite: artist.isFavorite,
+                favoriteAt: .distantPast,
+                createdAt: artist.createdAt
+            )
+
+            // TODO: albums for artist
+
+            container.mainContext.insert(newArtist)
+        }
+
+        return container
+    }
+}
+
+// swiftlint:enable all
+#endif
