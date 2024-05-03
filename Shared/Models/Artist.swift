@@ -17,6 +17,8 @@ final class Artist {
     @Relationship(deleteRule: .cascade, inverse: \Album.artists)
     var albums: [Album]
 
+    var songs: [Song]
+
     init(
         jellyfinId: String,
         name: String,
@@ -25,7 +27,8 @@ final class Artist {
         isFavorite: Bool = false,
         favoriteAt: Date = .distantPast,
         createdAt: Date = .distantPast,
-        albums: [Album] = []
+        albums: [Album] = [],
+        songs: [Song] = []
     ) {
         self.jellyfinId = jellyfinId
         self.name = name
@@ -38,6 +41,7 @@ final class Artist {
         self.favoriteAt = favoriteAt
         self.createdAt = createdAt
         self.albums = albums
+        self.songs = songs
     }
 }
 

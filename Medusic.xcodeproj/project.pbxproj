@@ -81,6 +81,7 @@
 		9B9A79042BE39FEA00E848DC /* IPadArtistLibraryScreen.swift in Sources */ = {isa = PBXBuildFile; fileRef = 9B9A79032BE39FEA00E848DC /* IPadArtistLibraryScreen.swift */; };
 		9B9A79072BE3A6B300E848DC /* IPadRefreshButton.swift in Sources */ = {isa = PBXBuildFile; fileRef = 9B9A79062BE3A6B300E848DC /* IPadRefreshButton.swift */; };
 		9B9A790E2BE3BFCC00E848DC /* IPadTileComponent.swift in Sources */ = {isa = PBXBuildFile; fileRef = 9B9A790D2BE3BFCC00E848DC /* IPadTileComponent.swift */; };
+		9B9A79102BE3D98B00E848DC /* Song.swift in Sources */ = {isa = PBXBuildFile; fileRef = 9B9A790F2BE3D98B00E848DC /* Song.swift */; };
 		9B9A78EC2BE19C5A00E848DC /* UIDevice.swift in Sources */ = {isa = PBXBuildFile; fileRef = 9B9A78EB2BE19C5A00E848DC /* UIDevice.swift */; };
 		9BA505A12BACC8F00060277C /* FilterSortMenuButton.swift in Sources */ = {isa = PBXBuildFile; fileRef = 9BA505A02BACC8F00060277C /* FilterSortMenuButton.swift */; };
 		9BA521FE29F19FEC0000D0AA /* StringExtensions.swift in Sources */ = {isa = PBXBuildFile; fileRef = 9BA521FD29F19FEC0000D0AA /* StringExtensions.swift */; };
@@ -223,6 +224,7 @@
 		9B9A79032BE39FEA00E848DC /* IPadArtistLibraryScreen.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = IPadArtistLibraryScreen.swift; sourceTree = "<group>"; };
 		9B9A79062BE3A6B300E848DC /* IPadRefreshButton.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = IPadRefreshButton.swift; sourceTree = "<group>"; };
 		9B9A790D2BE3BFCC00E848DC /* IPadTileComponent.swift */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.swift; path = IPadTileComponent.swift; sourceTree = "<group>"; };
+		9B9A790F2BE3D98B00E848DC /* Song.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = Song.swift; sourceTree = "<group>"; };
 		9B9A78EB2BE19C5A00E848DC /* UIDevice.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = UIDevice.swift; sourceTree = "<group>"; };
 		9BA505A02BACC8F00060277C /* FilterSortMenuButton.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = FilterSortMenuButton.swift; sourceTree = "<group>"; };
 		9BA521FD29F19FEC0000D0AA /* StringExtensions.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = StringExtensions.swift; sourceTree = "<group>"; };
@@ -501,6 +503,7 @@
 			children = (
 				9B9A78F82BE36C5000E848DC /* Artist.swift */,
 				9B9A78FA2BE36E1900E848DC /* Album.swift */,
+				9B9A790F2BE3D98B00E848DC /* Song.swift */,
 			);
 			path = Models;
 			sourceTree = "<group>";
@@ -986,6 +989,7 @@
 				48C1F8C929B9EA60003BE048 /* DTOs+Identifiable.swift in Sources */,
 				9B27F0902BDB8E93009B79C5 /* LibraryRepository+Songs.swift in Sources */,
 				9B46249829E5CDD000A2259A /* AdvancedSettings.swift in Sources */,
+				9B9A79102BE3D98B00E848DC /* Song.swift in Sources */,
 				9B70BD9D29B91F42000DB31C /* AlbumTileComponent.swift in Sources */,
 				9BAB43B32BC186300066BED5 /* MusicPlayer+CommandCenter.swift in Sources */,
 				9BF26D3F2A86DF74006631E9 /* AlbumDto.swift in Sources */,

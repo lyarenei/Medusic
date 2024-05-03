@@ -15,6 +15,7 @@ final class Album {
 
     // Relationships
     var artists: [Artist]
+    var songs: [Song]
 
     init(
         jellyfinId: String,
@@ -24,7 +25,8 @@ final class Album {
         isFavorite: Bool = false,
         favoriteAt: Date = .distantPast,
         createdAt: Date = .distantPast,
-        artists: [Artist] = []
+        artists: [Artist] = [],
+        songs: [Song] = []
     ) {
         self.jellyfinId = jellyfinId
         self.name = name
@@ -37,6 +39,7 @@ final class Album {
         self.favoriteAt = favoriteAt
         self.createdAt = createdAt
         self.artists = artists
+        self.songs = songs
     }
 }
 
@@ -49,13 +52,17 @@ extension Album {
             return #Predicate<Album> { $0.isFavorite }
         }
     }
+
+    static func predicate(equals id: String) -> Predicate<Album> {
+        return #Predicate<Album> { $0.jellyfinId == id }
+    }
 }
 
 extension Album {
     // SwiftData does not support derived attributes yet, so we need to do this.
     var runtime: TimeInterval {
         var runtime: TimeInterval = 10
-//        songs.forEach { runtime += $0.runtime }
+        songs.forEach { runtime += $0.runtime }
         return runtime
     }
 }
