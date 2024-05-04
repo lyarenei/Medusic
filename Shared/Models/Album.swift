@@ -54,7 +54,7 @@ extension Album {
     }
 
     static func predicate(equals id: String) -> Predicate<Album> {
-        return #Predicate<Album> { $0.jellyfinId == id }
+        #Predicate<Album> { $0.jellyfinId == id }
     }
 }
 
@@ -66,4 +66,3 @@ extension Album {
         return runtime
     }
 }
-
