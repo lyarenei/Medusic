@@ -74,6 +74,12 @@ final class Song {
     }
 }
 
+extension Song: Equatable {
+    static func == (lhs: Song, rhs: Song) -> Bool {
+        lhs.jellyfinId == rhs.jellyfinId
+    }
+}
+
 extension Song {
     static func predicate(for option: FilterOption) -> Predicate<Song> {
         switch option {

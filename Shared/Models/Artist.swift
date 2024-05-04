@@ -45,6 +45,12 @@ final class Artist {
     }
 }
 
+extension Artist: Equatable {
+    static func == (lhs: Artist, rhs: Artist) -> Bool {
+        lhs.jellyfinId == rhs.jellyfinId
+    }
+}
+
 extension Artist {
     static func predicate(for option: FilterOption) -> Predicate<Artist> {
         switch option {

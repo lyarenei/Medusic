@@ -43,6 +43,12 @@ final class Album {
     }
 }
 
+extension Album: Equatable {
+    static func == (lhs: Album, rhs: Album) -> Bool {
+        lhs.jellyfinId == rhs.jellyfinId
+    }
+}
+
 extension Album {
     static func predicate(for option: FilterOption) -> Predicate<Album> {
         switch option {
