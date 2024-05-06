@@ -13,9 +13,7 @@ final class Album: JellyfinModel {
 
     var createdAt: Date
 
-    // Jellyfin for some reason differentiates between artists and album artist.
-    // Using albumArtist to have a clearly defined relationship.
-    var albumArtist: Artist
+    var albumArtist: Artist?
 
     @Relationship(deleteRule: .cascade, inverse: \Song.album)
     var songs: [Song]
@@ -23,7 +21,7 @@ final class Album: JellyfinModel {
     init(
         jellyfinId: String,
         name: String,
-        albumArtist: Artist,
+        albumArtist: Artist? = nil,
         sortName: String = .empty,
         aboutInfo: String = .empty,
         isFavorite: Bool = false,
@@ -86,17 +84,17 @@ extension Album {
 
 // MARK: - Other
 extension Album {
-    convenience init(from album: AlbumDto, albumArtist: Artist) {
+    convenience init(from album: AlbumDto) {
         self.init(
             jellyfinId: album.id,
             name: album.name,
-            albumArtist: albumArtist,
+            albumArtist: nil,
             sortName: album.sortName.lowercased(),
             aboutInfo: .empty,
             isFavorite: album.isFavorite,
             favoriteAt: .distantPast,
             createdAt: album.createdAt,
-            artists: [albumArtist],
+            artists: [],
             songs: []
         )
     }

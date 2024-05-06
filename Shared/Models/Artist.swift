@@ -80,7 +80,7 @@ extension Artist {
 // MARK: - Other
 
 extension Artist {
-    convenience init(from artist: ArtistDto) {
+    convenience init(from artist: ArtistDto, albums: [Album] = []) {
         self.init(
             jellyfinId: artist.id,
             name: artist.name,
@@ -89,7 +89,7 @@ extension Artist {
             isFavorite: artist.isFavorite,
             favoriteAt: .distantPast,
             createdAt: artist.createdAt,
-            albums: []
+            albums: albums
         )
     }
 }

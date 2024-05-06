@@ -7,7 +7,7 @@ actor BackgroundDataManager {
     private var apiClient: ApiClient
     private var logger: Logger
 
-    private let pageSize = 50
+    private let pageSize = 10
 
     init(with container: ModelContainer, using client: ApiClient = .shared, logger: Logger = .library) {
         self.container = container
@@ -44,46 +44,26 @@ actor BackgroundDataManager {
             for artist in artists {
                 logger.debug("Processing artist \(artist.id) ...")
                 let newArtist = Artist(from: artist)
+                context.insert(newArtist)
 
                 logger.debug("Fetching albums for artist \(artist.id) ...")
                 let albums = try await apiClient.services.albumService.getAlbums(for: artist, pageSize: nil, offset: nil)
                 for album in albums {
                     logger.debug("Processing album \(album.id) ...")
-                    let newAlbum = Album(from: album, albumArtist: newArtist)
+                    let newAlbum = Album(from: album)
+                    context.insert(newAlbum)
+
+                    newArtist.albums.append(newAlbum)
 
                     logger.debug("Fetching songs for album \(album.id) ...")
                     let songs = try await apiClient.services.songService.getSongsForAlbum(id: album.id)
                     for song in songs {
                         logger.debug("Processing song \(song.id) ...")
 
-                        var songArtists: [Artist] = []
-                        if let existingSong = try context.fetch(Song.fetchBy(song.id)).first {
-                            songArtists = existingSong.artists
-                        }
-
-                        if !songArtists.contains(newArtist) {
-                            songArtists.append(newArtist)
-                        }
-
-                        let newSong = Song(
-                            jellyfinId: song.id,
-                            name: song.name,
-                            album: newAlbum,
-                            albumIndex: song.index,
-                            sortName: song.sortName,
-                            isFavorite: song.isFavorite,
-                            favoriteAt: .distantPast,
-                            createdAt: song.createdAt,
-                            albumDisc: song.albumDisc,
-                            artists: songArtists,
-                            runtime: song.runtime,
-                            fileSize: song.size,
-                            fileExtension: song.fileExtension
-                        )
+                        let newSong = Song(from: song)
+                        newAlbum.songs.append(newSong)
                     }
                 }
-
-                context.insert(newArtist)
             }
 
             try context.save()
@@ -103,11 +83,20 @@ struct PreviewDataSource {
 
         for artist in PreviewData.artists {
             let newArtist = Artist(from: artist)
-            for album in PreviewData.albums where album.artistId == artist.id {
-                let newAlbum = Album(from: album, albumArtist: newArtist)
-            }
-
             container.mainContext.insert(newArtist)
+
+            for album in PreviewData.albums where album.artistId == artist.id {
+                let newAlbum = Album(from: album)
+                container.mainContext.insert(newAlbum)
+
+                newArtist.albums.append(newAlbum)
+
+                for song in PreviewData.songs where song.albumId == album.id {
+                    let newSong = Song(from: song, album: newAlbum)
+                    container.mainContext.insert(newSong)
+                    newAlbum.songs.append(newSong)
+                }
+            }
         }
 
         return container

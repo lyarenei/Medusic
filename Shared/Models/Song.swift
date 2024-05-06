@@ -6,7 +6,7 @@ import SwiftData
 final class Song: JellyfinModel {
     var jellyfinId: String
     var name: String
-    var album: Album
+    var album: Album?
     var albumIndex: Int
 
     var sortName: String
@@ -16,8 +16,6 @@ final class Song: JellyfinModel {
 
     var albumDisc: Int
 
-    // No relationship as we don't have a usecase for tracking songs for artist (at least not yet).
-    // And it is probably handled by Jellyfin anyway.
     var artists: [Artist]
 
     var runtime: TimeInterval
@@ -27,7 +25,7 @@ final class Song: JellyfinModel {
     init(
         jellyfinId: String,
         name: String,
-        album: Album,
+        album: Album? = nil,
         albumIndex: Int,
         sortName: String = .empty,
         isFavorite: Bool = false,
@@ -101,9 +99,9 @@ extension Song {
     }
 }
 
-//MARK: - Other
+// MARK: - Other
 extension Song {
-    convenience init(from song: SongDto, album: Album, artists: [Artist] = []) {
+    convenience init(from song: SongDto, album: Album? = nil, artists: [Artist] = []) {
         self.init(
             jellyfinId: song.id,
             name: song.name,
