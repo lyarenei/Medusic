@@ -75,7 +75,7 @@ extension Album {
 extension Album {
     // SwiftData does not support derived attributes yet, so we need to do this.
     var runtime: TimeInterval {
-        var runtime: TimeInterval = 10
+        var runtime: TimeInterval = 0
         songs.forEach { runtime += $0.runtime }
         return runtime
     }
