@@ -40,12 +40,14 @@ final class Artist: JellyfinModel {
     }
 }
 
+// MARK: - Generic extensions
 extension Artist: Equatable {
     static func == (lhs: Artist, rhs: Artist) -> Bool {
         lhs.jellyfinId == rhs.jellyfinId
     }
 }
 
+// MARK: - SwiftData query utils
 extension Artist {
     static func predicate(for option: FilterOption) -> Predicate<Artist> {
         switch option {
@@ -65,11 +67,29 @@ extension Artist {
     }
 }
 
+// MARK: - SwiftData derived attributes
 extension Artist {
     // SwiftData does not support derived attributes yet, so we need to do this.
     var runtime: TimeInterval {
         var runtime: TimeInterval = 0
         albums.forEach { runtime += $0.runtime }
         return runtime
+    }
+}
+
+// MARK: - Other
+
+extension Artist {
+    convenience init(from artist: ArtistDto) {
+        self.init(
+            jellyfinId: artist.id,
+            name: artist.name,
+            sortName: artist.sortName.lowercased(),
+            aboutInfo: artist.about,
+            isFavorite: artist.isFavorite,
+            favoriteAt: .distantPast,
+            createdAt: artist.createdAt,
+            albums: []
+        )
     }
 }

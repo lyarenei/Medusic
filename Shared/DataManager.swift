@@ -43,15 +43,7 @@ actor BackgroundDataManager {
 
             for artist in artists {
                 logger.debug("Processing artist \(artist.id) ...")
-                let newArtist = Artist(
-                    jellyfinId: artist.id,
-                    name: artist.name,
-                    sortName: artist.sortName,
-                    aboutInfo: artist.about,
-                    isFavorite: artist.isFavorite,
-                    favoriteAt: .distantPast,
-                    createdAt: artist.createdAt
-                )
+                let newArtist = Artist(from: artist)
 
                 logger.debug("Fetching albums for artist \(artist.id) ...")
                 let albums = try await apiClient.services.albumService.getAlbums(for: artist, pageSize: nil, offset: nil)
@@ -120,15 +112,7 @@ struct PreviewDataSource {
         let container = try! ModelContainer(for: Artist.self, configurations: config)
 
         for artist in PreviewData.artists {
-            let newArtist = Artist(
-                jellyfinId: artist.id,
-                name: artist.name,
-                sortName: artist.sortName,
-                aboutInfo: artist.about,
-                isFavorite: artist.isFavorite,
-                favoriteAt: .distantPast,
-                createdAt: artist.createdAt
-            )
+            let newArtist = Artist(from: artist)
 
             // TODO: albums for artist
 
