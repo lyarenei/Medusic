@@ -54,7 +54,7 @@ extension Album: Equatable {
     }
 }
 
-// MARK: SwiftData query utils
+// MARK: - SwiftData query utils
 extension Album {
     static func predicate(for option: FilterOption) -> Predicate<Album> {
         switch option {
@@ -74,7 +74,7 @@ extension Album {
     }
 }
 
-// MARK: SwiftData derived attributes
+// MARK: - SwiftData derived attributes
 extension Album {
     // SwiftData does not support derived attributes yet, so we need to do this.
     var runtime: TimeInterval {
@@ -84,7 +84,7 @@ extension Album {
     }
 }
 
-//MARK: - Other
+// MARK: - Other
 extension Album {
     convenience init(from album: AlbumDto, albumArtist: Artist) {
         self.init(
