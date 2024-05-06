@@ -74,12 +74,14 @@ final class Song: JellyfinModel {
     }
 }
 
+// MARK: - Generic extensions
 extension Song: Equatable {
     static func == (lhs: Song, rhs: Song) -> Bool {
         lhs.jellyfinId == rhs.jellyfinId
     }
 }
 
+// MARK: - SwiftData query utils
 extension Song {
     static func predicate(for option: FilterOption) -> Predicate<Song> {
         switch option {
@@ -96,5 +98,26 @@ extension Song {
 
     static func fetchBy(_ jellyfinId: String) -> FetchDescriptor<Song> {
         FetchDescriptor(predicate: Song.predicate(equals: jellyfinId))
+    }
+}
+
+//MARK: - Other
+extension Song {
+    convenience init(from song: SongDto, album: Album, artists: [Artist] = []) {
+        self.init(
+            jellyfinId: song.id,
+            name: song.name,
+            album: album,
+            albumIndex: song.index,
+            sortName: song.sortName.lowercased(),
+            isFavorite: song.isFavorite,
+            favoriteAt: .distantPast,
+            createdAt: song.createdAt,
+            albumDisc: song.albumDisc,
+            artists: artists,
+            runtime: song.runtime,
+            fileSize: song.size,
+            fileExtension: song.fileExtension
+        )
     }
 }
