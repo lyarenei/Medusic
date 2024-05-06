@@ -1,5 +1,6 @@
 import Foundation
+import SwiftData
 
-protocol JellyfinModel: Equatable {
+protocol JellyfinModel: PersistentModel, Equatable {
     var jellyfinId: String { get }
 }

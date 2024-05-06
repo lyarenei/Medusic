@@ -83,6 +83,7 @@
 		9B9A790E2BE3BFCC00E848DC /* IPadTileComponent.swift in Sources */ = {isa = PBXBuildFile; fileRef = 9B9A790D2BE3BFCC00E848DC /* IPadTileComponent.swift */; };
 		9B9A79102BE3D98B00E848DC /* Song.swift in Sources */ = {isa = PBXBuildFile; fileRef = 9B9A790F2BE3D98B00E848DC /* Song.swift */; };
 		9B9A79172BE631AB00E848DC /* JellyfinModel.swift in Sources */ = {isa = PBXBuildFile; fileRef = 9B9A79162BE631AB00E848DC /* JellyfinModel.swift */; };
+		9B9A79192BE9475200E848DC /* ModelContextExtensions.swift in Sources */ = {isa = PBXBuildFile; fileRef = 9B9A79182BE9475200E848DC /* ModelContextExtensions.swift */; };
 		9B9A78EC2BE19C5A00E848DC /* UIDevice.swift in Sources */ = {isa = PBXBuildFile; fileRef = 9B9A78EB2BE19C5A00E848DC /* UIDevice.swift */; };
 		9BA505A12BACC8F00060277C /* FilterSortMenuButton.swift in Sources */ = {isa = PBXBuildFile; fileRef = 9BA505A02BACC8F00060277C /* FilterSortMenuButton.swift */; };
 		9BA521FE29F19FEC0000D0AA /* StringExtensions.swift in Sources */ = {isa = PBXBuildFile; fileRef = 9BA521FD29F19FEC0000D0AA /* StringExtensions.swift */; };
@@ -227,6 +228,7 @@
 		9B9A790D2BE3BFCC00E848DC /* IPadTileComponent.swift */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.swift; path = IPadTileComponent.swift; sourceTree = "<group>"; };
 		9B9A790F2BE3D98B00E848DC /* Song.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = Song.swift; sourceTree = "<group>"; };
 		9B9A79162BE631AB00E848DC /* JellyfinModel.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = JellyfinModel.swift; sourceTree = "<group>"; };
+		9B9A79182BE9475200E848DC /* ModelContextExtensions.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = ModelContextExtensions.swift; sourceTree = "<group>"; };
 		9B9A78EB2BE19C5A00E848DC /* UIDevice.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = UIDevice.swift; sourceTree = "<group>"; };
 		9BA505A02BACC8F00060277C /* FilterSortMenuButton.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = FilterSortMenuButton.swift; sourceTree = "<group>"; };
 		9BA521FD29F19FEC0000D0AA /* StringExtensions.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = StringExtensions.swift; sourceTree = "<group>"; };
@@ -412,6 +414,7 @@
 				9B289EA429F6EC2D007FD445 /* ImageExtensions.swift */,
 				9B289EA729F6EDC3007FD445 /* NumberExtensions.swift */,
 				9BBE145E29FB18DA0028C500 /* NotificationExtensions.swift */,
+				9B9A79182BE9475200E848DC /* ModelContextExtensions.swift */,
 				9B9A78EB2BE19C5A00E848DC /* UIDevice.swift */,
 			);
 			path = Extensions;
@@ -973,6 +976,7 @@
 				9BF26D422A8753E6006631E9 /* PreviewUtils.swift in Sources */,
 				9BF26D5B2A881FC6006631E9 /* UIConstants.swift in Sources */,
 				9B7D1CD62BA6333000FF888F /* AppearanceSettings.swift in Sources */,
+				9B9A79192BE9475200E848DC /* ModelContextExtensions.swift in Sources */,
 				9B7D1CCF2BA5052600FF888F /* JellyfinSettings.swift in Sources */,
 				9BAB43C22BC85CBD0066BED5 /* MusicPlayer+Seeking.swift in Sources */,
 				9B7AF3B429EB09310039A7DF /* AlbumListRowComponent.swift in Sources */,
