@@ -2,7 +2,7 @@ import Foundation
 import SwiftData
 
 @Model
-final class Album {
+final class Album: JellyfinModel {
     var jellyfinId: String
     var name: String
     var sortName: String
@@ -13,13 +13,17 @@ final class Album {
 
     var createdAt: Date
 
-    // Relationships
-    var artists: [Artist]
+    // Jellyfin for some reason differentiates between artists and album artist.
+    // Using albumArtist to have a clearly defined relationship.
+    var albumArtist: Artist
+
+    @Relationship(deleteRule: .cascade, inverse: \Song.album)
     var songs: [Song]
 
     init(
         jellyfinId: String,
         name: String,
+        albumArtist: Artist,
         sortName: String = .empty,
         aboutInfo: String = .empty,
         isFavorite: Bool = false,
@@ -30,6 +34,7 @@ final class Album {
     ) {
         self.jellyfinId = jellyfinId
         self.name = name
+        self.albumArtist = albumArtist
 
         let sortNameValue = sortName.isEmpty ? name : sortName
         self.sortName = sortNameValue.lowercased()
@@ -38,7 +43,6 @@ final class Album {
         self.isFavorite = isFavorite
         self.favoriteAt = favoriteAt
         self.createdAt = createdAt
-        self.artists = artists
         self.songs = songs
     }
 }
@@ -61,6 +65,10 @@ extension Album {
 
     static func predicate(equals id: String) -> Predicate<Album> {
         #Predicate<Album> { $0.jellyfinId == id }
+    }
+
+    static func fetchBy(_ jellyfinId: String) -> FetchDescriptor<Album> {
+        FetchDescriptor(predicate: Album.predicate(equals: jellyfinId))
     }
 }
 

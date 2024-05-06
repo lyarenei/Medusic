@@ -3,13 +3,10 @@ import Foundation
 import SwiftData
 
 @Model
-final class Song {
+final class Song: JellyfinModel {
     var jellyfinId: String
     var name: String
-
-    @Relationship(deleteRule: .cascade, inverse: \Album.songs)
     var album: Album
-
     var albumIndex: Int
 
     var sortName: String
@@ -18,6 +15,9 @@ final class Song {
     var createdAt: Date
 
     var albumDisc: Int
+
+    // No relationship as we don't have a usecase for tracking songs for artist (at least not yet).
+    // And it is probably handled by Jellyfin anyway.
     var artists: [Artist]
 
     var runtime: TimeInterval
@@ -92,5 +92,9 @@ extension Song {
 
     static func predicate(equals id: String) -> Predicate<Song> {
         #Predicate<Song> { $0.jellyfinId == id }
+    }
+
+    static func fetchBy(_ jellyfinId: String) -> FetchDescriptor<Song> {
+        FetchDescriptor(predicate: Song.predicate(equals: jellyfinId))
     }
 }

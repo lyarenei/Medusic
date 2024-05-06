@@ -33,7 +33,7 @@ struct MedusicApp: App {
                 .environmentObject(LibraryRepository.shared)
                 .environmentObject(FileRepository.shared)
                 .environmentObject(Downloader.shared)
-                .modelContainer(for: [Artist.self, Album.self])
+                .modelContainer(for: [Artist.self, Album.self, Song.self])
         }
     }
 

@@ -2,7 +2,7 @@ import Foundation
 import SwiftData
 
 @Model
-final class Artist {
+final class Artist: JellyfinModel {
     var jellyfinId: String
     var name: String
     var sortName: String
@@ -13,11 +13,8 @@ final class Artist {
 
     var createdAt: Date
 
-    // TODO: verify how cascade works in many to many relationship
-    @Relationship(deleteRule: .cascade, inverse: \Album.artists)
+    @Relationship(deleteRule: .cascade, inverse: \Album.albumArtist)
     var albums: [Album]
-
-    var songs: [Song]
 
     init(
         jellyfinId: String,
@@ -27,8 +24,7 @@ final class Artist {
         isFavorite: Bool = false,
         favoriteAt: Date = .distantPast,
         createdAt: Date = .distantPast,
-        albums: [Album] = [],
-        songs: [Song] = []
+        albums: [Album] = []
     ) {
         self.jellyfinId = jellyfinId
         self.name = name
@@ -41,7 +37,6 @@ final class Artist {
         self.favoriteAt = favoriteAt
         self.createdAt = createdAt
         self.albums = albums
-        self.songs = songs
     }
 }
 
@@ -59,6 +54,14 @@ extension Artist {
         case .favorite:
             return #Predicate<Artist> { $0.isFavorite }
         }
+    }
+
+    static func predicate(equals id: String) -> Predicate<Artist> {
+        #Predicate<Artist> { $0.jellyfinId == id }
+    }
+
+    static func fetchBy(_ jellyfinId: String) -> FetchDescriptor<Artist> {
+        FetchDescriptor(predicate: Artist.predicate(equals: jellyfinId))
     }
 }
 
