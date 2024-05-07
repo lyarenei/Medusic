@@ -79,7 +79,7 @@ actor BackgroundDataManager {
 struct PreviewDataSource {
     static var container: ModelContainer {
         let config = ModelConfiguration(isStoredInMemoryOnly: true)
-        let container = try! ModelContainer(for: Artist.self, configurations: config)
+        let container = try! ModelContainer(for: Artist.self, Album.self, Song.self, configurations: config)
 
         for artist in PreviewData.artists {
             let newArtist = Artist(from: artist)
@@ -92,7 +92,7 @@ struct PreviewDataSource {
                 newArtist.albums.append(newAlbum)
 
                 for song in PreviewData.songs where song.albumId == album.id {
-                    let newSong = Song(from: song, album: newAlbum)
+                    let newSong = Song(from: song)
                     container.mainContext.insert(newSong)
                     newAlbum.songs.append(newSong)
                 }
