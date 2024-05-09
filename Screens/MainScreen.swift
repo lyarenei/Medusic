@@ -26,7 +26,7 @@ struct MainScreen: View {
         .onChange(of: player.currentSong) { evaluateBarPresent() }
         .onChange(of: selectedTab) { evaluateBarPresent() }
         .popup(isBarPresented: $showNowPlayingBar) { MusicPlayerScreen() }
-        .popupBarCustomView { NowPlayingBar() }
+        .popupBarCustomView { NowPlayingBarComponent() }
     }
 
     @ViewBuilder
@@ -40,14 +40,11 @@ struct MainScreen: View {
 
     @ViewBuilder
     private var searchTab: some View {
-        NowPlayingComponent(isPresented: $showNowPlayingBar) {
-            SearchScreen()
-        }
-
-        .tabItem {
-            Image(systemSymbol: .magnifyingglass)
-            Text("Search")
-        }
+        SearchScreen()
+            .tabItem {
+                Image(systemSymbol: .magnifyingglass)
+                Text("Search")
+            }
     }
 
     @ViewBuilder
