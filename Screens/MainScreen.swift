@@ -21,7 +21,7 @@ struct MainScreen: View {
                 .tag(NavigationTab.search)
 
             settingsTab
-                .tag(NavigationTab.search)
+                .tag(NavigationTab.settings)
         }
         .onChange(of: player.currentSong) { evaluateBarPresent() }
         .onChange(of: selectedTab) { evaluateBarPresent() }
