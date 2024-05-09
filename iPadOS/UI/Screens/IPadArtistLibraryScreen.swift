@@ -109,7 +109,7 @@ private struct IPadArtistLibraryScreenContent: View {
                     }
                 }
                 .navigationDestination(for: Artist.self) { artist in
-                    Text(artist.name)
+                    IPadArtistDetailScreen(artist: artist)
                 }
             }
         }
