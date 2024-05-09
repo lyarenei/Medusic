@@ -48,6 +48,7 @@
 		9B52AF7729D0B106002E21B9 /* SongCollection.swift in Sources */ = {isa = PBXBuildFile; fileRef = 9B52AF7629D0B106002E21B9 /* SongCollection.swift */; };
 		9B52AF9429D339B1002E21B9 /* FileRepository.swift in Sources */ = {isa = PBXBuildFile; fileRef = 9B52AF9329D339B1002E21B9 /* FileRepository.swift */; };
 		9B63869A2BA4F5F8000D4EB6 /* ButtonKit in Frameworks */ = {isa = PBXBuildFile; productRef = 9B6386992BA4F5F8000D4EB6 /* ButtonKit */; };
+		9B6ADD412BED703C00D9DFE0 /* LNPopupUI-Static in Frameworks */ = {isa = PBXBuildFile; productRef = 9B6ADD402BED703C00D9DFE0 /* LNPopupUI-Static */; };
 		9B6C17CD29D6BE700061866A /* AirPlayComponent.swift in Sources */ = {isa = PBXBuildFile; fileRef = 9B6C17CC29D6BE700061866A /* AirPlayComponent.swift */; };
 		9B70BD9D29B91F42000DB31C /* AlbumTileComponent.swift in Sources */ = {isa = PBXBuildFile; fileRef = 9B70BD9C29B91F42000DB31C /* AlbumTileComponent.swift */; };
 		9B70BDA029B923AE000DB31C /* AlbumDetailScreen.swift in Sources */ = {isa = PBXBuildFile; fileRef = 9B70BD9F29B923AE000DB31C /* AlbumDetailScreen.swift */; };
@@ -130,6 +131,19 @@
 		9BF6C8FB2A86277F00916EC1 /* ArrayExtensions.swift in Sources */ = {isa = PBXBuildFile; fileRef = 9BF6C8FA2A86277F00916EC1 /* ArrayExtensions.swift */; };
 		9BF7AF8C29CDF1C8004E0DA7 /* PrimaryActionButton.swift in Sources */ = {isa = PBXBuildFile; fileRef = 9BF7AF8B29CDF1C8004E0DA7 /* PrimaryActionButton.swift */; };
 /* End PBXBuildFile section */
+
+/* Begin PBXCopyFilesBuildPhase section */
+		9B6ADD192BED3D7C00D9DFE0 /* Embed Frameworks */ = {
+			isa = PBXCopyFilesBuildPhase;
+			buildActionMask = 2147483647;
+			dstPath = "";
+			dstSubfolderSpec = 10;
+			files = (
+			);
+			name = "Embed Frameworks";
+			runOnlyForDeploymentPostprocessing = 0;
+		};
+/* End PBXCopyFilesBuildPhase section */
 
 /* Begin PBXFileReference section */
 		4848B22529BCBC2000EB2FAA /* Cancellables.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = Cancellables.swift; sourceTree = "<group>"; };
@@ -257,6 +271,7 @@
 				488EBAC329D739BF004A3071 /* SwiftUIX in Frameworks */,
 				9BF26D592A880EDA006631E9 /* MarqueeText in Frameworks */,
 				48C1F8BC29B9E5C9003BE048 /* Kingfisher in Frameworks */,
+				9B6ADD412BED703C00D9DFE0 /* LNPopupUI-Static in Frameworks */,
 				9BB75ECB29C63AE6008CD65A /* SimpleKeychain in Frameworks */,
 				48C1F8BF29B9E6D1003BE048 /* Boutique in Frameworks */,
 				9B63869A2BA4F5F8000D4EB6 /* ButtonKit in Frameworks */,
@@ -688,6 +703,7 @@
 				9B80473629B768010069B407 /* Sources */,
 				9B80473729B768010069B407 /* Frameworks */,
 				9B80473829B768010069B407 /* Resources */,
+				9B6ADD192BED3D7C00D9DFE0 /* Embed Frameworks */,
 			);
 			buildRules = (
 			);
@@ -706,6 +722,7 @@
 				9BF26D582A880EDA006631E9 /* MarqueeText */,
 				9B1866F22A8A858300034A10 /* Drops */,
 				9B6386992BA4F5F8000D4EB6 /* ButtonKit */,
+				9B6ADD402BED703C00D9DFE0 /* LNPopupUI-Static */,
 			);
 			productName = "JellyMusic (iOS)";
 			productReference = 9B80473A29B768010069B407 /* Medusic.app */;
@@ -747,6 +764,7 @@
 				9BF26D572A880EDA006631E9 /* XCRemoteSwiftPackageReference "MarqueeText" */,
 				9B1866F12A8A858300034A10 /* XCRemoteSwiftPackageReference "Drops" */,
 				9B6386982BA4F5F8000D4EB6 /* XCRemoteSwiftPackageReference "ButtonKit" */,
+				9B6ADD3F2BED703C00D9DFE0 /* XCRemoteSwiftPackageReference "LNPopupUI" */,
 			);
 			productRefGroup = 9B80473B29B768010069B407 /* Products */;
 			projectDirPath = "";
@@ -1188,6 +1206,14 @@
 				minimumVersion = 0.2.1;
 			};
 		};
+		9B6ADD3F2BED703C00D9DFE0 /* XCRemoteSwiftPackageReference "LNPopupUI" */ = {
+			isa = XCRemoteSwiftPackageReference;
+			repositoryURL = "https://github.com/LeoNatan/LNPopupUI.git";
+			requirement = {
+				kind = upToNextMajorVersion;
+				minimumVersion = 1.7.4;
+			};
+		};
 		9BB754D429B93F3C009BB3A6 /* XCRemoteSwiftPackageReference "jellyfin-sdk-swift" */ = {
 			isa = XCRemoteSwiftPackageReference;
 			repositoryURL = "https://github.com/jellyfin/jellyfin-sdk-swift";
@@ -1260,6 +1286,11 @@
 			isa = XCSwiftPackageProductDependency;
 			package = 9B6386982BA4F5F8000D4EB6 /* XCRemoteSwiftPackageReference "ButtonKit" */;
 			productName = ButtonKit;
+		};
+		9B6ADD402BED703C00D9DFE0 /* LNPopupUI-Static */ = {
+			isa = XCSwiftPackageProductDependency;
+			package = 9B6ADD3F2BED703C00D9DFE0 /* XCRemoteSwiftPackageReference "LNPopupUI" */;
+			productName = "LNPopupUI-Static";
 		};
 		9BB754D529B93F3C009BB3A6 /* JellyfinAPI */ = {
 			isa = XCSwiftPackageProductDependency;

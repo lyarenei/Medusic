@@ -57,7 +57,7 @@ struct NowPlayingComponent<Content: View>: View {
 
 #endif
 
-private struct NowPlayingBar: View {
+struct NowPlayingBar: View {
     @EnvironmentObject
     private var player: MusicPlayer
 
@@ -66,14 +66,9 @@ private struct NowPlayingBar: View {
 
     var body: some View {
         HStack(spacing: 0) {
-            Button {
-                isOpen = true
-            } label: {
-                songInfo(for: player.currentSong)
-                    .frame(height: 60)
-                    .contentShape(Rectangle())
-            }
-            .buttonStyle(.plain)
+            songInfo(for: player.currentSong)
+                .frame(height: 60)
+                .contentShape(Rectangle())
 
             PlayPauseButton()
                 .frame(width: 60, height: 60)
@@ -91,12 +86,6 @@ private struct NowPlayingBar: View {
                 .disabled(player.nextUpQueue.isEmpty)
         }
         .padding(.trailing, 10)
-        .frame(width: Screen.size.width, height: 65)
-        .background(Blur())
-        .sheet(isPresented: $isOpen) {
-            SheetCloseButton(isPresented: $isOpen)
-            MusicPlayerScreen()
-        }
     }
 
     @ViewBuilder
