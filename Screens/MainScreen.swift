@@ -73,12 +73,14 @@ extension MainScreen {
 }
 
 #if DEBUG
-struct HomeScreen_Previews: PreviewProvider {
-    static var previews: some View {
-        MainScreen()
-            .environmentObject(PreviewUtils.libraryRepo)
-            .environmentObject(PreviewUtils.player)
-            .environmentObject(ApiClient(previewEnabled: true))
-    }
+// swiftlint:disable all
+
+#Preview {
+    MainScreen()
+        .environmentObject(PreviewUtils.libraryRepo)
+        .environmentObject(PreviewUtils.player)
+        .environmentObject(ApiClient(previewEnabled: true))
 }
+
+// swiftlint:enable all
 #endif
