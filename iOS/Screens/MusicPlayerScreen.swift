@@ -13,7 +13,7 @@ struct MusicPlayerScreen: View {
     private var isSongListPresented = false
 
     @State
-    private var artworkScale = 0.0
+    private var artworkScale = 1.0
 
     var body: some View {
         if let curSong = player.currentSong {
