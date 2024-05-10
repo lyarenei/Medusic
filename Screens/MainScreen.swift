@@ -25,7 +25,10 @@ struct MainScreen: View {
         }
         .onChange(of: player.currentSong) { evaluateBarPresent() }
         .onChange(of: selectedTab) { evaluateBarPresent() }
-        .popup(isBarPresented: $showNowPlayingBar) { MusicPlayerScreen() }
+        .popup(isBarPresented: $showNowPlayingBar) {
+            MusicPlayerScreen()
+                .padding(.top, 30)
+        }
         .popupBarCustomView { NowPlayingBarComponent() }
     }
 
