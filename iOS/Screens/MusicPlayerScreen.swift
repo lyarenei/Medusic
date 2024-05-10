@@ -56,6 +56,7 @@ struct MusicPlayerScreen: View {
                         height: proxy.size.height / 12,
                         alignment: .bottom
                     )
+                    .padding(.bottom, 20)
                 }
                 .padding(.horizontal, 10)
                 .frame(height: overallHeight / 2)
