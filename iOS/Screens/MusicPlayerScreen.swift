@@ -22,34 +22,36 @@ struct MusicPlayerScreen: View {
 
     @ViewBuilder
     private func content(for song: Song) -> some View {
-        VStack(alignment: .center, spacing: 15) {
-            ArtworkComponent(for: song.albumId)
-                .frame(
-                    width: Screen.size.width - 40,
-                    height: Screen.size.width - 40
-                )
+        GeometryReader { proxy in
+            VStack(alignment: .center, spacing: 15) {
+                ArtworkComponent(for: song.albumId)
+                    .frame(
+                        width: proxy.size.width - 40,
+                        height: proxy.size.width - 40
+                    )
 
-            songDetails(for: song)
-                .padding(.leading, 28)
-                .padding(.trailing, 16)
+                songDetails(for: song)
+                    .padding(.leading, 28)
+                    .padding(.trailing, 16)
 
-            Group {
-                PlaybackProgressComponent()
-                PlaybackControl()
-                    .font(.largeTitle)
-                    .buttonStyle(.plain)
-                    .padding(.horizontal, 40)
+                Group {
+                    PlaybackProgressComponent()
+                    PlaybackControl()
+                        .font(.largeTitle)
+                        .buttonStyle(.plain)
+                        .padding(.horizontal, 40)
 
-                VolumeSliderComponent()
-                    .frame(height: 40)
-                    .padding(.top, 10)
+                    VolumeSliderComponent()
+                        .frame(height: 40)
+                        .padding(.top, 10)
 
-                footerActions(for: song)
+                    footerActions(for: song)
+                }
+                .padding(.horizontal, 28)
             }
-            .padding(.horizontal, 28)
+            .padding(.top, 5)
+            .padding(.bottom, 15)
         }
-        .padding(.top, 5)
-        .padding(.bottom, 15)
     }
 
     @ViewBuilder
