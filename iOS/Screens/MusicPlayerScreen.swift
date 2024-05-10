@@ -168,20 +168,21 @@ struct MusicPlayerScreen: View {
 #Preview {
     struct Preview: View {
         @State
-        var isPresented = false
+        var isPresented = true
 
         @State
         var player = PreviewUtils.player
 
         var body: some View {
-            VStack {
-                SheetCloseButton(isPresented: $isPresented)
-                MusicPlayerScreen()
-            }
-            .task { player.setCurrentlyPlaying(newSong: PreviewData.songs.first) }
-            .environmentObject(PreviewUtils.libraryRepo)
-            .environmentObject(player)
-            .environmentObject(ApiClient(previewEnabled: true))
+            Color.white
+                .popup(isBarPresented: $isPresented, isPopupOpen: .constant(true)) {
+                    MusicPlayerScreen()
+                        .padding(.top, 30)
+                }
+                .task { player.setCurrentlyPlaying(newSong: PreviewData.songs.first) }
+                .environmentObject(PreviewUtils.libraryRepo)
+                .environmentObject(player)
+                .environmentObject(ApiClient(previewEnabled: true))
         }
     }
 
