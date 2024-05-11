@@ -7,18 +7,14 @@ struct MainScreen: View {
     @EnvironmentObject
     private var player: MusicPlayer
 
-    @Stored(in: .downloadQueue)
-    private var downloadQueue
+    @EnvironmentObject
+    private var downloader: Downloader
 
     @State
     private var showNowPlayingBar = false
 
     @State
     private var selectedTab: NavigationTab = .library
-
-    init(downloadQueue: Store<Song> = .downloadQueue) {
-        self._downloadQueue = Stored(in: downloadQueue)
-    }
 
     var body: some View {
         TabView(selection: $selectedTab) {
@@ -63,9 +59,19 @@ struct MainScreen: View {
 
     @ViewBuilder
     private var downloadsTab: some View {
-        Text("Downloads")
-            .tabItem { Label("Downloads", systemSymbol: .icloudAndArrowDown) }
-            .badge(downloadQueue.count)
+        Group {
+            if downloader.queue.isEmpty {
+                ContentUnavailableView(
+                    "No active downloads",
+                    systemImage: "",
+                    description: Text("Any items currently being downloaded will appear here.")
+                )
+            } else {
+                downloadQueueList
+            }
+        }
+        .tabItem { Label("Downloads", systemSymbol: .icloudAndArrowDown) }
+        .badge(downloader.queue.count)
     }
 
     @ViewBuilder
@@ -91,15 +97,33 @@ extension MainScreen {
     }
 }
 
+extension MainScreen {
+    @ViewBuilder
+    private var downloadQueueList: some View {
+        // TODO: can support download queue removal (think about cancellation and stuff)
+        List(downloader.queue) { song in
+            HStack {
+                Text(song.name)
+                Spacer()
+                ProgressView()
+            }
+        }
+        .listStyle(.plain)
+        .navigationTitle("Downloads")
+        .navigationBarTitleDisplayMode(.inline)
+    }
+}
+
 #if DEBUG
 // swiftlint:disable all
 
 #Preview {
-    MainScreen(downloadQueue: .previewStore(items: PreviewData.songs))
+    MainScreen()
         .environmentObject(PreviewUtils.libraryRepo)
         .environmentObject(PreviewUtils.player)
         .environmentObject(ApiClient(previewEnabled: true))
         .environmentObject(PreviewUtils.fileRepo)
+        .environmentObject(Downloader.shared)
 }
 
 // swiftlint:enable all
