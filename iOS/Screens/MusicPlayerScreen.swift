@@ -32,6 +32,7 @@ struct MusicPlayerScreen: View {
 
                 VStack(alignment: .center) {
                     songDetails(for: song)
+                        .frame(height: overallHeight / 10, alignment: .bottom)
 
                     PlaybackProgressComponent()
                         .frame(height: overallHeight / 12)
@@ -231,34 +232,19 @@ private struct PlaybackControl: View {
         GeometryReader { proxy in
             HStack(alignment: .center) {
                 PlayPreviousButton()
-                    .font(.system(size: 26))
-                    .frame(
-                        width: proxy.size.width / 8,
-                        height: proxy.size.height,
-                        alignment: .center
-                    )
+                    .font(.system(size: 24))
                     .contentShape(Rectangle())
 
                 Spacer()
 
                 PlayPauseButton()
-                    .font(.system(size: 32))
-                    .frame(
-                        width: proxy.size.width / 7,
-                        height: proxy.size.height,
-                        alignment: .center
-                    )
+                    .font(.system(size: 42))
                     .contentShape(Rectangle())
 
                 Spacer()
 
                 PlayNextButton()
-                    .font(.system(size: 26))
-                    .frame(
-                        width: proxy.size.width / 8,
-                        height: proxy.size.height,
-                        alignment: .center
-                    )
+                    .font(.system(size: 24))
                     .contentShape(Rectangle())
                     .disabled(player.nextUpQueue.isEmpty)
             }
