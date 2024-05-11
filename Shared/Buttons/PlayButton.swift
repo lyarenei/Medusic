@@ -60,6 +60,9 @@ struct PlayPauseButton: View {
     @EnvironmentObject
     private var player: MusicPlayer
 
+    @State
+    private var effectTrigger = false
+
     private let text: String?
 
     init(_ text: String? = nil) {
@@ -72,6 +75,8 @@ struct PlayPauseButton: View {
         } label: {
             HStack {
                 Image(systemSymbol: player.isPlaying ? .pauseFill : .playFill)
+                    .contentTransition(.symbolEffect(.replace))
+
                 if let text {
                     Text(text)
                 }
@@ -86,6 +91,8 @@ struct PlayPauseButton: View {
         } else {
             await player.resume()
         }
+
+        withAnimation { effectTrigger.toggle() }
     }
 }
 

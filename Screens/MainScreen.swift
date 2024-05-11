@@ -1,3 +1,4 @@
+import LNPopupUI
 import SFSafeSymbols
 import SwiftUI
 
@@ -6,41 +7,47 @@ struct MainScreen: View {
     private var player: MusicPlayer
 
     @State
-    private var isPlayerPresented = false
+    private var showNowPlayingBar = false
+
+    @State
+    private var selectedTab: NavigationTab = .library
 
     var body: some View {
-        TabView {
+        TabView(selection: $selectedTab) {
             libraryTab
+                .tag(NavigationTab.library)
+
             searchTab
+                .tag(NavigationTab.search)
+
             settingsTab
+                .tag(NavigationTab.settings)
         }
-        .onChange(of: player.currentSong) {
-            withAnimation(.linear) {
-                isPlayerPresented = player.currentSong != nil
-            }
+        .onChange(of: player.currentSong) { evaluateBarPresent() }
+        .onChange(of: selectedTab) { evaluateBarPresent() }
+        .popup(isBarPresented: $showNowPlayingBar) {
+            MusicPlayerScreen()
+                .padding(.top, 30)
         }
+        .popupBarCustomView { NowPlayingBarComponent() }
     }
 
     @ViewBuilder
     private var libraryTab: some View {
-        NowPlayingComponent(isPresented: $isPlayerPresented) {
-            LibraryScreen()
-        }
-        .tabItem {
-            Image(systemSymbol: .musicQuarternote3)
-            Text("Library")
-        }
+        LibraryScreen()
+            .tabItem {
+                Image(systemSymbol: .musicQuarternote3)
+                Text("Library")
+            }
     }
 
     @ViewBuilder
     private var searchTab: some View {
-        NowPlayingComponent(isPresented: $isPlayerPresented) {
-            SearchScreen()
-        }
-        .tabItem {
-            Image(systemSymbol: .magnifyingglass)
-            Text("Search")
-        }
+        SearchScreen()
+            .tabItem {
+                Image(systemSymbol: .magnifyingglass)
+                Text("Search")
+            }
     }
 
     @ViewBuilder
@@ -51,15 +58,29 @@ struct MainScreen: View {
                 Text("Settings")
             }
     }
+
+    private func evaluateBarPresent() {
+        showNowPlayingBar = player.currentSong != nil && selectedTab != .settings
+    }
+}
+
+extension MainScreen {
+    enum NavigationTab {
+        case library
+        case search
+        case settings
+    }
 }
 
 #if DEBUG
-struct HomeScreen_Previews: PreviewProvider {
-    static var previews: some View {
-        MainScreen()
-            .environmentObject(PreviewUtils.libraryRepo)
-            .environmentObject(PreviewUtils.player)
-            .environmentObject(ApiClient(previewEnabled: true))
-    }
+// swiftlint:disable all
+
+#Preview {
+    MainScreen()
+        .environmentObject(PreviewUtils.libraryRepo)
+        .environmentObject(PreviewUtils.player)
+        .environmentObject(ApiClient(previewEnabled: true))
 }
+
+// swiftlint:enable all
 #endif

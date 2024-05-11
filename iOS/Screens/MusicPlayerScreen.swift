@@ -1,7 +1,6 @@
 import OSLog
 import SFSafeSymbols
 import SwiftUI
-import SwiftUIX
 
 struct MusicPlayerScreen: View {
     @EnvironmentObject
@@ -13,6 +12,9 @@ struct MusicPlayerScreen: View {
     @State
     private var isSongListPresented = false
 
+    @State
+    private var artworkScale = 1.0
+
     var body: some View {
         if let curSong = player.currentSong {
             content(for: curSong)
@@ -22,34 +24,62 @@ struct MusicPlayerScreen: View {
 
     @ViewBuilder
     private func content(for song: Song) -> some View {
-        VStack(alignment: .center, spacing: 15) {
-            ArtworkComponent(for: song.albumId)
-                .frame(
-                    width: Screen.size.width - 40,
-                    height: Screen.size.width - 40
-                )
+        GeometryReader { proxy in
+            let overallHeight = proxy.size.height + proxy.safeAreaInsets.bottom
+            VStack(alignment: .center, spacing: 0) {
+                artwork(for: song, areaWidth: proxy.size.width)
+                    .frame(height: overallHeight / 2)
 
-            songDetails(for: song)
-                .padding(.leading, 28)
-                .padding(.trailing, 16)
+                VStack(alignment: .center) {
+                    songDetails(for: song)
+                        .frame(height: overallHeight / 10, alignment: .bottom)
 
-            Group {
-                PlaybackProgressComponent()
-                PlaybackControl()
-                    .font(.largeTitle)
-                    .buttonStyle(.plain)
-                    .padding(.horizontal, 40)
+                    PlaybackProgressComponent()
+                        .frame(height: overallHeight / 12)
 
-                VolumeSliderComponent()
-                    .frame(height: 40)
-                    .padding(.top, 10)
+                    PlaybackControl()
+                        .buttonStyle(.plain)
+                        .frame(
+                            width: proxy.size.width - 170,
+                            height: overallHeight / 10,
+                            alignment: .center
+                        )
 
-                footerActions(for: song)
+                    VolumeSliderComponent()
+                        .frame(height: overallHeight / 12)
+
+                    FooterActions(song: song) {
+                        isSongListPresented = true
+                    }
+                    .font(.title3)
+                    .frame(
+                        width: proxy.size.width - 170,
+                        height: proxy.size.height / 12,
+                        alignment: .bottom
+                    )
+                    .padding(.bottom, 20)
+                }
+                .padding(.horizontal, 10)
+                .frame(height: overallHeight / 2)
             }
-            .padding(.horizontal, 28)
+            .padding(.horizontal, 20)
+            .frame(width: proxy.size.width, height: overallHeight)
         }
-        .padding(.top, 5)
-        .padding(.bottom, 15)
+    }
+
+    @ViewBuilder
+    private func artwork(for song: Song, areaWidth: CGFloat) -> some View {
+        ZStack(alignment: .center) {
+            ArtworkComponent(for: song.albumId)
+                .padding()
+                .frame(width: areaWidth, height: areaWidth)
+                .scaleEffect(artworkScale, anchor: .center)
+        }
+        .onChange(of: player.isPlaying) {
+            withAnimation(.smooth) {
+                artworkScale = player.isPlaying ? 1 : 0.75
+            }
+        }
     }
 
     @ViewBuilder
@@ -80,8 +110,9 @@ struct MusicPlayerScreen: View {
             isSongListPresented = true
         }
         .padding(.horizontal, 50)
-        .font(.title3)
-        .frame(height: 40)
+        .font(.title2)
+        .dynamicTypeSize(DynamicTypeSize.small...DynamicTypeSize.large)
+        .frame(height: 40, alignment: .bottom)
     }
 
     @ViewBuilder
@@ -168,20 +199,21 @@ struct MusicPlayerScreen: View {
 #Preview {
     struct Preview: View {
         @State
-        var isPresented = false
+        var isPresented = true
 
         @State
         var player = PreviewUtils.player
 
         var body: some View {
-            VStack {
-                SheetCloseButton(isPresented: $isPresented)
-                MusicPlayerScreen()
-            }
-            .task { player.setCurrentlyPlaying(newSong: PreviewData.songs.first) }
-            .environmentObject(PreviewUtils.libraryRepo)
-            .environmentObject(player)
-            .environmentObject(ApiClient(previewEnabled: true))
+            Color.white
+                .popup(isBarPresented: $isPresented, isPopupOpen: .constant(true)) {
+                    MusicPlayerScreen()
+                        .padding(.top, 30)
+                }
+                .task { player.setCurrentlyPlaying(newSong: PreviewData.songs.first) }
+                .environmentObject(PreviewUtils.libraryRepo)
+                .environmentObject(player)
+                .environmentObject(ApiClient(previewEnabled: true))
         }
     }
 
@@ -197,27 +229,27 @@ private struct PlaybackControl: View {
     private var player: MusicPlayer
 
     var body: some View {
-        HStack {
-            PlayPreviousButton()
-                .font(.title2)
-                .frame(width: 50, height: 50)
-                .contentShape(Rectangle())
+        GeometryReader { proxy in
+            HStack(alignment: .center) {
+                PlayPreviousButton()
+                    .font(.system(size: 24))
+                    .contentShape(Rectangle())
 
-            Spacer()
+                Spacer()
 
-            PlayPauseButton()
-                .frame(width: 50, height: 50)
-                .contentShape(Rectangle())
+                PlayPauseButton()
+                    .font(.system(size: 42))
+                    .contentShape(Rectangle())
 
-            Spacer()
+                Spacer()
 
-            PlayNextButton()
-                .font(.title2)
-                .frame(width: 50, height: 50)
-                .contentShape(Rectangle())
-                .disabled(player.nextUpQueue.isEmpty)
+                PlayNextButton()
+                    .font(.system(size: 24))
+                    .contentShape(Rectangle())
+                    .disabled(player.nextUpQueue.isEmpty)
+            }
+            .frame(width: proxy.size.width, height: proxy.size.height, alignment: .center)
         }
-        .frame(height: 40)
     }
 }
 
