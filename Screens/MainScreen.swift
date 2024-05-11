@@ -1,3 +1,4 @@
+import Boutique
 import LNPopupUI
 import SFSafeSymbols
 import SwiftUI
@@ -6,11 +7,18 @@ struct MainScreen: View {
     @EnvironmentObject
     private var player: MusicPlayer
 
+    @Stored(in: .downloadQueue)
+    private var downloadQueue
+
     @State
     private var showNowPlayingBar = false
 
     @State
     private var selectedTab: NavigationTab = .library
+
+    init(downloadQueue: Store<Song> = .downloadQueue) {
+        self._downloadQueue = Stored(in: downloadQueue)
+    }
 
     var body: some View {
         TabView(selection: $selectedTab) {
@@ -19,6 +27,9 @@ struct MainScreen: View {
 
             searchTab
                 .tag(NavigationTab.search)
+
+            downloadsTab
+                .tag(NavigationTab.downloads)
 
             settingsTab
                 .tag(NavigationTab.settings)
@@ -51,6 +62,13 @@ struct MainScreen: View {
     }
 
     @ViewBuilder
+    private var downloadsTab: some View {
+        Text("Downloads")
+            .tabItem { Label("Downloads", systemSymbol: .icloudAndArrowDown) }
+            .badge(downloadQueue.count)
+    }
+
+    @ViewBuilder
     private var settingsTab: some View {
         SettingsScreen()
             .tabItem {
@@ -68,6 +86,7 @@ extension MainScreen {
     enum NavigationTab {
         case library
         case search
+        case downloads
         case settings
     }
 }
@@ -76,10 +95,11 @@ extension MainScreen {
 // swiftlint:disable all
 
 #Preview {
-    MainScreen()
+    MainScreen(downloadQueue: .previewStore(items: PreviewData.songs))
         .environmentObject(PreviewUtils.libraryRepo)
         .environmentObject(PreviewUtils.player)
         .environmentObject(ApiClient(previewEnabled: true))
+        .environmentObject(PreviewUtils.fileRepo)
 }
 
 // swiftlint:enable all
