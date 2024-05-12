@@ -4,7 +4,7 @@ import OSLog
 import SwiftUI
 
 @main
-struct JellyMusicApp: App {
+struct MedusicApp: App {
     @Default(.appColorScheme)
     private var appColorScheme
 
