@@ -103,8 +103,7 @@ final class FileRepository: ObservableObject {
         }
     }
 
-    func setCacheSizeLimit(_ sizeInMB: UInt64) {
-        logger.debug("Setting cache limit to \(sizeInMB) MB")
+    func setMaxSize(to sizeInMB: UInt64) {
         cacheSizeLimit = sizeInMB * 1024 * 1024
     }
 

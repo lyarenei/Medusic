@@ -103,7 +103,7 @@ private struct MaxCacheSize: View {
             formatter: getFormatter()
         )
         .onChange(of: maxCacheSize, debounceTime: Duration.seconds(5)) { newValue in
-            fileRepo.setCacheSizeLimit(newValue)
+            fileRepo.setMaxSize(to: newValue)
         }
     }
 
