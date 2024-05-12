@@ -95,8 +95,12 @@ final class FileRepository: ObservableObject {
     }
 
     func getTakenSpaceInMB() throws -> Double {
-        let totalSizeInBytes = try getTakenSpace()
-        return Double(totalSizeInBytes) / 1024.0 / 1024.0
+        do {
+            let totalSizeInBytes = try getTakenSpace()
+            return Double(totalSizeInBytes) / 1024.0 / 1024.0
+        } catch {
+            throw FileRepositoryError.takenSpaceFailure
+        }
     }
 
     func setCacheSizeLimit(_ sizeInMB: UInt64) {
@@ -260,11 +264,14 @@ final class FileRepository: ObservableObject {
 extension FileRepository {
     enum FileRepositoryError: Error {
         case integrityCheckFailed(reason: String)
+        case takenSpaceFailure
 
         var localizedDescription: String {
             switch self {
             case .integrityCheckFailed(let reason):
                 return "Could not complete integrity check: \(reason)"
+            case .takenSpaceFailure:
+                return "Could not calculate taken space"
             }
         }
     }

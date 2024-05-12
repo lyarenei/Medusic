@@ -206,8 +206,7 @@ private struct RemoveDownloads: View {
         do {
             sizeMB = try fileRepo.getTakenSpaceInMB()
         } catch {
-            print("Failed to get file cache size: \(error.localizedDescription)")
-            Alerts.error("Failed to get file size")
+            Alerts.error("Failed to calculate taken space")
         }
     }
 }
