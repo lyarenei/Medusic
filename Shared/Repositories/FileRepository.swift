@@ -84,13 +84,13 @@ final class FileRepository: ObservableObject {
         return totalSize
     }
 
-    func numberOfDownloadedFiles() -> Int {
+    func downloadedSongsCount() -> Int {
         let enumerator = FileManager.default.enumerator(at: cacheDirectory, includingPropertiesForKeys: nil)
         if let count = enumerator?.allObjects.count {
             return count
         }
 
-        logger.warning("Failed to get number of files in download cache - provided value is nil")
+        logger.warning("Failed to get count of downloaded songs - provided value is nil")
         return 0
     }
 
