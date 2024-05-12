@@ -18,6 +18,7 @@ struct AdvancedSettings: View {
             RemoveDownloads()
 
             forceLibraryRefreshButton
+            checkDownloadsIntegrityButton
             resetToDefaultsButton
                 .foregroundColor(.red)
         }
@@ -39,6 +40,25 @@ struct AdvancedSettings: View {
             Text("Force library refresh")
         }
         .disabledWhenLoading()
+    }
+
+    @ViewBuilder
+    private var checkDownloadsIntegrityButton: some View {
+        Section {
+            AsyncButton {
+                do {
+                    try await fileRepo.checkIntegrity()
+                    Alerts.done("Integrity check finished")
+                } catch {
+                    Alerts.error("Integrity check failed")
+                }
+            } label: {
+                Text("Check downloads integrity")
+            }
+            .disabledWhenLoading()
+        } footer: {
+            Text("Check the integrity of downloaded files and attempt to fix mismatches. This check is automatically run on every app launch.")
+        }
     }
 
     @ViewBuilder
