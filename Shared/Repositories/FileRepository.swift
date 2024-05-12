@@ -54,7 +54,7 @@ final class FileRepository: ObservableObject {
             }
         }
 
-        Task { await checkIntegrity() }
+        Task { try? await checkIntegrity() }
     }
 
     /// Generate a file URL for a specified song and file extension.
@@ -172,14 +172,17 @@ final class FileRepository: ObservableObject {
     /// Check if songs in the store have a matching file and vice-versa.
     /// If there is a mismatch, it is assumed that something went wrong and the file/song is deleted.
     /// A mismatch may typically happen when an item is re-added to Jellyfin => this generates a new UUID for it.
-    func checkIntegrity() async {
+    func checkIntegrity() async throws {
         logger.info("Starting integrity check of downloaded songs")
+
+        var fixedErrors = 0
+        
         let fileURLs: [URL]
         do {
             fileURLs = try FileManager.default.contentsOfDirectory(at: cacheDirectory, includingPropertiesForKeys: nil, options: [])
         } catch {
             logger.warning("Integrity check failed: \(error.localizedDescription)")
-            return
+            throw FileRepositoryError.integrityCheckFailed(reason: "Could not get contents of directory")
         }
 
         let fileIds = Set(fileURLs.map { $0.deletingPathExtension().lastPathComponent })
@@ -191,7 +194,11 @@ final class FileRepository: ObservableObject {
             let url = fileURLs.first { $0.deletingPathExtension().lastPathComponent == missingFileId }
             if let url {
                 logger.info("Found file for song \(missingFileId), but it is not tracked, removing")
-                removeFile(at: url)
+                if removeFile(at: url) {
+                    fixedErrors += 1
+                }
+            } else {
+                logger.debug("Could not get URL for file matching ID \(missingFileId)")
             }
         }
 
@@ -201,11 +208,19 @@ final class FileRepository: ObservableObject {
             let song = await downloadedSongs.first { $0.id == missingSongId }
             if let song {
                 logger.info("Found song \(missingSongId) as downloaded, but no file found, removing")
-                await untrackDownloaded(song)
+                if await untrackDownloaded(song) {
+                    fixedErrors += 1
+                }
+            } else {
+                logger.debug("Could not get song for requested ID \(missingSongId)")
             }
         }
 
-        logger.info("Download cache integrity check finished: found \(missingSongIds.count + missingFileIds.count) errors")
+        let totalCount = missingSongIds.count + missingFileIds.count
+        logger.info("Download cache integrity check finished: found \(totalCount) mismatches, fixed \(fixedErrors) mismatches")
+        if totalCount != fixedErrors {
+            throw FileRepositoryError.integrityCheckFailed(reason: "One or more mismatches were not fixed")
+        }
     }
 
     // MARK: - Internal
@@ -219,19 +234,38 @@ final class FileRepository: ObservableObject {
         return Defaults[.streamBitrate]
     }
 
-    private func removeFile(at url: URL) {
+    private func removeFile(at url: URL) -> Bool {
         do {
             try FileManager.default.removeItem(at: url)
+            return true
         } catch {
             logger.warning("Failed to remove file: \(error.localizedDescription)")
         }
+
+        return false
     }
 
-    private func untrackDownloaded(_ song: Song) async {
+    private func untrackDownloaded(_ song: Song) async -> Bool {
         do {
             try await $downloadedSongs.remove(song)
+            return true
         } catch {
             logger.warning("Failed to unmark song \(song.id) as downloaded")
+        }
+
+        return false
+    }
+}
+
+extension FileRepository {
+    enum FileRepositoryError: Error {
+        case integrityCheckFailed(reason: String)
+
+        var localizedDescription: String {
+            switch self {
+            case .integrityCheckFailed(let reason):
+                return "Could not complete integrity check: \(reason)"
+            }
         }
     }
 }
