@@ -34,7 +34,7 @@ struct DownloadsScreen: View {
                         ContentUnavailableView(
                             "No active downloads",
                             systemImage: "",
-                            description: Text("Any items currently being downloaded will appear here.")
+                            description: Text("Any songs currently being downloaded will appear here.")
                         )
                     }
                 } label: {
