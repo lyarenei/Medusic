@@ -5,8 +5,6 @@ import OSLog
 final class FileRepository: ObservableObject {
     public static let shared = FileRepository()
 
-    typealias Completion = () -> Void
-
     @Stored
     var downloadedSongs: [Song]
 
