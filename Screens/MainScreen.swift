@@ -59,19 +59,9 @@ struct MainScreen: View {
 
     @ViewBuilder
     private var downloadsTab: some View {
-        Group {
-            if downloader.queue.isEmpty {
-                ContentUnavailableView(
-                    "No active downloads",
-                    systemImage: "",
-                    description: Text("Any items currently being downloaded will appear here.")
-                )
-            } else {
-                downloadQueueList
-            }
-        }
-        .tabItem { Label("Downloads", systemSymbol: .icloudAndArrowDown) }
-        .badge(downloader.queue.count)
+        DownloadsScreen()
+            .tabItem { Label("Downloads", systemSymbol: .icloudAndArrowDown) }
+            .badge(downloader.queue.count)
     }
 
     @ViewBuilder
@@ -94,23 +84,6 @@ extension MainScreen {
         case search
         case downloads
         case settings
-    }
-}
-
-extension MainScreen {
-    @ViewBuilder
-    private var downloadQueueList: some View {
-        // TODO: can support download queue removal (think about cancellation and stuff)
-        List(downloader.queue) { song in
-            HStack {
-                Text(song.name)
-                Spacer()
-                ProgressView()
-            }
-        }
-        .listStyle(.plain)
-        .navigationTitle("Downloads")
-        .navigationBarTitleDisplayMode(.inline)
     }
 }
 

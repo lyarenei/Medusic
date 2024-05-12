@@ -30,6 +30,7 @@
 		9B1EF3A329DCA62C00C2A33B /* PlayPreviousButton.swift in Sources */ = {isa = PBXBuildFile; fileRef = 9B1EF3A229DCA62C00C2A33B /* PlayPreviousButton.swift */; };
 		9B1EF3A629DCA78800C2A33B /* EnqueueButton.swift in Sources */ = {isa = PBXBuildFile; fileRef = 9B1EF3A529DCA78800C2A33B /* EnqueueButton.swift */; };
 		9B1EF3AF29E151F400C2A33B /* RefreshButton.swift in Sources */ = {isa = PBXBuildFile; fileRef = 9B1EF3AE29E151F400C2A33B /* RefreshButton.swift */; };
+		9B24FAE02BF0BB33007A675F /* DownloadsScreen.swift in Sources */ = {isa = PBXBuildFile; fileRef = 9B24FADF2BF0BB33007A675F /* DownloadsScreen.swift */; };
 		9B27F08E2BDAF324009B79C5 /* Downloader.swift in Sources */ = {isa = PBXBuildFile; fileRef = 9B27F08D2BDAF324009B79C5 /* Downloader.swift */; };
 		9B27F0902BDB8E93009B79C5 /* LibraryRepository+Songs.swift in Sources */ = {isa = PBXBuildFile; fileRef = 9B27F08F2BDB8E93009B79C5 /* LibraryRepository+Songs.swift */; };
 		9B289E9C29F6E6DF007FD445 /* ScrollViewExtensions.swift in Sources */ = {isa = PBXBuildFile; fileRef = 9B289E9B29F6E6DF007FD445 /* ScrollViewExtensions.swift */; };
@@ -166,6 +167,7 @@
 		9B1EF3A229DCA62C00C2A33B /* PlayPreviousButton.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = PlayPreviousButton.swift; sourceTree = "<group>"; };
 		9B1EF3A529DCA78800C2A33B /* EnqueueButton.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = EnqueueButton.swift; sourceTree = "<group>"; };
 		9B1EF3AE29E151F400C2A33B /* RefreshButton.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = RefreshButton.swift; sourceTree = "<group>"; };
+		9B24FADF2BF0BB33007A675F /* DownloadsScreen.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = DownloadsScreen.swift; sourceTree = "<group>"; };
 		9B27F08D2BDAF324009B79C5 /* Downloader.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = Downloader.swift; sourceTree = "<group>"; };
 		9B27F08F2BDB8E93009B79C5 /* LibraryRepository+Songs.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = "LibraryRepository+Songs.swift"; sourceTree = "<group>"; };
 		9B289E9B29F6E6DF007FD445 /* ScrollViewExtensions.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = ScrollViewExtensions.swift; sourceTree = "<group>"; };
@@ -648,6 +650,7 @@
 				9B3D44BF29BE09620054C9E0 /* SongsLibraryScreen.swift */,
 				9B70BD9F29B923AE000DB31C /* AlbumDetailScreen.swift */,
 				9BBE146629FDA11C0028C500 /* SearchScreen.swift */,
+				9B24FADF2BF0BB33007A675F /* DownloadsScreen.swift */,
 			);
 			path = Screens;
 			sourceTree = "<group>";
@@ -851,6 +854,7 @@
 				9BB75EA329C3894A008CD65A /* FavoriteButton.swift in Sources */,
 				9BB754DE29BA8522009BB3A6 /* DTOs+Codable.swift in Sources */,
 				9B1EF39D29DC97B100C2A33B /* PlayButton.swift in Sources */,
+				9B24FAE02BF0BB33007A675F /* DownloadsScreen.swift in Sources */,
 				9B73ED0229C9ECD0007F74DB /* DefaultMediaService.swift in Sources */,
 				9B52AF7729D0B106002E21B9 /* SongCollection.swift in Sources */,
 				9B3D449C29BCF89A0054C9E0 /* SystemService.swift in Sources */,
