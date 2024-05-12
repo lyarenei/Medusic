@@ -58,7 +58,7 @@ final class FileRepository: ObservableObject {
     }
 
     /// Generate a file URL for a specified song and file extension.
-    func generateURL(for song: Song, with ext: String) -> URL {
+    func generateFileURL(for song: Song, with ext: String) -> URL {
         cacheDirectory.appendingPathComponent(song.id).appendingPathExtension(ext)
     }
 

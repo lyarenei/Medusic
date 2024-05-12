@@ -98,7 +98,7 @@ final class Downloader: ObservableObject {
 
         // TODO: yes, this can be also used for determining file extension, this might bite in the future, hehe
         let fileExtension = determineDownloadCodec(for: song)
-        let outputFileURL = fileRepo.generateURL(for: song, with: fileExtension)
+        let outputFileURL = fileRepo.generateFileURL(for: song, with: fileExtension)
 
         logger.debug("Starting download for song \(song.id)")
 
