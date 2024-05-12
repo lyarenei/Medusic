@@ -13,7 +13,7 @@ final class FileRepository: ObservableObject {
     private let logger = Logger.repository
     private var observerRef: NSObjectProtocol?
 
-    var cacheSizeLimit: UInt64
+    private(set) var cacheSizeLimit: UInt64
 
     init(
         downloadedSongsStore: Store<Song> = .downloadedSongs,
