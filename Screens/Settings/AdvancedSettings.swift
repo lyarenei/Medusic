@@ -204,7 +204,7 @@ private struct RemoveDownloads: View {
     @MainActor
     private func calculateSize() async {
         do {
-            sizeMB = try fileRepo.downloadedFilesSizeInMB()
+            sizeMB = try fileRepo.getTakenSpaceInMB()
         } catch {
             print("Failed to get file cache size: \(error.localizedDescription)")
             Alerts.error("Failed to get file size")

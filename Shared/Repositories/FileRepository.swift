@@ -94,7 +94,7 @@ final class FileRepository: ObservableObject {
         return 0
     }
 
-    func downloadedFilesSizeInMB() throws -> Double {
+    func getTakenSpaceInMB() throws -> Double {
         let totalSizeInBytes = try getTakenSpace()
         return Double(totalSizeInBytes) / 1024.0 / 1024.0
     }
