@@ -87,7 +87,7 @@ struct AlbumDetailScreen: View {
                 )
 
             AsyncButton {
-                let songs = library.getSongs(for: album)
+                let songs = await library.getSongs(for: album)
                 do {
                     try await player.play(songs: songs.shuffled())
                 } catch {
@@ -109,7 +109,7 @@ struct AlbumDetailScreen: View {
 
     @ViewBuilder
     private var runtime: some View {
-        let songCount = library.getSongs(for: album).count
+        let songCount = library.songs.filtered(by: .albumId(album.id)).count
         let runtime = library.getRuntime(for: album)
 
         if songCount > 0 {
@@ -289,6 +289,7 @@ private struct SongContextOptions: View {
     .environmentObject(PreviewUtils.libraryRepo)
     .environmentObject(ApiClient(previewEnabled: true))
     .environmentObject(PreviewUtils.player)
+    .environmentObject(PreviewUtils.fileRepo)
 }
 
 #Preview("Empty") {
@@ -297,6 +298,7 @@ private struct SongContextOptions: View {
         .environmentObject(PreviewUtils.libraryRepoEmpty)
         .environmentObject(ApiClient(previewEnabled: true))
         .environmentObject(PreviewUtils.player)
+        .environmentObject(PreviewUtils.fileRepo)
 }
 
 // swiftlint:enable all

@@ -1,129 +1,106 @@
+import ButtonKit
 import Combine
 import OSLog
 import SFSafeSymbols
 import SwiftUI
 
-struct DownloadButton: View {
+struct DownloadButton<Item: JellyfinItem>: View {
+    @EnvironmentObject
+    private var library: LibraryRepository
+
+    @EnvironmentObject
+    private var fileRepo: FileRepository
+
     @State
     private var isDownloaded = false
 
     @State
     private var inProgress = false
 
-    @ObservedObject
-    private var fileRepo: FileRepository
-
-    private var item: any JellyfinItem
-    private var textDownload: String?
-    private var textRemove: String?
-    private var songRepo: SongRepository
-    private var layout: ButtonLayout = .horizontal
+    private var logger = Logger.library
+    private var item: Item
+    private var textDownload: String
+    private var textRemove: String
+    private var hideText = false
+    private var downloader: Downloader
 
     init(
-        item: any JellyfinItem,
-        textDownload: String? = nil,
-        textRemove: String? = nil,
-        songRepo: SongRepository = .shared,
-        fileRepo: FileRepository = .shared
+        item: Item,
+        textDownload: String,
+        textRemove: String,
+        fileRepo: FileRepository = .shared,
+        downloader: Downloader = .shared
     ) {
         self.item = item
         self.textDownload = textDownload
         self.textRemove = textRemove
-        self.songRepo = songRepo
-        self._fileRepo = ObservedObject(wrappedValue: fileRepo)
+
+        self.downloader = downloader
+        if let song = item as? Song {
+            self.isDownloaded = fileRepo.fileExists(for: song)
+        }
+    }
+
+    init(item: Item) {
+        self.init(item: item, textDownload: .empty, textRemove: .empty)
     }
 
     var body: some View {
-        button()
+        button
             .onAppear { handleOnAppear() }
-            .onChange(of: fileRepo.downloadedSongs) { downloaded in
-                handleIsDownloaded(downloaded)
+            .onReceive(NotificationCenter.default.publisher(for: .SongFileDownloaded)) { event in
+                guard let data = event.userInfo,
+                      let song = data["song"] as? Song,
+                      song.id == item.id
+                else { return }
+
+                inProgress = false
+                isDownloaded = true
             }
-            .onChange(of: fileRepo.downloadQueue) { dlq in
-                handleInProgress(dlq)
+            .onReceive(NotificationCenter.default.publisher(for: .SongFileDeleted)) { event in
+                guard let data = event.userInfo,
+                      let song = data["song"] as? Song,
+                      song.id == item.id
+                else { return }
+
+                isDownloaded = false
             }
     }
 
     @ViewBuilder
-    private func button() -> some View {
+    private var button: some View {
         Button {
             action()
         } label: {
             if inProgress {
-                progressIndicator()
+                ProgressView()
+                    .scaledToFit()
             } else {
-                switch layout {
-                case .horizontal:
-                    hLayout()
-                case .vertical:
-                    vLayout()
-                }
+                label
             }
         }
+        .disabled(inProgress)
     }
 
     @ViewBuilder
-    private func icon() -> some View {
-        Image(systemSymbol: isDownloaded ? .trash : .icloudAndArrowDown)
-            .scaledToFit()
-    }
-
-    @ViewBuilder
-    private func progressIndicator() -> some View {
-        ProgressView()
-            .scaledToFit()
-    }
-
-    @ViewBuilder
-    private func hLayout() -> some View {
-        HStack {
-            icon()
-            buttonText(isDownloaded ? textRemove : textDownload)
-        }
-    }
-
-    @ViewBuilder
-    private func vLayout() -> some View {
-        VStack {
-            icon()
-            buttonText(isDownloaded ? textRemove : textDownload)
-        }
-    }
-
-    @ViewBuilder
-    private func buttonText(_ text: String?) -> some View {
-        if let text {
-            Text(text)
+    private var label: some View {
+        if textDownload.isEmpty || textRemove.isEmpty {
+            Image(systemSymbol: isDownloaded ? .trash : .icloudAndArrowDown)
+                .scaledToFit()
+        } else {
+            Label(isDownloaded ? textRemove : textDownload) {
+                Image(systemSymbol: isDownloaded ? .trash : .icloudAndArrowDown)
+            }
         }
     }
 
     private func handleOnAppear() {
         switch item {
         case let item as Song:
-            isDownloaded = fileRepo.downloadedSongs.contains { $0 == item }
-            inProgress = fileRepo.downloadQueue.contains { $0 == item }
+            isDownloaded = fileRepo.fileExists(for: item)
+            inProgress = downloader.queue.contains { $0 == item }
         default:
             isDownloaded = false
-            inProgress = false
-        }
-    }
-
-    private func handleIsDownloaded(_ songs: [Song]) {
-        switch item {
-        case let item as Song:
-            isDownloaded = songs.contains { $0 == item }
-        default:
-            inProgress = false
-        }
-    }
-
-    private func handleInProgress(_ songs: [Song]) {
-        switch item {
-        case let item as Album:
-            inProgress = songs.contains { $0.albumId == item.id }
-        case let item as Song:
-            inProgress = songs.contains { $0 == item }
-        default:
             inProgress = false
         }
     }
@@ -137,35 +114,44 @@ struct DownloadButton: View {
                     try await downloadAction()
                 }
             } catch {
-                print("Button action failed for item: \(item) - \(error.localizedDescription)")
-                Alerts.error("Action failed")
+                if isDownloaded {
+                    logger.warning("Remove action failed for item \(item.id): \(error.localizedDescription)")
+                    Alerts.error("Remove failed")
+                } else {
+                    logger.warning("Download action failed for item \(item.id): \(error.localizedDescription)")
+                    Alerts.error("Download failed")
+                }
             }
         }
     }
 
     private func downloadAction() async throws {
+        inProgress = true
         switch item {
         case let item as Album:
-            let songs = await songRepo.getSongs(ofAlbum: item.id)
-            try await fileRepo.enqueueToDownload(songs: songs)
+            let songs = await library.getSongs(for: item)
+            try await downloader.download(songs)
         case let item as Song:
-            try await fileRepo.enqueueToDownload(song: item)
+            try await downloader.download(item)
         default:
-            print("Unhandled item type: \(item)")
-            return
+            inProgress = false
+            let type = type(of: item)
+            logger.info("Downloading \(type) is not supported")
+            Alerts.info("Download is not supported")
         }
     }
 
     private func removeAction() async throws {
         switch item {
         case let item as Album:
-            let songs = await songRepo.getSongs(ofAlbum: item.id)
+            let songs = await library.getSongs(for: item)
             try await fileRepo.removeFiles(for: songs)
         case let item as Song:
             try await fileRepo.removeFile(for: item)
         default:
-            print("Unhandled item type: \(item)")
-            return
+            let type = type(of: item)
+            logger.info("Removing \(type) is not supported")
+            Alerts.info("Remove is not supported")
         }
     }
 
@@ -175,45 +161,22 @@ struct DownloadButton: View {
     }
 }
 
-extension DownloadButton {
-    func setLayout(_ layout: ButtonLayout) -> DownloadButton {
-        var view = self
-        view.layout = layout
-        return view
-    }
-}
-
 #if DEBUG
 // swiftlint:disable all
-struct DownloadButton_Previews: PreviewProvider {
-    static var previews: some View {
-        DownloadButton(
-            item: PreviewData.albums.first!,
-            songRepo: .init(store: .previewStore(items: PreviewData.songs, cacheIdentifier: \.id))
-        )
-        .font(.title)
-        .previewDisplayName("Icon only")
 
-        DownloadButton(
-            item: PreviewData.albums.first!,
-            textDownload: "Download",
-            textRemove: "Remove",
-            songRepo: .init(store: .previewStore(items: PreviewData.songs, cacheIdentifier: \.id))
-        )
-        .setLayout(.horizontal)
+#Preview("Icon only") {
+    DownloadButton(item: PreviewData.albums.first!)
         .font(.title)
-        .previewDisplayName("Horizontal")
-
-        DownloadButton(
-            item: PreviewData.albums.first!,
-            textDownload: "Download",
-            textRemove: "Remove",
-            songRepo: .init(store: .previewStore(items: PreviewData.songs, cacheIdentifier: \.id))
-        )
-        .setLayout(.vertical)
-        .font(.title)
-        .previewDisplayName("Vertical")
-    }
+        .environmentObject(PreviewUtils.libraryRepo)
+        .environmentObject(PreviewUtils.fileRepo)
 }
+
+#Preview("Text + icon") {
+    DownloadButton(item: PreviewData.albums.first!, textDownload: "Download", textRemove: "Remove")
+        .font(.title)
+        .environmentObject(PreviewUtils.libraryRepo)
+        .environmentObject(PreviewUtils.fileRepo)
+}
+
 // swiftlint:enable all
 #endif

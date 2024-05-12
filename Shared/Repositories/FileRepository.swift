@@ -5,29 +5,23 @@ import OSLog
 final class FileRepository: ObservableObject {
     public static let shared = FileRepository()
 
-    typealias Completion = () -> Void
-
     @Stored
     var downloadedSongs: [Song]
 
-    @Stored
-    var downloadQueue: [Song]
+    private var cacheDirectory: URL
+    private let apiClient: ApiClient
+    private let logger = Logger.repository
+    private var observerRef: NSObjectProtocol?
 
-    var cacheDirectory: URL
-    var cacheSizeLimit: UInt64
-
-    let apiClient: ApiClient
-    var downloadTask: Task<Void, Never>?
+    private(set) var cacheSizeLimit: UInt64
 
     init(
         downloadedSongsStore: Store<Song> = .downloadedSongs,
-        downloadQueueStore: Store<Song> = .downloadQueue,
         apiClient: ApiClient = .shared
     ) {
-        _downloadedSongs = Stored(in: downloadedSongsStore)
-        _downloadQueue = Stored(in: downloadQueueStore)
-        self.cacheSizeLimit = Defaults[.maxCacheSize] * 1024 * 1024
+        self._downloadedSongs = Stored(in: downloadedSongsStore)
         self.apiClient = apiClient
+        self.cacheSizeLimit = Defaults[.maxCacheSize] * 1024 * 1024
         do {
             let cacheUrl = try FileManager.default.url(
                 for: .applicationSupportDirectory,
@@ -36,121 +30,40 @@ final class FileRepository: ObservableObject {
                 create: true
             )
 
-            self.cacheDirectory = cacheUrl.appendingPathComponent("JellyMusic/Downloads", isDirectory: true)
+            self.cacheDirectory = cacheUrl.appendingPathComponent("Medusic/Downloads", isDirectory: true)
             try FileManager.default.createDirectory(
                 at: cacheDirectory,
                 withIntermediateDirectories: true,
                 attributes: [.protectionKey: "none"]
             )
         } catch {
-            fatalError("Could not set up app cache: \(error.localizedDescription)")
+            fatalError("Could not create downloads folder: \(error.localizedDescription)")
         }
 
-        startDownloading()
-    }
+        self.observerRef = NotificationCenter.default.addObserver(forName: .SongFileDownloaded, object: nil, queue: .main) { event in
+            guard let data = event.userInfo,
+                  let song = data["song"] as? Song
+            else { return }
 
-    /// Enqueue song for download.
-    func enqueueToDownload(song: Song, startDownload: Bool = true) async throws {
-        try await enqueue(song)
-        if startDownload {
-            startDownloading()
-        }
-    }
-
-    /// Enqueue multiple songs for download.
-    func enqueueToDownload(songs: [Song], startDownload: Bool = true) async throws {
-        for song in songs {
-            try await enqueue(song)
-        }
-
-        if startDownload {
-            startDownloading()
-        }
-    }
-
-    /// Start downloading songs in queue.
-    func startDownloading() {
-        guard downloadTask == nil else { return }
-        downloadTask = Task {
-            do {
-                try await downloadNextSong()
-            } catch {
-                Logger.repository.debug("Download failed: \(error.localizedDescription)")
+            Task {
+                do {
+                    try await downloadedSongsStore.insert(song)
+                } catch {
+                    self.logger.warning("Failed to mark song \(song.id) as downloaded: \(error.localizedDescription)")
+                }
             }
         }
+
+        Task { try? await checkIntegrity() }
     }
 
-    private func downloadNextSong() async throws {
-        if let nextSong = await $downloadQueue.items.sortByAlbum().first {
-            do {
-                try await downloadSong(nextSong)
-            } catch {
-                Logger.repository.debug("Song download failed: \(error.localizedDescription)")
-                try await downloadNextSong()
-                return
-            }
-
-            try await dequeue(nextSong)
-            try await $downloadedSongs.insert(nextSong)
-            try await downloadNextSong()
-        } else {
-            downloadTask?.cancel()
-            downloadTask = nil
-        }
+    /// Generate a file URL for a specified song and file extension.
+    func generateFileURL(for song: Song, with ext: String) -> URL {
+        cacheDirectory.appendingPathComponent(song.id).appendingPathExtension(ext)
     }
 
-    private func downloadSong(_ song: Song) async throws {
-        let currentSize = try downloadedFilesSize()
-        guard currentSize + song.size <= cacheSizeLimit else {
-            Logger.repository.info("Download for song \(song.id) cancelled: cache size limit reached")
-            throw FileRepositoryError.cacheSizeLimitExceeded
-        }
-
-        let fileExtension = getFileExtension(for: song)
-        let outputFileURL = cacheDirectory.appendingPathComponent(song.id).appendingPathExtension(fileExtension)
-        Logger.repository.debug("Starting download for song \(song.id)")
-        await reportCurrentDownloadQueue()
-        let bitrate = getDownloadPreferredBitrate(for: song)
-        try await apiClient.services.mediaService.downloadItem(
-            id: song.id,
-            destination: outputFileURL,
-            bitrate: bitrate != nil ? bitrate ?? 0 : nil
-        )
-    }
-
-    func getLocalOrRemoteUrl(for song: Song) -> URL? {
-        guard let fileUrl = fileURL(for: song) else {
-            let bitrate = getStreamPreferredBitrate(for: song)
-            return apiClient.services.mediaService.getStreamUrl(
-                item: song.id,
-                bitrate: bitrate != nil ? bitrate ?? 0 : nil
-            )
-        }
-
-        return fileUrl
-    }
-
-    func fileURL(for song: Song) -> URL? {
-        let fileExtension = getFileExtension(for: song)
-        let fileURL = cacheDirectory.appendingPathComponent(song.id).appendingPathExtension(fileExtension)
-        return FileManager.default.fileExists(atPath: fileURL.path) ? fileURL : nil
-    }
-
-    func fileExists(for song: Song) -> Bool {
-        fileURL(for: song) != nil
-    }
-
-    func numberOfDownloadedFiles() -> Int {
-        let enumerator = FileManager.default.enumerator(at: cacheDirectory, includingPropertiesForKeys: nil)
-        return enumerator?.allObjects.count ?? 0
-    }
-
-    func downloadedFilesSizeInMB() throws -> Double {
-        let totalSizeInBytes = try downloadedFilesSize()
-        return Double(totalSizeInBytes) / 1024.0 / 1024.0
-    }
-
-    private func downloadedFilesSize() throws -> UInt64 {
+    /// Calculates currently taken space by downloaded songs. Value is in bytes.
+    func getTakenSpace() throws -> UInt64 {
         var totalSize: UInt64 = 0
         let enumerator = FileManager.default.enumerator(
             at: cacheDirectory,
@@ -163,7 +76,7 @@ final class FileRepository: ObservableObject {
                 let fileAttributes = try fileURL.resourceValues(forKeys: [.fileSizeKey])
                 totalSize += UInt64(fileAttributes.fileSize ?? 0)
             } catch {
-                Logger.repository.debug("Failed to calculate file size: \(error.localizedDescription)")
+                logger.warning("Failed to get file size: \(error.localizedDescription)")
                 throw error
             }
         }
@@ -171,12 +84,68 @@ final class FileRepository: ObservableObject {
         return totalSize
     }
 
+    func downloadedSongsCount() -> Int {
+        let enumerator = FileManager.default.enumerator(at: cacheDirectory, includingPropertiesForKeys: nil)
+        if let count = enumerator?.allObjects.count {
+            return count
+        }
+
+        logger.warning("Failed to get count of downloaded songs - provided value is nil")
+        return 0
+    }
+
+    func getTakenSpaceInMB() throws -> Double {
+        do {
+            let totalSizeInBytes = try getTakenSpace()
+            return Double(totalSizeInBytes) / 1024.0 / 1024.0
+        } catch {
+            throw FileRepositoryError.takenSpaceFailure
+        }
+    }
+
+    func setMaxSize(to sizeInMB: UInt64) {
+        cacheSizeLimit = sizeInMB * 1024 * 1024
+    }
+
+    func getLocalOrRemoteUrl(for song: Song) -> URL? {
+        guard let fileUrl = getLocalFileUrl(for: song) else {
+            let bitrate = getStreamPreferredBitrate(for: song)
+            return apiClient.services.mediaService.getStreamUrl(
+                item: song.id,
+                bitrate: bitrate != nil ? bitrate ?? 0 : nil
+            )
+        }
+
+        return fileUrl
+    }
+
+    /// Get a file URL for a song.
+    /// Should be used only for lookups as we can't determine the file extension due to the nature of settings and already downloaded files.
+    func getLocalFileUrl(for song: Song) -> URL? {
+        do {
+            let fileURLs = try FileManager.default.contentsOfDirectory(at: cacheDirectory, includingPropertiesForKeys: nil, options: [])
+            return fileURLs.first { $0.absoluteString.contains(song.id) }
+        } catch {
+            logger.warning("Could not obtain directory contents: \(error.localizedDescription)")
+            return nil
+        }
+    }
+
+    func fileExists(for song: Song) -> Bool {
+        getLocalFileUrl(for: song) != nil
+    }
+
     func removeFile(for song: Song) async throws {
-        let fileURL = cacheDirectory.appendingPathComponent(song.id)
-        Logger.repository.debug("Removing file for song \(song.id)")
+        guard let fileURL = getLocalFileUrl(for: song) else {
+            logger.warning("File for song \(song.id) does not exist")
+            return
+        }
+
+        logger.debug("Removing file for song \(song.id)")
         try FileManager.default.removeItem(at: fileURL)
         try await $downloadedSongs.remove(song)
-        Logger.repository.debug("File for song \(song.id) has been removed")
+        logger.debug("File for song \(song.id) has been removed")
+        await Notifier.emitSongDeleted(song)
     }
 
     func removeFiles(for songs: [Song]) async throws {
@@ -185,77 +154,124 @@ final class FileRepository: ObservableObject {
         }
     }
 
+    /// Remove all files in the download cache.
     func removeAllFiles() async throws {
-        Logger.repository.debug("Will remove all files in file repository")
+        logger.debug("Will remove all files in file repository")
+
+        let songCount = await downloadedSongs.count
         let fileURLs = try FileManager.default.contentsOfDirectory(at: cacheDirectory, includingPropertiesForKeys: nil, options: [])
+
+        if songCount != fileURLs.count {
+            logger.warning("Downloaded song count (\(songCount)) does not match file count (\(fileURLs))!")
+        }
+
         for fileURL in fileURLs {
-            Logger.repository.debug("Removing file \(fileURL.debugDescription)")
+            logger.debug("Removing file \(fileURL.debugDescription)")
             try FileManager.default.removeItem(at: fileURL)
         }
 
         try await $downloadedSongs.removeAll()
     }
 
-    func setCacheSizeLimit(_ sizeInMB: UInt64) {
-        Logger.repository.debug("Setting cache limit to \(sizeInMB) MB")
-        cacheSizeLimit = sizeInMB * 1024 * 1024
-    }
+    /// Check if songs in the store have a matching file and vice-versa.
+    /// If there is a mismatch, it is assumed that something went wrong and the file/song is deleted.
+    /// A mismatch may typically happen when an item is re-added to Jellyfin => this generates a new UUID for it.
+    func checkIntegrity() async throws {
+        logger.info("Starting integrity check of downloaded songs")
 
-    func checkCacheSizeLimit() throws {
-        let currentSize = try downloadedFilesSize()
-        if currentSize > cacheSizeLimit {
-            throw FileRepositoryError.cacheSizeLimitExceeded
+        var fixedErrors = 0
+        let fileURLs: [URL]
+        do {
+            fileURLs = try FileManager.default.contentsOfDirectory(at: cacheDirectory, includingPropertiesForKeys: nil, options: [])
+        } catch {
+            logger.warning("Integrity check failed: \(error.localizedDescription)")
+            throw FileRepositoryError.integrityCheckFailed(reason: "Could not get contents of directory")
+        }
+
+        let fileIds = Set(fileURLs.map { $0.deletingPathExtension().lastPathComponent })
+        let songIds = Set(await downloadedSongs.map(\.id))
+
+        // File exists but no matching song in downloaded store - remove such file
+        let missingFileIds = fileIds.subtracting(songIds)
+        for missingFileId in missingFileIds {
+            let url = fileURLs.first { $0.deletingPathExtension().lastPathComponent == missingFileId }
+            if let url {
+                logger.info("Found file for song \(missingFileId), but it is not tracked, removing")
+                if removeFile(at: url) {
+                    fixedErrors += 1
+                }
+            } else {
+                logger.debug("Could not get URL for file matching ID \(missingFileId)")
+            }
+        }
+
+        // Song in store (=> is downloaded), but the expected file is not found - remove song from store
+        let missingSongIds = songIds.subtracting(fileIds)
+        for missingSongId in missingSongIds {
+            let song = await downloadedSongs.first { $0.id == missingSongId }
+            if let song {
+                logger.info("Found song \(missingSongId) as downloaded, but no file found, removing")
+                if await untrackDownloaded(song) {
+                    fixedErrors += 1
+                }
+            } else {
+                logger.debug("Could not get song for requested ID \(missingSongId)")
+            }
+        }
+
+        let totalCount = missingSongIds.count + missingFileIds.count
+        logger.info("Download cache integrity check finished: found \(totalCount) mismatches, fixed \(fixedErrors) mismatches")
+        if totalCount != fixedErrors {
+            throw FileRepositoryError.integrityCheckFailed(reason: "One or more mismatches were not fixed")
         }
     }
 
     // MARK: - Internal
 
-    private func enqueue(_ song: Song) async throws {
-        try await $downloadQueue.insert(song)
-        Logger.repository.debug("Added song \(song.id) to download queue")
-        await reportCurrentDownloadQueue()
-    }
-
-    private func dequeue(_ song: Song) async throws {
-        try await $downloadQueue.remove(song)
-        Logger.repository.debug("Song \(song.id) has been removed from download queue")
-        await reportCurrentDownloadQueue()
-    }
-
-    private func reportCurrentDownloadQueue() async {
-        let queueSize = await $downloadQueue.items.count
-        Logger.repository.debug("Current queue size: \(queueSize)")
-    }
-
-    private func getFileExtension(for song: Song) -> String {
-        if song.isNativelySupported {
-            return song.fileExtension
-        }
-
-        Logger.repository.debug("File extension \(song.fileExtension) is not supported, falling back to \(AppDefaults.fallbackCodec)")
-        return AppDefaults.fallbackCodec
-    }
-
+    /// Get bitrate for streaming. Returns nil if the setting is to use original bitrate and codec is natively supported.
     private func getStreamPreferredBitrate(for song: Song) -> Int? {
-        let bitrateSetting = Defaults[.streamBitrate]
-        if song.isNativelySupported {
-            return bitrateSetting < 0 ? nil : bitrateSetting
+        if Defaults[.streamBitrate] == -1 {
+            return song.isNativelySupported ? nil : AppDefaults.fallbackBitrate
         }
 
-        return bitrateSetting < 0 ? AppDefaults.fallbackBitrate : bitrateSetting
+        return Defaults[.streamBitrate]
     }
 
-    private func getDownloadPreferredBitrate(for song: Song) -> Int? {
-        let bitrateSetting = Defaults[.streamBitrate]
-        if song.isNativelySupported {
-            return bitrateSetting < 0 ? nil : bitrateSetting
+    private func removeFile(at url: URL) -> Bool {
+        do {
+            try FileManager.default.removeItem(at: url)
+            return true
+        } catch {
+            logger.warning("Failed to remove file: \(error.localizedDescription)")
         }
 
-        return bitrateSetting < 0 ? AppDefaults.fallbackBitrate : bitrateSetting
+        return false
     }
 
+    private func untrackDownloaded(_ song: Song) async -> Bool {
+        do {
+            try await $downloadedSongs.remove(song)
+            return true
+        } catch {
+            logger.warning("Failed to unmark song \(song.id) as downloaded")
+        }
+
+        return false
+    }
+}
+
+extension FileRepository {
     enum FileRepositoryError: Error {
-        case cacheDirectoryIsNil
-        case cacheSizeLimitExceeded
+        case integrityCheckFailed(reason: String)
+        case takenSpaceFailure
+
+        var localizedDescription: String {
+            switch self {
+            case .integrityCheckFailed(let reason):
+                return "Could not complete integrity check: \(reason)"
+            case .takenSpaceFailure:
+                return "Could not calculate taken space"
+            }
+        }
     }
 }

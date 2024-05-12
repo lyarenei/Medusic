@@ -14,17 +14,18 @@ Medúsic is a native Jellyfin iOS client for music playback. The project aims to
 
 The app has currently implemented these features:
 
-- Playback (currently online only), including gapless[^1] playback
+- Playback (online + offline[^1]), including gapless[^2] playback
 - Playback reporting to Jellyfin server
-- Customizable streaming bitrate
-- Light/Dark color scheme
+- Customizable streaming and download bitrate
+- Support for light/dark color themes
 - Favoriting artists/albums/songs
 
 ... and hopefully some more will be added over time.
 
 For a list of planned features, check the repository issues with `enhancement` or `documentation` label(s).
 
-[^1]: Requires properly encoded files for lossy formats - learn more [here](https://en.wikipedia.org/wiki/Gapless_playback#Format_support)
+[^1]: Technically supported, but UI/UX need improvements
+[^2]: Requires properly encoded files for lossy formats - learn more [here](https://en.wikipedia.org/wiki/Gapless_playback#Format_support)
 
 ## Development
 

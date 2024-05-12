@@ -18,6 +18,7 @@ struct AdvancedSettings: View {
             RemoveDownloads()
 
             forceLibraryRefreshButton
+            checkDownloadsIntegrityButton
             resetToDefaultsButton
                 .foregroundColor(.red)
         }
@@ -28,17 +29,41 @@ struct AdvancedSettings: View {
 
     @ViewBuilder
     private var forceLibraryRefreshButton: some View {
-        AsyncButton {
-            do {
-                try await library.refreshAll()
-            } catch {
-                print("Failed to refresh library: \(error.localizedDescription)")
-                Alerts.error("Library refresh failed")
+        Section {
+            AsyncButton {
+                do {
+                    try await library.refreshAll()
+                    Alerts.done("Library has been sucessfully rebuilt")
+                } catch {
+                    print("Failed to refresh library: \(error.localizedDescription)")
+                    Alerts.error("Library refresh failed")
+                }
+            } label: {
+                Text("Force library refresh")
             }
-        } label: {
-            Text("Force library refresh")
+            .disabledWhenLoading()
+        } footer: {
+            Text("Force refresh the library by deleting local database and fetch everything from Jellyfin server.")
         }
-        .disabledWhenLoading()
+    }
+
+    @ViewBuilder
+    private var checkDownloadsIntegrityButton: some View {
+        Section {
+            AsyncButton {
+                do {
+                    try await fileRepo.checkIntegrity()
+                    Alerts.done("Integrity check finished")
+                } catch {
+                    Alerts.error("Integrity check failed")
+                }
+            } label: {
+                Text("Check downloads integrity")
+            }
+            .disabledWhenLoading()
+        } footer: {
+            Text("Check the integrity of downloaded files and attempt to fix mismatches. This check is automatically run on every app launch.")
+        }
     }
 
     @ViewBuilder
@@ -55,19 +80,13 @@ struct AdvancedSettings: View {
 }
 
 #if DEBUG
-struct AdvancedSettingsScreen_Previews: PreviewProvider {
-    static var fileRepo: FileRepository = .init(
-        downloadedSongsStore: .previewStore(items: PreviewData.songs, cacheIdentifier: \.id),
-        downloadQueueStore: .previewStore(items: [], cacheIdentifier: \.id),
-        apiClient: .init(previewEnabled: true)
-    )
 
-    static var previews: some View {
-        AdvancedSettings()
-            .environmentObject(fileRepo)
-            .environmentObject(PreviewUtils.libraryRepo)
-    }
+#Preview {
+    AdvancedSettings()
+        .environmentObject(PreviewUtils.fileRepo)
+        .environmentObject(PreviewUtils.libraryRepo)
 }
+
 #endif
 
 private struct MaxCacheSize: View {
@@ -83,8 +102,8 @@ private struct MaxCacheSize: View {
             inputNumber: $maxCacheSize,
             formatter: getFormatter()
         )
-        .onChange(of: maxCacheSize, debounceTime: 5) { newValue in
-            fileRepo.setCacheSizeLimit(newValue)
+        .onChange(of: maxCacheSize, debounceTime: Duration.seconds(5)) { newValue in
+            fileRepo.setMaxSize(to: newValue)
         }
     }
 
@@ -161,20 +180,14 @@ private struct RemoveDownloads: View {
         } footer: {
             Text("Current size: \(String(format: "%.1f", sizeMB)) MB")
         }
-        .task { await calculateSize() }
-    }
-
-    private func resetSize() {
-        Task { @MainActor in
-            sizeMB = 0
-        }
+        .task { calculateSize() }
     }
 
     private func onConfirm() {
         Task {
             do {
                 try await fileRepo.removeAllFiles()
-                resetSize()
+                calculateSize()
             } catch {
                 print("Failed to remove downloads: \(error.localizedDescription)")
                 Alerts.error("Removing files failed")
@@ -183,12 +196,11 @@ private struct RemoveDownloads: View {
     }
 
     @MainActor
-    private func calculateSize() async {
+    private func calculateSize() {
         do {
-            sizeMB = try fileRepo.downloadedFilesSizeInMB()
+            sizeMB = try fileRepo.getTakenSpaceInMB()
         } catch {
-            print("Failed to get file cache size: \(error.localizedDescription)")
-            Alerts.error("Failed to get file size")
+            Alerts.error("Failed to calculate taken space")
         }
     }
 }

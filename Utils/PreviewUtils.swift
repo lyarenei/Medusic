@@ -28,6 +28,13 @@ struct PreviewUtils {
             apiClient: .init(previewEnabled: true)
         )
     }
+
+    static var fileRepo: FileRepository {
+        FileRepository(
+            downloadedSongsStore: .previewStore(items: PreviewData.songs.shuffled().dropLast(PreviewData.songs.count / 2)),
+            apiClient: .init(previewEnabled: true)
+        )
+    }
 }
 // swiftformat:enable all
 // swiftlint:enable all
