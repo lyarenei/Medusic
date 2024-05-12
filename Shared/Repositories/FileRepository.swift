@@ -54,7 +54,7 @@ final class FileRepository: ObservableObject {
             }
         }
 
-        Task { await checkCacheIntegrity() }
+        Task { await checkIntegrity() }
     }
 
     /// Generate a file URL for a specified song and file extension.
@@ -169,20 +169,23 @@ final class FileRepository: ObservableObject {
         try await $downloadedSongs.removeAll()
     }
 
-    /// Check and fix the integrity of cache.
-    func checkCacheIntegrity() async {
+    /// Check if songs in the store have a matching file and vice-versa.
+    /// If there is a mismatch, it is assumed that something went wrong and the file/song is deleted.
+    /// A mismatch may typically happen when an item is re-added to Jellyfin => this generates a new UUID for it.
+    func checkIntegrity() async {
+        logger.info("Starting integrity check of downloaded songs")
         let fileURLs: [URL]
         do {
             fileURLs = try FileManager.default.contentsOfDirectory(at: cacheDirectory, includingPropertiesForKeys: nil, options: [])
         } catch {
-            logger.warning("Download cache integrity check failed: \(error.localizedDescription)")
+            logger.warning("Integrity check failed: \(error.localizedDescription)")
             return
         }
 
         let fileIds = Set(fileURLs.map { $0.deletingPathExtension().lastPathComponent })
         let songIds = Set(await downloadedSongs.map(\.id))
 
-        // File exists but no matching song in downloaded store
+        // File exists but no matching song in downloaded store - remove such file
         let missingFileIds = fileIds.subtracting(songIds)
         for missingFileId in missingFileIds {
             let url = fileURLs.first { $0.deletingPathExtension().lastPathComponent == missingFileId }
@@ -192,7 +195,7 @@ final class FileRepository: ObservableObject {
             }
         }
 
-        // Song in store but missing file
+        // Song in store (=> is downloaded), but the expected file is not found - remove song from store
         let missingSongIds = songIds.subtracting(fileIds)
         for missingSongId in missingSongIds {
             let song = await downloadedSongs.first { $0.id == missingSongId }
