@@ -180,20 +180,14 @@ private struct RemoveDownloads: View {
         } footer: {
             Text("Current size: \(String(format: "%.1f", sizeMB)) MB")
         }
-        .task { await calculateSize() }
-    }
-
-    private func resetSize() {
-        Task { @MainActor in
-            sizeMB = 0
-        }
+        .task { calculateSize() }
     }
 
     private func onConfirm() {
         Task {
             do {
                 try await fileRepo.removeAllFiles()
-                resetSize()
+                calculateSize()
             } catch {
                 print("Failed to remove downloads: \(error.localizedDescription)")
                 Alerts.error("Removing files failed")
@@ -202,7 +196,7 @@ private struct RemoveDownloads: View {
     }
 
     @MainActor
-    private func calculateSize() async {
+    private func calculateSize() {
         do {
             sizeMB = try fileRepo.getTakenSpaceInMB()
         } catch {
