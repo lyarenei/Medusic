@@ -62,7 +62,8 @@ final class FileRepository: ObservableObject {
         cacheDirectory.appendingPathComponent(song.id).appendingPathExtension(ext)
     }
 
-    func getCacheSize() throws -> UInt64 {
+    /// Calculates currently taken space by downloaded songs. Value is in bytes.
+    func getTakenSpace() throws -> UInt64 {
         var totalSize: UInt64 = 0
         let enumerator = FileManager.default.enumerator(
             at: cacheDirectory,
@@ -75,7 +76,7 @@ final class FileRepository: ObservableObject {
                 let fileAttributes = try fileURL.resourceValues(forKeys: [.fileSizeKey])
                 totalSize += UInt64(fileAttributes.fileSize ?? 0)
             } catch {
-                logger.warning("Failed to calculate file size: \(error.localizedDescription)")
+                logger.warning("Failed to get file size: \(error.localizedDescription)")
                 throw error
             }
         }
@@ -94,7 +95,7 @@ final class FileRepository: ObservableObject {
     }
 
     func downloadedFilesSizeInMB() throws -> Double {
-        let totalSizeInBytes = try getCacheSize()
+        let totalSizeInBytes = try getTakenSpace()
         return Double(totalSizeInBytes) / 1024.0 / 1024.0
     }
 
@@ -176,7 +177,6 @@ final class FileRepository: ObservableObject {
         logger.info("Starting integrity check of downloaded songs")
 
         var fixedErrors = 0
-        
         let fileURLs: [URL]
         do {
             fileURLs = try FileManager.default.contentsOfDirectory(at: cacheDirectory, includingPropertiesForKeys: nil, options: [])

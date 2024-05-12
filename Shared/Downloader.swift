@@ -91,7 +91,7 @@ final class Downloader: ObservableObject {
     }
 
     private func downloadSong(_ song: Song) async throws {
-        let currentSize = try fileRepo.getCacheSize()
+        let currentSize = try fileRepo.getTakenSpace()
         guard currentSize + song.size <= fileRepo.cacheSizeLimit else {
             throw DownloaderError.cacheIsFull
         }
