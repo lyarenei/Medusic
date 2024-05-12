@@ -29,17 +29,22 @@ struct AdvancedSettings: View {
 
     @ViewBuilder
     private var forceLibraryRefreshButton: some View {
-        AsyncButton {
-            do {
-                try await library.refreshAll()
-            } catch {
-                print("Failed to refresh library: \(error.localizedDescription)")
-                Alerts.error("Library refresh failed")
+        Section {
+            AsyncButton {
+                do {
+                    try await library.refreshAll()
+                    Alerts.done("Library has been sucessfully rebuilt")
+                } catch {
+                    print("Failed to refresh library: \(error.localizedDescription)")
+                    Alerts.error("Library refresh failed")
+                }
+            } label: {
+                Text("Force library refresh")
             }
-        } label: {
-            Text("Force library refresh")
+            .disabledWhenLoading()
+        } footer: {
+            Text("Force refresh the library by deleting local database and fetch everything from Jellyfin server.")
         }
-        .disabledWhenLoading()
     }
 
     @ViewBuilder
