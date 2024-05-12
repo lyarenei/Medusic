@@ -126,7 +126,7 @@ final class FileRepository: ObservableObject {
             let fileURLs = try FileManager.default.contentsOfDirectory(at: cacheDirectory, includingPropertiesForKeys: nil, options: [])
             return fileURLs.first { $0.absoluteString.contains(song.id) }
         } catch {
-            logger.warning("Could not obtain cache directory contents: \(error.localizedDescription)")
+            logger.warning("Could not obtain directory contents: \(error.localizedDescription)")
             return nil
         }
     }
