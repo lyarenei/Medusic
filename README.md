@@ -16,8 +16,8 @@ The app has currently implemented these features:
 
 - Playback (online + offline[^1]), including gapless[^2] playback
 - Playback reporting to Jellyfin server
-- Customizable streaming bitrate
-- Light/Dark color scheme
+- Customizable streaming and download bitrate
+- Support for light/dark color themes
 - Favoriting artists/albums/songs
 
 ... and hopefully some more will be added over time.
