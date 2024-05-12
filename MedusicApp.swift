@@ -12,8 +12,8 @@ struct MedusicApp: App {
         // Memory image never expires.
         Kingfisher.ImageCache.default.memoryStorage.config.expiration = .never
 
-        // Disk image expires in a week.
-        Kingfisher.ImageCache.default.diskStorage.config.expiration = .days(7)
+        // Disk image expires in a month.
+        Kingfisher.ImageCache.default.diskStorage.config.expiration = .days(30)
 
         // Limit disk cache size to 3 GB.
         Kingfisher.ImageCache.default.diskStorage.config.sizeLimit = 3000 * 1024 * 1024
