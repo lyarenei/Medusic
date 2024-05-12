@@ -37,7 +37,7 @@ final class FileRepository: ObservableObject {
                 attributes: [.protectionKey: "none"]
             )
         } catch {
-            fatalError("Could not set file repository: \(error.localizedDescription)")
+            fatalError("Could not create downloads folder: \(error.localizedDescription)")
         }
 
         self.observerRef = NotificationCenter.default.addObserver(forName: .SongFileDownloaded, object: nil, queue: .main) { event in
