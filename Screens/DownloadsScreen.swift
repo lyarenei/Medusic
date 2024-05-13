@@ -53,6 +53,8 @@ struct DownloadsScreen: View {
 
                             Spacer()
                             DownloadButton(item: song)
+                                .buttonStyle(.plain)
+                                .foregroundStyle(Color.accentColor)
                         }
                         .swipeActions(edge: .leading, allowsFullSwipe: true) { removeSongButton(for: song) }
                     }
