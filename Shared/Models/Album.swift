@@ -9,8 +9,6 @@ final class Album: JellyfinModel {
     var aboutInfo: String
 
     var isFavorite: Bool
-    var favoriteAt: Date
-
     var createdAt: Date
 
     var albumArtist: Artist?
@@ -25,7 +23,6 @@ final class Album: JellyfinModel {
         sortName: String = .empty,
         aboutInfo: String = .empty,
         isFavorite: Bool = false,
-        favoriteAt: Date = .distantPast,
         createdAt: Date = .distantPast,
         artists: [Artist] = [],
         songs: [Song] = []
@@ -39,7 +36,6 @@ final class Album: JellyfinModel {
 
         self.aboutInfo = aboutInfo
         self.isFavorite = isFavorite
-        self.favoriteAt = favoriteAt
         self.createdAt = createdAt
         self.songs = songs
     }
@@ -92,7 +88,6 @@ extension Album {
             sortName: album.sortName.lowercased(),
             aboutInfo: .empty,
             isFavorite: album.isFavorite,
-            favoriteAt: .distantPast,
             createdAt: album.createdAt,
             artists: [],
             songs: []

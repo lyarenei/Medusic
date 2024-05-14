@@ -9,8 +9,6 @@ final class Artist: JellyfinModel {
     var aboutInfo: String
 
     var isFavorite: Bool
-    var favoriteAt: Date
-
     var createdAt: Date
 
     @Relationship(deleteRule: .cascade, inverse: \Album.albumArtist)
@@ -22,7 +20,6 @@ final class Artist: JellyfinModel {
         sortName: String = .empty,
         aboutInfo: String = .empty,
         isFavorite: Bool = false,
-        favoriteAt: Date = .distantPast,
         createdAt: Date = .distantPast,
         albums: [Album] = []
     ) {
@@ -34,7 +31,6 @@ final class Artist: JellyfinModel {
 
         self.aboutInfo = aboutInfo
         self.isFavorite = isFavorite
-        self.favoriteAt = favoriteAt
         self.createdAt = createdAt
         self.albums = albums
     }
@@ -87,7 +83,6 @@ extension Artist {
             sortName: artist.sortName.lowercased(),
             aboutInfo: artist.about,
             isFavorite: artist.isFavorite,
-            favoriteAt: .distantPast,
             createdAt: artist.createdAt,
             albums: albums
         )

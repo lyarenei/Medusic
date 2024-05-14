@@ -3,7 +3,7 @@ import SwiftData
 import SwiftUI
 
 struct IPadMainScreen: View {
-    @Query(sort: \Album.favoriteAt, order: .reverse)
+    @Query(filter: Album.predicate(for: .favorite), sort: \Album.sortName)
     private var favoriteAlbums: [Album]
 
     @Query(sort: \Album.createdAt, order: .reverse)
