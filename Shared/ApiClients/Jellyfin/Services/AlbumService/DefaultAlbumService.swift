@@ -20,7 +20,7 @@ final class DefaultAlbumService: AlbumService {
         )
     }
 
-    func getAlbums(pageSize: Int? = nil, offset: Int? = nil) async throws -> [Album] {
+    func getAlbums(pageSize: Int? = nil, offset: Int? = nil) async throws -> [AlbumDto] {
         var params = requestParams()
         params.startIndex = offset
         params.limit = pageSize
@@ -29,10 +29,10 @@ final class DefaultAlbumService: AlbumService {
         let response = try await client.send(request)
 
         guard let items = response.value.items else { throw ServiceError.invalidResult }
-        return items.compactMap(Album.init(from:))
+        return items.compactMap(AlbumDto.init(from:))
     }
 
-    func getAlbums(for artist: Artist, pageSize: Int? = nil, offset: Int? = nil) async throws -> [Album] {
+    func getAlbums(for artist: ArtistDto, pageSize: Int? = nil, offset: Int? = nil) async throws -> [AlbumDto] {
         var params = requestParams()
         params.startIndex = offset
         params.limit = pageSize
@@ -42,10 +42,10 @@ final class DefaultAlbumService: AlbumService {
         let response = try await client.send(request)
 
         guard let items = response.value.items else { throw ServiceError.invalidResult }
-        return items.compactMap(Album.init(from:))
+        return items.compactMap(AlbumDto.init(from:))
     }
 
-    func getAlbumById(_ id: String) async throws -> Album {
+    func getAlbumById(_ id: String) async throws -> AlbumDto {
         let requestParams = requestParams(itemIds: [id])
         let request = JellyfinAPI.Paths.getItems(parameters: requestParams)
         let response = try await client.send(request)
@@ -53,7 +53,7 @@ final class DefaultAlbumService: AlbumService {
         guard let items = response.value.items else { throw ServiceError.notFound }
         guard items.isNotEmpty else { throw ServiceError.notFound }
         if items.count > 1 { throw ServiceError.invalidResult }
-        guard let album = Album(from: items.first) else { throw ServiceError.invalidResult }
+        guard let album = AlbumDto(from: items.first) else { throw ServiceError.invalidResult }
         return album
     }
 }

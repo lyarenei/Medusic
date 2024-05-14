@@ -10,7 +10,7 @@ struct ArtistDetailScreen: View {
         self.viewModel = viewModel
     }
 
-    init(artist: Artist, repo: LibraryRepository = .shared) {
+    init(artist: ArtistDto, repo: LibraryRepository = .shared) {
         self.viewModel = ViewModel(artist: artist, repo: repo)
     }
 

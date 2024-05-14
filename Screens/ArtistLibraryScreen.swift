@@ -61,7 +61,7 @@ struct ArtistLibraryScreen: View {
     }
 
     @ViewBuilder
-    private func artistSection(name: String, artists: [Artist]) -> some View {
+    private func artistSection(name: String, artists: [ArtistDto]) -> some View {
         Section {
             ForEach(artists) { artist in
                 NavigationLink {

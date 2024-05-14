@@ -17,16 +17,16 @@ struct AlbumCollection: View {
     @Default(.albumDisplayMode)
     private var displayMode: AlbumDisplayMode
 
-    private let albums: [Album]
+    private let albums: [AlbumDto]
     private var forceDisplayMode: AlbumDisplayMode?
     private var showChevron = false
     private var rowHeight = 60.0
 
-    init(albums: [Album]) {
+    init(albums: [AlbumDto]) {
         self.albums = albums
     }
 
-    init(albums: ArraySlice<Album>) {
+    init(albums: ArraySlice<AlbumDto>) {
         self.albums = Array(albums)
     }
 
@@ -84,7 +84,7 @@ struct AlbumCollection: View {
     }
 
     @ViewBuilder
-    private func albumListEntry(album: Album) -> some View {
+    private func albumListEntry(album: AlbumDto) -> some View {
         HStack(spacing: 17) {
             ArtworkComponent(for: album)
                 .frame(width: rowHeight, height: rowHeight)
@@ -94,7 +94,7 @@ struct AlbumCollection: View {
     }
 
     @ViewBuilder
-    private func albumNameArtist(album: Album) -> some View {
+    private func albumNameArtist(album: AlbumDto) -> some View {
         VStack(alignment: .leading, spacing: 3) {
             MarqueeText(
                 text: album.name,
@@ -116,7 +116,7 @@ struct AlbumCollection: View {
     }
 
     @ViewBuilder
-    private func albumPlainEntry(album: Album) -> some View {
+    private func albumPlainEntry(album: AlbumDto) -> some View {
         HStack(spacing: 0) {
             HStack(spacing: 17) {
                 ArtworkComponent(for: album)

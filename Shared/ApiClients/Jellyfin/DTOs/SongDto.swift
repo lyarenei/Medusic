@@ -2,7 +2,7 @@ import AVFoundation
 import Foundation
 import JellyfinAPI
 
-struct Song: JellyfinItem {
+struct SongDto: JellyfinItem {
     var id: String
     var name: String
     var isFavorite: Bool
@@ -37,13 +37,13 @@ struct Song: JellyfinItem {
     }
 }
 
-extension Song: Equatable {
-    static func == (lhs: Song, rhs: Song) -> Bool {
+extension SongDto: Equatable {
+    static func == (lhs: SongDto, rhs: SongDto) -> Bool {
         lhs.id == rhs.id
     }
 }
 
-extension Song {
+extension SongDto {
     init?(from item: BaseItemDto?) {
         guard let item,
               let id = item.id,

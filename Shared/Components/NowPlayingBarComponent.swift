@@ -29,7 +29,7 @@ struct NowPlayingBarComponent: View {
     }
 
     @ViewBuilder
-    private func songInfo(for song: Song?) -> some View {
+    private func songInfo(for song: SongDto?) -> some View {
         HStack {
             ArtworkComponent(for: song?.albumId ?? .empty)
                 .frame(width: 50, height: 50)

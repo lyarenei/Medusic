@@ -47,11 +47,11 @@ struct EnqueueButton: View {
 
     func action() {
         switch item {
-        case let album as Album:
+        case let album as AlbumDto:
             let songs = library.songs.filtered(by: .albumId(album.id))
             player.enqueue(songs: songs.sorted(by: .index), position: position)
             Alerts.done("Album added to queue")
-        case let song as Song:
+        case let song as SongDto:
             player.enqueue(song: song, position: position)
             Alerts.done("Song added to queue")
         default:

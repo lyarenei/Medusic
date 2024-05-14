@@ -7,7 +7,7 @@ final class Downloader: ObservableObject {
     static let shared = Downloader()
 
     @Stored
-    var queue: [Song]
+    var queue: [SongDto]
 
     private let apiClient: ApiClient
     private let fileRepo: FileRepository
@@ -17,7 +17,7 @@ final class Downloader: ObservableObject {
     init(
         apiClient: ApiClient = .shared,
         fileRepo: FileRepository = .shared,
-        downloadQueueStore: Store<Song> = .downloadQueue
+        downloadQueueStore: Store<SongDto> = .downloadQueue
     ) {
         self._queue = Stored(in: downloadQueueStore)
         self.apiClient = apiClient
@@ -27,12 +27,12 @@ final class Downloader: ObservableObject {
     }
 
     /// Add a song to download queue.
-    func download(_ song: Song, startImmediately: Bool = true) async throws {
+    func download(_ song: SongDto, startImmediately: Bool = true) async throws {
         try await download([song], startImmediately: startImmediately)
     }
 
     /// Add multiple songs to download queue.
-    func download(_ songs: [Song], startImmediately: Bool = true) async throws {
+    func download(_ songs: [SongDto], startImmediately: Bool = true) async throws {
         try await enqueue(songs)
 
         if startImmediately {
@@ -52,7 +52,7 @@ final class Downloader: ObservableObject {
         }
     }
 
-    private func enqueue(_ songs: [Song]) async throws {
+    private func enqueue(_ songs: [SongDto]) async throws {
         try await $queue.insert(songs)
         logger.debug("Added songs \(songs.map(\.id)) to download queue")
 
@@ -60,7 +60,7 @@ final class Downloader: ObservableObject {
         logger.debug("Current queue size: \(count)")
     }
 
-    private func dequeue(_ song: Song) async throws {
+    private func dequeue(_ song: SongDto) async throws {
         try await $queue.remove(song)
         logger.debug("Song \(song.id) has been removed from download queue")
 
@@ -90,7 +90,7 @@ final class Downloader: ObservableObject {
         try await downloadNextSong()
     }
 
-    private func downloadSong(_ song: Song) async throws {
+    private func downloadSong(_ song: SongDto) async throws {
         let currentSize = try fileRepo.getTakenSpace()
         guard currentSize + song.size <= fileRepo.cacheSizeLimit else {
             throw DownloaderError.cacheIsFull
@@ -110,7 +110,7 @@ final class Downloader: ObservableObject {
         )
     }
 
-    private func determineDownloadCodec(for song: Song) -> String {
+    private func determineDownloadCodec(for song: SongDto) -> String {
         guard Defaults[.downloadBitrate] == -1 else {
             logger.debug("Using \(AppDefaults.fallbackCodec) codec due to bitrate setting")
             return AppDefaults.fallbackCodec
@@ -126,7 +126,7 @@ final class Downloader: ObservableObject {
     }
 
     /// Get a target bitrate of a downloaded song.
-    private func getDownloadBitrate(for song: Song) -> Int? {
+    private func getDownloadBitrate(for song: SongDto) -> Int? {
         if Defaults[.downloadBitrate] == -1 {
             return song.isNativelySupported ? nil : AppDefaults.fallbackBitrate
         }

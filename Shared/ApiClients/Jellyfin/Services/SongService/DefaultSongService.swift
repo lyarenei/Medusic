@@ -8,15 +8,15 @@ final class DefaultSongService: SongService {
         self.client = client
     }
 
-    func getSongs(pageSize: Int? = nil, offset: Int? = nil) async throws -> [Song] {
+    func getSongs(pageSize: Int? = nil, offset: Int? = nil) async throws -> [SongDto] {
         try await fetchSongs(limit: pageSize, startIndex: offset)
     }
 
-    func getSongsForAlbum(_ album: Album) async throws -> [Song] {
+    func getSongsForAlbum(_ album: AlbumDto) async throws -> [SongDto] {
         try await fetchSongs(for: album.id)
     }
 
-    func getSongsForAlbum(id albumId: String) async throws -> [Song] {
+    func getSongsForAlbum(id albumId: String) async throws -> [SongDto] {
         try await fetchSongs(for: albumId)
     }
 
@@ -24,7 +24,7 @@ final class DefaultSongService: SongService {
         for albumId: String? = nil,
         limit: Int? = nil,
         startIndex: Int? = nil
-    ) async throws -> [Song] {
+    ) async throws -> [SongDto] {
         var params = JellyfinAPI.Paths.GetItemsParameters()
         params.userID = Defaults[.userId]
         params.isRecursive = true
@@ -37,6 +37,6 @@ final class DefaultSongService: SongService {
         let request = JellyfinAPI.Paths.getItems(parameters: params)
         let response = try await client.send(request)
         guard let items = response.value.items else { throw ServiceError.invalidResult }
-        return items.compactMap(Song.init(from:))
+        return items.compactMap(SongDto.init(from:))
     }
 }

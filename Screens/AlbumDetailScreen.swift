@@ -10,7 +10,7 @@ struct AlbumDetailScreen: View {
     @EnvironmentObject
     private var player: MusicPlayer
 
-    let album: Album
+    let album: AlbumDto
 
     var body: some View {
         ScrollView {
@@ -122,7 +122,7 @@ struct AlbumDetailScreen: View {
     }
 
     @ViewBuilder
-    private func songs(_ songs: [Song]) -> some View {
+    private func songs(_ songs: [SongDto]) -> some View {
         VStack {
             if songs.isEmpty {
                 Text("No songs")
@@ -135,7 +135,7 @@ struct AlbumDetailScreen: View {
     }
 
     @ViewBuilder
-    private func songList(of songs: [Song]) -> some View {
+    private func songList(of songs: [SongDto]) -> some View {
         let discCount = library.getDiscCount(for: album)
         if discCount > 1 {
             ForEach(enumerating: 1...discCount) { discNum in
@@ -161,7 +161,7 @@ struct AlbumDetailScreen: View {
     }
 
     @ViewBuilder
-    private func songCollection(songs: [Song], showLastDivider: Bool) -> some View {
+    private func songCollection(songs: [SongDto], showLastDivider: Bool) -> some View {
         ForEach(songs, id: \.id) { song in
             HStack(spacing: 10) {
                 songCell(allSongs: albumSongs, song)
@@ -176,7 +176,7 @@ struct AlbumDetailScreen: View {
     }
 
     @ViewBuilder
-    private func songCell(allSongs: [Song], _ song: Song) -> some View {
+    private func songCell(allSongs: [SongDto], _ song: SongDto) -> some View {
         SongListRowComponent(song: song)
             .showAlbumOrder()
             .showArtistName()
@@ -186,15 +186,15 @@ struct AlbumDetailScreen: View {
             .onTapGesture { Task { await onSongTap(song) } }
     }
 
-    private func onSongTap(_ song: Song) async {
+    private func onSongTap(_ song: SongDto) async {
         let queue = {
-            var songsToPlay: [Song] = []
+            var songsToPlay: [SongDto] = []
             let currentDiscSongs = albumSongs
                 .filtered(by: .albumDisc(num: song.albumDisc))
                 .sorted(by: .index)
 
             let albumDiscCount = library.getDiscCount(for: album)
-            var restOfSongs: [Song] = []
+            var restOfSongs: [SongDto] = []
             for discNum in song.albumDisc...albumDiscCount {
                 guard discNum != song.albumDisc else { continue }
                 let discSongs = albumSongs.filtered(by: .albumDisc(num: discNum))
@@ -218,7 +218,7 @@ struct AlbumDetailScreen: View {
     }
 
     @ViewBuilder
-    private func divider(songs: [Song], song: Song, showLastDivider: Bool) -> some View {
+    private func divider(songs: [SongDto], song: SongDto, showLastDivider: Bool) -> some View {
         if let lastSong = songs.last {
             if song != lastSong || showLastDivider {
                 Divider()
@@ -255,11 +255,11 @@ struct AlbumDetailScreen: View {
         }
     }
 
-    private var albumSongs: [Song] {
+    private var albumSongs: [SongDto] {
         library.songs.filtered(by: .albumId(album.id))
     }
 
-    private var previewAlbums: [Album] {
+    private var previewAlbums: [AlbumDto] {
         library.albums.filter { $0.id != album.id && $0.artistId == album.artistId }
     }
 }
@@ -267,7 +267,7 @@ struct AlbumDetailScreen: View {
 // MARK: - Context options
 
 private struct SongContextOptions: View {
-    let song: Song
+    let song: SongDto
 
     var body: some View {
         PlayButton("Play", item: song)

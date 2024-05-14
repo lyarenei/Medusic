@@ -17,18 +17,18 @@ actor LibraryRepository: ObservableObject {
     internal let apiClient: ApiClient
 
     @Stored
-    var artists: [Artist]
+    var artists: [ArtistDto]
 
     @Stored
-    var albums: [Album]
+    var albums: [AlbumDto]
 
     @Stored
-    var songs: [Song]
+    var songs: [SongDto]
 
     init(
-        artistStore: Store<Artist>,
-        albumStore: Store<Album>,
-        songStore: Store<Song>,
+        artistStore: Store<ArtistDto>,
+        albumStore: Store<AlbumDto>,
+        songStore: Store<SongDto>,
         apiClient: ApiClient
     ) {
         self._artists = Stored(in: artistStore)
@@ -66,7 +66,7 @@ actor LibraryRepository: ObservableObject {
         }
     }
 
-    func refresh(artist: Artist) async throws {
+    func refresh(artist: ArtistDto) async throws {
         try await refresh(artistId: artist.id)
     }
 
@@ -80,7 +80,7 @@ actor LibraryRepository: ObservableObject {
 
     @available(*, deprecated, message: "Use .artistName property due to jellyfin bug")
     @MainActor
-    func getArtistName(for album: Album) -> String {
+    func getArtistName(for album: AlbumDto) -> String {
         artists.by(id: album.artistId)?.name ?? .empty
     }
 
@@ -108,26 +108,32 @@ actor LibraryRepository: ObservableObject {
         try await $albums.insert(remoteAlbum)
     }
 
-    func refresh(album: Album) async throws {
+    func refresh(album: AlbumDto) async throws {
         try await refresh(albumId: album.id)
     }
 
-    func setFavorite(album: Album, isFavorite: Bool) async throws {
+    func setFavorite(album: AlbumDto, isFavorite: Bool) async throws {
         guard var album = await $albums.items.by(id: album.id) else { throw LibraryError.notFound }
         try await apiClient.services.mediaService.setFavorite(itemId: album.id, isFavorite: isFavorite)
         album.isFavorite = isFavorite
         try await $albums.insert(album)
     }
 
+    /// Get songs for a specified album. Songs are automatically sorted in the correct order.
+    @MainActor
+    func getSongs(for album: AlbumDto) -> [SongDto] {
+        songs.filtered(by: .albumId(album.id)).sorted(by: .index).sorted(by: .albumDisc)
+    }
+
     /// Get album disc count.
     @MainActor
-    func getDiscCount(for album: Album) -> Int {
+    func getDiscCount(for album: AlbumDto) -> Int {
         let filteredSongs = songs.filter { $0.albumId == album.id }
         return filteredSongs.map(\.albumDisc).max() ?? 1
     }
 
     @MainActor
-    func getRuntime(for album: Album) -> TimeInterval {
+    func getRuntime(for album: AlbumDto) -> TimeInterval {
         var totalRuntime: TimeInterval = 0
         songs.filtered(by: .albumId(album.id)).forEach { totalRuntime += $0.runtime }
         return totalRuntime
@@ -150,7 +156,7 @@ actor LibraryRepository: ObservableObject {
         }
     }
 
-    func refreshSongs(for album: Album) async throws {
+    func refreshSongs(for album: AlbumDto) async throws {
         try await refreshSongs(for: album.id)
     }
 
@@ -164,7 +170,7 @@ actor LibraryRepository: ObservableObject {
         try await $songs.remove(localSongs).insert(remoteSongs).run()
     }
 
-    func setFavorite(song: Song, isFavorite: Bool) async throws {
+    func setFavorite(song: SongDto, isFavorite: Bool) async throws {
         guard var song = await $songs.items.by(id: song.id) else { throw LibraryError.notFound }
         try await apiClient.services.mediaService.setFavorite(itemId: song.id, isFavorite: isFavorite)
         song.isFavorite = isFavorite

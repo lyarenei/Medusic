@@ -2,7 +2,7 @@ import Defaults
 import SwiftUI
 
 struct AlbumPreviewCollection: View {
-    private var albums: [Album]
+    private var albums: [AlbumDto]
     private var titleText: String
     private var emptyText = "No albums"
     private var stackType: StackType = .vertical
@@ -11,7 +11,7 @@ struct AlbumPreviewCollection: View {
     private var limit
 
     init(
-        for albums: [Album],
+        for albums: [AlbumDto],
         titleText: String,
         emptyText: String
     ) {

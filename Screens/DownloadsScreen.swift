@@ -66,7 +66,7 @@ struct DownloadsScreen: View {
     }
 
     @ViewBuilder
-    private func removeSongButton(for song: Song) -> some View {
+    private func removeSongButton(for song: SongDto) -> some View {
         AsyncButton(role: .destructive) {
             do {
                 try await fileRepo.removeFile(for: song)

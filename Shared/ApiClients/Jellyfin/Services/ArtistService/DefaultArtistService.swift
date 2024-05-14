@@ -8,7 +8,7 @@ final class DefaultArtistService: ArtistService {
         self.client = client
     }
 
-    func getArtists(pageSize: Int? = nil, offset: Int? = nil) async throws -> [Artist] {
+    func getArtists(pageSize: Int? = nil, offset: Int? = nil) async throws -> [ArtistDto] {
         let params = JellyfinAPI.Paths.GetAlbumArtistsParameters(
             startIndex: offset,
             limit: pageSize,
@@ -19,10 +19,10 @@ final class DefaultArtistService: ArtistService {
         let response = try await client.send(request)
 
         guard let items = response.value.items else { throw ServiceError.invalidResult }
-        return items.compactMap(Artist.init(from:))
+        return items.compactMap(ArtistDto.init(from:))
     }
 
-    func getArtistById(_ id: String) async throws -> Artist {
+    func getArtistById(_ id: String) async throws -> ArtistDto {
         let params = JellyfinAPI.Paths.GetItemsParameters(
             fields: [.overview],
             ids: [id]
@@ -34,7 +34,7 @@ final class DefaultArtistService: ArtistService {
         guard let items = response.value.items else { throw ServiceError.notFound }
         guard items.isNotEmpty else { throw ServiceError.notFound }
         if items.count > 1 { throw ServiceError.invalidResult }
-        guard let artist = Artist(from: items.first) else { throw ServiceError.invalidResult }
+        guard let artist = ArtistDto(from: items.first) else { throw ServiceError.invalidResult }
         return artist
     }
 }

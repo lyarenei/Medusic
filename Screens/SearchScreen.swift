@@ -46,7 +46,7 @@ struct SearchScreen: View {
     }
 
     @ViewBuilder
-    private func artistResults(_ artists: [Artist]) -> some View {
+    private func artistResults(_ artists: [ArtistDto]) -> some View {
         if artists.isNotEmpty {
             Section("Artists") {
                 ForEach(artists, id: \.id) { artist in
@@ -63,7 +63,7 @@ struct SearchScreen: View {
     }
 
     @ViewBuilder
-    private func albumResults(_ albums: [Album]) -> some View {
+    private func albumResults(_ albums: [AlbumDto]) -> some View {
         if albums.isNotEmpty {
             Section("Albums") {
                 AlbumCollection(albums: albums)
@@ -73,7 +73,7 @@ struct SearchScreen: View {
     }
 
     @ViewBuilder
-    private func songResults(_ songs: [Song]) -> some View {
+    private func songResults(_ songs: [SongDto]) -> some View {
         if songs.isNotEmpty {
             Section("Songs") {
                 SongCollection(songs: songs)

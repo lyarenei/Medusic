@@ -5,7 +5,7 @@ struct SongListRowComponent: View {
     @EnvironmentObject
     private var library: LibraryRepository
 
-    let song: Song
+    let song: SongDto
 
     private var showAlbumOrder = false
     private var showArtwork = false
@@ -13,7 +13,7 @@ struct SongListRowComponent: View {
     private var showAlbumName = false
     private var height = 40.0
 
-    init(song: Song) {
+    init(song: SongDto) {
         self.song = song
     }
 

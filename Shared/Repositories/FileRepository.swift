@@ -6,7 +6,7 @@ final class FileRepository: ObservableObject {
     public static let shared = FileRepository()
 
     @Stored
-    var downloadedSongs: [Song]
+    var downloadedSongs: [SongDto]
 
     private var cacheDirectory: URL
     private let apiClient: ApiClient
@@ -16,7 +16,7 @@ final class FileRepository: ObservableObject {
     private(set) var cacheSizeLimit: UInt64
 
     init(
-        downloadedSongsStore: Store<Song> = .downloadedSongs,
+        downloadedSongsStore: Store<SongDto> = .downloadedSongs,
         apiClient: ApiClient = .shared
     ) {
         self._downloadedSongs = Stored(in: downloadedSongsStore)
@@ -42,7 +42,7 @@ final class FileRepository: ObservableObject {
 
         self.observerRef = NotificationCenter.default.addObserver(forName: .SongFileDownloaded, object: nil, queue: .main) { event in
             guard let data = event.userInfo,
-                  let song = data["song"] as? Song
+                  let song = data["song"] as? SongDto
             else { return }
 
             Task {
@@ -58,7 +58,7 @@ final class FileRepository: ObservableObject {
     }
 
     /// Generate a file URL for a specified song and file extension.
-    func generateFileURL(for song: Song, with ext: String) -> URL {
+    func generateFileURL(for song: SongDto, with ext: String) -> URL {
         cacheDirectory.appendingPathComponent(song.id).appendingPathExtension(ext)
     }
 
@@ -107,7 +107,7 @@ final class FileRepository: ObservableObject {
         cacheSizeLimit = sizeInMB * 1024 * 1024
     }
 
-    func getLocalOrRemoteUrl(for song: Song) -> URL? {
+    func getLocalOrRemoteUrl(for song: SongDto) -> URL? {
         guard let fileUrl = getLocalFileUrl(for: song) else {
             let bitrate = getStreamPreferredBitrate(for: song)
             return apiClient.services.mediaService.getStreamUrl(
@@ -121,7 +121,7 @@ final class FileRepository: ObservableObject {
 
     /// Get a file URL for a song.
     /// Should be used only for lookups as we can't determine the file extension due to the nature of settings and already downloaded files.
-    func getLocalFileUrl(for song: Song) -> URL? {
+    func getLocalFileUrl(for song: SongDto) -> URL? {
         do {
             let fileURLs = try FileManager.default.contentsOfDirectory(at: cacheDirectory, includingPropertiesForKeys: nil, options: [])
             return fileURLs.first { $0.absoluteString.contains(song.id) }
@@ -131,11 +131,11 @@ final class FileRepository: ObservableObject {
         }
     }
 
-    func fileExists(for song: Song) -> Bool {
+    func fileExists(for song: SongDto) -> Bool {
         getLocalFileUrl(for: song) != nil
     }
 
-    func removeFile(for song: Song) async throws {
+    func removeFile(for song: SongDto) async throws {
         guard let fileURL = getLocalFileUrl(for: song) else {
             logger.warning("File for song \(song.id) does not exist")
             return
@@ -148,7 +148,7 @@ final class FileRepository: ObservableObject {
         await Notifier.emitSongDeleted(song)
     }
 
-    func removeFiles(for songs: [Song]) async throws {
+    func removeFiles(for songs: [SongDto]) async throws {
         for song in songs {
             try await removeFile(for: song)
         }
@@ -229,7 +229,7 @@ final class FileRepository: ObservableObject {
     // MARK: - Internal
 
     /// Get bitrate for streaming. Returns nil if the setting is to use original bitrate and codec is natively supported.
-    private func getStreamPreferredBitrate(for song: Song) -> Int? {
+    private func getStreamPreferredBitrate(for song: SongDto) -> Int? {
         if Defaults[.streamBitrate] == -1 {
             return song.isNativelySupported ? nil : AppDefaults.fallbackBitrate
         }
@@ -248,7 +248,7 @@ final class FileRepository: ObservableObject {
         return false
     }
 
-    private func untrackDownloaded(_ song: Song) async -> Bool {
+    private func untrackDownloaded(_ song: SongDto) async -> Bool {
         do {
             try await $downloadedSongs.remove(song)
             return true

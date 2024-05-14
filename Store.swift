@@ -1,14 +1,14 @@
 import Boutique
 import Foundation
 
-extension Store<Artist> {
-    static let artists = Store<Artist>(
+extension Store<ArtistDto> {
+    static let artists = Store<ArtistDto>(
         storage: SQLiteStorageEngine.default(appendingPath: "Artists")
     )
 }
 
-extension Store<Album> {
-    static let albums = Store<Album>(
+extension Store<AlbumDto> {
+    static let albums = Store<AlbumDto>(
         storage: SQLiteStorageEngine.default(appendingPath: "Albums")
     )
 }

@@ -31,20 +31,20 @@ final class MusicPlayer: NSObject, ObservableObject {
 
     @Published
     @MainActor
-    private(set) var currentSong: Song?
+    private(set) var currentSong: SongDto?
 
     // Only for user visibility, it is not used for player functionality.
     // See playback history behavior in the (Apple) Music app.
     @Published
     @MainActor
-    private(set) var playbackHistory: [Song] = []
+    private(set) var playbackHistory: [SongDto] = []
 
     // Used for player functionality when skipping backwards with skip button.
-    var internalPlaybackHistory: [Song] = []
+    var internalPlaybackHistory: [SongDto] = []
 
     @Published
     @MainActor
-    private(set) var nextUpQueue: [Song] = []
+    private(set) var nextUpQueue: [SongDto] = []
 
     init(
         preview: Bool = false,
@@ -113,12 +113,12 @@ final class MusicPlayer: NSObject, ObservableObject {
     }
 
     @MainActor
-    internal func setCurrentlyPlaying(newSong: Song?) {
+    internal func setCurrentlyPlaying(newSong: SongDto?) {
         currentSong = newSong
     }
 
     @MainActor
-    internal func appendToHistory(_ song: Song) {
+    internal func appendToHistory(_ song: SongDto) {
         playbackHistory.append(song)
         internalPlaybackHistory.append(song)
         Logger.player.debug("Song added to playback history: \(song.id)")
@@ -283,7 +283,7 @@ final class MusicPlayer: NSObject, ObservableObject {
         }
     }
 
-    private func handleSongChange(previous: Song?, atTime: TimeInterval, next: Song?) async {
+    private func handleSongChange(previous: SongDto?, atTime: TimeInterval, next: SongDto?) async {
         Logger.player.debug("Currently played AV item has changed, processing change...")
         if let previous {
             await sendPlaybackStopped(for: previous, at: atTime)

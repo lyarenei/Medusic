@@ -36,7 +36,7 @@ struct DownloadButton<Item: JellyfinItem>: View {
         self.textRemove = textRemove
 
         self.downloader = downloader
-        if let song = item as? Song {
+        if let song = item as? SongDto {
             self.isDownloaded = fileRepo.fileExists(for: song)
         }
     }
@@ -50,7 +50,7 @@ struct DownloadButton<Item: JellyfinItem>: View {
             .onAppear { handleOnAppear() }
             .onReceive(NotificationCenter.default.publisher(for: .SongFileDownloaded)) { event in
                 guard let data = event.userInfo,
-                      let song = data["song"] as? Song,
+                      let song = data["song"] as? SongDto,
                       song.id == item.id
                 else { return }
 
@@ -59,7 +59,7 @@ struct DownloadButton<Item: JellyfinItem>: View {
             }
             .onReceive(NotificationCenter.default.publisher(for: .SongFileDeleted)) { event in
                 guard let data = event.userInfo,
-                      let song = data["song"] as? Song,
+                      let song = data["song"] as? SongDto,
                       song.id == item.id
                 else { return }
 
@@ -96,7 +96,7 @@ struct DownloadButton<Item: JellyfinItem>: View {
 
     private func handleOnAppear() {
         switch item {
-        case let item as Song:
+        case let item as SongDto:
             isDownloaded = fileRepo.fileExists(for: item)
             inProgress = downloader.queue.contains { $0 == item }
         default:
@@ -128,10 +128,10 @@ struct DownloadButton<Item: JellyfinItem>: View {
     private func downloadAction() async throws {
         inProgress = true
         switch item {
-        case let item as Album:
+        case let item as AlbumDto:
             let songs = await library.getSongs(for: item)
             try await downloader.download(songs)
-        case let item as Song:
+        case let item as SongDto:
             try await downloader.download(item)
         default:
             inProgress = false
@@ -143,10 +143,10 @@ struct DownloadButton<Item: JellyfinItem>: View {
 
     private func removeAction() async throws {
         switch item {
-        case let item as Album:
+        case let item as AlbumDto:
             let songs = await library.getSongs(for: item)
             try await fileRepo.removeFiles(for: songs)
-        case let item as Song:
+        case let item as SongDto:
             try await fileRepo.removeFile(for: item)
         default:
             let type = type(of: item)

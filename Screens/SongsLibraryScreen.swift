@@ -4,7 +4,7 @@ struct SongsLibraryScreen: View {
     @EnvironmentObject
     private var library: LibraryRepository
 
-    let songs: [Song]
+    let songs: [SongDto]
 
     var body: some View {
         content

@@ -23,7 +23,7 @@ struct MusicPlayerScreen: View {
     }
 
     @ViewBuilder
-    private func content(for song: Song) -> some View {
+    private func content(for song: SongDto) -> some View {
         GeometryReader { proxy in
             let overallHeight = proxy.size.height + proxy.safeAreaInsets.bottom
             VStack(alignment: .center, spacing: 0) {
@@ -68,7 +68,7 @@ struct MusicPlayerScreen: View {
     }
 
     @ViewBuilder
-    private func artwork(for song: Song, areaWidth: CGFloat) -> some View {
+    private func artwork(for song: SongDto, areaWidth: CGFloat) -> some View {
         ZStack(alignment: .center) {
             ArtworkComponent(for: song.albumId)
                 .padding()
@@ -83,7 +83,7 @@ struct MusicPlayerScreen: View {
     }
 
     @ViewBuilder
-    private func songDetails(for song: Song) -> some View {
+    private func songDetails(for song: SongDto) -> some View {
         HStack {
             VStack(alignment: .leading, spacing: 3) {
                 Text(song.name)
@@ -105,7 +105,7 @@ struct MusicPlayerScreen: View {
     }
 
     @ViewBuilder
-    private func footerActions(for song: Song) -> some View {
+    private func footerActions(for song: SongDto) -> some View {
         FooterActions(song: song) {
             isSongListPresented = true
         }
@@ -254,10 +254,10 @@ private struct PlaybackControl: View {
 }
 
 private struct FooterActions: View {
-    private let song: Song
+    private let song: SongDto
     private let listTapHandler: () -> Void
 
-    init(song: Song, listTapHandler: @escaping () -> Void) {
+    init(song: SongDto, listTapHandler: @escaping () -> Void) {
         self.song = song
         self.listTapHandler = listTapHandler
     }
