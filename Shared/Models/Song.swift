@@ -6,13 +6,12 @@ import SwiftData
 final class Song: JellyfinModel {
     var jellyfinId: String
     var name: String
-    var album: Album?
-    var albumIndex: Int
-
     var sortName: String
     var isFavorite: Bool
     var createdAt: Date
 
+    var album: Album?
+    var albumIndex: Int
     var albumDisc: Int
 
     var artists: [Artist]
@@ -20,33 +19,36 @@ final class Song: JellyfinModel {
     var runtime: TimeInterval
     var fileSize: UInt64
     var fileExtension: String
+    var isDownloaded: Bool
 
     init(
         jellyfinId: String,
         name: String,
-        album: Album? = nil,
-        albumIndex: Int,
         sortName: String = .empty,
         isFavorite: Bool = false,
         createdAt: Date = .distantPast,
+        album: Album? = nil,
+        albumIndex: Int = 1,
         albumDisc: Int = 1,
         artists: [Artist] = [],
         runtime: TimeInterval = 0,
         fileSize: UInt64 = 0,
-        fileExtension: String = .empty
+        fileExtension: String = .empty,
+        isDownloaded: Bool = false
     ) {
         self.jellyfinId = jellyfinId
         self.name = name
         self.sortName = sortName
         self.isFavorite = isFavorite
         self.createdAt = createdAt
+        self.album = album
         self.albumIndex = albumIndex
         self.albumDisc = albumDisc
         self.artists = artists
-        self.album = album
         self.runtime = runtime
         self.fileSize = fileSize
         self.fileExtension = fileExtension
+        self.isDownloaded = isDownloaded
     }
 
     var isNativelySupported: Bool {
@@ -102,11 +104,11 @@ extension Song {
         self.init(
             jellyfinId: song.id,
             name: song.name,
-            album: album,
-            albumIndex: song.index,
             sortName: song.sortName.lowercased(),
             isFavorite: song.isFavorite,
             createdAt: song.createdAt,
+            album: album,
+            albumIndex: song.index,
             albumDisc: song.albumDisc,
             artists: artists,
             runtime: song.runtime,
