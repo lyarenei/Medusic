@@ -51,7 +51,7 @@ struct PlayButton: View {
     }
 
     func playAlbum(_ album: AlbumDto) async throws {
-        let songs = repo.getSongs(for: album)
+        let songs = await repo.getSongs(for: album)
         try await player.play(songs: songs.sorted(by: .album))
     }
 }

@@ -16,7 +16,7 @@ final class FileRepository: ObservableObject {
     private(set) var cacheSizeLimit: UInt64
 
     init(
-        downloadedSongsStore: Store<Song> = .downloadedSongs,
+        downloadedSongsStore: Store<SongDto> = .downloadedSongs,
         apiClient: ApiClient = .shared
     ) {
         self._downloadedSongs = Stored(in: downloadedSongsStore)
@@ -42,7 +42,7 @@ final class FileRepository: ObservableObject {
 
         self.observerRef = NotificationCenter.default.addObserver(forName: .SongFileDownloaded, object: nil, queue: .main) { event in
             guard let data = event.userInfo,
-                  let song = data["song"] as? Song
+                  let song = data["song"] as? SongDto
             else { return }
 
             Task {
@@ -58,7 +58,7 @@ final class FileRepository: ObservableObject {
     }
 
     /// Generate a file URL for a specified song and file extension.
-    func generateFileURL(for song: Song, with ext: String) -> URL {
+    func generateFileURL(for song: SongDto, with ext: String) -> URL {
         cacheDirectory.appendingPathComponent(song.id).appendingPathExtension(ext)
     }
 
@@ -248,7 +248,7 @@ final class FileRepository: ObservableObject {
         return false
     }
 
-    private func untrackDownloaded(_ song: Song) async -> Bool {
+    private func untrackDownloaded(_ song: SongDto) async -> Bool {
         do {
             try await $downloadedSongs.remove(song)
             return true

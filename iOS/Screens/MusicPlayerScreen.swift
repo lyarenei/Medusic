@@ -68,7 +68,7 @@ struct MusicPlayerScreen: View {
     }
 
     @ViewBuilder
-    private func artwork(for song: Song, areaWidth: CGFloat) -> some View {
+    private func artwork(for song: SongDto, areaWidth: CGFloat) -> some View {
         ZStack(alignment: .center) {
             ArtworkComponent(for: song.albumId)
                 .padding()

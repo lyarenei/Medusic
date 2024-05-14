@@ -2,7 +2,7 @@ import Foundation
 
 enum Notifier {
     @MainActor
-    static func emitSongDownloaded(_ song: Song) {
+    static func emitSongDownloaded(_ song: SongDto) {
         NotificationCenter.default.post(
             name: .SongFileDownloaded,
             object: nil,
@@ -11,7 +11,7 @@ enum Notifier {
     }
 
     @MainActor
-    static func emitSongDeleted(_ song: Song) {
+    static func emitSongDeleted(_ song: SongDto) {
         NotificationCenter.default.post(
             name: .SongFileDeleted,
             object: nil,

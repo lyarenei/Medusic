@@ -36,7 +36,7 @@ struct DownloadButton<Item: JellyfinItem>: View {
         self.textRemove = textRemove
 
         self.downloader = downloader
-        if let song = item as? Song {
+        if let song = item as? SongDto {
             self.isDownloaded = fileRepo.fileExists(for: song)
         }
     }
@@ -50,7 +50,7 @@ struct DownloadButton<Item: JellyfinItem>: View {
             .onAppear { handleOnAppear() }
             .onReceive(NotificationCenter.default.publisher(for: .SongFileDownloaded)) { event in
                 guard let data = event.userInfo,
-                      let song = data["song"] as? Song,
+                      let song = data["song"] as? SongDto,
                       song.id == item.id
                 else { return }
 
@@ -59,7 +59,7 @@ struct DownloadButton<Item: JellyfinItem>: View {
             }
             .onReceive(NotificationCenter.default.publisher(for: .SongFileDeleted)) { event in
                 guard let data = event.userInfo,
-                      let song = data["song"] as? Song,
+                      let song = data["song"] as? SongDto,
                       song.id == item.id
                 else { return }
 
