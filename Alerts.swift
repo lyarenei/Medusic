@@ -35,13 +35,13 @@ enum Alerts {
         )
     }
 
-    static func error(_ text: String) {
+    static func error(_ text: String, reason: String? = nil) {
         Drops.show(
             .init(
                 title: text,
                 titleNumberOfLines: 1,
-                subtitle: nil,
-                subtitleNumberOfLines: 0,
+                subtitle: reason,
+                subtitleNumberOfLines: reason != nil ? 2 : 0,
                 icon: .remove,
                 action: nil,
                 position: .top,

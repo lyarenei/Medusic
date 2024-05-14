@@ -36,8 +36,8 @@ actor BackgroundDataManager {
         while true {
             let artists = try await apiClient.services.artistService.getArtists(pageSize: pageSize, offset: offset)
             guard artists.isNotEmpty else {
-                try context.save()
-                logger.debug("Refreshing completed...")
+                try save(context)
+                logger.info("Refreshing completed...")
                 return
             }
 
@@ -66,8 +66,30 @@ actor BackgroundDataManager {
                 }
             }
 
-            try context.save()
+            try save(context)
             offset += pageSize
+        }
+    }
+
+    func save(_ ctx: ModelContext) throws {
+        do {
+            try ctx.save()
+        } catch {
+            logger.warning("Failed to save data: \(error.localizedDescription)")
+            throw DataManagerError.saveFailed
+        }
+    }
+}
+
+extension BackgroundDataManager {
+    enum DataManagerError: Error {
+        case saveFailed
+
+        var localizedDescription: String {
+            switch self {
+            case .saveFailed:
+                return "Saving data failed."
+            }
         }
     }
 }
