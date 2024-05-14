@@ -3,8 +3,7 @@ import SFSafeSymbols
 import SwiftData
 import SwiftUI
 
-// TODO: rename
-struct SongsLibraryScreen: View {
+struct SongLibraryScreen: View {
     @State
     private var filter: FilterOption = .all
 
@@ -102,7 +101,7 @@ private struct SongLibraryScreenContent: View {
 
 #Preview {
     NavigationStack {
-        SongsLibraryScreen()
+        SongLibraryScreen()
     }
     .modelContainer(PreviewDataSource.container)
     .environmentObject(ApiClient(previewEnabled: true))
