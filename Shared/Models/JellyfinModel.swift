@@ -3,4 +3,5 @@ import SwiftData
 
 protocol JellyfinModel: PersistentModel, Equatable {
     var jellyfinId: String { get }
+    var name: String { get }
 }

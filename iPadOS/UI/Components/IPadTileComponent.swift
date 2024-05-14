@@ -2,8 +2,7 @@ import Kingfisher
 import MarqueeText
 import SwiftUI
 
-// TODO: more generic than artist
-struct IPadTileComponent<Item: Artist>: View {
+struct IPadTileComponent<Item: JellyfinModel>: View {
     private let item: Item
     private var titleText: String?
     private var subtitleText: String?
