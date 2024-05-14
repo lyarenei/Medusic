@@ -22,9 +22,8 @@ actor BackgroundDataManager {
     }
 
     /// Refresh whe whole library (artists, albums, songs).
-    func refresh() async throws {
-        // TODO: This should probably be for a specific artist, not for whole library. But we will see.
-        logger.debug("Refreshing data...")
+    func refreshLibrary() async throws {
+        logger.debug("Refreshing library...")
         try await apiClient.performAuth()
 
         let context = getContext()

@@ -16,7 +16,7 @@ struct IPadRefreshButton: View {
         do {
             let container = try ModelContainer(for: Artist.self, Album.self, Song.self)
             let manager = BackgroundDataManager(with: container)
-            try await manager.refresh()
+            try await manager.refreshLibrary()
         } catch {
             Alerts.error("Refresh failed", reason: error.localizedDescription)
         }
