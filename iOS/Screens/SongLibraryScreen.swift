@@ -71,12 +71,6 @@ private struct SongLibraryScreenContent: View {
     @Query
     private var songs: [Song]
 
-    @State
-    private var path = NavigationPath()
-
-    @State
-    private var cols = [GridItem(.adaptive(minimum: 220))]
-
     init(filterBy: FilterOption, sortBy: SortOption, sortOrder: SortOrder) {
         let predicate: Predicate<Song> = Song.predicate(for: filterBy)
         switch sortBy {
