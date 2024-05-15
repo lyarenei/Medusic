@@ -85,6 +85,24 @@ private struct SongLibraryScreenContent: View {
         List(songs) { song in
             SongListRow(for: song)
                 .frame(height: 40)
+                .contextMenu {
+//                    TODO: context menu
+//                    PlayButton("Play", item: song)
+//                    DownloadButton(
+//                        item: song,
+//                        textDownload: "Download",
+//                        textRemove: "Remove"
+//                    )
+//
+//                    FavoriteButton(
+//                        item: song,
+//                        textFavorite: "Favorite",
+//                        textUnfavorite: "Unfavorite"
+//                    )
+//
+//                    EnqueueButton("Play Next", item: song, position: .next)
+//                    EnqueueButton("Play Last", item: song, position: .last)
+                }
         }
         .listStyle(.plain)
     }
