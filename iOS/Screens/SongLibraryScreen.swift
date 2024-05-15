@@ -71,6 +71,9 @@ private struct SongLibraryScreenContent: View {
     @Query
     private var songs: [Song]
 
+    @EnvironmentObject
+    private var player: MusicPlayer
+
     init(filterBy: FilterOption, sortBy: SortOption, sortOrder: SortOrder) {
         let predicate: Predicate<Song> = Song.predicate(for: filterBy)
         switch sortBy {
@@ -85,6 +88,7 @@ private struct SongLibraryScreenContent: View {
         List(songs) { song in
             SongListRow(for: song)
                 .frame(height: 40)
+                .onTapGesture { onTap(song.jellyfinId) }
                 .contextMenu {
 //                    TODO: context menu
 //                    PlayButton("Play", item: song)
@@ -106,6 +110,17 @@ private struct SongLibraryScreenContent: View {
         }
         .listStyle(.plain)
     }
+
+    private func onTap(_ songId: String) {
+        Task {
+            do {
+                try await player.play(songId: songId)
+            } catch {
+                // TODO: reason
+                Alerts.error("Failed to play song")
+            }
+        }
+    }
 }
 
 #if DEBUG
@@ -123,9 +138,6 @@ private struct SongLibraryScreenContent: View {
 #endif
 
 private struct SongListRow<Action: View>: View {
-    @EnvironmentObject
-    private var player: MusicPlayer
-
     private let song: Song
     private var action: Action?
 
@@ -138,8 +150,6 @@ private struct SongListRow<Action: View>: View {
         GeometryReader { proxy in
             HStack {
                 songInfo
-                    .onTapGesture { onTap() }
-
                 Spacer()
                 action
             }
