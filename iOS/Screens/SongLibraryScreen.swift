@@ -149,7 +149,12 @@ private struct SongListRow<Action: View>: View {
     var body: some View {
         GeometryReader { proxy in
             HStack {
+                ArtworkComponent(for: song.album?.jellyfinId ?? .empty)
+                    .frame(width: proxy.size.height, height: proxy.size.height)
+
                 songInfo
+                    .frame(height: proxy.size.height)
+
                 Spacer()
                 action
             }
@@ -159,30 +164,23 @@ private struct SongListRow<Action: View>: View {
 
     @ViewBuilder
     private var songInfo: some View {
-        GeometryReader { proxy in
-            HStack {
-                ArtworkComponent(for: song.album?.jellyfinId ?? .empty)
-                    .frame(width: proxy.size.height, height: proxy.size.height)
+        VStack(alignment: .leading, spacing: 2) {
+            MarqueeText(
+                text: song.name,
+                font: .preferredFont(forTextStyle: .title3),
+                leftFade: UIConstants.marqueeFadeLen,
+                rightFade: UIConstants.marqueeFadeLen,
+                startDelay: UIConstants.marqueeDelay
+            )
 
-                VStack(alignment: .leading, spacing: 2) {
-                    MarqueeText(
-                        text: song.name,
-                        font: .preferredFont(forTextStyle: .title3),
-                        leftFade: UIConstants.marqueeFadeLen,
-                        rightFade: UIConstants.marqueeFadeLen,
-                        startDelay: UIConstants.marqueeDelay
-                    )
-
-                    MarqueeText(
-                        text: song.album?.name ?? .empty,
-                        font: .systemFont(ofSize: 12),
-                        leftFade: UIConstants.marqueeFadeLen,
-                        rightFade: UIConstants.marqueeFadeLen,
-                        startDelay: UIConstants.marqueeDelay
-                    )
-                    .foregroundColor(.gray)
-                }
-            }
+            MarqueeText(
+                text: song.album?.name ?? .empty,
+                font: .systemFont(ofSize: 12),
+                leftFade: UIConstants.marqueeFadeLen,
+                rightFade: UIConstants.marqueeFadeLen,
+                startDelay: UIConstants.marqueeDelay
+            )
+            .foregroundColor(.gray)
         }
     }
 
