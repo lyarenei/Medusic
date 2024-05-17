@@ -27,6 +27,20 @@ For a list of planned features, check the repository issues with `enhancement` o
 [^1]: Technically supported, but UI/UX need improvements
 [^2]: Requires properly encoded files for lossy formats - learn more [here](https://en.wikipedia.org/wiki/Gapless_playback#Format_support)
 
+## Screenshots
+
+Some example screenshots of the app. Might be very well outdated by the time you are looking at them. 🙂
+
+<div align=center>
+<img src='resources/screenshots/library.png' alt='Library home screen' width=300 height=650 vspace=25 hspace=25 />
+<img src='resources/screenshots/album.png' alt='Album detail' width=300 height=650 vspace=25 hspace=25 />
+</div>
+
+<div align=center>
+<img src='resources/screenshots/player.png' alt='Player popup screen' width=300 height=650 vspace=25 hspace=25 />
+<img src='resources/screenshots/player_dark.png' alt='Player popup screen (dark theme)' width=300 height=650 vspace=25  hspace=25 />
+</div>
+
 ## Development
 
 1. Clone the repository
