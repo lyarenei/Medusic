@@ -37,7 +37,6 @@
 		9B289EA829F6EDC3007FD445 /* NumberExtensions.swift in Sources */ = {isa = PBXBuildFile; fileRef = 9B289EA729F6EDC3007FD445 /* NumberExtensions.swift */; };
 		9B3060122BD6C33B003FBD74 /* PrivacyInfo.xcprivacy in Resources */ = {isa = PBXBuildFile; fileRef = 9B3060112BD6C33B003FBD74 /* PrivacyInfo.xcprivacy */; };
 		9B3B457B2A52160500E80390 /* PersistenceRepository.swift in Sources */ = {isa = PBXBuildFile; fileRef = 9B3B457A2A52160500E80390 /* PersistenceRepository.swift */; };
-		9B3C7BE629D04F5800884597 /* InProgressComponent.swift in Sources */ = {isa = PBXBuildFile; fileRef = 9B3C7BE529D04F5800884597 /* InProgressComponent.swift */; };
 		9B3C7BE929D0702600884597 /* Logger.swift in Sources */ = {isa = PBXBuildFile; fileRef = 9B3C7BE829D0702600884597 /* Logger.swift */; };
 		9B3D449C29BCF89A0054C9E0 /* SystemService.swift in Sources */ = {isa = PBXBuildFile; fileRef = 9B3D449B29BCF89A0054C9E0 /* SystemService.swift */; };
 		9B3D449F29BCF9490054C9E0 /* DefaultSystemService.swift in Sources */ = {isa = PBXBuildFile; fileRef = 9B3D449E29BCF9490054C9E0 /* DefaultSystemService.swift */; };
@@ -184,7 +183,6 @@
 		9B3060112BD6C33B003FBD74 /* PrivacyInfo.xcprivacy */ = {isa = PBXFileReference; lastKnownFileType = text.xml; path = PrivacyInfo.xcprivacy; sourceTree = "<group>"; };
 		9B36DAC429CB941C008C4FE7 /* Info.plist */ = {isa = PBXFileReference; lastKnownFileType = text.plist.xml; path = Info.plist; sourceTree = "<group>"; };
 		9B3B457A2A52160500E80390 /* PersistenceRepository.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = PersistenceRepository.swift; sourceTree = "<group>"; };
-		9B3C7BE529D04F5800884597 /* InProgressComponent.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = InProgressComponent.swift; sourceTree = "<group>"; };
 		9B3C7BE829D0702600884597 /* Logger.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = Logger.swift; sourceTree = "<group>"; };
 		9B3D449B29BCF89A0054C9E0 /* SystemService.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = SystemService.swift; sourceTree = "<group>"; };
 		9B3D449E29BCF9490054C9E0 /* DefaultSystemService.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = DefaultSystemService.swift; sourceTree = "<group>"; };
@@ -377,7 +375,6 @@
 			children = (
 				9BDB09A429BB4816007F99E4 /* ArtworkComponent.swift */,
 				9B3D44B929BDF2550054C9E0 /* InlineInputComponent.swift */,
-				9B3C7BE529D04F5800884597 /* InProgressComponent.swift */,
 				9B7AF3B329EB09310039A7DF /* AlbumListRowComponent.swift */,
 				9BBE146329FC682B0028C500 /* PlaybackProgressComponent.swift */,
 				9B6ADD422BED73C100D9DFE0 /* NowPlayingBarComponent.swift */,
@@ -918,7 +915,6 @@
 			isa = PBXSourcesBuildPhase;
 			buildActionMask = 2147483647;
 			files = (
-				9B3C7BE629D04F5800884597 /* InProgressComponent.swift in Sources */,
 				9B1866F52A8AC6E500034A10 /* Alerts.swift in Sources */,
 				9B9A79072BE3A6B300E848DC /* IPadRefreshButton.swift in Sources */,
 				9B73ECF929C8F085007F74DB /* MusicPlayerScreen.swift in Sources */,
