@@ -104,6 +104,7 @@ extension [SongDto] {
         case index
         case album
         case albumDisc
+        case parentId
     }
 
     func sorted(by method: SongSortBy) -> [SongDto] {
@@ -111,9 +112,11 @@ extension [SongDto] {
         case .index:
             return sorted { $0.index < $1.index }
         case .album:
-            return sortByParentId().sortByIndex().sortByAlbumDisc()
+            return sorted { ($0.albumId, $0.index, $0.albumDisc) < ($1.albumId, $1.index, $1.albumDisc) }
         case .albumDisc:
             return sorted { $0.albumDisc < $1.albumDisc }
+        case .parentId:
+            return sorted { $0.albumId < $1.albumId }
         }
     }
 }
