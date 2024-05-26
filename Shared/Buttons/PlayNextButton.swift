@@ -22,6 +22,7 @@ struct PlayNextButton: View {
             action()
         } label: {
             Image(systemSymbol: .forwardFill)
+                .scaledToFit()
                 .symbolEffect(.bounce, value: bounce)
 
             if let text {

@@ -24,6 +24,8 @@ struct PlayButton: View {
         } label: {
             HStack {
                 Image(systemSymbol: .playFill)
+                    .scaledToFit()
+
                 if let text {
                     Text(text)
                 }
