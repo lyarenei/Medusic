@@ -114,7 +114,8 @@ private struct SongLibraryScreenContent: View {
     private func onTap(_ songId: String) {
         Task {
             do {
-                try await player.play(songId: songId)
+//                try await player.play(song: song)
+                Alerts.info("Feature not available")
             } catch {
                 // TODO: reason
                 Alerts.error("Failed to play song")
