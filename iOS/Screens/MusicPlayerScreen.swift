@@ -214,6 +214,7 @@ struct MusicPlayerScreen: View {
                 .environmentObject(PreviewUtils.libraryRepo)
                 .environmentObject(player)
                 .environmentObject(ApiClient(previewEnabled: true))
+                .environmentObject(PreviewUtils.fileRepo)
         }
     }
 
