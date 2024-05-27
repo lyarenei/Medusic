@@ -89,20 +89,24 @@ private struct SongLibraryScreenContent: View {
 
     var body: some View {
         List(songs) { song in
-            SongListRow(for: song)
-                .frame(height: 40)
-                .onTapGesture { onTap(song.jellyfinId) }
-                .swipeActions(allowsFullSwipe: false) {
+            SongListRow(for: song) { song in
+                Menu(systemImage: SFSymbol.ellipsisCircle.rawValue) {
                     DownloadOrRemoveButton(isDownloaded: fileRepo.fileExists(for: song.jellyfinId), song: song)
                 }
-                .contextMenu {
-                    DownloadOrRemoveButton(isDownloaded: fileRepo.fileExists(for: song.jellyfinId), song: song)
+            }
+            .frame(height: 40)
+            .onTapGesture { onTap(song.jellyfinId) }
+            .swipeActions(allowsFullSwipe: false) {
+                DownloadOrRemoveButton(isDownloaded: fileRepo.fileExists(for: song.jellyfinId), song: song)
+            }
+            .contextMenu {
+                DownloadOrRemoveButton(isDownloaded: fileRepo.fileExists(for: song.jellyfinId), song: song)
 //                    TODO: context menu
 //                    PlayButton("Play", item: song)
 //
 //                    EnqueueButton("Play Next", item: song, position: .next)
 //                    EnqueueButton("Play Last", item: song, position: .last)
-                }
+            }
         }
         .listStyle(.plain)
     }
