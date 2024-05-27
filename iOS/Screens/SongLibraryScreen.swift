@@ -74,6 +74,9 @@ private struct SongLibraryScreenContent: View {
     @EnvironmentObject
     private var player: MusicPlayer
 
+    @EnvironmentObject
+    private var fileRepo: FileRepository
+
     init(filterBy: FilterOption, sortBy: SortOption, sortOrder: SortOrder) {
         let predicate: Predicate<Song> = Song.predicate(for: filterBy)
         switch sortBy {
@@ -89,20 +92,13 @@ private struct SongLibraryScreenContent: View {
             SongListRow(for: song)
                 .frame(height: 40)
                 .onTapGesture { onTap(song.jellyfinId) }
+                .swipeActions(allowsFullSwipe: false) {
+                    DownloadOrRemoveButton(isDownloaded: fileRepo.fileExists(for: song.jellyfinId), song: song)
+                }
                 .contextMenu {
+                    DownloadOrRemoveButton(isDownloaded: fileRepo.fileExists(for: song.jellyfinId), song: song)
 //                    TODO: context menu
 //                    PlayButton("Play", item: song)
-//                    DownloadButton(
-//                        item: song,
-//                        textDownload: "Download",
-//                        textRemove: "Remove"
-//                    )
-//
-//                    FavoriteButton(
-//                        item: song,
-//                        textFavorite: "Favorite",
-//                        textUnfavorite: "Unfavorite"
-//                    )
 //
 //                    EnqueueButton("Play Next", item: song, position: .next)
 //                    EnqueueButton("Play Last", item: song, position: .last)
@@ -137,6 +133,83 @@ private struct SongLibraryScreenContent: View {
 
 // swiftlint:enable all
 #endif
+
+private struct DownloadOrRemoveButton: View {
+    @EnvironmentObject
+    private var downloader: Downloader
+
+    @EnvironmentObject
+    private var fileRepo: FileRepository
+
+    @State
+    private var isDownloaded: Bool
+
+    let song: Song
+
+    init(isDownloaded: Bool = false, song: Song) {
+        self.isDownloaded = isDownloaded
+        self.song = song
+    }
+
+    var body: some View {
+        button
+            .onReceive(NotificationCenter.default.publisher(for: .SongFileDownloaded)) { event in
+                guard let data = event.userInfo,
+                      let eventSong = data["song"] as? SongDto,
+                      song.jellyfinId == eventSong.id
+                else { return }
+
+                isDownloaded = true
+            }
+            .onReceive(NotificationCenter.default.publisher(for: .SongFileDeleted)) { event in
+                guard let data = event.userInfo,
+                      let eventSong = data["song"] as? SongDto,
+                      song.jellyfinId == eventSong.id
+                else { return }
+
+                isDownloaded = false
+            }
+    }
+
+    @ViewBuilder
+    private var button: some View {
+        if isDownloaded {
+            removeButton
+        } else {
+            downloadButton
+        }
+    }
+
+    @ViewBuilder
+    private var downloadButton: some View {
+        Button {
+            Task {
+                do {
+                    try await downloader.download(song.jellyfinId)
+                } catch {
+                    Alerts.error("Failed to download song")
+                }
+            }
+        } label: {
+            Label("Download", systemSymbol: .icloudAndArrowDown)
+        }
+    }
+
+    @ViewBuilder
+    private var removeButton: some View {
+        Button(role: .destructive) {
+            Task {
+                do {
+                    try await fileRepo.removeFile(for: song.jellyfinId)
+                } catch {
+                    Alerts.error("Failed to remove song")
+                }
+            }
+        } label: {
+            Label("Remove", systemSymbol: .trash)
+        }
+    }
+}
 
 private struct SongListRow<Action: View>: View {
     private let song: Song
