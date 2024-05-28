@@ -90,12 +90,17 @@ private struct SongLibraryScreenContent: View {
     var body: some View {
         List(songs) { song in
             SongListRow(for: song) { song in
-                Menu(systemImage: SFSymbol.ellipsisCircle.rawValue) {
+                Menu {
                     DownloadOrRemoveButton(isDownloaded: fileRepo.fileExists(for: song.jellyfinId), song: song)
+                } label: {
+                    Image(systemSymbol: .ellipsisCircle)
+                        .resizable()
+                        .scaledToFit()
+                        .padding(10)
+                        .contentShape(Rectangle())
                 }
             }
             .frame(height: 40)
-            .onTapGesture { onTap(song.jellyfinId) }
             .swipeActions(allowsFullSwipe: false) {
                 DownloadOrRemoveButton(isDownloaded: fileRepo.fileExists(for: song.jellyfinId), song: song)
             }
@@ -109,18 +114,6 @@ private struct SongLibraryScreenContent: View {
             }
         }
         .listStyle(.plain)
-    }
-
-    private func onTap(_ songId: String) {
-        Task {
-            do {
-//                try await player.play(song: song)
-                Alerts.info("Feature not available")
-            } catch {
-                // TODO: reason
-                Alerts.error("Failed to play song")
-            }
-        }
     }
 }
 
@@ -227,14 +220,23 @@ private struct SongListRow<Action: View>: View {
     var body: some View {
         GeometryReader { proxy in
             HStack {
-                ArtworkComponent(for: song.album?.jellyfinId ?? .empty)
-                    .frame(width: proxy.size.height, height: proxy.size.height)
+                HStack {
+                    ArtworkComponent(for: song.album?.jellyfinId ?? .empty)
+                        .frame(width: proxy.size.height, height: proxy.size.height)
 
-                songInfo
-                    .frame(height: proxy.size.height)
+                    songInfo
+                        .frame(height: proxy.size.height)
 
-                Spacer()
+                    Spacer()
+                }
+                .frame(width: proxy.size.width - proxy.size.height)
+                .contentShape(Rectangle())
+                .onTapGesture { onTap() }
+
                 action
+                    .buttonStyle(.plain)
+                    .foregroundColor(Color.accentColor)
+                    .frame(width: proxy.size.height, height: proxy.size.height)
             }
             .frame(height: proxy.size.height)
         }
