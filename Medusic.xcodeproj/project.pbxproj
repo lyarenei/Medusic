@@ -141,6 +141,7 @@
 		9BF6C8F82A86251A00916EC1 /* ArtistLibraryScreen.swift in Sources */ = {isa = PBXBuildFile; fileRef = 9BF6C8F72A86251A00916EC1 /* ArtistLibraryScreen.swift */; };
 		9BF6C8FB2A86277F00916EC1 /* ArrayExtensions.swift in Sources */ = {isa = PBXBuildFile; fileRef = 9BF6C8FA2A86277F00916EC1 /* ArrayExtensions.swift */; };
 		9BF7AF8C29CDF1C8004E0DA7 /* PrimaryActionButton.swift in Sources */ = {isa = PBXBuildFile; fileRef = 9BF7AF8B29CDF1C8004E0DA7 /* PrimaryActionButton.swift */; };
+		9BF8E7DB2C06771C006ED200 /* ViewExtensions.swift in Sources */ = {isa = PBXBuildFile; fileRef = 9BF8E7DA2C06771C006ED200 /* ViewExtensions.swift */; };
 /* End PBXBuildFile section */
 
 /* Begin PBXCopyFilesBuildPhase section */
@@ -281,6 +282,7 @@
 		9BF6C8F72A86251A00916EC1 /* ArtistLibraryScreen.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = ArtistLibraryScreen.swift; sourceTree = "<group>"; };
 		9BF6C8FA2A86277F00916EC1 /* ArrayExtensions.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = ArrayExtensions.swift; sourceTree = "<group>"; };
 		9BF7AF8B29CDF1C8004E0DA7 /* PrimaryActionButton.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = PrimaryActionButton.swift; sourceTree = "<group>"; };
+		9BF8E7DA2C06771C006ED200 /* ViewExtensions.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = ViewExtensions.swift; sourceTree = "<group>"; };
 /* End PBXFileReference section */
 
 /* Begin PBXFrameworksBuildPhase section */
@@ -415,6 +417,7 @@
 				9BBE145E29FB18DA0028C500 /* NotificationExtensions.swift */,
 				9B9A79182BE9475200E848DC /* ModelContextExtensions.swift */,
 				9B9A78EB2BE19C5A00E848DC /* UIDevice.swift */,
+				9BF8E7DA2C06771C006ED200 /* ViewExtensions.swift */,
 			);
 			path = Extensions;
 			sourceTree = "<group>";
@@ -973,6 +976,7 @@
 				9B7ACB502BAA15B900DF0569 /* LibraryRepository+Artists.swift in Sources */,
 				9BF26D422A8753E6006631E9 /* PreviewUtils.swift in Sources */,
 				9BF26D5B2A881FC6006631E9 /* UIConstants.swift in Sources */,
+				9BF8E7DB2C06771C006ED200 /* ViewExtensions.swift in Sources */,
 				9B7D1CD62BA6333000FF888F /* AppearanceSettings.swift in Sources */,
 				9B9A79192BE9475200E848DC /* ModelContextExtensions.swift in Sources */,
 				9B7D1CCF2BA5052600FF888F /* JellyfinSettings.swift in Sources */,
