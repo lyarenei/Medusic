@@ -1310,8 +1310,8 @@
 			isa = XCRemoteSwiftPackageReference;
 			repositoryURL = "https://github.com/jellyfin/jellyfin-sdk-swift";
 			requirement = {
-				kind = upToNextMajorVersion;
-				minimumVersion = 0.2.2;
+				kind = upToNextMinorVersion;
+				minimumVersion = 0.3.4;
 			};
 		};
 		9BB75EB229C4E640008CD65A /* XCRemoteSwiftPackageReference "Defaults" */ = {

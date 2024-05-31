@@ -1,5 +1,5 @@
 {
-  "originHash" : "927d374617d923c0af756473697167ce30b2b4905aed31433d4ce2368105f0bf",
+  "originHash" : "54e420f3cc4641423ce643ec19d956e0a5f6b5d3f0d65fa7567eb5d1105ea0c5",
   "pins" : [
     {
       "identity" : "bodega",
@@ -60,8 +60,8 @@
       "kind" : "remoteSourceControl",
       "location" : "https://github.com/kean/Get",
       "state" : {
-        "revision" : "12830cc64f31789ae6f4352d2d51d03a25fc3741",
-        "version" : "2.1.6"
+        "revision" : "74dba201ebe42e9c15c1db6ee1cc893025bbef94",
+        "version" : "2.2.0"
       }
     },
     {
@@ -69,8 +69,8 @@
       "kind" : "remoteSourceControl",
       "location" : "https://github.com/jellyfin/jellyfin-sdk-swift",
       "state" : {
-        "revision" : "30957ea3fe007eaecb203d16217c0c07dc3bcd8e",
-        "version" : "0.3.3"
+        "revision" : "eae2ab5ed7caf770d79afbcdae08aab48df27a6e",
+        "version" : "0.3.4"
       }
     },
     {
