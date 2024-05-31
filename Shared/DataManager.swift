@@ -15,6 +15,10 @@ actor BackgroundDataManager {
         self.logger = logger
     }
 
+    init() throws {
+        try self.init(with: .init(for: Artist.self, Album.self, Song.self))
+    }
+
     private func getContext() -> ModelContext {
         let context = ModelContext(container)
         context.autosaveEnabled = false
