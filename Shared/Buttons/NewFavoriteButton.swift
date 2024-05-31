@@ -4,37 +4,37 @@ import SFSafeSymbols
 import SwiftData
 import SwiftUI
 
-struct NewFavoriteButton<Item: JellyfinItemModel>: View {
-    @Environment(\.modelContext)
-    var context: ModelContext
+struct NewFavoriteButton: View {
+    let itemId: PersistentIdentifier
 
-    @Bindable
-    var item: Item
+    @State
+    var isFavorite: Bool
 
     let apiClient: ApiClient = .shared
 
     var body: some View {
-        let symbol: SFSymbol = item.isFavorite ? .heartFill : .heart
-        let text = item.isFavorite ? "Undo favorite" : "Favorite"
+        let symbol: SFSymbol = isFavorite ? .heartFill : .heart
+        let text = isFavorite ? "Undo favorite" : "Favorite"
         AsyncButton {
             await action()
         } label: {
             Label(text, systemSymbol: symbol)
                 .contentTransition(.symbolEffect(.replace))
         }
-        .sensoryFeedback(.success, trigger: item.isFavorite) { old, new in !old && new }
-        .sensoryFeedback(.impact, trigger: item.isFavorite) { old, new in old && !new }
+        .sensoryFeedback(.success, trigger: isFavorite) { old, new in !old && new }
+        .sensoryFeedback(.impact, trigger: isFavorite) { old, new in old && !new }
         .disabledWhenLoading()
     }
 
     private func action() async {
         do {
-            try await apiClient.services.mediaService.setFavorite(itemId: item.jellyfinId, isFavorite: !item.isFavorite)
-            withAnimation { item.isFavorite.toggle() }
-            try context.save()
+            let actor = try BackgroundDataManager()
+            try await actor.setFavoriteSong(id: itemId, isFavorite: !isFavorite)
+            withAnimation { isFavorite.toggle() }
+        } catch let error as DataManagerError {
+            Alerts.error("Operation failed", reason: error.localizedDescription)
         } catch {
-            Logger.jellyfin.warning("Failed to update favorite status: \(error.localizedDescription)")
-            Alerts.error("Action failed")
+            Alerts.error("Operation failed")
         }
     }
 }

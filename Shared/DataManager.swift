@@ -82,17 +82,34 @@ actor BackgroundDataManager {
             throw DataManagerError.saveFailed
         }
     }
+
+    func setFavoriteSong(id: PersistentIdentifier, isFavorite: Bool) async throws {
+        do {
+            let ctx = getContext()
+            guard let song = ctx.model(for: id) as? Song else {
+                throw DataManagerError.notFound
+            }
+
+            try await apiClient.services.mediaService.setFavorite(itemId: song.jellyfinId, isFavorite: isFavorite)
+            song.isFavorite = isFavorite
+            try save(ctx)
+        } catch {
+            logger.warning("Failed to update favorite status: \(error.localizedDescription)")
+            throw error
+        }
+    }
 }
 
-extension BackgroundDataManager {
-    enum DataManagerError: Error {
-        case saveFailed
+enum DataManagerError: Error {
+    case saveFailed
+    case notFound
 
-        var localizedDescription: String {
-            switch self {
-            case .saveFailed:
-                return "Saving data failed."
-            }
+    var localizedDescription: String {
+        switch self {
+        case .saveFailed:
+            return "Saving data failed."
+        case .notFound:
+            return "Item does not exist."
         }
     }
 }
