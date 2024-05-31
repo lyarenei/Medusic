@@ -96,6 +96,7 @@ private struct SongLibraryScreenContent: View {
             SongListRow(for: song) { song in
                 Menu {
                     DownloadOrRemoveButton(isDownloaded: fileRepo.fileExists(for: song.jellyfinId), song: song)
+                    NewFavoriteButton(item: song)
                 } label: {
                     Image(systemSymbol: .ellipsisCircle)
                         .resizable()
