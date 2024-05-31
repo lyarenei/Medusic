@@ -14,7 +14,7 @@ struct NewFavoriteButton<Item: JellyfinItemModel>: View {
     let apiClient: ApiClient = .shared
 
     var body: some View {
-        let symbol: SFSymbol = item.isFavorite ? .heartSlash : .heart
+        let symbol: SFSymbol = item.isFavorite ? .heartFill : .heart
         let text = item.isFavorite ? "Undo favorite" : "Favorite"
         AsyncButton {
             await action()
