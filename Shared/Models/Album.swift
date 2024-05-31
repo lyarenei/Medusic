@@ -2,7 +2,7 @@ import Foundation
 import SwiftData
 
 @Model
-final class Album: JellyfinModel {
+final class Album: JellyfinItemModel {
     var jellyfinId: String
     var name: String
     var sortName: String

@@ -4,7 +4,7 @@ import SFSafeSymbols
 import SwiftData
 import SwiftUI
 
-struct NewFavoriteButton<Item: JellyfinModel>: View {
+struct NewFavoriteButton<Item: JellyfinItemModel>: View {
     @Bindable
     var item: Item
 

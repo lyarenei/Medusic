@@ -21,7 +21,7 @@ extension ModelContext {
         }
     }
 
-    func existingMode<T: JellyfinModel>(for jellyfinId: String) -> T? {
+    func existingMode<T: JellyfinItemModel>(for jellyfinId: String) -> T? {
         let fetchDesc = FetchDescriptor<T>(
             predicate: #Predicate { $0.jellyfinId == jellyfinId }
         )
