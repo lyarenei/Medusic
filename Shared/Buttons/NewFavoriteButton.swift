@@ -41,7 +41,7 @@ struct NewFavoriteButton: View {
             else { return }
 
             // This apparently does some black magic as itemId == id evaluates to false
-            if let song = ctx.model(for: id) as? Song {
+            if ctx.model(for: id) as? Song != nil {
                 withAnimation { self.isFavorite = isFavorite }
             }
         }
