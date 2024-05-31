@@ -84,10 +84,10 @@ extension Song {
         switch option {
         case .all:
             if text.isEmpty { return #Predicate<Song> { _ in true } }
-            return #Predicate<Song> { $0.name.localizedStandardContains(text)}
+            return #Predicate<Song> { $0.name.localizedStandardContains(text) }
         case .favorite:
             if text.isEmpty { return #Predicate<Song> { $0.isFavorite } }
-            return #Predicate<Song> { $0.isFavorite && $0.name.localizedStandardContains(text)}
+            return #Predicate<Song> { $0.isFavorite && $0.name.localizedStandardContains(text) }
         }
     }
 
