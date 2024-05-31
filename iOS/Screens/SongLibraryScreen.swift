@@ -229,7 +229,7 @@ private struct SongListRow<Action: View>: View {
                 }
                 .frame(width: proxy.size.width - proxy.size.height)
                 .contentShape(Rectangle())
-                .onTapGesture { onTap() }
+//                .onTapGesture { onTap() }
 
                 action
                     .buttonStyle(.plain)
@@ -266,7 +266,7 @@ private struct SongListRow<Action: View>: View {
         Task {
             do {
 //                try await player.play(song: song)
-                Alerts.info("Feature not available")
+                Alerts.info("Feature is not available")
             } catch {
                 // TODO: reason
                 Alerts.error("Failed to play song")
