@@ -39,6 +39,9 @@ struct SongLibraryScreen: View {
 
                 Label("Favorite", systemSymbol: .heart)
                     .tag(FilterOption.favorite)
+
+                Label("Downloaded", systemSymbol: .icloudAndArrowDown)
+                    .tag(FilterOption.downloaded)
             }
             .pickerStyle(.inline)
         }
@@ -95,7 +98,7 @@ private struct SongLibraryScreenContent: View {
         List(songs) { song in
             SongListRow(for: song) { song in
                 Menu {
-                    DownloadOrRemoveButton(isDownloaded: fileRepo.fileExists(for: song.jellyfinId), song: song)
+                    DownloadOrRemoveButton(for: song.id, isDownloaded: song.isDownloaded)
                     NewFavoriteButton(for: song.id, isFavorite: song.isFavorite)
                 } label: {
                     Image(systemSymbol: .ellipsisCircle)
@@ -107,7 +110,7 @@ private struct SongLibraryScreenContent: View {
             }
             .frame(height: 40)
             .contextMenu {
-                DownloadOrRemoveButton(isDownloaded: fileRepo.fileExists(for: song.jellyfinId), song: song)
+                DownloadOrRemoveButton(for: song.id, isDownloaded: song.isDownloaded)
                 NewFavoriteButton(for: song.id, isFavorite: song.isFavorite)
 //                    TODO: context menu
 //                    PlayButton("Play", item: song)
@@ -134,79 +137,90 @@ private struct SongLibraryScreenContent: View {
 // swiftlint:enable all
 #endif
 
-private struct DownloadOrRemoveButton: View {
-    @EnvironmentObject
-    private var downloader: Downloader
+import ButtonKit
 
-    @EnvironmentObject
-    private var fileRepo: FileRepository
+private struct DownloadOrRemoveButton: View {
+    @Environment(\.modelContext)
+    private var ctx: ModelContext
 
     @State
     private var isDownloaded: Bool
 
-    let song: Song
+    private let itemId: PersistentIdentifier
+    private let downloader: Downloader
+    private let fileRepo: FileRepository
 
-    init(isDownloaded: Bool = false, song: Song) {
+    init(
+        for itemId: PersistentIdentifier,
+        isDownloaded: Bool,
+        downloader: Downloader = .shared,
+        fileRepo: FileRepository = .shared
+    ) {
+        self.itemId = itemId
         self.isDownloaded = isDownloaded
-        self.song = song
+        self.downloader = downloader
+        self.fileRepo = fileRepo
     }
 
     var body: some View {
         button
             .onReceive(NotificationCenter.default.publisher(for: .SongFileDownloaded)) { event in
                 guard let data = event.userInfo,
-                      let eventSong = data["song"] as? SongDto,
-                      song.jellyfinId == eventSong.id
+                      let eventSong = data["song"] as? SongDto
                 else { return }
 
-                isDownloaded = true
+                if let song = ctx.model(for: itemId) as? Song,
+                   song.jellyfinId == eventSong.id {
+                    withAnimation { isDownloaded = true }
+
+                    // TODO: Move to data manager
+                    song.isDownloaded = true
+                    try? ctx.save()
+                }
             }
             .onReceive(NotificationCenter.default.publisher(for: .SongFileDeleted)) { event in
                 guard let data = event.userInfo,
-                      let eventSong = data["song"] as? SongDto,
-                      song.jellyfinId == eventSong.id
+                      let eventSong = data["song"] as? SongDto
                 else { return }
 
-                isDownloaded = false
+                if let song = ctx.model(for: itemId) as? Song,
+                   song.jellyfinId == eventSong.id {
+                    withAnimation { isDownloaded = false }
+
+                    // TODO: Move to data manager
+                    song.isDownloaded = false
+                    try? ctx.save()
+                }
             }
     }
 
     @ViewBuilder
     private var button: some View {
-        if isDownloaded {
-            removeButton
-        } else {
-            downloadButton
+        AsyncButton {
+            await action()
+        } label: {
+            let text = isDownloaded ? "Remove" : "Download"
+            let symbol: SFSymbol = isDownloaded ? .trash : .icloudAndArrowDown
+            Label(text, systemSymbol: symbol)
+                .contentTransition(.symbolEffect(.replace))
         }
     }
 
-    @ViewBuilder
-    private var downloadButton: some View {
-        Button {
-            Task {
-                do {
-                    try await downloader.download(song.jellyfinId)
-                } catch {
-                    Alerts.error("Failed to download song")
-                }
+    private func action() async {
+        guard let song = ctx.model(for: itemId) as? Song else { return }
+        do {
+            if isDownloaded {
+                return try await fileRepo.removeFile(for: song.jellyfinId)
             }
-        } label: {
-            Label("Download", systemSymbol: .icloudAndArrowDown)
-        }
-    }
 
-    @ViewBuilder
-    private var removeButton: some View {
-        Button(role: .destructive) {
-            Task {
-                do {
-                    try await fileRepo.removeFile(for: song.jellyfinId)
-                } catch {
-                    Alerts.error("Failed to remove song")
-                }
+            try await downloader.download(song.jellyfinId)
+        } catch {
+            if isDownloaded {
+                Alerts.error("Failed to remove file")
+                return
             }
-        } label: {
-            Label("Remove", systemSymbol: .trash)
+
+            Alerts.error("Failed to download song")
         }
     }
 }
