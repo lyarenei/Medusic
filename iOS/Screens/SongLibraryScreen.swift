@@ -96,7 +96,7 @@ private struct SongLibraryScreenContent: View {
             SongListRow(for: song) { song in
                 Menu {
                     DownloadOrRemoveButton(isDownloaded: fileRepo.fileExists(for: song.jellyfinId), song: song)
-                    NewFavoriteButton(itemId: song.id, isFavorite: song.isFavorite)
+                    NewFavoriteButton(for: song.id, isFavorite: song.isFavorite)
                 } label: {
                     Image(systemSymbol: .ellipsisCircle)
                         .resizable()
@@ -108,7 +108,7 @@ private struct SongLibraryScreenContent: View {
             .frame(height: 40)
             .contextMenu {
                 DownloadOrRemoveButton(isDownloaded: fileRepo.fileExists(for: song.jellyfinId), song: song)
-                NewFavoriteButton(itemId: song.id, isFavorite: song.isFavorite)
+                NewFavoriteButton(for: song.id, isFavorite: song.isFavorite)
 //                    TODO: context menu
 //                    PlayButton("Play", item: song)
 //

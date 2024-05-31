@@ -5,12 +5,20 @@ import SwiftData
 import SwiftUI
 
 struct NewFavoriteButton: View {
-    let itemId: PersistentIdentifier
+    @Environment(\.modelContext)
+    private var ctx: ModelContext
 
     @State
-    var isFavorite: Bool
+    private var isFavorite: Bool
 
-    let apiClient: ApiClient = .shared
+    private let itemId: PersistentIdentifier
+    private let apiClient: ApiClient
+
+    init(for itemId: PersistentIdentifier, isFavorite: Bool, apiClient: ApiClient = .shared) {
+        self.itemId = itemId
+        self.isFavorite = isFavorite
+        self.apiClient = apiClient
+    }
 
     var body: some View {
         let symbol: SFSymbol = isFavorite ? .heartFill : .heart
@@ -28,9 +36,8 @@ struct NewFavoriteButton: View {
 
     private func action() async {
         do {
-            let actor = try BackgroundDataManager()
+            let actor = try BackgroundDataManager(using: apiClient)
             try await actor.setFavoriteSong(id: itemId, isFavorite: !isFavorite)
-            withAnimation { isFavorite.toggle() }
         } catch let error as DataManagerError {
             Alerts.error("Operation failed", reason: error.localizedDescription)
         } catch {
