@@ -32,6 +32,19 @@ struct NewFavoriteButton: View {
         .sensoryFeedback(.success, trigger: isFavorite) { old, new in !old && new }
         .sensoryFeedback(.impact, trigger: isFavorite) { old, new in old && !new }
         .disabledWhenLoading()
+        .onReceive(NotificationCenter.default.publisher(for: .FavoriteStatusChanged)) { event in
+            // Note: This is only because of the button in menu does not get properly updated
+            // if there would be a simple toggle in button action.
+            guard let data = event.userInfo,
+                  let id = data["itemId"] as? PersistentIdentifier,
+                  let isFavorite = data["isFavorite"] as? Bool
+            else { return }
+
+            // This apparently does some black magic as itemId == id evaluates to false
+            if let song = ctx.model(for: id) as? Song {
+                withAnimation { self.isFavorite = isFavorite }
+            }
+        }
     }
 
     private func action() async {

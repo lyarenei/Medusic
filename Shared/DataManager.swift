@@ -19,6 +19,10 @@ actor BackgroundDataManager {
         try self.init(with: .init(for: Artist.self, Album.self, Song.self))
     }
 
+    init(using client: ApiClient) throws {
+        try self.init(with: .init(for: Artist.self, Album.self, Song.self), using: client)
+    }
+
     private func getContext() -> ModelContext {
         let context = ModelContext(container)
         context.autosaveEnabled = false
@@ -93,6 +97,7 @@ actor BackgroundDataManager {
             try await apiClient.services.mediaService.setFavorite(itemId: song.jellyfinId, isFavorite: isFavorite)
             song.isFavorite = isFavorite
             try save(ctx)
+            await Notifier.emitFavoriteStatusChanged(itemId: song.id, isFavorite: isFavorite)
         } catch {
             logger.warning("Failed to update favorite status: \(error.localizedDescription)")
             throw error
