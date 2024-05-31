@@ -1,6 +1,8 @@
 import Foundation
 
 extension Notification.Name {
-    static let SongFileDownloaded = Self("org.lyarenei.Medusic.SongFileDownloaded")
-    static let SongFileDeleted = Self("org.lyarenei.Medusic.SongFileDeleted")
+    private static let bundle = "org.lyarenei.Medusic"
+
+    static let SongFileDownloaded = Self("\(bundle).SongFileDownloaded")
+    static let SongFileDeleted = Self("\(bundle).SongFileDeleted")
 }
