@@ -20,6 +20,7 @@ struct NewFavoriteButton<Item: JellyfinItemModel>: View {
             await action()
         } label: {
             Label(text, systemSymbol: symbol)
+                .contentTransition(.symbolEffect(.replace))
         }
         .sensoryFeedback(.success, trigger: item.isFavorite) { old, new in !old && new }
         .sensoryFeedback(.impact, trigger: item.isFavorite) { old, new in old && !new }
@@ -29,7 +30,7 @@ struct NewFavoriteButton<Item: JellyfinItemModel>: View {
     private func action() async {
         do {
             try await apiClient.services.mediaService.setFavorite(itemId: item.jellyfinId, isFavorite: !item.isFavorite)
-            item.isFavorite.toggle()
+            withAnimation { item.isFavorite.toggle() }
             try context.save()
         } catch {
             Logger.jellyfin.warning("Failed to update favorite status: \(error.localizedDescription)")
