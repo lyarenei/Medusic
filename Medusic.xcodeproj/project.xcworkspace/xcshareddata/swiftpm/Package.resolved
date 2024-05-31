@@ -15,8 +15,8 @@
       "kind" : "remoteSourceControl",
       "location" : "https://github.com/mergesort/Boutique.git",
       "state" : {
-        "revision" : "f48a08788d7500c255bd28ed625533cbf39c0bb6",
-        "version" : "2.4.3"
+        "revision" : "9f595373d2fcbcd13a891699729a7a70db8050cf",
+        "version" : "2.4.4"
       }
     },
     {
@@ -24,8 +24,8 @@
       "kind" : "remoteSourceControl",
       "location" : "https://github.com/Dean151/ButtonKit.git",
       "state" : {
-        "revision" : "ba249353c0e66bcd2f300c79df129b7ad75a5251",
-        "version" : "0.2.1"
+        "revision" : "9e44e960106bd222ca26ddc1e8d85df36229cc40",
+        "version" : "0.3.1"
       }
     },
     {
@@ -43,7 +43,7 @@
       "location" : "https://github.com/sindresorhus/Defaults",
       "state" : {
         "branch" : "main",
-        "revision" : "38925e3cfacf3fb89a81a35b1cd44fd5a5b7e0fa"
+        "revision" : "d8a954e69ff13b0f7805f3757c8f8d0c8ef5a8cb"
       }
     },
     {
@@ -141,8 +141,8 @@
       "kind" : "remoteSourceControl",
       "location" : "https://github.com/stephencelis/SQLite.swift.git",
       "state" : {
-        "revision" : "e78ae0220e17525a15ac68c697a155eb7a672a8e",
-        "version" : "0.15.0"
+        "revision" : "a95fc6df17d108bd99210db5e8a9bac90fe984b8",
+        "version" : "0.15.3"
       }
     },
     {
@@ -159,8 +159,8 @@
       "kind" : "remoteSourceControl",
       "location" : "https://github.com/SwiftUIX/SwiftUIX",
       "state" : {
-        "revision" : "a5a22a1aaca885c229f475af049d75a6d9144de8",
-        "version" : "0.1.9"
+        "revision" : "ff1176d8c06c2ac81db3dfd36c63ec8a9c2ccbca",
+        "version" : "0.2.1"
       }
     },
     {
