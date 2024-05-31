@@ -26,12 +26,12 @@ enum Notifier {
     }
 
     @MainActor
-    static func emitFavoriteStatusChanged(itemId: PersistentIdentifier, isFavorite: Bool) {
-        logger.debug("Emitting FavoriteStatusChanged notification for \(itemId.entityName), isFavorite: \(isFavorite)")
+    static func emitFavoriteStatusChanged(itemId: PersistentIdentifier, jellyfinId: String, isFavorite: Bool) {
+        logger.debug("Emitting FavoriteStatusChanged notification for \(itemId.entityName), jellyfinId: \(jellyfinId), isFavorite: \(isFavorite)")
         NotificationCenter.default.post(
             name: .FavoriteStatusChanged,
             object: nil,
-            userInfo: ["itemId": itemId, "isFavorite": isFavorite]
+            userInfo: ["itemId": itemId, "jellyfinId": jellyfinId, "isFavorite": isFavorite]
         )
     }
 }

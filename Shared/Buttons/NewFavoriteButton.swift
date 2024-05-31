@@ -36,13 +36,14 @@ struct NewFavoriteButton: View {
             // Note: This is only because of the button in menu does not get properly updated
             // if there would be a simple toggle in button action.
             guard let data = event.userInfo,
-                  let id = data["itemId"] as? PersistentIdentifier,
+                  let jellyfinId = data["jellyfinId"] as? String,
                   let isFavorite = data["isFavorite"] as? Bool
             else { return }
 
-            // This apparently does some black magic as itemId == id evaluates to false
-            if ctx.model(for: id) as? Song != nil {
-                withAnimation { self.isFavorite = isFavorite }
+            // self.itemId == itemId would evaluate to false, so we need to do this
+            if let song = ctx.model(for: itemId) as? Song,
+               song.jellyfinId == jellyfinId {
+                withAnimation { self.isFavorite = song.isFavorite }
             }
         }
     }

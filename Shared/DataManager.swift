@@ -97,7 +97,7 @@ actor BackgroundDataManager {
             try await apiClient.services.mediaService.setFavorite(itemId: song.jellyfinId, isFavorite: isFavorite)
             song.isFavorite = isFavorite
             try save(ctx)
-            await Notifier.emitFavoriteStatusChanged(itemId: song.id, isFavorite: isFavorite)
+            await Notifier.emitFavoriteStatusChanged(itemId: song.id, jellyfinId: song.jellyfinId, isFavorite: isFavorite)
         } catch {
             logger.warning("Failed to update favorite status: \(error.localizedDescription)")
             throw error
