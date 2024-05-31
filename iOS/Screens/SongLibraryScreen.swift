@@ -13,10 +13,14 @@ struct SongLibraryScreen: View {
     @State
     private var sortDirection: SortOrder = .forward
 
+    @State
+    private var searchText: String = .empty
+
     var body: some View {
-        SongLibraryScreenContent(filterBy: filter, sortBy: sortBy, sortOrder: sortDirection)
+        SongLibraryScreenContent(filterBy: filter, sortBy: sortBy, sortOrder: sortDirection, contains: searchText)
             .navigationTitle("Songs")
             .navigationBarTitleDisplayMode(.large)
+            .searchable(text: $searchText, placement: .navigationBarDrawer(displayMode: .always))
             .toolbar {
                 ToolbarItemGroup(placement: .topBarTrailing) {
                     filterMenu
@@ -77,8 +81,8 @@ private struct SongLibraryScreenContent: View {
     @EnvironmentObject
     private var fileRepo: FileRepository
 
-    init(filterBy: FilterOption, sortBy: SortOption, sortOrder: SortOrder) {
-        let predicate: Predicate<Song> = Song.predicate(for: filterBy)
+    init(filterBy: FilterOption, sortBy: SortOption, sortOrder: SortOrder, contains text: String) {
+        let predicate: Predicate<Song> = Song.predicate(for: filterBy, contains: text)
         switch sortBy {
         case .name:
             self._songs = Query(filter: predicate, sort: \.sortName, order: sortOrder, animation: .smooth)

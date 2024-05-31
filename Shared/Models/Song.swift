@@ -80,12 +80,14 @@ extension Song: Equatable {
 
 // MARK: - SwiftData query utils
 extension Song {
-    static func predicate(for option: FilterOption) -> Predicate<Song> {
+    static func predicate(for option: FilterOption, contains text: String = .empty) -> Predicate<Song> {
         switch option {
         case .all:
-            return #Predicate<Song> { _ in true }
+            if text.isEmpty { return #Predicate<Song> { _ in true } }
+            return #Predicate<Song> { $0.name.localizedStandardContains(text)}
         case .favorite:
-            return #Predicate<Song> { $0.isFavorite }
+            if text.isEmpty { return #Predicate<Song> { $0.isFavorite } }
+            return #Predicate<Song> { $0.isFavorite && $0.name.localizedStandardContains(text)}
         }
     }
 
