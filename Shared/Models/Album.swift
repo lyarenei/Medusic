@@ -56,6 +56,9 @@ extension Album {
             return #Predicate<Album> { _ in true }
         case .favorite:
             return #Predicate<Album> { $0.isFavorite }
+        case .downloaded:
+            // TODO: actual predicate
+            return #Predicate<Album> { _ in true }
         }
     }
 

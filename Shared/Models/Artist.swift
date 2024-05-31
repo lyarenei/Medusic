@@ -51,6 +51,9 @@ extension Artist {
             return #Predicate<Artist> { _ in true }
         case .favorite:
             return #Predicate<Artist> { $0.isFavorite }
+        case .downloaded:
+            // TODO: actual predicate
+            return #Predicate<Artist> { _ in true }
         }
     }
 

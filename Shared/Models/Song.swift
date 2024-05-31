@@ -88,6 +88,9 @@ extension Song {
         case .favorite:
             if text.isEmpty { return #Predicate<Song> { $0.isFavorite } }
             return #Predicate<Song> { $0.isFavorite && $0.name.localizedStandardContains(text) }
+        case .downloaded:
+            if text.isEmpty { return #Predicate<Song> { $0.isDownloaded } }
+            return #Predicate<Song> { $0.isFavorite && $0.name.localizedStandardContains(text) }
         }
     }
 

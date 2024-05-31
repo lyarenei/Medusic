@@ -4,6 +4,7 @@ import SwiftUI
 enum FilterOption {
     case all
     case favorite
+    case downloaded
 }
 
 enum SortOption {
@@ -54,6 +55,15 @@ struct FilterSortMenuButton: View {
                 Text("Favorites")
                 if filter == .favorite {
                     Image(systemSymbol: .checkmark)
+                }
+            }
+
+            Button {
+                filter = .downloaded
+            } label: {
+                Text("Downloaded")
+                if filter == .downloaded {
+                    Image(systemSymbol: .icloudAndArrowDown)
                 }
             }
         }
