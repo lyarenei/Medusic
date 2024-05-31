@@ -142,6 +142,7 @@
 		9BF6C8FB2A86277F00916EC1 /* ArrayExtensions.swift in Sources */ = {isa = PBXBuildFile; fileRef = 9BF6C8FA2A86277F00916EC1 /* ArrayExtensions.swift */; };
 		9BF7AF8C29CDF1C8004E0DA7 /* PrimaryActionButton.swift in Sources */ = {isa = PBXBuildFile; fileRef = 9BF7AF8B29CDF1C8004E0DA7 /* PrimaryActionButton.swift */; };
 		9BF8E7DB2C06771C006ED200 /* ViewExtensions.swift in Sources */ = {isa = PBXBuildFile; fileRef = 9BF8E7DA2C06771C006ED200 /* ViewExtensions.swift */; };
+		9BF8E7DD2C067A2E006ED200 /* NewFavoriteButton.swift in Sources */ = {isa = PBXBuildFile; fileRef = 9BF8E7DC2C067A2E006ED200 /* NewFavoriteButton.swift */; };
 /* End PBXBuildFile section */
 
 /* Begin PBXCopyFilesBuildPhase section */
@@ -283,6 +284,7 @@
 		9BF6C8FA2A86277F00916EC1 /* ArrayExtensions.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = ArrayExtensions.swift; sourceTree = "<group>"; };
 		9BF7AF8B29CDF1C8004E0DA7 /* PrimaryActionButton.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = PrimaryActionButton.swift; sourceTree = "<group>"; };
 		9BF8E7DA2C06771C006ED200 /* ViewExtensions.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = ViewExtensions.swift; sourceTree = "<group>"; };
+		9BF8E7DC2C067A2E006ED200 /* NewFavoriteButton.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = NewFavoriteButton.swift; sourceTree = "<group>"; };
 /* End PBXFileReference section */
 
 /* Begin PBXFrameworksBuildPhase section */
@@ -613,6 +615,7 @@
 				9B1EF3A229DCA62C00C2A33B /* PlayPreviousButton.swift */,
 				9BBE145B29FB13110028C500 /* ConfirmButton.swift */,
 				9B4AD6672A46BCED00E1798F /* SheetCloseButton.swift */,
+				9BF8E7DC2C067A2E006ED200 /* NewFavoriteButton.swift */,
 			);
 			path = Buttons;
 			sourceTree = "<group>";
@@ -983,6 +986,7 @@
 				9BAB43C22BC85CBD0066BED5 /* MusicPlayer+Seeking.swift in Sources */,
 				9B7AF3B429EB09310039A7DF /* AlbumListRowComponent.swift in Sources */,
 				9BE2C2822BA6D9B1003A7A43 /* ArtistDetailScreen+ViewModel.swift in Sources */,
+				9BF8E7DD2C067A2E006ED200 /* NewFavoriteButton.swift in Sources */,
 				9B73ECFF29C9ECC5007F74DB /* MockMediaService.swift in Sources */,
 				9BDB099F29BB322A007F99E4 /* DummyImageService.swift in Sources */,
 				9B80475E29B7D5330069B407 /* MainScreen.swift in Sources */,

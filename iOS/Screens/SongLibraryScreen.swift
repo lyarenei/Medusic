@@ -103,6 +103,7 @@ private struct SongLibraryScreenContent: View {
             .frame(height: 40)
             .contextMenu {
                 DownloadOrRemoveButton(isDownloaded: fileRepo.fileExists(for: song.jellyfinId), song: song)
+                NewFavoriteButton(item: song)
 //                    TODO: context menu
 //                    PlayButton("Play", item: song)
 //
