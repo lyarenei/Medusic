@@ -101,9 +101,6 @@ private struct SongLibraryScreenContent: View {
                 }
             }
             .frame(height: 40)
-            .swipeActions(allowsFullSwipe: false) {
-                DownloadOrRemoveButton(isDownloaded: fileRepo.fileExists(for: song.jellyfinId), song: song)
-            }
             .contextMenu {
                 DownloadOrRemoveButton(isDownloaded: fileRepo.fileExists(for: song.jellyfinId), song: song)
 //                    TODO: context menu
