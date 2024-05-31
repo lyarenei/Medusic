@@ -5,6 +5,9 @@ import SwiftData
 import SwiftUI
 
 struct NewFavoriteButton<Item: JellyfinItemModel>: View {
+    @Environment(\.modelContext)
+    var context: ModelContext
+
     @Bindable
     var item: Item
 
@@ -27,6 +30,7 @@ struct NewFavoriteButton<Item: JellyfinItemModel>: View {
         do {
             try await apiClient.services.mediaService.setFavorite(itemId: item.jellyfinId, isFavorite: !item.isFavorite)
             item.isFavorite.toggle()
+            try context.save()
         } catch {
             Logger.jellyfin.warning("Failed to update favorite status: \(error.localizedDescription)")
             Alerts.error("Action failed")
