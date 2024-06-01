@@ -66,6 +66,7 @@ struct FilterSortMenuButton: View {
                     Image(systemSymbol: .icloudAndArrowDown)
                 }
             }
+            .disabled(true)
         }
     }
 
