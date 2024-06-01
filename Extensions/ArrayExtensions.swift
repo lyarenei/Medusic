@@ -18,6 +18,9 @@ extension Array where Element: JellyfinItem {
             return self
         case .favorite:
             return filter(\.isFavorite)
+        case .downloaded:
+            // Unsupported
+            return self
         }
     }
 

@@ -2,7 +2,7 @@ import Foundation
 import SwiftData
 
 @Model
-final class Artist: JellyfinModel {
+final class Artist: JellyfinItemModel {
     var jellyfinId: String
     var name: String
     var sortName: String
@@ -51,6 +51,9 @@ extension Artist {
             return #Predicate<Artist> { _ in true }
         case .favorite:
             return #Predicate<Artist> { $0.isFavorite }
+        case .downloaded:
+            // TODO: actual predicate
+            return #Predicate<Artist> { _ in true }
         }
     }
 

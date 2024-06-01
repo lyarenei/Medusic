@@ -2,6 +2,7 @@ import ButtonKit
 import Defaults
 import OSLog
 import SFSafeSymbols
+import SwiftData
 import SwiftUI
 
 struct LibraryScreen: View {
@@ -63,7 +64,7 @@ struct LibraryScreen: View {
         }
 
         NavigationLink {
-            SongsLibraryScreen(songs: library.songs.sorted(by: .album))
+            SongLibraryScreen()
         } label: {
             Label("Songs", systemSymbol: .musicNote)
         }
@@ -142,9 +143,18 @@ struct LibraryScreen: View {
         AsyncButton {
             do {
                 try await library.refreshAll()
+                #if DEBUG
+                let container = try ModelContainer(for: Artist.self, Album.self, Song.self)
+                let manager = BackgroundDataManager(with: container)
+                try await manager.refreshLibrary()
+                #endif
             } catch {
+                #if DEBUG
+                Alerts.error("Refresh failed", reason: error.localizedDescription)
+                #else
                 Logger.library.warning("Library refresh failed: \(error.localizedDescription)")
                 Alerts.error("Refresh failed")
+                #endif
             }
 
         } label: {

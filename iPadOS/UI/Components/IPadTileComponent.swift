@@ -2,7 +2,7 @@ import Kingfisher
 import MarqueeText
 import SwiftUI
 
-struct IPadTileComponent<Item: JellyfinModel>: View {
+struct IPadTileComponent<Item: JellyfinItemModel>: View {
     private let item: Item
     private var titleText: String?
     private var subtitleText: String?

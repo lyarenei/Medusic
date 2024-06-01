@@ -1,5 +1,6 @@
 import SwiftUI
 
+@available(*, deprecated, message: "Use list and reuse list row.")
 struct SongCollection: View {
     @EnvironmentObject
     private var player: MusicPlayer

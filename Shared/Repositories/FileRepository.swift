@@ -131,8 +131,24 @@ final class FileRepository: ObservableObject {
         }
     }
 
+    /// Get a file URL for a song.
+    /// Should be used only for lookups as we can't determine the file extension due to the nature of settings and already downloaded files.
+    func getLocalFileUrl(for songId: String) -> URL? {
+        do {
+            let fileURLs = try FileManager.default.contentsOfDirectory(at: cacheDirectory, includingPropertiesForKeys: nil, options: [])
+            return fileURLs.first { $0.absoluteString.contains(songId) }
+        } catch {
+            logger.warning("Could not obtain directory contents: \(error.localizedDescription)")
+            return nil
+        }
+    }
+
     func fileExists(for song: SongDto) -> Bool {
         getLocalFileUrl(for: song) != nil
+    }
+
+    func fileExists(for songId: String) -> Bool {
+        getLocalFileUrl(for: songId) != nil
     }
 
     func removeFile(for song: SongDto) async throws {
@@ -145,6 +161,25 @@ final class FileRepository: ObservableObject {
         try FileManager.default.removeItem(at: fileURL)
         try await $downloadedSongs.remove(song)
         logger.debug("File for song \(song.id) has been removed")
+        await Notifier.emitSongDeleted(song)
+    }
+
+    func removeFile(for songId: String) async throws {
+        guard let fileURL = getLocalFileUrl(for: songId) else {
+            logger.warning("File for song \(songId) does not exist")
+            return
+        }
+
+        logger.debug("Removing file for song \(songId)")
+        try FileManager.default.removeItem(at: fileURL)
+
+        guard let song = await downloadedSongs.by(id: songId) else {
+            logger.debug("Song \(songId) was not tracked as downloaded")
+            return
+        }
+
+        try await $downloadedSongs.remove(song)
+        logger.info("File for song \(songId) has been removed")
         await Notifier.emitSongDeleted(song)
     }
 
@@ -264,6 +299,7 @@ extension FileRepository {
     enum FileRepositoryError: Error {
         case integrityCheckFailed(reason: String)
         case takenSpaceFailure
+        case fileNotExists
 
         var localizedDescription: String {
             switch self {
@@ -271,6 +307,8 @@ extension FileRepository {
                 return "Could not complete integrity check: \(reason)"
             case .takenSpaceFailure:
                 return "Could not calculate taken space"
+            case .fileNotExists:
+                return "File does not exist"
             }
         }
     }

@@ -2,6 +2,7 @@ import ButtonKit
 import SFSafeSymbols
 import SwiftUI
 
+@available(*, deprecated, renamed: "NewFavoriteButton(item:)", message: "Use new button when transitioning to SwiftData.")
 struct FavoriteButton: View {
     @EnvironmentObject
     private var library: LibraryRepository

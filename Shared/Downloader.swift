@@ -9,6 +9,9 @@ final class Downloader: ObservableObject {
     @Stored
     var queue: [SongDto]
 
+    @Stored
+    private var songs: [SongDto]
+
     private let apiClient: ApiClient
     private let fileRepo: FileRepository
     private let logger = Logger.downloader
@@ -17,9 +20,11 @@ final class Downloader: ObservableObject {
     init(
         apiClient: ApiClient = .shared,
         fileRepo: FileRepository = .shared,
-        downloadQueueStore: Store<SongDto> = .downloadQueue
+        downloadQueueStore: Store<SongDto> = .downloadQueue,
+        songStore: Store<SongDto> = .songs
     ) {
         self._queue = Stored(in: downloadQueueStore)
+        self._songs = Stored(in: songStore)
         self.apiClient = apiClient
         self.fileRepo = fileRepo
 
@@ -31,9 +36,30 @@ final class Downloader: ObservableObject {
         try await download([song], startImmediately: startImmediately)
     }
 
+    /// Add a song to download queue.
+    func download(_ songId: String, startImmediately: Bool = true) async throws {
+        try await download([songId], startImmediately: startImmediately)
+    }
+
     /// Add multiple songs to download queue.
     func download(_ songs: [SongDto], startImmediately: Bool = true) async throws {
         try await enqueue(songs)
+
+        if startImmediately {
+            startDownloading()
+        }
+    }
+
+    /// Add multiple songs to download queue.
+    func download(_ songIds: [String], startImmediately: Bool = true) async throws {
+        var toDownload: [SongDto] = []
+        for songId in songIds {
+            if let song = await songs.by(id: songId) {
+                toDownload.append(song)
+            }
+        }
+
+        try await enqueue(toDownload)
 
         if startImmediately {
             startDownloading()
