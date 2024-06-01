@@ -36,8 +36,7 @@ struct NewFavoriteButton: View {
             // Note: This is only because of the button in menu does not get properly updated
             // if there would be a simple toggle in button action.
             guard let data = event.userInfo,
-                  let jellyfinId = data["jellyfinId"] as? String,
-                  let isFavorite = data["isFavorite"] as? Bool
+                  let jellyfinId = data["jellyfinId"] as? String
             else { return }
 
             // self.itemId == itemId would evaluate to false, so we need to do this
