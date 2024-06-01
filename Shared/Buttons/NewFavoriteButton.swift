@@ -42,7 +42,7 @@ struct NewFavoriteButton: View {
             // self.itemId == itemId would evaluate to false, so we need to do this
             if let song = ctx.model(for: itemId) as? Song,
                song.jellyfinId == jellyfinId {
-                withAnimation { self.isFavorite = song.isFavorite }
+                withAnimation { isFavorite = song.isFavorite }
             }
         }
     }
