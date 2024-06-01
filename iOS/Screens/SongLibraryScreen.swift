@@ -101,10 +101,10 @@ private struct SongLibraryScreenContent: View {
                     DownloadOrRemoveButton(for: song.id, isDownloaded: song.isDownloaded)
                     NewFavoriteButton(for: song.id, isFavorite: song.isFavorite)
                 } label: {
-                    Image(systemSymbol: .ellipsisCircle)
+                    Image(systemSymbol: .ellipsis)
                         .resizable()
                         .scaledToFit()
-                        .padding(10)
+                        .padding(12)
                         .contentShape(Rectangle())
                 }
             }
