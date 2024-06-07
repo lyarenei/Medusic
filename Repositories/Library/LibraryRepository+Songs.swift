@@ -6,6 +6,7 @@ extension LibraryRepository {
         await songs.filtered(by: .albumId(album.id)).sorted(by: .index).sorted(by: .albumDisc)
     }
 
+    /// Set favorite flag for song both locally and in Jellyfin.
     func setFavorite(songId: String, isFavorite: Bool) async {
         do {
             guard var song = await songs.by(id: songId) else { throw LibraryError.notFound }

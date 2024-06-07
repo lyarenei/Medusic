@@ -22,6 +22,7 @@ extension LibraryRepository {
         return totalRuntime
     }
 
+    /// Set favorite flag for album both locally and in Jellyfin.
     func setFavorite(albumId: String, isFavorite: Bool) async {
         do {
             guard var album = await albums.by(id: albumId) else { throw LibraryError.notFound }
