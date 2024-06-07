@@ -357,6 +357,7 @@
 		9B61365529BC6F18004C85EC /* Screens */ = {
 			isa = PBXGroup;
 			children = (
+				9B6A60D42C131B64002F320D /* SongLibrary */,
 				9B73ECF829C8F085007F74DB /* MusicPlayerScreen.swift */,
 			);
 			path = Screens;
@@ -725,7 +726,6 @@
 		9BF6C8E82A854D2600916EC1 /* Screens */ = {
 			isa = PBXGroup;
 			children = (
-				9B6A60D42C131B64002F320D /* SongLibrary */,
 				9BE2C2832BA6FB0A003A7A43 /* ArtistDetail */,
 				9B94DB622A8F52A5005EDF18 /* Settings */,
 				9B80475D29B7D5330069B407 /* MainScreen.swift */,
