@@ -72,11 +72,13 @@ struct FavoriteButton: View {
 }
 
 #if DEBUG
-struct FavoriteButton_Previews: PreviewProvider {
-    static var previews: some View {
-        FavoriteButton(item: PreviewData.album)
-            .font(.title)
-            .environmentObject(PreviewUtils.libraryRepo)
-    }
+// swiftlint:disable all
+
+#Preview {
+    FavoriteButton(item: PreviewData.album)
+        .font(.title)
+        .environmentObject(PreviewUtils.libraryRepo)
 }
+
+// swiftlint:enable all
 #endif
