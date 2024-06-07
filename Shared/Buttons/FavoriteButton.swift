@@ -42,22 +42,17 @@ struct FavoriteButton<Item: JellyfinItem>: View {
 
     @MainActor
     private func action() async {
-        do {
-            switch item {
-            case let artist as ArtistDto:
-                try await library.setFavorite(artist: artist, isFavorite: !item.isFavorite)
-            case let album as AlbumDto:
-                try await library.setFavorite(album: album, isFavorite: !item.isFavorite)
-            case let song as SongDto:
-                await library.setFavorite(songId: song.id, isFavorite: !item.isFavorite)
-            default:
-                Logger.library.debug("Unhandled item type: \(type(of: item))")
-                Alerts.info("Action is not available")
-                return
-            }
-        } catch {
-            Logger.library.warning("Failed to update favorite status: \(error.localizedDescription)")
-            Alerts.error("Action failed")
+        switch item {
+        case let artist as ArtistDto:
+            await library.setFavorite(artistId: artist.id, isFavorite: !item.isFavorite)
+        case let album as AlbumDto:
+            await library.setFavorite(albumId: album.id, isFavorite: !item.isFavorite)
+        case let song as SongDto:
+            await library.setFavorite(songId: song.id, isFavorite: !item.isFavorite)
+        default:
+            Logger.library.debug("Unhandled item type: \(type(of: item))")
+            Alerts.info("Action is not available")
+            return
         }
     }
 }
