@@ -106,6 +106,7 @@ actor LibraryRepository: ObservableObject {
         try await refresh(albumId: album.id)
     }
 
+    @available(*, deprecated, message: "Use methods which accepts album ID")
     func setFavorite(album: AlbumDto, isFavorite: Bool) async throws {
         guard var album = await $albums.items.by(id: album.id) else { throw LibraryError.notFound }
         try await apiClient.services.mediaService.setFavorite(itemId: album.id, isFavorite: isFavorite)
@@ -164,6 +165,7 @@ actor LibraryRepository: ObservableObject {
         try await $songs.remove(localSongs).insert(remoteSongs).run()
     }
 
+    @available(*, deprecated, message: "Use methods which accepts album ID")
     func setFavorite(song: SongDto, isFavorite: Bool) async throws {
         guard var song = await $songs.items.by(id: song.id) else { throw LibraryError.notFound }
         try await apiClient.services.mediaService.setFavorite(itemId: song.id, isFavorite: isFavorite)
