@@ -1,7 +1,7 @@
 import Foundation
 
 extension LibraryRepository {
-    /// Get artist by ID.
+    /// Get album by ID.
     func getAlbum(by id: String) async throws -> AlbumDto {
         guard let album = await albums.by(id: id) else { throw LibraryError.notFound }
         return album
