@@ -106,14 +106,6 @@ actor LibraryRepository: ObservableObject {
         try await refresh(albumId: album.id)
     }
 
-    @available(*, deprecated, message: "Use methods which accepts album ID")
-    func setFavorite(album: AlbumDto, isFavorite: Bool) async throws {
-        guard var album = await $albums.items.by(id: album.id) else { throw LibraryError.notFound }
-        try await apiClient.services.mediaService.setFavorite(itemId: album.id, isFavorite: isFavorite)
-        album.isFavorite = isFavorite
-        try await $albums.insert(album)
-    }
-
     /// Get songs for a specified album. Songs are automatically sorted in the correct order.
     @MainActor
     func getSongs(for album: AlbumDto) -> [SongDto] {
@@ -163,13 +155,5 @@ actor LibraryRepository: ObservableObject {
         let localSongs = await $songs.items.filtered(by: .albumId(albumId))
         let remoteSongs = try await apiClient.services.songService.getSongsForAlbum(id: albumId)
         try await $songs.remove(localSongs).insert(remoteSongs).run()
-    }
-
-    @available(*, deprecated, message: "Use methods which accepts album ID")
-    func setFavorite(song: SongDto, isFavorite: Bool) async throws {
-        guard var song = await $songs.items.by(id: song.id) else { throw LibraryError.notFound }
-        try await apiClient.services.mediaService.setFavorite(itemId: song.id, isFavorite: isFavorite)
-        song.isFavorite = isFavorite
-        try await $songs.insert(song)
     }
 }
