@@ -48,7 +48,10 @@ struct SongLibraryScreen: View {
         List(songs) { song in
             songListRow(for: song) { song in
                 Menu {
-                    // Download/remove button
+                    PlayButton("Play", item: song)
+                    EnqueueButton("Play next", item: song, position: .next)
+                    EnqueueButton("Play last", item: song, position: .last)
+                    Divider()
                     favoriteButton(for: song)
                 } label: {
                     Image(systemSymbol: .ellipsis)
@@ -60,6 +63,10 @@ struct SongLibraryScreen: View {
             }
             .frame(height: 40)
             .contextMenu {
+                PlayButton("Play", item: song)
+                EnqueueButton("Play next", item: song, position: .next)
+                EnqueueButton("Play last", item: song, position: .last)
+                Divider()
                 favoriteButton(for: song)
             }
         }
