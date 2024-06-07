@@ -23,4 +23,10 @@ enum Notifier {
             userInfo: ["song": song]
         )
     }
+
+    @MainActor
+    static func emitSongDownloadRequested(_ songId: String) {
+        logger.debug("Emitting SongDownloadRequested notification for song \(songId)")
+        NotificationCenter.default.post(name: .SongDownloadRequested, object: nil, userInfo: ["songId": songId])
+    }
 }
