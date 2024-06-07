@@ -1,20 +1,18 @@
 import ButtonKit
+import OSLog
 import SFSafeSymbols
 import SwiftUI
 
-struct FavoriteButton: View {
+struct FavoriteButton<Item: JellyfinItem>: View {
     @EnvironmentObject
     private var library: LibraryRepository
 
-    @State
-    private var isFavorite = false
-
-    private let item: any JellyfinItem
+    private let item: Item
     private let textFavorite: String?
     private let textUnfavorite: String?
 
     init(
-        item: any JellyfinItem,
+        item: Item,
         textFavorite: String? = nil,
         textUnfavorite: String? = nil
     ) {
@@ -24,8 +22,8 @@ struct FavoriteButton: View {
     }
 
     var body: some View {
-        let symbol: SFSymbol = isFavorite ? .heartFill : .heart
-        let text = isFavorite ? textUnfavorite : textFavorite
+        let symbol: SFSymbol = item.isFavorite ? .heartFill : .heart
+        let text = item.isFavorite ? textUnfavorite : textFavorite
         AsyncButton {
             await action()
         } label: {
@@ -37,15 +35,9 @@ struct FavoriteButton: View {
                     .scaledToFit()
             }
         }
-        .sensoryFeedback(.success, trigger: isFavorite) { old, new in !old && new }
-        .sensoryFeedback(.impact, trigger: isFavorite) { old, new in old && !new }
-        .onAppear { isFavorite = item.isFavorite }
+        .sensoryFeedback(.success, trigger: item.isFavorite) { old, new in !old && new }
+        .sensoryFeedback(.impact, trigger: item.isFavorite) { old, new in old && !new }
         .disabledWhenLoading()
-    }
-
-    enum ButtonLayout {
-        case horizontal
-        case vertical
     }
 
     @MainActor
@@ -53,19 +45,18 @@ struct FavoriteButton: View {
         do {
             switch item {
             case let artist as ArtistDto:
-                try await library.setFavorite(artist: artist, isFavorite: !isFavorite)
+                try await library.setFavorite(artist: artist, isFavorite: !item.isFavorite)
             case let album as AlbumDto:
-                try await library.setFavorite(album: album, isFavorite: !isFavorite)
+                try await library.setFavorite(album: album, isFavorite: !item.isFavorite)
             case let song as SongDto:
-                try await library.setFavorite(song: song, isFavorite: !isFavorite)
+                await library.setFavorite(songId: song.id, isFavorite: !item.isFavorite)
             default:
-                print("Unhandled item type: \(item)")
+                Logger.library.debug("Unhandled item type: \(type(of: item))")
+                Alerts.info("Action is not available")
                 return
             }
-
-            isFavorite.toggle()
         } catch {
-            print("Failed to update favorite status: \(error.localizedDescription)")
+            Logger.library.warning("Failed to update favorite status: \(error.localizedDescription)")
             Alerts.error("Action failed")
         }
     }
