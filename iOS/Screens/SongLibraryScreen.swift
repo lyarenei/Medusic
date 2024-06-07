@@ -1,13 +1,11 @@
-import Boutique
 import ButtonKit
 import MarqueeText
-import OSLog
 import SFSafeSymbols
 import SwiftUI
 
 struct SongLibraryScreen: View {
-    @StateObject
-    private var controller: Controller
+    @EnvironmentObject
+    private var repo: LibraryRepository
 
     @State
     private var filterBy: FilterOption = .all
@@ -21,12 +19,8 @@ struct SongLibraryScreen: View {
     init(
         filterBy: FilterOption = .all,
         sortBy: SortOption = .name,
-        sortDirection: SortDirection = .ascending,
-        songStore: Store<SongDto> = .songs,
-        apiClient: ApiClient = .shared,
-        logger: Logger = .library
+        sortDirection: SortDirection = .ascending
     ) {
-        self._controller = StateObject(wrappedValue: Controller(songStore: songStore, apiClient: apiClient, logger: logger))
         self.filterBy = filterBy
         self.sortBy = sortBy
         self.sortDirection = sortDirection
@@ -46,7 +40,7 @@ struct SongLibraryScreen: View {
 
     @ViewBuilder
     private var content: some View {
-        let songs = controller.songs.filtered(by: filterBy).sorted(by: sortBy).ordered(by: sortDirection)
+        let songs = repo.songs.filtered(by: filterBy).sorted(by: sortBy).ordered(by: sortDirection)
         List(songs) { song in
             songListRow(for: song) { song in
                 Menu {
@@ -135,7 +129,7 @@ struct SongLibraryScreen: View {
     @ViewBuilder
     private func favoriteButton(for song: SongDto) -> some View {
         AsyncButton {
-            await controller.onFavoriteButton(songId: song.id, isFavorite: !song.isFavorite)
+            await repo.setFavorite(songId: song.id, isFavorite: !song.isFavorite)
         } label: {
             if song.isFavorite {
                 Label("Undo favorite", systemSymbol: .heartSlashFill)
@@ -152,7 +146,8 @@ struct SongLibraryScreen: View {
 
 #Preview {
     NavigationStack {
-        SongLibraryScreen(songStore: .previewStore(items: PreviewData.songs), apiClient: .init(previewEnabled: true))
+        SongLibraryScreen()
+            .environmentObject(PreviewUtils.libraryRepo)
     }
 }
 
@@ -160,11 +155,11 @@ struct SongLibraryScreen: View {
 #endif
 
 private struct SongDetail: View {
-    @StateObject
-    private var controller = SongDetailController()
+    @EnvironmentObject
+    private var repo: LibraryRepository
 
     @State
-    private var albumName: String
+    private var albumName: String?
 
     private let song: SongDto
 
@@ -184,7 +179,7 @@ private struct SongDetail: View {
             )
 
             MarqueeText(
-                text: albumName,
+                text: albumName ?? .empty,
                 font: .systemFont(ofSize: 12),
                 leftFade: UIConstants.marqueeFadeLen,
                 rightFade: UIConstants.marqueeFadeLen,
@@ -192,10 +187,6 @@ private struct SongDetail: View {
             )
             .foregroundStyle(.gray)
         }
-        .task {
-            if let name = await controller.getAlbumName(for: song.albumId) {
-                albumName = name
-            }
-        }
+        .task { albumName = repo.albums.by(id: song.albumId)?.name }
     }
 }
