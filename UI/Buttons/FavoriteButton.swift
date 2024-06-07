@@ -22,7 +22,7 @@ struct FavoriteButton<Item: JellyfinItem>: View {
     }
 
     var body: some View {
-        let symbol: SFSymbol = item.isFavorite ? .heartFill : .heart
+        let symbol: SFSymbol = item.isFavorite ? .heartSlashFill : .heart
         let text = item.isFavorite ? textUnfavorite : textFavorite
         AsyncButton {
             await action()
