@@ -22,6 +22,21 @@ extension LibraryRepository {
         return totalRuntime
     }
 
+    func setFavorite(albumId: String, isFavorite: Bool) async {
+        do {
+            guard var album = await albums.by(id: albumId) else { throw LibraryError.notFound }
+            try await apiClient.services.mediaService.setFavorite(itemId: albumId, isFavorite: isFavorite)
+            album.isFavorite = isFavorite
+            try await $albums.insert(album)
+        } catch let error as LibraryError {
+            logger.warning("Failed to update favorite status: \(error.localizedDescription)")
+            Alerts.error("Action failed", reason: error.localizedDescription)
+        } catch {
+            logger.warning("Failed to update favorite status: \(error.localizedDescription)")
+            Alerts.error("Action failed")
+        }
+    }
+
     /// Refresh all albums for a specified artists. The songs in these albums are refreshed as well.
     /// Removes albums no longer associated with the artist.
     func refreshAlbums(for artist: ArtistDto) async throws {
