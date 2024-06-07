@@ -16,6 +16,9 @@ struct SongLibraryScreen: View {
     @State
     private var sortDirection: SortDirection = .ascending
 
+    @State
+    private var searchText: String = .empty
+
     init(
         filterBy: FilterOption = .all,
         sortBy: SortOption = .name,
@@ -30,6 +33,7 @@ struct SongLibraryScreen: View {
         content
             .navigationTitle("Songs")
             .navigationBarTitleDisplayMode(.large)
+            .searchable(text: $searchText, placement: .navigationBarDrawer(displayMode: .always))
             .toolbar {
                 ToolbarItemGroup {
                     filterMenu
@@ -40,7 +44,7 @@ struct SongLibraryScreen: View {
 
     @ViewBuilder
     private var content: some View {
-        let songs = repo.songs.filtered(by: filterBy).sorted(by: sortBy).ordered(by: sortDirection)
+        let songs = repo.songs.filtered(by: filterBy).nameContains(text: searchText).sorted(by: sortBy).ordered(by: sortDirection)
         List(songs) { song in
             songListRow(for: song) { song in
                 Menu {
