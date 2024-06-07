@@ -1,11 +1,13 @@
+import Boutique
 import ButtonKit
 import MarqueeText
+import OSLog
 import SFSafeSymbols
 import SwiftUI
 
 struct SongLibraryScreen: View {
     @StateObject
-    private var controller = Controller()
+    private var controller: Controller
 
     @State
     private var filterBy: FilterOption = .all
@@ -15,6 +17,20 @@ struct SongLibraryScreen: View {
 
     @State
     private var sortDirection: SortDirection = .ascending
+
+    init(
+        filterBy: FilterOption = .all,
+        sortBy: SortOption = .name,
+        sortDirection: SortDirection = .ascending,
+        songStore: Store<SongDto> = .songs,
+        apiClient: ApiClient = .shared,
+        logger: Logger = .library
+    ) {
+        self._controller = StateObject(wrappedValue: Controller(songStore: songStore, apiClient: apiClient, logger: logger))
+        self.filterBy = filterBy
+        self.sortBy = sortBy
+        self.sortDirection = sortDirection
+    }
 
     var body: some View {
         content
@@ -136,7 +152,7 @@ struct SongLibraryScreen: View {
 
 #Preview {
     NavigationStack {
-        SongLibraryScreen()
+        SongLibraryScreen(songStore: .previewStore(items: PreviewData.songs), apiClient: .init(previewEnabled: true))
     }
 }
 
