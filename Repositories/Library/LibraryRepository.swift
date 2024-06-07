@@ -3,10 +3,6 @@ import Foundation
 import OSLog
 
 actor LibraryRepository: ObservableObject {
-    enum LibraryError: Error {
-        case notFound
-    }
-
     static let shared = LibraryRepository(
         artistStore: .artists,
         albumStore: .albums,
