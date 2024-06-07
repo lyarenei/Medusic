@@ -40,7 +40,6 @@ struct FavoriteButton<Item: JellyfinItem>: View {
         .disabledWhenLoading()
     }
 
-    @MainActor
     private func action() async {
         switch item {
         case let artist as ArtistDto:
