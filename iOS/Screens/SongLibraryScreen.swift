@@ -52,7 +52,7 @@ struct SongLibraryScreen: View {
                     EnqueueButton("Play next", item: song, position: .next)
                     EnqueueButton("Play last", item: song, position: .last)
                     Divider()
-                    favoriteButton(for: song)
+                    FavoriteButton(item: song, textFavorite: "Favorite", textUnfavorite: "Undo favorite")
                 } label: {
                     Image(systemSymbol: .ellipsis)
                         .resizable()
@@ -67,7 +67,7 @@ struct SongLibraryScreen: View {
                 EnqueueButton("Play next", item: song, position: .next)
                 EnqueueButton("Play last", item: song, position: .last)
                 Divider()
-                favoriteButton(for: song)
+                FavoriteButton(item: song, textFavorite: "Favorite", textUnfavorite: "Undo favorite")
             }
         }
         .listStyle(.plain)
@@ -152,20 +152,6 @@ struct SongLibraryScreen: View {
                     .frame(width: proxy.size.height, height: proxy.size.height)
             }
         }
-    }
-
-    @ViewBuilder
-    private func favoriteButton(for song: SongDto) -> some View {
-        AsyncButton {
-            await repo.setFavorite(songId: song.id, isFavorite: !song.isFavorite)
-        } label: {
-            if song.isFavorite {
-                Label("Undo favorite", systemSymbol: .heartSlashFill)
-            } else {
-                Label("Favorite", systemSymbol: .heart)
-            }
-        }
-        .disabledWhenLoading()
     }
 }
 
