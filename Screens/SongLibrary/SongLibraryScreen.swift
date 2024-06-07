@@ -1,3 +1,4 @@
+import ButtonKit
 import MarqueeText
 import SFSafeSymbols
 import SwiftUI
@@ -34,7 +35,7 @@ struct SongLibraryScreen: View {
             songListRow(for: song) { song in
                 Menu {
                     // Download/remove button
-                    // Favorite button
+                    favoriteButton(for: song)
                 } label: {
                     Image(systemSymbol: .ellipsis)
                         .resizable()
@@ -45,7 +46,7 @@ struct SongLibraryScreen: View {
             }
             .frame(height: 40)
             .contextMenu {
-                // same as menu above
+                favoriteButton(for: song)
             }
         }
         .listStyle(.plain)
@@ -113,6 +114,20 @@ struct SongLibraryScreen: View {
                     .frame(width: proxy.size.height, height: proxy.size.height)
             }
         }
+    }
+
+    @ViewBuilder
+    private func favoriteButton(for song: SongDto) -> some View {
+        AsyncButton {
+            await controller.onFavoriteButton(songId: song.id, isFavorite: !song.isFavorite)
+        } label: {
+            if song.isFavorite {
+                Label("Undo favorite", systemSymbol: .heartSlashFill)
+            } else {
+                Label("Favorite", systemSymbol: .heart)
+            }
+        }
+        .disabledWhenLoading()
     }
 }
 
