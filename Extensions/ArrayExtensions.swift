@@ -43,6 +43,11 @@ extension Array where Element: JellyfinItem {
         }
     }
 
+    func nameContains(text: String) -> [Element] {
+        guard text.isNotEmpty else { return self }
+        return filter { $0.name.containsIgnoreCase(text) }
+    }
+
     enum GroupOption {
         case firstLetter
     }
