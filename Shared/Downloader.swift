@@ -9,10 +9,15 @@ final class Downloader: ObservableObject {
     @Stored
     var queue: [SongDto]
 
+    @Stored(in: .songs)
+    var songStore
+
     private let apiClient: ApiClient
     private let fileRepo: FileRepository
     private let logger = Logger.downloader
     private var downloadTask: Task<Void, Never>?
+
+    private var cancellables: Cancellables
 
     init(
         apiClient: ApiClient = .shared,
@@ -22,6 +27,25 @@ final class Downloader: ObservableObject {
         self._queue = Stored(in: downloadQueueStore)
         self.apiClient = apiClient
         self.fileRepo = fileRepo
+        self.cancellables = []
+
+        NotificationCenter.default.publisher(for: .SongDownloadRequested)
+            .sink { [weak self] event in
+                guard let self,
+                      let data = event.userInfo,
+                      let songId = data["songId"] as? String
+                else { return }
+                self.logger.debug("Received download request for song \(songId)")
+                Task {
+                    guard let song = await self.songStore.by(id: songId) else { return }
+                    do {
+                        try await self.enqueue([song])
+                    } catch {
+                        self.logger.debug("Faild to enqueue song \(songId) for download: \(error.localizedDescription)")
+                    }
+                }
+            }
+            .store(in: &cancellables)
 
         startDownloading()
     }
