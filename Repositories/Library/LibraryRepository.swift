@@ -3,14 +3,7 @@ import Foundation
 import OSLog
 
 actor LibraryRepository: ObservableObject {
-    static let shared = LibraryRepository(
-        artistStore: .artists,
-        albumStore: .albums,
-        songStore: .songs,
-        apiClient: .shared
-    )
-
-    internal let apiClient: ApiClient
+    static let shared = LibraryRepository()
 
     @Stored
     var artists: [ArtistDto]
@@ -21,16 +14,21 @@ actor LibraryRepository: ObservableObject {
     @Stored
     var songs: [SongDto]
 
+    internal let apiClient: ApiClient
+    internal let logger: Logger
+
     init(
-        artistStore: Store<ArtistDto>,
-        albumStore: Store<AlbumDto>,
-        songStore: Store<SongDto>,
-        apiClient: ApiClient
+        artistStore: Store<ArtistDto> = .artists,
+        albumStore: Store<AlbumDto> = .albums,
+        songStore: Store<SongDto> = .songs,
+        apiClient: ApiClient = .shared,
+        logger: Logger = .library
     ) {
         self._artists = Stored(in: artistStore)
         self._albums = Stored(in: albumStore)
         self._songs = Stored(in: songStore)
         self.apiClient = apiClient
+        self.logger = logger
     }
 
     func refreshAll() async throws {
