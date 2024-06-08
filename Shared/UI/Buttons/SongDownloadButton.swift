@@ -12,7 +12,7 @@ struct SongDownloadButton: View {
             if downloader.downloadQueue.contains(song) {
                 // TODO: cancel download
             } else if song.isDownloaded {
-                // TODO: request delete
+                Notifier.emitSongDeleteRequested(song.id)
             } else {
                 Notifier.emitSongDownloadRequested(song.id)
             }
