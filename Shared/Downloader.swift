@@ -120,8 +120,12 @@ final class Downloader: ObservableObject {
             return
         }
 
+        // TODO: yes, this can be also used for determining file extension, this might bite in the future, hehe
+        let fileExtension = determineDownloadCodec(for: nextSong)
+        let outputFileURL = fileRepo.generateFileURL(for: nextSong, with: fileExtension)
+
         do {
-            try await downloadSong(nextSong)
+            try await downloadSong(nextSong, to: outputFileURL)
         } catch {
             logger.debug("Failed to download song \(nextSong.id): \(error.localizedDescription)")
             try await downloadNextSong()
@@ -129,26 +133,22 @@ final class Downloader: ObservableObject {
         }
 
         try await dequeue(nextSong)
-        await Notifier.emitSongDownloaded(nextSong)
+        await Notifier.emitSongDownloaded(nextSong.id, path: outputFileURL)
         try await downloadNextSong()
     }
 
-    private func downloadSong(_ song: SongDto) async throws {
+    private func downloadSong(_ song: SongDto, to destination: URL) async throws {
         let currentSize = try fileRepo.getTakenSpace()
         guard currentSize + song.size <= fileRepo.cacheSizeLimit else {
             throw DownloaderError.cacheIsFull
         }
-
-        // TODO: yes, this can be also used for determining file extension, this might bite in the future, hehe
-        let fileExtension = determineDownloadCodec(for: song)
-        let outputFileURL = fileRepo.generateFileURL(for: song, with: fileExtension)
 
         logger.debug("Starting download for song \(song.id)")
 
         let bitrate = getDownloadBitrate(for: song)
         try await apiClient.services.mediaService.downloadItem(
             id: song.id,
-            destination: outputFileURL,
+            destination: destination,
             bitrate: bitrate != nil ? bitrate ?? 0 : nil
         )
     }
