@@ -92,6 +92,7 @@ extension [SongDto] {
     enum SongFilterBy {
         case albumId(_ id: String)
         case albumDisc(num: Int)
+        case downloaded
     }
 
     func filtered(by method: SongFilterBy) -> [SongDto] {
@@ -100,6 +101,8 @@ extension [SongDto] {
             return filter { $0.albumId == id }
         case .albumDisc(let num):
             return filter { $0.albumDisc == num }
+        case .downloaded:
+            return filter { $0.localUrl != nil }
         }
     }
 }
