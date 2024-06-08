@@ -13,7 +13,7 @@ struct SongDownloadButton: View {
     var body: some View {
         Button {
             if downloader.downloadQueue.contains(song) {
-                // TODO: cancel download
+                cancel()
             } else if song.isDownloaded {
                 remove()
             } else {
@@ -29,6 +29,17 @@ struct SongDownloadButton: View {
                 Label("Download", systemSymbol: .icloudAndArrowDown)
             }
         }
+    }
+
+    private func cancel() {
+        Alerts.notImplemented()
+//        Task {
+//            do {
+//                try await downloader.cancelDownload(songId: song.id)
+//            } catch {
+//                Alerts.error("Cancelling failed", reason: error.localizedDescription)
+//            }
+//        }
     }
 
     private func download() {

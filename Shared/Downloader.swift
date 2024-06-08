@@ -17,6 +17,7 @@ final class Downloader: ObservableObject {
     private let logger: Logger
     private var downloadTask: Task<Void, Never>?
     private var cancellables: Cancellables
+    private var currentDownload: String?
 
     init(
         apiClient: ApiClient = .shared,
@@ -117,6 +118,10 @@ final class Downloader: ObservableObject {
                 Alerts.error("Download failed", reason: error.localizedDescription)
             }
         }
+    }
+
+    func cancelDownload(songId: String) async throws {
+        // TODO: Implementation
     }
 
     private func enqueue(_ songs: [SongDto]) async throws {
