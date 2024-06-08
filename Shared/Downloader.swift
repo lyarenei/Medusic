@@ -193,25 +193,3 @@ final class Downloader: ObservableObject {
         return Defaults[.downloadBitrate]
     }
 }
-
-private enum DownloaderError: Error {
-    case cacheIsFull
-    case fileDownloadFailed
-    case enqueueFailed
-    case dequeueFailed
-}
-
-extension DownloaderError: LocalizedError {
-    var localizedError: String {
-        switch self {
-        case .cacheIsFull:
-            return "Downloaded directory cache is full."
-        case .fileDownloadFailed:
-            return "File download failed."
-        case .enqueueFailed:
-            return "Failed to add download to queue."
-        case .dequeueFailed:
-            return "Failed to remove download from queue."
-        }
-    }
-}
