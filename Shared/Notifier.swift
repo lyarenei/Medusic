@@ -7,21 +7,13 @@ enum Notifier {
     @MainActor
     static func emitSongDownloaded(_ songId: String, path: URL) {
         logger.debug("Emitting SongFileDownloaded notification for song \(songId)")
-        NotificationCenter.default.post(
-            name: .SongFileDownloaded,
-            object: nil,
-            userInfo: ["songId": songId, "path": path]
-        )
+        NotificationCenter.default.post(name: .SongFileDownloaded, object: nil, userInfo: ["songId": songId, "path": path])
     }
 
     @MainActor
     static func emitSongDeleted(_ song: SongDto) {
         logger.debug("Emitting SongFileDeleted notification for song \(song.id)")
-        NotificationCenter.default.post(
-            name: .SongFileDeleted,
-            object: nil,
-            userInfo: ["song": song]
-        )
+        NotificationCenter.default.post(name: .SongFileDeleted, object: nil, userInfo: ["song": song])
     }
 
     @MainActor
