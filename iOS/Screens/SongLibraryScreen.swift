@@ -49,8 +49,8 @@ struct SongLibraryScreen: View {
             songListRow(for: song) { song in
                 Menu {
                     // Download/remove button
-                    downloadButton(for: song)
-					Divider()
+                    SongDownloadButton(song: song)
+                    Divider()
                     PlayButton("Play", item: song)
                     EnqueueButton("Play next", item: song, position: .next)
                     EnqueueButton("Play last", item: song, position: .last)
@@ -66,8 +66,8 @@ struct SongLibraryScreen: View {
             }
             .frame(height: 40)
             .contextMenu {
-                downloadButton(for: song)
-				Divider()
+                SongDownloadButton(song: song)
+                Divider()
                 PlayButton("Play", item: song)
                 EnqueueButton("Play next", item: song, position: .next)
                 EnqueueButton("Play last", item: song, position: .last)
@@ -156,15 +156,6 @@ struct SongLibraryScreen: View {
                     .foregroundStyle(Color.accentColor)
                     .frame(width: proxy.size.height, height: proxy.size.height)
             }
-        }
-    }
-
-    @ViewBuilder
-    private func downloadButton(for song: SongDto) -> some View {
-        Button {
-            Notifier.emitSongDownloadRequested(song.id)
-        } label: {
-            Label("Download", systemSymbol: .icloudAndArrowDown)
         }
     }
 }
