@@ -39,7 +39,7 @@ final class Downloader: ObservableObject {
                 Task {
                     guard let song = await self.songs.by(id: songId) else { return }
                     do {
-                        try await self.enqueue([song])
+                        try await self.download(song, startImmediately: true)
                     } catch {
                         self.logger.debug("Faild to enqueue song \(songId) for download: \(error.localizedDescription)")
                     }
