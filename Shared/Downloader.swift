@@ -178,7 +178,6 @@ final class Downloader: ObservableObject {
         }
 
         if song.isNativelySupported {
-            // TODO: should probably get codec from mediainfo
             return song.fileExtension
         }
 
