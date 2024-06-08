@@ -126,14 +126,14 @@ final class Downloader: ObservableObject {
 
         do {
             try await downloadSong(nextSong, to: outputFileURL)
+            try await dequeue(nextSong)
+            await Notifier.emitSongDownloaded(nextSong.id, path: outputFileURL)
         } catch {
             logger.debug("Failed to download song \(nextSong.id): \(error.localizedDescription)")
             try await downloadNextSong()
             return
         }
 
-        try await dequeue(nextSong)
-        await Notifier.emitSongDownloaded(nextSong.id, path: outputFileURL)
         try await downloadNextSong()
     }
 
