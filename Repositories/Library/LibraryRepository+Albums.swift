@@ -1,7 +1,7 @@
 import Foundation
 
 extension LibraryRepository {
-    /// Get artist by ID.
+    /// Get album by ID.
     func getAlbum(by id: String) async throws -> AlbumDto {
         guard let album = await albums.by(id: id) else { throw LibraryError.notFound }
         return album
@@ -20,6 +20,22 @@ extension LibraryRepository {
         }
 
         return totalRuntime
+    }
+
+    /// Set favorite flag for album both locally and in Jellyfin.
+    func setFavorite(albumId: String, isFavorite: Bool) async {
+        do {
+            guard var album = await albums.by(id: albumId) else { throw LibraryError.notFound }
+            try await apiClient.services.mediaService.setFavorite(itemId: albumId, isFavorite: isFavorite)
+            album.isFavorite = isFavorite
+            try await $albums.insert(album)
+        } catch let error as LibraryError {
+            logger.warning("Failed to update favorite status: \(error.localizedDescription)")
+            Alerts.error("Action failed", reason: error.localizedDescription)
+        } catch {
+            logger.warning("Failed to update favorite status: \(error.localizedDescription)")
+            Alerts.error("Action failed")
+        }
     }
 
     /// Refresh all albums for a specified artists. The songs in these albums are refreshed as well.

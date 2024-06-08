@@ -605,6 +605,7 @@
 		9BB75EA129C38938008CD65A /* Buttons */ = {
 			isa = PBXGroup;
 			children = (
+				9BB75EA229C3894A008CD65A /* FavoriteButton.swift */,
 				9BB75EA529C389D9008CD65A /* DownloadButton.swift */,
 				9BF7AF8B29CDF1C8004E0DA7 /* PrimaryActionButton.swift */,
 				9B1EF39C29DC97B100C2A33B /* PlayButton.swift */,
@@ -703,7 +704,6 @@
 		9BF26D442A8781E4006631E9 /* Buttons */ = {
 			isa = PBXGroup;
 			children = (
-				9BB75EA229C3894A008CD65A /* FavoriteButton.swift */,
 				9B1EF3AE29E151F400C2A33B /* RefreshButton.swift */,
 				9B1866E82A894CC900034A10 /* SortMenuButton.swift */,
 				9B1EF3A529DCA78800C2A33B /* EnqueueButton.swift */,
