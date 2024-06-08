@@ -61,7 +61,7 @@ struct MainScreen: View {
     private var downloadsTab: some View {
         DownloadsScreen()
             .tabItem { Label("Downloads", systemSymbol: .icloudAndArrowDown) }
-            .badge(downloader.queue.count)
+            .badge(downloader.downloadQueue.count)
     }
 
     @ViewBuilder

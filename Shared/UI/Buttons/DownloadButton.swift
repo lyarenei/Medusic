@@ -91,7 +91,7 @@ struct DownloadButton<Item: JellyfinItem>: View {
     private func updateInProgress() {
         switch item {
         case let item as SongDto:
-            inProgress = downloader.queue.contains { $0 == item }
+            inProgress = downloader.downloadQueue.contains { $0 == item }
         default:
             inProgress = false
         }

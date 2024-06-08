@@ -32,7 +32,7 @@ struct DownloadsScreen: View {
         List {
             Section {
                 NavigationLink {
-                    if downloader.queue.isNotEmpty {
+                    if downloader.downloadQueue.isNotEmpty {
                         downloadQueueList
                     } else {
                         ContentUnavailableView(
@@ -42,9 +42,9 @@ struct DownloadsScreen: View {
                         )
                     }
                 } label: {
-                    LabeledContent("Download queue", value: "\(downloader.queue.count)")
+                    LabeledContent("Download queue", value: "\(downloader.downloadQueue.count)")
                 }
-                .disabled(downloader.queue.isEmpty)
+                .disabled(downloader.downloadQueue.isEmpty)
             }
 
             if downloadedSongs.isNotEmpty {
@@ -99,7 +99,7 @@ struct DownloadsScreen: View {
 
     @ViewBuilder
     private var downloadQueueList: some View {
-        List(downloader.queue) { song in
+        List(downloader.downloadQueue) { song in
             HStack {
                 SongListRowComponent(song: song)
                     .showArtwork()

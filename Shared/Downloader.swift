@@ -7,10 +7,10 @@ final class Downloader: ObservableObject {
     static let shared = Downloader()
 
     @Stored
-    var queue: [SongDto]
+    var downloadQueue: [SongDto]
 
     @Stored(in: .songs)
-    var songStore
+    var songs
 
     private let apiClient: ApiClient
     private let fileRepo: FileRepository
@@ -24,7 +24,7 @@ final class Downloader: ObservableObject {
         fileRepo: FileRepository = .shared,
         downloadQueueStore: Store<SongDto> = .downloadQueue
     ) {
-        self._queue = Stored(in: downloadQueueStore)
+        self._downloadQueue = Stored(in: downloadQueueStore)
         self.apiClient = apiClient
         self.fileRepo = fileRepo
         self.cancellables = []
@@ -37,7 +37,7 @@ final class Downloader: ObservableObject {
                 else { return }
                 self.logger.debug("Received download request for song \(songId)")
                 Task {
-                    guard let song = await self.songStore.by(id: songId) else { return }
+                    guard let song = await self.songs.by(id: songId) else { return }
                     do {
                         try await self.enqueue([song])
                     } catch {
@@ -55,7 +55,7 @@ final class Downloader: ObservableObject {
                 else { return }
                 self.logger.debug("Received download cancel for song \(songId)")
                 Task {
-                    guard let song = await self.songStore.by(id: songId) else { return }
+                    guard let song = await self.songs.by(id: songId) else { return }
                     do {
                         // TODO: cancel when song is currently downloading
                         try await self.dequeue(song)
@@ -96,25 +96,25 @@ final class Downloader: ObservableObject {
     }
 
     private func enqueue(_ songs: [SongDto]) async throws {
-        try await $queue.insert(songs)
+        try await $downloadQueue.insert(songs)
         logger.debug("Added songs \(songs.map(\.id)) to download queue")
 
-        let count = await queue.count
+        let count = await downloadQueue.count
         logger.debug("Current queue size: \(count)")
     }
 
     private func dequeue(_ song: SongDto) async throws {
-        try await $queue.remove(song)
+        try await $downloadQueue.remove(song)
         logger.debug("Song \(song.id) has been removed from download queue")
 
-        let count = await queue.count
+        let count = await downloadQueue.count
         logger.debug("Current queue size: \(count)")
     }
 
     private func downloadNextSong() async throws {
         // Order is not preserved after queue restore => sort by album to prioritize album completion
         // swiftlint:disable:next sorted_first_last
-        guard let nextSong = await $queue.items.sorted(by: .album).first else {
+        guard let nextSong = await $downloadQueue.items.sorted(by: .album).first else {
             downloadTask?.cancel()
             downloadTask = nil
             return
