@@ -166,16 +166,22 @@ final class FileRepository: ObservableObject {
     func removeFile(for songId: String) async throws {
         guard var song = await songs.by(id: songId) else {
             logger.warning("Song \(songId) does not exist")
-            return
+            throw LibraryError.notFound
         }
 
         guard let fileURL = getLocalFileUrl(for: song) else {
             logger.warning("File for song \(songId) does not exist")
-            return
+            throw FileRepositoryError.notFound
         }
 
         logger.debug("Removing file for song \(songId)")
-        try FileManager.default.removeItem(at: fileURL)
+        do {
+            try FileManager.default.removeItem(at: fileURL)
+        } catch {
+            logger.debug("File removal for song \(songId) failed: \(error.localizedDescription)")
+            throw FileRepositoryError.removeFailed
+        }
+
         song.localUrl = nil
 
         do {
@@ -184,6 +190,7 @@ final class FileRepository: ObservableObject {
             await Notifier.emitSongDeleted(song)
         } catch {
             logger.warning("Failed to unmark song \(songId) as downloaded: \(error.localizedDescription)")
+            throw LibraryError.saveFailed
         }
     }
 
@@ -298,21 +305,5 @@ final class FileRepository: ObservableObject {
         }
 
         return false
-    }
-}
-
-extension FileRepository {
-    enum FileRepositoryError: Error {
-        case integrityCheckFailed(reason: String)
-        case takenSpaceFailure
-
-        var localizedDescription: String {
-            switch self {
-            case .integrityCheckFailed(let reason):
-                return "Could not complete integrity check: \(reason)"
-            case .takenSpaceFailure:
-                return "Could not calculate taken space"
-            }
-        }
     }
 }

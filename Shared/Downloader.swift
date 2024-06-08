@@ -9,24 +9,27 @@ final class Downloader: ObservableObject {
     @Stored
     var downloadQueue: [SongDto]
 
-    @Stored(in: .songs)
-    var songs
+    @Stored
+    var songs: [SongDto]
 
     private let apiClient: ApiClient
     private let fileRepo: FileRepository
-    private let logger = Logger.downloader
+    private let logger: Logger
     private var downloadTask: Task<Void, Never>?
-
     private var cancellables: Cancellables
 
     init(
         apiClient: ApiClient = .shared,
         fileRepo: FileRepository = .shared,
-        downloadQueueStore: Store<SongDto> = .downloadQueue
+        logger: Logger = .downloader,
+        downloadQueueStore: Store<SongDto> = .downloadQueue,
+        songStore: Store<SongDto> = .songs
     ) {
-        self._downloadQueue = Stored(in: downloadQueueStore)
         self.apiClient = apiClient
         self.fileRepo = fileRepo
+        self.logger = logger
+        self._downloadQueue = Stored(in: downloadQueueStore)
+        self._songs = Stored(in: songStore)
         self.cancellables = []
 
         NotificationCenter.default.publisher(for: .SongDownloadRequested)
@@ -70,12 +73,28 @@ final class Downloader: ObservableObject {
     }
 
     /// Add a song to download queue.
+    @available(*, deprecated, message: "Use songId method")
     func download(_ song: SongDto, startImmediately: Bool = true) async throws {
         try await download([song], startImmediately: startImmediately)
     }
 
     /// Add multiple songs to download queue.
+    @available(*, deprecated, message: "Use songId method")
     func download(_ songs: [SongDto], startImmediately: Bool = true) async throws {
+        try await enqueue(songs)
+
+        if startImmediately {
+            startDownloading()
+        }
+    }
+
+    /// Add a song to download queue.
+    func download(songId: String, startImmediately: Bool = true) async throws {
+        try await download(songIds: [songId], startImmediately: startImmediately)
+    }
+
+    /// Add multiple songs to download queue.
+    func download(songIds: [String], startImmediately: Bool = true) async throws {
         try await enqueue(songs)
 
         if startImmediately {
@@ -85,30 +104,57 @@ final class Downloader: ObservableObject {
 
     /// Start downloading songs in the download queue.
     func startDownloading() {
-        guard downloadTask == nil else { return }
+        guard downloadTask == nil else {
+            logger.info("Download is already in progress")
+            return
+        }
+
         downloadTask = Task {
             do {
                 try await downloadNextSong()
             } catch {
-                logger.debug("Download failed: \(error.localizedDescription)")
+                logger.info("Download failed: \(error.localizedDescription)")
+                Alerts.error("Download failed", reason: error.localizedDescription)
             }
         }
     }
 
     private func enqueue(_ songs: [SongDto]) async throws {
-        try await $downloadQueue.insert(songs)
-        logger.debug("Added songs \(songs.map(\.id)) to download queue")
+        do {
+            try await $downloadQueue.insert(songs)
+            logger.debug("Added songs \(songs.map(\.id)) to download queue")
 
-        let count = await downloadQueue.count
-        logger.debug("Current queue size: \(count)")
+            let count = await downloadQueue.count
+            logger.debug("Current queue size: \(count)")
+        } catch {
+            throw DownloaderError.enqueueFailed
+        }
+    }
+
+    private func enqueue(songIds: [String]) async throws {
+        let songsToDownload = await songs.by(ids: songIds)
+        do {
+            try await $downloadQueue.insert(songsToDownload)
+            logger.debug("Added songs \(songsToDownload.map(\.id)) to download queue")
+
+            let count = await downloadQueue.count
+            logger.debug("Current queue size: \(count)")
+        } catch {
+            throw DownloaderError.enqueueFailed
+        }
     }
 
     private func dequeue(_ song: SongDto) async throws {
-        try await $downloadQueue.remove(song)
-        logger.debug("Song \(song.id) has been removed from download queue")
+        do {
+            try await $downloadQueue.remove(song)
+            logger.debug("Song \(song.id) has been removed from download queue")
 
-        let count = await downloadQueue.count
-        logger.debug("Current queue size: \(count)")
+            let count = await downloadQueue.count
+            logger.debug("Current queue size: \(count)")
+        } catch {
+            logger.debug("Failed to dequeue download: \(error.localizedDescription)")
+            throw DownloaderError.dequeueFailed
+        }
     }
 
     private func downloadNextSong() async throws {
@@ -129,7 +175,6 @@ final class Downloader: ObservableObject {
             try await dequeue(nextSong)
             await Notifier.emitSongDownloaded(nextSong.id, path: outputFileURL)
         } catch {
-            logger.debug("Failed to download song \(nextSong.id): \(error.localizedDescription)")
             try await downloadNextSong()
             return
         }
@@ -146,11 +191,16 @@ final class Downloader: ObservableObject {
         logger.debug("Starting download for song \(song.id)")
 
         let bitrate = getDownloadBitrate(for: song)
-        try await apiClient.services.mediaService.downloadItem(
-            id: song.id,
-            destination: destination,
-            bitrate: bitrate != nil ? bitrate ?? 0 : nil
-        )
+        do {
+            try await apiClient.services.mediaService.downloadItem(
+                id: song.id,
+                destination: destination,
+                bitrate: bitrate != nil ? bitrate ?? 0 : nil
+            )
+        } catch {
+            logger.warning("Download for song \(song.id) failed: \(error.localizedDescription)")
+            throw DownloaderError.fileDownloadFailed
+        }
     }
 
     private func determineDownloadCodec(for song: SongDto) -> String {
@@ -180,13 +230,22 @@ final class Downloader: ObservableObject {
 
 private enum DownloaderError: Error {
     case cacheIsFull
+    case fileDownloadFailed
+    case enqueueFailed
+    case dequeueFailed
 }
 
 extension DownloaderError: LocalizedError {
     var localizedError: String {
         switch self {
         case .cacheIsFull:
-            return "Downloaded directory cache is full"
+            return "Downloaded directory cache is full."
+        case .fileDownloadFailed:
+            return "File download failed."
+        case .enqueueFailed:
+            return "Failed to add download to queue."
+        case .dequeueFailed:
+            return "Failed to remove download from queue."
         }
     }
 }

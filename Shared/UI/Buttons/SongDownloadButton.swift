@@ -5,6 +5,9 @@ struct SongDownloadButton: View {
     @EnvironmentObject
     private var downloader: Downloader
 
+    @EnvironmentObject
+    private var fileRepo: FileRepository
+
     let song: SongDto
 
     var body: some View {
@@ -12,9 +15,9 @@ struct SongDownloadButton: View {
             if downloader.downloadQueue.contains(song) {
                 // TODO: cancel download
             } else if song.isDownloaded {
-                Notifier.emitSongDeleteRequested(song.id)
+                remove()
             } else {
-                Notifier.emitSongDownloadRequested(song.id)
+                download()
             }
         } label: {
             if downloader.downloadQueue.contains(song) {
@@ -24,6 +27,26 @@ struct SongDownloadButton: View {
                     .foregroundStyle(.red)
             } else {
                 Label("Download", systemSymbol: .icloudAndArrowDown)
+            }
+        }
+    }
+
+    private func download() {
+        Task {
+            do {
+                try await downloader.download(songId: song.id)
+            } catch {
+                Alerts.error("Download failed", reason: error.localizedDescription)
+            }
+        }
+    }
+
+    private func remove() {
+        Task {
+            do {
+                try await fileRepo.removeFile(for: song.id)
+            } catch {
+                Alerts.error("Remove failed", reason: error.localizedDescription)
             }
         }
     }

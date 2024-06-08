@@ -10,7 +10,11 @@ extension Array {
 
 // swiftlint:disable identifier_name
 extension Array where Element: JellyfinItem {
+    /// Get an element by its ID.
     func by(id: String) -> Element? { first { $0.id == id } }
+
+    /// Get all elements for a given set of IDs.
+    func by(ids: [String]) -> [Element] { filter { ids.contains($0.id) } }
 
     func filtered(by: FilterOption) -> [Element] {
         switch by {
