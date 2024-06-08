@@ -36,6 +36,8 @@ struct SongDto: JellyfinItem {
 
         return artistNames.joined()
     }
+
+    var isDownloaded: Bool { localUrl != nil }
 }
 
 extension SongDto: Equatable {

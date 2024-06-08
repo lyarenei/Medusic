@@ -18,16 +18,15 @@ struct DownloadButton<Item: JellyfinItem>: View {
     private var inProgress = false
 
     private var logger = Logger.library
-    private var item: Item
-    private var textDownload: String
-    private var textRemove: String
-    private var hideText = false
-    private var downloader: Downloader
+    private let item: Item
+    private let textDownload: String
+    private let textRemove: String
+    private let downloader: Downloader
 
     init(
         item: Item,
-        textDownload: String,
-        textRemove: String,
+        textDownload: String = .empty,
+        textRemove: String = .empty,
         fileRepo: FileRepository = .shared,
         downloader: Downloader = .shared
     ) {
@@ -36,34 +35,29 @@ struct DownloadButton<Item: JellyfinItem>: View {
         self.textRemove = textRemove
 
         self.downloader = downloader
-        if let song = item as? SongDto {
-            self.isDownloaded = fileRepo.fileExists(for: song)
-        }
-    }
 
-    init(item: Item) {
-        self.init(item: item, textDownload: .empty, textRemove: .empty)
+        switch item {
+        case let item as AlbumDto:
+            // TODO: support for albums
+            break
+        case let item as SongDto:
+            self.isDownloaded = item.isDownloaded
+        default:
+            // Unsupported type
+            break
+        }
     }
 
     var body: some View {
         button
-            .onAppear { handleOnAppear() }
+            .onAppear { updateInProgress() }
             .onReceive(NotificationCenter.default.publisher(for: .SongFileDownloaded)) { event in
                 guard let data = event.userInfo,
-                      let song = data["song"] as? SongDto,
-                      song.id == item.id
+                      let songId = data["songId"] as? String,
+                      songId == item.id
                 else { return }
 
                 inProgress = false
-                isDownloaded = true
-            }
-            .onReceive(NotificationCenter.default.publisher(for: .SongFileDeleted)) { event in
-                guard let data = event.userInfo,
-                      let song = data["song"] as? SongDto,
-                      song.id == item.id
-                else { return }
-
-                isDownloaded = false
             }
     }
 
@@ -94,13 +88,11 @@ struct DownloadButton<Item: JellyfinItem>: View {
         }
     }
 
-    private func handleOnAppear() {
+    private func updateInProgress() {
         switch item {
         case let item as SongDto:
-            isDownloaded = fileRepo.fileExists(for: item)
             inProgress = downloader.queue.contains { $0 == item }
         default:
-            isDownloaded = false
             inProgress = false
         }
     }
@@ -153,11 +145,6 @@ struct DownloadButton<Item: JellyfinItem>: View {
             logger.info("Removing \(type) is not supported")
             Alerts.info("Remove is not supported")
         }
-    }
-
-    enum ButtonLayout {
-        case horizontal
-        case vertical
     }
 }
 
