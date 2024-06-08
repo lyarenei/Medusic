@@ -27,4 +27,10 @@ enum Notifier {
         logger.debug("Emitting SongDownloadCancelled notification for song \(songId)")
         NotificationCenter.default.post(name: .SongDownloadCancelled, object: nil, userInfo: ["songId": songId])
     }
+
+    @MainActor
+    static func emitSongDeleteRequested(_ songId: String) {
+        logger.debug("Emitting SongDeleteRequested notification for song \(songId)")
+        NotificationCenter.default.post(name: .SongDeleteRequested, object: nil, userInfo: ["songId": songId])
+    }
 }
