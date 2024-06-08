@@ -65,23 +65,6 @@ final class FileRepository: ObservableObject {
             }
             .store(in: &cancellables)
 
-        NotificationCenter.default.publisher(for: .SongDeleteRequested)
-            .sink { [weak self] event in
-                guard let self,
-                      let data = event.userInfo,
-                      let songId = data["songId"] as? String
-                else { return }
-
-                Task {
-                    do {
-                        try await self.removeFile(for: songId)
-                    } catch {
-                        self.logger.warning("Failed to delete song \(songId): \(error.localizedDescription)")
-                    }
-                }
-            }
-            .store(in: &cancellables)
-
         Task { try? await checkIntegrity() }
     }
 

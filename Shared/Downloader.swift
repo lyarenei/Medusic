@@ -33,43 +33,6 @@ final class Downloader: ObservableObject {
         self._songs = Stored(in: songStore)
         self.cancellables = []
 
-        NotificationCenter.default.publisher(for: .SongDownloadRequested)
-            .sink { [weak self] event in
-                guard let self,
-                      let data = event.userInfo,
-                      let songId = data["songId"] as? String
-                else { return }
-                self.logger.debug("Received download request for song \(songId)")
-                Task {
-                    guard let song = await self.songs.by(id: songId) else { return }
-                    do {
-                        try await self.download(song, startImmediately: true)
-                    } catch {
-                        self.logger.debug("Faild to enqueue song \(songId) for download: \(error.localizedDescription)")
-                    }
-                }
-            }
-            .store(in: &cancellables)
-
-        NotificationCenter.default.publisher(for: .SongDownloadCancelled)
-            .sink { [weak self] event in
-                guard let self,
-                      let data = event.userInfo,
-                      let songId = data["songId"] as? String
-                else { return }
-                self.logger.debug("Received download cancel for song \(songId)")
-                Task {
-                    guard let song = await self.songs.by(id: songId) else { return }
-                    do {
-                        // TODO: cancel when song is currently downloading
-                        try await self.dequeue(song)
-                    } catch {
-                        self.logger.debug("Faild to cancel download for song \(songId): \(error.localizedDescription)")
-                    }
-                }
-            }
-            .store(in: &cancellables)
-
         startDownloading()
     }
 

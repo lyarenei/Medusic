@@ -5,8 +5,4 @@ extension Notification.Name {
 
     static let SongFileDownloaded = Self("\(bundle).SongFileDownloaded")
     static let SongFileDeleted = Self("\(bundle).SongFileDeleted")
-
-    static let SongDownloadRequested = Self("\(bundle).SongDownloadRequested")
-    static let SongDownloadCancelled = Self("\(bundle).SongDownloadCancelled")
-    static let SongDeleteRequested = Self("\(bundle).SongDeleteRequested")
 }
