@@ -162,9 +162,13 @@ final class FileRepository: ObservableObject {
         logger.debug("Removing file for song \(songId)")
         do {
             try FileManager.default.removeItem(at: fileURL)
+        } catch let error as NSError {
+            let reason = error.localizedFailureReason ?? "unknown reason"
+            logger.debug("File removal for song \(songId) failed: \(error.localizedDescription) - \(reason)")
+            throw FileRepositoryError.removeFailed(reason: error.localizedFailureReason ?? "unknown reason")
         } catch {
             logger.debug("File removal for song \(songId) failed: \(error.localizedDescription)")
-            throw FileRepositoryError.removeFailed
+            throw FileRepositoryError.removeFailed(reason: "unknown reason")
         }
 
         song.localUrl = nil

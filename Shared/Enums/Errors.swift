@@ -23,7 +23,7 @@ enum FileRepositoryError: Error {
     case integrityCheckFailed(reason: String)
     case takenSpaceFailure
     case notFound
-    case removeFailed
+    case removeFailed(reason: String)
 
     var localizedDescription: String {
         switch self {
@@ -33,8 +33,8 @@ enum FileRepositoryError: Error {
             return "Could not calculate taken space."
         case .notFound:
             return "File does not exist."
-        case .removeFailed:
-            return "File remove failed."
+        case .removeFailed(let reason):
+            return "File remove failed: \(reason)"
         }
     }
 }
