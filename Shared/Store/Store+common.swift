@@ -3,7 +3,17 @@ import Foundation
 import JellyfinAPI
 import SwiftUI
 
-// MARK: - Stores
+extension Store<ArtistDto> {
+    static let artists = Store<ArtistDto>(
+        storage: SQLiteStorageEngine.default(appendingPath: "Artists")
+    )
+}
+
+extension Store<AlbumDto> {
+    static let albums = Store<AlbumDto>(
+        storage: SQLiteStorageEngine.default(appendingPath: "Albums")
+    )
+}
 
 extension Store<SongDto> {
     static let songs = Store<SongDto>(
