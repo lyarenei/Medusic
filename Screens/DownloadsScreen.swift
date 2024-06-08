@@ -10,6 +10,9 @@ struct DownloadsScreen: View {
     @EnvironmentObject
     private var fileRepo: FileRepository
 
+    @EnvironmentObject
+    private var repo: LibraryRepository
+
     private let logger: Logger = .library
 
     var body: some View {
@@ -25,10 +28,11 @@ struct DownloadsScreen: View {
 
     @ViewBuilder
     private var content: some View {
+        let downloadedSongs = repo.songs.filtered(by: .downloaded)
         List {
             Section {
                 NavigationLink {
-                    if downloader.queue.isNotEmpty {
+                    if downloader.downloadQueue.isNotEmpty {
                         downloadQueueList
                     } else {
                         ContentUnavailableView(
@@ -38,21 +42,22 @@ struct DownloadsScreen: View {
                         )
                     }
                 } label: {
-                    LabeledContent("Download queue", value: "\(downloader.queue.count)")
+                    LabeledContent("Download queue", value: "\(downloader.downloadQueue.count)")
                 }
-                .disabled(downloader.queue.isEmpty)
+                .disabled(downloader.downloadQueue.isEmpty)
             }
 
-            if fileRepo.downloadedSongs.isNotEmpty {
+            if downloadedSongs.isNotEmpty {
                 Section("Downloaded songs") {
-                    ForEach(fileRepo.downloadedSongs) { song in
+                    ForEach(downloadedSongs) { song in
                         HStack {
                             SongListRowComponent(song: song)
                                 .showArtwork()
                                 .showArtistName()
 
                             Spacer()
-                            DownloadButton(item: song)
+                            SongDownloadButton(song: song)
+                                .labelStyle(.iconOnly)
                                 .buttonStyle(.plain)
                                 .foregroundStyle(Color.accentColor)
                         }
@@ -69,7 +74,7 @@ struct DownloadsScreen: View {
     private func removeSongButton(for song: SongDto) -> some View {
         AsyncButton(role: .destructive) {
             do {
-                try await fileRepo.removeFile(for: song)
+                try await fileRepo.removeFile(for: song.id)
             } catch {
                 logger.warning("Song removal failed: \(error.localizedDescription)")
                 Alerts.error("Remove failed")
@@ -95,7 +100,7 @@ struct DownloadsScreen: View {
 
     @ViewBuilder
     private var downloadQueueList: some View {
-        List(downloader.queue) { song in
+        List(downloader.downloadQueue) { song in
             HStack {
                 SongListRowComponent(song: song)
                     .showArtwork()

@@ -6,22 +6,26 @@ final class FileRepository: ObservableObject {
     public static let shared = FileRepository()
 
     @Stored
-    var downloadedSongs: [SongDto]
+    var songs: [SongDto]
 
     private var cacheDirectory: URL
-    private let apiClient: ApiClient
-    private let logger = Logger.repository
-    private var observerRef: NSObjectProtocol?
-
     private(set) var cacheSizeLimit: UInt64
+    private let apiClient: ApiClient
+    private let logger: Logger
+    private var observerRef: NSObjectProtocol?
+    private var cancellables: Cancellables
 
     init(
-        downloadedSongsStore: Store<SongDto> = .downloadedSongs,
-        apiClient: ApiClient = .shared
+        songsStore: Store<SongDto> = .songs,
+        apiClient: ApiClient = .shared,
+        logger: Logger = .library
     ) {
-        self._downloadedSongs = Stored(in: downloadedSongsStore)
+        self._songs = Stored(in: songsStore)
         self.apiClient = apiClient
+        self.logger = logger
         self.cacheSizeLimit = Defaults[.maxCacheSize] * 1024 * 1024
+        self.cancellables = []
+
         do {
             let cacheUrl = try FileManager.default.url(
                 for: .applicationSupportDirectory,
@@ -40,19 +44,26 @@ final class FileRepository: ObservableObject {
             fatalError("Could not create downloads folder: \(error.localizedDescription)")
         }
 
-        self.observerRef = NotificationCenter.default.addObserver(forName: .SongFileDownloaded, object: nil, queue: .main) { event in
-            guard let data = event.userInfo,
-                  let song = data["song"] as? SongDto
-            else { return }
+        NotificationCenter.default.publisher(for: .SongFileDownloaded)
+            .sink { [weak self] event in
+                guard let self,
+                      let data = event.userInfo,
+                      let songId = data["songId"] as? String,
+                      let path = data["path"] as? URL
+                else { return }
 
-            Task {
-                do {
-                    try await downloadedSongsStore.insert(song)
-                } catch {
-                    self.logger.warning("Failed to mark song \(song.id) as downloaded: \(error.localizedDescription)")
+                Task {
+                    if var song = await self.songs.by(id: songId) {
+                        song.localUrl = path
+                        do {
+                            try await self.$songs.insert(song)
+                        } catch {
+                            self.logger.warning("Failed to mark song \(songId) as downloaded: \(error.localizedDescription)")
+                        }
+                    }
                 }
             }
-        }
+            .store(in: &cancellables)
 
         Task { try? await checkIntegrity() }
     }
@@ -108,7 +119,7 @@ final class FileRepository: ObservableObject {
     }
 
     func getLocalOrRemoteUrl(for song: SongDto) -> URL? {
-        guard let fileUrl = getLocalFileUrl(for: song) else {
+        guard let fileUrl = song.localUrl else {
             let bitrate = getStreamPreferredBitrate(for: song)
             return apiClient.services.mediaService.getStreamUrl(
                 item: song.id,
@@ -121,6 +132,7 @@ final class FileRepository: ObservableObject {
 
     /// Get a file URL for a song.
     /// Should be used only for lookups as we can't determine the file extension due to the nature of settings and already downloaded files.
+    @available(*, deprecated, message: "Use property on song")
     func getLocalFileUrl(for song: SongDto) -> URL? {
         do {
             let fileURLs = try FileManager.default.contentsOfDirectory(at: cacheDirectory, includingPropertiesForKeys: nil, options: [])
@@ -131,26 +143,45 @@ final class FileRepository: ObservableObject {
         }
     }
 
+    @available(*, deprecated, message: "Use property on song")
     func fileExists(for song: SongDto) -> Bool {
         getLocalFileUrl(for: song) != nil
     }
 
-    func removeFile(for song: SongDto) async throws {
-        guard let fileURL = getLocalFileUrl(for: song) else {
-            logger.warning("File for song \(song.id) does not exist")
-            return
+    func removeFile(for songId: String) async throws {
+        guard var song = await songs.by(id: songId) else {
+            logger.warning("Song \(songId) does not exist")
+            throw LibraryError.notFound
         }
 
-        logger.debug("Removing file for song \(song.id)")
-        try FileManager.default.removeItem(at: fileURL)
-        try await $downloadedSongs.remove(song)
-        logger.debug("File for song \(song.id) has been removed")
-        await Notifier.emitSongDeleted(song)
+        guard let fileURL = song.localUrl else {
+            logger.warning("File for song \(songId) does not exist")
+            throw FileRepositoryError.notFound
+        }
+
+        logger.debug("Removing file for song \(songId)")
+        do {
+            try FileManager.default.removeItem(at: fileURL)
+        } catch {
+            logger.debug("File removal for song \(songId) failed: \(error.localizedDescription)")
+            throw FileRepositoryError.removeFailed
+        }
+
+        song.localUrl = nil
+
+        do {
+            try await $songs.insert(song)
+            logger.debug("File for song \(songId) has been removed")
+            await Notifier.emitSongDeleted(song)
+        } catch {
+            logger.warning("Failed to unmark song \(songId) as downloaded: \(error.localizedDescription)")
+            throw LibraryError.saveFailed
+        }
     }
 
     func removeFiles(for songs: [SongDto]) async throws {
         for song in songs {
-            try await removeFile(for: song)
+            try await removeFile(for: song.id)
         }
     }
 
@@ -158,19 +189,19 @@ final class FileRepository: ObservableObject {
     func removeAllFiles() async throws {
         logger.debug("Will remove all files in file repository")
 
-        let songCount = await downloadedSongs.count
-        let fileURLs = try FileManager.default.contentsOfDirectory(at: cacheDirectory, includingPropertiesForKeys: nil, options: [])
+        let downloadedSongs = await songs.filtered(by: .downloaded)
+        try await removeFiles(for: downloadedSongs)
 
-        if songCount != fileURLs.count {
-            logger.warning("Downloaded song count (\(songCount)) does not match file count (\(fileURLs))!")
+        let fileURLs = try FileManager.default.contentsOfDirectory(at: cacheDirectory, includingPropertiesForKeys: nil, options: [])
+        if fileURLs.isEmpty {
+            return
         }
 
+        logger.debug("Removing leftover files caused by inconsistency")
         for fileURL in fileURLs {
             logger.debug("Removing file \(fileURL.debugDescription)")
-            try FileManager.default.removeItem(at: fileURL)
+            try? FileManager.default.removeItem(at: fileURL)
         }
-
-        try await $downloadedSongs.removeAll()
     }
 
     /// Check if songs in the store have a matching file and vice-versa.
@@ -189,14 +220,14 @@ final class FileRepository: ObservableObject {
         }
 
         let fileIds = Set(fileURLs.map { $0.deletingPathExtension().lastPathComponent })
-        let songIds = Set(await downloadedSongs.map(\.id))
+        let songIds = Set(await songs.filtered(by: .downloaded).map(\.id))
 
-        // File exists but no matching song in downloaded store - remove such file
+        // File exists but song is not marked as downloaded - remove such file
         let missingFileIds = fileIds.subtracting(songIds)
         for missingFileId in missingFileIds {
             let url = fileURLs.first { $0.deletingPathExtension().lastPathComponent == missingFileId }
             if let url {
-                logger.info("Found file for song \(missingFileId), but it is not tracked, removing")
+                logger.info("Found file for song \(missingFileId), but song is not marked as downloaded, removing file")
                 if removeFile(at: url) {
                     fixedErrors += 1
                 }
@@ -205,17 +236,12 @@ final class FileRepository: ObservableObject {
             }
         }
 
-        // Song in store (=> is downloaded), but the expected file is not found - remove song from store
+        // Song is marked as downloaded, but the expected file is not found - unmark song as downloaded
         let missingSongIds = songIds.subtracting(fileIds)
         for missingSongId in missingSongIds {
-            let song = await downloadedSongs.first { $0.id == missingSongId }
-            if let song {
-                logger.info("Found song \(missingSongId) as downloaded, but no file found, removing")
-                if await untrackDownloaded(song) {
-                    fixedErrors += 1
-                }
-            } else {
-                logger.debug("Could not get song for requested ID \(missingSongId)")
+            logger.info("Found song \(missingSongId) as downloaded, but no file found, removing")
+            if await untrackDownloaded(songId: missingSongId) {
+                fixedErrors += 1
             }
         }
 
@@ -248,30 +274,21 @@ final class FileRepository: ObservableObject {
         return false
     }
 
-    private func untrackDownloaded(_ song: SongDto) async -> Bool {
+    private func untrackDownloaded(songId: String) async -> Bool {
+        guard var song = await songs.by(id: songId) else {
+            logger.debug("Song with ID \(songId) does not exist")
+            return false
+        }
+
+        song.localUrl = nil
+
         do {
-            try await $downloadedSongs.remove(song)
+            try await $songs.insert(song)
             return true
         } catch {
-            logger.warning("Failed to unmark song \(song.id) as downloaded")
+            logger.warning("Failed to unmark song \(songId) as downloaded")
         }
 
         return false
-    }
-}
-
-extension FileRepository {
-    enum FileRepositoryError: Error {
-        case integrityCheckFailed(reason: String)
-        case takenSpaceFailure
-
-        var localizedDescription: String {
-            switch self {
-            case .integrityCheckFailed(let reason):
-                return "Could not complete integrity check: \(reason)"
-            case .takenSpaceFailure:
-                return "Could not calculate taken space"
-            }
-        }
     }
 }

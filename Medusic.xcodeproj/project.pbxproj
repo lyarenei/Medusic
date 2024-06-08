@@ -52,6 +52,7 @@
 		9B6A60E22C142BAB002F320D /* LibraryRepository+Albums.swift in Sources */ = {isa = PBXBuildFile; fileRef = 9B6A60DD2C142BAB002F320D /* LibraryRepository+Albums.swift */; };
 		9B6A60E32C142BAB002F320D /* LibraryRepository+Artists.swift in Sources */ = {isa = PBXBuildFile; fileRef = 9B6A60DE2C142BAB002F320D /* LibraryRepository+Artists.swift */; };
 		9B6A60E42C142BAB002F320D /* LibraryRepository+Songs.swift in Sources */ = {isa = PBXBuildFile; fileRef = 9B6A60DF2C142BAB002F320D /* LibraryRepository+Songs.swift */; };
+		9B6A60E82C14544A002F320D /* SongDownloadButton.swift in Sources */ = {isa = PBXBuildFile; fileRef = 9B6A60E72C14544A002F320D /* SongDownloadButton.swift */; };
 		9B6ADD0A2BEAC56700D9DFE0 /* IPadArtistDetailScreen.swift in Sources */ = {isa = PBXBuildFile; fileRef = 9B6ADD092BEAC56700D9DFE0 /* IPadArtistDetailScreen.swift */; };
 		9B6ADD0C2BEB592000D9DFE0 /* PreviewComponent.swift in Sources */ = {isa = PBXBuildFile; fileRef = 9B6ADD0B2BEB592000D9DFE0 /* PreviewComponent.swift */; };
 		9B6ADD412BED703C00D9DFE0 /* LNPopupUI-Static in Frameworks */ = {isa = PBXBuildFile; productRef = 9B6ADD402BED703C00D9DFE0 /* LNPopupUI-Static */; };
@@ -197,6 +198,7 @@
 		9B6A60DD2C142BAB002F320D /* LibraryRepository+Albums.swift */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.swift; path = "LibraryRepository+Albums.swift"; sourceTree = "<group>"; };
 		9B6A60DE2C142BAB002F320D /* LibraryRepository+Artists.swift */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.swift; path = "LibraryRepository+Artists.swift"; sourceTree = "<group>"; };
 		9B6A60DF2C142BAB002F320D /* LibraryRepository+Songs.swift */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.swift; path = "LibraryRepository+Songs.swift"; sourceTree = "<group>"; };
+		9B6A60E72C14544A002F320D /* SongDownloadButton.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = SongDownloadButton.swift; sourceTree = "<group>"; };
 		9B6ADD092BEAC56700D9DFE0 /* IPadArtistDetailScreen.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = IPadArtistDetailScreen.swift; sourceTree = "<group>"; };
 		9B6ADD0B2BEB592000D9DFE0 /* PreviewComponent.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = PreviewComponent.swift; sourceTree = "<group>"; };
 		9B6ADD422BED73C100D9DFE0 /* NowPlayingBarComponent.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = NowPlayingBarComponent.swift; sourceTree = "<group>"; };
@@ -617,6 +619,7 @@
 				9B1EF3A229DCA62C00C2A33B /* PlayPreviousButton.swift */,
 				9BBE145B29FB13110028C500 /* ConfirmButton.swift */,
 				9B4AD6672A46BCED00E1798F /* SheetCloseButton.swift */,
+				9B6A60E72C14544A002F320D /* SongDownloadButton.swift */,
 			);
 			path = Buttons;
 			sourceTree = "<group>";
@@ -977,6 +980,7 @@
 				9B9A790E2BE3BFCC00E848DC /* IPadTileComponent.swift in Sources */,
 				9B1866E92A894CC900034A10 /* SortMenuButton.swift in Sources */,
 				9B6A60E32C142BAB002F320D /* LibraryRepository+Artists.swift in Sources */,
+				9B6A60E82C14544A002F320D /* SongDownloadButton.swift in Sources */,
 				9B6A60D82C131C0C002F320D /* SongLibraryScreen.swift in Sources */,
 				9B4AD6682A46BCED00E1798F /* SheetCloseButton.swift in Sources */,
 				9B52AF9429D339B1002E21B9 /* FileRepository.swift in Sources */,

@@ -50,4 +50,16 @@ enum Alerts {
             )
         )
     }
+
+    static func notImplemented() {
+        Drops.show(
+            .init(
+                title: "Feature is not available",
+                titleNumberOfLines: 1,
+                icon: .init(systemSymbol: .infoCircle),
+                position: .top,
+                duration: .recommended
+            )
+        )
+    }
 }

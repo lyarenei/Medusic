@@ -10,7 +10,11 @@ extension Array {
 
 // swiftlint:disable identifier_name
 extension Array where Element: JellyfinItem {
+    /// Get an element by its ID.
     func by(id: String) -> Element? { first { $0.id == id } }
+
+    /// Get all elements for a given set of IDs.
+    func by(ids: [String]) -> [Element] { filter { ids.contains($0.id) } }
 
     func filtered(by: FilterOption) -> [Element] {
         switch by {
@@ -92,6 +96,7 @@ extension [SongDto] {
     enum SongFilterBy {
         case albumId(_ id: String)
         case albumDisc(num: Int)
+        case downloaded
     }
 
     func filtered(by method: SongFilterBy) -> [SongDto] {
@@ -100,6 +105,8 @@ extension [SongDto] {
             return filter { $0.albumId == id }
         case .albumDisc(let num):
             return filter { $0.albumDisc == num }
+        case .downloaded:
+            return filter { $0.localUrl != nil }
         }
     }
 }
