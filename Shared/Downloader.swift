@@ -134,8 +134,7 @@ final class Downloader: ObservableObject {
             return
         }
 
-        // TODO: yes, this can be also used for determining file extension, this might bite in the future, hehe
-        let fileExtension = determineDownloadCodec(for: nextSong)
+        let fileExtension = determineFileExtension(for: nextSong)
         let outputFileURL = fileRepo.generateFileURL(for: nextSong, with: fileExtension)
 
         do {
@@ -171,7 +170,7 @@ final class Downloader: ObservableObject {
         }
     }
 
-    private func determineDownloadCodec(for song: SongDto) -> String {
+    private func determineFileExtension(for song: SongDto) -> String {
         guard Defaults[.downloadBitrate] == -1 else {
             logger.debug("Using \(AppDefaults.fallbackCodec) codec due to bitrate setting")
             return AppDefaults.fallbackCodec
