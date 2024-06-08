@@ -147,7 +147,7 @@ struct DownloadButton<Item: JellyfinItem>: View {
             let songs = await library.getSongs(for: item)
             try await fileRepo.removeFiles(for: songs)
         case let item as SongDto:
-            try await fileRepo.removeFile(for: item)
+            try await fileRepo.removeFile(for: item.id)
         default:
             let type = type(of: item)
             logger.info("Removing \(type) is not supported")

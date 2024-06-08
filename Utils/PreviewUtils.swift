@@ -31,7 +31,7 @@ struct PreviewUtils {
 
     static var fileRepo: FileRepository {
         FileRepository(
-            downloadedSongsStore: .previewStore(items: PreviewData.songs.shuffled().dropLast(PreviewData.songs.count / 2)),
+            songsStore: .previewStore(items: PreviewData.songs),
             apiClient: .init(previewEnabled: true)
         )
     }
