@@ -119,7 +119,7 @@ final class FileRepository: ObservableObject {
     }
 
     func getLocalOrRemoteUrl(for song: SongDto) -> URL? {
-        guard let fileUrl = getLocalFileUrl(for: song) else {
+        guard let fileUrl = song.localUrl else {
             let bitrate = getStreamPreferredBitrate(for: song)
             return apiClient.services.mediaService.getStreamUrl(
                 item: song.id,
@@ -132,6 +132,7 @@ final class FileRepository: ObservableObject {
 
     /// Get a file URL for a song.
     /// Should be used only for lookups as we can't determine the file extension due to the nature of settings and already downloaded files.
+    @available(*, deprecated, message: "Use property on song")
     func getLocalFileUrl(for song: SongDto) -> URL? {
         do {
             let fileURLs = try FileManager.default.contentsOfDirectory(at: cacheDirectory, includingPropertiesForKeys: nil, options: [])
@@ -142,6 +143,7 @@ final class FileRepository: ObservableObject {
         }
     }
 
+    @available(*, deprecated, message: "Use property on song")
     func fileExists(for song: SongDto) -> Bool {
         getLocalFileUrl(for: song) != nil
     }
@@ -152,7 +154,7 @@ final class FileRepository: ObservableObject {
             throw LibraryError.notFound
         }
 
-        guard let fileURL = getLocalFileUrl(for: song) else {
+        guard let fileURL = song.localUrl else {
             logger.warning("File for song \(songId) does not exist")
             throw FileRepositoryError.notFound
         }
