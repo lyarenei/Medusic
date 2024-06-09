@@ -106,7 +106,7 @@ extension [SongDto] {
         case .albumDisc(let num):
             return filter { $0.albumDisc == num }
         case .downloaded:
-            return filter { $0.localUrl != nil }
+            return filter(\.isDownloaded)
         }
     }
 }

@@ -16,7 +16,7 @@ struct SongDto: JellyfinItem {
     var runtime: TimeInterval
     var albumDisc = 0
     var fileExtension: String
-    var localUrl: URL?
+    var isDownloaded = false
 
     var isNativelySupported: Bool {
         let types = AVURLAsset.audiovisualTypes()
@@ -36,8 +36,6 @@ struct SongDto: JellyfinItem {
 
         return artistNames.joined()
     }
-
-    var isDownloaded: Bool { localUrl != nil }
 }
 
 extension SongDto: Equatable {

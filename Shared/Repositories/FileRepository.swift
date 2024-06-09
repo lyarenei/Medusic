@@ -48,13 +48,12 @@ final class FileRepository: ObservableObject {
             .sink { [weak self] event in
                 guard let self,
                       let data = event.userInfo,
-                      let songId = data["songId"] as? String,
-                      let path = data["path"] as? URL
+                      let songId = data["songId"] as? String
                 else { return }
 
                 Task {
                     if var song = await self.songs.by(id: songId) {
-                        song.localUrl = path
+                        song.isDownloaded = true
                         do {
                             try await self.$songs.insert(song)
                         } catch {
@@ -119,7 +118,7 @@ final class FileRepository: ObservableObject {
     }
 
     func getLocalOrRemoteUrl(for song: SongDto) -> URL? {
-        guard let fileUrl = song.localUrl else {
+        guard let fileUrl = getLocalFileUrl(for: song) else {
             let bitrate = getStreamPreferredBitrate(for: song)
             return apiClient.services.mediaService.getStreamUrl(
                 item: song.id,
@@ -132,7 +131,6 @@ final class FileRepository: ObservableObject {
 
     /// Get a file URL for a song.
     /// Should be used only for lookups as we can't determine the file extension due to the nature of settings and already downloaded files.
-    @available(*, deprecated, message: "Use property on song")
     func getLocalFileUrl(for song: SongDto) -> URL? {
         do {
             let fileURLs = try FileManager.default.contentsOfDirectory(at: cacheDirectory, includingPropertiesForKeys: nil, options: [])
@@ -143,7 +141,6 @@ final class FileRepository: ObservableObject {
         }
     }
 
-    @available(*, deprecated, message: "Use property on song")
     func fileExists(for song: SongDto) -> Bool {
         getLocalFileUrl(for: song) != nil
     }
@@ -154,7 +151,7 @@ final class FileRepository: ObservableObject {
             throw LibraryError.notFound
         }
 
-        guard let fileURL = song.localUrl else {
+        guard let fileURL = getLocalFileUrl(for: song) else {
             logger.warning("File for song \(songId) does not exist")
             throw FileRepositoryError.notFound
         }
@@ -171,7 +168,7 @@ final class FileRepository: ObservableObject {
             throw FileRepositoryError.removeFailed(reason: "unknown reason")
         }
 
-        song.localUrl = nil
+        song.isDownloaded = false
 
         do {
             try await $songs.insert(song)
@@ -284,7 +281,7 @@ final class FileRepository: ObservableObject {
             return false
         }
 
-        song.localUrl = nil
+        song.isDownloaded = false
 
         do {
             try await $songs.insert(song)
