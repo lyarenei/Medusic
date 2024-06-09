@@ -7,7 +7,7 @@ enum FileRepositoryError: MedusicError {
     case removeFailed(reason: String)
 }
 
-extension FileRepositoryError: LocalizedError {
+extension FileRepositoryError {
     var errorDescription: String? {
         switch self {
         case .integrityCheckFailed:
