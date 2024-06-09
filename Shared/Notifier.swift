@@ -11,8 +11,8 @@ enum Notifier {
     }
 
     @MainActor
-    static func emitSongDeleted(_ song: SongDto) {
-        logger.debug("Emitting SongFileDeleted notification for song \(song.id)")
-        NotificationCenter.default.post(name: .SongFileDeleted, object: nil, userInfo: ["song": song])
+    static func emitSongDeleted(_ songId: String) {
+        logger.debug("Emitting SongFileDeleted notification for song \(songId)")
+        NotificationCenter.default.post(name: .SongFileDeleted, object: nil, userInfo: ["songId": songId])
     }
 }

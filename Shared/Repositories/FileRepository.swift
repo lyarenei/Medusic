@@ -126,7 +126,7 @@ final class FileRepository: ObservableObject {
     }
 
     func removeFile(for songId: String) async throws {
-        guard var song = await songs.by(id: songId) else {
+        guard let song = await songs.by(id: songId) else {
             logger.warning("Song \(songId) does not exist")
             throw LibraryError.notFound
         }
@@ -139,6 +139,7 @@ final class FileRepository: ObservableObject {
         logger.debug("Removing file for song \(songId)")
         do {
             try FileManager.default.removeItem(at: fileURL)
+            await Notifier.emitSongDeleted(songId)
         } catch let error as NSError {
             let reason = error.localizedFailureReason ?? "unknown reason"
             logger.debug("File removal for song \(songId) failed: \(error.localizedDescription) - \(reason)")
@@ -146,17 +147,6 @@ final class FileRepository: ObservableObject {
         } catch {
             logger.debug("File removal for song \(songId) failed: \(error.localizedDescription)")
             throw FileRepositoryError.removeFailed(reason: "unknown reason")
-        }
-
-        song.isDownloaded = false
-
-        do {
-            try await $songs.insert(song)
-            logger.debug("File for song \(songId) has been removed")
-            await Notifier.emitSongDeleted(song)
-        } catch {
-            logger.warning("Failed to unmark song \(songId) as downloaded: \(error.localizedDescription)")
-            throw LibraryError.saveFailed
         }
     }
 

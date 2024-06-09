@@ -60,6 +60,26 @@ actor LibraryRepository: ObservableObject {
                 }
             }
             .store(in: &cancellables)
+
+        NotificationCenter.default.publisher(for: .SongFileDeleted)
+            .sink { [weak self] event in
+                guard let self,
+                      let data = event.userInfo,
+                      let songId = data["songId"] as? String
+                else { return }
+
+                Task {
+                    if var song = await self.songs.by(id: songId) {
+                        song.isDownloaded = false
+                        do {
+                            try await self.$songs.insert(song)
+                        } catch {
+                            self.logger.warning("Failed to unmark song \(songId) as downloaded: \(error.localizedDescription)")
+                        }
+                    }
+                }
+            }
+            .store(in: &cancellables)
     }
 
     func refreshAll() async throws {
