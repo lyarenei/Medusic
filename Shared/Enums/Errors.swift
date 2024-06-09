@@ -1,5 +1,7 @@
 import Foundation
 
+protocol MedusicError: Error, LocalizedError {}
+
 enum ServiceError: Error {
     case invalidResult
     case notFound
