@@ -135,7 +135,9 @@ struct SongLibraryScreen: View {
                 }
                 .frame(width: proxy.size.width - proxy.size.height)
                 .contentShape(Rectangle())
-//                .onTapGesture {} TODO: play
+                .onTapGesture {
+                    Alerts.notImplemented()
+                }
 
                 action(song)
                     .buttonStyle(.plain)
