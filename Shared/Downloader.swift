@@ -59,7 +59,7 @@ final class Downloader: ObservableObject {
 
     /// Add multiple songs to download queue.
     func download(songIds: [String], startImmediately: Bool = true) async throws {
-        try await enqueue(songs)
+        try await enqueue(songIds: songIds)
 
         if startImmediately {
             startDownloading()
@@ -100,6 +100,7 @@ final class Downloader: ObservableObject {
         downloadTask = nil
     }
 
+    @available(*, deprecated, message: "Use variant accepting song IDs")
     private func enqueue(_ songs: [SongDto]) async throws {
         do {
             try await $downloadQueue.insert(songs)
