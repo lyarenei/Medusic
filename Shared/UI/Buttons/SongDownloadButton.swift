@@ -46,6 +46,8 @@ struct SongDownloadButton: View {
         Task {
             do {
                 try await downloader.download(songId: song.id)
+            } catch let error as MedusicError {
+                Alerts.error(error)
             } catch {
                 Alerts.error("Download failed", reason: error.localizedDescription)
             }
@@ -56,6 +58,8 @@ struct SongDownloadButton: View {
         Task {
             do {
                 try await fileRepo.removeFile(for: song.id)
+            } catch let error as MedusicError {
+                Alerts.error(error)
             } catch {
                 Alerts.error("Remove failed", reason: error.localizedDescription)
             }
