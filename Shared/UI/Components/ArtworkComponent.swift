@@ -13,7 +13,9 @@ struct ArtworkComponent: View {
     private var apiClient: ApiClient
 
     private let itemId: String
+    private var showFavorite = false
 
+    @available(*, deprecated, message: "Use init accepting item ID")
     init(for item: any JellyfinItem) {
         self.itemId = item.id
     }
@@ -36,11 +38,32 @@ struct ArtworkComponent: View {
                 .onFailure { error in
                     Logger.artwork.debug("Failed to load image for item \(itemId): \(error.localizedDescription)")
                 }
-                .clipShape(RoundedRectangle(cornerRadius: Self.cornerRadius))
-                .border(.gray.opacity(0.5), cornerRadius: Self.cornerRadius)
                 .aspectRatio(contentMode: .fit)
                 .fill(alignment: .center)
+                .overlay(alignment: .bottomTrailing) {
+                    if showFavorite {
+                        favoriteOverlay(proxy)
+                    }
+                }
+                .clipShape(RoundedRectangle(cornerRadius: Self.cornerRadius))
+                .border(.gray.opacity(0.5), cornerRadius: Self.cornerRadius)
         }
+    }
+
+    @ViewBuilder
+    private func favoriteOverlay(_ proxy: GeometryProxy) -> some View {
+        // This is pretty ugly on large sizes. :(
+        // But it gets the job done on smaller sizes.
+        ZStack {
+            Circle()
+                .fill(.ultraThickMaterial)
+
+            Image(systemSymbol: .heartFill)
+                .resizable()
+                .foregroundStyle(.red)
+                .padding(proxy.size.width / 20)
+        }
+        .frame(width: proxy.size.width / 4, height: proxy.size.height / 4)
     }
 
     private var jellyfinProvider: JellyfinImageDataProvider {
@@ -56,14 +79,20 @@ struct ArtworkComponent: View {
             height: size.height * 2
         )
     }
+
+    func showFavorite(_ value: Bool = true) -> ArtworkComponent {
+        var view = self
+        view.showFavorite = value
+        return view
+    }
 }
 
 #if DEBUG
 // swiftlint:disable all
 
 #Preview {
-    ArtworkComponent(for: PreviewData.albums.first!)
-        .environmentObject(ApiClient(previewEnabled: true))
+    ArtworkComponent(for: PreviewData.albums.first!.id)
+        .environmentObject(PreviewUtils.apiClient)
         .frame(width: 200, height: 200)
 }
 

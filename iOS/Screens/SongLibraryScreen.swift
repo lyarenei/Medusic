@@ -123,23 +123,9 @@ struct SongLibraryScreen: View {
             HStack {
                 HStack {
                     HStack {
-                        ZStack(alignment: .bottomTrailing) {
-                            ArtworkComponent(for: song.albumId)
-//                            TODO: support this in artwork component
-//                            if song.isFavorite {
-//                                Image(systemSymbol: .heartFill)
-//                                    .resizable()
-//                                    .scaledToFit()
-//                                    .foregroundStyle(.red)
-//                                    .frame(width: 8, height: 8)
-//                                    .padding(2)
-//                                    .background {
-//                                        RoundedRectangle(cornerRadius: 3.0)
-//                                            .foregroundStyle(.background)
-//                                    }
-//                            }
-                        }
-                        .frame(width: proxy.size.height, height: proxy.size.height)
+                        ArtworkComponent(for: song.albumId)
+                            .showFavorite(song.isFavorite)
+                            .frame(width: proxy.size.height, height: proxy.size.height)
                     }
 
                     SongDetail(for: song)
