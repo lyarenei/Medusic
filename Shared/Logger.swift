@@ -13,3 +13,21 @@ extension Logger {
 
     static let notifier = Logger(subsystem: subsystem, category: "notifier")
 }
+
+extension Logger {
+    func logDebug(_ err: Error) {
+        debug("\(err.localizedDescription)")
+    }
+
+    func logInfo(_ err: Error) {
+        info("\(err.localizedDescription)")
+    }
+
+    func logWarn(_ err: Error) {
+        warning("\(err.localizedDescription)")
+    }
+
+    func logErr(_ err: Error) {
+        error("\(err.localizedDescription)")
+    }
+}
