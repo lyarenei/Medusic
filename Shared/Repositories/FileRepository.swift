@@ -44,26 +44,6 @@ final class FileRepository: ObservableObject {
             fatalError("Could not create downloads folder: \(error.localizedDescription)")
         }
 
-        NotificationCenter.default.publisher(for: .SongFileDownloaded)
-            .sink { [weak self] event in
-                guard let self,
-                      let data = event.userInfo,
-                      let songId = data["songId"] as? String
-                else { return }
-
-                Task {
-                    if var song = await self.songs.by(id: songId) {
-                        song.isDownloaded = true
-                        do {
-                            try await self.$songs.insert(song)
-                        } catch {
-                            self.logger.warning("Failed to mark song \(songId) as downloaded: \(error.localizedDescription)")
-                        }
-                    }
-                }
-            }
-            .store(in: &cancellables)
-
         Task { try? await checkIntegrity() }
     }
 

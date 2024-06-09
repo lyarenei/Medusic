@@ -17,6 +17,9 @@ actor LibraryRepository: ObservableObject {
     internal let apiClient: ApiClient
     internal let logger: Logger
 
+    private var isConfigured: Bool
+    private var cancellables: Cancellables
+
     init(
         artistStore: Store<ArtistDto> = .artists,
         albumStore: Store<AlbumDto> = .albums,
@@ -29,6 +32,34 @@ actor LibraryRepository: ObservableObject {
         self._songs = Stored(in: songStore)
         self.apiClient = apiClient
         self.logger = logger
+        self.isConfigured = false
+        self.cancellables = []
+
+        Task { await configure() }
+    }
+
+    func configure() {
+        guard !isConfigured else { return }
+
+        NotificationCenter.default.publisher(for: .SongFileDownloaded)
+            .sink { [weak self] event in
+                guard let self,
+                      let data = event.userInfo,
+                      let songId = data["songId"] as? String
+                else { return }
+
+                Task {
+                    if var song = await self.songs.by(id: songId) {
+                        song.isDownloaded = true
+                        do {
+                            try await self.$songs.insert(song)
+                        } catch {
+                            self.logger.warning("Failed to mark song \(songId) as downloaded: \(error.localizedDescription)")
+                        }
+                    }
+                }
+            }
+            .store(in: &cancellables)
     }
 
     func refreshAll() async throws {
