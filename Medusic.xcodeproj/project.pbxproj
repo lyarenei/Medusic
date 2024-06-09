@@ -53,6 +53,8 @@
 		9B6A60E32C142BAB002F320D /* LibraryRepository+Artists.swift in Sources */ = {isa = PBXBuildFile; fileRef = 9B6A60DE2C142BAB002F320D /* LibraryRepository+Artists.swift */; };
 		9B6A60E42C142BAB002F320D /* LibraryRepository+Songs.swift in Sources */ = {isa = PBXBuildFile; fileRef = 9B6A60DF2C142BAB002F320D /* LibraryRepository+Songs.swift */; };
 		9B6A60E82C14544A002F320D /* SongDownloadButton.swift in Sources */ = {isa = PBXBuildFile; fileRef = 9B6A60E72C14544A002F320D /* SongDownloadButton.swift */; };
+		9B6A60EC2C15A41E002F320D /* FileRepositoryError.swift in Sources */ = {isa = PBXBuildFile; fileRef = 9B6A60EB2C15A41E002F320D /* FileRepositoryError.swift */; };
+		9B6A60EE2C15A446002F320D /* MedusicError.swift in Sources */ = {isa = PBXBuildFile; fileRef = 9B6A60ED2C15A446002F320D /* MedusicError.swift */; };
 		9B6ADD0A2BEAC56700D9DFE0 /* IPadArtistDetailScreen.swift in Sources */ = {isa = PBXBuildFile; fileRef = 9B6ADD092BEAC56700D9DFE0 /* IPadArtistDetailScreen.swift */; };
 		9B6ADD0C2BEB592000D9DFE0 /* PreviewComponent.swift in Sources */ = {isa = PBXBuildFile; fileRef = 9B6ADD0B2BEB592000D9DFE0 /* PreviewComponent.swift */; };
 		9B6ADD412BED703C00D9DFE0 /* LNPopupUI-Static in Frameworks */ = {isa = PBXBuildFile; productRef = 9B6ADD402BED703C00D9DFE0 /* LNPopupUI-Static */; };
@@ -199,6 +201,8 @@
 		9B6A60DE2C142BAB002F320D /* LibraryRepository+Artists.swift */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.swift; path = "LibraryRepository+Artists.swift"; sourceTree = "<group>"; };
 		9B6A60DF2C142BAB002F320D /* LibraryRepository+Songs.swift */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.swift; path = "LibraryRepository+Songs.swift"; sourceTree = "<group>"; };
 		9B6A60E72C14544A002F320D /* SongDownloadButton.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = SongDownloadButton.swift; sourceTree = "<group>"; };
+		9B6A60EB2C15A41E002F320D /* FileRepositoryError.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = FileRepositoryError.swift; sourceTree = "<group>"; };
+		9B6A60ED2C15A446002F320D /* MedusicError.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = MedusicError.swift; sourceTree = "<group>"; };
 		9B6ADD092BEAC56700D9DFE0 /* IPadArtistDetailScreen.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = IPadArtistDetailScreen.swift; sourceTree = "<group>"; };
 		9B6ADD0B2BEB592000D9DFE0 /* PreviewComponent.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = PreviewComponent.swift; sourceTree = "<group>"; };
 		9B6ADD422BED73C100D9DFE0 /* NowPlayingBarComponent.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = NowPlayingBarComponent.swift; sourceTree = "<group>"; };
@@ -383,6 +387,15 @@
 			path = UI;
 			sourceTree = "<group>";
 		};
+		9B6A60EA2C15A40A002F320D /* Errors */ = {
+			isa = PBXGroup;
+			children = (
+				9B6A60EB2C15A41E002F320D /* FileRepositoryError.swift */,
+				9B6A60ED2C15A446002F320D /* MedusicError.swift */,
+			);
+			path = Errors;
+			sourceTree = "<group>";
+		};
 		9B6C17CE29D6CB720061866A /* Components */ = {
 			isa = PBXGroup;
 			children = (
@@ -462,6 +475,7 @@
 		9B80473229B768000069B407 /* Shared */ = {
 			isa = PBXGroup;
 			children = (
+				9B6A60EA2C15A40A002F320D /* Errors */,
 				9BFEDFCA2BB4CDAC00E1EE46 /* ApiClients */,
 				9BA88EE82A8648E100E61A61 /* Constants */,
 				9BA88EE42A862B6600E61A61 /* Enums */,
@@ -956,6 +970,7 @@
 				9BAB43B92BC19A170066BED5 /* MusicPlayer+Playback.swift in Sources */,
 				9B1EF3A629DCA78800C2A33B /* EnqueueButton.swift in Sources */,
 				9BF6C8F12A861D8200916EC1 /* ArtistDto.swift in Sources */,
+				9B6A60EC2C15A41E002F320D /* FileRepositoryError.swift in Sources */,
 				9BB75EA629C389D9008CD65A /* DownloadButton.swift in Sources */,
 				9BA8B0C52A0F842500F6AF41 /* AlbumPreviewCollection.swift in Sources */,
 				9BBE146429FC682B0028C500 /* PlaybackProgressComponent.swift in Sources */,
@@ -1000,6 +1015,7 @@
 				9BF26D3F2A86DF74006631E9 /* AlbumDto.swift in Sources */,
 				9BA521FE29F19FEC0000D0AA /* StringExtensions.swift in Sources */,
 				9BDB099929BB2FBF007F99E4 /* ImageService.swift in Sources */,
+				9B6A60EE2C15A446002F320D /* MedusicError.swift in Sources */,
 				48C1F8DA29B9FEB9003BE048 /* AlbumService.swift in Sources */,
 				9B02CC592A44ECB7003DD97D /* VolumeSliderComponent.swift in Sources */,
 				9B9A79042BE39FEA00E848DC /* IPadArtistLibraryScreen.swift in Sources */,

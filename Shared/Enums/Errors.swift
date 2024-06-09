@@ -1,7 +1,5 @@
 import Foundation
 
-protocol MedusicError: Error, LocalizedError {}
-
 enum ServiceError: Error {
     case invalidResult
     case notFound
@@ -17,26 +15,6 @@ enum LibraryError: Error {
             return "Item does not exist in the library."
         case .saveFailed:
             return "Saving changes failed."
-        }
-    }
-}
-
-enum FileRepositoryError: Error {
-    case integrityCheckFailed(reason: String)
-    case takenSpaceFailure
-    case notFound
-    case removeFailed(reason: String)
-
-    var localizedDescription: String {
-        switch self {
-        case .integrityCheckFailed(let reason):
-            return "Integrity check failed: \(reason)"
-        case .takenSpaceFailure:
-            return "Could not calculate taken space."
-        case .notFound:
-            return "File does not exist."
-        case .removeFailed(let reason):
-            return "File remove failed: \(reason)"
         }
     }
 }
