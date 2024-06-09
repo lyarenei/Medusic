@@ -3,7 +3,7 @@ import Foundation
 extension LibraryRepository {
     /// Get album by ID.
     func getAlbum(by id: String) async throws -> AlbumDto {
-        guard let album = await albums.by(id: id) else { throw LibraryError.notFound }
+        guard let album = await albums.by(id: id) else { throw LibraryRepositoryError.notFound }
         return album
     }
 
@@ -25,13 +25,13 @@ extension LibraryRepository {
     /// Set favorite flag for album both locally and in Jellyfin.
     func setFavorite(albumId: String, isFavorite: Bool) async {
         do {
-            guard var album = await albums.by(id: albumId) else { throw LibraryError.notFound }
+            guard var album = await albums.by(id: albumId) else { throw LibraryRepositoryError.notFound }
             try await apiClient.services.mediaService.setFavorite(itemId: albumId, isFavorite: isFavorite)
             album.isFavorite = isFavorite
             try await $albums.insert(album)
-        } catch let error as LibraryError {
-            logger.warning("Failed to update favorite status: \(error.localizedDescription)")
-            Alerts.error("Action failed", reason: error.localizedDescription)
+        } catch let error as MedusicError {
+            logger.logWarn(error)
+            Alerts.error(error)
         } catch {
             logger.warning("Failed to update favorite status: \(error.localizedDescription)")
             Alerts.error("Action failed")
@@ -41,7 +41,7 @@ extension LibraryRepository {
     /// Refresh all albums for a specified artists. The songs in these albums are refreshed as well.
     /// Removes albums no longer associated with the artist.
     func refreshAlbums(for artist: ArtistDto) async throws {
-        guard let artist = await artists.by(id: artist.id) else { throw LibraryError.notFound }
+        guard let artist = await artists.by(id: artist.id) else { throw LibraryRepositoryError.notFound }
         let oldAlbums = await albums.filtered(by: .artistId(artist.id))
         let newAlbums = try await apiClient.services.albumService.getAlbums(for: artist, pageSize: nil, offset: nil)
         let toRemove = Array(Set(oldAlbums).subtracting(newAlbums))

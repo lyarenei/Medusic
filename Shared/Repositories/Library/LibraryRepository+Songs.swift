@@ -9,13 +9,13 @@ extension LibraryRepository {
     /// Set favorite flag for song both locally and in Jellyfin.
     func setFavorite(songId: String, isFavorite: Bool) async {
         do {
-            guard var song = await songs.by(id: songId) else { throw LibraryError.notFound }
+            guard var song = await songs.by(id: songId) else { throw LibraryRepositoryError.notFound }
             try await apiClient.services.mediaService.setFavorite(itemId: songId, isFavorite: isFavorite)
             song.isFavorite = isFavorite
             try await $songs.insert(song)
-        } catch let error as LibraryError {
-            logger.warning("Failed to update favorite status: \(error.localizedDescription)")
-            Alerts.error("Action failed", reason: error.localizedDescription)
+        } catch let error as MedusicError {
+            logger.logWarn(error)
+            Alerts.error(error)
         } catch {
             logger.warning("Failed to update favorite status: \(error.localizedDescription)")
             Alerts.error("Action failed")
