@@ -95,7 +95,7 @@ final class Downloader: ObservableObject {
             let count = await downloadQueue.count
             logger.debug("Current queue size: \(count)")
         } catch {
-            throw DownloaderError.enqueueFailed
+            throw DownloaderError.downloadFailed(reason: "Failed to enqueue download(s)")
         }
     }
 
@@ -108,7 +108,7 @@ final class Downloader: ObservableObject {
             let count = await downloadQueue.count
             logger.debug("Current queue size: \(count)")
         } catch {
-            throw DownloaderError.enqueueFailed
+            throw DownloaderError.downloadFailed(reason: "Failed to enqueue download(s)")
         }
     }
 
@@ -121,7 +121,7 @@ final class Downloader: ObservableObject {
             logger.debug("Current queue size: \(count)")
         } catch {
             logger.debug("Failed to dequeue download: \(error.localizedDescription)")
-            throw DownloaderError.dequeueFailed
+            throw DownloaderError.downloadFailed(reason: "Failed to remove download request from queue")
         }
     }
 
@@ -152,7 +152,7 @@ final class Downloader: ObservableObject {
     private func downloadSong(_ song: SongDto, to destination: URL) async throws {
         let currentSize = try fileRepo.getTakenSpace()
         guard currentSize + song.size <= fileRepo.cacheSizeLimit else {
-            throw DownloaderError.cacheIsFull
+            throw DownloaderError.downloadFailed(reason: "No free space left")
         }
 
         logger.debug("Starting download for song \(song.id)")
@@ -166,7 +166,7 @@ final class Downloader: ObservableObject {
             )
         } catch {
             logger.warning("Download for song \(song.id) failed: \(error.localizedDescription)")
-            throw DownloaderError.fileDownloadFailed
+            throw DownloaderError.downloadFailed(reason: "Error when downloading the file")
         }
     }
 
