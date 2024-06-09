@@ -124,5 +124,21 @@ struct DownloadsScreen: View {
         .listStyle(.plain)
         .navigationTitle("Current downloads")
         .navigationBarTitleDisplayMode(.inline)
+        .toolbar {
+            ToolbarItem(placement: .destructiveAction) { cancelAllButton }
+        }
+    }
+
+    @ViewBuilder
+    private var cancelAllButton: some View {
+        AsyncButton("Cancel all") {
+            do {
+                try await downloader.cancelAll()
+            } catch {
+                logger.warning("Cancelling downloads failed: \(error.localizedDescription)")
+                Alerts.error("Cancelling failed", reason: error.localizedDescription)
+            }
+        }
+        .disabledWhenLoading()
     }
 }

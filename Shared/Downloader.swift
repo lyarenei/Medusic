@@ -87,6 +87,19 @@ final class Downloader: ObservableObject {
         // TODO: Implementation
     }
 
+    func cancelAll() async throws {
+        guard downloadTask != nil else { return }
+        do {
+            try await $downloadQueue.removeAll()
+        } catch {
+            logger.warning("Cancelling downloads failed: \(error.localizedDescription)")
+            throw DownloaderError.cancelFailed(reason: "Failed to update download queue")
+        }
+
+        downloadTask?.cancel()
+        downloadTask = nil
+    }
+
     private func enqueue(_ songs: [SongDto]) async throws {
         do {
             try await $downloadQueue.insert(songs)
