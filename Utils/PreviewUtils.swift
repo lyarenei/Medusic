@@ -35,6 +35,19 @@ struct PreviewUtils {
             apiClient: .init(previewEnabled: true)
         )
     }
+
+    static var apiClient: ApiClient {
+        ApiClient(previewEnabled: true)
+    }
+
+    static var downloader: Downloader {
+        Downloader(
+            apiClient: PreviewUtils.apiClient,
+            fileRepo: PreviewUtils.fileRepo,
+            downloadQueueStore: .previewStore(items: []),
+            songStore: .previewStore(items: PreviewData.songs)
+        )
+    }
 }
 // swiftformat:enable all
 // swiftlint:enable all
