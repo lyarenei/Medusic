@@ -3,14 +3,14 @@ import Foundation
 extension LibraryRepository {
     /// Get artist by ID.
     func getArtist(by id: String) async throws -> ArtistDto {
-        guard let artist = await artists.by(id: id) else { throw LibraryError.notFound }
+        guard let artist = await artists.by(id: id) else { throw LibraryRepositoryError.notFound }
         return artist
     }
 
     /// Set favorite flag for artist both locally and in Jellyfin.
     @available(*, deprecated, message: "Use method which accepts ID")
     func setFavorite(artist: ArtistDto, isFavorite: Bool) async throws {
-        guard var newArtist = await artists.by(id: artist.id) else { throw LibraryError.notFound }
+        guard var newArtist = await artists.by(id: artist.id) else { throw LibraryRepositoryError.notFound }
         try await apiClient.services.mediaService.setFavorite(itemId: artist.id, isFavorite: isFavorite)
         newArtist.isFavorite = isFavorite
         try await $artists.insert(newArtist)
@@ -19,13 +19,13 @@ extension LibraryRepository {
     /// Set favorite flag for artist both locally and in Jellyfin.
     func setFavorite(artistId: String, isFavorite: Bool) async {
         do {
-            guard var artist = await artists.by(id: artistId) else { throw LibraryError.notFound }
+            guard var artist = await artists.by(id: artistId) else { throw LibraryRepositoryError.notFound }
             try await apiClient.services.mediaService.setFavorite(itemId: artistId, isFavorite: isFavorite)
             artist.isFavorite = isFavorite
             try await $artists.insert(artist)
-        } catch let error as LibraryError {
-            logger.warning("Failed to update favorite status: \(error.localizedDescription)")
-            Alerts.error("Action failed", reason: error.localizedDescription)
+        } catch let error as MedusicError {
+            logger.logWarn(error)
+            Alerts.error(error)
         } catch {
             logger.warning("Failed to update favorite status: \(error.localizedDescription)")
             Alerts.error("Action failed")

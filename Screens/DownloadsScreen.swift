@@ -75,6 +75,9 @@ struct DownloadsScreen: View {
         AsyncButton(role: .destructive) {
             do {
                 try await fileRepo.removeFile(for: song.id)
+            } catch let error as MedusicError {
+                logger.logWarn(error)
+                Alerts.error(error)
             } catch {
                 logger.warning("Song removal failed: \(error.localizedDescription)")
                 Alerts.error("Remove failed")

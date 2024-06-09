@@ -128,7 +128,7 @@ final class FileRepository: ObservableObject {
     func removeFile(for songId: String) async throws {
         guard let song = await songs.by(id: songId) else {
             logger.warning("Song \(songId) does not exist")
-            throw LibraryError.notFound
+            throw LibraryRepositoryError.notFound
         }
 
         guard let fileURL = getLocalFileUrl(for: song) else {

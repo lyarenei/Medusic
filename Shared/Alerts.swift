@@ -51,6 +51,22 @@ enum Alerts {
         )
     }
 
+    static func error<Err: MedusicError>(_ err: Err) {
+        Drops.show(
+            .init(
+                title: err.errorDescription ?? "Missing error description",
+                titleNumberOfLines: 1,
+                subtitle: err.failureReason,
+                subtitleNumberOfLines: err.failureReason != nil ? 2 : 0,
+                icon: .remove,
+                action: nil,
+                position: .top,
+                duration: .recommended,
+                accessibility: nil
+            )
+        )
+    }
+
     static func notImplemented() {
         Drops.show(
             .init(
