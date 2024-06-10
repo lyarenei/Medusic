@@ -98,9 +98,10 @@ struct MusicPlayerScreen: View {
 
             Spacer()
 
-            FavoriteButton(item: song)
+            FavoriteButton(songId: song.id, isFavorite: song.isFavorite)
                 .font(.title2)
                 .frame(width: 45, height: 45)
+                .labelStyle(.iconOnly)
         }
     }
 

@@ -3,56 +3,57 @@ import OSLog
 import SFSafeSymbols
 import SwiftUI
 
-struct FavoriteButton<Item: JellyfinItem>: View {
-    @EnvironmentObject
-    private var library: LibraryRepository
+struct FavoriteButton: View {
+    @State
+    var isFavorite: Bool
 
-    private let item: Item
-    private let textFavorite: String?
-    private let textUnfavorite: String?
+    let itemId: String
+    let action: (String, Bool) async throws -> Void
 
-    init(
-        item: Item,
-        textFavorite: String? = nil,
-        textUnfavorite: String? = nil
-    ) {
-        self.item = item
-        self.textFavorite = textFavorite
-        self.textUnfavorite = textUnfavorite
+    init(artistId: String, isFavorite: Bool, repo: LibraryRepository = .shared) {
+        self.itemId = artistId
+        self.isFavorite = isFavorite
+        self.action = repo.setFavorite(artistId:isFavorite:)
+    }
+
+    init(albumId: String, isFavorite: Bool, repo: LibraryRepository = .shared) {
+        self.itemId = albumId
+        self.isFavorite = isFavorite
+        self.action = repo.setFavorite(albumId:isFavorite:)
+    }
+
+    init(songId: String, isFavorite: Bool, repo: LibraryRepository = .shared) {
+        self.itemId = songId
+        self.isFavorite = isFavorite
+        self.action = repo.setFavorite(songId:isFavorite:)
+    }
+
+    init(itemId: String, isFavorite: Bool, action: @escaping (String, Bool) async throws -> Void) {
+        self.itemId = itemId
+        self.isFavorite = isFavorite
+        self.action = action
     }
 
     var body: some View {
-        let symbol: SFSymbol = item.isFavorite ? .heartSlashFill : .heart
-        let text = item.isFavorite ? textUnfavorite : textFavorite
+        let symbol: SFSymbol = isFavorite ? .heartFill : .heart
+        let text = isFavorite ? "Undo favorite" : "Favorite"
         AsyncButton {
-            await action()
-        } label: {
-            if let text {
-                Label(text, systemSymbol: symbol)
-            } else {
-                Image(systemSymbol: symbol)
-                    .resizable()
-                    .scaledToFit()
+            do {
+                try await action(itemId, !isFavorite)
+                isFavorite.toggle()
+            } catch let error as MedusicError {
+                Alerts.error(error)
+            } catch {
+                Alerts.error("Action failed")
             }
+        } label: {
+            Label(text, systemSymbol: symbol)
+                .scaledToFit()
+                .foregroundStyle(.red)
+                .contentTransition(.symbolEffect(.replace))
         }
-        .sensoryFeedback(.success, trigger: item.isFavorite) { old, new in !old && new }
-        .sensoryFeedback(.impact, trigger: item.isFavorite) { old, new in old && !new }
+        .sensoryFeedback(.impact, trigger: isFavorite)
         .disabledWhenLoading()
-    }
-
-    private func action() async {
-        switch item {
-        case let artist as ArtistDto:
-            await library.setFavorite(artistId: artist.id, isFavorite: !item.isFavorite)
-        case let album as AlbumDto:
-            await library.setFavorite(albumId: album.id, isFavorite: !item.isFavorite)
-        case let song as SongDto:
-            await library.setFavorite(songId: song.id, isFavorite: !item.isFavorite)
-        default:
-            Logger.library.debug("Unhandled item type: \(type(of: item))")
-            Alerts.info("Action is not available")
-            return
-        }
     }
 }
 
@@ -60,7 +61,7 @@ struct FavoriteButton<Item: JellyfinItem>: View {
 // swiftlint:disable all
 
 #Preview {
-    FavoriteButton(item: PreviewData.album)
+    FavoriteButton(albumId: PreviewData.album.id, isFavorite: PreviewData.album.isFavorite)
         .font(.title)
         .environmentObject(PreviewUtils.libraryRepo)
 }

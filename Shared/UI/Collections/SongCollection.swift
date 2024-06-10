@@ -179,11 +179,7 @@ private struct ContextOptions: View {
             textRemove: "Remove"
         )
 
-        FavoriteButton(
-            item: song,
-            textFavorite: "Favorite",
-            textUnfavorite: "Unfavorite"
-        )
+        FavoriteButton(songId: song.id, isFavorite: song.isFavorite)
 
         EnqueueButton("Play Next", item: song, position: .next)
         EnqueueButton("Play Last", item: song, position: .last)

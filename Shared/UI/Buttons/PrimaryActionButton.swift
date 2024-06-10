@@ -12,7 +12,9 @@ struct PrimaryActionButton<Item: JellyfinItem>: View {
         case .download:
             DownloadButton(item: item)
         case .favorite:
-            FavoriteButton(item: item)
+            // TODO: either fix or remove completely
+            EmptyView()
+//            FavoriteButton(item: item)
         }
     }
 }

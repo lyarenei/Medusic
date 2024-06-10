@@ -55,7 +55,7 @@ struct SongLibraryScreen: View {
                     EnqueueButton("Play next", item: song, position: .next)
                     EnqueueButton("Play last", item: song, position: .last)
                     Divider()
-                    FavoriteButton(item: song, textFavorite: "Favorite", textUnfavorite: "Undo favorite")
+                    FavoriteButton(songId: song.id, isFavorite: song.isFavorite)
                 } label: {
                     Image(systemSymbol: .ellipsis)
                         .resizable()
@@ -72,7 +72,7 @@ struct SongLibraryScreen: View {
                 EnqueueButton("Play next", item: song, position: .next)
                 EnqueueButton("Play last", item: song, position: .last)
                 Divider()
-                FavoriteButton(item: song, textFavorite: "Favorite", textUnfavorite: "Undo favorite")
+                FavoriteButton(songId: song.id, isFavorite: song.isFavorite)
             }
         }
         .listStyle(.plain)

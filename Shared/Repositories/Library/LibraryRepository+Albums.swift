@@ -23,7 +23,7 @@ extension LibraryRepository {
     }
 
     /// Set favorite flag for album both locally and in Jellyfin.
-    func setFavorite(albumId: String, isFavorite: Bool) async {
+    func setFavorite(albumId: String, isFavorite: Bool) async throws {
         do {
             guard var album = await albums.by(id: albumId) else { throw LibraryRepositoryError.notFound }
             try await apiClient.services.mediaService.setFavorite(itemId: albumId, isFavorite: isFavorite)
@@ -31,10 +31,10 @@ extension LibraryRepository {
             try await $albums.insert(album)
         } catch let error as MedusicError {
             logger.logWarn(error)
-            Alerts.error(error)
+            throw error
         } catch {
-            logger.warning("Failed to update favorite status: \(error.localizedDescription)")
-            Alerts.error("Action failed")
+            logger.warning("Failed to update favorite status for album \(albumId): \(error.localizedDescription)")
+            throw error
         }
     }
 
