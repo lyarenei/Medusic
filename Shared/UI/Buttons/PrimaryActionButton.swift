@@ -10,7 +10,8 @@ struct PrimaryActionButton<Item: JellyfinItem>: View {
     var body: some View {
         switch primaryAction {
         case .download:
-            DownloadButton(item: item)
+            EmptyView()
+//            DownloadButton(item: item)
         case .favorite:
             // TODO: either fix or remove completely
             EmptyView()

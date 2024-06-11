@@ -1,149 +1,78 @@
 import ButtonKit
-import Combine
-import OSLog
 import SFSafeSymbols
 import SwiftUI
 
-struct DownloadButton<Item: JellyfinItem>: View {
+struct DownloadButton: View {
     @EnvironmentObject
-    private var library: LibraryRepository
-
-    @EnvironmentObject
-    private var fileRepo: FileRepository
+    private var downloader: Downloader
 
     @State
-    private var isDownloaded = false
+    var isDownloaded = false
 
-    @State
-    private var inProgress = false
+    let itemId: String
 
-    private var logger = Logger.library
-    private let item: Item
-    private let textDownload: String
-    private let textRemove: String
-    private let downloader: Downloader
+    let downloadAction: (String, Bool) async throws -> Void
+    let removeAction: (String) async throws -> Void
+    let cancelAction: (String) async throws -> Void
 
     init(
-        item: Item,
-        textDownload: String = .empty,
-        textRemove: String = .empty,
+        songId: String,
+        isDownloaded: Bool,
+        library: LibraryRepository = .shared,
         fileRepo: FileRepository = .shared,
         downloader: Downloader = .shared
     ) {
-        self.item = item
-        self.textDownload = textDownload
-        self.textRemove = textRemove
-
-        self.downloader = downloader
-
-        switch item {
-        case let item as AlbumDto:
-            // TODO: support for albums
-            break
-        case let item as SongDto:
-            self.isDownloaded = item.isDownloaded
-        default:
-            // Unsupported type
-            break
-        }
+        self.itemId = songId
+        self.isDownloaded = isDownloaded
+        self.downloadAction = downloader.download(songId:startImmediately:)
+        self.removeAction = fileRepo.removeFile(for:)
+        self.cancelAction = downloader.cancelDownload(songId:)
     }
 
     var body: some View {
-        button
-            .onAppear { updateInProgress() }
-            .onReceive(NotificationCenter.default.publisher(for: .SongFileDownloaded)) { event in
-                guard let data = event.userInfo,
-                      let songId = data["songId"] as? String,
-                      songId == item.id
-                else { return }
-
-                inProgress = false
-            }
-    }
-
-    @ViewBuilder
-    private var button: some View {
-        Button {
-            action()
-        } label: {
-            if inProgress {
-                ProgressView()
-                    .scaledToFit()
-            } else {
-                label
-            }
-        }
-        .disabled(inProgress)
-    }
-
-    @ViewBuilder
-    private var label: some View {
-        if textDownload.isEmpty || textRemove.isEmpty {
-            Image(systemSymbol: isDownloaded ? .trash : .icloudAndArrowDown)
-                .scaledToFit()
-        } else {
-            Label(isDownloaded ? textRemove : textDownload) {
-                Image(systemSymbol: isDownloaded ? .trash : .icloudAndArrowDown)
-            }
-        }
-    }
-
-    private func updateInProgress() {
-        switch item {
-        case let item as SongDto:
-            inProgress = downloader.downloadQueue.contains { $0 == item }
-        default:
-            inProgress = false
-        }
-    }
-
-    private func action() {
-        Task {
+        let isInQueue = downloader.downloadQueue.map(\.id).contains(itemId)
+        AsyncButton {
             do {
-                if isDownloaded {
-                    try await removeAction()
+                if isInQueue {
+                    try await cancelAction(itemId)
+                } else if isDownloaded {
+                    try await removeAction(itemId)
                 } else {
-                    try await downloadAction()
+                    try await downloadAction(itemId, true)
                 }
+            } catch let error as MedusicError {
+                Alerts.error(error)
             } catch {
-                if isDownloaded {
-                    logger.warning("Remove action failed for item \(item.id): \(error.localizedDescription)")
-                    Alerts.error("Remove failed")
+                Alerts.error("Action failed")
+            }
+        } label: {
+            Group {
+                if isInQueue {
+                    Label("Cancel download", systemSymbol: .stopCircle)
+                } else if isDownloaded {
+                    Label("Remove download", systemSymbol: .trash)
+                        .foregroundStyle(.red)
                 } else {
-                    logger.warning("Download action failed for item \(item.id): \(error.localizedDescription)")
-                    Alerts.error("Download failed")
+                    Label("Download", systemSymbol: .icloudAndArrowDown)
                 }
             }
+            .scaledToFit()
+            .contentTransition(.symbolEffect(.replace))
         }
-    }
+        .onReceive(NotificationCenter.default.publisher(for: .SongFileDownloaded)) { event in
+            guard let data = event.userInfo,
+                  let songId = data["songId"]
+            else { return }
 
-    private func downloadAction() async throws {
-        inProgress = true
-        switch item {
-        case let item as AlbumDto:
-            let songs = await library.getSongs(for: item)
-            try await downloader.download(songs)
-        case let item as SongDto:
-            try await downloader.download(item)
-        default:
-            inProgress = false
-            let type = type(of: item)
-            logger.info("Downloading \(type) is not supported")
-            Alerts.info("Download is not supported")
+            isDownloaded = true
         }
-    }
+        .onReceive(NotificationCenter.default.publisher(for: .SongFileDeleted)) { event in
+            // This is strictly not necessary as file removal is immediate than downloading.
+            guard let data = event.userInfo,
+                  let songId = data["songId"]
+            else { return }
 
-    private func removeAction() async throws {
-        switch item {
-        case let item as AlbumDto:
-            let songs = await library.getSongs(for: item)
-            try await fileRepo.removeFiles(for: songs)
-        case let item as SongDto:
-            try await fileRepo.removeFile(for: item.id)
-        default:
-            let type = type(of: item)
-            logger.info("Removing \(type) is not supported")
-            Alerts.info("Remove is not supported")
+            isDownloaded = false
         }
     }
 }
@@ -151,18 +80,14 @@ struct DownloadButton<Item: JellyfinItem>: View {
 #if DEBUG
 // swiftlint:disable all
 
-#Preview("Icon only") {
-    DownloadButton(item: PreviewData.albums.first!)
-        .font(.title)
-        .environmentObject(PreviewUtils.libraryRepo)
-        .environmentObject(PreviewUtils.fileRepo)
-}
-
-#Preview("Text + icon") {
-    DownloadButton(item: PreviewData.albums.first!, textDownload: "Download", textRemove: "Remove")
-        .font(.title)
-        .environmentObject(PreviewUtils.libraryRepo)
-        .environmentObject(PreviewUtils.fileRepo)
+#Preview {
+    DownloadButton(
+        songId: PreviewData.song.id,
+        isDownloaded: PreviewData.song.isDownloaded,
+        library: PreviewUtils.libraryRepo,
+        fileRepo: PreviewUtils.fileRepo
+    )
+    .environmentObject(PreviewUtils.downloader)
 }
 
 // swiftlint:enable all

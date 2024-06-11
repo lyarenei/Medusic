@@ -88,6 +88,8 @@ struct PreviewData {
         SongDto(id: "1409", name: "Heavenly Harmonies", isFavorite: true, sortName: "Heavenly Harmonies", index: 9, albumId: "105", artistNames: ["The Harmonics"], size: 4800000, runtime: 192, albumDisc: 1, fileExtension: "mp3"),
         SongDto(id: "1410", name: "Lofty Lullabies", isFavorite: false, sortName: "Lofty Lullabies", index: 10, albumId: "105", artistNames: ["The Harmonics"], size: 5080000, runtime: 203, albumDisc: 1, fileExtension: "mp3")
     ]
+
+    static let song = songs.first!
 }
 
 // swiftlint:enable all
