@@ -56,7 +56,7 @@ struct DownloadsScreen: View {
                                 .showArtistName()
 
                             Spacer()
-                            SongDownloadButton(song: song)
+                            DownloadButton(songId: song.id, isDownloaded: song.isDownloaded)
                                 .labelStyle(.iconOnly)
                                 .buttonStyle(.plain)
                                 .foregroundStyle(Color.accentColor)
