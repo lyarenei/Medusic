@@ -45,6 +45,19 @@ struct SongLibraryScreen: View {
     @ViewBuilder
     private var content: some View {
         let songs = repo.songs.filtered(by: filterBy).nameContains(text: searchText).sorted(by: sortBy).ordered(by: sortDirection)
+        if songs.isNotEmpty {
+            songList(songs)
+        } else {
+            ContentUnavailableView(
+                "No songs",
+                systemImage: SFSymbol.eyeSlash.rawValue,
+                description: Text("Check selected filter or try refreshing the database.")
+            )
+        }
+    }
+
+    @ViewBuilder
+    private func songList(_ songs: [SongDto]) -> some View {
         List(songs) { song in
             songListRow(for: song) { song in
                 Menu {
