@@ -141,7 +141,8 @@ struct SongLibraryScreen: View {
                             .frame(width: proxy.size.height, height: proxy.size.height)
                     }
 
-                    SongDetail(for: song)
+                    let albumName = repo.albums.by(id: song.albumId)?.name ?? .empty
+                    songDetail(name: song.name, album: albumName)
                         .frame(height: proxy.size.height)
 
                     Spacer()
@@ -159,6 +160,28 @@ struct SongLibraryScreen: View {
             }
         }
     }
+
+    @ViewBuilder
+    private func songDetail(name: String, album: String) -> some View {
+        VStack(alignment: .leading, spacing: 2) {
+            MarqueeText(
+                text: name,
+                font: .preferredFont(forTextStyle: .title3),
+                leftFade: UIConstants.marqueeFadeLen,
+                rightFade: UIConstants.marqueeFadeLen,
+                startDelay: UIConstants.marqueeDelay
+            )
+
+            MarqueeText(
+                text: album,
+                font: .systemFont(ofSize: 12),
+                leftFade: UIConstants.marqueeFadeLen,
+                rightFade: UIConstants.marqueeFadeLen,
+                startDelay: UIConstants.marqueeDelay
+            )
+            .foregroundStyle(.gray)
+        }
+    }
 }
 
 #if DEBUG
@@ -173,40 +196,3 @@ struct SongLibraryScreen: View {
 
 // swiftlint:enable all
 #endif
-
-private struct SongDetail: View {
-    @EnvironmentObject
-    private var repo: LibraryRepository
-
-    @State
-    private var albumName: String?
-
-    private let song: SongDto
-
-    init(for song: SongDto) {
-        self.song = song
-        self.albumName = .empty
-    }
-
-    var body: some View {
-        VStack(alignment: .leading, spacing: 2) {
-            MarqueeText(
-                text: song.name,
-                font: .preferredFont(forTextStyle: .title3),
-                leftFade: UIConstants.marqueeFadeLen,
-                rightFade: UIConstants.marqueeFadeLen,
-                startDelay: UIConstants.marqueeDelay
-            )
-
-            MarqueeText(
-                text: albumName ?? .empty,
-                font: .systemFont(ofSize: 12),
-                leftFade: UIConstants.marqueeFadeLen,
-                rightFade: UIConstants.marqueeFadeLen,
-                startDelay: UIConstants.marqueeDelay
-            )
-            .foregroundStyle(.gray)
-        }
-        .task { albumName = repo.albums.by(id: song.albumId)?.name }
-    }
-}
