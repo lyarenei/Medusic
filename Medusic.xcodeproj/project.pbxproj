@@ -56,6 +56,8 @@
 		9B6A60EE2C15A446002F320D /* MedusicError.swift in Sources */ = {isa = PBXBuildFile; fileRef = 9B6A60ED2C15A446002F320D /* MedusicError.swift */; };
 		9B6A60F02C15A4EA002F320D /* DownloaderError.swift in Sources */ = {isa = PBXBuildFile; fileRef = 9B6A60EF2C15A4EA002F320D /* DownloaderError.swift */; };
 		9B6A60F22C15AF27002F320D /* LibraryRepositoryError.swift in Sources */ = {isa = PBXBuildFile; fileRef = 9B6A60F12C15AF27002F320D /* LibraryRepositoryError.swift */; };
+		9B6A60F82C1A0435002F320D /* MarqueeLabel in Frameworks */ = {isa = PBXBuildFile; productRef = 9B6A60F72C1A0435002F320D /* MarqueeLabel */; };
+		9B6A60FA2C1A0461002F320D /* MarqueeTextComponent.swift in Sources */ = {isa = PBXBuildFile; fileRef = 9B6A60F92C1A0461002F320D /* MarqueeTextComponent.swift */; };
 		9B6ADD0A2BEAC56700D9DFE0 /* IPadArtistDetailScreen.swift in Sources */ = {isa = PBXBuildFile; fileRef = 9B6ADD092BEAC56700D9DFE0 /* IPadArtistDetailScreen.swift */; };
 		9B6ADD0C2BEB592000D9DFE0 /* PreviewComponent.swift in Sources */ = {isa = PBXBuildFile; fileRef = 9B6ADD0B2BEB592000D9DFE0 /* PreviewComponent.swift */; };
 		9B6ADD412BED703C00D9DFE0 /* LNPopupUI-Static in Frameworks */ = {isa = PBXBuildFile; productRef = 9B6ADD402BED703C00D9DFE0 /* LNPopupUI-Static */; };
@@ -205,6 +207,7 @@
 		9B6A60ED2C15A446002F320D /* MedusicError.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = MedusicError.swift; sourceTree = "<group>"; };
 		9B6A60EF2C15A4EA002F320D /* DownloaderError.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = DownloaderError.swift; sourceTree = "<group>"; };
 		9B6A60F12C15AF27002F320D /* LibraryRepositoryError.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = LibraryRepositoryError.swift; sourceTree = "<group>"; };
+		9B6A60F92C1A0461002F320D /* MarqueeTextComponent.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = MarqueeTextComponent.swift; sourceTree = "<group>"; };
 		9B6ADD092BEAC56700D9DFE0 /* IPadArtistDetailScreen.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = IPadArtistDetailScreen.swift; sourceTree = "<group>"; };
 		9B6ADD0B2BEB592000D9DFE0 /* PreviewComponent.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = PreviewComponent.swift; sourceTree = "<group>"; };
 		9B6ADD422BED73C100D9DFE0 /* NowPlayingBarComponent.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = NowPlayingBarComponent.swift; sourceTree = "<group>"; };
@@ -304,6 +307,7 @@
 				9B6ADD412BED703C00D9DFE0 /* LNPopupUI-Static in Frameworks */,
 				9BB75ECB29C63AE6008CD65A /* SimpleKeychain in Frameworks */,
 				48C1F8BF29B9E6D1003BE048 /* Boutique in Frameworks */,
+				9B6A60F82C1A0435002F320D /* MarqueeLabel in Frameworks */,
 				9B63869A2BA4F5F8000D4EB6 /* ButtonKit in Frameworks */,
 				48C1F8CD29B9EE97003BE048 /* SFSafeSymbols in Frameworks */,
 				9BB754D629B93F3C009BB3A6 /* JellyfinAPI in Frameworks */,
@@ -420,6 +424,7 @@
 				9B7AF3B329EB09310039A7DF /* AlbumListRowComponent.swift */,
 				9BBE146329FC682B0028C500 /* PlaybackProgressComponent.swift */,
 				9B6ADD422BED73C100D9DFE0 /* NowPlayingBarComponent.swift */,
+				9B6A60F92C1A0461002F320D /* MarqueeTextComponent.swift */,
 			);
 			path = Components;
 			sourceTree = "<group>";
@@ -816,6 +821,7 @@
 				9B1866F22A8A858300034A10 /* Drops */,
 				9B6386992BA4F5F8000D4EB6 /* ButtonKit */,
 				9B6ADD402BED703C00D9DFE0 /* LNPopupUI-Static */,
+				9B6A60F72C1A0435002F320D /* MarqueeLabel */,
 			);
 			productName = "JellyMusic (iOS)";
 			productReference = 9B80473A29B768010069B407 /* Medusic.app */;
@@ -858,6 +864,7 @@
 				9B1866F12A8A858300034A10 /* XCRemoteSwiftPackageReference "Drops" */,
 				9B6386982BA4F5F8000D4EB6 /* XCRemoteSwiftPackageReference "ButtonKit" */,
 				9B6ADD3F2BED703C00D9DFE0 /* XCRemoteSwiftPackageReference "LNPopupUI" */,
+				9B6A60F62C1A0434002F320D /* XCRemoteSwiftPackageReference "MarqueeLabel" */,
 			);
 			productRefGroup = 9B80473B29B768010069B407 /* Products */;
 			projectDirPath = "";
@@ -936,6 +943,7 @@
 				9B1EF3AF29E151F400C2A33B /* RefreshButton.swift in Sources */,
 				9BDB099C29BB302C007F99E4 /* DefaultImageService.swift in Sources */,
 				9BB75EA329C3894A008CD65A /* FavoriteButton.swift in Sources */,
+				9B6A60FA2C1A0461002F320D /* MarqueeTextComponent.swift in Sources */,
 				9BB754DE29BA8522009BB3A6 /* DTOs+Codable.swift in Sources */,
 				9B6A60E42C142BAB002F320D /* LibraryRepository+Songs.swift in Sources */,
 				9B1EF39D29DC97B100C2A33B /* PlayButton.swift in Sources */,
@@ -1314,6 +1322,14 @@
 				minimumVersion = 0.2.1;
 			};
 		};
+		9B6A60F62C1A0434002F320D /* XCRemoteSwiftPackageReference "MarqueeLabel" */ = {
+			isa = XCRemoteSwiftPackageReference;
+			repositoryURL = "https://github.com/cbpowell/MarqueeLabel";
+			requirement = {
+				kind = upToNextMajorVersion;
+				minimumVersion = 4.5.0;
+			};
+		};
 		9B6ADD3F2BED703C00D9DFE0 /* XCRemoteSwiftPackageReference "LNPopupUI" */ = {
 			isa = XCRemoteSwiftPackageReference;
 			repositoryURL = "https://github.com/LeoNatan/LNPopupUI.git";
@@ -1394,6 +1410,11 @@
 			isa = XCSwiftPackageProductDependency;
 			package = 9B6386982BA4F5F8000D4EB6 /* XCRemoteSwiftPackageReference "ButtonKit" */;
 			productName = ButtonKit;
+		};
+		9B6A60F72C1A0435002F320D /* MarqueeLabel */ = {
+			isa = XCSwiftPackageProductDependency;
+			package = 9B6A60F62C1A0434002F320D /* XCRemoteSwiftPackageReference "MarqueeLabel" */;
+			productName = MarqueeLabel;
 		};
 		9B6ADD402BED703C00D9DFE0 /* LNPopupUI-Static */ = {
 			isa = XCSwiftPackageProductDependency;

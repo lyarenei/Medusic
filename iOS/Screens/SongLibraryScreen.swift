@@ -163,22 +163,8 @@ struct SongLibraryScreen: View {
     @ViewBuilder
     private func songDetail(name: String, album: String) -> some View {
         VStack(alignment: .leading, spacing: 2) {
-            MarqueeText(
-                text: name,
-                font: .preferredFont(forTextStyle: .title3),
-                leftFade: UIConstants.marqueeFadeLen,
-                rightFade: UIConstants.marqueeFadeLen,
-                startDelay: UIConstants.marqueeDelay
-            )
-
-            MarqueeText(
-                text: album,
-                font: .systemFont(ofSize: 12),
-                leftFade: UIConstants.marqueeFadeLen,
-                rightFade: UIConstants.marqueeFadeLen,
-                startDelay: UIConstants.marqueeDelay
-            )
-            .foregroundStyle(.gray)
+            MarqueeTextComponent(name, font: .title3)
+            MarqueeTextComponent(album, font: .system(size: 12), color: .gray)
         }
     }
 }

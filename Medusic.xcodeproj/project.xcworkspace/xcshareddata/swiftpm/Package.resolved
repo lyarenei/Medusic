@@ -1,5 +1,5 @@
 {
-  "originHash" : "54e420f3cc4641423ce643ec19d956e0a5f6b5d3f0d65fa7567eb5d1105ea0c5",
+  "originHash" : "1185ff76d36d92c9bee76f12357884613bd8d1050626d732cd3ed14bd0e21963",
   "pins" : [
     {
       "identity" : "bodega",
@@ -107,6 +107,15 @@
       "state" : {
         "revision" : "954a3adadc21d5b973c24e1320bdcc3d638c6a9c",
         "version" : "1.1.1"
+      }
+    },
+    {
+      "identity" : "marqueelabel",
+      "kind" : "remoteSourceControl",
+      "location" : "https://github.com/cbpowell/MarqueeLabel",
+      "state" : {
+        "revision" : "877e810534cda9afabb8143ae319b7c3341b121b",
+        "version" : "4.5.0"
       }
     },
     {
