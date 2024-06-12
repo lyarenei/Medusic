@@ -51,7 +51,7 @@ struct LibraryScreen: View {
         }
 
         NavigationLink {
-            AlbumLibraryScreen(albums: library.albums)
+            AlbumLibraryScreen(library.albums)
         } label: {
             Label("Albums", systemSymbol: .squareStack)
         }

@@ -365,6 +365,7 @@
 		9B61365529BC6F18004C85EC /* Screens */ = {
 			isa = PBXGroup;
 			children = (
+				9B80476F29B89EE40069B407 /* AlbumLibraryScreen.swift */,
 				9B73ECF829C8F085007F74DB /* MusicPlayerScreen.swift */,
 				9B6A60D72C131C0C002F320D /* SongLibraryScreen.swift */,
 			);
@@ -750,7 +751,6 @@
 				9B80475D29B7D5330069B407 /* MainScreen.swift */,
 				9B80476529B86F460069B407 /* LibraryScreen.swift */,
 				9BF6C8F72A86251A00916EC1 /* ArtistLibraryScreen.swift */,
-				9B80476F29B89EE40069B407 /* AlbumLibraryScreen.swift */,
 				9B3D44BF29BE09620054C9E0 /* SongsLibraryScreen.swift */,
 				9B70BD9F29B923AE000DB31C /* AlbumDetailScreen.swift */,
 				9BBE146629FDA11C0028C500 /* SearchScreen.swift */,
