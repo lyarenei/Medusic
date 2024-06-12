@@ -61,15 +61,17 @@ struct DownloadButton: View {
         }
         .onReceive(NotificationCenter.default.publisher(for: .SongFileDownloaded)) { event in
             guard let data = event.userInfo,
-                  let songId = data["songId"]
+                  let songId = data["songId"] as? String,
+                  itemId == songId
             else { return }
 
             isDownloaded = true
         }
         .onReceive(NotificationCenter.default.publisher(for: .SongFileDeleted)) { event in
-            // This is strictly not necessary as file removal is immediate than downloading.
+            // This is strictly not necessary as file removal is immediate unlike downloading.
             guard let data = event.userInfo,
-                  let songId = data["songId"]
+                  let songId = data["songId"] as? String,
+                  itemId == songId
             else { return }
 
             isDownloaded = false
