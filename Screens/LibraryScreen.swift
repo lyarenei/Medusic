@@ -57,7 +57,7 @@ struct LibraryScreen: View {
         }
 
         NavigationLink {
-            SongLibraryScreen()
+            SongLibraryScreen(library.songs)
         } label: {
             Label("Songs", systemSymbol: .musicNote)
         }

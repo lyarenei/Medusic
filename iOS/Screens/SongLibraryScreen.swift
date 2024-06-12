@@ -19,11 +19,15 @@ struct SongLibraryScreen: View {
     @State
     private var searchText: String = .empty
 
+    let songs: [SongDto]
+
     init(
+        _ songs: [SongDto],
         filterBy: FilterOption = .all,
         sortBy: SortOption = .name,
         sortDirection: SortDirection = .ascending
     ) {
+        self.songs = songs
         self.filterBy = filterBy
         self.sortBy = sortBy
         self.sortDirection = sortDirection
@@ -44,9 +48,9 @@ struct SongLibraryScreen: View {
 
     @ViewBuilder
     private var content: some View {
-        let songs = repo.songs.filtered(by: filterBy).nameContains(text: searchText).sorted(by: sortBy).ordered(by: sortDirection)
-        if songs.isNotEmpty {
-            songList(songs)
+        let songsToDisplay = songs.filtered(by: filterBy).nameContains(text: searchText).sorted(by: sortBy).ordered(by: sortDirection)
+        if songsToDisplay.isNotEmpty {
+            songList(songsToDisplay)
         } else {
             ContentUnavailableView(
                 "No songs",
@@ -174,7 +178,7 @@ struct SongLibraryScreen: View {
 
 #Preview {
     NavigationStack {
-        SongLibraryScreen()
+        SongLibraryScreen(PreviewData.songs)
             .environmentObject(PreviewUtils.libraryRepo)
     }
 }
