@@ -12,12 +12,27 @@ final class DefaultMediaService: MediaService {
     }
 
     func getStreamUrl(item id: String, bitrate: Int? = nil) -> URL? {
-        let baseUrl = client.configuration.url.absoluteString
-        if let bitrate {
-            return URL(string: "\(baseUrl)/Audio/\(id)/stream?audioCodec=\(AppDefaults.fallbackCodec)&audioBitRate=\(bitrate)")
-        }
+        var url = client.configuration.url
 
-        return URL(string: "\(baseUrl)/Audio/\(id)/stream?static=true")
+        // Probably not all supported containers but it should cover the majority.
+        var params = JellyfinAPI.Paths.GetUniversalAudioStreamParameters(
+            container: ["mp3", "aac", "m4a|aac", "m4a|alac", "m4b|aac", "flac"],
+            deviceID: Defaults[.deviceId],
+            userID: Defaults[.userId],
+            audioCodec: bitrate != nil ? AppDefaults.fallbackCodec : nil,
+            maxStreamingBitrate: bitrate ?? .max,
+            audioBitRate: bitrate ?? .max,
+            transcodingContainer: "ts",
+            transcodingProtocol: "hls"
+        )
+
+        let request = JellyfinAPI.Paths.getUniversalAudioStream(itemID: id, parameters: params)
+        guard let path = request.url else { return nil }
+        let queryItems = params.asQuery.compactMap { URLQueryItem(name: $0.0, value: $0.1) }
+
+        url.append(path: path.absoluteString)
+        url.append(queryItems: queryItems)
+        return url.absoluteURL
     }
 
     func downloadItem(id: String, destination: URL, bitrate: Int?) async throws {
