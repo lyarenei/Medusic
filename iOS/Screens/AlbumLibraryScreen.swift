@@ -64,7 +64,7 @@ struct AlbumLibraryScreen: View {
             albumListRow(for: album)
                 .frame(height: 60)
                 .contextMenu {
-//                    DownloadButton(albumId: album.id, isDownloaded: album.isDownloaded)
+                    DownloadAlbumButton(albumId: album.id, isDownloaded: album.isDownloaded)
                     Divider()
                     PlayButton("Play", item: album)
                     EnqueueButton("Play next", item: album, position: .next)

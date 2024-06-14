@@ -49,13 +49,21 @@ actor LibraryRepository: ObservableObject {
                 else { return }
 
                 Task {
-                    if var song = await self.songs.by(id: songId) {
-                        song.isDownloaded = true
-                        do {
-                            try await self.$songs.insert(song)
-                        } catch {
-                            self.logger.warning("Failed to mark song \(songId) as downloaded: \(error.localizedDescription)")
-                        }
+                    guard var song = await self.songs.by(id: songId) else { return }
+                    song.isDownloaded = true
+                    do {
+                        try await self.$songs.insert(song)
+                    } catch {
+                        self.logger.warning("Failed to mark song \(songId) as downloaded: \(error.localizedDescription)")
+                    }
+
+                    guard var album = await self.albums.by(id: song.albumId) else { return }
+                    album.isDownloaded = await self.songs.filtered(by: .albumId(song.albumId)).allSatisfy(\.isDownloaded)
+                    do {
+                        try await self.$albums.insert(album)
+                        if album.isDownloaded { await Notifier.emitAlbumDownloaded(album.id) }
+                    } catch {
+                        self.logger.warning("Failed to mark album \(album.id) as downloaded: \(error.localizedDescription)")
                     }
                 }
             }
@@ -69,13 +77,20 @@ actor LibraryRepository: ObservableObject {
                 else { return }
 
                 Task {
-                    if var song = await self.songs.by(id: songId) {
-                        song.isDownloaded = false
-                        do {
-                            try await self.$songs.insert(song)
-                        } catch {
-                            self.logger.warning("Failed to unmark song \(songId) as downloaded: \(error.localizedDescription)")
-                        }
+                    guard var song = await self.songs.by(id: songId) else { return }
+                    song.isDownloaded = false
+                    do {
+                        try await self.$songs.insert(song)
+                    } catch {
+                        self.logger.warning("Failed to unmark song \(songId) as downloaded: \(error.localizedDescription)")
+                    }
+
+                    guard var album = await self.albums.by(id: song.albumId) else { return }
+                    album.isDownloaded = await self.songs.filtered(by: .albumId(song.albumId)).allSatisfy(\.isDownloaded)
+                    do {
+                        try await self.$albums.insert(album)
+                    } catch {
+                        self.logger.warning("Failed to unmark album \(album.id) as downloaded: \(error.localizedDescription)")
                     }
                 }
             }

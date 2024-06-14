@@ -9,6 +9,7 @@ struct AlbumDto: JellyfinItem {
     var isFavorite: Bool
     var createdAt = Date.now
     var artistName = ""
+    var isDownloaded = false
 }
 
 extension AlbumDto: Equatable {
