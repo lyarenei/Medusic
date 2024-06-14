@@ -98,7 +98,7 @@ struct DownloadAlbumButton: View {
 // swiftlint:disable all
 
 #Preview {
-    DownloadButton(
+    DownloadSongButton(
         songId: PreviewData.song.id,
         isDownloaded: PreviewData.song.isDownloaded,
         library: PreviewUtils.libraryRepo,

@@ -173,7 +173,7 @@ private struct ContextOptions: View {
 
     var body: some View {
         PlayButton("Play", item: song)
-        DownloadButton(songId: song.id, isDownloaded: song.isDownloaded)
+        DownloadSongButton(songId: song.id, isDownloaded: song.isDownloaded)
         FavoriteButton(songId: song.id, isFavorite: song.isFavorite)
         EnqueueButton("Play Next", item: song, position: .next)
         EnqueueButton("Play Last", item: song, position: .last)

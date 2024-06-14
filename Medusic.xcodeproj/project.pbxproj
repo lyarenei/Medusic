@@ -117,7 +117,7 @@
 		9BB754DB29BA604C009BB3A6 /* DTOs.swift in Sources */ = {isa = PBXBuildFile; fileRef = 9BB754DA29BA604C009BB3A6 /* DTOs.swift */; };
 		9BB754DE29BA8522009BB3A6 /* DTOs+Codable.swift in Sources */ = {isa = PBXBuildFile; fileRef = 9BB754DD29BA8522009BB3A6 /* DTOs+Codable.swift */; };
 		9BB75EA329C3894A008CD65A /* FavoriteButton.swift in Sources */ = {isa = PBXBuildFile; fileRef = 9BB75EA229C3894A008CD65A /* FavoriteButton.swift */; };
-		9BB75EA629C389D9008CD65A /* DownloadButton.swift in Sources */ = {isa = PBXBuildFile; fileRef = 9BB75EA529C389D9008CD65A /* DownloadButton.swift */; };
+		9BB75EA629C389D9008CD65A /* DownloadSongButton.swift in Sources */ = {isa = PBXBuildFile; fileRef = 9BB75EA529C389D9008CD65A /* DownloadSongButton.swift */; };
 		9BB75EB029C4C5E1008CD65A /* Settings.swift in Sources */ = {isa = PBXBuildFile; fileRef = 9BB75EAF29C4C5E1008CD65A /* Settings.swift */; };
 		9BB75EB429C4E640008CD65A /* Defaults in Frameworks */ = {isa = PBXBuildFile; productRef = 9BB75EB329C4E640008CD65A /* Defaults */; };
 		9BB75EC329C5B1B8008CD65A /* DebouncedOnChange in Frameworks */ = {isa = PBXBuildFile; productRef = 9BB75EC229C5B1B8008CD65A /* DebouncedOnChange */; };
@@ -267,7 +267,7 @@
 		9BB754DA29BA604C009BB3A6 /* DTOs.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = DTOs.swift; sourceTree = "<group>"; };
 		9BB754DD29BA8522009BB3A6 /* DTOs+Codable.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = "DTOs+Codable.swift"; sourceTree = "<group>"; };
 		9BB75EA229C3894A008CD65A /* FavoriteButton.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = FavoriteButton.swift; sourceTree = "<group>"; };
-		9BB75EA529C389D9008CD65A /* DownloadButton.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = DownloadButton.swift; sourceTree = "<group>"; };
+		9BB75EA529C389D9008CD65A /* DownloadSongButton.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = DownloadSongButton.swift; sourceTree = "<group>"; };
 		9BB75EAF29C4C5E1008CD65A /* Settings.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = Settings.swift; sourceTree = "<group>"; };
 		9BBE145B29FB13110028C500 /* ConfirmButton.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = ConfirmButton.swift; sourceTree = "<group>"; };
 		9BBE145E29FB18DA0028C500 /* NotificationExtensions.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = NotificationExtensions.swift; sourceTree = "<group>"; };
@@ -638,7 +638,7 @@
 			isa = PBXGroup;
 			children = (
 				9BB75EA229C3894A008CD65A /* FavoriteButton.swift */,
-				9BB75EA529C389D9008CD65A /* DownloadButton.swift */,
+				9BB75EA529C389D9008CD65A /* DownloadSongButton.swift */,
 				9BF7AF8B29CDF1C8004E0DA7 /* PrimaryActionButton.swift */,
 				9B1EF39C29DC97B100C2A33B /* PlayButton.swift */,
 				9B1EF39F29DCA16200C2A33B /* PlayNextButton.swift */,
@@ -987,7 +987,7 @@
 				9B1EF3A629DCA78800C2A33B /* EnqueueButton.swift in Sources */,
 				9BF6C8F12A861D8200916EC1 /* ArtistDto.swift in Sources */,
 				9B6A60EC2C15A41E002F320D /* FileRepositoryError.swift in Sources */,
-				9BB75EA629C389D9008CD65A /* DownloadButton.swift in Sources */,
+				9BB75EA629C389D9008CD65A /* DownloadSongButton.swift in Sources */,
 				9BA8B0C52A0F842500F6AF41 /* AlbumPreviewCollection.swift in Sources */,
 				9BBE146429FC682B0028C500 /* PlaybackProgressComponent.swift in Sources */,
 				9B9A79172BE631AB00E848DC /* JellyfinModel.swift in Sources */,

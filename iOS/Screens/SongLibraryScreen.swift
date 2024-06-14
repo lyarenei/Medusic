@@ -63,7 +63,7 @@ struct SongLibraryScreen: View {
         List(songs) { song in
             songListRow(for: song) { song in
                 Menu {
-                    DownloadButton(songId: song.id, isDownloaded: song.isDownloaded)
+                    DownloadSongButton(songId: song.id, isDownloaded: song.isDownloaded)
                     Divider()
                     PlayButton("Play", item: song)
                     EnqueueButton("Play next", item: song, position: .next)
@@ -80,7 +80,7 @@ struct SongLibraryScreen: View {
             }
             .frame(height: 40)
             .contextMenu {
-                DownloadButton(songId: song.id, isDownloaded: song.isDownloaded)
+                DownloadSongButton(songId: song.id, isDownloaded: song.isDownloaded)
                 Divider()
                 PlayButton("Play", item: song)
                 EnqueueButton("Play next", item: song, position: .next)

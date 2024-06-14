@@ -266,7 +266,7 @@ private struct FooterActions: View {
 
     var body: some View {
         HStack {
-            DownloadButton(songId: song.id, isDownloaded: song.isDownloaded)
+            DownloadSongButton(songId: song.id, isDownloaded: song.isDownloaded)
                 .labelStyle(.iconOnly)
                 .padding(.all, 7)
 

@@ -2,7 +2,7 @@ import ButtonKit
 import SFSafeSymbols
 import SwiftUI
 
-struct DownloadButton: View {
+struct DownloadSongButton: View {
     @EnvironmentObject
     private var downloader: Downloader
 
@@ -83,7 +83,7 @@ struct DownloadButton: View {
 // swiftlint:disable all
 
 #Preview {
-    DownloadButton(
+    DownloadSongButton(
         songId: PreviewData.song.id,
         isDownloaded: PreviewData.song.isDownloaded,
         library: PreviewUtils.libraryRepo,
