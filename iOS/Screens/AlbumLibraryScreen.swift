@@ -128,8 +128,7 @@ struct AlbumLibraryScreen: View {
                             .frame(width: proxy.size.height, height: proxy.size.height)
                     }
 
-                    let artistName = repo.artists.by(id: album.artistId)?.name ?? .empty
-                    albumDetail(name: album.name, artist: artistName)
+                    albumDetail(name: album.name, artist: album.artistName)
                         .frame(height: proxy.size.height)
 
                     Spacer()
