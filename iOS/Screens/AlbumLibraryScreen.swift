@@ -134,7 +134,7 @@ struct AlbumLibraryScreen: View {
 
                     Spacer()
                 }
-                .frame(width: proxy.size.width - proxy.size.height)
+                .frame(maxWidth: proxy.size.width)
                 .contentShape(Rectangle())
             }
         }
