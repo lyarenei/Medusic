@@ -12,54 +12,44 @@ struct AlbumDetailScreen: View {
 
     let album: AlbumDto
 
+    private let edgeSpace = 40.0
+
     var body: some View {
-        ScrollView {
-            content
-                .padding(.top, 15)
-                .padding(.bottom, 25)
-        }
-        .navigationBarTitleDisplayMode(.inline)
-        .toolbar {
-            ToolbarItem(placement: .navigationBarTrailing) {
-                albumToolbarMenu
+        let albumSongs = library.songs.filtered(by: .albumId(album.id))
+        GeometryReader { proxy in
+            List {
+                albumDetails(album, proxy)
+                    .listRowSeparator(.hidden)
+                    .frame(maxWidth: proxy.size.width, alignment: .center)
+
+                // Song list
+                // More by
             }
-
-            ToolbarItem(placement: .navigationBarTrailing) {
-                RefreshButton(mode: .album(id: album.id))
-            }
-        }
-    }
-
-    @ViewBuilder
-    private var content: some View {
-        VStack {
-            artworkWithName
-                .padding(.bottom, 10)
-
-            actions
-                .padding(.bottom, 10)
-
-            runtime
-
-            songs(albumSongs)
-                .padding(.bottom, 15)
-
-            if previewAlbums.isNotEmpty {
-                AlbumPreviewCollection(
-                    for: previewAlbums,
-                    titleText: "More by \(album.artistName)",
-                    emptyText: "No albums"
-                )
-                .stackType(.horizontal)
+            .navigationBarTitleDisplayMode(.inline)
+            .listStyle(.plain)
+            .toolbar {
+                // TODO: implement
             }
         }
     }
 
     @ViewBuilder
-    private var artworkWithName: some View {
-        VStack(spacing: 20) {
-            ArtworkComponent(for: album)
-                .frame(width: 270, height: 270)
+    private func albumDetails(_ album: AlbumDto, _ proxy: GeometryProxy) -> some View {
+        VStack(alignment: .center, spacing: 10) {
+            artworkWithName(album, proxy)
+            additionalInfo(genre: "Genre", year: "0000")
+                .padding(.bottom, 10)
+
+            actions(proxy)
+        }
+    }
+
+    @ViewBuilder
+    private func artworkWithName(_ album: AlbumDto, _ proxy: GeometryProxy) -> some View {
+        VStack(alignment: .center, spacing: 20) {
+            let edgeLen = proxy.size.width - edgeSpace
+            ArtworkComponent(for: album.id)
+                .frame(width: edgeLen, height: edgeLen)
 
             VStack(spacing: 5) {
                 Text(album.name)
@@ -68,44 +58,54 @@ struct AlbumDetailScreen: View {
                     .multilineTextAlignment(.center)
 
                 Text(album.artistName)
-                    .font(.body)
                     .multilineTextAlignment(.center)
             }
+            .frame(width: edgeLen)
         }
-        .padding(.horizontal, 20)
     }
 
     @ViewBuilder
-    private var actions: some View {
-        HStack {
-            PlayButton("Play", item: album)
-                .frame(width: 120, height: 45)
-                .overlay(
-                    RoundedRectangle(cornerRadius: 10)
-                        .stroke(style: StrokeStyle(lineWidth: 1.0))
-                        .foregroundColor(.accentColor)
-                )
+    private func additionalInfo(genre: String, year: String) -> some View {
+        let text = [genre, year].filter(\.isNotEmpty).joined(separator: "・")
+        Text(text)
+            .foregroundStyle(.gray)
+            .font(.caption)
+    }
 
-            AsyncButton {
-                let songs = await library.getSongs(for: album)
-                do {
-                    try await player.play(songs: songs.shuffled())
-                } catch {
-                    Logger.library.warning("Failed to start playback: \(error.localizedDescription)")
-                    Alerts.error("Failed to start playback")
+    @ViewBuilder
+    private func actions(_ proxy: GeometryProxy) -> some View {
+        HStack {
+            Group {
+                // TODO: fix after play button is cleaned up
+                PlayButton("Play", item: album)
+                    .frame(width: (proxy.size.width - edgeSpace) / 2, height: 50)
+
+                AsyncButton {
+                    let songs = await library.getSongs(for: album)
+                    do {
+                        try await player.play(songs: songs.shuffled())
+                    } catch {
+                        Logger.library.warning("Failed to start playback: \(error.localizedDescription)")
+                        Alerts.error("Failed to start playback")
+                    }
+                } label: {
+                    Label("Shuffle", systemSymbol: .shuffle)
+                        .frame(width: (proxy.size.width - edgeSpace) / 2, height: 50)
+                        .contentShape(Rectangle())
                 }
-            } label: {
-                Label("Shuffle", systemSymbol: .shuffle)
+                .disabledWhenLoading()
             }
-            .frame(width: 120, height: 45)
+            .font(.system(size: 18))
+            .buttonStyle(.plain)
             .overlay(
                 RoundedRectangle(cornerRadius: 10)
                     .stroke(style: StrokeStyle(lineWidth: 1.0))
-                    .foregroundColor(.accentColor)
             )
-            .disabledWhenLoading()
+            .foregroundStyle(Color.accentColor)
         }
     }
+
+    // TODO: in progress vvv
 
     @ViewBuilder
     private var runtime: some View {
@@ -290,6 +290,7 @@ private struct SongContextOptions: View {
     .environmentObject(ApiClient(previewEnabled: true))
     .environmentObject(PreviewUtils.player)
     .environmentObject(PreviewUtils.fileRepo)
+    .environmentObject(PreviewUtils.downloader)
 }
 
 #Preview("Empty") {
@@ -299,7 +300,18 @@ private struct SongContextOptions: View {
         .environmentObject(ApiClient(previewEnabled: true))
         .environmentObject(PreviewUtils.player)
         .environmentObject(PreviewUtils.fileRepo)
+        .environmentObject(PreviewUtils.downloader)
 }
 
 // swiftlint:enable all
 #endif
+
+struct TitleAndIconVerticalLabelStyle: LabelStyle {
+    func makeBody(configuration: Configuration) -> some View {
+        VStack {
+            configuration.icon
+            configuration.title
+        }
+        .multilineTextAlignment(.center)
+    }
+}
