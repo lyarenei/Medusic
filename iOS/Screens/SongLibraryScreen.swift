@@ -178,6 +178,7 @@ struct SongLibraryScreen: View {
     NavigationStack {
         SongLibraryScreen(PreviewData.songs)
             .environmentObject(PreviewUtils.libraryRepo)
+            .environmentObject(PreviewUtils.apiClient)
     }
 }
 
