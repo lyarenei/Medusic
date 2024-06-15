@@ -6,7 +6,8 @@
     "artistId": "1",
     "artistName": "The Blue Suns",
     "isFavorite": true,
-    "createdAt": "2022/01/05"
+    "createdAt": "2022/01/05",
+    "isDownloaded": false
   },
   {
     "id": "102",
@@ -15,7 +16,8 @@
     "artistId": "1",
     "artistName": "The Blue Suns",
     "isFavorite": false,
-    "createdAt": "2022/05/10"
+    "createdAt": "2022/05/10",
+    "isDownloaded": false
   },
   {
     "id": "103",
@@ -24,7 +26,8 @@
     "artistId": "2",
     "artistName": "Q",
     "isFavorite": true,
-    "createdAt": "2023/02/15"
+    "createdAt": "2023/02/15",
+    "isDownloaded": false
   },
   {
     "id": "104",
@@ -33,7 +36,8 @@
     "artistId": "2",
     "artistName": "Q",
     "isFavorite": false,
-    "createdAt": "2021/07/12"
+    "createdAt": "2021/07/12",
+    "isDownloaded": false
   },
   {
     "id": "105",
@@ -42,7 +46,8 @@
     "artistId": "3",
     "artistName": "Mellifluous Quartet",
     "isFavorite": true,
-    "createdAt": "2022/03/25"
+    "createdAt": "2022/03/25",
+    "isDownloaded": true
   },
   {
     "id": "106",
@@ -51,7 +56,8 @@
     "artistId": "4",
     "artistName": "Anna Jameson",
     "isFavorite": false,
-    "createdAt": "2020/08/10"
+    "createdAt": "2020/08/10",
+    "isDownloaded": false
   },
   {
     "id": "107",
@@ -60,7 +66,8 @@
     "artistId": "5",
     "artistName": "Ron",
     "isFavorite": true,
-    "createdAt": "2023/01/11"
+    "createdAt": "2023/01/11",
+    "isDownloaded": true
   },
   {
     "id": "108",
@@ -69,7 +76,8 @@
     "artistId": "6",
     "artistName": "Ethereal Dreams",
     "isFavorite": false,
-    "createdAt": "2021/12/05"
+    "createdAt": "2021/12/05",
+    "isDownloaded": true
   },
   {
     "id": "109",
@@ -78,7 +86,8 @@
     "artistId": "7",
     "artistName": "Bella and the Whales",
     "isFavorite": true,
-    "createdAt": "2020/04/21"
+    "createdAt": "2020/04/21",
+    "isDownloaded": false
   },
   {
     "id": "110",
@@ -87,7 +96,8 @@
     "artistId": "1",
     "artistName": "The Blue Suns",
     "isFavorite": false,
-    "createdAt": "2019/11/17"
+    "createdAt": "2019/11/17",
+    "isDownloaded": true
   },
   {
     "id": "111",
@@ -96,7 +106,8 @@
     "artistId": "3",
     "artistName": "Mellifluous Quartet",
     "isFavorite": true,
-    "createdAt": "2022/06/19"
+    "createdAt": "2022/06/19",
+    "isDownloaded": false
   },
   {
     "id": "112",
@@ -105,7 +116,8 @@
     "artistId": "4",
     "artistName": "Anna Jameson",
     "isFavorite": false,
-    "createdAt": "2021/09/30"
+    "createdAt": "2021/09/30",
+    "isDownloaded": false
   },
   {
     "id": "113",
@@ -114,7 +126,8 @@
     "artistId": "5",
     "artistName": "Ron",
     "isFavorite": true,
-    "createdAt": "2022/05/01"
+    "createdAt": "2022/05/01",
+    "isDownloaded": true
   },
   {
     "id": "114",
@@ -123,7 +136,8 @@
     "artistId": "6",
     "artistName": "Ethereal Dreams",
     "isFavorite": false,
-    "createdAt": "2019/10/05"
+    "createdAt": "2019/10/05",
+    "isDownloaded": false
   },
   {
     "id": "115",
@@ -132,7 +146,8 @@
     "artistId": "7",
     "artistName": "Bella and the Whales",
     "isFavorite": true,
-    "createdAt": "2023/03/08"
+    "createdAt": "2023/03/08",
+    "isDownloaded": false
   },
   {
     "id": "116",
@@ -141,7 +156,8 @@
     "artistId": "1",
     "artistName": "The Blue Suns",
     "isFavorite": false,
-    "createdAt": "2022/07/15"
+    "createdAt": "2022/07/15",
+    "isDownloaded": false
   },
   {
     "id": "117",
@@ -150,7 +166,8 @@
     "artistId": "3",
     "artistName": "Mellifluous Quartet",
     "isFavorite": true,
-    "createdAt": "2021/06/25"
+    "createdAt": "2021/06/25",
+    "isDownloaded": false
   },
   {
     "id": "118",
@@ -159,7 +176,8 @@
     "artistId": "4",
     "artistName": "Anna Jameson",
     "isFavorite": true,
-    "createdAt": "2020/09/14"
+    "createdAt": "2020/09/14",
+    "isDownloaded": true
   },
   {
     "id": "119",
@@ -168,7 +186,8 @@
     "artistId": "5",
     "artistName": "Ron",
     "isFavorite": true,
-    "createdAt": "2021/04/11"
+    "createdAt": "2021/04/11",
+    "isDownloaded": false
   },
   {
     "id": "120",
@@ -177,6 +196,7 @@
     "artistId": "6",
     "artistName": "Ethereal Dreams",
     "isFavorite": false,
-    "createdAt": "2022/11/22"
+    "createdAt": "2022/11/22",
+    "isDownloaded": false
   }
 ]
