@@ -144,28 +144,24 @@ struct AlbumDetailScreen: View {
         }
     }
 
-    // TODO: in progress vvv
-
     @ViewBuilder
     private func songCollection(songs: [SongDto]) -> some View {
         ForEach(songs) { song in
-            HStack(spacing: 10) {
-                songCell(allSongs: albumSongs, song)
+            let artistName = album.artistName == song.artistCreditName ? "" : song.artistCreditName
+            NewSongListRowComponent(for: song, subtitle: artistName) { song in
+                DownloadSongButton(songId: song.id, isDownloaded: song.isDownloaded)
+                Divider()
+                PlayButton("Play", item: song)
+                EnqueueButton("Play next", item: song, position: .next)
+                EnqueueButton("Play last", item: song, position: .last)
+                Divider()
+                FavoriteButton(songId: song.id, isFavorite: song.isFavorite)
             }
-            .frame(height: 35)
+            .frame(height: 40)
         }
     }
 
-    @ViewBuilder
-    private func songCell(allSongs: [SongDto], _ song: SongDto) -> some View {
-        SongListRowComponent(song: song)
-            .showAlbumOrder()
-            .showArtistName()
-            .height(35)
-            .contentShape(Rectangle())
-            .contextMenu { SongContextOptions(song: song) }
-            .onTapGesture { Task { await onSongTap(song) } }
-    }
+    // TODO: in progress vvvv
 
     private func onSongTap(_ song: SongDto) async {
         let queue = {
