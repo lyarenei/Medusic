@@ -90,6 +90,7 @@ struct AlbumDetailScreen: View {
                 Divider()
                 FavoriteButton(songId: song.id, isFavorite: song.isFavorite)
             }
+            .showAlbumIndex()
             .frame(height: 40)
         }
     }

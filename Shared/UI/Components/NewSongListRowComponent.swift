@@ -5,6 +5,8 @@ struct NewSongListRowComponent<MenuActions: View>: View {
     private var library: LibraryRepository
 
     private var menuActions: (SongDto) -> MenuActions
+    private var showArtwork = true
+    private var showAlbumIndex = false
 
     let song: SongDto
     let subtitle: String
@@ -23,11 +25,15 @@ struct NewSongListRowComponent<MenuActions: View>: View {
         GeometryReader { proxy in
             HStack {
                 HStack {
-                    HStack {
-                        ArtworkComponent(for: song.albumId)
-                            .showFavorite(song.isFavorite)
-                            .frame(width: proxy.size.height, height: proxy.size.height)
+                    Group {
+                        if showArtwork {
+                            ArtworkComponent(for: song.albumId)
+                                .showFavorite(song.isFavorite)
+                        } else {
+                            Text("\(song.index)")
+                        }
                     }
+                    .frame(width: proxy.size.height, height: proxy.size.height, alignment: .center)
 
                     songDetail(name: song.name, subtitle: subtitle)
                         .frame(height: proxy.size.height)
@@ -65,5 +71,21 @@ struct NewSongListRowComponent<MenuActions: View>: View {
                 MarqueeTextComponent(subtitle, font: .system(size: 12), color: .gray)
             }
         }
+    }
+}
+
+extension NewSongListRowComponent {
+    func showArtwork(_ value: Bool = true) -> NewSongListRowComponent {
+        var view = self
+        view.showArtwork = value
+        view.showAlbumIndex = !value
+        return view
+    }
+
+    func showAlbumIndex(_ value: Bool = true) -> NewSongListRowComponent {
+        var view = self
+        view.showArtwork = !value
+        view.showAlbumIndex = value
+        return view
     }
 }
