@@ -3,7 +3,7 @@ import SwiftUI
 
 struct SongLibraryScreen: View {
     @EnvironmentObject
-    private var repo: LibraryRepository
+    private var library: LibraryRepository
 
     @State
     private var filterBy: FilterOption = .all
@@ -61,22 +61,15 @@ struct SongLibraryScreen: View {
     @ViewBuilder
     private func songList(_ songs: [SongDto]) -> some View {
         List(songs) { song in
-            NewSongRow(for: song) { song in
-                Menu {
-                    DownloadSongButton(songId: song.id, isDownloaded: song.isDownloaded)
-                    Divider()
-                    PlayButton("Play", item: song)
-                    EnqueueButton("Play next", item: song, position: .next)
-                    EnqueueButton("Play last", item: song, position: .last)
-                    Divider()
-                    FavoriteButton(songId: song.id, isFavorite: song.isFavorite)
-                } label: {
-                    Image(systemSymbol: .ellipsis)
-                        .resizable()
-                        .scaledToFit()
-                        .padding(12)
-                        .contentShape(Rectangle())
-                }
+            let albumName = library.albums.by(id: song.albumId)?.name ?? .empty
+            NewSongListRowComponent(for: song, subtitle: albumName) { song in
+                DownloadSongButton(songId: song.id, isDownloaded: song.isDownloaded)
+                Divider()
+                PlayButton("Play", item: song)
+                EnqueueButton("Play next", item: song, position: .next)
+                EnqueueButton("Play last", item: song, position: .last)
+                Divider()
+                FavoriteButton(songId: song.id, isFavorite: song.isFavorite)
             }
             .frame(height: 40)
             .contextMenu {
@@ -145,55 +138,3 @@ struct SongLibraryScreen: View {
 
 // swiftlint:enable all
 #endif
-
-struct NewSongRow<Action: View>: View {
-    @EnvironmentObject
-    private var library: LibraryRepository
-
-    private var action: (SongDto) -> Action
-
-    let song: SongDto
-
-    init(for song: SongDto, @ViewBuilder action: @escaping (SongDto) -> Action) {
-        self.song = song
-        self.action = action
-    }
-
-    var body: some View {
-        GeometryReader { proxy in
-            HStack {
-                HStack {
-                    HStack {
-                        ArtworkComponent(for: song.albumId)
-                            .showFavorite(song.isFavorite)
-                            .frame(width: proxy.size.height, height: proxy.size.height)
-                    }
-
-                    let albumName = library.albums.by(id: song.albumId)?.name ?? .empty
-                    songDetail(name: song.name, album: albumName)
-                        .frame(height: proxy.size.height)
-
-                    Spacer()
-                }
-                .frame(width: proxy.size.width - proxy.size.height)
-                .contentShape(Rectangle())
-                .onTapGesture {
-                    Alerts.notImplemented()
-                }
-
-                action(song)
-                    .buttonStyle(.plain)
-                    .foregroundStyle(Color.accentColor)
-                    .frame(width: proxy.size.height, height: proxy.size.height)
-            }
-        }
-    }
-
-    @ViewBuilder
-    private func songDetail(name: String, album: String) -> some View {
-        VStack(alignment: .leading, spacing: 2) {
-            MarqueeTextComponent(name, font: .title3)
-            MarqueeTextComponent(album, font: .system(size: 12), color: .gray)
-        }
-    }
-}

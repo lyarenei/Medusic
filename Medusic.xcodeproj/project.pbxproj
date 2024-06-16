@@ -113,6 +113,7 @@
 		9BAB43BD2BC1A0AE0066BED5 /* MusicPlayer+Queue.swift in Sources */ = {isa = PBXBuildFile; fileRef = 9BAB43BC2BC1A0AE0066BED5 /* MusicPlayer+Queue.swift */; };
 		9BAB43C02BC74BE20066BED5 /* ItemPreviewCollection.swift in Sources */ = {isa = PBXBuildFile; fileRef = 9BAB43BF2BC74BE20066BED5 /* ItemPreviewCollection.swift */; };
 		9BAB43C22BC85CBD0066BED5 /* MusicPlayer+Seeking.swift in Sources */ = {isa = PBXBuildFile; fileRef = 9BAB43C12BC85CBD0066BED5 /* MusicPlayer+Seeking.swift */; };
+		9BB030052C1F50C40083A734 /* NewSongListRowComponent.swift in Sources */ = {isa = PBXBuildFile; fileRef = 9BB030042C1F50C40083A734 /* NewSongListRowComponent.swift */; };
 		9BB754D629B93F3C009BB3A6 /* JellyfinAPI in Frameworks */ = {isa = PBXBuildFile; productRef = 9BB754D529B93F3C009BB3A6 /* JellyfinAPI */; };
 		9BB754DB29BA604C009BB3A6 /* DTOs.swift in Sources */ = {isa = PBXBuildFile; fileRef = 9BB754DA29BA604C009BB3A6 /* DTOs.swift */; };
 		9BB754DE29BA8522009BB3A6 /* DTOs+Codable.swift in Sources */ = {isa = PBXBuildFile; fileRef = 9BB754DD29BA8522009BB3A6 /* DTOs+Codable.swift */; };
@@ -264,6 +265,7 @@
 		9BAB43BC2BC1A0AE0066BED5 /* MusicPlayer+Queue.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = "MusicPlayer+Queue.swift"; sourceTree = "<group>"; };
 		9BAB43BF2BC74BE20066BED5 /* ItemPreviewCollection.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = ItemPreviewCollection.swift; sourceTree = "<group>"; };
 		9BAB43C12BC85CBD0066BED5 /* MusicPlayer+Seeking.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = "MusicPlayer+Seeking.swift"; sourceTree = "<group>"; };
+		9BB030042C1F50C40083A734 /* NewSongListRowComponent.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = NewSongListRowComponent.swift; sourceTree = "<group>"; };
 		9BB754DA29BA604C009BB3A6 /* DTOs.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = DTOs.swift; sourceTree = "<group>"; };
 		9BB754DD29BA8522009BB3A6 /* DTOs+Codable.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = "DTOs+Codable.swift"; sourceTree = "<group>"; };
 		9BB75EA229C3894A008CD65A /* FavoriteButton.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = FavoriteButton.swift; sourceTree = "<group>"; };
@@ -428,6 +430,7 @@
 				9BBE146329FC682B0028C500 /* PlaybackProgressComponent.swift */,
 				9B6ADD422BED73C100D9DFE0 /* NowPlayingBarComponent.swift */,
 				9B6A60F92C1A0461002F320D /* MarqueeTextComponent.swift */,
+				9BB030042C1F50C40083A734 /* NewSongListRowComponent.swift */,
 			);
 			path = Components;
 			sourceTree = "<group>";
@@ -1044,6 +1047,7 @@
 				9BDB099329BB1F57007F99E4 /* MockSongService.swift in Sources */,
 				9BA88EED2A86515500E61A61 /* ArtistService.swift in Sources */,
 				9BA88EEA2A8648ED00E61A61 /* PreviewData.swift in Sources */,
+				9BB030052C1F50C40083A734 /* NewSongListRowComponent.swift in Sources */,
 				9B6ADD0C2BEB592000D9DFE0 /* PreviewComponent.swift in Sources */,
 				9B9A78EC2BE19C5A00E848DC /* UIDevice.swift in Sources */,
 				9B289EA829F6EDC3007FD445 /* NumberExtensions.swift in Sources */,
