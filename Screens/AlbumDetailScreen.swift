@@ -27,7 +27,7 @@ struct AlbumDetailScreen: View {
                 .listRowSeparator(.hidden)
 
             let moreAlbums = library.albums.filter { $0.id != album.id && $0.artistId == album.artistId }
-            moreBySection(moreAlbums)
+            moreByArtist(moreAlbums)
                 .padding(.bottom)
                 .listSectionSeparator(.hidden)
         }
@@ -114,7 +114,7 @@ struct AlbumDetailScreen: View {
     }
 
     @ViewBuilder
-    private func moreBySection(_ albums: [AlbumDto]) -> some View {
+    private func moreByArtist(_ albums: [AlbumDto]) -> some View {
         ItemPreviewCollection(
             "More by \(album.artistName)",
             items: albums
