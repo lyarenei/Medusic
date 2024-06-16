@@ -12,12 +12,6 @@ struct AlbumDto: JellyfinItem {
     var isDownloaded = false
 }
 
-extension AlbumDto: Equatable {
-    public static func == (lhs: AlbumDto, rhs: AlbumDto) -> Bool {
-        lhs.id == rhs.id
-    }
-}
-
 extension AlbumDto {
     init?(from item: BaseItemDto?) {
         guard let item else { return nil }

@@ -38,12 +38,6 @@ struct SongDto: JellyfinItem {
     }
 }
 
-extension SongDto: Equatable {
-    static func == (lhs: SongDto, rhs: SongDto) -> Bool {
-        lhs.id == rhs.id
-    }
-}
-
 extension SongDto {
     init?(from item: BaseItemDto?) {
         guard let item,
