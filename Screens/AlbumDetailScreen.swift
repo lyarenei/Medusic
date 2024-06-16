@@ -22,8 +22,13 @@ struct AlbumDetailScreen: View {
             songs(albumSongs)
 
             runtime(albumSongs.count)
-                .padding(.top, 20)
+                .padding(.top, 15)
                 .listRowSeparator(.hidden)
+
+            let moreAlbums = library.albums.filter { $0.id != album.id && $0.artistId == album.artistId }
+            moreBySection(moreAlbums)
+                .padding(.bottom)
+                .listSectionSeparator(.hidden)
         }
         .navigationBarTitleDisplayMode(.inline)
         .scrollContentBackground(.hidden)
@@ -136,7 +141,7 @@ struct AlbumDetailScreen: View {
                 Section {
                     songCollection(songs: discSongs.sorted(by: .index))
                 } header: {
-                    discGroupHeader(text: "Disc \(discNum)")
+                    Text("Disc \(discNum)")
                 }
             }
         } else {
@@ -161,27 +166,11 @@ struct AlbumDetailScreen: View {
         }
     }
 
-    // TODO: in progress vvvv
-
     private func onSongTap(_ song: SongDto) async {
-        let queue = {
-            var songsToPlay: [SongDto] = []
-            let currentDiscSongs = albumSongs
-                .filtered(by: .albumDisc(num: song.albumDisc))
-                .sorted(by: .index)
-
-            let albumDiscCount = library.getDiscCount(for: album)
-            var restOfSongs: [SongDto] = []
-            for discNum in song.albumDisc...albumDiscCount {
-                guard discNum != song.albumDisc else { continue }
-                let discSongs = albumSongs.filtered(by: .albumDisc(num: discNum))
-                restOfSongs.append(contentsOf: discSongs.sorted(by: .index))
-            }
-
-            songsToPlay.append(contentsOf: currentDiscSongs.dropFirst(song.index))
-            songsToPlay.append(contentsOf: restOfSongs)
-            return songsToPlay
-        }()
+        let restOfSongs = library.songs
+            .filtered(by: .albumId(album.id))
+            .sorted(by: .index)
+            .drop { $0.index <= song.index }
 
         do {
             try await player.play(song: song)
@@ -191,57 +180,27 @@ struct AlbumDetailScreen: View {
             return
         }
 
-        player.enqueue(songs: queue, position: .last)
+        player.enqueue(songs: Array(restOfSongs), position: .last)
     }
 
     @ViewBuilder
-    private func discGroupHeader(text: String) -> some View {
-        ZStack {
-            Color(UIColor.systemGroupedBackground)
-
-            HStack {
-                Text(text)
-                    .foregroundColor(.gray)
-                    .font(.system(size: 16))
-
-                Spacer()
+    private func moreBySection(_ albums: [AlbumDto]) -> some View {
+        ItemPreviewCollection(
+            "More by \(album.artistName)",
+            items: albums
+        ) { album in
+            NavigationLink {
+                AlbumDetailScreen(album: album)
+            } label: {
+                TileComponent(item: album)
+                    .padding(.bottom)
             }
-            .padding(.leading)
-            .padding(.top)
-            .padding(.bottom, 5)
+            .foregroundStyle(Color.primary)
+        } viewAll: { _ in
+            ContentUnavailableView {
+                Text("Not available yet")
+            }
         }
-    }
-
-    @ViewBuilder
-    private var albumToolbarMenu: some View {
-        Menu {
-            AlbumContextMenu(album: album)
-        } label: {
-            Image(systemSymbol: .ellipsisCircle)
-                .imageScale(.large)
-        }
-    }
-
-    private var albumSongs: [SongDto] {
-        library.songs.filtered(by: .albumId(album.id))
-    }
-
-    private var previewAlbums: [AlbumDto] {
-        library.albums.filter { $0.id != album.id && $0.artistId == album.artistId }
-    }
-}
-
-// MARK: - Context options
-
-private struct SongContextOptions: View {
-    let song: SongDto
-
-    var body: some View {
-        PlayButton("Play", item: song)
-        DownloadSongButton(songId: song.id, isDownloaded: song.isDownloaded)
-        FavoriteButton(songId: song.id, isFavorite: song.isFavorite)
-        EnqueueButton("Play Next", item: song, position: .next)
-        EnqueueButton("Play Last", item: song, position: .last)
     }
 }
 
@@ -272,13 +231,3 @@ private struct SongContextOptions: View {
 
 // swiftlint:enable all
 #endif
-
-struct TitleAndIconVerticalLabelStyle: LabelStyle {
-    func makeBody(configuration: Configuration) -> some View {
-        VStack {
-            configuration.icon
-            configuration.title
-        }
-        .multilineTextAlignment(.center)
-    }
-}
