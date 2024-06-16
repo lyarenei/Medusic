@@ -12,44 +12,44 @@ struct AlbumDetailScreen: View {
 
     let album: AlbumDto
 
-    private let edgeSpace = 40.0
-
     var body: some View {
         let albumSongs = library.songs.filtered(by: .albumId(album.id))
-        GeometryReader { proxy in
-            List {
-                albumDetails(album, proxy)
-                    .listRowSeparator(.hidden)
-                    .frame(maxWidth: proxy.size.width, alignment: .center)
+        List {
+            albumDetails(album)
+                .listRowSeparator(.hidden)
+                .padding(.bottom, 20)
 
-                // Song list
-                // More by
-            }
-            .navigationBarTitleDisplayMode(.inline)
-            .listStyle(.plain)
-            .toolbar {
-                // TODO: implement
-            }
+            songs(albumSongs)
+
+            runtime(albumSongs.count)
+                .padding(.top, 20)
+                .listRowSeparator(.hidden)
+        }
+        .navigationBarTitleDisplayMode(.inline)
+        .scrollContentBackground(.hidden)
+        .listStyle(.plain)
+        .toolbar {
+            // TODO: implement
         }
     }
 
     @ViewBuilder
-    private func albumDetails(_ album: AlbumDto, _ proxy: GeometryProxy) -> some View {
+    private func albumDetails(_ album: AlbumDto) -> some View {
         VStack(alignment: .center, spacing: 10) {
-            artworkWithName(album, proxy)
+            artworkWithName(album)
             additionalInfo(genre: "Genre", year: "0000")
                 .padding(.bottom, 10)
 
-            actions(proxy)
+            actions(album)
         }
+        .frame(maxWidth: .infinity)
     }
 
     @ViewBuilder
-    private func artworkWithName(_ album: AlbumDto, _ proxy: GeometryProxy) -> some View {
+    private func artworkWithName(_ album: AlbumDto) -> some View {
         VStack(alignment: .center, spacing: 20) {
-            let edgeLen = proxy.size.width - edgeSpace
             ArtworkComponent(for: album.id)
-                .frame(width: edgeLen, height: edgeLen)
+                .frame(width: 320, height: 320)
 
             VStack(spacing: 5) {
                 Text(album.name)
@@ -60,7 +60,6 @@ struct AlbumDetailScreen: View {
                 Text(album.artistName)
                     .multilineTextAlignment(.center)
             }
-            .frame(width: edgeLen)
         }
     }
 
@@ -73,12 +72,12 @@ struct AlbumDetailScreen: View {
     }
 
     @ViewBuilder
-    private func actions(_ proxy: GeometryProxy) -> some View {
+    private func actions(_ album: AlbumDto) -> some View {
         HStack {
             Group {
                 // TODO: fix after play button is cleaned up
                 PlayButton("Play", item: album)
-                    .frame(width: (proxy.size.width - edgeSpace) / 2, height: 50)
+                    .frame(width: 150, height: 50)
 
                 AsyncButton {
                     let songs = await library.getSongs(for: album)
@@ -90,7 +89,7 @@ struct AlbumDetailScreen: View {
                     }
                 } label: {
                     Label("Shuffle", systemSymbol: .shuffle)
-                        .frame(width: (proxy.size.width - edgeSpace) / 2, height: 50)
+                        .frame(width: 150, height: 50)
                         .contentShape(Rectangle())
                 }
                 .disabledWhenLoading()
@@ -105,32 +104,26 @@ struct AlbumDetailScreen: View {
         }
     }
 
-    // TODO: in progress vvv
-
     @ViewBuilder
-    private var runtime: some View {
-        let songCount = library.songs.filtered(by: .albumId(album.id)).count
+    private func runtime(_ songCount: Int) -> some View {
         let runtime = library.getRuntime(for: album)
 
         if songCount > 0 {
             Text("\(songCount) songs, \(runtime.minutes) minutes")
                 .foregroundColor(.gray)
                 .font(.system(size: 16))
-        } else {
-            EmptyView()
         }
     }
 
     @ViewBuilder
     private func songs(_ songs: [SongDto]) -> some View {
-        VStack {
-            if songs.isEmpty {
-                Text("No songs")
-                    .foregroundColor(.gray)
-                    .font(.title3)
-            } else {
-                songList(of: songs)
+        if songs.isNotEmpty {
+            songList(of: songs)
+        } else {
+            ContentUnavailableView {} description: {
+                Text("There are no songs in this album")
             }
+            .listRowSeparator(.hidden)
         }
     }
 
@@ -141,37 +134,25 @@ struct AlbumDetailScreen: View {
             ForEach(enumerating: 1...discCount) { discNum in
                 let discSongs = songs.filtered(by: .albumDisc(num: discNum))
                 Section {
-                    songCollection(
-                        songs: discSongs.sorted(by: .index),
-                        showLastDivider: discNum == discCount
-                    )
+                    songCollection(songs: discSongs.sorted(by: .index))
                 } header: {
                     discGroupHeader(text: "Disc \(discNum)")
                 }
             }
         } else {
-            Divider()
-                .padding(.leading)
-
-            songCollection(
-                songs: songs.sorted(by: .index),
-                showLastDivider: true
-            )
+            songCollection(songs: songs.sorted(by: .index))
         }
     }
 
+    // TODO: in progress vvv
+
     @ViewBuilder
-    private func songCollection(songs: [SongDto], showLastDivider: Bool) -> some View {
-        ForEach(songs, id: \.id) { song in
+    private func songCollection(songs: [SongDto]) -> some View {
+        ForEach(songs) { song in
             HStack(spacing: 10) {
                 songCell(allSongs: albumSongs, song)
-                PrimaryActionButton(item: song)
-                    .padding(.trailing)
             }
             .frame(height: 35)
-            .padding(.leading)
-
-            divider(songs: songs, song: song, showLastDivider: showLastDivider)
         }
     }
 
@@ -215,16 +196,6 @@ struct AlbumDetailScreen: View {
         }
 
         player.enqueue(songs: queue, position: .last)
-    }
-
-    @ViewBuilder
-    private func divider(songs: [SongDto], song: SongDto, showLastDivider: Bool) -> some View {
-        if let lastSong = songs.last {
-            if song != lastSong || showLastDivider {
-                Divider()
-                    .padding(.leading)
-            }
-        }
     }
 
     @ViewBuilder
@@ -282,10 +253,9 @@ private struct SongContextOptions: View {
 // swiftlint:disable all
 
 #Preview("Default") {
-    NavigationView {
+    NavigationStack {
         AlbumDetailScreen(album: PreviewData.albums.first!)
     }
-    .previewDisplayName("Default")
     .environmentObject(PreviewUtils.libraryRepo)
     .environmentObject(ApiClient(previewEnabled: true))
     .environmentObject(PreviewUtils.player)
@@ -294,13 +264,14 @@ private struct SongContextOptions: View {
 }
 
 #Preview("Empty") {
-    AlbumDetailScreen(album: PreviewData.albums.first!)
-        .previewDisplayName("Empty")
-        .environmentObject(PreviewUtils.libraryRepoEmpty)
-        .environmentObject(ApiClient(previewEnabled: true))
-        .environmentObject(PreviewUtils.player)
-        .environmentObject(PreviewUtils.fileRepo)
-        .environmentObject(PreviewUtils.downloader)
+    NavigationStack {
+        AlbumDetailScreen(album: PreviewData.albums.first!)
+    }
+    .environmentObject(PreviewUtils.libraryRepoEmpty)
+    .environmentObject(ApiClient(previewEnabled: true))
+    .environmentObject(PreviewUtils.player)
+    .environmentObject(PreviewUtils.fileRepo)
+    .environmentObject(PreviewUtils.downloader)
 }
 
 // swiftlint:enable all
