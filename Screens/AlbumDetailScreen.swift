@@ -41,9 +41,8 @@ struct AlbumDetailScreen: View {
 
     @ViewBuilder
     private func runtime(_ songCount: Int) -> some View {
-        let runtime = library.getRuntime(for: album)
-
         if songCount > 0 {
+            let runtime = library.getRuntime(for: album)
             Text("\(songCount) songs, \(runtime.minutes) minutes")
                 .foregroundColor(.gray)
                 .font(.system(size: 16))
