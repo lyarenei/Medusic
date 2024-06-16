@@ -28,7 +28,6 @@ struct AlbumDetailScreen: View {
 
             let moreAlbums = library.albums.filter { $0.id != album.id && $0.artistId == album.artistId }
             moreByArtist(moreAlbums)
-                .padding(.bottom)
                 .listSectionSeparator(.hidden)
         }
         .navigationBarTitleDisplayMode(.inline)
