@@ -61,7 +61,7 @@ struct SongLibraryScreen: View {
     @ViewBuilder
     private func songList(_ songs: [SongDto]) -> some View {
         List(songs) { song in
-            songListRow(for: song) { song in
+            NewSongRow(for: song) { song in
                 Menu {
                     DownloadSongButton(songId: song.id, isDownloaded: song.isDownloaded)
                     Divider()
@@ -130,9 +130,36 @@ struct SongLibraryScreen: View {
             .pickerStyle(.inline)
         }
     }
+}
 
-    @ViewBuilder
-    private func songListRow(for song: SongDto, @ViewBuilder action: @escaping (SongDto) -> some View) -> some View {
+#if DEBUG
+// swiftlint:disable all
+
+#Preview {
+    NavigationStack {
+        SongLibraryScreen(PreviewData.songs)
+            .environmentObject(PreviewUtils.libraryRepo)
+            .environmentObject(PreviewUtils.apiClient)
+    }
+}
+
+// swiftlint:enable all
+#endif
+
+struct NewSongRow<Action: View>: View {
+    @EnvironmentObject
+    private var library: LibraryRepository
+
+    private var action: (SongDto) -> Action
+
+    let song: SongDto
+
+    init(for song: SongDto, @ViewBuilder action: @escaping (SongDto) -> Action) {
+        self.song = song
+        self.action = action
+    }
+
+    var body: some View {
         GeometryReader { proxy in
             HStack {
                 HStack {
@@ -142,7 +169,7 @@ struct SongLibraryScreen: View {
                             .frame(width: proxy.size.height, height: proxy.size.height)
                     }
 
-                    let albumName = repo.albums.by(id: song.albumId)?.name ?? .empty
+                    let albumName = library.albums.by(id: song.albumId)?.name ?? .empty
                     songDetail(name: song.name, album: albumName)
                         .frame(height: proxy.size.height)
 
@@ -170,17 +197,3 @@ struct SongLibraryScreen: View {
         }
     }
 }
-
-#if DEBUG
-// swiftlint:disable all
-
-#Preview {
-    NavigationStack {
-        SongLibraryScreen(PreviewData.songs)
-            .environmentObject(PreviewUtils.libraryRepo)
-            .environmentObject(PreviewUtils.apiClient)
-    }
-}
-
-// swiftlint:enable all
-#endif
