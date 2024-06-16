@@ -4,6 +4,7 @@ struct NewSongListRowComponent<MenuActions: View>: View {
     @EnvironmentObject
     private var library: LibraryRepository
 
+    private var tapAction: (SongDto) -> Void
     private var menuActions: (SongDto) -> MenuActions
     private var showArtwork = true
     private var showAlbumIndex = false
@@ -14,10 +15,12 @@ struct NewSongListRowComponent<MenuActions: View>: View {
     init(
         for song: SongDto,
         subtitle: String = .empty,
+        tapAction: @escaping (SongDto) -> Void,
         @ViewBuilder menuActions: @escaping (SongDto) -> MenuActions
     ) {
         self.song = song
         self.subtitle = subtitle
+        self.tapAction = tapAction
         self.menuActions = menuActions
     }
 
@@ -42,9 +45,7 @@ struct NewSongListRowComponent<MenuActions: View>: View {
                 }
                 .frame(width: proxy.size.width - proxy.size.height)
                 .contentShape(Rectangle())
-                .onTapGesture {
-                    Alerts.notImplemented()
-                }
+                .onTapGesture { tapAction(song) }
 
                 Menu {
                     menuActions(song)

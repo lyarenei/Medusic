@@ -82,6 +82,8 @@ struct AlbumDetailScreen: View {
         ForEach(songs) { song in
             let artistName = album.artistName == song.artistCreditName ? "" : song.artistCreditName
             NewSongListRowComponent(for: song, subtitle: artistName) { song in
+                Task { await onSongTap(song) }
+            } menuActions: { song in
                 DownloadSongButton(songId: song.id, isDownloaded: song.isDownloaded)
                 Divider()
                 PlayButton("Play", item: song)

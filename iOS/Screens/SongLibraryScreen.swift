@@ -62,7 +62,9 @@ struct SongLibraryScreen: View {
     private func songList(_ songs: [SongDto]) -> some View {
         List(songs) { song in
             let albumName = library.albums.by(id: song.albumId)?.name ?? .empty
-            NewSongListRowComponent(for: song, subtitle: albumName) { song in
+            NewSongListRowComponent(for: song, subtitle: albumName) { _ in
+                Alerts.notImplemented()
+            } menuActions: { song in
                 DownloadSongButton(songId: song.id, isDownloaded: song.isDownloaded)
                 Divider()
                 PlayButton("Play", item: song)
