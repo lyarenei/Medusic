@@ -15,7 +15,7 @@ struct AlbumDetailScreen: View {
     var body: some View {
         let albumSongs = library.songs.filtered(by: .albumId(album.id))
         List {
-            AlbumDetails(album: album)
+            AlbumDetails(album: album, albumSongCount: albumSongs.count)
                 .frame(maxWidth: .infinity)
                 .listRowSeparator(.hidden)
                 .padding(.bottom, 20)
@@ -169,6 +169,7 @@ private struct AlbumDetails: View {
     private var player: MusicPlayer
 
     let album: AlbumDto
+    let albumSongCount: Int
 
     var body: some View {
         VStack(alignment: .center, spacing: 10) {
@@ -177,6 +178,7 @@ private struct AlbumDetails: View {
                 .padding(.bottom, 10)
 
             actions
+                .disabled(albumSongCount < 1)
         }
     }
 
