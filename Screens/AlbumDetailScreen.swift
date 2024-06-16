@@ -15,7 +15,8 @@ struct AlbumDetailScreen: View {
     var body: some View {
         let albumSongs = library.songs.filtered(by: .albumId(album.id))
         List {
-            albumDetails(album)
+            AlbumDetails(album: album)
+                .frame(maxWidth: .infinity)
                 .listRowSeparator(.hidden)
                 .padding(.bottom, 20)
 
@@ -35,77 +36,6 @@ struct AlbumDetailScreen: View {
         .listStyle(.plain)
         .toolbar {
             // TODO: implement
-        }
-    }
-
-    @ViewBuilder
-    private func albumDetails(_ album: AlbumDto) -> some View {
-        VStack(alignment: .center, spacing: 10) {
-            artworkWithName(album)
-            additionalInfo(genre: "Genre", year: "0000")
-                .padding(.bottom, 10)
-
-            actions(album)
-        }
-        .frame(maxWidth: .infinity)
-    }
-
-    @ViewBuilder
-    private func artworkWithName(_ album: AlbumDto) -> some View {
-        VStack(alignment: .center, spacing: 20) {
-            ArtworkComponent(for: album.id)
-                .frame(width: 320, height: 320)
-
-            VStack(spacing: 5) {
-                Text(album.name)
-                    .font(.title3)
-                    .bold()
-                    .multilineTextAlignment(.center)
-
-                Text(album.artistName)
-                    .multilineTextAlignment(.center)
-            }
-        }
-    }
-
-    @ViewBuilder
-    private func additionalInfo(genre: String, year: String) -> some View {
-        let text = [genre, year].filter(\.isNotEmpty).joined(separator: "・")
-        Text(text)
-            .foregroundStyle(.gray)
-            .font(.caption)
-    }
-
-    @ViewBuilder
-    private func actions(_ album: AlbumDto) -> some View {
-        HStack {
-            Group {
-                // TODO: fix after play button is cleaned up
-                PlayButton("Play", item: album)
-                    .frame(width: 150, height: 50)
-
-                AsyncButton {
-                    let songs = await library.getSongs(for: album)
-                    do {
-                        try await player.play(songs: songs.shuffled())
-                    } catch {
-                        Logger.library.warning("Failed to start playback: \(error.localizedDescription)")
-                        Alerts.error("Failed to start playback")
-                    }
-                } label: {
-                    Label("Shuffle", systemSymbol: .shuffle)
-                        .frame(width: 150, height: 50)
-                        .contentShape(Rectangle())
-                }
-                .disabledWhenLoading()
-            }
-            .font(.system(size: 18))
-            .buttonStyle(.plain)
-            .overlay(
-                RoundedRectangle(cornerRadius: 10)
-                    .stroke(style: StrokeStyle(lineWidth: 1.0))
-            )
-            .foregroundStyle(Color.accentColor)
         }
     }
 
@@ -231,3 +161,82 @@ struct AlbumDetailScreen: View {
 
 // swiftlint:enable all
 #endif
+
+private struct AlbumDetails: View {
+    @EnvironmentObject
+    private var library: LibraryRepository
+
+    @EnvironmentObject
+    private var player: MusicPlayer
+
+    let album: AlbumDto
+
+    var body: some View {
+        VStack(alignment: .center, spacing: 10) {
+            artworkWithName
+            additionalInfo(genre: "Genre", year: "0000")
+                .padding(.bottom, 10)
+
+            actions
+        }
+    }
+
+    @ViewBuilder
+    private var artworkWithName: some View {
+        VStack(alignment: .center, spacing: 20) {
+            ArtworkComponent(for: album.id)
+                .frame(width: 320, height: 320)
+
+            VStack(spacing: 5) {
+                Text(album.name)
+                    .font(.title3)
+                    .bold()
+                    .multilineTextAlignment(.center)
+
+                Text(album.artistName)
+                    .multilineTextAlignment(.center)
+            }
+        }
+    }
+
+    @ViewBuilder
+    private func additionalInfo(genre: String, year: String) -> some View {
+        let text = [genre, year].filter(\.isNotEmpty).joined(separator: "・")
+        Text(text)
+            .foregroundStyle(.gray)
+            .font(.caption)
+    }
+
+    @ViewBuilder
+    private var actions: some View {
+        HStack {
+            Group {
+                // TODO: fix after play button is cleaned up
+                PlayButton("Play", item: album)
+                    .frame(width: 150, height: 50)
+
+                AsyncButton {
+                    let songs = await library.getSongs(for: album)
+                    do {
+                        try await player.play(songs: songs.shuffled())
+                    } catch {
+                        Logger.library.warning("Failed to start playback: \(error.localizedDescription)")
+                        Alerts.error("Failed to start playback")
+                    }
+                } label: {
+                    Label("Shuffle", systemSymbol: .shuffle)
+                        .frame(width: 150, height: 50)
+                        .contentShape(Rectangle())
+                }
+                .disabledWhenLoading()
+            }
+            .font(.system(size: 18))
+            .buttonStyle(.plain)
+            .overlay(
+                RoundedRectangle(cornerRadius: 10)
+                    .stroke(style: StrokeStyle(lineWidth: 1.0))
+            )
+            .foregroundStyle(Color.accentColor)
+        }
+    }
+}
