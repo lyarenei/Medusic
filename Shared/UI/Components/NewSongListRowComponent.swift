@@ -8,6 +8,8 @@ struct NewSongListRowComponent<MenuActions: View>: View {
     private var menuActions: (SongDto) -> MenuActions
     private var showArtwork = true
     private var showAlbumIndex = false
+    private var titleFont: Font = .title3
+    private var subtitleFont: Font = .system(size: 12)
 
     let song: SongDto
     let subtitle: String
@@ -66,10 +68,10 @@ struct NewSongListRowComponent<MenuActions: View>: View {
     @ViewBuilder
     private func songDetail(name: String, subtitle: String) -> some View {
         VStack(alignment: .leading, spacing: 2) {
-            MarqueeTextComponent(name, font: .title3)
+            MarqueeTextComponent(name, font: titleFont)
 
             if subtitle.isNotEmpty {
-                MarqueeTextComponent(subtitle, font: .system(size: 12), color: .gray)
+                MarqueeTextComponent(subtitle, font: subtitleFont, color: .gray)
             }
         }
     }
@@ -87,6 +89,20 @@ extension NewSongListRowComponent {
         var view = self
         view.showArtwork = !value
         view.showAlbumIndex = value
+        return view
+    }
+
+    func setFonts(titleFont: Font? = nil, subtitleFont: Font? = nil) -> NewSongListRowComponent {
+        var view = self
+
+        if let titleFont {
+            view.titleFont = titleFont
+        }
+
+        if let subtitleFont {
+            view.subtitleFont = subtitleFont
+        }
+
         return view
     }
 }
