@@ -93,7 +93,8 @@ struct AlbumDetailScreen: View {
                 FavoriteButton(songId: song.id, isFavorite: song.isFavorite)
             }
             .showAlbumIndex()
-            .frame(height: 40)
+            .setFonts(titleFont: .body)
+            .frame(height: 35)
         }
     }
 
