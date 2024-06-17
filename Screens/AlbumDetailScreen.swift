@@ -188,7 +188,7 @@ private struct AlbumDetails: View {
     private var artworkWithName: some View {
         VStack(alignment: .center, spacing: 20) {
             ArtworkComponent(for: album.id)
-                .frame(width: 320, height: 320)
+                .frame(width: 290, height: 290)
 
             VStack(spacing: 5) {
                 Text(album.name)
