@@ -34,7 +34,17 @@ struct AlbumDetailScreen: View {
         .scrollContentBackground(.hidden)
         .listStyle(.plain)
         .toolbar {
-            // TODO: implement
+            ToolbarItem(placement: .topBarTrailing) {
+                Menu {
+                    PlayButton("Play", item: album)
+                    DownloadAlbumButton(albumId: album.id, isDownloaded: album.isDownloaded)
+                    EnqueueButton("Play Next", item: album, position: .next)
+                    EnqueueButton("Play Last", item: album, position: .last)
+                    FavoriteButton(albumId: album.id, isFavorite: album.isFavorite)
+                } label: {
+                    Image(systemSymbol: .ellipsis)
+                }
+            }
         }
     }
 
