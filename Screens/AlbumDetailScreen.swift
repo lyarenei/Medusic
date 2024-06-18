@@ -43,6 +43,7 @@ struct AlbumDetailScreen: View {
                     FavoriteButton(albumId: album.id, isFavorite: album.isFavorite)
                 } label: {
                     Image(systemSymbol: .ellipsis)
+                        .circleBackground()
                 }
             }
         }
@@ -252,5 +253,23 @@ private struct AlbumDetails: View {
             )
             .foregroundStyle(Color.accentColor)
         }
+    }
+}
+
+struct CircleBackground: ViewModifier {
+    func body(content: Content) -> some View {
+        content
+            .padding(5)
+            .background {
+                Circle()
+                    .fill(.ultraThickMaterial)
+                    .scaledToFill()
+            }
+    }
+}
+
+extension View {
+    func circleBackground() -> some View {
+        modifier(CircleBackground())
     }
 }
