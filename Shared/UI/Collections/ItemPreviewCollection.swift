@@ -64,11 +64,8 @@ struct ItemPreviewCollection<Tile: View, ViewAll: View, NoItems: View, Item: Jel
     @ViewBuilder
     private var headerView: some View {
         HStack {
-            MarqueeTextComponent(title, font: .system(size: 24), color: .primary)
-                .bold()
-
+            MarqueeTextComponent(title, font: .system(size: 24, weight: .bold), color: .primary)
             Spacer(minLength: 20)
-
             NavigationLink("View all") {
                 viewAllView(items)
             }
