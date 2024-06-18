@@ -188,7 +188,7 @@ private struct AlbumDetails: View {
     var body: some View {
         VStack(alignment: .center, spacing: 10) {
             artworkWithName
-            additionalInfo(genre: "Genre", year: "0000")
+            additionalInfo(genre: album.genre, year: album.releaseYear)
                 .padding(.bottom, 10)
 
             actions

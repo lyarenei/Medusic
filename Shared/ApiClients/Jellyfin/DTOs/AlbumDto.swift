@@ -10,6 +10,8 @@ struct AlbumDto: JellyfinItem {
     var createdAt = Date.now
     var artistName = ""
     var isDownloaded = false
+    var genre = ""
+    var releaseYear = ""
 }
 
 extension AlbumDto {
@@ -30,5 +32,10 @@ extension AlbumDto {
         self.isFavorite = item.userData?.isFavorite ?? false
         self.createdAt = item.dateCreated ?? Date.now
         self.sortName = item.sortName ?? name
+        self.genre = item.genres?.first ?? .empty
+
+        if let year = item.productionYear {
+            self.releaseYear = "\(year)"
+        }
     }
 }
