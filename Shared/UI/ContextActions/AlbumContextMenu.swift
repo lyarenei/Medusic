@@ -1,5 +1,6 @@
 import SwiftUI
 
+@available(*, deprecated, message: "Use NewAlbumContextMenu")
 struct AlbumContextMenu: View {
     let album: AlbumDto
 

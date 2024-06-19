@@ -144,13 +144,7 @@ struct AlbumDetailScreen: View {
                 AlbumListRow(album: album)
                     .frame(height: 60)
                     .contextMenu {
-                        DownloadAlbumButton(albumId: album.id, isDownloaded: album.isDownloaded)
-                        Divider()
-                        PlayButton("Play", item: album)
-                        EnqueueButton("Play next", item: album, position: .next)
-                        EnqueueButton("Play last", item: album, position: .last)
-                        Divider()
-                        FavoriteButton(albumId: album.id, isFavorite: album.isFavorite)
+
                     }
             }
             .listStyle(.plain)
@@ -281,8 +275,29 @@ struct CircleBackground: ViewModifier {
     }
 }
 
+struct NewAlbumContextMenu: ViewModifier {
+    let album: AlbumDto
+
+    func body(content: Content) -> some View {
+        content
+            .contextMenu {
+                DownloadAlbumButton(albumId: album.id, isDownloaded: album.isDownloaded)
+                Divider()
+                PlayButton("Play", item: album)
+                EnqueueButton("Play next", item: album, position: .next)
+                EnqueueButton("Play last", item: album, position: .last)
+                Divider()
+                FavoriteButton(albumId: album.id, isFavorite: album.isFavorite)
+            }
+    }
+}
+
 extension View {
     func circleBackground() -> some View {
         modifier(CircleBackground())
+    }
+
+    func albumContextMenu(for album: AlbumDto) -> some View {
+        modifier(NewAlbumContextMenu(album: album))
     }
 }
