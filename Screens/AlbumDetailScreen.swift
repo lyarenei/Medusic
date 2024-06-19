@@ -36,11 +36,7 @@ struct AlbumDetailScreen: View {
         .toolbar {
             ToolbarItem(placement: .topBarTrailing) {
                 Menu {
-                    PlayButton("Play", item: album)
-                    DownloadAlbumButton(albumId: album.id, isDownloaded: album.isDownloaded)
-                    EnqueueButton("Play Next", item: album, position: .next)
-                    EnqueueButton("Play Last", item: album, position: .last)
-                    FavoriteButton(albumId: album.id, isFavorite: album.isFavorite)
+                    AlbumMenuOptions(album: album)
                 } label: {
                     Image(systemSymbol: .ellipsis)
                         .circleBackground()
@@ -275,29 +271,8 @@ struct CircleBackground: ViewModifier {
     }
 }
 
-struct NewAlbumContextMenu: ViewModifier {
-    let album: AlbumDto
-
-    func body(content: Content) -> some View {
-        content
-            .contextMenu {
-                DownloadAlbumButton(albumId: album.id, isDownloaded: album.isDownloaded)
-                Divider()
-                PlayButton("Play", item: album)
-                EnqueueButton("Play next", item: album, position: .next)
-                EnqueueButton("Play last", item: album, position: .last)
-                Divider()
-                FavoriteButton(albumId: album.id, isFavorite: album.isFavorite)
-            }
-    }
-}
-
 extension View {
     func circleBackground() -> some View {
         modifier(CircleBackground())
-    }
-
-    func albumContextMenu(for album: AlbumDto) -> some View {
-        modifier(NewAlbumContextMenu(album: album))
     }
 }

@@ -63,15 +63,7 @@ struct AlbumLibraryScreen: View {
         List(albums) { album in
             AlbumListRow(album: album)
                 .frame(height: 60)
-                .contextMenu {
-                    DownloadAlbumButton(albumId: album.id, isDownloaded: album.isDownloaded)
-                    Divider()
-                    PlayButton("Play", item: album)
-                    EnqueueButton("Play next", item: album, position: .next)
-                    EnqueueButton("Play last", item: album, position: .last)
-                    Divider()
-                    FavoriteButton(albumId: album.id, isFavorite: album.isFavorite)
-                }
+                .albumContextMenu(for: album)
         }
         .listStyle(.plain)
     }
