@@ -91,13 +91,7 @@ struct AlbumDetailScreen: View {
             NewSongListRowComponent(for: song, subtitle: artistName) { song in
                 Task { await onSongTap(song) }
             } menuActions: { song in
-                DownloadSongButton(songId: song.id, isDownloaded: song.isDownloaded)
-                Divider()
-                PlayButton("Play", item: song)
-                EnqueueButton("Play next", item: song, position: .next)
-                EnqueueButton("Play last", item: song, position: .last)
-                Divider()
-                FavoriteButton(songId: song.id, isFavorite: song.isFavorite)
+                SongMenuOptions(song: song)
             }
             .showAlbumIndex()
             .setFonts(titleFont: .body)
