@@ -108,26 +108,9 @@ struct LibraryScreen: View {
     @ViewBuilder
     private func albumEntries(_ albums: [AlbumDto]) -> some View {
         List(albums, id: \.id) { album in
-            NavigationLink {
-                AlbumDetailScreen(album: album)
-            } label: {
-                // TODO: use album list row
-                HStack {
-                    ArtworkComponent(for: album.id)
-                        .frame(width: 50, height: 50)
-
-                    VStack(alignment: .leading, spacing: 3) {
-                        Text(album.name)
-                            .font(.title2)
-
-                        Text(album.artistName)
-                            .font(.caption)
-                            .foregroundStyle(Color.gray)
-                    }
-
-                    Spacer()
-                }
-            }
+            AlbumListRow(album: album)
+                .frame(height: 60)
+                .albumContextMenu(for: album)
         }
     }
 
