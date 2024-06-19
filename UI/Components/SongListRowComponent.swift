@@ -1,6 +1,7 @@
 import MarqueeText
 import SwiftUI
 
+@available(*, deprecated, message: "Use NewSongListRowComponent")
 struct SongListRowComponent: View {
     @EnvironmentObject
     private var library: LibraryRepository
