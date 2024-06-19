@@ -1,6 +1,7 @@
 import Defaults
 import SwiftUI
 
+@available(*, deprecated, message: "Use ItemPreviewCollection")
 struct AlbumPreviewCollection: View {
     private var albums: [AlbumDto]
     private var titleText: String
