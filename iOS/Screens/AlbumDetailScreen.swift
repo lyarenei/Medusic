@@ -150,7 +150,7 @@ struct AlbumDetailScreen: View {
         AlbumDetailScreen(album: PreviewData.albums.first!)
     }
     .environmentObject(PreviewUtils.libraryRepo)
-    .environmentObject(ApiClient(previewEnabled: true))
+    .environmentObject(PreviewUtils.apiClient)
     .environmentObject(PreviewUtils.player)
     .environmentObject(PreviewUtils.fileRepo)
     .environmentObject(PreviewUtils.downloader)
@@ -161,7 +161,7 @@ struct AlbumDetailScreen: View {
         AlbumDetailScreen(album: PreviewData.albums.first!)
     }
     .environmentObject(PreviewUtils.libraryRepoEmpty)
-    .environmentObject(ApiClient(previewEnabled: true))
+    .environmentObject(PreviewUtils.apiClient)
     .environmentObject(PreviewUtils.player)
     .environmentObject(PreviewUtils.fileRepo)
     .environmentObject(PreviewUtils.downloader)
