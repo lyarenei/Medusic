@@ -87,7 +87,8 @@ struct AlbumDetailScreen: View {
     @ViewBuilder
     private func songCollection(songs: [SongDto]) -> some View {
         ForEach(songs) { song in
-            let artistName = album.artistName == song.artistCreditName ? "" : song.artistCreditName
+            let comparison = album.artistName.localizedCaseInsensitiveCompare(song.artistCreditName)
+            let artistName = comparison == .orderedSame ? "" : song.artistCreditName
             NewSongListRowComponent(for: song, subtitle: artistName) { song in
                 Task { await onSongTap(song) }
             } menuActions: { song in
