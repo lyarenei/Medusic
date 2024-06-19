@@ -133,9 +133,7 @@ struct AlbumDetailScreen: View {
             List(allAlbums) { album in
                 AlbumListRow(album: album)
                     .frame(height: 60)
-                    .contextMenu {
-
-                    }
+                    .albumContextMenu(for: album)
             }
             .listStyle(.plain)
             .navigationTitle("Albums by \(album.artistName)")
