@@ -65,24 +65,10 @@ struct SongLibraryScreen: View {
             NewSongListRowComponent(for: song, subtitle: albumName) { _ in
                 Alerts.notImplemented()
             } menuActions: { song in
-                DownloadSongButton(songId: song.id, isDownloaded: song.isDownloaded)
-                Divider()
-                PlayButton("Play", item: song)
-                EnqueueButton("Play next", item: song, position: .next)
-                EnqueueButton("Play last", item: song, position: .last)
-                Divider()
-                FavoriteButton(songId: song.id, isFavorite: song.isFavorite)
+                SongMenuOptions(song: song)
             }
             .frame(height: 40)
-            .contextMenu {
-                DownloadSongButton(songId: song.id, isDownloaded: song.isDownloaded)
-                Divider()
-                PlayButton("Play", item: song)
-                EnqueueButton("Play next", item: song, position: .next)
-                EnqueueButton("Play last", item: song, position: .last)
-                Divider()
-                FavoriteButton(songId: song.id, isFavorite: song.isFavorite)
-            }
+            .songContextMenu(for: song)
         }
         .listStyle(.plain)
     }
