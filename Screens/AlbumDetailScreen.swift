@@ -139,10 +139,23 @@ struct AlbumDetailScreen: View {
                     .padding(.bottom)
             }
             .foregroundStyle(Color.primary)
-        } viewAll: { _ in
-            ContentUnavailableView {
-                Text("Not available yet")
+        } viewAll: { allAlbums in
+            List(allAlbums) { album in
+                AlbumListRow(album: album)
+                    .frame(height: 60)
+                    .contextMenu {
+                        DownloadAlbumButton(albumId: album.id, isDownloaded: album.isDownloaded)
+                        Divider()
+                        PlayButton("Play", item: album)
+                        EnqueueButton("Play next", item: album, position: .next)
+                        EnqueueButton("Play last", item: album, position: .last)
+                        Divider()
+                        FavoriteButton(albumId: album.id, isFavorite: album.isFavorite)
+                    }
             }
+            .listStyle(.plain)
+            .navigationTitle("Albums by \(album.artistName)")
+            .navigationBarTitleDisplayMode(.inline)
         }
     }
 }
