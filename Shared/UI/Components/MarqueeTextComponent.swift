@@ -32,6 +32,7 @@ struct MarqueeTextComponent: UIViewRepresentable {
         uiView.text = text
         uiView.font = font.uiFont
         uiView.textColor = color.toUIColor()
+        uiView.restartLabel()
     }
 }
 
