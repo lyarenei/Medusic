@@ -115,6 +115,7 @@ struct AlbumLibraryScreen: View {
     NavigationStack {
         AlbumLibraryScreen(PreviewData.albums)
             .environmentObject(PreviewUtils.libraryRepo)
+            .environmentObject(PreviewUtils.apiClient)
     }
 }
 
