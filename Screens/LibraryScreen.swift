@@ -45,7 +45,7 @@ struct LibraryScreen: View {
     @ViewBuilder
     private var navSection: some View {
         NavigationLink {
-            ArtistLibraryScreen()
+            ArtistLibraryScreen(library.artists)
         } label: {
             Label("Artists", systemSymbol: .musicMic)
         }
