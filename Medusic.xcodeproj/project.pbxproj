@@ -44,6 +44,7 @@
 		9B3D44C029BE09620054C9E0 /* SongsLibraryScreen.swift in Sources */ = {isa = PBXBuildFile; fileRef = 9B3D44BF29BE09620054C9E0 /* SongsLibraryScreen.swift */; };
 		9B44836C2C22D4A5000B9FA0 /* NewAlbumContextMenu.swift in Sources */ = {isa = PBXBuildFile; fileRef = 9B44836B2C22D4A5000B9FA0 /* NewAlbumContextMenu.swift */; };
 		9B44836E2C22D5D3000B9FA0 /* SongContextMenu.swift in Sources */ = {isa = PBXBuildFile; fileRef = 9B44836D2C22D5D3000B9FA0 /* SongContextMenu.swift */; };
+		9B44836F2C24ACF6000B9FA0 /* ArtistLibraryScreen.swift in Sources */ = {isa = PBXBuildFile; fileRef = 9BF6C8F72A86251A00916EC1 /* ArtistLibraryScreen.swift */; };
 		9B46249829E5CDD000A2259A /* AdvancedSettings.swift in Sources */ = {isa = PBXBuildFile; fileRef = 9B46249729E5CDD000A2259A /* AdvancedSettings.swift */; };
 		9B4AD6682A46BCED00E1798F /* SheetCloseButton.swift in Sources */ = {isa = PBXBuildFile; fileRef = 9B4AD6672A46BCED00E1798F /* SheetCloseButton.swift */; };
 		9B52AF7729D0B106002E21B9 /* SongCollection.swift in Sources */ = {isa = PBXBuildFile; fileRef = 9B52AF7629D0B106002E21B9 /* SongCollection.swift */; };
@@ -148,7 +149,6 @@
 		9BF26D5B2A881FC6006631E9 /* UIConstants.swift in Sources */ = {isa = PBXBuildFile; fileRef = 9BF26D5A2A881FC6006631E9 /* UIConstants.swift */; };
 		9BF26D5D2A88C120006631E9 /* SongDto.swift in Sources */ = {isa = PBXBuildFile; fileRef = 9BF26D5C2A88C120006631E9 /* SongDto.swift */; };
 		9BF6C8F12A861D8200916EC1 /* ArtistDto.swift in Sources */ = {isa = PBXBuildFile; fileRef = 9BF6C8F02A861D8200916EC1 /* ArtistDto.swift */; };
-		9BF6C8F82A86251A00916EC1 /* ArtistLibraryScreen.swift in Sources */ = {isa = PBXBuildFile; fileRef = 9BF6C8F72A86251A00916EC1 /* ArtistLibraryScreen.swift */; };
 		9BF6C8FB2A86277F00916EC1 /* ArrayExtensions.swift in Sources */ = {isa = PBXBuildFile; fileRef = 9BF6C8FA2A86277F00916EC1 /* ArrayExtensions.swift */; };
 		9BF7AF8C29CDF1C8004E0DA7 /* PrimaryActionButton.swift in Sources */ = {isa = PBXBuildFile; fileRef = 9BF7AF8B29CDF1C8004E0DA7 /* PrimaryActionButton.swift */; };
 /* End PBXBuildFile section */
@@ -373,6 +373,7 @@
 		9B61365529BC6F18004C85EC /* Screens */ = {
 			isa = PBXGroup;
 			children = (
+				9BF6C8F72A86251A00916EC1 /* ArtistLibraryScreen.swift */,
 				9B70BD9F29B923AE000DB31C /* AlbumDetailScreen.swift */,
 				9B80476F29B89EE40069B407 /* AlbumLibraryScreen.swift */,
 				9B73ECF829C8F085007F74DB /* MusicPlayerScreen.swift */,
@@ -763,7 +764,6 @@
 				9B94DB622A8F52A5005EDF18 /* Settings */,
 				9B80475D29B7D5330069B407 /* MainScreen.swift */,
 				9B80476529B86F460069B407 /* LibraryScreen.swift */,
-				9BF6C8F72A86251A00916EC1 /* ArtistLibraryScreen.swift */,
 				9B3D44BF29BE09620054C9E0 /* SongsLibraryScreen.swift */,
 				9BBE146629FDA11C0028C500 /* SearchScreen.swift */,
 				9B24FADF2BF0BB33007A675F /* DownloadsScreen.swift */,
@@ -976,9 +976,9 @@
 				9B80476629B86F460069B407 /* LibraryScreen.swift in Sources */,
 				9BAB43BB2BC19F6D0066BED5 /* MusicPlayer+Reporting.swift in Sources */,
 				9B1EF3A329DCA62C00C2A33B /* PlayPreviousButton.swift in Sources */,
-				9BF6C8F82A86251A00916EC1 /* ArtistLibraryScreen.swift in Sources */,
 				9BB754DB29BA604C009BB3A6 /* DTOs.swift in Sources */,
 				9BDB098D29BB1DD9007F99E4 /* SongService.swift in Sources */,
+				9B44836F2C24ACF6000B9FA0 /* ArtistLibraryScreen.swift in Sources */,
 				9B1EF3A029DCA16200C2A33B /* PlayNextButton.swift in Sources */,
 				9B9A79022BE379A300E848DC /* IPadMainScreen.swift in Sources */,
 				9B9A78F92BE36C5000E848DC /* Artist.swift in Sources */,
