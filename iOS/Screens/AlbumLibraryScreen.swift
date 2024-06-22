@@ -61,17 +61,9 @@ struct AlbumLibraryScreen: View {
     @ViewBuilder
     private func albumList(_ albums: [AlbumDto]) -> some View {
         List(albums) { album in
-            albumListRow(for: album)
+            AlbumListRow(album: album)
                 .frame(height: 60)
-                .contextMenu {
-                    DownloadAlbumButton(albumId: album.id, isDownloaded: album.isDownloaded)
-                    Divider()
-                    PlayButton("Play", item: album)
-                    EnqueueButton("Play next", item: album, position: .next)
-                    EnqueueButton("Play last", item: album, position: .last)
-                    Divider()
-                    FavoriteButton(albumId: album.id, isFavorite: album.isFavorite)
-                }
+                .albumContextMenu(for: album)
         }
         .listStyle(.plain)
     }
@@ -114,9 +106,26 @@ struct AlbumLibraryScreen: View {
             .pickerStyle(.inline)
         }
     }
+}
 
-    @ViewBuilder
-    private func albumListRow(for album: AlbumDto) -> some View {
+#if DEBUG
+// swiftlint:disable all
+
+#Preview {
+    NavigationStack {
+        AlbumLibraryScreen(PreviewData.albums)
+            .environmentObject(PreviewUtils.libraryRepo)
+            .environmentObject(PreviewUtils.apiClient)
+    }
+}
+
+// swiftlint:enable all
+#endif
+
+struct AlbumListRow: View {
+    let album: AlbumDto
+
+    var body: some View {
         GeometryReader { proxy in
             NavigationLink {
                 AlbumDetailScreen(album: album)
@@ -147,16 +156,3 @@ struct AlbumLibraryScreen: View {
         }
     }
 }
-
-#if DEBUG
-// swiftlint:disable all
-
-#Preview {
-    NavigationStack {
-        AlbumLibraryScreen(PreviewData.albums)
-            .environmentObject(PreviewUtils.libraryRepo)
-    }
-}
-
-// swiftlint:enable all
-#endif

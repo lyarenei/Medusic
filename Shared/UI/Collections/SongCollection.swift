@@ -1,5 +1,6 @@
 import SwiftUI
 
+@available(*, deprecated, message: "Do not overcomplicate things")
 struct SongCollection: View {
     @EnvironmentObject
     private var player: MusicPlayer

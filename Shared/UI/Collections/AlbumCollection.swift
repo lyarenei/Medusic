@@ -10,6 +10,7 @@ enum AlbumDisplayMode: String, Defaults.Serializable {
     case asTiles
 }
 
+@available(*, deprecated, message: "Do not overcomplicate things")
 struct AlbumCollection: View {
     @EnvironmentObject
     private var library: LibraryRepository

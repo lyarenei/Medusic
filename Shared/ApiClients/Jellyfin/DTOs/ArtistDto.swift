@@ -10,12 +10,6 @@ struct ArtistDto: JellyfinItem {
     var createdAt = Date.now
 }
 
-extension ArtistDto: Equatable {
-    static func == (lhs: ArtistDto, rhs: ArtistDto) -> Bool {
-        lhs.id == rhs.id
-    }
-}
-
 extension ArtistDto {
     init?(from item: BaseItemDto?) {
         guard let item else { return nil }
