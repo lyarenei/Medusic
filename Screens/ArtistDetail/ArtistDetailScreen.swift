@@ -1,56 +1,44 @@
-import ButtonKit
 import SFSafeSymbols
 import SwiftUI
 
 struct ArtistDetailScreen: View {
-    @State
-    private var viewModel: ViewModel
+    @EnvironmentObject
+    private var library: LibraryRepository
 
-    init(viewModel: ViewModel) {
-        self.viewModel = viewModel
-    }
-
-    init(artist: ArtistDto, repo: LibraryRepository = .shared) {
-        self.viewModel = ViewModel(artist: artist, repo: repo)
-    }
+    let artist: ArtistDto
 
     var body: some View {
+        let artistAlbums = library.albums.filtered(by: .artistId(artist.id)).sorted(by: .name)
         List {
-            artistHeader
-                .listRowBackground(Color.clear)
+            artistHeader(albumCount: artistAlbums.count)
                 .listRowSeparator(.hidden)
 
-            albumsSection
-                .listSectionSeparatorTint(.systemGroupedBackground)
+            albumsSection(artistAlbums)
 
-            Group {
-                aboutSection
-                genreSection
-            }
-            .listRowSeparator(.hidden)
+            aboutSection(artist.about)
+                .listRowSeparator(.hidden)
         }
         .listStyle(.plain)
         .navigationBarTitleDisplayMode(.inline)
-        .task { await viewModel.updateDetails() }
         .toolbar {
-            ToolbarItem(placement: .navigationBarTrailing) { favoriteButton }
-            ToolbarItem(placement: .navigationBarTrailing) { refreshButton }
+            // TODO:
         }
     }
 
     @ViewBuilder
-    private var artistHeader: some View {
+    private func artistHeader(albumCount: Int) -> some View {
         HStack(spacing: 15) {
-            ArtworkComponent(for: viewModel.artist)
+            ArtworkComponent(for: artist.id)
                 .frame(width: 90, height: 90)
 
             VStack(alignment: .leading, spacing: 10) {
-                Text(viewModel.artist.name)
+                Text(artist.name)
                     .font(.title)
                     .multilineTextAlignment(.leading)
                     .lineLimit(2)
 
-                Text("\(viewModel.albums.count) albums, \(viewModel.runtime.minutes) minutes")
+                let runtime = getRuntime()
+                Text("\(albumCount) albums・\(runtime.minutes) minutes")
                     .font(.footnote)
                     .foregroundColor(.secondaryLabel)
             }
@@ -58,81 +46,71 @@ struct ArtistDetailScreen: View {
     }
 
     @ViewBuilder
-    private var albumsSection: some View {
-        if viewModel.albums.isNotEmpty {
-            Section("Albums (\(viewModel.albums.count))") {
-                artistAlbums
+    private func albumsSection(_ albums: [AlbumDto]) -> some View {
+        if albums.isNotEmpty {
+            Section("Albums") {
+                artistAlbums(albums)
             }
         } else {
-            Text("No albums found")
-                .font(.title2)
-                .foregroundStyle(Color.gray)
+            ContentUnavailableView {
+                Text("No albums")
+            }
+            .listRowSeparator(.hidden)
+            .listSectionSeparator(.hidden)
         }
     }
 
     @ViewBuilder
-    private var artistAlbums: some View {
-        ForEach(viewModel.albums) { album in
-            // TODO: value based navigation
-            NavigationLink {
-                AlbumDetailScreen(album: album)
-            } label: {
-                Label {
+    private func artistAlbums(_ albums: [AlbumDto]) -> some View {
+        ForEach(albums, id: \.id) { album in
+            NavigationLink(value: album) {
+                HStack {
+                    ArtworkComponent(for: album.id)
+                        .scaledToFit()
+                        .frame(width: 40, height: 40)
+
                     Text(album.name)
                         .font(.title3)
-                } icon: {
-                    ArtworkComponent(for: album)
-                        .scaledToFit()
                 }
-                .labelStyle(.titleAndIcon)
+                .frame(height: 40)
             }
-            .frame(height: 40)
         }
     }
 
     @ViewBuilder
-    private var aboutSection: some View {
-        if viewModel.artist.about.isNotEmpty {
+    private func aboutSection(_ aboutText: String) -> some View {
+        if aboutText.isNotEmpty {
             Section("About") {
-                Text(viewModel.artist.about)
-                    .font(.caption)
-                    .lineLimit(viewModel.aboutLineLimit)
-                    .onTapGesture {
-                        withAnimation(.easeInOut) {
-                            viewModel.toggleAboutLineLimit()
-                        }
-                    }
+                Text(aboutText)
             }
         }
     }
 
     @ViewBuilder
-    private var genreSection: some View {
-        Section("Genre") {
-            Text("TBD")
-        }
-    }
-
-    @ViewBuilder
-    private var favoriteButton: some View {
-        AsyncButton {
-            await viewModel.onFavoriteButton()
-        } label: {
-            if viewModel.artist.isFavorite {
-                Image(systemSymbol: .heartFill)
-            } else {
-                Image(systemSymbol: .heart)
+    private func genreSection(_ genre: String) -> some View {
+        if genre.isNotEmpty {
+            Section("Genre") {
+                Text(genre)
             }
         }
     }
 
-    @ViewBuilder
-    private var refreshButton: some View {
-        AsyncButton {
-            await viewModel.onRefreshButton()
-        } label: {
-            Image(systemSymbol: .arrowClockwise)
+    private func getRuntime() -> TimeInterval {
+        var totalRuntime: TimeInterval = 0
+        for album in library.albums.filtered(by: .artistId(artist.id)) {
+            totalRuntime += getAlbumRuntime(album.id)
         }
+
+        return totalRuntime
+    }
+
+    private func getAlbumRuntime(_ albumId: String) -> TimeInterval {
+        var totalRuntime: TimeInterval = 0
+        for song in library.songs.filtered(by: .albumId(albumId)) {
+            totalRuntime += song.runtime
+        }
+
+        return totalRuntime
     }
 }
 
@@ -141,8 +119,9 @@ struct ArtistDetailScreen: View {
 
 #Preview {
     NavigationStack {
-        ArtistDetailScreen(artist: PreviewData.artist, repo: PreviewUtils.libraryRepo)
-            .environmentObject(ApiClient(previewEnabled: true))
+        ArtistDetailScreen(artist: PreviewData.artist)
+            .environmentObject(PreviewUtils.apiClient)
+            .environmentObject(PreviewUtils.libraryRepo)
     }
 }
 
