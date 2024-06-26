@@ -122,6 +122,7 @@ struct ArtistLibraryScreen: View {
 
                     MarqueeTextComponent(artist.name, font: .title2)
                 }
+                .artistContextMenu(for: artist)
             }
         } header: {
             Text(name)
