@@ -21,7 +21,14 @@ struct ArtistDetailScreen: View {
         .listStyle(.plain)
         .navigationBarTitleDisplayMode(.inline)
         .toolbar {
-            // TODO:
+            ToolbarItem(placement: .topBarTrailing) {
+                Menu {
+                    ArtistMenuOptions(artist: artist)
+                } label: {
+                    Image(systemSymbol: .ellipsis)
+                        .circleBackground()
+                }
+            }
         }
     }
 

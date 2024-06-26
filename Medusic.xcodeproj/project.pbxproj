@@ -86,6 +86,7 @@
 		9B80476629B86F460069B407 /* LibraryScreen.swift in Sources */ = {isa = PBXBuildFile; fileRef = 9B80476529B86F460069B407 /* LibraryScreen.swift */; };
 		9B80477029B89EE40069B407 /* AlbumLibraryScreen.swift in Sources */ = {isa = PBXBuildFile; fileRef = 9B80476F29B89EE40069B407 /* AlbumLibraryScreen.swift */; };
 		9B80477E29B8CDF80069B407 /* SettingsScreen.swift in Sources */ = {isa = PBXBuildFile; fileRef = 9B80477D29B8CDF80069B407 /* SettingsScreen.swift */; };
+		9B8694512C2C7E4600F8B7BB /* ArtistContextMenu.swift in Sources */ = {isa = PBXBuildFile; fileRef = 9B8694502C2C7E4600F8B7BB /* ArtistContextMenu.swift */; };
 		9B94DB642A8F5327005EDF18 /* GeneralSettings.swift in Sources */ = {isa = PBXBuildFile; fileRef = 9B94DB632A8F5327005EDF18 /* GeneralSettings.swift */; };
 		9B9A78EC2BE19C5A00E848DC /* UIDevice.swift in Sources */ = {isa = PBXBuildFile; fileRef = 9B9A78EB2BE19C5A00E848DC /* UIDevice.swift */; };
 		9B9A78F92BE36C5000E848DC /* Artist.swift in Sources */ = {isa = PBXBuildFile; fileRef = 9B9A78F82BE36C5000E848DC /* Artist.swift */; };
@@ -239,6 +240,7 @@
 		9B80476529B86F460069B407 /* LibraryScreen.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = LibraryScreen.swift; sourceTree = "<group>"; };
 		9B80476F29B89EE40069B407 /* AlbumLibraryScreen.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = AlbumLibraryScreen.swift; sourceTree = "<group>"; };
 		9B80477D29B8CDF80069B407 /* SettingsScreen.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = SettingsScreen.swift; sourceTree = "<group>"; };
+		9B8694502C2C7E4600F8B7BB /* ArtistContextMenu.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = ArtistContextMenu.swift; sourceTree = "<group>"; };
 		9B94DB632A8F5327005EDF18 /* GeneralSettings.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = GeneralSettings.swift; sourceTree = "<group>"; };
 		9B9A78EB2BE19C5A00E848DC /* UIDevice.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = UIDevice.swift; sourceTree = "<group>"; };
 		9B9A78F82BE36C5000E848DC /* Artist.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = Artist.swift; sourceTree = "<group>"; };
@@ -675,6 +677,7 @@
 				9BDB03352A1288EE004EFA3A /* AlbumContextMenu.swift */,
 				9B44836B2C22D4A5000B9FA0 /* NewAlbumContextMenu.swift */,
 				9B44836D2C22D5D3000B9FA0 /* SongContextMenu.swift */,
+				9B8694502C2C7E4600F8B7BB /* ArtistContextMenu.swift */,
 			);
 			path = ContextActions;
 			sourceTree = "<group>";
@@ -995,6 +998,7 @@
 				9B44836E2C22D5D3000B9FA0 /* SongContextMenu.swift in Sources */,
 				9B6C17CD29D6BE700061866A /* AirPlayComponent.swift in Sources */,
 				9BAB43B92BC19A170066BED5 /* MusicPlayer+Playback.swift in Sources */,
+				9B8694512C2C7E4600F8B7BB /* ArtistContextMenu.swift in Sources */,
 				9B1EF3A629DCA78800C2A33B /* EnqueueButton.swift in Sources */,
 				9BF6C8F12A861D8200916EC1 /* ArtistDto.swift in Sources */,
 				9B6A60EC2C15A41E002F320D /* FileRepositoryError.swift in Sources */,
