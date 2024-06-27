@@ -8,6 +8,7 @@ struct ArtistDto: JellyfinItem {
     var isFavorite = false
     var about = ""
     var createdAt = Date.now
+    var genres: [String] = []
 }
 
 extension ArtistDto {
@@ -21,5 +22,6 @@ extension ArtistDto {
         self.isFavorite = item.userData?.isFavorite ?? false
         self.about = item.overview ?? .empty
         self.createdAt = item.dateCreated ?? .now
+        self.genres = item.genres ?? []
     }
 }

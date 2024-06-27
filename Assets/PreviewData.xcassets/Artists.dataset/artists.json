@@ -5,7 +5,8 @@
     "sortName": "Whispering Shadows, The",
     "isFavorite": false,
     "about": "The Whispering Shadows are a mysterious group of musicians who draw inspiration from the depths of the night, weaving haunting melodies that resonate with the secrets of the universe.",
-    "createdAt": "2021/07/15"
+    "createdAt": "2021/07/15",
+    "genres": ["R&B", "Rock", "Classical"]
   },
   {
     "id": "2",
@@ -13,7 +14,8 @@
     "sortName": "Lunar Echo",
     "isFavorite": false,
     "about": "Lunar Echo is a band formed by lunar enthusiasts who compose music that echoes the enigmatic beauty of the moon, capturing its ethereal essence in every note.",
-    "createdAt": "2020/09/28"
+    "createdAt": "2020/09/28",
+    "genres": ["Dance", "Techno", "Ambient", "Soul"]
   },
   {
     "id": "3",
@@ -21,7 +23,8 @@
     "sortName": "Bob Johnston",
     "isFavorite": false,
     "about": "Bob Johnston is a traveler of both time and space, his music reflects the cosmic journey of his soul as it navigates through the boundless realms of existence.",
-    "createdAt": "2023/02/10"
+    "createdAt": "2023/02/10",
+    "genres": ["World", "Jazz", "Soul", "Dance", "Techno"]
   },
   {
     "id": "4",
@@ -29,7 +32,8 @@
     "sortName": "Lightening Strings, The",
     "isFavorite": false,
     "about": "The Lightening Strings are a group of electrifying musicians who infuse their performances with a dynamic energy that ignites the very air around them, leaving audiences electrified and enthralled.",
-    "createdAt": "2020/11/19"
+    "createdAt": "2020/11/19",
+    "genres": ["Hip-Hop", "Rock"]
   },
   {
     "id": "5",
@@ -37,7 +41,8 @@
     "sortName": "Ella Thompson",
     "isFavorite": false,
     "about": "Ella Thompson is a musical sorceress whose voice possesses the power to weave spells of enchantment, captivating listeners and transporting them to realms of pure magic.",
-    "createdAt": "2022/05/03"
+    "createdAt": "2022/05/03",
+    "genres": ["Funk"]
   },
   {
     "id": "6",
@@ -45,7 +50,8 @@
     "sortName": "Euphoric Tides",
     "isFavorite": false,
     "about": "Euphoric Tides is a collective of sonic explorers who ride the waves of euphoria, their music a journey through the depths of emotion and the heights of ecstasy.",
-    "createdAt": "2023/11/08"
+    "createdAt": "2023/11/08",
+    "genres": ["Blues", "Funk", "Latin", "Hip-Hop"]
   },
   {
     "id": "7",
@@ -53,7 +59,8 @@
     "sortName": "Anna Jameson",
     "isFavorite": false,
     "about": "Anna Jameson is a musical alchemist, her compositions blending disparate elements into harmonious symphonies that resonate with the alchemy of the soul.",
-    "createdAt": "2022/12/30"
+    "createdAt": "2022/12/30",
+    "genres": ["Latin", "Pop", "Rock", "Hip-Hop"]
   },
   {
     "id": "8",
@@ -61,7 +68,8 @@
     "sortName": "Drifting Soundwaves",
     "isFavorite": false,
     "about": "Drifting Soundwaves is an ambient project that creates music as ephemeral as the wind, their melodies gently caressing the senses like whispers carried on the breeze.",
-    "createdAt": "2020/08/14"
+    "createdAt": "2020/08/14",
+    "genres": ["Reggae"]
   },
   {
     "id": "9",
@@ -69,7 +77,8 @@
     "sortName": "Samuel Rodriguez",
     "isFavorite": false,
     "about": "Samuel Rodriguez is a virtuoso guitarist whose fingers dance across the strings like flames licking the air, his music a blaze of passion and intensity.",
-    "createdAt": "2021/03/20"
+    "createdAt": "2021/03/20",
+    "genres": ["Electronic", "Funk", "Ska", "Rock", "Dance"]
   },
   {
     "id": "10",
@@ -77,7 +86,8 @@
     "sortName": "Moontide Melodies",
     "isFavorite": false,
     "about": "Moontide Melodies is a duo that channels the serene beauty of moonlit nights into their music, crafting melodies that ebb and flow like the tides under the silver glow of the moon.",
-    "createdAt": "2023/09/05"
+    "createdAt": "2023/09/05",
+    "genres": ["Country", "R&B"]
   },
   {
     "id": "11",
@@ -85,7 +95,8 @@
     "sortName": "Distant Horizons",
     "isFavorite": false,
     "about": "Distant Horizons is a musical odyssey through the vast expanse of space, each note a star twinkling in the endless void, beckoning listeners to explore the infinite reaches of the cosmos.",
-    "createdAt": "2022/01/18"
+    "createdAt": "2022/01/18",
+    "genres": ["Gospel"]
   },
   {
     "id": "12",
@@ -93,7 +104,8 @@
     "sortName": "Alicia Vikander",
     "isFavorite": false,
     "about": "Alicia Vikander is a celestial songstress whose voice resonates with the purity of starlight, her music a celestial symphony that illuminates the darkest of nights.",
-    "createdAt": "2021/10/29"
+    "createdAt": "2021/10/29",
+    "genres": ["Ska"]
   },
   {
     "id": "13",
@@ -101,7 +113,8 @@
     "sortName": "Symphonic Dreamers",
     "isFavorite": false,
     "about": "Symphonic Dreamers are dreamweavers of sound, their music painting vivid landscapes of imagination where reality and fantasy intertwine in a mesmerizing dance.",
-    "createdAt": "2020/06/07"
+    "createdAt": "2020/06/07",
+    "genres": ["Reggae"]
   },
   {
     "id": "14",
@@ -109,7 +122,8 @@
     "sortName": "Golden Strings, The",
     "isFavorite": false,
     "about": "The Golden Strings are a legendary ensemble whose music is said to hold the key to unlocking the secrets of the universe, each note a thread in the fabric of creation.",
-    "createdAt": "2023/08/21"
+    "createdAt": "2023/08/21",
+    "genres": ["Electronic"]
   },
   {
     "id": "15",
@@ -117,7 +131,8 @@
     "sortName": "David Bronson",
     "isFavorite": false,
     "about": "David Bronson is a bard of the modern age, his songs weaving tales of love and loss, hope and despair, in a tapestry of sound that resonates with the human experience.",
-    "createdAt": "2021/02/14"
+    "createdAt": "2021/02/14",
+    "genres": ["Punk", "World"]
   },
   {
     "id": "16",
@@ -125,7 +140,8 @@
     "sortName": "Harmonics, The",
     "isFavorite": false,
     "about": "The Harmonics are masters of harmony and melody, their music a sublime fusion of sound that transcends the boundaries of the ordinary and elevates the spirit to new heights.",
-    "createdAt": "2020/03/05"
+    "createdAt": "2020/03/05",
+    "genres": ["Latin"]
   },
   {
     "id": "17",
@@ -133,7 +149,8 @@
     "sortName": "Twilight Tones",
     "isFavorite": false,
     "about": "Twilight Tones are purveyors of music that straddles the line between light and darkness, their melodies casting shadows that dance in the fading light of the day.",
-    "createdAt": "2022/07/10"
+    "createdAt": "2022/07/10",
+    "genres": ["Indie", "Soul", "Punk"]
   },
   {
     "id": "18",
@@ -141,7 +158,8 @@
     "sortName": "Amber Anderson",
     "isFavorite": false,
     "about": "Amber Anderson is a troubadour of the soul, her music a reflection of the myriad hues of human emotion, from the warm glow of joy to the melancholy depths of sorrow.",
-    "createdAt": "2023/04/02"
+    "createdAt": "2023/04/02",
+    "genres": ["Jazz", "Disco", "Reggae", "Metal", "Electronic"]
   },
   {
     "id": "19",
@@ -149,7 +167,8 @@
     "sortName": "Sonic Serenity",
     "isFavorite": false,
     "about": "Sonic Serenity is an oasis of tranquility in a world of chaos, their music a balm for the weary soul, soothing the mind and uplifting the spirit with its gentle melodies.",
-    "createdAt": "2020/12/19"
+    "createdAt": "2020/12/19",
+    "genres": ["Rock", "Dance", "Folk"]
   },
   {
     "id": "20",
@@ -157,6 +176,7 @@
     "sortName": "Olive Oyl",
     "isFavorite": false,
     "about": "Olive Oyl is a free-spirited musician with a passion for exploring eclectic sounds and experimental rhythms, her music reflecting the whimsical and unpredictable nature of life itself.",
-    "createdAt": "2022/10/08"
+    "createdAt": "2022/10/08",
+    "genres": ["Funk", "Ambient", "R&B", "Soul"]
   }
 ]
