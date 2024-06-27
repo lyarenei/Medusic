@@ -31,14 +31,12 @@ For a list of planned features, check the repository issues with `enhancement` o
 
 Some example screenshots of the app. Might be slightly ot of date. 🙂
 
-<table>
-<tr>
-<img src='resources/screenshots/library.png' alt='Library home screen' width=300 height=650 vspace=25 hspace=25 />
-<img src='resources/screenshots/album.png' alt='Album detail' width=300 height=650 vspace=25 hspace=25 />
-<img src='resources/screenshots/player.png' alt='Player popup screen' width=300 height=650 vspace=25 hspace=25 />
-<img src='resources/screenshots/player_dark.png' alt='Player popup screen (dark theme)' width=300 height=650 vspace=25  hspace=25 />
-</tr>
-</table>
+<div style="display: flex; flex-direction: row; flex-wrap: wrap;">
+    <img src='resources/screenshots/library.png' alt='Library home screen' width=300 height=650 vspace=25 hspace=25 />
+    <img src='resources/screenshots/album.png' alt='Album detail' width=300 height=650 vspace=25 hspace=25 />
+    <img src='resources/screenshots/player.png' alt='Player popup screen' width=300 height=650 vspace=25 hspace=25 />
+    <img src='resources/screenshots/player_dark.png' alt='Player popup screen (dark theme)' width=300 height=650 vspace=25  hspace=25 />
+</div>
 
 ## Development
 
