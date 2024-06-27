@@ -18,7 +18,7 @@ struct ArtistDetailScreen: View {
             aboutSection(artist.about)
                 .listRowSeparator(.hidden)
 
-            genreSection(artist.genre)
+            genreSection(artist.genres)
                 .listRowSeparator(.hidden)
         }
         .listStyle(.plain)
@@ -97,10 +97,10 @@ struct ArtistDetailScreen: View {
     }
 
     @ViewBuilder
-    private func genreSection(_ genre: String) -> some View {
-        if genre.isNotEmpty {
-            Section("Genre") {
-                Text(genre)
+    private func genreSection(_ genres: [String]) -> some View {
+        if genres.isNotEmpty {
+            Section("Genres") {
+                Text(genres.joined(separator: "・"))
             }
         }
     }
