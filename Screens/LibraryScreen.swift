@@ -72,7 +72,8 @@ struct LibraryScreen: View {
             NavigationLink {
                 AlbumDetailScreen(album: album)
             } label: {
-                TileComponent(item: album)
+                TileComponent(for: album.id)
+                    .tileTitle(album.name)
                     .tileSubTitle(album.artistName)
                     .padding(.bottom)
             }
@@ -93,7 +94,8 @@ struct LibraryScreen: View {
             NavigationLink {
                 AlbumDetailScreen(album: album)
             } label: {
-                TileComponent(item: album)
+                TileComponent(for: album.id)
+                    .tileTitle(album.name)
                     .tileSubTitle(album.artistName)
                     .padding(.bottom)
             }

@@ -83,11 +83,11 @@ extension IPadTileComponent {
 // swiftlint:disable all
 
 #Preview {
-    TileComponent(item: PreviewData.albums.first!)
+    TileComponent(for: PreviewData.album.id)
         .setSize(UIConstants.tileSize)
         .tileSubTitle("Subtitle")
         .environmentObject(PreviewUtils.libraryRepo)
-        .environmentObject(ApiClient(previewEnabled: true))
+        .environmentObject(PreviewUtils.apiClient)
 }
 
 // swiftlint:enable all

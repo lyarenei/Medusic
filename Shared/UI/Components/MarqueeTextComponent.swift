@@ -23,6 +23,7 @@ struct MarqueeTextComponent: UIViewRepresentable {
         label.speed = .rate(UIConstants.marqueeSpeed)
 
         label.setContentCompressionResistancePriority(.defaultLow, for: .horizontal)
+        label.setContentHuggingPriority(.defaultHigh, for: .vertical)
         label.isUserInteractionEnabled = false
 
         return label

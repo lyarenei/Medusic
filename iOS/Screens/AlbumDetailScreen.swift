@@ -126,7 +126,8 @@ struct AlbumDetailScreen: View {
             NavigationLink {
                 AlbumDetailScreen(album: album)
             } label: {
-                TileComponent(item: album)
+                TileComponent(for: album.id)
+                    .tileTitle(album.name)
                     .padding(.bottom)
             }
             .foregroundStyle(Color.primary)

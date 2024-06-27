@@ -94,7 +94,8 @@ extension ItemPreviewCollection where NoItems == EmptyView {
 #Preview("Default") {
     List {
         ItemPreviewCollection("Items preview", items: PreviewData.albums) { album in
-            TileComponent(item: album)
+            TileComponent(for: album.id)
+                .tileTitle(album.name)
                 .tileSubTitle(album.artistName)
                 .padding(.bottom)
         } viewAll: { items in
@@ -110,7 +111,8 @@ extension ItemPreviewCollection where NoItems == EmptyView {
 #Preview("Empty") {
     List {
         ItemPreviewCollection("Items preview", items: [AlbumDto]()) { album in
-            TileComponent(item: album)
+            TileComponent(for: album.id)
+                .tileTitle(album.name)
                 .tileSubTitle(album.artistName)
                 .padding(.bottom)
         } viewAll: { items in

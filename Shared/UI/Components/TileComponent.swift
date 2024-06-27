@@ -1,18 +1,17 @@
 import Kingfisher
-import MarqueeText
 import SwiftUI
 
 struct TileComponent: View {
     @EnvironmentObject
     private var library: LibraryRepository
 
-    private let item: any JellyfinItem
+    private let itemId: String
     private var titleText: String?
     private var subtitleText: String?
     private var edgeSize = UIConstants.tileSize
 
-    init(item: any JellyfinItem) {
-        self.item = item
+    init(for itemId: String) {
+        self.itemId = itemId
     }
 
     var body: some View {
@@ -20,10 +19,12 @@ struct TileComponent: View {
         ZStack(alignment: .leading) {
             GeometryReader { proxy in
                 VStack(alignment: .leading) {
-                    ArtworkComponent(for: item)
+                    ArtworkComponent(for: itemId)
 
                     VStack(alignment: .leading, spacing: 2) {
-                        title(proxy.size.width)
+                        if let titleText {
+                            title(titleText, width: proxy.size.width)
+                        }
 
                         if let subtitleText {
                             subtitle(subtitleText, width: proxy.size.width)
@@ -37,28 +38,15 @@ struct TileComponent: View {
     }
 
     @ViewBuilder
-    private func title(_ width: CGFloat) -> some View {
+    private func title(_ text: String, width: CGFloat) -> some View {
         let textSize = width / 11.176
-        MarqueeText(
-            text: titleText ?? item.name,
-            font: .systemFont(ofSize: textSize, weight: .medium),
-            leftFade: UIConstants.marqueeFadeLen,
-            rightFade: UIConstants.marqueeFadeLen,
-            startDelay: UIConstants.marqueeDelay
-        )
+        MarqueeTextComponent(text, font: .system(size: textSize, weight: .medium))
     }
 
     @ViewBuilder
     private func subtitle(_ text: String, width: CGFloat) -> some View {
         let textSize = width / 15.83
-        MarqueeText(
-            text: text,
-            font: .systemFont(ofSize: textSize),
-            leftFade: UIConstants.marqueeFadeLen,
-            rightFade: UIConstants.marqueeFadeLen,
-            startDelay: UIConstants.marqueeDelay
-        )
-        .foregroundColor(.gray)
+        MarqueeTextComponent(text, font: .system(size: textSize, weight: .medium), color: .gray)
     }
 }
 
@@ -86,11 +74,12 @@ extension TileComponent {
 // swiftlint:disable all
 
 #Preview {
-    TileComponent(item: PreviewData.albums.first!)
+    TileComponent(for: PreviewData.album.id)
         .setSize(UIConstants.tileSize)
+        .tileTitle("Title")
         .tileSubTitle("Subtitle")
         .environmentObject(PreviewUtils.libraryRepo)
-        .environmentObject(ApiClient(previewEnabled: true))
+        .environmentObject(PreviewUtils.apiClient)
 }
 
 // swiftlint:enable all
