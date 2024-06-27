@@ -12,7 +12,7 @@ final class DefaultArtistService: ArtistService {
         let params = JellyfinAPI.Paths.GetAlbumArtistsParameters(
             startIndex: offset,
             limit: pageSize,
-            fields: [.overview, .dateCreated]
+            fields: [.overview, .dateCreated, .genres]
         )
 
         let request = JellyfinAPI.Paths.getAlbumArtists(parameters: params)
@@ -24,7 +24,7 @@ final class DefaultArtistService: ArtistService {
 
     func getArtistById(_ id: String) async throws -> ArtistDto {
         let params = JellyfinAPI.Paths.GetItemsParameters(
-            fields: [.overview],
+            fields: [.overview, .dateCreated, .genres],
             ids: [id]
         )
 
