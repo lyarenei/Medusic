@@ -17,6 +17,9 @@ struct ArtistDetailScreen: View {
 
             aboutSection(artist.about)
                 .listRowSeparator(.hidden)
+
+            genreSection(artist.genre)
+                .listRowSeparator(.hidden)
         }
         .listStyle(.plain)
         .navigationBarTitleDisplayMode(.inline)
