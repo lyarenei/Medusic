@@ -65,7 +65,10 @@ struct LibraryScreen: View {
 
     @ViewBuilder
     private var favoriteAlbums: some View {
-        ItemPreviewCollection("Favorite Albums", items: library.albums.filtered(by: .favorite)) { album in
+        ItemPreviewCollection(
+            "Favorite Albums",
+            items: library.albums.filtered(by: .favorite).sorted(by: .name)
+        ) { album in
             NavigationLink {
                 AlbumDetailScreen(album: album)
             } label: {
